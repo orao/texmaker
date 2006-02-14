@@ -1,0 +1,13 @@
+version 1.2.1 -> 1.3 :
+----------------------
+- Texmaker is now a pure QT4 program (qt >= 4.1 is required). The qt3 support library is no more required. The editor is now based on the qt4 QtextEdit object and the symbols icon view is an qt4 QTableWidget object.
+- For each file, three bookmarks can be used to speed up navigation.
+
+version 1.2 -> 1.2.1 : Bugs fixed
+---------------------------------
+- Don't use anymore double-clic to open a file from the structure view (Qt-4.0.0 bug). A simple clic must be used now.
+- Don't use anymore / to separate commands (quick build and users commands) but | to avoid confusion with the directories separator.
+- A selected icon is no more highlighted (trouble on windows and macosx - the selected icon was masked).
+- Added the option '-line' for the application.
+New synopsis for texmaker : texmaker document.tex [-line xxx]
+Can be used for inverse search.

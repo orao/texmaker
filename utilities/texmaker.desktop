@@ -1,0 +1,20 @@
+[Desktop Entry]
+Categories=Application;Utility;TextEditor;Publishing;
+Comment=
+Comment[fr]=
+DocPath=
+Encoding=UTF-8
+Exec=texmaker
+GenericName=LaTeX Editor
+GenericName[fr]=Editeur LaTeX
+Icon=texmaker
+MimeType=text/x-tex
+MiniIcon=texmaker
+Name=Texmaker
+Name[fr]=Texmaker
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+

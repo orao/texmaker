@@ -1,0 +1,115 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>PageEditor</class>
+ <widget class="QWidget" name="PageEditor" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>440</width>
+    <height>420</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>440</width>
+     <height>420</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>Editor</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>421</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="labelFamily" >
+       <property name="text" >
+        <string>Editor Font Family</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <widget class="QComboBox" name="comboBoxEncoding" />
+     </item>
+     <item row="1" column="1" >
+      <widget class="QSpinBox" name="spinBoxSize" >
+       <property name="minimum" >
+        <number>1</number>
+       </property>
+       <property name="value" >
+        <number>12</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" >
+      <widget class="QCheckBox" name="checkBoxLinenumber" >
+       <property name="text" >
+        <string>Show Line Numbers</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="labelSize" >
+       <property name="text" >
+        <string>Editor Font Size</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QComboBox" name="comboBoxFont" >
+       <property name="editable" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" >
+      <widget class="QCheckBox" name="checkBoxWordwrap" >
+       <property name="text" >
+        <string>Word Wrap</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" >
+      <widget class="QLabel" name="labelEncoding" >
+       <property name="text" >
+        <string>Editor Font Encoding</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>comboBoxFont</tabstop>
+  <tabstop>spinBoxSize</tabstop>
+  <tabstop>comboBoxEncoding</tabstop>
+  <tabstop>checkBoxWordwrap</tabstop>
+  <tabstop>checkBoxLinenumber</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

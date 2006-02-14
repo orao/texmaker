@@ -1,0 +1,106 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>AboutDialog</class>
+ <widget class="QDialog" name="AboutDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>423</width>
+    <height>385</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>About Texmaker</string>
+  </property>
+  <widget class="QLabel" name="label" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>400</width>
+     <height>183</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string/>
+   </property>
+   <property name="pixmap" >
+    <pixmap resource="texmaker.qrc" >:/images/splash.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>350</y>
+     <width>401</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>350</y>
+     <width>401</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="okButton" >
+   <property name="geometry" >
+    <rect>
+     <x>160</x>
+     <y>350</y>
+     <width>85</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>210</y>
+     <width>401</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="readOnly" >
+    <bool>true</bool>
+   </property>
+   <property name="html" >
+    <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-family:Bitstream Vera Sans; font-weight:600;">Copyright (c) 2004-2006 by Pascal Brachet&lt;/span>&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans; font-weight:600;">&lt;span style=" font-weight:400; font-style:italic;">with the contribution of J.Amblard (html conversion)&lt;/span>&lt;span style=" font-weight:400;">&lt;br />&lt;/span>&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans;">Project home site : http://www.xm1math.net/texmaker/&lt;br />&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans;">This program is licensed to you under the terms of the GNU General Public License Version 2 as published by the Free Software Foundation.&lt;/p>&lt;/body>&lt;/html></string>
+   </property>
+  </widget>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources>
+  <include location="texmaker.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>AboutDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>278</x>
+     <y>253</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>96</x>
+     <y>254</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

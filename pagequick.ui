@@ -1,0 +1,105 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>PageQuick</class>
+ <widget class="QWidget" name="PageQuick" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>440</width>
+    <height>420</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>440</width>
+     <height>420</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>Quick Build Command</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>21</y>
+      <width>421</width>
+      <height>222</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QRadioButton" name="radioButton1" >
+       <property name="text" >
+        <string>LaTeX + dvips + View PS</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton2" >
+       <property name="text" >
+        <string>LaTeX + View DVI</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton3" >
+       <property name="text" >
+        <string>PdfLaTeX + View PDF</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton4" >
+       <property name="text" >
+        <string>LaTeX + dvipdfm + View PDF</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton5" >
+       <property name="text" >
+        <string>LaTeX + dvips + ps2pdf + View PDF</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton6" >
+       <property name="text" >
+        <string>User : (% : filename without extension)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditUserquick" />
+     </item>
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>(the commands must be separated by '|')</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>
