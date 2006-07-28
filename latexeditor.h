@@ -21,6 +21,9 @@
 
 #include "latexhighlighter.h"
 
+class ParenMatcher;
+class QTextBlock;
+
 typedef  int UserBookmarkList[3];
 
 class LatexEditor : public QTextEdit  {
@@ -28,6 +31,7 @@ class LatexEditor : public QTextEdit  {
 public:
 LatexEditor(QWidget *parent,QFont & efont);
 ~LatexEditor();
+static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
 bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor );
 void replace( const QString &r);
@@ -37,17 +41,25 @@ void indentSelection();
 void changeFont(QFont & new_font);
 QString getEncoding();
 void setEncoding(QString enc);
-void setCursorPosition(int parag, int index);
+int getCursorPosition(int parag, int index);
+void setCursorPosition(int para, int index);
 void removeOptAlt();
 int numoflines();
 int linefromblock(const QTextBlock& p);
 UserBookmarkList UserBookmark;
+void selectword(int line, int col, QString word);
 private:
 QString encoding;
 LatexHighlighter *highlighter;
+ParenMatcher *matcher;
+private slots:
+void checkSpellingWord();
+void checkSpellingDocument();
 protected:
 void paintEvent(QPaintEvent *event);
-
+void contextMenuEvent(QContextMenuEvent *e);
+signals:
+void spellme();
 };
 
 #endif

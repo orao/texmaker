@@ -13,8 +13,8 @@
 #ifndef LATEXHIGHLIGHTER_H
 #define LATEXHIGHLIGHTER_H
 
-#include <QSyntaxHighlighter>
 
+#include <QSyntaxHighlighter>
 #include <QHash>
 #include <QTextCharFormat>
 #include <QColor>

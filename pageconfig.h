@@ -24,6 +24,8 @@ class PageEditor : public QWidget
 public:
     PageEditor(QWidget* parent = 0);
     Ui::PageEditor ui;
+private slots:
+void browseAspell();
 };
 
 class PageQuick : public QWidget
@@ -42,6 +44,19 @@ class PageTools : public QWidget
 public:
     PageTools(QWidget* parent = 0);
     Ui::PageTools ui;
+private slots:
+void browseLatex();
+void browseDvips();
+void browseBibtex();
+void browseMakeindex();
+void browseDviviewer();
+void browsePsviewer();
+void browsePdflatex();
+void browseDvipdfm();
+void browsePs2pdf();
+void browsePdfviewer();
+void browseMetapost();
+void browseGhostscript();
 };
 #endif 
 

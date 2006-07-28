@@ -19,7 +19,7 @@
 class StructDialog : public QDialog  {
    Q_OBJECT
 public:
-	StructDialog(QWidget *parent=0, const char *name=0);
+	StructDialog(QWidget *parent=0, QString name="");
 	~StructDialog();
 	Ui::StructDialog ui;
 

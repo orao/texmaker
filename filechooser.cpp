@@ -12,7 +12,7 @@
 #include "filechooser.h"
 #include <QFileDialog>
 
-FileChooser::FileChooser( QWidget *parent, const char *name)
+FileChooser::FileChooser( QWidget *parent, QString name)
     : QDialog( parent)
 {
 setWindowTitle(name);

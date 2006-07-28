@@ -12,6 +12,7 @@
 #include "latexeditorview.h"
 #include <qlayout.h>
 #include <QHBoxLayout>
+#include <QFrame>
 #include <QTextDocument>
 #include <QTextCursor>
 #include <QTextEdit>
@@ -19,16 +20,26 @@
 
 LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line) : QWidget(parent)
 {
-  editor=new LatexEditor(this,efont);
-  m_lineNumberWidget = new LineNumberWidget( editor, this);
-  m_lineNumberWidget->setFont(efont);
-  QFontMetrics fm( efont );
-  m_lineNumberWidget->setFixedWidth( fm.width( "000000" ) + 10 );
-  QHBoxLayout* lay = new QHBoxLayout( this );
-  lay->addWidget( m_lineNumberWidget );
-  lay->addWidget( editor );
-  setFocusProxy( editor );
-  setLineNumberWidgetVisible(line);
+QHBoxLayout* mainlay = new QHBoxLayout( this );
+mainlay->setSpacing(0);
+mainlay->setMargin(0);
+QFrame *frame=new QFrame(this);
+frame->setLineWidth(1);
+frame->setFrameShape(QFrame::StyledPanel);
+frame->setFrameShadow(QFrame::Sunken);
+mainlay->addWidget(frame);
+editor=new LatexEditor(frame,efont);
+m_lineNumberWidget = new LineNumberWidget( editor, frame);
+m_lineNumberWidget->setFont(efont);
+QFontMetrics fm( efont );
+m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 14 );
+QHBoxLayout* lay = new QHBoxLayout( frame );
+lay->setSpacing(0);
+lay->setMargin(0);
+lay->addWidget( m_lineNumberWidget );
+lay->addWidget( editor );
+setFocusProxy( editor );
+setLineNumberWidgetVisible(line);
 }
 LatexEditorView::~LatexEditorView()
 {
@@ -48,6 +59,6 @@ void LatexEditorView::changeSettings(QFont & new_font,bool line)
   editor->changeFont(new_font);
   m_lineNumberWidget->setFont(new_font);
   QFontMetrics fm( new_font );
-  m_lineNumberWidget->setFixedWidth( fm.width( "000000" ) + 10 );
+  m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 14 );
   setLineNumberWidgetVisible(line);
 }

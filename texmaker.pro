@@ -48,7 +48,11 @@ HEADERS	= texmaker.h \
 	pageconfig.h \
 	aboutdialog.h \
 	webpublishdialog.h \
-	x11fontdialog.h
+	x11fontdialog.h \
+	blockdata.h \
+	parenmatcher.h \
+	spellerdialog.h \
+	pstrickslistwidget.h
 SOURCES	= main.cpp \
 	texmaker.cpp \
 	symbollistwidget.cpp \
@@ -79,7 +83,10 @@ SOURCES	= main.cpp \
 	pageconfig.cpp \
 	aboutdialog.cpp \
 	webpublishdialog.cpp \
-	x11fontdialog.cpp
+	x11fontdialog.cpp \
+	parenmatcher.cpp \
+	spellerdialog.cpp \
+	pstrickslistwidget.cpp
 RESOURCES     = texmaker.qrc
 FORMS       = finddialog.ui\
 	gotolinedialog.ui \
@@ -101,7 +108,8 @@ FORMS       = finddialog.ui\
 	aboutdialog.ui \
 	webpublishdialog.ui \
 	x11fontdialog.ui \
-	configdialog.ui
+	configdialog.ui \
+	spellerdialog.ui
 TRANSLATIONS = texmaker_fr.ts
 }
 ##############################################
@@ -140,7 +148,11 @@ HEADERS	= texmaker.h \
 	configdialog.h \
 	pageconfig.h \
 	aboutdialog.h \
-	webpublishdialog.h
+	webpublishdialog.h \
+	blockdata.h \
+	parenmatcher.h \
+	spellerdialog.h \
+	pstrickslistwidget.h
 SOURCES	= main.cpp \
 	texmaker.cpp \
 	symbollistwidget.cpp \
@@ -170,7 +182,10 @@ SOURCES	= main.cpp \
 	configdialog.cpp \
 	pageconfig.cpp \
 	aboutdialog.cpp \
-	webpublishdialog.cpp
+	webpublishdialog.cpp \
+	parenmatcher.cpp \
+	spellerdialog.cpp \
+	pstrickslistwidget.cpp
 RESOURCES     = texmaker.qrc
 FORMS       = finddialog.ui\
 	gotolinedialog.ui \
@@ -191,9 +206,11 @@ FORMS       = finddialog.ui\
 	pagetools.ui \
 	aboutdialog.ui \
 	webpublishdialog.ui \
-	configdialog.ui
+	configdialog.ui \
+	spellerdialog.ui
 TRANSLATIONS = texmaker_fr.ts
 ICON = texmaker.icns
+QMAKE_INFO_PLIST =Info.plist
 }
 ##############################################
 win32 {
@@ -225,7 +242,12 @@ HEADERS	= texmaker.h \
 	refdialog.h \
 	configdialog.h \
 	pageconfig.h \
-	aboutdialog.h
+	aboutdialog.h \
+	webpublishdialog.h \
+	blockdata.h \
+	parenmatcher.h \
+	spellerdialog.h \
+	pstrickslistwidget.h
 SOURCES	= main.cpp \
 	texmaker.cpp \
 	symbollistwidget.cpp \
@@ -254,7 +276,11 @@ SOURCES	= main.cpp \
 	refdialog.cpp \
 	configdialog.cpp \
 	pageconfig.cpp \
-	aboutdialog.cpp
+	aboutdialog.cpp \
+	webpublishdialog.cpp \
+	parenmatcher.cpp \
+	spellerdialog.cpp \
+	pstrickslistwidget.cpp
 RESOURCES     = texmaker.qrc
 RC_FILE = win.rc
 FORMS       = finddialog.ui\
@@ -275,6 +301,8 @@ FORMS       = finddialog.ui\
 	pagequick.ui \
 	pagetools.ui \
 	aboutdialog.ui \
-	configdialog.ui
+	webpublishdialog.ui \
+	configdialog.ui \
+	spellerdialog.ui
 TRANSLATIONS = texmaker_fr.ts
 }

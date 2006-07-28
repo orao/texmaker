@@ -1,5 +1,16 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+	<file>images/pstricks.png</file>
+	<file>images/accent1.png</file>
+	<file>images/accent2.png</file>
+	<file>images/accent3.png</file>
+	<file>images/accent4.png</file>
+	<file>images/accent5.png</file>
+	<file>images/accent6.png</file>
+	<file>images/accent7.png</file>
+	<file>images/accent8.png</file>
+	<file>images/accent9.png</file>
+	<file>images/accent10.png</file>
 	<file>images/webpublish.png</file>
         <file>images/back.png</file>
         <file>images/forward.png</file>

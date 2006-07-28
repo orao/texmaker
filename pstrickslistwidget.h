@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2006 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,17 +9,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "structdialog.h"
+#ifndef PSTRICKSLISTWIDGET_H
+#define PSTRICKSLISTWIDGET_H
 
-StructDialog::StructDialog(QWidget *parent, QString name)
-    : QDialog(parent)
-{
-setModal(true);
-ui.setupUi(this);
-setWindowTitle(name);
-}
-
-StructDialog::~StructDialog(){
-}
+#include <QListWidget>
 
 
+class PstricksListWidget : public QListWidget  {
+  Q_OBJECT
+public:
+	PstricksListWidget(QWidget *parent=0);
+	~PstricksListWidget();
+};
+
+#endif

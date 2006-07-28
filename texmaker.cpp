@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2006 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,9 +43,30 @@
 #include <QTextCursor>
 #include <QTextEdit>
 #include <QTextBlock>
+#include <QDebug>
 
 #include "texmaker.h"
 #include "latexeditorview.h"
+
+#include "structdialog.h"
+#include "filechooser.h"
+#include "tabdialog.h"
+#include "arraydialog.h"
+#include "tabbingdialog.h"
+#include "letterdialog.h"
+#include "quickdocumentdialog.h"
+#include "usermenudialog.h"
+#include "usertooldialog.h"
+#include "refdialog.h"
+#include "configdialog.h"
+#include "aboutdialog.h"
+#include "spellerdialog.h"
+#include "webpublishdialog.h"
+
+
+#if defined( Q_WS_X11 )
+#include "x11fontdialog.h"
+#endif
 
 Texmaker::Texmaker(QWidget *parent, Qt::WFlags flags)
     : QMainWindow(parent, flags)
@@ -62,7 +83,7 @@ setIconSize(QSize(22,22 ));
 StructureView = new QDockWidget(this);
 StructureView->setObjectName("StructureView");
 StructureView->setAllowedAreas(Qt::AllDockWidgetAreas);
-StructureView->setFeatures(QDockWidget::AllDockWidgetFeatures);
+StructureView->setFeatures(QDockWidget::DockWidgetClosable);
 StructureView->setWindowTitle(tr("Structure"));
 addDockWidget(Qt::LeftDockWidgetArea, StructureView);
 StructureToolbox=new QToolBox(StructureView);
@@ -97,6 +118,10 @@ GreekListWidget=new SymbolListWidget(StructureToolbox,4);
 connect(GreekListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
 StructureToolbox->addItem(GreekListWidget,QIcon(":/images/math5.png"),tr("Greek letters"));
 
+PsListWidget=new PstricksListWidget(StructureToolbox);
+connect(PsListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertPstricks(QListWidgetItem*)));
+StructureToolbox->addItem(PsListWidget,QIcon(":/images/pstricks.png"),tr("Pstricks Commands"));
+
 MpListWidget=new MetapostListWidget(StructureToolbox);
 connect(MpListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertMetaPost(QListWidgetItem*)));
 StructureToolbox->addItem(MpListWidget,QIcon(":/images/metapost.png"),tr("MetaPost Commands"));
@@ -105,7 +130,7 @@ StructureToolbox->addItem(MpListWidget,QIcon(":/images/metapost.png"),tr("MetaPo
 OutputView = new QDockWidget(this);
 OutputView->setObjectName("OutputView");
 OutputView->setAllowedAreas(Qt::AllDockWidgetAreas);
-OutputView->setFeatures(QDockWidget::AllDockWidgetFeatures);
+OutputView->setFeatures(QDockWidget::DockWidgetClosable);
 OutputView->setWindowTitle(tr("Messages / Log File"));
 addDockWidget(Qt::BottomDockWidgetArea,OutputView);
 OutputTextEdit = new LogEditor(OutputView);
@@ -144,6 +169,8 @@ show();
 
 stat1->setText(QString(" %1 ").arg(tr("Normal Mode")));
 stat2->setText(QString(" %1 ").arg(tr("Ready")));
+
+setAcceptDrops(true);
 }
 
 void Texmaker::setupMenus()
@@ -267,6 +294,11 @@ connect(Act, SIGNAL(triggered()), this, SLOT(editGotoLine()));
 editMenu->addAction(Act);
 editMenu->addSeparator();
 
+Act = new QAction(tr("Check Spelling"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(editSpell()));
+editMenu->addAction(Act);
+editMenu->addSeparator();
+
 Act = new QAction(tr("Refresh Structure"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(UpdateStructure()));
 editMenu->addAction(Act);
@@ -329,12 +361,12 @@ toolMenu->addSeparator();
 Act = new QAction(tr("Clean"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(CleanAll()));
 toolMenu->addAction(Act);
-#if defined( Q_WS_X11 ) || defined( Q_WS_MACX )
+
 toolMenu->addSeparator();
 Act = new QAction(tr("Convert to Html"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(WebPublish()));
 toolMenu->addAction(Act);
-#endif
+
 
 Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
@@ -375,7 +407,7 @@ Act->setData("\\tableofcontents/16/0/Put this command where you want the table o
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex1Menu->addAction(Act);
 
-latex11Menu=latex1Menu->addMenu(tr("Sectionning"));
+latex11Menu=latex1Menu->addMenu(tr("Sectioning"));
 Act = new QAction("\\part", this);
 Act->setData("\\part");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertStruct()));
@@ -549,6 +581,48 @@ Act->setData("\\\\\n/0/1/The \\newline command breaks the line right where it is
 Act->setShortcut(Qt::CTRL+Qt::Key_Return);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex16Menu->addAction(Act);
+
+latex17Menu=latex1Menu->addMenu(tr("International Accents"));
+Act = new QAction(QIcon(":/images/accent1.png"),"\\'{}", this);
+Act->setData("\\'{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent2.png"),"\\`{}", this);
+Act->setData("\\`{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent3.png"),"\\^{}", this);
+Act->setData("\\^{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent4.png"),"\\\"{}", this);
+Act->setData("\\\"{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent5.png"),"\\~{}", this);
+Act->setData("\\~{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent6.png"),"\\={}", this);
+Act->setData("\\={}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent7.png"),"\\.{}", this);
+Act->setData("\\.{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent8.png"),"\\v{}", this);
+Act->setData("\\v{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent9.png"),"\\u{}", this);
+Act->setData("\\u{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
+Act = new QAction(QIcon(":/images/accent10.png"),"\\H{}", this);
+Act->setData("\\H{}/3/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+latex17Menu->addAction(Act);
 
 Act = new QAction("\\includegraphics{file}", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertImage()));
@@ -1272,13 +1346,16 @@ if(!codec) codec = QTextCodec::codecForLocale();
 //ts.setEncoding(QTextStream::Locale);
 ts.setCodec(codec);
 edit->editor->setPlainText( ts.readAll() );
+file.close();
 //filenames.replace( edit, f );
 filenames.remove( edit);
 filenames.insert( edit, f );
 edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
+connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 if (wordwrap) {edit->editor->setWordWrapMode(QTextOption::WordWrap);}
 else {edit->editor->setWordWrapMode(QTextOption::NoWrap);}
+edit->editor->setFocus();
 UpdateCaption();
 NewDocumentStatus(false);
 AddRecentFile(f);
@@ -1318,8 +1395,10 @@ filenames.remove( edit);
 filenames.insert( edit, "untitled" );
 edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
+connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 UpdateCaption();
 NewDocumentStatus(false);
+edit->editor->setFocus();
 }
 
 void Texmaker::fileOpen()
@@ -1348,7 +1427,6 @@ else
 		return;
 		}
 	QTextStream ts( &file );
-//	ts.setEncoding(QTextStream::Locale);
 	QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().toLatin1());
 	ts.setCodec(codec ? codec : QTextCodec::codecForLocale());
 	ts << currentEditorView()->editor->toPlainText();
@@ -1361,7 +1439,6 @@ UpdateCaption();
 
 void Texmaker::fileSaveAs()
 {
-//int query=0;
 if ( !currentEditorView() ) 	return;
 QString currentDir=QDir::homePath();
 if (!lastDocument.isEmpty())
@@ -1372,19 +1449,12 @@ if (!lastDocument.isEmpty())
 QString fn = QFileDialog::getSaveFileName(this,tr("Save As"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp);;All files (*.*)");
 if ( !fn.isEmpty() )
     {
-//automatically do by Qt4 - but the Qt4 dialog is not translated !!
-//      QFileInfo fic(fn);
-//      if( fic.exists() ) query =QMessageBox::warning(this, "Texmaker",tr("A Document with this name already exists.\nDo you want to overwrite it? "),tr("Yes"),tr("No"),tr("Cancel"), 0,2 );
-//      if (query==0)
-//          {
 	QFileInfo fic(fn);
 	filenames.remove(currentEditorView());
 	filenames.insert(currentEditorView(), fn );
 //	filenames.replace( currentEditorView(), fn );
 	fileSave();
-	//EditorView->setTabLabel( currentEditorView(), fic.fileName() );
 	EditorView->setTabText(EditorView->indexOf(currentEditorView()),fic.fileName());
-//          }
     }
 UpdateCaption();
 }
@@ -1412,7 +1482,7 @@ switch(  QMessageBox::warning(this, "Texmaker",
 				     tr("The document contains unsaved work. "
 				     "Do you want to save it before closing?"),
 				     tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
-				     0,      // Enter == button 0
+				     0,
 				     2 ) )
    {
        case 0:
@@ -1425,7 +1495,7 @@ switch(  QMessageBox::warning(this, "Texmaker",
 	   delete currentEditorView();
 	   break;
        case 2:
-       default: // just for sanity
+       default:
 	   return;
 	   break;
    }
@@ -1449,7 +1519,7 @@ while (currentEditorView() && go)
        				     tr("The document contains unsaved work. "
        				     "Do you want to save it before exiting?"),
        				     tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
-       				     0,      // Enter == button 0
+       				     0,
        				     2 ) )
           {
           case 0:
@@ -1490,7 +1560,7 @@ bool accept=true;
 				     tr("The document contains unsaved work. "
 				     "Do you want to save it before exiting?"),
 				     tr("Save and Close"), tr("Don't Save and Close"),tr( "Cancel"),
-				     0,      // Enter == button 0
+				     0,
 				     2 ) )
       {
        case 0:
@@ -1503,7 +1573,7 @@ bool accept=true;
 	     delete currentEditorView();
 	     break;
        case 2:
-       default: // just for sanity
+       default:
 	     accept=false;
 	     break;
      }
@@ -1530,7 +1600,7 @@ bool accept=true;
 				     tr("The document contains unsaved work. "
 				     "Do you want to save it before exiting?"),
 				     tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
-				     0,      // Enter == button 0
+				     0,
 				     2 ) )
       {
        case 0:
@@ -1543,7 +1613,7 @@ bool accept=true;
 	     delete currentEditorView();
 	     break;
        case 2:
-       default: // just for sanity
+       default: 
 	     accept=false;
 	     break;
      }
@@ -1555,6 +1625,7 @@ bool accept=true;
          }
     }
     if (accept) e->accept();
+else e->ignore();
 }
 
 
@@ -1637,6 +1708,8 @@ void Texmaker::editFind()
     if ( !currentEditorView() )	return;
     if (!findDialog) findDialog = new FindDialog(this, 0);
     findDialog->SetEditor(currentEditorView()->editor);
+    QTextCursor c =currentEditorView()->editor->textCursor();
+    if (c.hasSelection()) findDialog->ui.comboFind->lineEdit()->setText(c.selectedText());
     findDialog->show();
     findDialog->raise();
     findDialog->ui.comboFind->setFocus();
@@ -1650,6 +1723,8 @@ void Texmaker::editFindNext()
        {
        findDialog = new FindDialog(this, 0);
        findDialog->SetEditor(currentEditorView()->editor);
+       QTextCursor c =currentEditorView()->editor->textCursor();
+       if (c.hasSelection()) findDialog->ui.comboFind->lineEdit()->setText(c.selectedText());
        findDialog->show();
        findDialog->raise();
        findDialog->ui.comboFind->setFocus();
@@ -1668,6 +1743,8 @@ void Texmaker::editReplace()
     if ( !currentEditorView() )	return;
     if ( !replaceDialog )  replaceDialog = new ReplaceDialog(this, 0);
     replaceDialog->SetEditor(currentEditorView()->editor);
+    QTextCursor c =currentEditorView()->editor->textCursor();
+    if (c.hasSelection()) replaceDialog->ui.comboFind->lineEdit()->setText(c.selectedText());
     replaceDialog->show();
     replaceDialog->raise();
     replaceDialog->ui.comboFind->setFocus();
@@ -1705,6 +1782,13 @@ void Texmaker::editIndent()
     currentEditorView()->editor->indentSelection();
 }
 
+void Texmaker::editSpell()
+{
+if ( !currentEditorView() )	return;
+SpellerDialog *spellDlg=new SpellerDialog(this,currentEditorView()->editor,aspell_command,aspell_lang,aspell_encoding);
+spellDlg->exec();
+}
+
 /////////////// CONFIG ////////////////////
 void Texmaker::ReadSettings()
 {
@@ -1712,16 +1796,17 @@ QSettings config("xm1","texmaker");
 config.beginGroup( "texmaker" );
 singlemode=true;
 
-#if defined( Q_WS_X11 )
+#ifdef Q_WS_X11
 x11style=config.value( "X11/Style","plastique").toString();
 QFontDatabase fdb;
 QStringList xf = fdb.families();
 QString deft;
-if (xf.contains("Bitstream Vera Sans",Qt::CaseInsensitive)) deft="Bitstream Vera Sans";
+if (xf.contains("DejaVu Sans",Qt::CaseInsensitive)) deft="DejaVu Sans";
+else if (xf.contains("Bitstream Vera Sans",Qt::CaseInsensitive)) deft="Bitstream Vera Sans";
 else if (xf.contains("Luxi Sans",Qt::CaseInsensitive)) deft="Luxi Sans";
 else deft=qApp->font().family();
 x11fontfamily=config.value("X11/Font Family",deft).toString();
-x11fontsize=config.value( "X11/Font Size","12").toInt();
+x11fontsize=config.value( "X11/Font Size","10").toInt();
 QApplication::setStyle(QStyleFactory::create(x11style));
 QApplication::setPalette(QApplication::style()->standardPalette());
 QFont x11Font (x11fontfamily,x11fontsize);
@@ -1736,10 +1821,16 @@ int y= config.value( "Geometries/MainwindowY",10).toInt() ;
 resize(w,h);
 move(x,y);
 
+#ifdef Q_WS_WIN
+QString fam=config.value("Editor/Font Family","Arial").toString();
+int si=config.value( "Editor/Font Size",10).toInt();
+#else
 QString fam=config.value("Editor/Font Family",qApp->font().family()).toString();
 int si=config.value( "Editor/Font Size",qApp->font().pointSize()).toInt();
+#endif
 QFont F(fam,si);
 EditorFont=F;
+
 wordwrap=config.value( "Editor/WordWrap",true).toBool();
 parenmatch=config.value( "Editor/Parentheses Matching",true).toBool();
 showline=config.value( "Editor/Line Numbers",true).toBool();
@@ -1749,6 +1840,7 @@ showstructview=config.value( "Show/Structureview",true).toBool();
 
 quickmode=config.value( "Tools/Quick Mode",1).toInt();
 #ifdef Q_WS_MACX //why the tex packages on macosx doesn't set the path to the latex programs in the Macosx path (environment.plist) ??
+// /usr/local/teTeX/bin/i386-apple-darwin-current
 latex_command=config.value("Tools/Latex","\"/usr/local/teTeX/bin/powerpc-apple-darwin-current/latex\" -interaction=nonstopmode %.tex").toString();
 dvips_command=config.value("Tools/Dvips","\"/usr/local/teTeX/bin/powerpc-apple-darwin-current/dvips\" -o %.ps %.dvi").toString();
 ps2pdf_command=config.value("Tools/Ps2pdf","\"/usr/local/teTeX/bin/powerpc-apple-darwin-current/ps2pdf\" %.ps").toString();
@@ -1772,20 +1864,23 @@ userClassList=config.value("Tools/User Class").toStringList();
 userPaperList=config.value("Tools/User Paper").toStringList();
 userEncodingList=config.value("Tools/User Encoding").toStringList();
 userOptionsList=config.value("Tools/User Options").toStringList();
-#if defined(Q_WS_WIN)
+#ifdef Q_WS_WIN
 viewdvi_command=config.value("Tools/Dvi","\"C:/texmf/miktex/bin/yap.exe\" %.dvi").toString();
 viewps_command=config.value("Tools/Ps","\"C:/Program Files/Ghostgum/gsview/gsview32.exe\" %.ps").toString();
 viewpdf_command=config.value("Tools/Pdf","\"C:/Program Files/Adobe/Acrobat 7.0/Reader/AcroRd32.exe\" %.pdf").toString();
+ghostscript_command=config.value("Tools/Ghostscript","\"C:/Program Files/gs/gs8.54/bin/gswin32c.exe\"").toString();
 #endif
 #ifdef Q_WS_X11
 viewdvi_command=config.value("Tools/Dvi","xdvi %.dvi").toString();
 viewps_command=config.value("Tools/Ps","gv %.ps").toString();
 viewpdf_command=config.value("Tools/Pdf","xpdf %.pdf").toString();
+ghostscript_command=config.value("Tools/Ghostscript","gs").toString();
 #endif
 #ifdef Q_WS_MACX
 viewdvi_command=config.value("Tools/Dvi","open %.dvi").toString();
 viewps_command=config.value("Tools/Ps","open %.ps").toString();
 viewpdf_command=config.value("Tools/Pdf","open %.pdf").toString();
+ghostscript_command=config.value("Tools/Ghostscript","gs").toString();
 #endif
 
 lastDocument=config.value("Files/Last Document","").toString();
@@ -1837,6 +1932,17 @@ ams_packages=config.value( "Quick/AMS",true).toBool();
 makeidx_package=config.value( "Quick/MakeIndex",false).toBool();
 author=config.value("Quick/Author","").toString();
 
+#if defined(Q_WS_WIN)
+aspell_command=config.value("Spell/Command","\"C:/Program Files/Aspell/bin/aspell.exe\"").toString();
+aspell_encoding=config.value("Spell/Encoding","iso8859-1").toString();
+#else
+aspell_command=config.value("Spell/Command","aspell").toString();
+aspell_encoding=config.value("Spell/Encoding","utf-8").toString();
+#endif
+QString locale = QString(QLocale::system().name()).left(2);
+if ( locale.length() < 2 ) locale = "en";
+aspell_lang=config.value("Spell/Lang",locale).toString();
+
 config.endGroup();
 }
 
@@ -1881,15 +1987,16 @@ config.setValue("Tools/Pdflatex",pdflatex_command);
 config.setValue("Tools/Pdf",viewpdf_command);
 config.setValue("Tools/Dvipdf",dvipdf_command);
 config.setValue("Tools/Metapost",metapost_command);
+config.setValue("Tools/Ghostscript",ghostscript_command);
 config.setValue("Tools/Userquick",userquick_command);
-if (userClassList.count()>0) config.setValue("Tools/User Class",userClassList); //hack baveux
-if (userPaperList.count()>0) config.setValue("Tools/User Paper",userPaperList); //hack baveux
-if (userEncodingList.count()>0) config.setValue("Tools/User Encoding",userEncodingList); //hack baveux
-if (userOptionsList.count()>0) config.setValue("Tools/User Options",userOptionsList); //hack baveux
+if (userClassList.count()>0) config.setValue("Tools/User Class",userClassList); 
+if (userPaperList.count()>0) config.setValue("Tools/User Paper",userPaperList); 
+if (userEncodingList.count()>0) config.setValue("Tools/User Encoding",userEncodingList); 
+if (userOptionsList.count()>0) config.setValue("Tools/User Options",userOptionsList); 
 
 
 config.setValue("Files/Last Document",lastDocument);
-if (recentFilesList.count()>0) config.setValue("Files/Recent Files",recentFilesList); //hack baveux
+if (recentFilesList.count()>0) config.setValue("Files/Recent Files",recentFilesList); 
 
 config.setValue("Files/Input Encoding", input_encoding);
 
@@ -1937,6 +2044,10 @@ config.setValue( "Quick/Encoding",document_encoding);
 config.setValue( "Quick/AMS",ams_packages);
 config.setValue( "Quick/MakeIndex",makeidx_package);
 config.setValue( "Quick/Author",author);
+
+config.setValue( "Spell/Command",aspell_command);
+config.setValue( "Spell/Lang",aspell_lang);
+config.setValue( "Spell/Encoding",aspell_encoding);
 
 config.endGroup();
 }
@@ -2221,6 +2332,17 @@ if (item)
 	}
 }
 
+void Texmaker::InsertPstricks(QListWidgetItem *item)
+{
+QString pstcode;
+if (item  && !item->font().bold())
+	{
+	pstcode=item->text();
+	pstcode.remove(QRegExp("\\[(.*)\\]"));
+	InsertTag(pstcode,pstcode.length(),0);
+	}
+}
+
 void Texmaker::InsertFromAction()
 {
 bool ok;
@@ -2316,7 +2438,7 @@ QAction *action = qobject_cast<QAction *>(sender());
 if (action)
 	{
 	actData=action->data().toString();
-	stDlg = new StructDialog(this,actData.toLatin1());
+	StructDialog *stDlg = new StructDialog(this,actData);
 	if ( stDlg->exec() )
 		{
 		if (stDlg->ui.checkBox->isChecked())
@@ -2328,7 +2450,6 @@ if (action)
 		InsertTag(tag,0,1);
 		UpdateStructure();
 		}
-	delete( stDlg);
 	}
 }
 
@@ -2337,7 +2458,7 @@ void Texmaker::InsertStructFromString(const QString& text)
 QString tag;
 if ( !currentEditorView() )	return;
 //currentEditorView()->editor->viewport()->setFocus();
-stDlg = new StructDialog(this,text.toLatin1());
+StructDialog *stDlg = new StructDialog(this,text);
 if ( stDlg->exec() )
 	{
 	if (stDlg->ui.checkBox->isChecked())
@@ -2349,7 +2470,6 @@ if ( stDlg->exec() )
 	InsertTag(tag,0,1);
 	UpdateStructure();
 	}
-delete( stDlg);
 }
 
 void Texmaker::InsertImage()
@@ -2361,7 +2481,7 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.absolutePath();
-sfDlg = new FileChooser(this,tr("Select an image File").toLatin1());
+FileChooser *sfDlg = new FileChooser(this,tr("Select an image File"));
 sfDlg->setFilter("Graphic files (*.eps *.pdf *.png);;All files (*.*)");
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
@@ -2369,13 +2489,7 @@ if (sfDlg->exec() )
    QString fn=sfDlg->fileName();
    QFileInfo fi(fn);
    InsertTag("\\includegraphics[scale=1]{"+fi.baseName()+"."+fi.completeSuffix()+"} ",26,0);
-//    if (fi.extension()=="eps")
-//      {
-//      OutputTextEdit->insertLine("*************  ABOUT THIS IMAGE  *************");
-//      OutputTextEdit->insertLine(DetectEpsSize(fn));
-//      }
   }
-delete sfDlg;
 }
 
 void Texmaker::InsertInclude()
@@ -2387,7 +2501,7 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.absolutePath();
-sfDlg = new FileChooser(this,tr("Select a File").toLatin1());
+FileChooser *sfDlg = new FileChooser(this,tr("Select a File"));
 sfDlg->setFilter("TeX files (*.tex);;All files (*.*)");
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
@@ -2396,7 +2510,6 @@ QString fn=sfDlg->fileName();
 QFileInfo fi(fn);
 InsertTag("\\include{"+fi.baseName()+"}",9,0);
   }
-delete sfDlg;
 UpdateStructure();
 }
 
@@ -2409,7 +2522,7 @@ if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.absolutePath();
-sfDlg = new FileChooser(this,tr("Select a File").toLatin1());
+FileChooser *sfDlg = new FileChooser(this,tr("Select a File"));
 sfDlg->setFilter("TeX files (*.tex);;All files (*.*)");
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
@@ -2418,7 +2531,6 @@ QString fn=sfDlg->fileName();
 QFileInfo fi(fn);
 InsertTag("\\input{"+fi.baseName()+"}",7,0);
   }
-delete sfDlg;
 UpdateStructure();
 }
 
@@ -2429,7 +2541,7 @@ QString al="";
 QString vs="";
 QString hs="";
 QString tag;
-quickDlg = new TabDialog(this,"Tabular");
+TabDialog *quickDlg = new TabDialog(this,"Tabular");
 QTableWidgetItem *item=new QTableWidgetItem();
 if ( quickDlg->exec() )
 	{
@@ -2464,7 +2576,6 @@ if ( quickDlg->exec() )
 	else tag +=QString("\\end{tabular} ");
 	InsertTag(tag,0,0);
 	}
-delete( quickDlg);
 
 }
 
@@ -2472,7 +2583,7 @@ void Texmaker::QuickArray()
 {
 if ( !currentEditorView() )	return;
 QString al;
-arrayDlg = new ArrayDialog(this,"Array");
+ArrayDialog *arrayDlg = new ArrayDialog(this,"Array");
 QTableWidgetItem *item=new QTableWidgetItem();
 if ( arrayDlg->exec() ) 
 	{
@@ -2512,14 +2623,12 @@ if ( arrayDlg->exec() )
 	else tag +=QString("\n\\end{")+env+"} ";
 	InsertTag(tag,0,0);
 	}
-delete( arrayDlg);
-
 }
 
 void Texmaker::QuickTabbing()
 {
 if ( !currentEditorView() ) return;
-tabDlg = new TabbingDialog(this,"Tabbing");
+TabbingDialog *tabDlg = new TabbingDialog(this,"Tabbing");
 if ( tabDlg->exec() )
 	{
 	int	x = tabDlg->ui.spinBoxColumns->value();
@@ -2537,14 +2646,13 @@ if ( tabDlg->exec() )
 	tag += QString("\n\\end{tabbing} ");
 	InsertTag(tag,0,2);
 	}
-delete( tabDlg);
 }
 
 void Texmaker::QuickLetter()
 {
 if ( !currentEditorView() )	return;
 QString tag=QString("\\documentclass[");
-ltDlg = new LetterDialog(this,"Letter");
+LetterDialog *ltDlg = new LetterDialog(this,"Letter");
 if ( ltDlg->exec() )
 	{
 	tag+=ltDlg->ui.comboBoxPt->currentText()+QString(",");
@@ -2569,7 +2677,6 @@ if ( ltDlg->exec() )
 	if (ltDlg->ui.checkBox->isChecked()) {InsertTag(tag,9,5);}
 	else {InsertTag(tag,9,2);}
 	}
-delete( ltDlg);
 }
 
 void Texmaker::QuickDocument()
@@ -2579,7 +2686,7 @@ int li=3;
 int f;
 if ( !currentEditorView() ) return;
 QString tag=QString("\\documentclass[");
-startDlg = new QuickDocumentDialog(this,"Quick Start");
+QuickDocumentDialog *startDlg = new QuickDocumentDialog(this,"Quick Start");
 startDlg->otherClassList=userClassList;
 startDlg->otherPaperList=userPaperList;
 startDlg->otherEncodingList=userEncodingList;
@@ -2649,7 +2756,6 @@ userPaperList=startDlg->otherPaperList;
 userEncodingList=startDlg->otherEncodingList;
 userOptionsList=startDlg->otherOptionsList;
 }
-delete( startDlg);
 }
 
 void Texmaker::InsertBib1()
@@ -3074,7 +3180,7 @@ else
 void Texmaker::EditUserMenu()
 {
 QAction *Act;
-umDlg = new UserMenuDialog(this,tr("Edit User Tags").toLatin1());
+UserMenuDialog *umDlg = new UserMenuDialog(this,tr("Edit User Tags"));
 for ( int i = 0; i <= 9; i++ )
     {
     umDlg->Name[i]=UserMenuName[i];
@@ -3134,7 +3240,6 @@ if ( umDlg->exec() )
 	connect(Act, SIGNAL(triggered()), this, SLOT(EditUserMenu()));
 	user11Menu->addAction(Act);
 	}
-delete umDlg;
 }
 
 void Texmaker::SectionCommand(const QString& text)
@@ -3182,7 +3287,7 @@ void Texmaker::InsertRef()
 {
 UpdateStructure();
 QString tag="";
-refDlg = new RefDialog(this,"Labels");
+RefDialog *refDlg = new RefDialog(this,"Labels");
 refDlg->ui.comboBox->addItems(labelitem);
 if (!labelitem.isEmpty() && refDlg->exec() )
   {
@@ -3190,7 +3295,6 @@ if (!labelitem.isEmpty() && refDlg->exec() )
   InsertTag(tag,tag.length(),0);
   }
 else InsertTag("\\ref{}",5,0);
-delete refDlg;
 OutputTextEdit->insertLine( "\\ref{key}");
 }
 
@@ -3198,7 +3302,7 @@ void Texmaker::InsertPageRef()
 {
 UpdateStructure();
 QString tag="";
-refDlg = new RefDialog(this,"Labels");
+RefDialog *refDlg = new RefDialog(this,"Labels");
 refDlg->ui.comboBox->addItems(labelitem);
 if (!labelitem.isEmpty() && refDlg->exec() )
   {
@@ -3206,7 +3310,6 @@ if (!labelitem.isEmpty() && refDlg->exec() )
   InsertTag(tag,tag.length(),0);
   }
 else InsertTag("\\pageref{}",9,0);
-delete refDlg;
 OutputTextEdit->insertLine( "\\pageref{key}");
 }
 
@@ -3307,7 +3410,7 @@ if ((singlemode && !currentEditorView()) || finame=="untitled" || finame=="")
 fileSave();
 QFileInfo fi(finame);
 QString basename=fi.baseName();
-commandline.replace("%",basename);
+commandline.replace("%","\""+basename+"\"");
 proc = new QProcess( this );
 proc->setWorkingDirectory(fi.absolutePath());
 
@@ -3608,7 +3711,7 @@ for (int i = 0; i < commandList.size(); ++i)
 void Texmaker::EditUserTool()
 {
 QAction *Act;
-utDlg = new UserToolDialog(this,tr("Edit User Commands").toLatin1());
+UserToolDialog *utDlg = new UserToolDialog(this,tr("Edit User Commands"));
 for ( int i = 0; i <= 4; i++ )
     {
     utDlg->Name[i]=UserToolName[i];
@@ -3648,22 +3751,18 @@ if ( utDlg->exec() )
 	connect(Act, SIGNAL(triggered()), this, SLOT(EditUserTool()));
 	user12Menu->addAction(Act);
 	}
-delete utDlg;
 }
 
 void Texmaker::WebPublish()
 {
-#if defined( Q_WS_X11 ) || defined( Q_WS_MACX )
 QString finame;
 fileSave();
 if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 if (finame=="untitled") finame="";
-ttwpDlg = new WebPublishDialog(this,tr("Convert to Html").toLatin1()); 
+WebPublishDialog *ttwpDlg = new WebPublishDialog(this,tr("Convert to Html"),ghostscript_command,latex_command,dvips_command); 
 ttwpDlg->ui.inputfileEdit->setText(finame);
 ttwpDlg->exec();
-delete ttwpDlg;
-#endif
 }
 //////////////// MESSAGES - LOG FILE///////////////////////
 void Texmaker::ViewLog()
@@ -3863,13 +3962,13 @@ QFileInfo fic(docfile);
 
 void Texmaker::HelpAbout()
 {
-abDlg = new AboutDialog(this);
+AboutDialog *abDlg = new AboutDialog(this);
 abDlg->exec();
 }
 ////////////// OPTIONS //////////////////////////////////////
 void Texmaker::GeneralOptions()
 {
-confDlg = new ConfigDialog(this);
+ConfigDialog *confDlg = new ConfigDialog(this);
 
 confDlg->pt->ui.lineEditLatex->setText(latex_command);
 confDlg->pt->ui.lineEditPdflatex->setText(pdflatex_command);
@@ -3882,15 +3981,22 @@ confDlg->pt->ui.lineEditBibtex->setText(bibtex_command);
 confDlg->pt->ui.lineEditMakeindex->setText(makeindex_command);
 confDlg->pt->ui.lineEditPdfviewer->setText(viewpdf_command);
 confDlg->pt->ui.lineEditMetapost->setText(metapost_command);
+confDlg->pt->ui.lineEditGhostscript->setText(ghostscript_command);
 
 confDlg->pe->ui.comboBoxFont->lineEdit()->setText(EditorFont.family() );
 //confDlg->pe->ui.comboBoxEncoding->setCurrentText(input_encoding);
-confDlg->pe->ui.comboBoxEncoding->setItemText(confDlg->pe->ui.comboBoxEncoding->currentIndex(),input_encoding);
+//confDlg->pe->ui.comboBoxEncoding->setItemText(confDlg->pe->ui.comboBoxEncoding->currentIndex(),input_encoding);
+confDlg->pe->ui.comboBoxEncoding->setCurrentIndex(confDlg->pe->ui.comboBoxEncoding->findText(input_encoding, Qt::MatchExactly));
+
 confDlg->pe->ui.spinBoxSize->setValue(EditorFont.pointSize() );
 if (wordwrap) {confDlg->pe->ui.checkBoxWordwrap->setChecked(true);}
 else {confDlg->pe->ui.checkBoxWordwrap->setChecked(false);}
 if (showline) {confDlg->pe->ui.checkBoxLinenumber->setChecked(true);}
 else {confDlg->pe->ui.checkBoxLinenumber->setChecked(false);}
+
+confDlg->pe->ui.lineEditAspellCommand->setText(aspell_command);
+confDlg->pe->ui.lineEditAspellLang->setText(aspell_lang);
+confDlg->pe->ui.comboBoxAspellEncoding->setCurrentIndex(confDlg->pe->ui.comboBoxAspellEncoding->findText(aspell_encoding, Qt::MatchExactly));
 
 if (quickmode==1) {confDlg->pq->ui.radioButton1->setChecked(true); confDlg->pq->ui.lineEditUserquick->setEnabled(false);}
 if (quickmode==2) {confDlg->pq->ui.radioButton2->setChecked(true); confDlg->pq->ui.lineEditUserquick->setEnabled(false);}
@@ -3922,16 +4028,20 @@ if (confDlg->exec())
    makeindex_command=confDlg->pt->ui.lineEditMakeindex->text();
    viewpdf_command=confDlg->pt->ui.lineEditPdfviewer->text();
    metapost_command=confDlg->pt->ui.lineEditMetapost->text();
+   ghostscript_command=confDlg->pt->ui.lineEditGhostscript->text();
 
    QString fam=confDlg->pe->ui.comboBoxFont->lineEdit()->text();
    int si=confDlg->pe->ui.spinBoxSize->value();
    QFont F(fam,si);
    EditorFont=F;
-   
+
    input_encoding=confDlg->pe->ui.comboBoxEncoding->currentText();
-   
+
    wordwrap=confDlg->pe->ui.checkBoxWordwrap->isChecked();
    showline=confDlg->pe->ui.checkBoxLinenumber->isChecked();
+   aspell_command=confDlg->pe->ui.lineEditAspellCommand->text();
+   aspell_lang=confDlg->pe->ui.lineEditAspellLang->text();
+   aspell_encoding=confDlg->pe->ui.comboBoxAspellEncoding->currentText();
    if (currentEditorView())
   {
    LatexEditorView *temp = new LatexEditorView( EditorView,EditorFont,showline);
@@ -3954,7 +4064,6 @@ if (confDlg->exec())
    UpdateCaption();
    }
   }
-delete confDlg;
 }
 
 void Texmaker::ToggleMode()
@@ -4016,7 +4125,7 @@ void Texmaker::gotoPrevDocument()
 void Texmaker::SetInterfaceFont()
 {
 #if defined( Q_WS_X11 )
-xfdlg = new X11FontDialog(this);
+X11FontDialog *xfdlg = new X11FontDialog(this);
 int ft=xfdlg->ui.comboBoxFont->findText (x11fontfamily , Qt::MatchExactly);
 xfdlg->ui.comboBoxFont->setCurrentIndex(ft);
 xfdlg->ui.spinBoxSize->setValue(x11fontsize);
@@ -4049,4 +4158,23 @@ void Texmaker::gotoBookmark3()
 if ( !currentEditorView() ) return;
 int l=currentEditorView()->editor->UserBookmark[2];
 if (l>0) currentEditorView()->editor->gotoLine(l-1);
+}
+
+//*********************************
+void Texmaker::dragEnterEvent(QDragEnterEvent *event)
+{
+if (event->mimeData()->hasFormat("text/uri-list")) event->acceptProposedAction();
+}
+
+void Texmaker::dropEvent(QDropEvent *event)
+{
+QRegExp rx("file://(.*\\.(?:tex|bib|sty|cls|mp))");
+QList<QUrl> uris=event->mimeData()->urls();
+QString uri;
+for (int i = 0; i < uris.size(); ++i)
+	{
+	uri=uris.at(i).toString();
+	if (rx.exactMatch(uri)) load(rx.cap(1));
+	}
+event->acceptProposedAction();
 }

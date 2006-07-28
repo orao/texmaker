@@ -9,89 +9,17 @@
     <x>0</x>
     <y>0</y>
     <width>615</width>
-    <height>501</height>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Configure Texmaker</string>
   </property>
-  <widget class="QWidget" name="layoutWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>591</width>
-     <height>422</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" >
-    <property name="margin" >
-     <number>0</number>
-    </property>
-    <property name="spacing" >
-     <number>6</number>
-    </property>
-    <item>
-     <widget class="QListWidget" name="contentsWidget" >
-      <property name="sizePolicy" >
-       <sizepolicy>
-        <hsizetype>5</hsizetype>
-        <vsizetype>5</vsizetype>
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize" >
-       <size>
-        <width>140</width>
-        <height>420</height>
-       </size>
-      </property>
-      <property name="maximumSize" >
-       <size>
-        <width>140</width>
-        <height>420</height>
-       </size>
-      </property>
-      <property name="iconSize" >
-       <size>
-        <width>96</width>
-        <height>96</height>
-       </size>
-      </property>
-      <property name="spacing" >
-       <number>12</number>
-      </property>
-      <property name="viewMode" >
-       <enum>QListView::IconMode</enum>
-      </property>
-      <property name="currentRow" >
-       <number>-1</number>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QStackedWidget" name="pagesWidget" >
-      <property name="sizePolicy" >
-       <sizepolicy>
-        <hsizetype>7</hsizetype>
-        <vsizetype>7</vsizetype>
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="currentIndex" >
-       <number>-1</number>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QWidget" name="horizontalLayout" >
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>450</y>
+     <y>470</y>
      <width>591</width>
      <height>41</height>
     </rect>
@@ -127,6 +55,78 @@
      <widget class="QPushButton" name="cancelButton" >
       <property name="text" >
        <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>11</x>
+     <y>11</y>
+     <width>591</width>
+     <height>444</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" >
+    <property name="margin" >
+     <number>0</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QListWidget" name="contentsWidget" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>5</hsizetype>
+        <vsizetype>5</vsizetype>
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize" >
+       <size>
+        <width>140</width>
+        <height>442</height>
+       </size>
+      </property>
+      <property name="maximumSize" >
+       <size>
+        <width>140</width>
+        <height>442</height>
+       </size>
+      </property>
+      <property name="iconSize" >
+       <size>
+        <width>96</width>
+        <height>96</height>
+       </size>
+      </property>
+      <property name="spacing" >
+       <number>12</number>
+      </property>
+      <property name="viewMode" >
+       <enum>QListView::IconMode</enum>
+      </property>
+      <property name="currentRow" >
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="pagesWidget" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>7</hsizetype>
+        <vsizetype>7</vsizetype>
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="currentIndex" >
+       <number>-1</number>
       </property>
      </widget>
     </item>

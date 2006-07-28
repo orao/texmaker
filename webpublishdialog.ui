@@ -9,129 +9,12 @@
     <x>0</x>
     <y>0</y>
     <width>718</width>
-    <height>496</height>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Convert to Html</string>
   </property>
-  <widget class="QLabel" name="label" >
-   <property name="geometry" >
-    <rect>
-     <x>340</x>
-     <y>360</y>
-     <width>96</width>
-     <height>96</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string/>
-   </property>
-   <property name="pixmap" >
-    <pixmap resource="texmaker.qrc" >:/images/webpublish.png</pixmap>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="textEdit_2" >
-   <property name="geometry" >
-    <rect>
-     <x>450</x>
-     <y>370</y>
-     <width>251</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="readOnly" >
-    <bool>true</bool>
-   </property>
-   <property name="html" >
-    <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans;">&lt;span style=" font-weight:600; color:#000000;">LaTeX to Html conversion tool&lt;/span>&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans; color:#000000;">Copyright 2004-2005 P.Brachet &amp;amp; J.Amblard&lt;/p>&lt;/body>&lt;/html></string>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="imagegroupBox" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>200</y>
-     <width>311</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="title" >
-    <string>Images options</string>
-   </property>
-   <widget class="QWidget" name="layoutWidget_2" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>291</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item row="2" column="1" >
-      <widget class="QComboBox" name="colordepthcomboBox" >
-       <property name="toolTip" >
-        <string>Specify the color depth of the images</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" >
-      <widget class="QLabel" name="interlaceLabel" >
-       <property name="text" >
-        <string>Interlace images :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1" >
-      <widget class="QSpinBox" name="widthspinBox" >
-       <property name="toolTip" >
-        <string>Width of the largest image</string>
-       </property>
-       <property name="maximum" >
-        <number>2048</number>
-       </property>
-       <property name="minimum" >
-        <number>10</number>
-       </property>
-       <property name="singleStep" >
-        <number>10</number>
-       </property>
-       <property name="value" >
-        <number>700</number>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="widthLabel" >
-       <property name="text" >
-        <string>Images Width :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0" >
-      <widget class="QLabel" name="colordepthLabel" >
-       <property name="text" >
-        <string>Color depth :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1" >
-      <widget class="QComboBox" name="interlacecomboBox" >
-       <property name="toolTip" >
-        <string>Generate interlaced images ?</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <widget class="QGroupBox" name="groupBoxHtml" >
    <property name="geometry" >
     <rect>
@@ -233,11 +116,148 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QWidget" name="layoutWidget_4" >
+   <property name="geometry" >
+    <rect>
+     <x>335</x>
+     <y>10</y>
+     <width>371</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" >
+    <property name="margin" >
+     <number>0</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item row="1" column="1" colspan="2" >
+     <widget class="QLineEdit" name="browserEdit" >
+      <property name="toolTip" >
+       <string>Browser command. Let's empty to not run the browser at the end of the conversion</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2" >
+     <spacer>
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" >
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="0" colspan="2" >
+     <widget class="QPushButton" name="LaunchButton" >
+      <property name="text" >
+       <string>Launch</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="4" >
+     <widget class="QTextEdit" name="messagetextEdit" >
+      <property name="readOnly" >
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" >
+     <widget class="QLabel" name="inputfileLabel" >
+      <property name="text" >
+       <string>Input File :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3" >
+     <widget class="QPushButton" name="inputfileButton" >
+      <property name="text" >
+       <string/>
+      </property>
+      <property name="icon" >
+       <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3" >
+     <widget class="QPushButton" name="quitButton" >
+      <property name="text" >
+       <string>Close</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" >
+     <widget class="QLabel" name="browserLabel" >
+      <property name="text" >
+       <string>Browser :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2" >
+     <widget class="QLineEdit" name="inputfileEdit" />
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="imagegroupBox" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>311</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>Images options</string>
+   </property>
+   <widget class="QSpinBox" name="widthspinBox" >
+    <property name="geometry" >
+     <rect>
+      <x>159</x>
+      <y>23</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip" >
+     <string>Width of the largest image</string>
+    </property>
+    <property name="maximum" >
+     <number>2048</number>
+    </property>
+    <property name="minimum" >
+     <number>10</number>
+    </property>
+    <property name="singleStep" >
+     <number>10</number>
+    </property>
+    <property name="value" >
+     <number>700</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="widthLabel" >
+    <property name="geometry" >
+     <rect>
+      <x>11</x>
+      <y>22</y>
+      <width>142</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Images Width :</string>
+    </property>
+   </widget>
+  </widget>
   <widget class="QGroupBox" name="latexgroupBox" >
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>330</y>
+     <y>270</y>
      <width>311</width>
      <height>161</height>
     </rect>
@@ -347,91 +367,37 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QWidget" name="layoutWidget_4" >
+  <widget class="QLabel" name="label" >
    <property name="geometry" >
     <rect>
-     <x>335</x>
-     <y>10</y>
-     <width>371</width>
-     <height>311</height>
+     <x>330</x>
+     <y>330</y>
+     <width>96</width>
+     <height>96</height>
     </rect>
    </property>
-   <layout class="QGridLayout" >
-    <property name="margin" >
-     <number>0</number>
-    </property>
-    <property name="spacing" >
-     <number>6</number>
-    </property>
-    <item row="1" column="1" colspan="2" >
-     <widget class="QLineEdit" name="browserEdit" >
-      <property name="toolTip" >
-       <string>Browser command. Let's empty to not run the browser at the end of the conversion</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2" >
-     <spacer>
-      <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" >
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="3" column="0" colspan="2" >
-     <widget class="QPushButton" name="LaunchButton" >
-      <property name="text" >
-       <string>Launch</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0" colspan="4" >
-     <widget class="QTextEdit" name="messagetextEdit" >
-      <property name="readOnly" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" >
-     <widget class="QLabel" name="inputfileLabel" >
-      <property name="text" >
-       <string>Input File :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3" >
-     <widget class="QPushButton" name="inputfileButton" >
-      <property name="text" >
-       <string/>
-      </property>
-      <property name="icon" >
-       <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3" >
-     <widget class="QPushButton" name="quitButton" >
-      <property name="text" >
-       <string>Close</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" >
-     <widget class="QLabel" name="browserLabel" >
-      <property name="text" >
-       <string>Browser :</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" colspan="2" >
-     <widget class="QLineEdit" name="inputfileEdit" />
-    </item>
-   </layout>
+   <property name="text" >
+    <string/>
+   </property>
+   <property name="pixmap" >
+    <pixmap resource="texmaker.qrc" >:/images/webpublish.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEdit_2" >
+   <property name="geometry" >
+    <rect>
+     <x>440</x>
+     <y>340</y>
+     <width>251</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="readOnly" >
+    <bool>true</bool>
+   </property>
+   <property name="html" >
+    <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans; font-size:9pt;">&lt;span style=" font-weight:600; color:#000000;">LaTeX to Html conversion tool&lt;/span>&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Bitstream Vera Sans; font-size:9pt; color:#000000;">Copyright 2004-2006 P.Brachet &amp;amp; J.Amblard&lt;/p>&lt;/body>&lt;/html></string>
+   </property>
   </widget>
  </widget>
  <pixmapfunction></pixmapfunction>
@@ -442,8 +408,6 @@
   <tabstop>titleEdit</tabstop>
   <tabstop>footnoteEdit</tabstop>
   <tabstop>widthspinBox</tabstop>
-  <tabstop>interlacecomboBox</tabstop>
-  <tabstop>colordepthcomboBox</tabstop>
   <tabstop>compilationspinBox</tabstop>
   <tabstop>tocdepthspinBox</tabstop>
   <tabstop>startindexspinBox</tabstop>

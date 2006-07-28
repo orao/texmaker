@@ -1,15 +1,17 @@
 Name: texmaker
-Summary: LaTeX development environment
-Version: 1.3
+Summary: LaTeX editor
+Version: 1.4
 Release: xm1
 License: GPL
 Group: Applications/Publishing
-Source: texmaker-1.3.tar.bz2
+Source: texmaker-%{version}.tar.bz2
 Packager: Pascal Brachet
 Url: http://www.xm1math.net/texmaker/
-
+#BuildRequires: qt4-devel
+#Requires: tetex-latex
 %description
-LaTeX source editor and shell
+Texmaker is a program, that integrates many tools needed to develop 
+documents with LaTeX, in just one application.
 
 %prep
 %setup 
@@ -31,7 +33,7 @@ make install
 /usr/share/texmaker/AUTHORS
 /usr/share/texmaker/CHANGELOG.txt
 /usr/share/texmaker/COPYING
-/usr/share/texmaker/blank.gif
+/usr/share/texmaker/blank.png
 /usr/share/texmaker/doc1.png
 /usr/share/texmaker/doc10.png
 /usr/share/texmaker/doc11.png

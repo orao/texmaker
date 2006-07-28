@@ -9,7 +9,7 @@
     <x>0</x>
     <y>0</y>
     <width>440</width>
-    <height>420</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -21,19 +21,19 @@
      <x>0</x>
      <y>0</y>
      <width>440</width>
-     <height>420</height>
+     <height>440</height>
     </rect>
    </property>
    <property name="title" >
     <string>Commands (% : filename without extension)</string>
    </property>
-   <widget class="QWidget" name="layoutWidget" >
+   <widget class="QWidget" name="" >
     <property name="geometry" >
      <rect>
-      <x>11</x>
+      <x>10</x>
       <y>21</y>
       <width>421</width>
-      <height>391</height>
+      <height>404</height>
      </rect>
     </property>
     <layout class="QGridLayout" >
@@ -43,13 +43,247 @@
      <property name="spacing" >
       <number>6</number>
      </property>
-     <item row="2" column="1" >
-      <widget class="QLineEdit" name="lineEditBibtex" />
+     <item row="5" column="2" >
+      <widget class="QPushButton" name="pushButtonPsviewer" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" >
+      <widget class="QLineEdit" name="lineEditMakeindex" />
+     </item>
+     <item row="11" column="1" >
+      <widget class="QLineEdit" name="lineEditGhostscript" />
+     </item>
+     <item row="10" column="1" >
+      <widget class="QLineEdit" name="lineEditMetapost" />
+     </item>
+     <item row="9" column="2" >
+      <widget class="QPushButton" name="pushButtonPdfviewer" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0" >
+      <widget class="QLabel" name="labelDviview" >
+       <property name="text" >
+        <string>Dvi Viewer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0" >
+      <widget class="QLabel" name="labelPsview" >
+       <property name="text" >
+        <string>PS Viewer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" >
+      <widget class="QLineEdit" name="lineEditDviviewer" />
+     </item>
+     <item row="1" column="2" >
+      <widget class="QPushButton" name="pushButtonDvips" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1" >
+      <widget class="QLineEdit" name="lineEditPdfviewer" />
+     </item>
+     <item row="0" column="2" >
+      <widget class="QPushButton" name="pushButtonLatex" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="2" >
+      <widget class="QPushButton" name="pushButtonMetapost" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" >
+      <widget class="QLineEdit" name="lineEditPdflatex" />
+     </item>
+     <item row="8" column="1" >
+      <widget class="QLineEdit" name="lineEditPs2pdf" />
+     </item>
+     <item row="3" column="2" >
+      <widget class="QPushButton" name="pushButtonMakeindex" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QLineEdit" name="lineEditLatex" />
+     </item>
+     <item row="8" column="2" >
+      <widget class="QPushButton" name="pushButtonPs2pdf" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2" >
+      <widget class="QPushButton" name="pushButtonBibtex" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0" >
+      <widget class="QLabel" name="labelGhostscript" >
+       <property name="text" >
+        <string>ghostscript</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1" >
+      <widget class="QLineEdit" name="lineEditPsviewer" />
      </item>
      <item row="2" column="0" >
       <widget class="QLabel" name="labelBibtex" >
        <property name="text" >
         <string>Bibtex</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0" >
+      <widget class="QLabel" name="labelDvipdfm" >
+       <property name="text" >
+        <string>Dvipdfm</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0" >
+      <widget class="QLabel" name="labelPdflatex" >
+       <property name="text" >
+        <string>PdfLaTeX</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" >
+      <widget class="QLineEdit" name="lineEditBibtex" />
+     </item>
+     <item row="3" column="0" >
+      <widget class="QLabel" name="labelMakeindex" >
+       <property name="text" >
+        <string>Makeindex</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0" >
+      <widget class="QLabel" name="labelPs2pdf" >
+       <property name="text" >
+        <string>ps2pdf</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2" >
+      <widget class="QPushButton" name="pushButtonDvipdfm" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0" >
+      <widget class="QLabel" name="labelPdfview" >
+       <property name="text" >
+        <string>Pdf Viewer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0" >
+      <widget class="QLabel" name="labelMetapost" >
+       <property name="text" >
+        <string>metapost</string>
        </property>
       </widget>
      </item>
@@ -63,64 +297,37 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="0" >
-      <widget class="QLabel" name="labelPs2pdf" >
+     <item row="11" column="2" >
+      <widget class="QPushButton" name="pushButtonGhostscript" >
        <property name="text" >
-        <string>ps2pdf</string>
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
        </property>
       </widget>
      </item>
-     <item row="0" column="1" >
-      <widget class="QLineEdit" name="lineEditLatex" />
-     </item>
-     <item row="4" column="1" >
-      <widget class="QLineEdit" name="lineEditDviviewer" />
-     </item>
-     <item row="10" column="1" >
-      <widget class="QLineEdit" name="lineEditMetapost" />
-     </item>
-     <item row="3" column="0" >
-      <widget class="QLabel" name="labelMakeindex" >
+     <item row="4" column="2" >
+      <widget class="QPushButton" name="pushButtonDviviewer" >
        <property name="text" >
-        <string>Makeindex</string>
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
        </property>
       </widget>
-     </item>
-     <item row="9" column="0" >
-      <widget class="QLabel" name="labelPdfview" >
-       <property name="text" >
-        <string>Pdf Viewer</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1" >
-      <widget class="QLineEdit" name="lineEditPdflatex" />
-     </item>
-     <item row="5" column="1" >
-      <widget class="QLineEdit" name="lineEditPsviewer" />
-     </item>
-     <item row="3" column="1" >
-      <widget class="QLineEdit" name="lineEditMakeindex" />
-     </item>
-     <item row="10" column="0" >
-      <widget class="QLabel" name="labelMetapost" >
-       <property name="text" >
-        <string>metapost</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" >
-      <widget class="QLabel" name="labelPsview" >
-       <property name="text" >
-        <string>PS Viewer</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1" >
-      <widget class="QLineEdit" name="lineEditPs2pdf" />
-     </item>
-     <item row="1" column="1" >
-      <widget class="QLineEdit" name="lineEditDvips" />
      </item>
      <item row="1" column="0" >
       <widget class="QLabel" name="labelDvips" >
@@ -129,37 +336,22 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="0" >
-      <widget class="QLabel" name="labelPdflatex" >
-       <property name="text" >
-        <string>PdfLaTeX</string>
-       </property>
-      </widget>
+     <item row="1" column="1" >
+      <widget class="QLineEdit" name="lineEditDvips" />
      </item>
-     <item row="9" column="1" >
-      <widget class="QLineEdit" name="lineEditPdfviewer" />
-     </item>
-     <item row="7" column="0" >
-      <widget class="QLabel" name="labelDvipdfm" >
+     <item row="6" column="2" >
+      <widget class="QPushButton" name="pushButtonPdflatex" >
        <property name="text" >
-        <string>Dvipdfm</string>
+        <string/>
        </property>
-      </widget>
-     </item>
-     <item row="4" column="0" >
-      <widget class="QLabel" name="labelDviview" >
-       <property name="text" >
-        <string>Dvi Viewer</string>
+       <property name="icon" >
+        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
        </property>
-      </widget>
-     </item>
-     <item row="11" column="1" >
-      <widget class="QLabel" name="label" >
-       <property name="text" >
-        <string>(use / to separate the directories)</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
        </property>
       </widget>
      </item>
@@ -181,6 +373,8 @@
   <tabstop>lineEditPdfviewer</tabstop>
   <tabstop>lineEditMetapost</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="texmaker.qrc" />
+ </resources>
  <connections/>
 </ui>

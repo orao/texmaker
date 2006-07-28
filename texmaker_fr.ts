@@ -184,6 +184,45 @@
     </message>
 </context>
 <context>
+    <name>LatexEditor</name>
+    <message>
+        <source>Undo</source>
+        <translation>Défaire</translation>
+    </message>
+    <message>
+        <source>Redo</source>
+        <translation>Refaire</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation>Couper</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copier</translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation>Coller</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Sélectionner tout</translation>
+    </message>
+    <message>
+        <source>Check Spelling Word</source>
+        <translation>Vérifier l&apos;orthographe du mot</translation>
+    </message>
+    <message>
+        <source>Check Spelling Selection</source>
+        <translation>Vérifier l&apos;orthographe de la sélection</translation>
+    </message>
+    <message>
+        <source>Check Spelling Document</source>
+        <translation>Vérifier l&apos;orthographe du document</translation>
+    </message>
+</context>
+<context>
     <name>LetterDialog</name>
     <message>
         <source>OK</source>
@@ -289,6 +328,22 @@
         <source>Editor Font Encoding</source>
         <translation>Encodage</translation>
     </message>
+    <message>
+        <source>Aspell Command</source>
+        <translation>Commande Aspell</translation>
+    </message>
+    <message>
+        <source>Aspell Lang</source>
+        <translation>Langue Aspell</translation>
+    </message>
+    <message>
+        <source>Browse program</source>
+        <translation>Chercher programme</translation>
+    </message>
+    <message>
+        <source>Aspell Encoding</source>
+        <translation>Encodage Aspell</translation>
+    </message>
 </context>
 <context>
     <name>PageQuick</name>
@@ -389,7 +444,15 @@
     </message>
     <message>
         <source>(use / to separate the directories)</source>
-        <translation>(utiliser / pour séparer les répertoires)</translation>
+        <translation type="obsolete">(utiliser / pour séparer les répertoires)</translation>
+    </message>
+    <message>
+        <source>ghostscript</source>
+        <translation>ghostscript</translation>
+    </message>
+    <message>
+        <source>Browse program</source>
+        <translation>Chercher programme</translation>
     </message>
 </context>
 <context>
@@ -527,6 +590,53 @@
     <message>
         <source>Cancel</source>
         <translation>Abandon</translation>
+    </message>
+</context>
+<context>
+    <name>SpellerDialog</name>
+    <message>
+        <source>Check Spelling</source>
+        <translation>Vérifier orthographe</translation>
+    </message>
+    <message>
+        <source>Suggested words :</source>
+        <translation>Mots suggérés :</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Remplacer</translation>
+    </message>
+    <message>
+        <source>Unknown word:</source>
+        <translation>Mot inconnu:</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Fermer</translation>
+    </message>
+    <message>
+        <source>Replace with:</source>
+        <translation>Remplacer par:</translation>
+    </message>
+    <message>
+        <source>Ignore</source>
+        <translation>Ignorer</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <source>Could not start the command.</source>
+        <translation>Impossible de lancer la commande.</translation>
+    </message>
+    <message>
+        <source>Scanning document...</source>
+        <translation>Analyse du document...</translation>
+    </message>
+    <message>
+        <source>No misspelled words were found.</source>
+        <translation>Aucun mot inconnu n&apos;a été détecté.</translation>
     </message>
 </context>
 <context>
@@ -810,7 +920,7 @@
     </message>
     <message>
         <source>Sectionning</source>
-        <translation>Strcuture document</translation>
+        <translation type="obsolete">Strcuture document</translation>
     </message>
     <message>
         <source>Environment</source>
@@ -1086,6 +1196,22 @@ Do you want to overwrite it? </source>
     <message>
         <source>Click to jump to the bookmark</source>
         <translation>Cliquer pour atteindre le signet</translation>
+    </message>
+    <message>
+        <source>Pstricks Commands</source>
+        <translation>Commandes Pstricks</translation>
+    </message>
+    <message>
+        <source>Check Spelling</source>
+        <translation>Vérifier orthographe</translation>
+    </message>
+    <message>
+        <source>Sectioning</source>
+        <translation>Structure document</translation>
+    </message>
+    <message>
+        <source>International Accents</source>
+        <translation>Accents internationaux</translation>
     </message>
 </context>
 <context>

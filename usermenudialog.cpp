@@ -12,7 +12,7 @@
 #include "usermenudialog.h"
 
 
-UserMenuDialog::UserMenuDialog( QWidget* parent,  const char* name)
+UserMenuDialog::UserMenuDialog( QWidget* parent,  QString name)
     : QDialog( parent)
 {
 setWindowTitle(name);

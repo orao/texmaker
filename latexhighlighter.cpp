@@ -13,6 +13,7 @@
 #include <QtGui>
 
 #include "latexhighlighter.h"
+#include "blockdata.h"
 
 LatexHighlighter::LatexHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
@@ -37,6 +38,14 @@ const int StateComment = 1;
 const int StateMath = 2;
 const int StateCommand=3;
 
+BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
+if (blockData) blockData->parentheses.clear(); 
+else 
+	{
+	blockData = new BlockData;
+	setCurrentBlockUserData(blockData);
+	}
+
 while (i < text.length())
 	{
         ch = text.at( i );
@@ -48,8 +57,18 @@ while (i < text.length())
 	case StateStandard: {
 		tmp=text.at( i );
 		if (tmp=='\\') {
+			if (next=='[')
+				{
+				setFormat( i, 1,ColorMath );
+				state=StateMath;
+				i++;
+				setFormat( i, 1,ColorMath);
+				}
+			else
+			{
 			setFormat( i, 1,ColorCommand );
 			state=StateCommand;
+			}
 		} else
 		if (tmp=='$') {
 			setFormat( i, 1,ColorMath);
@@ -63,6 +82,16 @@ while (i < text.length())
 		if (tmp== '%' ){
 			setFormat( i, 1,ColorComment);
 			state=StateComment;
+		} else
+		if (tmp== '{' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			setFormat( i, 1,ColorStandard);
+			state=StateStandard;
+		} else
+		if (tmp== '}' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorStandard);
+			state=StateStandard;
 		} else
 		 {
 			setFormat( i, 1,ColorStandard);
@@ -87,6 +116,29 @@ while (i < text.length())
 				i++;
 				setFormat( i, 1,ColorMath);
 				}
+		} else if (tmp== '\\') {
+			if (next==']')
+				{
+				setFormat( i, 1,ColorMath);
+				state=StateStandard;
+				i++;
+				setFormat( i, 1,ColorMath);
+				}
+			else
+				{
+				setFormat( i, 1,ColorMath);
+				state=StateMath;
+				}
+		} else
+		if (tmp== '{' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			setFormat( i, 1,ColorMath);
+			state=StateMath;
+		} else
+		if (tmp== '}' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorMath);
+			state=StateMath;
 		} else
 		 {
 			setFormat( i, 1,ColorMath);
@@ -126,6 +178,8 @@ while (i < text.length())
          		state=StateStandard;
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
+ 			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+ 			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 			if ( buffer.length() > 0 )
@@ -169,4 +223,22 @@ else
 	{
 	setCurrentBlockState(StateStandard) ;
     	}
+
+if (blockData->parenthesisMatchStart != -1) 
+	{
+	if (text.at(blockData->parenthesisMatchStart)=='{' || text.at(blockData->parenthesisMatchStart)=='}')
+		{
+		QTextCharFormat fmt = format(blockData->parenthesisMatchStart);
+		fmt.merge(blockData->parenthesisMatchingFormat);
+		setFormat(blockData->parenthesisMatchStart, 1, fmt);
+		}
+
+	if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
+		{
+		QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
+		fmtbis.merge(blockData->parenthesisMatchingFormat);
+		setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
+		}
+	}
+
 }

@@ -11,7 +11,7 @@
 
 #include "usertooldialog.h"
 
-UserToolDialog::UserToolDialog(QWidget *parent, const char *name ) : QDialog(parent)
+UserToolDialog::UserToolDialog(QWidget *parent, QString name ) : QDialog(parent)
 {
 setWindowTitle(name);
 setModal(true);

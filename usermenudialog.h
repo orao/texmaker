@@ -22,7 +22,7 @@ class UserMenuDialog : public QDialog
     Q_OBJECT
 
 public:
-    UserMenuDialog( QWidget* parent = 0, const char* name = 0);
+    UserMenuDialog( QWidget* parent = 0, QString name="");
     ~UserMenuDialog();
     Ui::UserMenuDialog ui;
 

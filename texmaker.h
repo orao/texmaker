@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2006 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,31 +32,14 @@
 #include "latexeditorview.h"
 #include "symbollistwidget.h"
 #include "metapostlistwidget.h"
+#include "pstrickslistwidget.h"
 #include "logeditor.h"
 #include "gotolinedialog.h"
 #include "replacedialog.h"
 #include "finddialog.h"
-#include "structdialog.h"
-#include "filechooser.h"
-#include "tabdialog.h"
-#include "arraydialog.h"
-#include "tabbingdialog.h"
-#include "letterdialog.h"
-#include "quickdocumentdialog.h"
-#include "usermenudialog.h"
-#include "usertooldialog.h"
 #include "helpwidget.h"
-#include "refdialog.h"
-#include "configdialog.h"
-#include "aboutdialog.h"
 
-#if defined( Q_WS_X11 ) || defined( Q_WS_MACX )
-#include "webpublishdialog.h"
-#endif
 
-#if defined( Q_WS_X11 )
-#include "x11fontdialog.h"
-#endif
 
 typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QString Userlist[10];
@@ -90,11 +73,12 @@ QTabWidget *EditorView;
 LogEditor* OutputTextEdit;
 QToolBox *StructureToolbox;
 MetapostListWidget *MpListWidget;
+PstricksListWidget *PsListWidget;
 SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget;
 QTreeWidget *StructureTreeWidget;
 //menu-toolbar
 QMenu *fileMenu, *recentMenu, *editMenu, *toolMenu;
-QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu ;
+QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu, *latex17Menu ;
 QMenu *math1Menu, *math11Menu, *math12Menu, *math13Menu;
 QMenu *wizardMenu;
 QMenu *bibMenu;
@@ -116,7 +100,8 @@ int split1_right, split1_left, split2_top, split2_bottom, quickmode;
 bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package;
 QString document_class, typeface_size, paper_size, document_encoding, author;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command;
-QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command;
+QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command;
+QString aspell_command, aspell_lang, aspell_encoding;
 QString lastDocument, input_encoding;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
 QStringList userClassList, userPaperList, userEncodingList, userOptionsList;
@@ -128,21 +113,7 @@ QPointer<FindDialog> findDialog;
 QPointer<ReplaceDialog> replaceDialog;
 QPointer<GotoLineDialog> gotoLineDialog;
 QPointer<HelpWidget> help_widget;
-StructDialog *stDlg;
-FileChooser *sfDlg;
-TabDialog *quickDlg;
-ArrayDialog *arrayDlg;
-TabbingDialog *tabDlg;
-LetterDialog *ltDlg;
-QuickDocumentDialog *startDlg;
-UserMenuDialog *umDlg;
-UserToolDialog *utDlg;
-RefDialog *refDlg;
-ConfigDialog *confDlg;
-#if defined( Q_WS_X11 ) || defined( Q_WS_MACX )
-WebPublishDialog *ttwpDlg;
-#endif
-AboutDialog *abDlg;
+
 //tools
 QProcess *proc;
 bool FINPROCESS, ERRPROCESS;
@@ -154,7 +125,6 @@ int errorIndex;
 QString x11style;
 QString x11fontfamily;
 int x11fontsize;
-X11FontDialog *xfdlg;
 #endif
 private slots:
 LatexEditorView *currentEditorView() const;
@@ -183,6 +153,7 @@ void editGotoLine();
 void editComment();
 void editUncomment();
 void editIndent();
+void editSpell();
 
 void ReadSettings();
 void SaveSettings();
@@ -197,6 +168,7 @@ void ClickedOnStructure(QTreeWidgetItem *item,int);
 void InsertTag(QString Entity, int dx, int dy);
 void InsertSymbol(QTableWidgetItem *item);
 void InsertMetaPost(QListWidgetItem *item);
+void InsertPstricks(QListWidgetItem *item);
 void InsertFromAction();
 void InsertWithSelectionFromAction();
 void InsertWithSelectionFromString(const QString& text);
@@ -297,6 +269,9 @@ void SetInterfaceFont();
 void gotoBookmark1();
 void gotoBookmark2();
 void gotoBookmark3();
+protected:
+void dragEnterEvent(QDragEnterEvent *event);
+void dropEvent(QDropEvent *event);
 };
 
 #endif
