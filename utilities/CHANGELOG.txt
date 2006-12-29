@@ -1,3 +1,14 @@
+version 1.4 -> 1.5 :
+----------------------
+- a "most used symbols" panel has been added
+- the math mode "$$...$$" is replaced by "\[ \]"
+- keyboard accelerators has been added in the "latex" and "math" menus
+- the current line number can be added to the latex related commands
+- the colors for the syntax highlighting can now be modified
+- a summary of the latex errors and warnings is displayed before the full log file
+- compilation trouble with Qt>=4.2 has been fixed
+- support for "QFileOpenEvent" has been added (for macosx)
+- minor bugfixes (dialogs layout, french translation...)
 version 1.3 -> 1.4 :
 ----------------------
 - Spell checking has been added (aspell is required)

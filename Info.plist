@@ -37,7 +37,7 @@
 	<key>CFBundleExecutable</key>
 	<string>texmaker</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Copyright (c) 2003-2006, Pascal Brachet</string>
+	<string>Copyright (c) 2003-2007, Pascal Brachet</string>
 	<key>CFBundleIdentifier</key>
 	<string>texmaker</string>
 	<key>CFBundleName</key>

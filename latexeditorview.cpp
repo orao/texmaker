@@ -18,7 +18,7 @@
 #include <QTextEdit>
 #include <QTextBlock>
 
-LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line) : QWidget(parent)
+LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword) : QWidget(parent)
 {
 QHBoxLayout* mainlay = new QHBoxLayout( this );
 mainlay->setSpacing(0);
@@ -28,7 +28,7 @@ frame->setLineWidth(1);
 frame->setFrameShape(QFrame::StyledPanel);
 frame->setFrameShadow(QFrame::Sunken);
 mainlay->addWidget(frame);
-editor=new LatexEditor(frame,efont);
+editor=new LatexEditor(frame,efont,colMath,colCommand,colKeyword);
 m_lineNumberWidget = new LineNumberWidget( editor, frame);
 m_lineNumberWidget->setFont(efont);
 QFontMetrics fm( efont );

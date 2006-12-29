@@ -1,5 +1,6 @@
 /***************************************************************************
  *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   addons by Frederic Devernay <frederic.devernay@m4x.org>               *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,6 +18,7 @@
 #include <QMap>
 #include <QVector> 
 #include <QPointer>
+#include <QTextCodec>
 #include "ui_webpublishdialog.h"
 
 
@@ -25,7 +27,7 @@ typedef  QMap<QString, QString> LinkMap;
 class WebPublishDialog : public QDialog  {
    Q_OBJECT
 public:
-	WebPublishDialog(QWidget *parent=0, QString name="", QString gs_cd="", QString latex_cd="", QString dvips_cd="" );
+	WebPublishDialog(QWidget *parent=0, QString name="", QString gs_cd="", QString latex_cd="", QString dvips_cd="", QString input_encoding="");
 	~WebPublishDialog();
 	Ui::WebPublishDialog ui;
 
@@ -58,6 +60,7 @@ void readImgOutput();
 
 private:
 QString gs_command, latex_command, dvips_command;
+QTextCodec *codec;
 QString programdir, dviopt, address, align, contentname, colorlink, depth, base, title, workdir, htmldir, browser, lastdir;
 int navigation, compil, maxwidth, userwidth, startindex, tocdepth, nb_pages, nb_content_pages, id_page, x1, y1, x2, y2;
 bool noindex, procfinished, ttwperr, errprocess;

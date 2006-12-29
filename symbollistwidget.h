@@ -432,12 +432,16 @@ const codelist code=
 "\\Omega"//"img40greek.png"
   };
 
+typedef int usercodelist[12];
+
 class SymbolListWidget : public QTableWidget
 {
     Q_OBJECT
 
 public:
     SymbolListWidget(QWidget *parent, int page);
+public slots:
+void SetUserPage(usercodelist ulist);
 };
 
 #endif

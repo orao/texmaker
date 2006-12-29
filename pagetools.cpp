@@ -11,50 +11,13 @@
 
 #include <QtGui>
 
-#include "pageconfig.h"
+#include "pagetools.h"
 
 #include <QFontDatabase>
 #include <QTextCodec>
 #include <QFileDialog>
+#include <QColorDialog>
 #include <QDir>
-
-PageEditor::PageEditor(QWidget *parent)
-    : QWidget(parent)
-{
-ui.setupUi(this);
-
-QFontDatabase fdb;
-ui.comboBoxFont->addItems( fdb.families() );
-
-ui.comboBoxEncoding->addItem("UTF-8");
-foreach (int mib, QTextCodec::availableMibs()) 
-	{
-	QTextCodec *codec = QTextCodec::codecForMib(mib);
-	if (codec->name()!="UTF-8") ui.comboBoxEncoding->addItem(codec->name());
-	}
-connect( ui.pushButtonAspell, SIGNAL(clicked()), this, SLOT(browseAspell()));
-
-ui.comboBoxAspellEncoding->addItem("utf-8");
-ui.comboBoxAspellEncoding->addItem("iso8859-1");
-}
-
-void PageEditor::browseAspell()
-{
-QString location=QFileDialog::getOpenFileName(this,tr("Browse program"),QDir::rootPath(),"Program (*)",0,QFileDialog::DontResolveSymlinks);
-if ( !location.isEmpty() ) 
-	{
-	location.replace(QString("\\"),QString("/"));
-	location="\""+location+"\"";
-	ui.lineEditAspellCommand->setText( location );
-	}
-}
-
-PageQuick::PageQuick(QWidget *parent)
-    : QWidget(parent)
-{
-ui.setupUi(this);
-connect(ui.radioButton6, SIGNAL(toggled(bool)),ui.lineEditUserquick, SLOT(setEnabled(bool)));
-}
 
 PageTools::PageTools(QWidget *parent)
     : QWidget(parent)

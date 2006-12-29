@@ -9,24 +9,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PAGECONFIG_H
-#define PAGECONFIG_H
+#ifndef PAGEQUICK_H
+#define PAGEQUICK_H
 
-#include "ui_pageeditor.h"
 #include "ui_pagequick.h"
-#include "ui_pagetools.h"
 #include <QWidget>
-
-class PageEditor : public QWidget
-{ 
-    Q_OBJECT
-
-public:
-    PageEditor(QWidget* parent = 0);
-    Ui::PageEditor ui;
-private slots:
-void browseAspell();
-};
 
 class PageQuick : public QWidget
 { 
@@ -37,26 +24,5 @@ public:
     Ui::PageQuick ui;
 };
 
-class PageTools : public QWidget
-{ 
-    Q_OBJECT
-
-public:
-    PageTools(QWidget* parent = 0);
-    Ui::PageTools ui;
-private slots:
-void browseLatex();
-void browseDvips();
-void browseBibtex();
-void browseMakeindex();
-void browseDviviewer();
-void browsePsviewer();
-void browsePdflatex();
-void browseDvipdfm();
-void browsePs2pdf();
-void browsePdfviewer();
-void browseMetapost();
-void browseGhostscript();
-};
 #endif 
 

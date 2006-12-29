@@ -21,7 +21,7 @@
 class LatexEditorView : public QWidget  {
    Q_OBJECT
 public: 
-	LatexEditorView(QWidget *parent, QFont & efont,bool line);
+	LatexEditorView(QWidget *parent, QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword);
 	~LatexEditorView();
   LatexEditor *editor;
   void changeSettings(QFont & new_font,bool line);

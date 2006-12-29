@@ -22,7 +22,7 @@
 #include <QClipboard>
 #include <QPalette>
 
-LatexEditor::LatexEditor(QWidget *parent,QFont & efont) : QTextEdit(parent)
+LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword) : QTextEdit(parent)
 {
 QPalette p = palette();
 p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
@@ -36,6 +36,7 @@ encoding="";
 setFont(efont);
 setTabStopWidth(fontMetrics().width("    "));
 highlighter = new LatexHighlighter(document());
+highlighter->setColors(colMath,colCommand,colKeyword);
 connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
  matcher = new ParenMatcher;
  connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));

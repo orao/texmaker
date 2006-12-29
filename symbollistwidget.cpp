@@ -14,6 +14,7 @@
 #include <QFont>
 #include <QStandardItemModel>
 #include <QHeaderView>
+#include <QDebug>
 
 SymbolListWidget :: SymbolListWidget(QWidget *parent, int page) : QTableWidget(parent)
 {
@@ -30,46 +31,19 @@ switch (page)
 	{
 		setColumnCount(4);
 		setRowCount(57);
-		setColumnWidth(0,40);
-		setColumnWidth(1,40);
-		setColumnWidth(2,40);
-		setColumnWidth(3,40);
-		for ( uint i = 0; i <= 56; ++i )
+		for ( uint j = 0; j < 57; ++j ) setRowHeight(j,36);
+		setColumnWidth(0,36);
+		setColumnWidth(1,36);
+		setColumnWidth(2,36);
+		setColumnWidth(3,36);
+		for ( uint i = 0; i <= 225; ++i )
 		{
 		icon_name=":/symbols/img"+QString::number(i+1)+".png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
+		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i,0,item);
-		setRowHeight(i,40);
-		}
-		for ( uint i = 57; i <= 113; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-57,1,item);
-		}
-		for ( uint i = 114; i <= 170; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-114,2,item);
-		}
-		for ( uint i = 171; i <= 225; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-171,3,item);
+		setItem(i/4,i%4,item);
 		}
 	}
 	break;
@@ -77,46 +51,19 @@ switch (page)
 	{
 		setColumnCount(4);
 		setRowCount(17);
-		setColumnWidth(0,40);
-		setColumnWidth(1,40);
-		setColumnWidth(2,40);
-		setColumnWidth(3,40);
-		for ( uint i = 247; i <= 263; ++i )
+		for ( uint j = 0; j < 17; ++j ) setRowHeight(j,36);
+		setColumnWidth(0,36);
+		setColumnWidth(1,36);
+		setColumnWidth(2,36);
+		setColumnWidth(3,36);
+		for ( uint i = 247; i <= 313; ++i )
 		{
 		icon_name=":/symbols/img"+QString::number(i+1)+".png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
+		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-247,0,item);
-		setRowHeight(i-247,40);
-		}
-		for ( uint i = 264; i <= 280; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-264,1,item);
-		}
-		for ( uint i = 281; i <= 297; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-281,2,item);
-		}
-		for ( uint i = 298; i <= 313; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-298,3,item);
+		setItem((i-247)/4,(i-247)%4,item);
 		}
 	}
 	break;
@@ -124,46 +71,19 @@ switch (page)
 	{
 		setColumnCount(4);
 		setRowCount(15);
-		setColumnWidth(0,40);
-		setColumnWidth(1,40);
-		setColumnWidth(2,40);
-		setColumnWidth(3,40);
-		for ( uint i = 314; i <= 328; ++i )
+		for ( uint j = 0; j < 15; ++j ) setRowHeight(j,36);
+		setColumnWidth(0,36);
+		setColumnWidth(1,36);
+		setColumnWidth(2,36);
+		setColumnWidth(3,36);
+		for ( uint i = 314; i <= 371; ++i )
 		{
 		icon_name=":/symbols/img"+QString::number(i+1)+".png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
+		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-314,0,item);
-		setRowHeight(i-314,40);
-		}
-		for ( uint i = 329; i <= 343; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-329,1,item);
-		}
-		for ( uint i = 344; i <= 358; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-344,2,item);
-		}
-		for ( uint i = 359; i <= 371; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-359,3,item);
+		setItem((i-314)/4,(i-314)%4,item);
 		}
 	}
 	break;
@@ -171,46 +91,19 @@ switch (page)
 	{
 		setColumnCount(4);
 		setRowCount(6);
-		setColumnWidth(0,40);
-		setColumnWidth(1,40);
-		setColumnWidth(2,40);
-		setColumnWidth(3,40);
-		for ( uint i = 226; i <= 231; ++i )
+		for ( uint j = 0; j < 6; ++j ) setRowHeight(j,36);
+		setColumnWidth(0,36);
+		setColumnWidth(1,36);
+		setColumnWidth(2,36);
+		setColumnWidth(3,36);
+		for ( uint i = 226; i <= 246; ++i )
 		{
 		icon_name=":/symbols/img"+QString::number(i+1)+".png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
+		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-226,0,item);
-		setRowHeight(i-226,40);
-		}
-		for ( uint i = 232; i <= 237; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-232,1,item);
-		}
-		for ( uint i = 238; i <= 243; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-238,2,item);
-		}
-		for ( uint i = 244; i <= 246; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-244,3,item);
+		setItem((i-226)/4,(i-226)%4,item);
 		}
 	}
 	break;
@@ -218,49 +111,57 @@ switch (page)
 	{
 		setColumnCount(4);
 		setRowCount(10);
-		setColumnWidth(0,40);
-		setColumnWidth(1,40);
-		setColumnWidth(2,40);
-		setColumnWidth(3,40);
-		for ( uint i = 0; i <= 9; ++i )
+		for ( uint j = 0; j < 10; ++j ) setRowHeight(j,36);
+		setColumnWidth(0,36);
+		setColumnWidth(1,36);
+		setColumnWidth(2,36);
+		setColumnWidth(3,36);
+		for ( uint i = 0; i <= 39; ++i )
 		{
 		icon_name=":/symbols/img"+QString::number(i+1)+"greek.png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
-		item->setText(code[i+372]);
+		item->setText(code[i+372]+";"+QString::number(i+372));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i,0,item);
-		setRowHeight(i,40);
+		setItem(i/4,i%4,item);
 		}
-		for ( uint i = 10; i <= 19; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+"greek.png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i+372]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-10,1,item);
-		}
-		for ( uint i = 20; i <= 29; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+"greek.png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i+372]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-20,2,item);
-		}
-		for ( uint i = 30; i <= 39; ++i )
-		{
-		icon_name=":/symbols/img"+QString::number(i+1)+"greek.png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
-		item->setText(code[i+372]);
-		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		setItem(i-30,3,item);
-		}
+	}
+	break;
+	case 5:
+	{
+		setColumnCount(4);
+		setRowCount(3);
+		for ( uint j = 0; j < 3; ++j ) setRowHeight(j,36);
+		setColumnWidth(0,36);
+		setColumnWidth(1,36);
+		setColumnWidth(2,36);
+		setColumnWidth(3,36);
 	}
 	break;
 }
 
 }
+void SymbolListWidget::SetUserPage(usercodelist ulist)
+{
+QString icon_name;
+for ( uint i = 0; i <=11; ++i )
+	{
+	if ((ulist[i]>-1) && (ulist[i]<412))
+		{
+		QTableWidgetItem* item= new QTableWidgetItem();
+		if (ulist[i]>=372)
+			{
+			icon_name=":/symbols/img"+QString::number(ulist[i]-371)+"greek.png";
+			}
+		else
+			{
+			icon_name=":/symbols/img"+QString::number(ulist[i]+1)+".png";
+			}
+		item->setText(code[ulist[i]]+";"+QString::number(ulist[i]));
+		item->setIcon(QIcon(icon_name));
+		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		setItem(i/4,i%4,item);
+		}
+	}
+}
+

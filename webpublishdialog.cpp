@@ -1,5 +1,6 @@
 /***************************************************************************
  *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   addons by Frederic Devernay <frederic.devernay@m4x.org>               *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,12 +24,14 @@
 #include <QCloseEvent>
 #include <QDebug>
 
-WebPublishDialog::WebPublishDialog(QWidget *parent, QString name, QString gs_cd, QString latex_cd, QString dvips_cd)
+WebPublishDialog::WebPublishDialog(QWidget *parent, QString name, QString gs_cd, QString latex_cd, QString dvips_cd, QString input_encoding)
     :QDialog( parent)
 {
 gs_command=gs_cd;
 latex_command=latex_cd;
 dvips_command=dvips_cd;
+codec = QTextCodec::codecForName(input_encoding.toLatin1());
+if(!codec) codec = QTextCodec::codecForLocale();
 setWindowTitle(name);
 setModal(true);
 ui.setupUi(this);
@@ -610,11 +613,13 @@ if (mode=="content")
 	else
 		{
 		QTextStream outts( &outf );
+		outts.setCodec(codec);
 		QFile texf(workdir+"/"+base+".tex");
 		if ( !texf.open( QIODevice::ReadOnly ) ) {fatalerror(workdir+"/"+base+".tex"+" not found.");return;}
 		else
 			{
 			QTextStream texts( &texf );
+			texts.setCodec(codec);
 			while ( !texts.atEnd() ) 
 				{
 				line=texts.readLine();
@@ -649,6 +654,7 @@ if (mode=="content")
 			else
 				{
 				QTextStream auxts( &auxf );
+				auxts.setCodec(codec);
 				QRegExp rx( "\\\\newlabel\\{(.*)\\}\\{\\{.*\\}\\{(\\d+)\\}\\}" );
 				while ( !auxts.atEnd() ) 
 					{
@@ -672,11 +678,13 @@ else if (mode=="index")
 	else
 		{
 		QTextStream outts( &outf );
+		outts.setCodec(codec);
 		QFile texf(workdir+"/"+base+".tex");
 		if ( !texf.open( QIODevice::ReadOnly ) ) {fatalerror(workdir+"/"+base+".tex"+" not found.");return;}
 		else
 			{
 			QTextStream texts( &texf );
+			texts.setCodec(codec);
 			match=false;
 			while ( !texts.atEnd() ) 
 				{
@@ -704,6 +712,7 @@ else if (mode=="index")
 			else
 				{
 				QTextStream auxts( &auxf );
+				auxts.setCodec(codec);
 				QRegExp rx( "\\\\@writefile\\{toc\\}.*("+depth+").*\\{(\\d+)\\}\\}" );
 				while ( !auxts.atEnd() ) 
 					{

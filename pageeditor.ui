@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>PageEditor</class>
  <widget class="QWidget" name="PageEditor" >
   <property name="geometry" >
@@ -12,143 +9,346 @@
     <height>440</height>
    </rect>
   </property>
+  <property name="sizePolicy" >
+   <sizepolicy>
+    <hsizetype>7</hsizetype>
+    <vsizetype>7</vsizetype>
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>440</width>
-     <height>440</height>
-    </rect>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>9</number>
    </property>
-   <property name="title" >
-    <string>Editor</string>
+   <property name="spacing" >
+    <number>6</number>
    </property>
-   <widget class="QWidget" name="" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>26</y>
-      <width>421</width>
-      <height>210</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" >
-     <property name="margin" >
-      <number>0</number>
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <property name="title" >
+      <string>Editor</string>
      </property>
-     <item row="4" column="1" >
-      <widget class="QLineEdit" name="lineEditAspellCommand" />
-     </item>
-     <item row="4" column="0" >
-      <widget class="QLabel" name="labelASpellCommand" >
-       <property name="text" >
-        <string>Aspell Command</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1" colspan="2" >
-      <widget class="QCheckBox" name="checkBoxLinenumber" >
-       <property name="text" >
-        <string>Show Line Numbers</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0" >
-      <widget class="QLabel" name="labelEncoding" >
-       <property name="text" >
-        <string>Editor Font Encoding</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1" colspan="2" >
-      <widget class="QComboBox" name="comboBoxEncoding" />
-     </item>
-     <item row="5" column="1" colspan="2" >
-      <widget class="QLineEdit" name="lineEditAspellLang" />
-     </item>
-     <item row="1" column="0" >
-      <widget class="QLabel" name="labelSize" >
-       <property name="text" >
-        <string>Editor Font Size</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2" >
-      <widget class="QPushButton" name="pushButtonAspell" >
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="labelFamily" >
-       <property name="text" >
-        <string>Editor Font Family</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" >
-      <widget class="QLabel" name="labelAspellLang" >
-       <property name="text" >
-        <string>Aspell Lang</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0" >
-      <widget class="QLabel" name="labelAspellEncoding" >
-       <property name="text" >
-        <string>Aspell Encoding</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1" colspan="2" >
-      <widget class="QComboBox" name="comboBoxAspellEncoding" />
-     </item>
-     <item row="1" column="1" colspan="2" >
-      <widget class="QSpinBox" name="spinBoxSize" >
-       <property name="minimum" >
-        <number>1</number>
-       </property>
-       <property name="value" >
-        <number>12</number>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" >
-      <widget class="QCheckBox" name="checkBoxWordwrap" >
-       <property name="text" >
-        <string>Word Wrap</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1" colspan="2" >
-      <widget class="QComboBox" name="comboBoxFont" >
-       <property name="editable" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="8" column="0" >
+       <widget class="QLabel" name="labelAspellLang" >
+        <property name="text" >
+         <string>Aspell Lang</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1" colspan="2" >
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="lineEditAspellCommand" >
+          <property name="minimumSize" >
+           <size>
+            <width>190</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonAspell" >
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="icon" >
+           <iconset resource="texmaker.qrc" >:/images/fileopen.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="1" colspan="2" >
+       <widget class="QCheckBox" name="checkBoxLinenumber" >
+        <property name="text" >
+         <string>Show Line Numbers</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>241</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="5" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>241</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="4" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>241</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="5" column="1" >
+       <widget class="QPushButton" name="pushButtonColorCommand" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>0</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="toolTip" >
+         <string>Click here to set this color</string>
+        </property>
+        <property name="autoFillBackground" >
+         <bool>true</bool>
+        </property>
+        <property name="text" >
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" >
+       <widget class="QPushButton" name="pushButtonColorMath" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>0</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="toolTip" >
+         <string>Click here to set this color</string>
+        </property>
+        <property name="autoFillBackground" >
+         <bool>true</bool>
+        </property>
+        <property name="text" >
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1" >
+       <widget class="QPushButton" name="pushButtonColorKeyword" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>0</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="maximumSize" >
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="toolTip" >
+         <string>Click here to set this color</string>
+        </property>
+        <property name="autoFillBackground" >
+         <bool>true</bool>
+        </property>
+        <property name="text" >
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" >
+       <widget class="QLabel" name="labelColorKeyword" >
+        <property name="text" >
+         <string>"Keyword" color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0" >
+       <widget class="QLabel" name="labelASpellCommand" >
+        <property name="text" >
+         <string>Aspell Command</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1" colspan="2" >
+       <widget class="QLineEdit" name="lineEditAspellLang" />
+      </item>
+      <item row="9" column="0" >
+       <widget class="QLabel" name="labelAspellEncoding" >
+        <property name="text" >
+         <string>Aspell Encoding</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1" colspan="2" >
+       <widget class="QComboBox" name="comboBoxAspellEncoding" />
+      </item>
+      <item row="5" column="0" >
+       <widget class="QLabel" name="labelColorCommand" >
+        <property name="text" >
+         <string>"Command" color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QLabel" name="labelColorMath" >
+        <property name="text" >
+         <string>"Math" color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QCheckBox" name="checkBoxWordwrap" >
+        <property name="text" >
+         <string>Word Wrap</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="2" >
+       <widget class="QComboBox" name="comboBoxFont" >
+        <property name="editable" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="labelFamily" >
+        <property name="text" >
+         <string>Editor Font Family</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2" >
+       <widget class="QSpinBox" name="spinBoxSize" >
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="value" >
+         <number>12</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="2" >
+       <widget class="QComboBox" name="comboBoxEncoding" />
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="labelSize" >
+        <property name="text" >
+         <string>Editor Font Size</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="labelEncoding" >
+        <property name="text" >
+         <string>Editor Font Encoding</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>422</width>
+       <height>91</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <tabstops>
   <tabstop>comboBoxFont</tabstop>
   <tabstop>spinBoxSize</tabstop>
   <tabstop>comboBoxEncoding</tabstop>
   <tabstop>checkBoxWordwrap</tabstop>
   <tabstop>checkBoxLinenumber</tabstop>
+  <tabstop>pushButtonColorMath</tabstop>
+  <tabstop>pushButtonColorCommand</tabstop>
+  <tabstop>pushButtonColorKeyword</tabstop>
+  <tabstop>lineEditAspellCommand</tabstop>
+  <tabstop>pushButtonAspell</tabstop>
+  <tabstop>lineEditAspellLang</tabstop>
+  <tabstop>comboBoxAspellEncoding</tabstop>
  </tabstops>
  <resources>
   <include location="texmaker.qrc" />

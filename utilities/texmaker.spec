@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 1.4
+Version: 1.5
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -30,7 +30,6 @@ make install
 %files 
 /usr/bin/texmaker
 /usr/share/texmaker/AUTHORS
-/usr/share/texmaker/AUTHORS
 /usr/share/texmaker/CHANGELOG.txt
 /usr/share/texmaker/COPYING
 /usr/share/texmaker/blank.png
@@ -55,18 +54,13 @@ make install
 /usr/share/texmaker/doc8.png
 /usr/share/texmaker/doc9.png
 /usr/share/texmaker/latexhelp.html
-/usr/share/texmaker/license.txt
 /usr/share/texmaker/next.gif
 /usr/share/texmaker/next_d.gif
 /usr/share/texmaker/prev.gif
 /usr/share/texmaker/prev_d.gif
 /usr/share/texmaker/psheader.txt
 /usr/share/texmaker/style.css
-/usr/share/texmaker/texmaker.spec
 /usr/share/texmaker/texmaker.desktop
-/usr/share/texmaker/texmaker.icns
-/usr/share/texmaker/texmaker.ico
-/usr/share/texmaker/texmaker.nsi
 /usr/share/texmaker/texmaker.svg
 /usr/share/texmaker/texmaker128x128.png
 /usr/share/texmaker/texmaker16x16.png

@@ -13,11 +13,54 @@ unix:!macx {
 isEmpty( PREFIX ) {
     PREFIX=/usr
 }
-DEFINES += PREFIX=\"$${PREFIX}\"
+DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
 INSTALLS = target
 utilities.path = $${PREFIX}/share/texmaker
-utilities.files = utilities/*
+utilities.files = utilities/blank.png \
+	utilities/doc1.png \
+	utilities/doc10.png \
+	utilities/doc11.png \
+	utilities/doc12.png \
+	utilities/doc13.png \
+	utilities/doc14.png \
+	utilities/doc15.png \
+	utilities/doc16.png \
+	utilities/doc17.png \
+	utilities/doc18.png \
+	utilities/doc19.png \
+	utilities/doc2.png \
+	utilities/doc20.png \
+	utilities/doc3.png \
+	utilities/doc4.png \
+	utilities/doc5.png \
+	utilities/doc6.png \
+	utilities/doc7.png \
+	utilities/doc8.png \
+	utilities/doc9.png \
+	utilities/latexhelp.html \
+	utilities/next.gif \
+	utilities/next_d.gif \
+	utilities/prev.gif \
+	utilities/prev_d.gif \
+	utilities/psheader.txt \
+	utilities/style.css \
+	utilities/texmaker_fr.qm \
+	utilities/up.gif \
+	utilities/up_d.gif \
+	utilities/usermanual_en.html \
+	utilities/usermanual_fr.html \
+	utilities/AUTHORS \
+	utilities/COPYING \
+	utilities/CHANGELOG.txt \
+	utilities/texmaker16x16.png \
+	utilities/texmaker22x22.png \
+	utilities/texmaker32x32.png \
+	utilities/texmaker48x48.png \
+	utilities/texmaker64x64.png \
+	utilities/texmaker128x128.png \
+	utilities/texmaker.desktop \
+	utilities/texmaker.svg
 INSTALLS += utilities
 HEADERS	= texmaker.h \
 	symbollistwidget.h \
@@ -45,7 +88,6 @@ HEADERS	= texmaker.h \
 	helpwidget.h \
 	refdialog.h \
 	configdialog.h \
-	pageconfig.h \
 	aboutdialog.h \
 	webpublishdialog.h \
 	x11fontdialog.h \
@@ -80,7 +122,6 @@ SOURCES	= main.cpp \
 	helpwidget.cpp \
 	refdialog.cpp \
 	configdialog.cpp \
-	pageconfig.cpp \
 	aboutdialog.cpp \
 	webpublishdialog.cpp \
 	x11fontdialog.cpp \
@@ -102,9 +143,6 @@ FORMS       = finddialog.ui\
 	usermenudialog.ui \
 	usertooldialog.ui \
 	refdialog.ui \
-	pageeditor.ui \
-	pagequick.ui \
-	pagetools.ui \
 	aboutdialog.ui \
 	webpublishdialog.ui \
 	x11fontdialog.ui \
@@ -117,8 +155,44 @@ macx {
 CONFIG += link_prl
 target.path = /Applications
 INSTALLS = target
-utilities.path = /Applications/texmaker.app/Contents/Resources
-utilities.files = utilities/*
+utilities.path = Contents/Resources
+utilities.files = utilities/blank.png \
+	utilities/doc1.png \
+	utilities/doc10.png \
+	utilities/doc11.png \
+	utilities/doc12.png \
+	utilities/doc13.png \
+	utilities/doc14.png \
+	utilities/doc15.png \
+	utilities/doc16.png \
+	utilities/doc17.png \
+	utilities/doc18.png \
+	utilities/doc19.png \
+	utilities/doc2.png \
+	utilities/doc20.png \
+	utilities/doc3.png \
+	utilities/doc4.png \
+	utilities/doc5.png \
+	utilities/doc6.png \
+	utilities/doc7.png \
+	utilities/doc8.png \
+	utilities/doc9.png \
+	utilities/latexhelp.html \
+	utilities/next.gif \
+	utilities/next_d.gif \
+	utilities/prev.gif \
+	utilities/prev_d.gif \
+	utilities/psheader.txt \
+	utilities/style.css \
+	utilities/texmaker_fr.qm \
+	utilities/up.gif \
+	utilities/up_d.gif \
+	utilities/usermanual_en.html \
+	utilities/usermanual_fr.html \
+	utilities/AUTHORS \
+	utilities/COPYING \
+	utilities/CHANGELOG.txt
+QMAKE_BUNDLE_DATA += utilities
 INSTALLS += utilities
 HEADERS	= texmaker.h \
 	symbollistwidget.h \
@@ -146,7 +220,6 @@ HEADERS	= texmaker.h \
 	helpwidget.h \
 	refdialog.h \
 	configdialog.h \
-	pageconfig.h \
 	aboutdialog.h \
 	webpublishdialog.h \
 	blockdata.h \
@@ -180,7 +253,6 @@ SOURCES	= main.cpp \
 	helpwidget.cpp \
 	refdialog.cpp \
 	configdialog.cpp \
-	pageconfig.cpp \
 	aboutdialog.cpp \
 	webpublishdialog.cpp \
 	parenmatcher.cpp \
@@ -201,9 +273,6 @@ FORMS       = finddialog.ui\
 	usermenudialog.ui \
 	usertooldialog.ui \
 	refdialog.ui \
-	pageeditor.ui \
-	pagequick.ui \
-	pagetools.ui \
 	aboutdialog.ui \
 	webpublishdialog.ui \
 	configdialog.ui \
@@ -241,7 +310,6 @@ HEADERS	= texmaker.h \
 	helpwidget.h \
 	refdialog.h \
 	configdialog.h \
-	pageconfig.h \
 	aboutdialog.h \
 	webpublishdialog.h \
 	blockdata.h \
@@ -275,7 +343,6 @@ SOURCES	= main.cpp \
 	helpwidget.cpp \
 	refdialog.cpp \
 	configdialog.cpp \
-	pageconfig.cpp \
 	aboutdialog.cpp \
 	webpublishdialog.cpp \
 	parenmatcher.cpp \
@@ -297,9 +364,6 @@ FORMS       = finddialog.ui\
 	usermenudialog.ui \
 	usertooldialog.ui \
 	refdialog.ui \
-	pageeditor.ui \
-	pagequick.ui \
-	pagetools.ui \
 	aboutdialog.ui \
 	webpublishdialog.ui \
 	configdialog.ui \

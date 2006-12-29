@@ -9,31 +9,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONFIGDIALOG_H
-#define CONFIGDIALOG_H
+#ifndef PAGETOOLS_H
+#define PAGETOOLS_H
 
-#include "ui_configdialog.h"
+#include "ui_pagetools.h"
+#include <QWidget>
 
-#include <QListWidgetItem>
-
-class ConfigDialog : public QDialog
-{
+class PageTools : public QWidget
+{ 
     Q_OBJECT
 
 public:
-    ConfigDialog(QWidget* parent = 0);
-	~ConfigDialog();
-Ui::ConfigDialog ui;
-
-public slots:
-    void changePage(QListWidgetItem *current, QListWidgetItem *previous);
-
+    PageTools(QWidget* parent = 0);
+    Ui::PageTools ui;
 private slots:
-void createIcons();
-void browseAspell();
-void configureColorMath();
-void configureColorCommand();
-void configureColorKeyword();
 void browseLatex();
 void browseDvips();
 void browseBibtex();
@@ -47,5 +36,5 @@ void browsePdfviewer();
 void browseMetapost();
 void browseGhostscript();
 };
+#endif 
 
-#endif

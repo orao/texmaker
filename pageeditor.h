@@ -9,43 +9,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONFIGDIALOG_H
-#define CONFIGDIALOG_H
+#ifndef PAGEEDITOR_H
+#define PAGEEDITOR_H
 
-#include "ui_configdialog.h"
+#include "ui_pageeditor.h"
+#include <QWidget>
 
-#include <QListWidgetItem>
-
-class ConfigDialog : public QDialog
-{
+class PageEditor : public QWidget
+{ 
     Q_OBJECT
 
 public:
-    ConfigDialog(QWidget* parent = 0);
-	~ConfigDialog();
-Ui::ConfigDialog ui;
-
-public slots:
-    void changePage(QListWidgetItem *current, QListWidgetItem *previous);
-
+    PageEditor(QWidget* parent = 0);
+    Ui::PageEditor ui;
 private slots:
-void createIcons();
 void browseAspell();
 void configureColorMath();
 void configureColorCommand();
 void configureColorKeyword();
-void browseLatex();
-void browseDvips();
-void browseBibtex();
-void browseMakeindex();
-void browseDviviewer();
-void browsePsviewer();
-void browsePdflatex();
-void browseDvipdfm();
-void browsePs2pdf();
-void browsePdfviewer();
-void browseMetapost();
-void browseGhostscript();
 };
 
-#endif
+#endif 
+

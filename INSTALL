@@ -6,4 +6,4 @@ sudo sh BUILD.sh
 
 Requirements : 
 Qt tool kit (www.trolltech.com)
-Ghostscript, netpbm and psselect for the LaTeX to html conversion command.
+Ghostscript for the LaTeX to html conversion command.

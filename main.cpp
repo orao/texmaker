@@ -1,5 +1,6 @@
 /***************************************************************************
  *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   addons by Frederic Devernay <frederic.devernay@m4x.org>               *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -14,35 +15,66 @@
 #include <QLocale>
 #include <QSplashScreen>
 #include <QDir>
+#include <QFileOpenEvent>
 #include "texmaker.h"
 
-int main( int argc, char ** argv )
+class TexmakerApp : public QApplication
 {
-QApplication a( argc, argv );
+private:
+    Texmaker *mw;
+protected:
+    bool event(QEvent *event);
+public:
+    TexmakerApp( int argc, char ** argv );
+    ~TexmakerApp();
+};
+
+TexmakerApp::TexmakerApp( int argc, char ** argv ) : QApplication ( argc, argv )
+{
 QPixmap pixmap(":/images/splash.png");
 QSplashScreen *splash = new QSplashScreen(pixmap);
 splash->show();
-QTranslator appTranslator;
+QTranslator* appTranslator=new QTranslator(this);
 #if defined( Q_WS_X11 )
 QString transdir=PREFIX"/share/texmaker";
 #endif
 #if defined( Q_WS_MACX )
-QString transdir="/Applications/texmaker.app/Contents/Resources";
+QString transdir=QCoreApplication::applicationDirPath() + "/../Resources";
 #endif
 #if defined(Q_WS_WIN)
 QString transdir=QCoreApplication::applicationDirPath();
 #endif
-appTranslator.load(QString("texmaker_")+QLocale::system().name(),transdir);
-a.installTranslator(&appTranslator);
-Texmaker * mw = new Texmaker();
-a.connect( &a, SIGNAL( lastWindowClosed() ), &a, SLOT( quit() ) );
+QString locale = QString(QLocale::system().name()).left(2);
+if ( locale.length() < 2 ) locale = "en";
+if (appTranslator->load(QString("texmaker_")+locale,transdir)) installTranslator(appTranslator);
+mw = new Texmaker();
+connect( this, SIGNAL( lastWindowClosed() ), this, SLOT( quit() ) );
 splash->finish(mw);
 delete splash;
-for ( int i = 1; i < a.argc(); ++i )
+for ( int i = 1; i < argc; ++i )
 	{
-	QString arg = a.argv()[ i ];
+	QString arg = argv[ i ];
 	if ( arg[0] != '-' )    mw->load( arg );
-	if (( arg == "-line" ) && (i<a.argc()-1))  mw->setLine( a.argv()[ ++i ] );
+	if (( arg == "-line" ) && (i<argc-1))  mw->setLine( argv[ ++i ] );
 	}
+}
+
+TexmakerApp::~TexmakerApp()
+{
+    delete mw;
+}
+
+bool TexmakerApp::event ( QEvent * event )
+{
+    if (event->type() == QEvent::FileOpen) {
+        QFileOpenEvent *oe = static_cast<QFileOpenEvent *>(event);
+        mw->load(oe->file());
+    }
+    return QApplication::event(event);
+}
+
+int main( int argc, char ** argv )
+{
+TexmakerApp a( argc, argv );
 return a.exec();
 }

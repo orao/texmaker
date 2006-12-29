@@ -28,6 +28,7 @@
 #include <QPointer>
 #include <QProcess>
 #include <QPushButton>
+#include <QColor>
 
 #include "latexeditorview.h"
 #include "symbollistwidget.h"
@@ -44,6 +45,7 @@
 typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QString Userlist[10];
 typedef  QString UserCd[5];
+typedef int SymbolList[412];
 
 class Texmaker : public QMainWindow
 {
@@ -74,12 +76,12 @@ LogEditor* OutputTextEdit;
 QToolBox *StructureToolbox;
 MetapostListWidget *MpListWidget;
 PstricksListWidget *PsListWidget;
-SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget;
+SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget;
 QTreeWidget *StructureTreeWidget;
 //menu-toolbar
 QMenu *fileMenu, *recentMenu, *editMenu, *toolMenu;
 QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu, *latex17Menu ;
-QMenu *math1Menu, *math11Menu, *math12Menu, *math13Menu;
+QMenu *math1Menu, *math11Menu, *math12Menu, *math13Menu, *math14Menu;
 QMenu *wizardMenu;
 QMenu *bibMenu;
 QMenu *user1Menu, *user11Menu, *user12Menu;
@@ -118,14 +120,29 @@ QPointer<HelpWidget> help_widget;
 QProcess *proc;
 bool FINPROCESS, ERRPROCESS;
 //latex errors
-QStringList errorList;
+int summaryLines;
 int errorIndex;
+int errorFlag;
+enum {flagStart = 0, flagError, flagBadBox, flagLineNumber, flagWarning};
+QList<int> errorLogLineList;
+QList<int> errorLineList;
+QList<int> latexErrorLogLineList;
+QList<int> latexErrorLineList;
+QStringList errorMessageList;
+int outputLine;
+int currentOutputLine;
+int currentSourceLine;
+QString currentErrorMessage;
 //X11
 #if defined( Q_WS_X11 )
 QString x11style;
 QString x11fontfamily;
 int x11fontsize;
 #endif
+SymbolList symbolScore;
+usercodelist symbolMostused;
+
+QColor colorMath, colorCommand, colorKeyword;
 private slots:
 LatexEditorView *currentEditorView() const;
 void fileNew();
@@ -249,10 +266,19 @@ void WebPublish();
 
 void ViewLog();
 void ClickedOnOutput(int l);
-void QuickLatexError();
 void LatexError();
 void NextError();
 void PreviousError();
+
+/////
+bool NoLatexErrors();
+bool ParseLatexError(QString line);
+void ParseLogLine(QString line);
+void QuickParseLogLine(QString line);
+bool ParseBadBox(QString line);
+bool ParseBadBoxLineNumber(QString line, int len);
+bool ParseWarning(QString line);
+bool ParseWarningLineNumber(QString line, int len);
 
 void LatexHelp();
 void UserManualHelp();
@@ -269,6 +295,9 @@ void SetInterfaceFont();
 void gotoBookmark1();
 void gotoBookmark2();
 void gotoBookmark3();
+
+void SetMostUsedSymbols();
+
 protected:
 void dragEnterEvent(QDragEnterEvent *event);
 void dropEvent(QDropEvent *event);

@@ -29,7 +29,7 @@ typedef  int UserBookmarkList[3];
 class LatexEditor : public QTextEdit  {
    Q_OBJECT
 public:
-LatexEditor(QWidget *parent,QFont & efont);
+LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword);
 ~LatexEditor();
 static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
@@ -48,9 +48,9 @@ int numoflines();
 int linefromblock(const QTextBlock& p);
 UserBookmarkList UserBookmark;
 void selectword(int line, int col, QString word);
+LatexHighlighter *highlighter;
 private:
 QString encoding;
-LatexHighlighter *highlighter;
 ParenMatcher *matcher;
 private slots:
 void checkSpellingWord();

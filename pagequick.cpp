@@ -9,35 +9,19 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include <QtGui>
 
-#include "loghighlighter.h"
+#include "pagequick.h"
 
-LogHighlighter::LogHighlighter(QTextDocument *parent)
-    : QSyntaxHighlighter(parent)
-{
-	ColorStandard = QColor(0x00, 0x00, 0x00);
-	ColorFile = QColor(0x00,0x80, 0x00);
-	ColorError=QColor(0xFF, 0x00, 0x00);
-	ColorWarning=QColor(0x00, 0x00, 0xCC);
-}
+#include <QFontDatabase>
+#include <QTextCodec>
+#include <QFileDialog>
+#include <QColorDialog>
+#include <QDir>
 
-void LogHighlighter::highlightBlock(const QString &text)
+PageQuick::PageQuick(QWidget *parent)
+    : QWidget(parent)
 {
-QRegExp rxLatexError("! (.*)");
-QRegExp rxBadBox("(Over|Under)(full \\\\[hv]box .*)");
-QRegExp rxWarning("(((! )?(La|pdf)TeX)|Package) .*Warning.*:(.*)");
-if (rxLatexError.indexIn(text)!=-1) 
-	{
-	setFormat(0, text.length(),ColorError);
-	}
-else if ((rxBadBox.indexIn(text)!=-1) || (rxWarning.indexIn(text)!=-1)) 
-	{
-	setFormat(0, text.length(),ColorWarning);
-	}
-else if (text.indexOf(".tex",0)!=-1) 
-	{
-	setFormat(0, text.length(),ColorFile);
-	}
+ui.setupUi(this);
+connect(ui.radioButton6, SIGNAL(toggled(bool)),ui.lineEditUserquick, SLOT(setEnabled(bool)));
 }

@@ -26,6 +26,13 @@ LatexHighlighter::LatexHighlighter(QTextDocument *parent)
 	KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
 }
 
+void LatexHighlighter::setColors(QColor colMath, QColor colCommand, QColor colKeyword)
+{
+ColorMath = colMath;
+ColorCommand=colCommand;
+ColorKeyword=colKeyword;
+}
+
 void LatexHighlighter::highlightBlock(const QString &text)
 {
 int i = 0;

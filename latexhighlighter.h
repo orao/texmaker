@@ -29,7 +29,8 @@ public:
     LatexHighlighter(QTextDocument *parent = 0);
     QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword;
     QStringList KeyWords;
-
+public slots:
+void setColors(QColor colMath, QColor colCommand, QColor colKeyword);
 protected:
     void highlightBlock(const QString &text);
 };
