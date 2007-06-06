@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -13,7 +13,7 @@
 #include <QtGui>
 
 #include "latexhighlighter.h"
-#include "blockdata.h"
+//#include "blockdata.h"
 
 LatexHighlighter::LatexHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
@@ -45,13 +45,13 @@ const int StateComment = 1;
 const int StateMath = 2;
 const int StateCommand=3;
 
-BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
-if (blockData) blockData->parentheses.clear(); 
-else 
-	{
-	blockData = new BlockData;
-	setCurrentBlockUserData(blockData);
-	}
+// BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
+// if (blockData) blockData->parentheses.clear(); 
+// else 
+// 	{
+// 	blockData = new BlockData;
+// 	setCurrentBlockUserData(blockData);
+// 	}
 
 while (i < text.length())
 	{
@@ -91,12 +91,12 @@ while (i < text.length())
 			state=StateComment;
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			//blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 		} else
 		if (tmp== '}' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			//blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 		} else
@@ -138,12 +138,12 @@ while (i < text.length())
 				}
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			//blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			setFormat( i, 1,ColorMath);
 			state=StateMath;
 		} else
 		if (tmp== '}' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			//blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorMath);
 			state=StateMath;
 		} else
@@ -185,8 +185,8 @@ while (i < text.length())
          		state=StateStandard;
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
- 			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
- 			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+  			//if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+  			//if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 			if ( buffer.length() > 0 )
@@ -231,21 +231,21 @@ else
 	setCurrentBlockState(StateStandard) ;
     	}
 
-if (blockData->parenthesisMatchStart != -1) 
-	{
-	if (text.at(blockData->parenthesisMatchStart)=='{' || text.at(blockData->parenthesisMatchStart)=='}')
-		{
-		QTextCharFormat fmt = format(blockData->parenthesisMatchStart);
-		fmt.merge(blockData->parenthesisMatchingFormat);
-		setFormat(blockData->parenthesisMatchStart, 1, fmt);
-		}
-
-	if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
-		{
-		QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
-		fmtbis.merge(blockData->parenthesisMatchingFormat);
-		setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
-		}
-	}
+// if (blockData->parenthesisMatchStart != -1) 
+// 	{
+// 	if (text.at(blockData->parenthesisMatchStart)=='{' || text.at(blockData->parenthesisMatchStart)=='}')
+// 		{
+// 		QTextCharFormat fmt = format(blockData->parenthesisMatchStart);
+// 		fmt.merge(blockData->parenthesisMatchingFormat);
+// 		setFormat(blockData->parenthesisMatchStart, 1, fmt);
+// 		}
+// 
+// 	if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
+// 		{
+// 		QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
+// 		fmtbis.merge(blockData->parenthesisMatchingFormat);
+// 		setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
+// 		}
+// 	}
 
 }

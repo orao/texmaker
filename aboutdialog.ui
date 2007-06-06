@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>391</height>
+    <width>484</width>
+    <height>425</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -61,9 +61,9 @@
       <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-size:10pt; font-weight:600;">Texmaker 1.5&lt;/span>&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-size:10pt; font-weight:600;">Texmaker 1.6&lt;/span>&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-family:'Bitstream Vera Sans'; font-weight:600;">Copyright (c) 2004-2007 by Pascal Brachet&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans'; font-weight:600;">&lt;span style=" font-weight:400; font-style:italic;">with the contribution of Joël Amblard (html conversion)&lt;/span>&lt;span style=" font-weight:400;">&lt;br />&lt;/span>&lt;span style=" font-weight:400; font-style:italic;">Thanks to Frederic Devernay, Denis Bitouzé &amp;amp; Jean-Côme Charpentier. &lt;/span>&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans'; font-weight:600;">&lt;span style=" font-weight:400; font-style:italic;">with the contribution of Joël Amblard (html conversion), Alexey Oblozhko (russian translation), Tao WEI (chinese translation) and Flynn Marquardt (german translation, xpdf script).&lt;/span>&lt;span style=" font-weight:400;">&lt;br />&lt;/span>&lt;span style=" font-weight:400; font-style:italic;">Thanks to Frederic Devernay, Denis Bitouzé &amp;amp; Jean-Côme Charpentier. &lt;/span>&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';">Project home site : http://www.xm1math.net/texmaker/&lt;br />&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Bitstream Vera Sans';">This program is licensed to you under the terms of the GNU General Public License Version 2 as published by the Free Software Foundation.&lt;/p>&lt;/body>&lt;/html></string>
      </property>

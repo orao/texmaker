@@ -45,6 +45,9 @@
        <property name="text" >
         <string>Goto</string>
        </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>

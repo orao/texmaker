@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2006 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,11 +38,11 @@
 #include "gotolinedialog.h"
 #include "replacedialog.h"
 #include "finddialog.h"
-#include "helpwidget.h"
 
 
 
 typedef  QMap<LatexEditorView*, QString> FilesMap;
+typedef  QMap<QString,QString> KeysMap;
 typedef  QString Userlist[10];
 typedef  QString UserCd[5];
 typedef int SymbolList[412];
@@ -56,10 +56,11 @@ public:
 
 QString getName();
 QFont EditorFont;
-
+QByteArray windowstate;
 public slots:
 void load( const QString &f );
 void setLine( const QString &line );
+void ToggleMode();
 
 private:
 void setupMenus();
@@ -69,6 +70,7 @@ bool FileAlreadyOpen(QString f);
 void closeEvent(QCloseEvent *e);
 
 FilesMap filenames;
+KeysMap shortcuts, actionstext;
 //gui
 QDockWidget *OutputView, *StructureView;
 QTabWidget *EditorView;
@@ -90,7 +92,7 @@ QMenu *optionsMenu;
 QMenu *helpMenu;
 
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *mathToolBar;
-QAction *recentFileActs[5];
+QAction *recentFileActs[5], *ToggleAct;
 
 QLabel *stat1, *stat2;
 QPushButton *pb1, *pb2, *pb3;
@@ -114,7 +116,7 @@ UserCd UserToolName, UserToolCommand;
 QPointer<FindDialog> findDialog;
 QPointer<ReplaceDialog> replaceDialog;
 QPointer<GotoLineDialog> gotoLineDialog;
-QPointer<HelpWidget> help_widget;
+//QPointer<HelpWidget> help_widget;
 
 //tools
 QProcess *proc;
@@ -288,7 +290,7 @@ void GeneralOptions();
 
 void gotoNextDocument();
 void gotoPrevDocument();
-void ToggleMode();
+//void ToggleMode();
 
 void SetInterfaceFont();
 
@@ -297,6 +299,8 @@ void gotoBookmark2();
 void gotoBookmark3();
 
 void SetMostUsedSymbols();
+
+void ModifyShortcuts();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);

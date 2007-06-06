@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2006 by Pascal Brachet                          *
+ *   copyright       : (C) 2007 by Pascal Brachet                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -174,6 +174,8 @@ ui.lineEditOriginal->setEnabled(true);
 ui.progressBar->setEnabled(true);
 ui.progressBar->setMinimum(0);
 wordcount=0;
+deltacol=0;
+spellingline=0;
 if (miswordList.count()>0)
 	{
 	ui.progressBar->setMaximum(miswordList.count());
@@ -189,6 +191,7 @@ else
 void SpellerDialog::spellingNext()
 {
 QString misword;
+int line,col;
 if (wordcount>=miswordList.count()) 
 	{
 //	QMessageBox::information( this,tr("Check Spelling"),tr("The spelling check is complete."));
@@ -198,8 +201,10 @@ else
 	{
 	ui.progressBar->setValue(wordcount+1);
 	QStringList suggWords;
-	int line=lineList.at(wordcount);
-	int col=colList.at(wordcount);
+	line=lineList.at(wordcount);
+	if (line!=spellingline) deltacol=0;
+	spellingline=line;
+	col=colList.at(wordcount)+deltacol;
 	misword=miswordList.at(wordcount);
 	if (ignoredwordList.contains(misword))
 		{
@@ -231,8 +236,15 @@ spellingNext();
 
 void SpellerDialog::slotReplace()
 {
+QString selectedword="";
+QTextCursor c = editor->textCursor();
+if (c.hasSelection()) selectedword=c.selectedText();
 QString newword=ui.lineEditNew->text();
-if (!newword.isEmpty()) editor->replace(newword);
+if (!newword.isEmpty()) 
+	{
+	deltacol=deltacol+newword.length()-selectedword.length();
+	editor->replace(newword);
+	}
 wordcount+=1;
 spellingNext();
 }

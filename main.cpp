@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   addons by Frederic Devernay <frederic.devernay@m4x.org>               *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
@@ -25,11 +25,11 @@ private:
 protected:
     bool event(QEvent *event);
 public:
-    TexmakerApp( int argc, char ** argv );
+    TexmakerApp( int & argc, char ** argv );
     ~TexmakerApp();
 };
 
-TexmakerApp::TexmakerApp( int argc, char ** argv ) : QApplication ( argc, argv )
+TexmakerApp::TexmakerApp( int & argc, char ** argv ) : QApplication ( argc, argv )
 {
 QPixmap pixmap(":/images/splash.png");
 QSplashScreen *splash = new QSplashScreen(pixmap);
@@ -55,6 +55,7 @@ for ( int i = 1; i < argc; ++i )
 	{
 	QString arg = argv[ i ];
 	if ( arg[0] != '-' )    mw->load( arg );
+	if ( arg == "-master" ) mw->ToggleMode();
 	if (( arg == "-line" ) && (i<argc-1))  mw->setLine( argv[ ++i ] );
 	}
 }

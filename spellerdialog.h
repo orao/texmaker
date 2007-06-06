@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2006 by Pascal Brachet                          *
+ *   copyright       : (C) 2007 by Pascal Brachet                          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -32,7 +32,7 @@ int numlines,currentline, wordcount;
 QStringList miswordList,suggestionList, ignoredwordList;
 QList<int> lineList,colList;
 QPointer<QProgressDialog> progressDialog;
-int startpos, endpos;
+int startpos, endpos, deltacol, spellingline;
 protected:
 void closeEvent( QCloseEvent* );
 private slots:

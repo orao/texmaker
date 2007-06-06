@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>SpellerDialog</class>
  <widget class="QDialog" name="SpellerDialog" >
   <property name="geometry" >
@@ -94,6 +91,9 @@
        <property name="text" >
         <string>Replace</string>
        </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="0" column="0" >
@@ -142,7 +142,14 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>pushButtonReplace</tabstop>
+  <tabstop>pushButtonIgnore</tabstop>
+  <tabstop>lineEditNew</tabstop>
+  <tabstop>listWidget</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>lineEditOriginal</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@
 
 #include "latexhighlighter.h"
 
-class ParenMatcher;
+//class ParenMatcher;
 class QTextBlock;
 
 typedef  int UserBookmarkList[3];
@@ -31,7 +31,7 @@ class LatexEditor : public QTextEdit  {
 public:
 LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword);
 ~LatexEditor();
-static void clearMarkerFormat(const QTextBlock &block, int markerId);
+//static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
 bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor );
 void replace( const QString &r);
@@ -51,7 +51,7 @@ void selectword(int line, int col, QString word);
 LatexHighlighter *highlighter;
 private:
 QString encoding;
-ParenMatcher *matcher;
+//ParenMatcher *matcher;
 private slots:
 void checkSpellingWord();
 void checkSpellingDocument();

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 #include "latexeditor.h"
-#include "parenmatcher.h"
+//#include "parenmatcher.h"
 #include <QPainter>
 #include <QTextLayout>
 #include <QMetaProperty>
@@ -38,33 +38,33 @@ setTabStopWidth(fontMetrics().width("    "));
 highlighter = new LatexHighlighter(document());
 highlighter->setColors(colMath,colCommand,colKeyword);
 connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
- matcher = new ParenMatcher;
- connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
+// matcher = new ParenMatcher;
+// connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
 setFocus();
 }
 LatexEditor::~LatexEditor(){
-delete matcher;
+//delete matcher;
 }
 
-void LatexEditor::clearMarkerFormat(const QTextBlock &block, int markerId)
-{
-    QTextLayout *layout = block.layout();
-    QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
-    bool formatsChanged = false;
-    for (int i = 0; i < formats.count(); ++i)
-        if (formats.at(i).format.hasProperty(markerId)) {
-            formats[i].format.clearBackground();
-            formats[i].format.clearProperty(markerId);
-            if (formats.at(i).format.properties().isEmpty()) {
-                formats.removeAt(i);
-                --i;
-            }
-            formatsChanged = true;
-        }
-
-    if (formatsChanged)
-        layout->setAdditionalFormats(formats);
-}
+// void LatexEditor::clearMarkerFormat(const QTextBlock &block, int markerId)
+// {
+//     QTextLayout *layout = block.layout();
+//     QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
+//     bool formatsChanged = false;
+//     for (int i = 0; i < formats.count(); ++i)
+//         if (formats.at(i).format.hasProperty(markerId)) {
+//             formats[i].format.clearBackground();
+//             formats[i].format.clearProperty(markerId);
+//             if (formats.at(i).format.properties().isEmpty()) {
+//                 formats.removeAt(i);
+//                 --i;
+//             }
+//             formatsChanged = true;
+//         }
+// 
+//     if (formatsChanged)
+//         layout->setAdditionalFormats(formats);
+// }
 
 void LatexEditor::paintEvent(QPaintEvent *event)
 {

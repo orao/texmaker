@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# script for automatic reloading in xpdf
+#
+# Flynn Marquardt, flynn@flynnux.de
+
+PDF=$1
+PDF_REMOTE=${PDF/ /_}
+BASECOMMAND="xpdf -remote $PDF_REMOTE"
+
+if [ `pgrep -cf "$BASECOMMAND $PDF"` -eq 1 ]; then
+  $BASECOMMAND -reload -raise
+else
+  $BASECOMMAND "$PDF" &
+fi
+
+exit 0

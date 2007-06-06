@@ -1,5 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+	<file>images/logo128.png</file>
 	<file>images/pstricks.png</file>
 	<file>images/accent1.png</file>
 	<file>images/accent2.png</file>

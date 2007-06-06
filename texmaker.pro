@@ -1,21 +1,104 @@
-unix {
-  UI_DIR = .ui
-  MOC_DIR = .moc
-  OBJECTS_DIR = .obj
-}
-
 TEMPLATE	= app
 LANGUAGE	= C++
 TARGET	 = texmaker
-CONFIG	+= qt warn_on release
-##############################################
+CONFIG	+= qt warn_off release
+###############################
+HEADERS	+= texmaker.h \
+	symbollistwidget.h \
+	icondelegate.h \
+	latexeditor.h \
+	latexhighlighter.h \
+	latexeditorview.h \
+	linenumberwidget.h \
+	logeditor.h \
+	loghighlighter.h \
+	metapostlistwidget.h \
+	finddialog.h \
+	gotolinedialog.h \
+	replacedialog.h \
+	structdialog.h \
+	filechooser.h \
+	tabbingdialog.h \
+	arraydialog.h \
+	tabdialog.h \
+	letterdialog.h \
+	addoptiondialog.h \
+	quickdocumentdialog.h \
+	usermenudialog.h \
+	usertooldialog.h \
+	refdialog.h \
+	configdialog.h \
+	aboutdialog.h \
+	webpublishdialog.h \
+	spellerdialog.h \
+	pstrickslistwidget.h
+SOURCES	+= main.cpp \
+	texmaker.cpp \
+	symbollistwidget.cpp \
+	icondelegate.cpp \
+	latexeditor.cpp \
+	latexhighlighter.cpp \
+	latexeditorview.cpp \
+	linenumberwidget.cpp \
+	logeditor.cpp \
+	loghighlighter.cpp \
+	metapostlistwidget.cpp \
+	finddialog.cpp \
+	gotolinedialog.cpp \
+	replacedialog.cpp \
+	structdialog.cpp \
+	filechooser.cpp \
+	tabbingdialog.cpp \
+	arraydialog.cpp \
+	tabdialog.cpp \
+	letterdialog.cpp \
+	addoptiondialog.cpp \
+	quickdocumentdialog.cpp \
+	usermenudialog.cpp \
+	usertooldialog.cpp \
+	refdialog.cpp \
+	configdialog.cpp \
+	aboutdialog.cpp \
+	webpublishdialog.cpp \
+	spellerdialog.cpp \
+	pstrickslistwidget.cpp
+RESOURCES += texmaker.qrc
+FORMS   += finddialog.ui\
+	gotolinedialog.ui \
+	replacedialog.ui \
+	structdialog.ui \
+	filechooser.ui \
+	tabbingdialog.ui \
+	arraydialog.ui \
+	tabdialog.ui \
+	letterdialog.ui \
+	addoptiondialog.ui \
+	quickdocumentdialog.ui \
+	usermenudialog.ui \
+	usertooldialog.ui \
+	refdialog.ui \
+	aboutdialog.ui \
+	webpublishdialog.ui \
+	configdialog.ui \
+	spellerdialog.ui
+TRANSLATIONS += texmaker_fr.ts \
+	texmaker_zh.ts \
+	texmaker_ru.ts \
+	texmaker_de.ts
+################################
 unix:!macx {
+UI_DIR = .ui
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
 isEmpty( PREFIX ) {
     PREFIX=/usr
 }
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
 INSTALLS = target
+HEADERS	+= x11fontdialog.h
+SOURCES	+= x11fontdialog.cpp
+FORMS += x11fontdialog.ui
 utilities.path = $${PREFIX}/share/texmaker
 utilities.files = utilities/blank.png \
 	utilities/doc1.png \
@@ -46,6 +129,9 @@ utilities.files = utilities/blank.png \
 	utilities/psheader.txt \
 	utilities/style.css \
 	utilities/texmaker_fr.qm \
+	utilities/texmaker_ru.qm \
+	utilities/texmaker_zh.qm \
+	utilities/texmaker_de.qm \
 	utilities/up.gif \
 	utilities/up_d.gif \
 	utilities/usermanual_en.html \
@@ -60,99 +146,22 @@ utilities.files = utilities/blank.png \
 	utilities/texmaker64x64.png \
 	utilities/texmaker128x128.png \
 	utilities/texmaker.desktop \
-	utilities/texmaker.svg
+	utilities/texmaker.svg \
+	utilities/xpdf_texmaker_sh.txt
 INSTALLS += utilities
-HEADERS	= texmaker.h \
-	symbollistwidget.h \
-	icondelegate.h \
-	latexeditor.h \
-	latexhighlighter.h \
-	latexeditorview.h \
-	linenumberwidget.h \
-	logeditor.h \
-	loghighlighter.h \
-	metapostlistwidget.h \
-	finddialog.h \
-	gotolinedialog.h \
-	replacedialog.h \
-	structdialog.h \
-	filechooser.h \
-	tabbingdialog.h \
-	arraydialog.h \
-	tabdialog.h \
-	letterdialog.h \
-	addoptiondialog.h \
-	quickdocumentdialog.h \
-	usermenudialog.h \
-	usertooldialog.h \
-	helpwidget.h \
-	refdialog.h \
-	configdialog.h \
-	aboutdialog.h \
-	webpublishdialog.h \
-	x11fontdialog.h \
-	blockdata.h \
-	parenmatcher.h \
-	spellerdialog.h \
-	pstrickslistwidget.h
-SOURCES	= main.cpp \
-	texmaker.cpp \
-	symbollistwidget.cpp \
-	icondelegate.cpp \
-	latexeditor.cpp \
-	latexhighlighter.cpp \
-	latexeditorview.cpp \
-	linenumberwidget.cpp \
-	logeditor.cpp \
-	loghighlighter.cpp \
-	metapostlistwidget.cpp \
-	finddialog.cpp \
-	gotolinedialog.cpp \
-	replacedialog.cpp \
-	structdialog.cpp \
-	filechooser.cpp \
-	tabbingdialog.cpp \
-	arraydialog.cpp \
-	tabdialog.cpp \
-	letterdialog.cpp \
-	addoptiondialog.cpp \
-	quickdocumentdialog.cpp \
-	usermenudialog.cpp \
-	usertooldialog.cpp \
-	helpwidget.cpp \
-	refdialog.cpp \
-	configdialog.cpp \
-	aboutdialog.cpp \
-	webpublishdialog.cpp \
-	x11fontdialog.cpp \
-	parenmatcher.cpp \
-	spellerdialog.cpp \
-	pstrickslistwidget.cpp
-RESOURCES     = texmaker.qrc
-FORMS       = finddialog.ui\
-	gotolinedialog.ui \
-	replacedialog.ui \
-	structdialog.ui \
-	filechooser.ui \
-	tabbingdialog.ui \
-	arraydialog.ui \
-	tabdialog.ui \
-	letterdialog.ui \
-	addoptiondialog.ui \
-	quickdocumentdialog.ui \
-	usermenudialog.ui \
-	usertooldialog.ui \
-	refdialog.ui \
-	aboutdialog.ui \
-	webpublishdialog.ui \
-	x11fontdialog.ui \
-	configdialog.ui \
-	spellerdialog.ui
-TRANSLATIONS = texmaker_fr.ts
 }
-##############################################
+################################
+win32 {
+INCLUDEPATH += C:\MinGW\include
+RC_FILE = win.rc
+}
+###############################
 macx {
-CONFIG += link_prl
+UI_DIR = .ui
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
+CONFIG += link_prl x86 ppc
+QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
 target.path = /Applications
 INSTALLS = target
 utilities.path = Contents/Resources
@@ -185,6 +194,9 @@ utilities.files = utilities/blank.png \
 	utilities/psheader.txt \
 	utilities/style.css \
 	utilities/texmaker_fr.qm \
+	utilities/texmaker_ru.qm \
+	utilities/texmaker_zh.qm \
+	utilities/texmaker_de.qm \
 	utilities/up.gif \
 	utilities/up_d.gif \
 	utilities/usermanual_en.html \
@@ -194,179 +206,6 @@ utilities.files = utilities/blank.png \
 	utilities/CHANGELOG.txt
 QMAKE_BUNDLE_DATA += utilities
 INSTALLS += utilities
-HEADERS	= texmaker.h \
-	symbollistwidget.h \
-	icondelegate.h \
-	latexeditor.h \
-	latexhighlighter.h \
-	latexeditorview.h \
-	linenumberwidget.h \
-	logeditor.h \
-	loghighlighter.h \
-	metapostlistwidget.h \
-	finddialog.h \
-	gotolinedialog.h \
-	replacedialog.h \
-	structdialog.h \
-	filechooser.h \
-	tabbingdialog.h \
-	arraydialog.h \
-	tabdialog.h \
-	letterdialog.h \
-	addoptiondialog.h \
-	quickdocumentdialog.h \
-	usermenudialog.h \
-	usertooldialog.h \
-	helpwidget.h \
-	refdialog.h \
-	configdialog.h \
-	aboutdialog.h \
-	webpublishdialog.h \
-	blockdata.h \
-	parenmatcher.h \
-	spellerdialog.h \
-	pstrickslistwidget.h
-SOURCES	= main.cpp \
-	texmaker.cpp \
-	symbollistwidget.cpp \
-	icondelegate.cpp \
-	latexeditor.cpp \
-	latexhighlighter.cpp \
-	latexeditorview.cpp \
-	linenumberwidget.cpp \
-	logeditor.cpp \
-	loghighlighter.cpp \
-	metapostlistwidget.cpp \
-	finddialog.cpp \
-	gotolinedialog.cpp \
-	replacedialog.cpp \
-	structdialog.cpp \
-	filechooser.cpp \
-	tabbingdialog.cpp \
-	arraydialog.cpp \
-	tabdialog.cpp \
-	letterdialog.cpp \
-	addoptiondialog.cpp \
-	quickdocumentdialog.cpp \
-	usermenudialog.cpp \
-	usertooldialog.cpp \
-	helpwidget.cpp \
-	refdialog.cpp \
-	configdialog.cpp \
-	aboutdialog.cpp \
-	webpublishdialog.cpp \
-	parenmatcher.cpp \
-	spellerdialog.cpp \
-	pstrickslistwidget.cpp
-RESOURCES     = texmaker.qrc
-FORMS       = finddialog.ui\
-	gotolinedialog.ui \
-	replacedialog.ui \
-	structdialog.ui \
-	filechooser.ui \
-	tabbingdialog.ui \
-	arraydialog.ui \
-	tabdialog.ui \
-	letterdialog.ui \
-	addoptiondialog.ui \
-	quickdocumentdialog.ui \
-	usermenudialog.ui \
-	usertooldialog.ui \
-	refdialog.ui \
-	aboutdialog.ui \
-	webpublishdialog.ui \
-	configdialog.ui \
-	spellerdialog.ui
-TRANSLATIONS = texmaker_fr.ts
 ICON = texmaker.icns
 QMAKE_INFO_PLIST =Info.plist
-}
-##############################################
-win32 {
-INCLUDEPATH = C:\MinGW\include
-HEADERS	= texmaker.h \
-	symbollistwidget.h \
-	icondelegate.h \
-	latexeditor.h \
-	latexhighlighter.h \
-	latexeditorview.h \
-	linenumberwidget.h \
-	logeditor.h \
-	loghighlighter.h \
-	metapostlistwidget.h \
-	finddialog.h \
-	gotolinedialog.h \
-	replacedialog.h \
-	structdialog.h \
-	filechooser.h \
-	tabbingdialog.h \
-	arraydialog.h \
-	tabdialog.h \
-	letterdialog.h \
-	addoptiondialog.h \
-	quickdocumentdialog.h \
-	usermenudialog.h \
-	usertooldialog.h \
-	helpwidget.h \
-	refdialog.h \
-	configdialog.h \
-	aboutdialog.h \
-	webpublishdialog.h \
-	blockdata.h \
-	parenmatcher.h \
-	spellerdialog.h \
-	pstrickslistwidget.h
-SOURCES	= main.cpp \
-	texmaker.cpp \
-	symbollistwidget.cpp \
-	icondelegate.cpp \
-	latexeditor.cpp \
-	latexhighlighter.cpp \
-	latexeditorview.cpp \
-	linenumberwidget.cpp \
-	logeditor.cpp \
-	loghighlighter.cpp \
-	metapostlistwidget.cpp \
-	finddialog.cpp \
-	gotolinedialog.cpp \
-	replacedialog.cpp \
-	structdialog.cpp \
-	filechooser.cpp \
-	tabbingdialog.cpp \
-	arraydialog.cpp \
-	tabdialog.cpp \
-	letterdialog.cpp \
-	addoptiondialog.cpp \
-	quickdocumentdialog.cpp \
-	usermenudialog.cpp \
-	usertooldialog.cpp \
-	helpwidget.cpp \
-	refdialog.cpp \
-	configdialog.cpp \
-	aboutdialog.cpp \
-	webpublishdialog.cpp \
-	parenmatcher.cpp \
-	spellerdialog.cpp \
-	pstrickslistwidget.cpp
-RESOURCES     = texmaker.qrc
-RC_FILE = win.rc
-FORMS       = finddialog.ui\
-	gotolinedialog.ui \
-	replacedialog.ui \
-	structdialog.ui \
-	filechooser.ui \
-	tabbingdialog.ui \
-	arraydialog.ui \
-	tabdialog.ui \
-	letterdialog.ui \
-	addoptiondialog.ui \
-	quickdocumentdialog.ui \
-	usermenudialog.ui \
-	usertooldialog.ui \
-	refdialog.ui \
-	aboutdialog.ui \
-	webpublishdialog.ui \
-	configdialog.ui \
-	spellerdialog.ui
-TRANSLATIONS = texmaker_fr.ts
 }

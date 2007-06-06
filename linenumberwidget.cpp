@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2005 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,7 +41,7 @@ int yOffset = m_editor->verticalScrollBar()->value();
 QTextDocument *doc = m_editor->document();
 int i = 1;
 QTextBlock p = doc->begin();
-QString pixmapname;
+QString numtext;
 const QBrush oldbrush=painter.brush();
 QPen oldpen(QColor("#136872"));
 oldpen.setStyle(Qt::SolidLine);
@@ -69,7 +69,9 @@ while ( p.isValid() )
  			}
 		}
 	painter.setPen(oldpen);
-	if (i<10000) painter.drawText(0, (int)(point.y()) - yOffset,width()-4,fm.lineSpacing(),Qt::AlignRight | Qt::AlignTop,QString::number(i));
+	numtext=QString::number(i);
+	if (i>=10000) numtext=numtext.right(4);
+	painter.drawText(0, (int)(point.y()) - yOffset,width()-4,fm.lineSpacing(),Qt::AlignRight | Qt::AlignTop,numtext);
 	i++;
 	p = p.next();
 	}	
