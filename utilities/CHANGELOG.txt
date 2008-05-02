@@ -1,3 +1,8 @@
+version 1.7 -> 1.7.1 :
+--------------------
+Bugs fixed :
+- no more crash with the "Previous LaTeX error" command and the syntax highlighting
+- the "find" command starts at cursor and not at the beginning of the document
 version 1.6 -> 1.7 :
 --------------------
 - New search widget
