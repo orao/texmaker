@@ -19,6 +19,7 @@
 #include <QTextCursor>
 #include <QTextBlock>
 
+
 #include "loghighlighter.h"
 
 class LogEditor : public QTextEdit  {
@@ -32,6 +33,7 @@ public slots:
    void setCursorPosition(int parag, int index);
 protected:
     virtual void mousePressEvent(QMouseEvent *e);
+    void paintEvent(QPaintEvent *event);
 signals:
     void clickonline(int l);
 private:

@@ -18,6 +18,7 @@
 #include <QHash>
 #include <QTextCharFormat>
 #include <QColor>
+#include <QTextBlockUserData>
 
 class QTextDocument;
 

@@ -33,7 +33,7 @@ ui.comboBoxEncoding->insertItem(1, "latin1" );
 ui.comboBoxEncoding->insertItem(2, "latin2" );
 ui.comboBoxEncoding->insertItem(3, "latin3" );
 ui.comboBoxEncoding->insertItem(4, "latin5" );
-ui.comboBoxEncoding->insertItem(5, "utf8" );
+ui.comboBoxEncoding->insertItem(5, "utf8x" );
 ui.comboBoxEncoding->insertItem(6, "ascii" );
 ui.comboBoxEncoding->insertItem(7, "decmulti" );
 ui.comboBoxEncoding->insertItem(8, "cp850" );

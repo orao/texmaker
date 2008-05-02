@@ -18,11 +18,14 @@
 #include <QTextDocument>
 #include <QTextCursor>
 #include <QTextBlock>
+#include <QCompleter>
 
 #include "latexhighlighter.h"
 
+//class QCompleter;
 //class ParenMatcher;
-class QTextBlock;
+//class QTextBlock;
+
 
 typedef  int UserBookmarkList[3];
 
@@ -38,6 +41,7 @@ void replace( const QString &r);
 void commentSelection();
 void uncommentSelection();
 void indentSelection();
+void unindentSelection();
 void changeFont(QFont & new_font);
 QString getEncoding();
 void setEncoding(QString enc);
@@ -49,15 +53,22 @@ int linefromblock(const QTextBlock& p);
 UserBookmarkList UserBookmark;
 void selectword(int line, int col, QString word);
 LatexHighlighter *highlighter;
+void setCompleter(QCompleter *completer);
+QCompleter *completer() const;
 private:
 QString encoding;
+QString textUnderCursor() const;
+QCompleter *c;
 //ParenMatcher *matcher;
 private slots:
 void checkSpellingWord();
 void checkSpellingDocument();
+void insertCompletion(const QString &completion);
 protected:
 void paintEvent(QPaintEvent *event);
 void contextMenuEvent(QContextMenuEvent *e);
+void keyPressEvent ( QKeyEvent * e );
+void focusInEvent(QFocusEvent *e);
 signals:
 void spellme();
 };

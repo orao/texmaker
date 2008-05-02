@@ -16,47 +16,46 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QCloseEvent>
+#include <QTextCodec>
+#include <QTextStream>
+#include <QTextCharFormat>
+#include <QFileInfo>
+#include "blockdata.h"
 
-SpellerDialog::SpellerDialog(QWidget *parent,LatexEditor *ed,QString AspellCommand, QString lang, QString encoding)
+SpellerDialog::SpellerDialog(QWidget *parent,LatexEditor *ed,QString SpellDic,QString ignoredWords)
     :QDialog( parent)
 {
 editor=ed;
-spell_command=AspellCommand;
-spell_lang=lang;
-spell_encoding=encoding;
+spell_dic=SpellDic.left(SpellDic.length()-4);
 ui.setupUi(this);
 setModal(true);
-show();
+
+pChecker = new Hunspell(spell_dic.toLatin1()+".aff",spell_dic.toLatin1()+".dic");
+spell_encoding=QString(pChecker->get_dic_encoding());
 
 connect(ui.pushButtonIgnore, SIGNAL(clicked()), this, SLOT(slotIgnore()));
+connect(ui.pushButtonAlwaysIgnore, SIGNAL(clicked()), this, SLOT(slotAlwaysIgnore()));
 connect(ui.pushButtonReplace, SIGNAL(clicked()), this, SLOT(slotReplace()));
 connect(ui.listWidget, SIGNAL(itemSelectionChanged()),this, SLOT(updateItem()));
-connect(this, SIGNAL(scanfinished()), this, SLOT(spellingInit()));
 
-miswordList.clear();
-suggestionList.clear();
-ignoredwordList.clear();
-lineList.clear();
-colList.clear();
+if (!ignoredWords.isEmpty()) alwaysignoredwordList=ignoredWords.split(",");
+else alwaysignoredwordList.clear();
+ignoredwordList=alwaysignoredwordList;
+
 ui.listWidget->setEnabled(false);
 ui.lineEditNew->setEnabled(false);
 ui.pushButtonIgnore->setEnabled(false);
+ui.pushButtonAlwaysIgnore->setEnabled(false);
 ui.pushButtonReplace->setEnabled(false);
 ui.lineEditOriginal->setEnabled(false);
-ui.progressBar->setEnabled(false);
-spellproc = new QProcess( this );
-connect(spellproc, SIGNAL(readyReadStandardOutput()),this, SLOT(readOutput()));
-connect(spellproc, SIGNAL(finished(int)),this, SLOT(endProcess(int)));
-spellproc->start(spell_command+" -a -t --encoding="+spell_encoding+" --lang="+spell_lang);
-if (!spellproc->waitForStarted(1000)) 
-	{
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	QTimer::singleShot(100, this, SLOT(accept()));
-	}
-else
-	{
-	scanDocument();
-	}
+ui.lineEditOriginal->clear();
+ui.listWidget->clear();
+ui.lineEditNew->clear();
+show();
+c = editor->textCursor();
+QFileInfo fi(SpellDic);
+if (fi.exists() && fi.isReadable()) spellingInit();
+else ui.labelMessage->setText("<b>"+tr("Error : Can't open the dictionary")+"</b>");
 }
 
 SpellerDialog::~SpellerDialog(){
@@ -65,31 +64,17 @@ SpellerDialog::~SpellerDialog(){
 
 void SpellerDialog::closeEvent( QCloseEvent* ce )
 {
-if (spellproc && spellproc->state()==QProcess::Running) 
-	{
-	spellproc->disconnect();
-	spellproc->kill(); 
-	delete spellproc ;
-	}
-if (progressDialog) 
-	{
-	delete progressDialog;
-	}
+QTextCursor cursor=editor->textCursor();
+cursor.setPosition(startpos,QTextCursor::MoveAnchor);
+editor->setTextCursor(cursor);
 ce->accept();
 }
 
 void SpellerDialog::accept()
 {
-if (spellproc && spellproc->state()==QProcess::Running) 
-	{
-	spellproc->disconnect();
-	spellproc->kill(); 
-	delete spellproc ;
-	}
-if (progressDialog) 
-	{
-	delete progressDialog;
-	}
+QTextCursor cursor=editor->textCursor();
+cursor.setPosition(startpos,QTextCursor::MoveAnchor);
+editor->setTextCursor(cursor);
 QDialog::accept();
 }
 
@@ -109,205 +94,176 @@ if (current>=0)
 	}
 }
 
-void SpellerDialog::scanDocument()
-{
-QTextBlock block;
-QString text;
-bool go=true;
-QTextCursor c = editor->textCursor();
-if (c.hasSelection()) 
-	{
-	startpos=c.selectionStart();
-	endpos=c.selectionEnd();
-	c.setPosition(endpos,QTextCursor::MoveAnchor);
-	block=c.block();
-	numlines=editor->linefromblock(block);
-	c.setPosition(startpos,QTextCursor::MoveAnchor);
-	block=c.block();
-	currentline=editor->linefromblock(block)-1;
-	if (!progressDialog) progressDialog = new QProgressDialog(tr("Scanning document..."),0,currentline,numlines,this);
-	progressDialog->show();
-	progressDialog->raise();
-	progressDialog->setValue(currentline);
-	if (currentline>=0)
-		{
-		while ( c.position() < endpos && go)
-			{
-			text="^"+block.text()+"\n";
-			if (spell_encoding=="iso8859-1") spellproc->write(text.toLatin1());
-			else spellproc->write(text.toUtf8());
-			go=c.movePosition(QTextCursor::NextBlock,QTextCursor::MoveAnchor);
-			block=c.block();
-			}
-		}
-	}
-else
-	{
-	c.movePosition(QTextCursor::Start,QTextCursor::MoveAnchor);
-	startpos=c.position();
-	c.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
-	endpos=c.position();
-	numlines=editor->numoflines();
-	if (!progressDialog) progressDialog = new QProgressDialog(tr("Scanning document..."),0,0,numlines,this);
-	progressDialog->show();
-	progressDialog->raise();
-	progressDialog->setValue(0);
-	currentline=0;
-	block=editor->document()->begin();
-	while (block.isValid())
-		{
-		text="^"+block.text()+"\n";
-		if (spell_encoding=="iso8859-1") spellproc->write(text.toLatin1());
-		else spellproc->write(text.toUtf8());
-		block = block.next();
-		}
-	}
-}
 
 void SpellerDialog::spellingInit()
 {
-ui.listWidget->setEnabled(true);
-ui.lineEditNew->setEnabled(true);
-ui.pushButtonIgnore->setEnabled(true);
-ui.pushButtonReplace->setEnabled(true);
-ui.lineEditOriginal->setEnabled(true);
-ui.progressBar->setEnabled(true);
-ui.progressBar->setMinimum(0);
-wordcount=0;
 deltacol=0;
-spellingline=0;
-if (miswordList.count()>0)
+go=true;
+if (c.hasSelection()) 
 	{
-	ui.progressBar->setMaximum(miswordList.count());
-	spellingNext();
-	}
-else 
-	{
-	QMessageBox::information( this,tr("Check Spelling"),tr("No misspelled words were found."));
-	accept();
-	}
-}
-
-void SpellerDialog::spellingNext()
-{
-QString misword;
-int line,col;
-if (wordcount>=miswordList.count()) 
-	{
-//	QMessageBox::information( this,tr("Check Spelling"),tr("The spelling check is complete."));
-	accept();
+	ui.labelMessage->setText(tr("Check spelling selection..."));
+	startpos=c.selectionStart();
+	endpos=c.selectionEnd();
+	c.setPosition(endpos,QTextCursor::MoveAnchor);
+	c.setPosition(startpos,QTextCursor::MoveAnchor);
+	SpellingNextWord();
 	}
 else
 	{
-	ui.progressBar->setValue(wordcount+1);
-	QStringList suggWords;
-	line=lineList.at(wordcount);
-	if (line!=spellingline) deltacol=0;
-	spellingline=line;
-	col=colList.at(wordcount)+deltacol;
-	misword=miswordList.at(wordcount);
-	if (ignoredwordList.contains(misword))
-		{
-		wordcount+=1;
-		spellingNext();
-		}
-	else
-		{
-		editor->selectword(line,col,misword);
-		ui.lineEditOriginal->setText(misword);
-		ui.listWidget->clear();
-		ui.lineEditNew->clear();
-		if (!suggestionList.at(wordcount).isEmpty())
-			{
-			suggWords=suggestionList.at(wordcount).split(",");
-			ui.listWidget->addItems(suggWords);
-			ui.lineEditNew->setText(suggWords.at(0));
-			}
-		}
+//	c.movePosition(QTextCursor::Start,QTextCursor::MoveAnchor);
+	ui.labelMessage->setText(tr("Check spelling from cursor..."));
+	startpos=c.position();
+	c.movePosition(QTextCursor::End,QTextCursor::MoveAnchor);
+	endpos=c.position();
+	c.setPosition(startpos,QTextCursor::MoveAnchor);
+	SpellingNextWord();
 	}
 }
 
 void SpellerDialog::slotIgnore()
 {
 ignoredwordList.append(ui.lineEditOriginal->text());
-wordcount+=1;
-spellingNext();
+ui.listWidget->setEnabled(false);
+ui.lineEditNew->setEnabled(false);
+ui.pushButtonIgnore->setEnabled(false);
+ui.pushButtonAlwaysIgnore->setEnabled(false);
+ui.pushButtonReplace->setEnabled(false);
+ui.lineEditOriginal->setEnabled(false);
+ui.lineEditOriginal->clear();
+ui.listWidget->clear();
+ui.lineEditNew->clear();
+ui.labelMessage->setText("<b>"+tr("No more misspelled words")+"</b>");
+SpellingNextWord();
+}
+
+void SpellerDialog::slotAlwaysIgnore()
+{
+alwaysignoredwordList.append(ui.lineEditOriginal->text());
+ignoredwordList.append(ui.lineEditOriginal->text());
+ui.listWidget->setEnabled(false);
+ui.lineEditNew->setEnabled(false);
+ui.pushButtonIgnore->setEnabled(false);
+ui.pushButtonAlwaysIgnore->setEnabled(false);
+ui.pushButtonReplace->setEnabled(false);
+ui.lineEditOriginal->setEnabled(false);
+ui.lineEditOriginal->clear();
+ui.listWidget->clear();
+ui.lineEditNew->clear();
+ui.labelMessage->setText("<b>"+tr("No more misspelled words")+"</b>");
+SpellingNextWord();
 }
 
 void SpellerDialog::slotReplace()
 {
 QString selectedword="";
-QTextCursor c = editor->textCursor();
-if (c.hasSelection()) selectedword=c.selectedText();
+QTextCursor cursor=editor->textCursor();
+if (cursor.hasSelection()) selectedword=cursor.selectedText();
 QString newword=ui.lineEditNew->text();
 if (!newword.isEmpty()) 
 	{
 	deltacol=deltacol+newword.length()-selectedword.length();
 	editor->replace(newword);
 	}
-wordcount+=1;
-spellingNext();
+ui.listWidget->setEnabled(false);
+ui.lineEditNew->setEnabled(false);
+ui.pushButtonIgnore->setEnabled(false);
+ui.pushButtonAlwaysIgnore->setEnabled(false);
+ui.pushButtonReplace->setEnabled(false);
+ui.lineEditOriginal->setEnabled(false);
+ui.lineEditOriginal->clear();
+ui.listWidget->clear();
+ui.lineEditNew->clear();
+ui.labelMessage->setText("<b>"+tr("No more misspelled words")+"</b>");
+SpellingNextWord();
 }
 
-void SpellerDialog::endProcess(int err)
+void SpellerDialog::SpellingNextWord()
 {
-//trouble with aspell on win32 system
-// if (err) 
-// 	{
-// 	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-// 	accept();
-// 	}
-// else 
-emit scanfinished();
+BlockData* data;
+QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
+QByteArray encodedString;
+QTextBlock block;
+QString text,word,suggestion;
+bool gonext=true;
+QByteArray t;
+int li,cols,cole,colstart,colend,check,ns;
+char ** wlst;
+QStringList suggWords;
+while(gonext && c.position() < endpos+deltacol && go)
+	{
+	ui.listWidget->setEnabled(false);
+	ui.lineEditNew->setEnabled(false);
+	ui.pushButtonIgnore->setEnabled(false);
+	ui.pushButtonAlwaysIgnore->setEnabled(false);
+	ui.pushButtonReplace->setEnabled(false);
+	ui.lineEditOriginal->setEnabled(false);
+	ui.lineEditOriginal->clear();
+	ui.listWidget->clear();
+	ui.lineEditNew->clear();
+	ui.labelMessage->setText("<b>"+tr("No more misspelled words")+"</b>");
+
+	c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor);
+	c.movePosition(QTextCursor::StartOfWord,QTextCursor::MoveAnchor);
+	data = (BlockData*)c.block().userData();
+	li=c.blockNumber();
+	block=c.block();
+	colstart=c.position()-block.position();
+	c.movePosition(QTextCursor::EndOfWord,QTextCursor::KeepAnchor);
+	block=c.block();
+	colend=c.position()-block.position()-1;
+	cols=colstart;
+	text=c.selectedText();
+	while ((cols<colend && cols<data->code.count() && data->code[cols]==1) || text.mid(cols-colstart,1)==" " || text.mid(cols-colstart,1)=="\t" )
+		{
+		cols++;
+		}
+	cole=colend;
+	while (cole>colstart && cole<data->code.count() && data->code[cole]==1)
+		{
+		cole--;
+		}
+	if (text.length()>1 && cole>cols)
+		{
+		word=text.mid(cols-colstart,cole-cols+1);
+		encodedString = codec->fromUnicode(text);
+		check = pChecker->spell(encodedString.data());
+		if (!check)
+			{
+			ns = pChecker->suggest(&wlst,encodedString.data());
+			if (ns > 0)
+				{
+				suggestion="";
+				for (int i=0; i < ns; i++) 
+					{
+					suggestion += codec->toUnicode(wlst[i]) +",";
+					free(wlst[i]);
+					} 
+				free(wlst);
+				if (!ignoredwordList.contains(word))
+					{
+					editor->selectword(li,cols,word);
+					ui.listWidget->setEnabled(true);
+					ui.lineEditNew->setEnabled(true);
+					ui.pushButtonIgnore->setEnabled(true);
+					ui.pushButtonAlwaysIgnore->setEnabled(true);
+					ui.pushButtonReplace->setEnabled(true);
+					ui.lineEditOriginal->setEnabled(true);
+					ui.lineEditOriginal->setText(word);
+					ui.listWidget->clear();
+					ui.lineEditNew->clear();
+					ui.labelMessage->setText("");
+					if (!suggestion.isEmpty())
+						{
+						suggWords=suggestion.split(",");
+						ui.listWidget->addItems(suggWords);
+						ui.lineEditNew->setText(suggWords.at(0));
+						}
+					gonext=false;
+					}
+				}
+			}
+		}
+	go=c.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor);
+	}
 }
 
-void SpellerDialog::readOutput()
-{
-QRegExp rxsug("^&\\s+(.+)\\s+(\\d+)\\s+(\\d+):\\s+(.+)");
-QRegExp rxnosug("^#\\s+(.+)\\s+(\\d+)");
-QByteArray result=spellproc->readAllStandardOutput();
-QString l;
-QTextStream stream(&result);
-int col,pos;
-while (!stream.atEnd()) 
-	{
-	l = stream.readLine();
-	if (rxsug.indexIn(l)>-1)
-		{
-		col=rxsug.cap(3).toInt()-1;
-		pos=editor->getCursorPosition(currentline,col);
-		if (pos>=startpos && pos<=endpos)
-			{
-			lineList.append(currentline);
-			colList.append(col);
-			miswordList.append(rxsug.cap(1));
-			suggestionList.append(rxsug.cap(4).remove(" "));
-			}
-		}
-	else if (rxnosug.indexIn(l)>-1)
-		{
-		col=rxnosug.cap(2).toInt()-1;
-		pos=editor->getCursorPosition(currentline,col);
-		if (pos>=startpos && pos<=endpos)
-			{
-			lineList.append(currentline);
-			colList.append(col);
-			miswordList.append(rxnosug.cap(1));
-			suggestionList.append("");
-			}
-		}
-	else if (l.isEmpty()) 
-		{
-		currentline+=1;
-		if (progressDialog) progressDialog->setValue(currentline);
-		}
-	}
-if (currentline==numlines) 
-	{
-#ifdef Q_WS_WIN
-	spellproc->kill();
-#else
-	spellproc->terminate();
-#endif
-	}
-}

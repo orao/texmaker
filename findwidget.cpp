@@ -9,24 +9,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "finddialog.h"
+#include "findwidget.h"
 
-FindDialog::FindDialog(QWidget* parent,  const char* name, Qt::WFlags fl )
-    : QDialog( parent, fl )
+FindWidget::FindWidget(QWidget* parent)
+    : QWidget( parent)
 {
-setWindowTitle(name);
-setModal(true);
 ui.setupUi(this);
 connect(ui.findButton, SIGNAL( clicked() ), this, SLOT( doFind() ) );
-connect(ui.closeButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
+connect(ui.closeButton, SIGNAL( clicked() ), this, SLOT( doHide() ) );
+ui.findButton->setShortcut(Qt::Key_Return);
  }
 
-FindDialog::~FindDialog()
+FindWidget::~FindWidget()
 {
 
 }
 
-void FindDialog::doFind()
+void FindWidget::doFind()
 {
 if ( !editor ) return;
 if ( !editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),	ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked() ) )
@@ -37,7 +36,17 @@ else ui.checkBegin->setChecked( FALSE );
 editor->viewport()->repaint();
 }
 
-void FindDialog::SetEditor(LatexEditor *ed)
+void FindWidget::doHide()
+{
+hide();
+if ( editor ) 
+	{
+	editor->viewport()->repaint();
+	editor->setFocus();
+	}
+}
+
+void FindWidget::SetEditor(LatexEditor *ed)
 {
 editor=ed;
 }

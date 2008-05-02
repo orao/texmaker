@@ -13,40 +13,35 @@
 
 #include "ui_spellerdialog.h"
 #include "latexeditor.h"
+#include "hunspell/hunspell.hxx"
 
-#include <QProcess>
-#include <QPointer>
-#include <QProgressDialog>
+#include <QTextCursor>
 
 class SpellerDialog : public QDialog  {
    Q_OBJECT
 public:
-	SpellerDialog(QWidget *parent=0,LatexEditor *ed=0, QString AspellCommand="", QString lang="", QString encoding="");
+	SpellerDialog(QWidget *parent=0,LatexEditor *ed=0, QString SpellDic="", QString ignoredWords="");
 	~SpellerDialog();
 	Ui::SpellerDialog ui;
+QStringList alwaysignoredwordList;
 private :
-QString spell_command, spell_lang, spell_encoding;
+QString spell_dic, spell_encoding;
 LatexEditor *editor;
-QPointer<QProcess> spellproc;
-int numlines,currentline, wordcount;
-QStringList miswordList,suggestionList, ignoredwordList;
-QList<int> lineList,colList;
-QPointer<QProgressDialog> progressDialog;
-int startpos, endpos, deltacol, spellingline;
+QStringList ignoredwordList;
+int startpos, endpos, deltacol;
+Hunspell * pChecker;
+bool go;
+QTextCursor c;
 protected:
 void closeEvent( QCloseEvent* );
 private slots:
 void accept();
-void scanDocument();
 void spellingInit();
-void spellingNext();
-void endProcess(int err);
-void readOutput();
 void slotIgnore();
+void slotAlwaysIgnore();
 void slotReplace();
 void updateItem();
-signals:
-void scanfinished();
+void SpellingNextWord();
 };
 
 

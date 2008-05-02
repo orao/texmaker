@@ -73,14 +73,9 @@ Le caractére <strong>%</strong> représente le nom du fichier courant (sans l'e
 <p><IMG src="doc14.png" border="1"></p>
 <h2><a name="SECTION03">1.3 Configurer la vérification orthographique</a></h2>
 <p>
-Pour pouvoir utiliser la vérification orthographique, le programme "aspell" doit-être installé sur votre système.
-<ul>
-<li>Sur linux : il faut installer les paquets "aspell" et "aspell-fr".</li>
-<li>Pour windows, il faut d'abord se connecter à la page suivante : <A href="http://aspell.net/win32/" target="_blank">http://aspell.net/win32/</A><br>
-Il faut ensuite installer le programme "Full installer", puis le dictionnaire français (aspell-fr-0.50-3-3.exe).</li>
-<li>Sur macosx : il faut installer les paquets "aspell" et "aspell-fr" en utilisant "fink" (CocoAspell ne fonctionne pas avec Texmaker)</li>
-</ul>
-Pour configurer le fonctionnement d'aspell dans Texmaker : "Configurer Texmaker" -> "Editeur" -> "Commande Aspell"...(si nécessaire, utilisez le bouton en fin de ligne pour sélectionner le programme aspell avec le sélecteur de fichiers)
+Le système interne de vérification orthographique utilise les mêmes dictionnaires qu'OpenOffice.org. Seuls les dictionnaires GPL français et anglais sont distribués avec Texmaker.<br>
+Il est possible de télécharger d'autres dictionnaires à cette adresse : <A href="http://wiki.services.openoffice.org/wiki/Dictionaries" target="_blank">http://wiki.services.openoffice.org/wiki/Dictionaries</A><br>
+Pour configurer le fonctionnement d'aspell dans Texmaker : "Configurer Texmaker" -> "Editeur" -> "Dictionnaire" et utiliser le bouton en fin de ligne pour sélectionner le dictionnaire avec le sélecteur de fichiers.
 </p>
 <h1><a name="SECTION1">2. Rédaction d'un document avec l'éditeur</a></h1>
 <h2><a name="SECTION11">2.1 Commandes usuelles</a></h2>
@@ -153,8 +148,7 @@ Sinon, on peut aussi lancer les commandes une par une selon ses besoins via le m
 <li>La commande "Nettoyer" (menu "Outils") permet d'effacer tous les fichiers générés par LaTeX (sauf le fichier postscript et pdf)</li>
 </ul></p>
 <h2><a name="SECTION23">3.2 Les fichiers log</a></h2>
-<p>Lors de l'utilisation de la commande "Compilation rapide", le fichier log généré par LaTeX est automatiquement affiché dans le panneau "Messages / Fichier Log" si une erreur de compilation est détectée. La ligne décrivant l'erreur apparaît alors en rouge. Un clic sur le numéro de ligne permet alors d'atteindre directement cette ligne dans l'éditeur.<br>
-Remarque : un résumé des erreurs et des avertissements détectés sont affichés avant le fichier log complet.
+<p>Lors de l'utilisation de la commande "Compilation rapide", le fichier log généré par LaTeX est automatiquement affiché dans le panneau "Messages / Fichier Log" si une erreur de compilation est détectée. Un clic dans la colonne "Line" permet alors d'atteindre directement cette ligne dans l'éditeur et le détail de l'erreur est affichée en dessous.
 </p>
 <p><IMG src="doc15.png" border="1"></p>
 <p>Dans les autres cas, un simple clic sur les boutons "Erreur LaTeX suivante" et "Erreur LaTeX précédente" permet d'afficher le fichier log et d'atteindre directement l'erreur recherchée.</p>
@@ -227,7 +221,8 @@ Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 	<li>Couper : Ctrl+X</li>
 	<li>Coller : Ctrl+V</li>
 	<li>Sélectionner tout : Ctrl+A</li>
-	<li>Chercher : Ctrl+F</li>
+	<li>Commenter : Ctrl+T</li>
+	<li>Décommenter : Ctrl+U</li>
 	<li>Chercher à nouveau : Ctrl+M</li>
 	<li>Remplacer : CTrl+R</li>
 	<li>Aller à la ligne : Ctrl+G</li>

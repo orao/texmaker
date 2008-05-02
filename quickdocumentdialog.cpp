@@ -39,6 +39,7 @@ ui.comboBoxClass->addItem( "article" );
 ui.comboBoxClass->addItem( "report");
 ui.comboBoxClass->addItem( "letter" );
 ui.comboBoxClass->addItem( "book" );
+ui.comboBoxClass->addItem( "beamer" );
 if (!otherClassList.isEmpty ()) ui.comboBoxClass->addItems(otherClassList);
 
 ui.comboBoxPaper->clear();
@@ -55,7 +56,7 @@ ui.comboBoxEncoding->addItem( "latin1" );
 ui.comboBoxEncoding->addItem( "latin2" );
 ui.comboBoxEncoding->addItem( "latin3" );
 ui.comboBoxEncoding->addItem( "latin5" );
-ui.comboBoxEncoding->addItem( "utf8" );
+ui.comboBoxEncoding->addItem( "utf8x" );
 ui.comboBoxEncoding->addItem( "ascii" );
 ui.comboBoxEncoding->addItem( "decmulti" );
 ui.comboBoxEncoding->addItem( "cp850" );

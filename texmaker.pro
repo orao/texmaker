@@ -13,7 +13,7 @@ HEADERS	+= texmaker.h \
 	logeditor.h \
 	loghighlighter.h \
 	metapostlistwidget.h \
-	finddialog.h \
+	findwidget.h \
 	gotolinedialog.h \
 	replacedialog.h \
 	structdialog.h \
@@ -31,7 +31,23 @@ HEADERS	+= texmaker.h \
 	aboutdialog.h \
 	webpublishdialog.h \
 	spellerdialog.h \
-	pstrickslistwidget.h
+	pstrickslistwidget.h \
+	blockdata.h \
+	hunspell/affentry.hxx \
+	hunspell/affixmgr.hxx \
+	hunspell/atypes.hxx \
+	hunspell/baseaffix.hxx \
+	hunspell/csutil.hxx \
+	hunspell/dictmgr.hxx \
+	hunspell/hashmgr.hxx \
+	hunspell/htypes.hxx \
+	hunspell/hunspell.hxx \
+	hunspell/hunspell.h \
+	hunspell/langnum.hxx \
+	hunspell/license.hunspell \
+	hunspell/phonet.hxx \
+	hunspell/suggestmgr.hxx \
+	hunspell/license.myspell 
 SOURCES	+= main.cpp \
 	texmaker.cpp \
 	symbollistwidget.cpp \
@@ -43,7 +59,7 @@ SOURCES	+= main.cpp \
 	logeditor.cpp \
 	loghighlighter.cpp \
 	metapostlistwidget.cpp \
-	finddialog.cpp \
+	findwidget.cpp \
 	gotolinedialog.cpp \
 	replacedialog.cpp \
 	structdialog.cpp \
@@ -61,9 +77,18 @@ SOURCES	+= main.cpp \
 	aboutdialog.cpp \
 	webpublishdialog.cpp \
 	spellerdialog.cpp \
-	pstrickslistwidget.cpp
+	pstrickslistwidget.cpp \
+	hunspell/affentry.cxx \
+	hunspell/affixmgr.cxx \
+	hunspell/csutil.cxx \
+	hunspell/dictmgr.cxx \
+	hunspell/hashmgr.cxx \
+	hunspell/hunspell.cxx \
+	hunspell/phonet.cxx \
+	hunspell/suggestmgr.cxx \
+	hunspell/utf_info.cxx
 RESOURCES += texmaker.qrc
-FORMS   += finddialog.ui\
+FORMS   += findwidget.ui\
 	gotolinedialog.ui \
 	replacedialog.ui \
 	structdialog.ui \
@@ -81,10 +106,7 @@ FORMS   += finddialog.ui\
 	webpublishdialog.ui \
 	configdialog.ui \
 	spellerdialog.ui
-TRANSLATIONS += texmaker_fr.ts \
-	texmaker_zh.ts \
-	texmaker_ru.ts \
-	texmaker_de.ts
+TRANSLATIONS += texmaker_fr.ts
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -129,13 +151,14 @@ utilities.files = utilities/blank.png \
 	utilities/psheader.txt \
 	utilities/style.css \
 	utilities/texmaker_fr.qm \
-	utilities/texmaker_ru.qm \
-	utilities/texmaker_zh.qm \
-	utilities/texmaker_de.qm \
 	utilities/up.gif \
 	utilities/up_d.gif \
 	utilities/usermanual_en.html \
 	utilities/usermanual_fr.html \
+	utilities/en_GB.aff \
+	utilities/en_GB.dic \
+	utilities/fr_FR.aff \
+	utilities/fr_FR.dic \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -146,8 +169,7 @@ utilities.files = utilities/blank.png \
 	utilities/texmaker64x64.png \
 	utilities/texmaker128x128.png \
 	utilities/texmaker.desktop \
-	utilities/texmaker.svg \
-	utilities/xpdf_texmaker_sh.txt
+	utilities/texmaker.svg
 INSTALLS += utilities
 }
 ################################
@@ -160,8 +182,10 @@ macx {
 UI_DIR = .ui
 MOC_DIR = .moc
 OBJECTS_DIR = .obj
+##universal tiger
 CONFIG += link_prl x86 ppc
 QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
 target.path = /Applications
 INSTALLS = target
 utilities.path = Contents/Resources
@@ -194,13 +218,14 @@ utilities.files = utilities/blank.png \
 	utilities/psheader.txt \
 	utilities/style.css \
 	utilities/texmaker_fr.qm \
-	utilities/texmaker_ru.qm \
-	utilities/texmaker_zh.qm \
-	utilities/texmaker_de.qm \
 	utilities/up.gif \
 	utilities/up_d.gif \
 	utilities/usermanual_en.html \
 	utilities/usermanual_fr.html \
+	utilities/en_GB.aff \
+	utilities/en_GB.dic \
+	utilities/fr_FR.aff \
+	utilities/fr_FR.dic \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt

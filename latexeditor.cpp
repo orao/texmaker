@@ -21,8 +21,14 @@
 #include <QMimeData>
 #include <QClipboard>
 #include <QPalette>
+#include <QKeyEvent>
+#include <QAbstractItemView>
+#include <QApplication>
+#include <QModelIndex>
+#include <QAbstractItemModel>
+#include <QScrollBar>
 
-LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword) : QTextEdit(parent)
+LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword) : QTextEdit(parent),c(0)
 {
 QPalette p = palette();
 p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
@@ -35,11 +41,14 @@ for (int i = 0; i < 3; ++i) UserBookmark[i]=0;
 encoding="";
 setFont(efont);
 setTabStopWidth(fontMetrics().width("    "));
+setTabChangesFocus(false);
 highlighter = new LatexHighlighter(document());
 highlighter->setColors(colMath,colCommand,colKeyword);
+//c=0;
 connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
 // matcher = new ParenMatcher;
 // connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
+//grabShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Tab), Qt::WidgetShortcut);
 setFocus();
 }
 LatexEditor::~LatexEditor(){
@@ -120,12 +129,12 @@ QTextDocument::FindFlags flags = 0;
 if (cs) flags |= QTextDocument::FindCaseSensitively;
 if (wo) flags |= QTextDocument::FindWholeWords;
 QTextCursor c = textCursor();
-if (!c.hasSelection()) 
-	{
-	if (forward) c.movePosition(QTextCursor::Start);
-	else c.movePosition(QTextCursor::End);
-	setTextCursor(c);
-	}
+//if (!c.hasSelection()) 
+//	{
+//	if (forward) c.movePosition(QTextCursor::Start);
+//	else c.movePosition(QTextCursor::End);
+//	setTextCursor(c);
+//	}
 QTextDocument::FindFlags options;
 if (! startAtCursor) 
 	{
@@ -225,6 +234,29 @@ if (cur.hasSelection())
 	}
 }
 
+void LatexEditor::unindentSelection()
+{
+bool go=true;
+QTextCursor cur=textCursor();
+if (cur.hasSelection())
+	{
+	int start=cur.selectionStart();
+	int end=cur.selectionEnd();
+	cur.setPosition(start,QTextCursor::MoveAnchor);
+	cur.movePosition(QTextCursor::StartOfBlock,QTextCursor::MoveAnchor);
+	while ( cur.position() < end && go)
+		{
+		cur.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
+		if (cur.selectedText()=="\t") 
+			{
+			cur.removeSelectedText();
+			end--;
+			}
+		go=cur.movePosition(QTextCursor::NextBlock,QTextCursor::MoveAnchor);
+		}
+	}
+}
+
 void LatexEditor::changeFont(QFont & new_font)
 {
 setFont(new_font);
@@ -244,11 +276,12 @@ int LatexEditor::getCursorPosition(int para, int index)
 {
 int i = 0;
 QTextBlock p = document()->begin();
-while ( p.isValid() ) {
+while ( p.isValid() ) 
+	{
 	if (para==i) break;
 	i++;
-p = p.next();
-}
+	p = p.next();
+	}
 return p.position()+index;
 }
 
@@ -268,22 +301,22 @@ QTextCursor cur=textCursor();
 QTextBlock p = document()->begin();
 QString s;
 while (p.isValid())
-   {
-    s = p.text();
-    s=s.left(3);
-    if (s=="OPT" || s=="ALT")
-        {
-	int pos=p.position();
-	p = p.next();
-	cur.setPosition(pos,QTextCursor::MoveAnchor);
-	cur.select(QTextCursor::BlockUnderCursor);
-	cur.removeSelectedText();	
-        }
-    else 
 	{
-	p = p.next();
+	s = p.text();
+	s=s.left(3);
+	if (s=="OPT" || s=="ALT")
+		{
+		int pos=p.position();
+		p = p.next();
+		cur.setPosition(pos,QTextCursor::MoveAnchor);
+		cur.select(QTextCursor::BlockUnderCursor);
+		cur.removeSelectedText();	
+		}
+	else 
+		{
+		p = p.next();
+		}
 	}
-   }
 setFocus();
 }
 
@@ -314,11 +347,12 @@ void LatexEditor::selectword(int line, int col, QString word)
 QTextCursor cur=textCursor();
 int i = 0;
 QTextBlock p = document()->begin();
-while ( p.isValid() ) {
+while ( p.isValid() ) 
+	{
 	if (line==i) break;
 	i++;
-p = p.next();
-}
+	p = p.next();
+	}
 int pos=p.position();
 int offset=word.length();
 cur.setPosition(pos+col,QTextCursor::MoveAnchor);
@@ -340,3 +374,158 @@ void LatexEditor::checkSpellingDocument()
 emit spellme();
 }
 
+QString LatexEditor::textUnderCursor() const
+ {
+QTextCursor tc = textCursor();
+int oldpos=tc.position();
+tc.select(QTextCursor::WordUnderCursor);
+int newpos = tc.selectionStart();
+tc.setPosition(newpos, QTextCursor::MoveAnchor);
+tc.setPosition(oldpos, QTextCursor::KeepAnchor);
+QString word=tc.selectedText();
+QString sword=word.trimmed();
+if (word.right(1)!=sword.right(1)) word="";
+return word;
+ }
+
+void LatexEditor::keyPressEvent ( QKeyEvent * e ) 
+{
+if (c && c->popup()->isVisible()) 
+	{
+	// The following keys are forwarded by the completer to the widget
+	switch (e->key()) 
+		{
+		case Qt::Key_Enter:
+		case Qt::Key_Return:
+		case Qt::Key_Escape:
+		case Qt::Key_Tab:
+		case Qt::Key_Backtab:
+		e->ignore();
+		return; // let the completer do default behavior
+		default:
+		break;
+		}
+	}
+
+//bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
+//if (!c || !isShortcut) 
+//	{
+	if ((e->key()==Qt::Key_Backtab))
+		{
+		QTextCursor cursor=textCursor();
+		cursor.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor);
+		if (cursor.selectedText()=="\t") 
+				{
+				cursor.removeSelectedText();
+				}
+		}
+	else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
+		{
+		QTextEdit::keyPressEvent(e);
+		QTextCursor cursor=textCursor();
+		cursor.joinPreviousEditBlock();
+		QTextBlock block=cursor.block();
+		QTextBlock blockprev=block.previous();
+		if (blockprev.isValid()) 
+			{
+			QString txt=blockprev.text();
+			int j=0;
+			while ( (j<txt.count()) && ((txt[j]==' ') || txt[j]=='\t') ) 
+				{
+				cursor.insertText(QString(txt[j]));
+				j++;
+				}
+			}
+		cursor.endEditBlock();
+		}
+	else QTextEdit::keyPressEvent(e);
+//	}// dont process the shortcut when we have a completer
+
+const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+if (!c || (ctrlOrShift && e->text().isEmpty())) return;
+
+//static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=");
+static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]-= "); // end of word
+bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
+//bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+QString completionPrefix = textUnderCursor();
+if (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3 || eow.contains(e->text().right(1)))
+//if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3 || eow.contains(e->text().right(1)))) 
+	{
+	c->popup()->hide();
+	return;
+	}
+if (completionPrefix != c->completionPrefix()) 
+	{
+	c->setCompletionPrefix(completionPrefix);
+	c->popup()->setCurrentIndex(c->completionModel()->index(0, 0));
+	}
+QRect cr = cursorRect();
+cr.setWidth(c->popup()->sizeHintForColumn(0)+ c->popup()->verticalScrollBar()->sizeHint().width());
+c->complete(cr); // popup it up!
+}
+
+QCompleter *LatexEditor::completer() const
+ {
+     return c;
+ }
+
+void LatexEditor::setCompleter(QCompleter *completer)
+{
+if (c) QObject::disconnect(c, 0, this, 0);
+c = completer;
+if (!c) return;
+c->setWidget(this);
+c->setCompletionMode(QCompleter::PopupCompletion);
+c->setCaseSensitivity(Qt::CaseInsensitive);
+QObject::connect(c, SIGNAL(activated(const QString&)),this, SLOT(insertCompletion(const QString&)));
+}
+
+ void LatexEditor::insertCompletion(const QString& completion)
+{
+if (c->widget() != this) return;
+QTextCursor tc = textCursor();
+int extra = completion.length() - c->completionPrefix().length();
+//tc.movePosition(QTextCursor::Left);
+//tc.movePosition(QTextCursor::EndOfWord);
+int pos=tc.position();
+QString insert_word = "";
+QString original_word=completion.right(extra);
+bool skipfirst=(completion.startsWith("\\begin{") || completion.startsWith("\\end{") || completion.startsWith("\\ref{") || completion.startsWith("\\pageref{"));
+QString character;
+bool ignore = false;
+int offset=0;
+for ( int i = 0; i < original_word.length(); ++i )
+	{
+	character=original_word.mid(i,1);
+	if (character=="[" || character=="{" || character=="(" || character=="<") 
+		{
+		insert_word += character;
+		if (!skipfirst) 
+			{
+			ignore = true;
+			if (offset==0) offset=i;
+			}
+		else skipfirst=false;
+		}
+	else if (character=="]" || character=="}" || character==")" || character==">") 
+		{
+		insert_word += character;
+		ignore = false;
+		}
+	else if (character==",")
+		{
+		insert_word += character;
+		}
+	else if ( ! ignore ) insert_word += character;
+	}
+tc.insertText(insert_word);
+if (offset!=0) tc.setPosition(pos+offset+1,QTextCursor::MoveAnchor);
+setTextCursor(tc);
+}
+
+ void LatexEditor::focusInEvent(QFocusEvent *e)
+{
+if (c) c->setWidget(this);
+QTextEdit::focusInEvent(e);
+}

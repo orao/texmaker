@@ -15,6 +15,8 @@ AboutDialog::AboutDialog(QWidget *parent)
     :QDialog( parent)
 {
 ui.setupUi(this);
+ui.textBrowser->setOpenExternalLinks(true);
+ui.textBrowser->setHtml(QString::fromUtf8("<b>Texmaker 1.7</b><br><b>Copyright (c) 2004-2008 by Pascal Brachet</b><br><i>with the contribution of Joël Amblard (html conversion).</i><br>Texmaker contains code from the Hunspell program (GPL).<br><br>Thanks to Frederic Devernay, Denis Bitouzé & Jean-Côme Charpentier.<br><br>Project home site : <a href=\"http://www.xm1math.net/texmaker/\">http://www.xm1math.net/texmaker/</a><br><br>This program is licensed to you under the terms of the GNU General Public License Version 2 as published by the Free Software Foundation."));
 }
 
 AboutDialog::~AboutDialog(){

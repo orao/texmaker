@@ -1,3 +1,10 @@
+version 1.6 -> 1.7 :
+--------------------
+- New search widget
+- Spell checking is now based on hunspell and uses OpenOffice.org dictionaries.
+- New LaTeX log errors detection
+- Indentation "memory"
+- Code completion
 version 1.5 -> 1.6 :
 --------------------
 - spell checking bug has been fixed (when misspelled and original word has not the same size)

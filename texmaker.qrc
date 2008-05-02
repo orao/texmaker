@@ -388,6 +388,7 @@
         <file>symbols/img34.png</file>
         <file>symbols/img340.png</file>
         <file>symbols/img341.png</file>
+        <file>symbols/img342.png</file>
         <file>symbols/img343.png</file>
         <file>symbols/img344.png</file>
         <file>symbols/img345.png</file>
@@ -503,5 +504,6 @@
         <file>symbols/img98.png</file>
         <file>symbols/img99.png</file>
         <file>symbols/img9greek.png</file>
+	<file>completion/completion.txt</file>
     </qresource>
 </RCC>

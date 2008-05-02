@@ -34,6 +34,8 @@ LineNumberWidget::~LineNumberWidget()
 
 void LineNumberWidget::paintEvent( QPaintEvent* /*e*/ )
 {
+int max=0;
+int l=0;
 QPainter painter( this );
 painter.setFont(numfont);
 const QFontMetrics fm(numfont);
@@ -70,11 +72,13 @@ while ( p.isValid() )
 		}
 	painter.setPen(oldpen);
 	numtext=QString::number(i);
-	if (i>=10000) numtext=numtext.right(4);
 	painter.drawText(0, (int)(point.y()) - yOffset,width()-4,fm.lineSpacing(),Qt::AlignRight | Qt::AlignTop,numtext);
+	l= fm.width(numtext)+18+fm.width("0");
+	if (l>max) max=l;
 	i++;
 	p = p.next();
-	}	
+	}
+	if (i>=10000) setFixedWidth(max);	
 painter.end();
 }
 
@@ -108,4 +112,5 @@ for (int j = 0; j < 3; ++j)
 void LineNumberWidget::setFont(QFont efont)
 {
 numfont=efont;
-}  
+}
+

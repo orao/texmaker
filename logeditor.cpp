@@ -11,10 +11,11 @@
 
 #include "logeditor.h"
 #include <QRegExp>
+#include <QPainter>
 
 LogEditor::LogEditor(QWidget *parent) : QTextEdit(parent)
 {
-setToolTip(tr("Click to jump to the line"));
+//setToolTip(tr("Click to jump to the line"));
 highlighter = new LogHighlighter(document());
 }
 LogEditor::~LogEditor(){
@@ -36,6 +37,8 @@ while ( p.isValid() ) {
 p = p.next();
 }
 int pos=p.position();
+cur.movePosition(QTextCursor::End);
+setTextCursor(cur);
 cur.setPosition(pos+index,QTextCursor::MoveAnchor);
 setTextCursor(cur);
 ensureCursorVisible();
@@ -97,4 +100,16 @@ if (ok)
 emit clickonline(l);
  }
 
+}
+
+void LogEditor::paintEvent(QPaintEvent *event)
+{
+QRect rect = cursorRect();
+rect.setX(0);
+rect.setWidth(viewport()->width());
+QPainter painter(viewport());
+const QBrush brush(QColor("#ececec"));
+painter.fillRect(rect, brush);
+painter.end();
+QTextEdit::paintEvent(event);
 }

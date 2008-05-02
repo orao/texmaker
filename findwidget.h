@@ -9,26 +9,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FINDDIALOG_H
-#define FINDDIALOG_H
+#ifndef FINDWIDGET_H
+#define FINDWIDGET_H
 
-#include "ui_finddialog.h"
+#include "ui_findwidget.h"
 #include "latexeditor.h"
 
-class FindDialog : public QDialog
+class FindWidget : public QWidget
 { 
     Q_OBJECT
 
 public:
-    FindDialog(QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
-    ~FindDialog();
-    Ui::FindDialog ui;
+    FindWidget(QWidget* parent = 0);
+    ~FindWidget();
+    Ui::FindWidget ui;
 public slots:
     virtual void doFind();
     void SetEditor(LatexEditor *ed);
+    void doHide();
 
 protected:
     LatexEditor *editor;
 };
 
-#endif // FINDDIALOG_H
+#endif

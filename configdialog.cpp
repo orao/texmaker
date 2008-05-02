@@ -21,7 +21,6 @@ ConfigDialog::ConfigDialog(QWidget* parent): QDialog( parent)
 {
 setModal(true);
 ui.setupUi(this);
-//setWindowTitle(tr("English"));
 
 ui.contentsWidget->setIconSize(QSize(96, 96));
 ui.contentsWidget->setViewMode(QListView::IconMode);
@@ -39,8 +38,9 @@ foreach (int mib, QTextCodec::availableMibs())
 	}
 connect( ui.pushButtonAspell, SIGNAL(clicked()), this, SLOT(browseAspell()));
 
-ui.comboBoxAspellEncoding->addItem("utf-8");
-ui.comboBoxAspellEncoding->addItem("iso8859-1");
+ui.labelGetDic->setText( tr("Get dictionary at: %1").arg("<br><a href=\"http://wiki.services.openoffice.org/wiki/Dictionaries\">http://wiki.services.openoffice.org/wiki/Dictionaries</a>") );
+ui.labelGetDic->setOpenExternalLinks(true);
+
 
 connect( ui.pushButtonColorMath, SIGNAL(clicked()), this, SLOT(configureColorMath()));
 connect( ui.pushButtonColorCommand, SIGNAL(clicked()), this, SLOT(configureColorCommand()));
@@ -109,11 +109,11 @@ void ConfigDialog::changePage(QListWidgetItem *current, QListWidgetItem *previou
 //pageditor
 void ConfigDialog::browseAspell()
 {
-QString location=QFileDialog::getOpenFileName(this,tr("Browse program"),QDir::rootPath(),"Program (*)",0,QFileDialog::DontResolveSymlinks);
+QString location=QFileDialog::getOpenFileName(this,tr("Browse dictionary"),QDir::homePath(),"Dictionary (*.dic)",0,QFileDialog::DontResolveSymlinks);
 if ( !location.isEmpty() ) 
 	{
 	location.replace(QString("\\"),QString("/"));
-	location="\""+location+"\"";
+//	location="\""+location+"\"";
 	ui.lineEditAspellCommand->setText( location );
 	}
 }

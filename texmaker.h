@@ -29,6 +29,10 @@
 #include <QProcess>
 #include <QPushButton>
 #include <QColor>
+#include <QCompleter>
+#include <QTextTable>
+#include <QVBoxLayout>
+#include <QTableWidget>
 
 #include "latexeditorview.h"
 #include "symbollistwidget.h"
@@ -37,7 +41,6 @@
 #include "logeditor.h"
 #include "gotolinedialog.h"
 #include "replacedialog.h"
-#include "finddialog.h"
 
 
 
@@ -80,6 +83,8 @@ MetapostListWidget *MpListWidget;
 PstricksListWidget *PsListWidget;
 SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget;
 QTreeWidget *StructureTreeWidget;
+QVBoxLayout *OutputLayout;
+QTableWidget *OutputTableWidget;
 //menu-toolbar
 QMenu *fileMenu, *recentMenu, *editMenu, *toolMenu;
 QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu, *latex17Menu ;
@@ -94,18 +99,18 @@ QMenu *helpMenu;
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *mathToolBar;
 QAction *recentFileActs[5], *ToggleAct;
 
-QLabel *stat1, *stat2;
+QLabel *stat1, *stat2, *stat3;
 QPushButton *pb1, *pb2, *pb3;
 QString MasterName;
 bool logpresent;
 QStringList recentFilesList;
 //settings
 int split1_right, split1_left, split2_top, split2_bottom, quickmode;
-bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package;
+bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package, completion;
 QString document_class, typeface_size, paper_size, document_encoding, author;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command;
 QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command;
-QString aspell_command, aspell_lang, aspell_encoding;
+QString spell_dic, spell_ignored_words;
 QString lastDocument, input_encoding;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
 QStringList userClassList, userPaperList, userEncodingList, userOptionsList;
@@ -113,28 +118,17 @@ QStringList structlist, labelitem, structitem;
 Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
 //dialogs
-QPointer<FindDialog> findDialog;
 QPointer<ReplaceDialog> replaceDialog;
 QPointer<GotoLineDialog> gotoLineDialog;
-//QPointer<HelpWidget> help_widget;
 
 //tools
 QProcess *proc;
 bool FINPROCESS, ERRPROCESS;
 //latex errors
-int summaryLines;
+QStringList errorFileList, errorTypeList, errorLineList, errorMessageList, errorLogList;
+QList<int> onlyErrorList;
 int errorIndex;
-int errorFlag;
-enum {flagStart = 0, flagError, flagBadBox, flagLineNumber, flagWarning};
-QList<int> errorLogLineList;
-QList<int> errorLineList;
-QList<int> latexErrorLogLineList;
-QList<int> latexErrorLineList;
-QStringList errorMessageList;
-int outputLine;
-int currentOutputLine;
-int currentSourceLine;
-QString currentErrorMessage;
+
 //X11
 #if defined( Q_WS_X11 )
 QString x11style;
@@ -145,6 +139,9 @@ SymbolList symbolScore;
 usercodelist symbolMostused;
 
 QColor colorMath, colorCommand, colorKeyword;
+
+QCompleter *completer;
+
 private slots:
 LatexEditorView *currentEditorView() const;
 void fileNew();
@@ -158,6 +155,7 @@ void fileExit();
 void fileOpenRecent();
 void AddRecentFile(const QString &f);
 void UpdateRecentFile();
+void filePrint();
 
 void editUndo();
 void editRedo();
@@ -172,6 +170,7 @@ void editGotoLine();
 void editComment();
 void editUncomment();
 void editIndent();
+void editUnindent();
 void editSpell();
 
 void ReadSettings();
@@ -268,20 +267,15 @@ void WebPublish();
 
 void ViewLog();
 void ClickedOnOutput(int l);
+void ClickedOnLogLine(QTableWidgetItem *item);
 void LatexError();
+void DisplayLatexError();
 void NextError();
 void PreviousError();
+bool NoLatexErrors();
+bool LogExists();
 
 /////
-bool NoLatexErrors();
-bool ParseLatexError(QString line);
-void ParseLogLine(QString line);
-void QuickParseLogLine(QString line);
-bool ParseBadBox(QString line);
-bool ParseBadBoxLineNumber(QString line, int len);
-bool ParseWarning(QString line);
-bool ParseWarningLineNumber(QString line, int len);
-
 void LatexHelp();
 void UserManualHelp();
 void HelpAbout();
@@ -301,6 +295,8 @@ void gotoBookmark3();
 void SetMostUsedSymbols();
 
 void ModifyShortcuts();
+
+void updateCompleter();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);

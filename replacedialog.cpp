@@ -21,6 +21,7 @@ ui.setupUi(this);
 connect( ui.findButton, SIGNAL( clicked() ), this, SLOT( doReplace() ) );
 connect( ui.replaceallButton, SIGNAL( clicked() ), this, SLOT( doReplaceAll() ) );
 connect( ui.closeButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
+ui.findButton->setShortcut(Qt::Key_Return);
 }
 
 
