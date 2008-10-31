@@ -1,6 +1,7 @@
 /***************************************************************************
  *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
+ *   addons by Luis Silvestre                                              *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -10,7 +11,7 @@
  ***************************************************************************/
 
 #include "latexeditor.h"
-//#include "parenmatcher.h"
+
 #include <QPainter>
 #include <QTextLayout>
 #include <QMetaProperty>
@@ -46,34 +47,34 @@ highlighter = new LatexHighlighter(document());
 highlighter->setColors(colMath,colCommand,colKeyword);
 //c=0;
 connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
-// matcher = new ParenMatcher;
-// connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
+ matcher = new ParenMatcher;
+ connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
 //grabShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Tab), Qt::WidgetShortcut);
 setFocus();
 }
 LatexEditor::~LatexEditor(){
-//delete matcher;
+delete matcher;
 }
 
-// void LatexEditor::clearMarkerFormat(const QTextBlock &block, int markerId)
-// {
-//     QTextLayout *layout = block.layout();
-//     QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
-//     bool formatsChanged = false;
-//     for (int i = 0; i < formats.count(); ++i)
-//         if (formats.at(i).format.hasProperty(markerId)) {
-//             formats[i].format.clearBackground();
-//             formats[i].format.clearProperty(markerId);
-//             if (formats.at(i).format.properties().isEmpty()) {
-//                 formats.removeAt(i);
-//                 --i;
-//             }
-//             formatsChanged = true;
-//         }
-// 
-//     if (formatsChanged)
-//         layout->setAdditionalFormats(formats);
-// }
+ void LatexEditor::clearMarkerFormat(const QTextBlock &block, int markerId)
+ {
+     QTextLayout *layout = block.layout();
+     QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
+     bool formatsChanged = false;
+     for (int i = 0; i < formats.count(); ++i)
+         if (formats.at(i).format.hasProperty(markerId)) {
+             formats[i].format.clearBackground();
+             formats[i].format.clearProperty(markerId);
+             if (formats.at(i).format.properties().isEmpty()) {
+                 formats.removeAt(i);
+                 --i;
+             }
+             formatsChanged = true;
+         }
+ 
+     if (formatsChanged)
+         layout->setAdditionalFormats(formats);
+ }
 
 void LatexEditor::paintEvent(QPaintEvent *event)
 {
@@ -429,12 +430,42 @@ if (c && c->popup()->isVisible())
 		if (blockprev.isValid()) 
 			{
 			QString txt=blockprev.text();
+			//QString newLine;
 			int j=0;
 			while ( (j<txt.count()) && ((txt[j]==' ') || txt[j]=='\t') ) 
 				{
+				//newLine+=(QString(txt[j]));
 				cursor.insertText(QString(txt[j]));
 				j++;
 				}
+            		/**** Added to complete \begin and \end *****/
+/*            		bool completingBeginEnd = false;
+            		int shift = txt.indexOf("\\begin{");
+            		int notthere = txt.indexOf("\\end{");
+            		if((txt.length()>0)&&(shift!=-1)&&(notthere<shift))
+				{
+                		int finish = txt.indexOf("}",shift);
+                		if(finish != -1)
+					{
+                        		j = shift+7;
+                        		newLine+="\\end{";
+                        		while (j<=finish)
+						{
+                        	    		newLine+=QString(txt[j]);
+                        	    		j++;
+                        			}
+                        		newLine = " \n" + newLine;
+                        		completingBeginEnd = true;
+                			}
+            			}
+            		cursor.insertText(newLine);
+            		if(completingBeginEnd)
+				{
+		                cursor.movePosition(QTextCursor::Up);
+		                setTextCursor(cursor);
+			        }
+*/
+           		 /********************************************/
 			}
 		cursor.endEditBlock();
 		}
@@ -519,8 +550,18 @@ for ( int i = 0; i < original_word.length(); ++i )
 		}
 	else if ( ! ignore ) insert_word += character;
 	}
-tc.insertText(insert_word);
-if (offset!=0) tc.setPosition(pos+offset+1,QTextCursor::MoveAnchor);
+QRegExp rbb("begin\\{\\s*([A-Za-z_]+)\\}");
+if (completion.contains(rbb)) 
+	{
+	insert_word+="\n\n\\end{"+rbb.cap(1)+"}";
+	tc.insertText(insert_word);
+	tc.movePosition(QTextCursor::Up,QTextCursor::MoveAnchor,1);
+	}
+else
+	{
+	tc.insertText(insert_word);
+	if (offset!=0) tc.setPosition(pos+offset+1,QTextCursor::MoveAnchor);
+	}
 setTextCursor(tc);
 }
 

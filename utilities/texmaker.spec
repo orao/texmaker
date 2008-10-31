@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 1.7
+Version: 1.8
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -69,6 +69,11 @@ make install
 /usr/share/texmaker/texmaker48x48.png
 /usr/share/texmaker/texmaker64x64.png
 /usr/share/texmaker/texmaker_fr.qm
+/usr/share/texmaker/texmaker_de.qm
+/usr/share/texmaker/texmaker_zh.qm
+/usr/share/texmaker/qt_fr.qm
+/usr/share/texmaker/qt_de.qm
+/usr/share/texmaker/qt_zh.qm
 /usr/share/texmaker/up.gif
 /usr/share/texmaker/up_d.gif
 /usr/share/texmaker/usermanual_en.html

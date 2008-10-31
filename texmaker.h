@@ -64,6 +64,7 @@ public slots:
 void load( const QString &f );
 void setLine( const QString &line );
 void ToggleMode();
+void onOtherInstanceMessage(const QString &);  // For messages for the single instance
 
 private:
 void setupMenus();

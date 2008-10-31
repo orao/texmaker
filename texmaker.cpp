@@ -1,5 +1,6 @@
 /***************************************************************************
  *   copyright       : (C) 2003-2008 by Pascal Brachet                     *
+ *   addons by Luis Silvestre                                              *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -226,7 +227,7 @@ errorIndex=-1;
 EditorView=new QTabWidget(this);
 EditorView->setFocusPolicy(Qt::ClickFocus);
 EditorView->setFocus();
-connect(EditorView, SIGNAL( currentChanged( QWidget * ) ), this, SLOT(UpdateCaption()) );
+connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateCaption()) );
 setCentralWidget(EditorView);
 setupMenus();
 setupToolBars();
@@ -383,6 +384,7 @@ editMenu->addAction(Act);
 editMenu->addSeparator();
 
 Act = new QAction(tr("Check Spelling"), this);
+Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_F7);
 connect(Act, SIGNAL(triggered()), this, SLOT(editSpell()));
 editMenu->addAction(Act);
 editMenu->addSeparator();
@@ -1565,9 +1567,15 @@ bool Texmaker::FileAlreadyOpen(QString f)
 {
 bool rep=false;
 FilesMap::Iterator it;
+QString fw32,funix,forig;
 for( it = filenames.begin(); it != filenames.end(); ++it )
 	{
-	if (filenames[it.key()]==f)
+	forig=filenames[it.key()];
+	fw32=filenames[it.key()];
+	funix=filenames[it.key()];
+	fw32.replace(QString("\\"),QString("/"));
+	funix.replace(QString("/"),QString("\\"));
+	if ( (forig==f) || (fw32==f) || (funix==f)) 
 		{
 		EditorView->setCurrentIndex(EditorView->indexOf(it.key()));
 		rep=true;
@@ -1594,6 +1602,7 @@ if ( !file.open( QIODevice::ReadOnly ) )
 	return;
 	}
 QTextStream ts( &file );
+//qDebug() << ts.codec()->name();
 QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
 if(!codec) codec = QTextCodec::codecForLocale();
 //ts.setEncoding(QTextStream::Locale);
@@ -2034,6 +2043,7 @@ currentEditorView()->editor->unindentSelection();
 
 void Texmaker::editSpell()
 {
+if ( !currentEditorView() )	return;
 SpellerDialog *spellDlg=new SpellerDialog(this,currentEditorView()->editor,spell_dic,spell_ignored_words);
 if (spellDlg->exec())
 	{
@@ -2058,22 +2068,6 @@ singlemode=true;
 QFontDatabase fdb;
 QStringList xf = fdb.families();
 QString deft;
-// #ifdef Q_WS_X11
-// x11style=config->value( "X11/Style","plastique").toString();
-// if (xf.contains("DejaVu Sans",Qt::CaseInsensitive)) deft="DejaVu Sans";
-// else if (xf.contains("Bitstream Vera Sans",Qt::CaseInsensitive)) deft="Bitstream Vera Sans";
-// else if (xf.contains("Luxi Sans",Qt::CaseInsensitive)) deft="Luxi Sans";
-// else deft=qApp->font().family();
-// x11fontfamily=config->value("X11/Font Family",deft).toString();
-// x11fontsize=config->value( "X11/Font Size","10").toInt();
-// 
-// QStringList styles = QStyleFactory::keys();
-// if (styles.contains("oxygen")) QApplication::setStyle(QStyleFactory::create("oxygen"));
-// else QApplication::setStyle(QStyleFactory::create(x11style));
-// // QApplication::setPalette(QApplication::style()->standardPalette());
-// QFont x11Font (x11fontfamily,x11fontsize);
-// QApplication::setFont(x11Font);
-// #endif
 
 QRect screen = QApplication::desktop()->screenGeometry();
 int w= config->value( "Geometries/MainwindowWidth",screen.width()-100).toInt();
@@ -2150,18 +2144,16 @@ viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.7/miktex/
 //C:/texmf/miktex/bin/yap.exe
 //\"C:/Program Files/MiKTeX 2.5/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi
 viewps_command=config->value("Tools/Ps","\"C:/Program Files/Ghostgum/gsview/gsview32.exe\" %.ps").toString();
-viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 8.0/Reader/AcroRd32.exe\" %.pdf").toString();
-ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs8.61/bin/gswin32c.exe\"").toString();
+viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 9.0/Reader/AcroRd32.exe\" %.pdf").toString();
+ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs8.63/bin/gswin32c.exe\"").toString();
 #endif
 #ifdef Q_WS_X11
 int desktop_env=1; // 1 : no kde ; 2: kde ; 3 : kde4 ; 
 QStringList styles = QStyleFactory::keys();
 QString kdesession= ::getenv("KDE_FULL_SESSION");
-if (!kdesession.isEmpty())
-	{
-	if (styles.contains("Oxygen")) desktop_env=3;
-	else desktop_env=2;
-	}
+QString kdeversion= ::getenv("KDE_SESSION_VERSION");
+if (!kdesession.isEmpty()) desktop_env=2;
+if (!kdeversion.isEmpty()) desktop_env=3;
 
 latex_command=config->value("Tools/Latex","latex -interaction=nonstopmode %.tex").toString();
 dvips_command=config->value("Tools/Dvips","dvips -o %.ps %.dvi").toString();
@@ -2208,10 +2200,67 @@ else deft=qApp->font().family();
 x11fontfamily=config->value("X11/Font Family",deft).toString();
 x11fontsize=config->value( "X11/Font Size","10").toInt();
 
-if (desktop_env !=3) QApplication::setStyle(QStyleFactory::create(x11style));
+if ((desktop_env !=3) || (!styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create(x11style)); //plastique style if not kde4
 // QApplication::setPalette(QApplication::style()->standardPalette());
 QFont x11Font (x11fontfamily,x11fontsize);
 QApplication::setFont(x11Font);
+
+QPalette pal = QApplication::palette();
+pal.setColor( QPalette::Active, QPalette::Highlight, QColor("#4490d8") );
+pal.setColor( QPalette::Inactive, QPalette::Highlight, QColor("#4490d8") );
+pal.setColor( QPalette::Disabled, QPalette::Highlight, QColor("#4490d8") );
+
+//pal.setColor( QPalette::Active, QPalette::Highlight, QColor("#5689be") );
+//pal.setColor( QPalette::Inactive, QPalette::Highlight, QColor("#5689be") );
+//pal.setColor( QPalette::Disabled, QPalette::Highlight, QColor("#5689be") );
+
+pal.setColor( QPalette::Active, QPalette::HighlightedText, QColor("#ffffff") );
+pal.setColor( QPalette::Inactive, QPalette::HighlightedText, QColor("#ffffff") );
+pal.setColor( QPalette::Disabled, QPalette::HighlightedText, QColor("#ffffff") );
+
+pal.setColor( QPalette::Active, QPalette::Base, QColor("#ffffff") );
+pal.setColor( QPalette::Inactive, QPalette::Base, QColor("#ffffff") );
+pal.setColor( QPalette::Disabled, QPalette::Base, QColor("#ffffff") );
+
+pal.setColor( QPalette::Active, QPalette::WindowText, QColor("#000000") );
+pal.setColor( QPalette::Inactive, QPalette::WindowText, QColor("#000000") );
+pal.setColor( QPalette::Disabled, QPalette::WindowText, QColor("#000000") );
+
+pal.setColor( QPalette::Active, QPalette::ButtonText, QColor("#000000") );
+pal.setColor( QPalette::Inactive, QPalette::ButtonText, QColor("#000000") );
+pal.setColor( QPalette::Disabled, QPalette::ButtonText, QColor("#000000") );
+
+if (desktop_env ==3)
+	{
+	pal.setColor( QPalette::Active, QPalette::Window, QColor("#eae9e9") );
+	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#eae9e9") );
+	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#eae9e9") );
+
+	pal.setColor( QPalette::Active, QPalette::Button, QColor("#eae9e9") );
+	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#eae9e9") );
+	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#eae9e9") );
+	}
+else
+	{
+/*
+	pal.setColor( QPalette::Active, QPalette::Window, QColor("#f1f1f1") );
+	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#f1f1f1") );
+	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#f1f1f1") );
+
+	pal.setColor( QPalette::Active, QPalette::Button, QColor("#f1f1f1") );
+	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#f1f1f1") );
+	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#f1f1f1") );
+*/
+	pal.setColor( QPalette::Active, QPalette::Window, QColor("#fbf8f1") );
+	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#fbf8f1") );
+	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#fbf8f1") );
+
+	pal.setColor( QPalette::Active, QPalette::Button, QColor("#fbf8f1") );
+	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#fbf8f1") );
+	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#fbf8f1") );
+	}
+
+QApplication::setPalette(pal);
 #endif
 userquick_command=config->value("Tools/Userquick","latex -interaction=nonstopmode %.tex|bibtex %.aux|latex -interaction=nonstopmode %.tex|latex -interaction=nonstopmode %.tex|xdvi %.dvi").toString();
 userClassList=config->value("Tools/User Class").toStringList();
@@ -4427,7 +4476,8 @@ while (tb.isValid())
  			}
 		errorpar=par;
 		}
-	else if (expression.contains(QRegExp("^!")))
+//	else if (expression.contains(QRegExp("^!")))
+	else if (expression.contains(QRegExp("^! (.*)")))
 		{
 		latexerror=expression.trimmed();
 		while (tb.isValid() && !expression.contains(rxLineError))
@@ -4461,6 +4511,16 @@ while (tb.isValid())
 			errorTypeList.append("Error");
 			errorLineList.append(rxLineError.cap(1));
 			errorMessageList.append(latexerror.remove(rxLineError).replace("*",""));
+			errorLogList.append(QString::number(errorpar));
+			}
+		else 
+			{
+			//qDebug() << "Error";
+			if (!filestack.isEmpty()) errorFileList.append(filestack.last());
+			else errorFileList.append("");
+			errorTypeList.append("Error");
+			errorLineList.append("1");
+			errorMessageList.append(latexerror.replace("*",""));
 			errorLogList.append(QString::number(errorpar));
 			}
 		errorpar=par;
@@ -4882,6 +4942,18 @@ if (singlemode && currentEditorView())
 	}
 }
 
+void Texmaker::onOtherInstanceMessage(const QString &msg)  // Added slot for messages to the single instance
+{
+QStringList argv = msg.split("#!#");
+int argc = argv.size();
+for ( int i = 1; i < argc; ++i )
+	{
+	QString arg = argv[ i ];
+	if ( arg[0] != '-' )    load( arg );
+	if ( arg == "-master" ) ToggleMode();
+	if (( arg == "-line" ) && (i<argc-1))  setLine( argv[ ++i ] );
+	}
+}
 ////////////////// VIEW ////////////////
 
 void Texmaker::gotoNextDocument()

@@ -1,3 +1,11 @@
+version 1.7.1 -> 1.8:
+----------------------
+- texmaker can now be only started once per user : inverse search will no more launch a new instance of texmaker
+- the spell checker is now based on hunspell-1.2.4
+- the latex errors detection has been improved
+- the background color of the selected symbol is now always the same (to be sure that the symbol is always visible)
+- parentheses matching is back
+- "\end{...}" is now added automatically after "\begin{...}" while using autocompletion
 version 1.7 -> 1.7.1 :
 --------------------
 Bugs fixed :

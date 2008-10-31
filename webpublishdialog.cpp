@@ -1064,7 +1064,9 @@ noindex=settings.value("/noindex",false).toBool();
 title=settings.value("/title","").toString();
 address=settings.value("/address","").toString();
 #ifdef Q_WS_X11
-browser=settings.value("/browser","firefox").toString();
+QString kdesession= ::getenv("KDE_FULL_SESSION");
+if (!kdesession.isEmpty()) browser=settings.value("/browser","konqueror").toString();
+else browser=settings.value("/browser","firefox").toString();
 programdir=PREFIX"/share/texmaker";
 #endif
 #ifdef Q_WS_MACX

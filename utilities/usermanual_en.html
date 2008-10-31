@@ -53,7 +53,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION34">4.4 Pstricks support</a></li>
 	<li><a href="#SECTION35">4.5 Metapost support</a></li>
 	<li><a href="#SECTION36">4.6 The "Convert to Html" command</a></li>
-	<li><a href="#SECTION37">4.7 "Forward search" with Texmaker</a></li>
+	<li><a href="#SECTION37">4.7 "Forward/Inverse search" with Texmaker</a></li>
 	<li><a href="#SECTION38">4.8 Synopsis of the Texmaker command</a></li>
 	<li><a href="#SECTION39">4.9 Keyboard shortcuts</a></li>
 	</ul>
@@ -75,7 +75,8 @@ The <strong>%</strong> character represents the name of the file without the ext
 <p>
 The spell checker uses the OpenOffice.org dictionaries. Only GPL french and british dictionaries are distributed with Texmaker.<br>
 Users can download others dictionaries here : <A href="http://wiki.services.openoffice.org/wiki/Dictionaries" target="_blank">http://wiki.services.openoffice.org/wiki/Dictionaries</A><br>
-To configure the spell checker : "Configure Texmaker" -> "Editor" -> "Spelling dictionary" -> click on the button at the end of the line to select the dictionary with the file browser.
+To configure the spell checker : "Configure Texmaker" -> "Editor" -> "Spelling dictionary" -> click on the button at the end of the line to select the dictionary with the file browser.<br>
+<b>Warning : spell checking starts at the cursor position and not at the beginning of the document.</b>
 </p>
 <h1><a name="SECTION1">2. Editing a TeX document</a></h1>
 <h2><a name="SECTION11">2.1 Usual commands</a></h2>
@@ -166,17 +167,22 @@ Synopsis :<br>
 <b>Warning : </b>You can't use this command with the hyperref package (and some others packages). This command can only be used with the "Convert to html" tool.</p>
 <p><IMG src="doc18.png" border="1"></p>
 <p><IMG src="doc19.png" border="1"></p>
-<h2><a name="SECTION37">4.7 "Forward search" with Texmaker</a></h2>
+<h2><a name="SECTION37">4.7 "Forward/Inverse search" with Texmaker</a></h2>
 <p>
 Some dvi viewers can jump to (and visually highlight) a position in the DVI file that corresponds to a certain line number in the (La)TeX source file.<br>
 To use this feature, you can use the <b>@</b> character in the syntax of the dvi viewer command ("Configure Texmaker" -> "Commands").<br>
-Examples :
+Examples ("Forward search"):
 <ul>
-<li>For yap : \"C:/Program Files/MiKTeX 2.5/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi</li>
-<li>For xdvi : xdvi %.dvi  -sourceposition @:%.tex</li>
-<li>For kdvi : kdvi "file:%.dvi#src:@ %.tex"</li>
+<li>To launch yap from texmaker : "C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe" -1 -s @%.tex %.dvi</li>
+<li>To launch xdvi from texmaker : xdvi %.dvi  -sourceposition @:%.tex</li>
+<li>To launch kdvi from texmaker : kdvi "file:%.dvi#src:@ %.tex"</li>
 </ul>
-Remark : if you try to use "inverse search" with texmaker (the opposite operation of the "forward search"), a new instance of texmaker will be launched at each time. This operation is not recommended.
+For the opposite operation ("Inverse search") :
+<ul>
+<li>To launch texmaker from yap : "C:\Program Files\Texmaker\texmaker.exe" "%f" -line %l <i>(the program arguments : "%f" -line %l )</i></li>
+<li>To launch texmaker from xdvi : xdvi -editor "texmaker %f -line" %.dvi -sourceposition @:%.tex</li>
+</ul>
+<!--Remark : if you try to use "inverse search" with texmaker (the opposite operation of the "forward search"), a new instance of texmaker will be launched at each time. This operation is not recommended.-->
 </p>
 <h2><a name="SECTION38">4.8 Synopsis of the texmaker command</a></h2>
 <p>
@@ -211,6 +217,7 @@ Defaults keyboard shorscuts (*:can be modified - "Configure Texmaker" -> "Editor
 	<li>Find next : Ctrl+M</li>
 	<li>Replace : CTrl+R</li>
 	<li>Goto line : Ctrl+G</li>
+	<li>Check spelling (from cursor) : Ctrl+Shift+F7</li>
 	</ul>
 </li>
 <li> "Tools" menu :

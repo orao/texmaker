@@ -21,6 +21,7 @@
 #include <QCompleter>
 
 #include "latexhighlighter.h"
+#include "parenmatcher.h"
 
 //class QCompleter;
 //class ParenMatcher;
@@ -34,7 +35,7 @@ class LatexEditor : public QTextEdit  {
 public:
 LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword);
 ~LatexEditor();
-//static void clearMarkerFormat(const QTextBlock &block, int markerId);
+static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
 bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor );
 void replace( const QString &r);
@@ -59,7 +60,7 @@ private:
 QString encoding;
 QString textUnderCursor() const;
 QCompleter *c;
-//ParenMatcher *matcher;
+ParenMatcher *matcher;
 private slots:
 void checkSpellingWord();
 void checkSpellingDocument();

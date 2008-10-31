@@ -60,7 +60,9 @@ void IconDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     if (option.showDecorationSelected && (option.state & QStyle::State_Selected)) {
         QPalette::ColorGroup cg = option.state & QStyle::State_Enabled
                                   ? QPalette::Normal : QPalette::Disabled;
-        painter->fillRect(option.rect, option.palette.brush(cg, QPalette::Highlight));
+        //painter->fillRect(option.rect, option.palette.brush(cg, QPalette::Highlight));
+//painter->fillRect(option.rect,QColor("#78A9dc"));
+painter->fillRect(option.rect,QColor("#cdd2d8"));
     } else {
         value = model->data(index, Qt::BackgroundColorRole);
         if (value.isValid() && qvariant_cast<QColor>(value).isValid())
@@ -68,10 +70,10 @@ void IconDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     }
 
     // draw the item
-    drawCheck(painter, opt, checkRect, checkState);
+//    drawCheck(painter, opt, checkRect, checkState);
     drawDecoration(painter, opt, pixmapRect, pixmap);
 //    drawDisplay(painter, opt, textRect, text);
-    drawFocus(painter, opt, textRect);
+//    drawFocus(painter, opt, textRect);
 }
 
 QSize IconDelegate::sizeHint(const QStyleOptionViewItem &option,
@@ -292,8 +294,8 @@ QPixmap *IconDelegate::selected(const QPixmap &pixmap, const QPalette &palette, 
     if (!pm) {
         QImage img = pixmap.toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-        QColor color = palette.color(enabled ? QPalette::Normal : QPalette::Disabled,
-                                     QPalette::Highlight);
+        QColor color = palette.color(enabled ? QPalette::Normal : QPalette::Disabled,QPalette::Highlight);
+        
         color.setAlphaF(0.3);
 
         QPainter painter(&img);

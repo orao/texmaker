@@ -53,7 +53,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION34">4.4 Support Pstricks</a></li>
 	<li><a href="#SECTION35">4.5 Support Metapost</a></li>
 	<li><a href="#SECTION36">4.6 Convertir son document en Html</a></li>
-	<li><a href="#SECTION37">4.7 "Forward search" avec Texmaker</a></li>
+	<li><a href="#SECTION37">4.7 "Forward/Inverse search" avec Texmaker</a></li>
 	<li><a href="#SECTION38">4.8 Synopsis de la commande texmaker</a></li>
 	<li><a href="#SECTION39">4.9 Raccourcis clavier</a></li>
 	</ul>
@@ -75,7 +75,8 @@ Le caractére <strong>%</strong> représente le nom du fichier courant (sans l'e
 <p>
 Le système interne de vérification orthographique utilise les mêmes dictionnaires qu'OpenOffice.org. Seuls les dictionnaires GPL français et anglais sont distribués avec Texmaker.<br>
 Il est possible de télécharger d'autres dictionnaires à cette adresse : <A href="http://wiki.services.openoffice.org/wiki/Dictionaries" target="_blank">http://wiki.services.openoffice.org/wiki/Dictionaries</A><br>
-Pour configurer le fonctionnement d'aspell dans Texmaker : "Configurer Texmaker" -> "Editeur" -> "Dictionnaire" et utiliser le bouton en fin de ligne pour sélectionner le dictionnaire avec le sélecteur de fichiers.
+Pour configurer le fonctionnement d'aspell dans Texmaker : "Configurer Texmaker" -> "Editeur" -> "Dictionnaire" et utiliser le bouton en fin de ligne pour sélectionner le dictionnaire avec le sélecteur de fichiers.<br>
+<b>Attention : la correction orthographique commence désormais à partir de la position du curseur et non plus à partir du début du document.</b>
 </p>
 <h1><a name="SECTION1">2. Rédaction d'un document avec l'éditeur</a></h1>
 <h2><a name="SECTION11">2.1 Commandes usuelles</a></h2>
@@ -182,17 +183,21 @@ Synopsis de cette commande :<br>
 Attention : \ttwplink{}{} ne peut-être utilisé que pour exporter son document en html. Une compilation normale d'un document comportant cette commande par LaTeX déclenchera une erreur. Par ailleurs, cette commande est incompatible avec plusieurs "packages" LaTeX dont notamment \hyperref.</p>
 <p><IMG src="doc18.png" border="1"></p>
 <p><IMG src="doc19.png" border="1"></p>
-<h2><a name="SECTION37">4.7 "Forward search" avec Texmaker</a></h2>
+<h2><a name="SECTION37">4.7 "Forward/inverse search" avec Texmaker</a></h2>
 <p>
 Certains afficheurs dvi permettent d'afficher directement la page et la zone correspondante à une certaine ligne dans le fichier source LaTeX.<br>
 Pour utiliser cette caractéristique, il faut utiliser le caractère <b>@</b> dans la ligne de commande correspondant à l'afficheur dvi ("Configurer Texmaker" -> "Commandes").<br>
-Exemples :
+Exemples "Forward search" :
 <ul>
-<li>Pour yap : \"C:/Program Files/MiKTeX 2.5/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi</li>
-<li>Pour xdvi : xdvi %.dvi  -sourceposition @:%.tex</li>
-<li>Pour kdvi : kdvi "file:%.dvi#src:@ %.tex"</li>
+<li>Pour lancer yap : "C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe" -1 -s @%.tex %.dvi</li>
+<li>Pour lancer xdvi : xdvi %.dvi  -sourceposition @:%.tex</li>
+<li>Pour lancer kdvi : kdvi "file:%.dvi#src:@ %.tex"</li>
 </ul>
-Remarque : l'opération inverse ("inverse search") n'est pas recommandée avec Texmaker. En effet, à chaque fois, une nouvelle instance de Texmaker sera lancée.
+Pour l'opération inverse ("Inverse search") :
+<ul>
+<li>Lancer texmaker à partir de yap : "C:\Program Files\Texmaker\texmaker.exe" "%f" -line %l <i>(the program arguments : "%f" -line %l )</i></li>
+<li>Lancer texmaker à partir de xdvi : xdvi -editor "texmaker %f -line" %.dvi -sourceposition @:%.tex</li>
+</ul>
 </p>
 <h2><a name="SECTION38">4.8 Synopsis de la commande texmaker</a></h2>
 <p>
@@ -226,6 +231,7 @@ Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 	<li>Chercher à nouveau : Ctrl+M</li>
 	<li>Remplacer : CTrl+R</li>
 	<li>Aller à la ligne : Ctrl+G</li>
+	<li>Vérifier orthographe (depuis le curseur) : Ctrl+Shift+F7</li>
 	</ul>
 </li>
 <li> Menu "Outils" :

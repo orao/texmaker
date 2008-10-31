@@ -20,6 +20,7 @@
 #include <QTextStream>
 #include <QTextCharFormat>
 #include <QFileInfo>
+#include <QApplication>
 #include "blockdata.h"
 
 SpellerDialog::SpellerDialog(QWidget *parent,LatexEditor *ed,QString SpellDic,QString ignoredWords)
@@ -59,7 +60,7 @@ else ui.labelMessage->setText("<b>"+tr("Error : Can't open the dictionary")+"</b
 }
 
 SpellerDialog::~SpellerDialog(){
-
+delete pChecker;
 }
 
 void SpellerDialog::closeEvent( QCloseEvent* ce )
@@ -179,11 +180,12 @@ SpellingNextWord();
 
 void SpellerDialog::SpellingNextWord()
 {
+QApplication::setOverrideCursor(Qt::WaitCursor);
 BlockData* data;
 QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
 QByteArray encodedString;
 QTextBlock block;
-QString text,word,suggestion;
+QString text,word;
 bool gonext=true;
 QByteArray t;
 int li,cols,cole,colstart,colend,check,ns;
@@ -225,45 +227,50 @@ while(gonext && c.position() < endpos+deltacol && go)
 	if (text.length()>1 && cole>cols)
 		{
 		word=text.mid(cols-colstart,cole-cols+1);
-		encodedString = codec->fromUnicode(text);
-		check = pChecker->spell(encodedString.data());
-		if (!check)
+		if (!ignoredwordList.contains(word))
 			{
-			ns = pChecker->suggest(&wlst,encodedString.data());
-			if (ns > 0)
+			encodedString = codec->fromUnicode(text);
+			check = pChecker->spell(encodedString.data());
+			if (!check)
 				{
-				suggestion="";
-				for (int i=0; i < ns; i++) 
+				editor->selectword(li,cols,word);
+				ui.listWidget->setEnabled(true);
+				ui.lineEditNew->setEnabled(true);
+				ui.pushButtonIgnore->setEnabled(true);
+				ui.pushButtonAlwaysIgnore->setEnabled(true);
+				ui.pushButtonReplace->setEnabled(true);
+				ui.lineEditOriginal->setEnabled(true);
+				ui.lineEditOriginal->setText(word);
+				ui.listWidget->clear();
+				ui.lineEditNew->clear();
+				ui.labelMessage->setText("");
+				gonext=false;
+				ns = pChecker->suggest(&wlst,encodedString.data());
+				if (ns > 0)
 					{
-					suggestion += codec->toUnicode(wlst[i]) +",";
-					free(wlst[i]);
-					} 
-				free(wlst);
-				if (!ignoredwordList.contains(word))
-					{
-					editor->selectword(li,cols,word);
-					ui.listWidget->setEnabled(true);
-					ui.lineEditNew->setEnabled(true);
-					ui.pushButtonIgnore->setEnabled(true);
-					ui.pushButtonAlwaysIgnore->setEnabled(true);
-					ui.pushButtonReplace->setEnabled(true);
-					ui.lineEditOriginal->setEnabled(true);
-					ui.lineEditOriginal->setText(word);
-					ui.listWidget->clear();
-					ui.lineEditNew->clear();
-					ui.labelMessage->setText("");
-					if (!suggestion.isEmpty())
+					suggWords.clear();
+					for (int i=0; i < ns; i++) 
 						{
-						suggWords=suggestion.split(",");
-						ui.listWidget->addItems(suggWords);
-						ui.lineEditNew->setText(suggWords.at(0));
+						suggWords.append(codec->toUnicode(wlst[i]));
+					//free(wlst[i]);
+						} 
+				//free(wlst);
+					pChecker->free_list(&wlst, ns);
+					if (!suggWords.isEmpty())
+						{
+						if (suggWords.contains(word)) gonext=true;
+						else
+							{
+							ui.listWidget->addItems(suggWords);
+							ui.lineEditNew->setText(suggWords.at(0));
+							}
 						}
-					gonext=false;
 					}
 				}
 			}
 		}
 	go=c.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor);
 	}
+QApplication::restoreOverrideCursor();
 }
 

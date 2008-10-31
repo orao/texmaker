@@ -1,9 +1,11 @@
 TEMPLATE	= app
 LANGUAGE	= C++
 TARGET	 = texmaker
+QT += network
 CONFIG	+= qt warn_off release
 ###############################
 HEADERS	+= texmaker.h \
+	dsingleapplication.h \
 	symbollistwidget.h \
 	icondelegate.h \
 	latexeditor.h \
@@ -33,6 +35,7 @@ HEADERS	+= texmaker.h \
 	spellerdialog.h \
 	pstrickslistwidget.h \
 	blockdata.h \
+	parenmatcher.h \
 	hunspell/affentry.hxx \
 	hunspell/affixmgr.hxx \
 	hunspell/atypes.hxx \
@@ -47,8 +50,12 @@ HEADERS	+= texmaker.h \
 	hunspell/license.hunspell \
 	hunspell/phonet.hxx \
 	hunspell/suggestmgr.hxx \
-	hunspell/license.myspell 
+	hunspell/license.myspell \
+	hunspell/filemgr.hxx \
+	hunspell/hunzip.hxx \
+	hunspell/w_char.hxx
 SOURCES	+= main.cpp \
+	dsingleapplication.cpp \
 	texmaker.cpp \
 	symbollistwidget.cpp \
 	icondelegate.cpp \
@@ -78,6 +85,7 @@ SOURCES	+= main.cpp \
 	webpublishdialog.cpp \
 	spellerdialog.cpp \
 	pstrickslistwidget.cpp \
+	parenmatcher.cpp \
 	hunspell/affentry.cxx \
 	hunspell/affixmgr.cxx \
 	hunspell/csutil.cxx \
@@ -86,7 +94,9 @@ SOURCES	+= main.cpp \
 	hunspell/hunspell.cxx \
 	hunspell/phonet.cxx \
 	hunspell/suggestmgr.cxx \
-	hunspell/utf_info.cxx
+	hunspell/utf_info.cxx \
+	hunspell/filemgr.cxx \
+	hunspell/hunzip.cxx
 RESOURCES += texmaker.qrc
 FORMS   += findwidget.ui\
 	gotolinedialog.ui \
@@ -151,6 +161,11 @@ utilities.files = utilities/blank.png \
 	utilities/psheader.txt \
 	utilities/style.css \
 	utilities/texmaker_fr.qm \
+	utilities/texmaker_de.qm \
+	utilities/texmaker_zh.qm \
+	utilities/qt_fr.qm \
+	utilities/qt_de.qm \
+	utilities/qt_zh.qm \
 	utilities/up.gif \
 	utilities/up_d.gif \
 	utilities/usermanual_en.html \
@@ -218,6 +233,11 @@ utilities.files = utilities/blank.png \
 	utilities/psheader.txt \
 	utilities/style.css \
 	utilities/texmaker_fr.qm \
+	utilities/texmaker_de.qm \
+	utilities/texmaker_zh.qm \
+	utilities/qt_fr.qm \
+	utilities/qt_de.qm \
+	utilities/qt_zh.qm \
 	utilities/up.gif \
 	utilities/up_d.gif \
 	utilities/usermanual_en.html \

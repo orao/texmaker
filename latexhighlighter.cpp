@@ -19,7 +19,7 @@ LatexHighlighter::LatexHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
 {
 	ColorStandard = QColor(0x00, 0x00, 0x00);
-	ColorComment = QColor(0x83, 0x81, 0x83);
+	ColorComment = QColor("#606060");
 	ColorMath = QColor(0x00,0x80, 0x00);
 	ColorCommand=QColor(0x80, 0x00, 0x00);
 	ColorKeyword=QColor(0x00, 0x00, 0xCC);
@@ -103,14 +103,14 @@ while (i < text.length())
 			blockData->code[i]=1;
 		} else
 		if (tmp== '{' ){
-			//blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 		} else
 		if (tmp== '}' ){
 			blockData->code[i]=1;
-			//blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 		} else
@@ -174,13 +174,13 @@ while (i < text.length())
 				}
 		} else
 		if (tmp== '{' ){
-			//blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateMath;
 		} else
 		if (tmp== '}' ){
-			//blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateMath;
@@ -228,8 +228,8 @@ while (i < text.length())
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
 			blockData->code[i]=1;
-  			//if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
-  			//if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 			if ( buffer.length() > 0 )
@@ -282,21 +282,21 @@ else
 	setCurrentBlockState(StateStandard) ;
     	}
 
-// if (blockData->parenthesisMatchStart != -1) 
-// 	{
-// 	if (text.at(blockData->parenthesisMatchStart)=='{' || text.at(blockData->parenthesisMatchStart)=='}')
-// 		{
-// 		QTextCharFormat fmt = format(blockData->parenthesisMatchStart);
-// 		fmt.merge(blockData->parenthesisMatchingFormat);
-// 		setFormat(blockData->parenthesisMatchStart, 1, fmt);
-// 		}
-// 
-// 	if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
-// 		{
-// 		QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
-// 		fmtbis.merge(blockData->parenthesisMatchingFormat);
-// 		setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
-// 		}
-// 	}
+ if (blockData->parenthesisMatchStart != -1) 
+ 	{
+ 	if (text.at(blockData->parenthesisMatchStart)=='{' || text.at(blockData->parenthesisMatchStart)=='}')
+ 		{
+ 		QTextCharFormat fmt = format(blockData->parenthesisMatchStart);
+ 		fmt.merge(blockData->parenthesisMatchingFormat);
+ 		setFormat(blockData->parenthesisMatchStart, 1, fmt);
+ 		}
+ 
+ 	if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
+ 		{
+ 		QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
+ 		fmtbis.merge(blockData->parenthesisMatchingFormat);
+ 		setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
+ 		}
+ 	}
 
 }
