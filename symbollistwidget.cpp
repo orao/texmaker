@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,8 @@
 
 SymbolListWidget :: SymbolListWidget(QWidget *parent, int page) : QTableWidget(parent)
 {
+hide();
+
 setItemDelegate(new IconDelegate(this));
 QString icon_name;
 setShowGrid(true);
@@ -29,6 +31,7 @@ switch (page)
 {
 	case 0:
 	{
+setUpdatesEnabled(false);
 		setColumnCount(4);
 		setRowCount(57);
 		for ( uint j = 0; j < 57; ++j ) setRowHeight(j,36);
@@ -45,6 +48,7 @@ switch (page)
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		setItem(i/4,i%4,item);
 		}
+setUpdatesEnabled(true);
 	}
 	break;
 	case 1:
@@ -138,6 +142,8 @@ switch (page)
 		setColumnWidth(3,36);
 	}
 	break;
+
+show();
 }
 
 }

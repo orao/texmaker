@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,7 +17,7 @@
 #include <QTextEdit>
 #include <QTextBlock>
 
-LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword) : QWidget(parent)
+LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker) : QWidget(parent)
 {
 QVBoxLayout* mainlay = new QVBoxLayout( this );
 mainlay->setSpacing(0);
@@ -29,7 +29,7 @@ frame->setFrameShape(QFrame::StyledPanel);
 frame->setFrameShadow(QFrame::Sunken);
 mainlay->addWidget(frame);
 
-editor=new LatexEditor(frame,efont,colMath,colCommand,colKeyword);
+editor=new LatexEditor(frame,efont,colMath,colCommand,colKeyword,inlinespelling,ignoredWords,spellChecker);
 m_lineNumberWidget = new LineNumberWidget( editor, frame);
 m_lineNumberWidget->setFont(efont);
 QFontMetrics fm( efont );

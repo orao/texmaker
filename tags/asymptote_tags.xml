@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texmakertags title="Asymptote">
+<section title="General (Asymptote)">
+<item txt="\\begin{asy} \\end{asy}" tag="\\begin{asy}\n\n\\end{asy}" dx="0" dy="1" type="0"/>
+<item txt="\\begin{asydef} \\end{asydef}" tag="\\begin{asydef}\n\n\\end{asydef}" dx="0" dy="1" type="0"/>
+<item txt="" tag="usepackage();" dx="11" dy="0" type="0"/>
+<item txt="" tag="texpreamble();" dx="12" dy="0" type="0"/>
+<item txt="" tag="import ;" dx="7" dy="0" type="0"/>
+<item txt="" tag="size(,);" dx="5" dy="0" type="0"/>
+<item txt="" tag="pair " dx="5" dy="0" type="0"/>
+<item txt="" tag="real " dx="5" dy="0" type="0"/>
+<item txt="" tag="path " dx="5" dy="0" type="0"/>
+<item txt="" tag="pen " dx="4" dy="0" type="0"/>
+</section>
+<section title="Draw  (Asymptote)">
+<item txt="" tag="draw();" dx="5" dy="0" type="0"/>
+<item txt="" tag="fill();" dx="5" dy="0" type="0"/>
+<item txt="" tag="clip();" dx="5" dy="0" type="0"/>
+<item txt="" tag="label();" dx="6" dy="0" type="0"/>
+<item txt="" tag="dot();" dx="4" dy="0" type="0"/>
+</section>
+</texmakertags>

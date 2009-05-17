@@ -1,5 +1,9 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+	<file>images/asymptote.png</file>
+	<file>images/tikz.png</file>
+	<file>images/leftright.png</file>
+	<file>images/run.png</file>
 	<file>images/logo128.png</file>
 	<file>images/pstricks.png</file>
 	<file>images/accent1.png</file>
@@ -92,6 +96,12 @@
         <file>images/viewlog.png</file>
         <file>images/viewpdf.png</file>
         <file>images/viewps.png</file>
+        <file>images/pushbutton_pressed.png</file>
+        <file>images/pushbutton.png</file>
+        <file>images/inputfield.png</file>
+        <file>images/inputfield_disabled.png</file>
+        <file>images/extension.png</file>
+        <file>images/closebutton.png</file>
         <file>symbols/img1.png</file>
         <file>symbols/img10.png</file>
         <file>symbols/img100.png</file>
@@ -505,5 +515,11 @@
         <file>symbols/img99.png</file>
         <file>symbols/img9greek.png</file>
 	<file>completion/completion.txt</file>
+	<file>spell/spellignore.txt</file>
+	<file>tags/pstricks_tags.xml</file>
+	<file>tags/metapost_tags.xml</file>
+	<file>tags/leftright_tags.xml</file>
+	<file>tags/tikz_tags.xml</file>
+	<file>tags/asymptote_tags.xml</file>
     </qresource>
 </RCC>

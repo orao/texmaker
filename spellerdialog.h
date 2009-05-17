@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2007 by Pascal Brachet                          *
+ *   copyright       : (C) 2007-2009 by Pascal Brachet                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,14 +20,14 @@
 class SpellerDialog : public QDialog  {
    Q_OBJECT
 public:
-	SpellerDialog(QWidget *parent=0,LatexEditor *ed=0, QString SpellDic="", QString ignoredWords="");
+	SpellerDialog(QWidget *parent=0,LatexEditor *ed=0,QString ignoredWords="");
 	~SpellerDialog();
 	Ui::SpellerDialog ui;
 QStringList alwaysignoredwordList;
 private :
 QString spell_dic, spell_encoding;
 LatexEditor *editor;
-QStringList ignoredwordList;
+QStringList ignoredwordList, hardignoredwordList;
 int startpos, endpos, deltacol;
 Hunspell * pChecker;
 bool go;

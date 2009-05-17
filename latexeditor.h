@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,18 +22,20 @@
 
 #include "latexhighlighter.h"
 #include "parenmatcher.h"
+#include "hunspell/hunspell.hxx"
 
 //class QCompleter;
 //class ParenMatcher;
 //class QTextBlock;
 
+#define LRM 0x200E //add By S. R. Alavizadeh
 
 typedef  int UserBookmarkList[3];
 
 class LatexEditor : public QTextEdit  {
    Q_OBJECT
 public:
-LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword);
+LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0);
 ~LatexEditor();
 static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
@@ -56,21 +58,36 @@ void selectword(int line, int col, QString word);
 LatexHighlighter *highlighter;
 void setCompleter(QCompleter *completer);
 QCompleter *completer() const;
+QStringList alwaysignoredwordList;
+void setSpellChecker(Hunspell * checker);
+void activateInlineSpell(bool enable);
+Hunspell * pChecker;
+
 private:
 QString encoding;
 QString textUnderCursor() const;
 QCompleter *c;
 ParenMatcher *matcher;
+QString spell_dic, spell_encoding;
+QStringList ignoredwordList, hardignoredwordList;
+bool inlinecheckSpelling;
+
 private slots:
+void correctWord();
 void checkSpellingWord();
 void checkSpellingDocument();
 void insertCompletion(const QString &completion);
+
+void contextMenuAddLRM();//add by S. R. Alavizadeh
+void remLRMfromSelection();//add by S. R. Alavizadeh
+
 protected:
 void paintEvent(QPaintEvent *event);
 void contextMenuEvent(QContextMenuEvent *e);
 void keyPressEvent ( QKeyEvent * e );
 void focusInEvent(QFocusEvent *e);
 signals:
+void removeLRM();//add by S. R. Alavizadeh
 void spellme();
 };
 

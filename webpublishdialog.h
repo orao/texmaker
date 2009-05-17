@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   addons by Frederic Devernay <frederic.devernay@m4x.org>               *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *

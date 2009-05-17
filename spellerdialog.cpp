@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2007 by Pascal Brachet                          *
+ *   copyright       : (C) 2007-2009 by Pascal Brachet                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,16 +23,16 @@
 #include <QApplication>
 #include "blockdata.h"
 
-SpellerDialog::SpellerDialog(QWidget *parent,LatexEditor *ed,QString SpellDic,QString ignoredWords)
+SpellerDialog::SpellerDialog(QWidget *parent,LatexEditor *ed,QString ignoredWords)
     :QDialog( parent)
 {
 editor=ed;
-spell_dic=SpellDic.left(SpellDic.length()-4);
+
 ui.setupUi(this);
 setModal(true);
 
-pChecker = new Hunspell(spell_dic.toLatin1()+".aff",spell_dic.toLatin1()+".dic");
-spell_encoding=QString(pChecker->get_dic_encoding());
+pChecker = editor->pChecker;
+if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());
 
 connect(ui.pushButtonIgnore, SIGNAL(clicked()), this, SLOT(slotIgnore()));
 connect(ui.pushButtonAlwaysIgnore, SIGNAL(clicked()), this, SLOT(slotAlwaysIgnore()));
@@ -42,7 +42,16 @@ connect(ui.listWidget, SIGNAL(itemSelectionChanged()),this, SLOT(updateItem()));
 if (!ignoredWords.isEmpty()) alwaysignoredwordList=ignoredWords.split(",");
 else alwaysignoredwordList.clear();
 ignoredwordList=alwaysignoredwordList;
-
+QFile wordsfile(":/spell/spellignore.txt");
+QString line;
+if (wordsfile.open(QFile::ReadOnly))
+    {
+    while (!wordsfile.atEnd()) 
+	    {
+	    line = wordsfile.readLine();
+	    if (!line.isEmpty()) hardignoredwordList.append(line.trimmed());
+	    }
+    }
 ui.listWidget->setEnabled(false);
 ui.lineEditNew->setEnabled(false);
 ui.pushButtonIgnore->setEnabled(false);
@@ -54,13 +63,14 @@ ui.listWidget->clear();
 ui.lineEditNew->clear();
 show();
 c = editor->textCursor();
-QFileInfo fi(SpellDic);
-if (fi.exists() && fi.isReadable()) spellingInit();
-else ui.labelMessage->setText("<b>"+tr("Error : Can't open the dictionary")+"</b>");
+spellingInit();
+//QFileInfo fi(SpellDic);
+//if (fi.exists() && fi.isReadable()) spellingInit();
+//else ui.labelMessage->setText("<b>"+tr("Error : Can't open the dictionary")+"</b>");
 }
 
 SpellerDialog::~SpellerDialog(){
-delete pChecker;
+//delete pChecker;
 }
 
 void SpellerDialog::closeEvent( QCloseEvent* ce )
@@ -204,7 +214,7 @@ while(gonext && c.position() < endpos+deltacol && go)
 	ui.lineEditNew->clear();
 	ui.labelMessage->setText("<b>"+tr("No more misspelled words")+"</b>");
 
-	c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor);
+//	c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor);
 	c.movePosition(QTextCursor::StartOfWord,QTextCursor::MoveAnchor);
 	data = (BlockData*)c.block().userData();
 	li=c.blockNumber();
@@ -227,10 +237,11 @@ while(gonext && c.position() < endpos+deltacol && go)
 	if (text.length()>1 && cole>cols)
 		{
 		word=text.mid(cols-colstart,cole-cols+1);
-		if (!ignoredwordList.contains(word))
+		if (!ignoredwordList.contains(word) && !hardignoredwordList.contains(word))
 			{
-			encodedString = codec->fromUnicode(text);
-			check = pChecker->spell(encodedString.data());
+			encodedString = codec->fromUnicode(word);
+			if (pChecker) check = pChecker->spell(encodedString.data());
+			else check=true;
 			if (!check)
 				{
 				editor->selectword(li,cols,word);

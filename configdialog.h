@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,6 +46,7 @@ void browsePs2pdf();
 void browsePdfviewer();
 void browseMetapost();
 void browseGhostscript();
+void browseAsymptote();
 };
 
 #endif

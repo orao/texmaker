@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   addons by Frederic Devernay <frederic.devernay@m4x.org>               *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
@@ -1033,7 +1033,11 @@ if ( !fn.isEmpty() )
 void WebPublishDialog::writesettings()
 {
 applyusersettings();
-QSettings settings("xm1","qttwp");
+#ifdef USB_VERSION
+QSettings settings(QCoreApplication::applicationDirPath()+"/qttwp.ini",QSettings::IniFormat); //for USB-stick version 
+#else
+QSettings settings(QSettings::IniFormat,QSettings::UserScope,"xm1","qttwp");
+#endif
 settings.beginGroup( "qttwp" );
 settings.setValue("userwidth",userwidth);
 settings.setValue("compil",compil);
@@ -1053,36 +1057,41 @@ settings.endGroup();
 
 void WebPublishDialog::readsettings()
 {
-QSettings settings("xm1","qttwp");
-settings.beginGroup( "qttwp" );
-userwidth=settings.value("/userwidth",700).toInt();
-compil=settings.value("/compil",1).toInt();
-tocdepth=settings.value("/tocdepth",2).toInt();
-startindex=settings.value("/startindex",1).toInt();
-navigation=settings.value("/navigation",1).toInt();
-noindex=settings.value("/noindex",false).toBool();
-title=settings.value("/title","").toString();
-address=settings.value("/address","").toString();
+#ifdef USB_VERSION
+QSettings *settings=new QSettings(QCoreApplication::applicationDirPath()+"/qttwp.ini",QSettings::IniFormat); //for USB-stick version
+#else
+QSettings *settings=new QSettings(QSettings::IniFormat,QSettings::UserScope,"xm1","qttwp");
+#endif
+settings->beginGroup( "qttwp" );
+userwidth=settings->value("/userwidth",700).toInt();
+compil=settings->value("/compil",1).toInt();
+tocdepth=settings->value("/tocdepth",2).toInt();
+startindex=settings->value("/startindex",1).toInt();
+navigation=settings->value("/navigation",1).toInt();
+noindex=settings->value("/noindex",false).toBool();
+title=settings->value("/title","").toString();
+address=settings->value("/address","").toString();
 #ifdef Q_WS_X11
 QString kdesession= ::getenv("KDE_FULL_SESSION");
-if (!kdesession.isEmpty()) browser=settings.value("/browser","konqueror").toString();
-else browser=settings.value("/browser","firefox").toString();
+if (!kdesession.isEmpty()) browser=settings->value("/browser","konqueror").toString();
+else browser=settings->value("/browser","firefox").toString();
 programdir=PREFIX"/share/texmaker";
 #endif
 #ifdef Q_WS_MACX
-browser=settings.value("/browser","open").toString();
-programdir="/Applications/texmaker.app/Contents/Resources";
+browser=settings->value("/browser","open").toString();
+programdir=QCoreApplication::applicationDirPath() + "/../Resources/";
+//programdir="/Applications/texmaker.app/Contents/Resources";
 #endif
 #ifdef Q_WS_WIN
-browser=settings.value("/browser","\"C:/Program Files/Internet Explorer/IEXPLORE.EXE\"").toString();
+browser=settings->value("/browser","\"C:/Program Files/Internet Explorer/IEXPLORE.EXE\"").toString();
 programdir=QCoreApplication::applicationDirPath();
 #endif
-contentname=settings.value("/contentname","\\contentsname").toString();
-align=settings.value("/align","center").toString();
-lastdir=settings.value("/lastdir",QDir::homePath()).toString();
-dviopt=settings.value("/dviopt"," -Ppk -V").toString();
+contentname=settings->value("/contentname","\\contentsname").toString();
+align=settings->value("/align","center").toString();
+lastdir=settings->value("/lastdir",QDir::homePath()).toString();
+dviopt=settings->value("/dviopt"," -Ppk -V").toString();
 
-settings.endGroup();
+settings->endGroup();
 }
 
 void WebPublishDialog::applyusersettings()

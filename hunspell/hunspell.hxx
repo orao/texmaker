@@ -2,7 +2,6 @@
 #include "affixmgr.hxx"
 #include "suggestmgr.hxx"
 #include "langnum.hxx"
-#include "csutil.hxx"
 
 #define  SPELL_COMPOUND  (1 << 0)
 #define  SPELL_FORBIDDEN (1 << 1)
@@ -179,8 +178,8 @@ private:
    int    spellml(char*** slst, const char * word);
    int    get_xml_par(char * dest, const char * par, int maxl);
    const char * get_xml_pos(const char * s, const char * attr);
-   int    get_xml_list(char ***slst, char * list, char * tag);
-   int    check_xml_par(char * q, char * attr, char * value);
+   int    get_xml_list(char ***slst, char * list, const char * tag);
+   int    check_xml_par(const char * q, const char * attr, const char * value);
 
 };
 

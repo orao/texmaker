@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,11 +18,12 @@
 #include "latexeditor.h"
 #include "linenumberwidget.h"
 #include "findwidget.h"
+#include "hunspell/hunspell.hxx"
 
 class LatexEditorView : public QWidget  {
    Q_OBJECT
 public: 
-	LatexEditorView(QWidget *parent, QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword);
+	LatexEditorView(QWidget *parent, QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0);
 	~LatexEditorView();
   LatexEditor *editor;
   FindWidget *findwidget;

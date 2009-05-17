@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,7 +15,7 @@
 #include "latexhighlighter.h"
 #include "blockdata.h"
 
-LatexHighlighter::LatexHighlighter(QTextDocument *parent)
+LatexHighlighter::LatexHighlighter(QTextDocument *parent,bool spelling,QString ignoredWords,Hunspell *spellChecker)
     : QSyntaxHighlighter(parent)
 {
 	ColorStandard = QColor(0x00, 0x00, 0x00);
@@ -24,6 +24,28 @@ LatexHighlighter::LatexHighlighter(QTextDocument *parent)
 	ColorCommand=QColor(0x80, 0x00, 0x00);
 	ColorKeyword=QColor(0x00, 0x00, 0xCC);
 	KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
+	spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
+	spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+checkSpelling=spelling;
+pChecker = spellChecker;
+if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());
+if (!ignoredWords.isEmpty()) alwaysignoredwordList=ignoredWords.split(",");
+else alwaysignoredwordList.clear();
+ignoredwordList=alwaysignoredwordList;
+QFile wordsfile(":/spell/spellignore.txt");
+QString line;
+if (wordsfile.open(QFile::ReadOnly))
+    {
+    while (!wordsfile.atEnd()) 
+	    {
+	    line = wordsfile.readLine();
+	    if (!line.isEmpty()) hardignoredwordList.append(line.trimmed());
+	    }
+    }
+}
+
+LatexHighlighter::~LatexHighlighter(){
+//delete pChecker;
 }
 
 void LatexHighlighter::setColors(QColor colMath, QColor colCommand, QColor colKeyword)
@@ -123,6 +145,9 @@ while (i < text.length())
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
+		} else
+		if (isWordSeparator(tmp)){
+			blockData->code[i]=1;
 		} else
 		 {
 			setFormat( i, 1,ColorStandard);
@@ -281,7 +306,7 @@ else
 	{
 	setCurrentBlockState(StateStandard) ;
     	}
-
+if (text.isEmpty()) return;//add by S. R. Alavizadeh
  if (blockData->parenthesisMatchStart != -1) 
  	{
  	if (text.at(blockData->parenthesisMatchStart)=='{' || text.at(blockData->parenthesisMatchStart)=='}')
@@ -290,13 +315,93 @@ else
  		fmt.merge(blockData->parenthesisMatchingFormat);
  		setFormat(blockData->parenthesisMatchStart, 1, fmt);
  		}
- 
- 	if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
- 		{
- 		QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
- 		fmtbis.merge(blockData->parenthesisMatchingFormat);
- 		setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
- 		}
+	if (blockData->parenthesisMatchEnd<=text.size())//add by S. R. Alavizadeh
+		{
+		if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
+			{
+			QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
+			fmtbis.merge(blockData->parenthesisMatchingFormat);
+			setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
+			}
+		}
  	}
+if (checkSpelling && pChecker)
+	{
+	i=0;
+	int check;
+	QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
+	QByteArray encodedString;
+	while (i < text.length())
+		{
+		buffer = QString::null;
+		ch = text.at( i );
+		while ((blockData->code[i]!=1) && (!isSpace(ch)))
+		      {
+		      buffer += ch;
+		      i++;
+		      ch = text.at( i );
+		      }
+		if ( (buffer.length() > 1) && (!ignoredwordList.contains(buffer)) && (!hardignoredwordList.contains(buffer)))
+		      {
+		      encodedString = codec->fromUnicode(buffer);
+		      check = pChecker->spell(encodedString.data());
+		      if (!check) setFormat(i - buffer.length(), buffer.length(), spellingErrorFormat);
+		      }
+		i++;
+		}
+	}
+}
 
+bool LatexHighlighter::isWordSeparator(QChar c) const
+{
+    switch (c.toLatin1()) {
+    case '.':
+    case ',':
+    case '?':
+    case '!':
+    case ':':
+    case ';':
+    case '-':
+    case '<':
+    case '>':
+    case '[':
+    case ']':
+    case '(':
+    case ')':
+    case '{':
+    case '}':
+    case '=':
+    case '/':
+    case '+':
+    case '%':
+    case '&':
+    case '^':
+    case '*':
+    case '\'':
+    case '"':
+    case '~':
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool LatexHighlighter::isSpace(QChar c) const
+{
+    return c == QLatin1Char(' ')
+        || c == QChar::Nbsp
+        || c == QChar::LineSeparator
+        || c == QLatin1Char('\t')
+        ;
+}
+
+ void LatexHighlighter::setSpellChecker(Hunspell * checker)
+{
+pChecker = checker;
+if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());
+}
+
+void LatexHighlighter::activateInlineSpell(bool enable)
+{
+checkSpelling=enable;
 }

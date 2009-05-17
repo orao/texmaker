@@ -1,7 +1,9 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2008 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   addons by Luis Silvestre                                              *
  *   http://www.xm1math.net/texmaker/                                      *
+ *   Bidirectional support added by S. Razi Alavizadeh:                    *
+ *       (mail:SRazi61@yahoo.com---weblog[Fa]:srazi.blogfa.com)            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -55,8 +57,9 @@
 #include <QFontMetrics>
 
 #include "texmaker.h"
+#include "texmakerapp.h"
 #include "latexeditorview.h"
-
+#include "manhattanstyle.h"
 #include "structdialog.h"
 #include "filechooser.h"
 #include "tabdialog.h"
@@ -72,7 +75,6 @@
 #include "spellerdialog.h"
 #include "webpublishdialog.h"
 
-
 #if defined( Q_WS_X11 )
 #include "x11fontdialog.h"
 #endif
@@ -81,6 +83,15 @@ Texmaker::Texmaker(QWidget *parent, Qt::WFlags flags)
     : QMainWindow(parent, flags)
 {
 ReadSettings();
+
+
+if (spelldicExist()) 
+      {
+      QString dic=spell_dic.left(spell_dic.length()-4);
+      spellChecker = new Hunspell(dic.toLatin1()+".aff",dic.toLatin1()+".dic");
+      }
+else spellChecker=0;
+
 setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
 setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
 setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
@@ -97,7 +108,7 @@ setIconSize(QSize(22,22 ));
 completer = new QCompleter(this);
 updateCompleter();
 
-
+QAction *Act;
 // PANNEAU STRUCTURE
 StructureView = new QDockWidget(this);
 StructureView->setObjectName("StructureView");
@@ -105,50 +116,97 @@ StructureView->setAllowedAreas(Qt::AllDockWidgetAreas);
 StructureView->setFeatures(QDockWidget::DockWidgetClosable);
 StructureView->setWindowTitle(tr("Structure"));
 addDockWidget(Qt::LeftDockWidgetArea, StructureView);
-StructureToolbox=new QToolBox(StructureView);
-StructureView->setWidget(StructureToolbox);
+QFrame *LeftPanelFrame=new QFrame(StructureView);
+LeftPanelFrame->setLineWidth(0);
+LeftPanelFrame->setFrameShape(QFrame::Box);
+LeftPanelFrame->setFrameShadow(QFrame::Plain);
 
-StructureTreeWidget=new QTreeWidget(StructureToolbox);
+LeftPanelLayout= new QHBoxLayout(LeftPanelFrame);
+LeftPanelToolBar=new QToolBar("LogToolBar",StructureView);
+LeftPanelToolBar->setFloatable(false);
+LeftPanelToolBar->setOrientation(Qt::Vertical);
+LeftPanelToolBar->setMovable(false);
+LeftPanelToolBar->setIconSize(QSize(16,16 ));
+LeftPanelStackedWidget=new QStackedWidget(StructureView);
+
+StructureTreeWidget=new QTreeWidget(LeftPanelStackedWidget);
 StructureTreeWidget->setColumnCount(1);
 StructureTreeWidget->header()->hide();
 StructureTreeWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 //StructureTreeWidget->setToolTip(tr("Click to jump to the line"));
 connect( StructureTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *,int )), SLOT(ClickedOnStructure(QTreeWidgetItem *,int)));
 // connect( StructureTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *,int )), SLOT(DoubleClickedOnStructure(QTreeWidgetItem *,int))); // qt4 bugs - don't use it
-StructureToolbox->addItem(StructureTreeWidget,QIcon(":/images/structure.png"),tr("Structure"));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
+LeftPanelStackedWidget->addWidget(StructureTreeWidget);
+LeftPanelToolBar->addSeparator();
 
-RelationListWidget=new SymbolListWidget(StructureToolbox,0);
+RelationListWidget=new SymbolListWidget(LeftPanelStackedWidget,0);
 connect(RelationListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-StructureToolbox->addItem(RelationListWidget,QIcon(":/images/math1.png"),tr("Relation symbols"));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/math1.png"),tr("Relation symbols")), SIGNAL(triggered()), this, SLOT(ShowRelation()));
+LeftPanelStackedWidget->addWidget(RelationListWidget);
 
-ArrowListWidget=new SymbolListWidget(StructureToolbox,1);
+ArrowListWidget=new SymbolListWidget(LeftPanelStackedWidget,1);
 connect(ArrowListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-StructureToolbox->addItem(ArrowListWidget,QIcon(":/images/math2.png"),tr("Arrow symbols"));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/math2.png"),tr("Arrow symbols")), SIGNAL(triggered()), this, SLOT(ShowArrow()));
+LeftPanelStackedWidget->addWidget(ArrowListWidget);
 
-MiscellaneousListWidget=new SymbolListWidget(StructureToolbox,2);
+MiscellaneousListWidget=new SymbolListWidget(LeftPanelStackedWidget,2);
 connect(MiscellaneousListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-StructureToolbox->addItem(MiscellaneousListWidget,QIcon(":/images/math3.png"),tr("Miscellaneous symbols"));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/math3.png"),tr("Miscellaneous symbols")), SIGNAL(triggered()), this, SLOT(ShowMisc()));
+LeftPanelStackedWidget->addWidget(MiscellaneousListWidget);
 
-DelimitersListWidget=new SymbolListWidget(StructureToolbox,3);
+DelimitersListWidget=new SymbolListWidget(LeftPanelStackedWidget,3);
 connect(DelimitersListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-StructureToolbox->addItem(DelimitersListWidget,QIcon(":/images/math4.png"),tr("Delimiters"));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/math4.png"),tr("Delimiters")), SIGNAL(triggered()), this, SLOT(ShowDelim()));
+LeftPanelStackedWidget->addWidget(DelimitersListWidget);
 
-GreekListWidget=new SymbolListWidget(StructureToolbox,4);
+GreekListWidget=new SymbolListWidget(LeftPanelStackedWidget,4);
 connect(GreekListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-StructureToolbox->addItem(GreekListWidget,QIcon(":/images/math5.png"),tr("Greek letters"));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/math5.png"),tr("Greek letters")), SIGNAL(triggered()), this, SLOT(ShowGreek()));
+LeftPanelStackedWidget->addWidget(GreekListWidget);
 
-MostUsedListWidget=new SymbolListWidget(StructureToolbox,5);
+MostUsedListWidget=new SymbolListWidget(LeftPanelStackedWidget,5);
 connect(MostUsedListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-StructureToolbox->addItem(MostUsedListWidget,QIcon(":/images/math6.png"),tr("Most used symbols"));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/math6.png"),tr("Most used symbols")), SIGNAL(triggered()), this, SLOT(ShowMostUsed()));
 SetMostUsedSymbols();
+LeftPanelStackedWidget->addWidget(MostUsedListWidget);
 
-PsListWidget=new PstricksListWidget(StructureToolbox);
-connect(PsListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertPstricks(QListWidgetItem*)));
-StructureToolbox->addItem(PsListWidget,QIcon(":/images/pstricks.png"),tr("Pstricks Commands"));
+LeftPanelToolBar->addSeparator();
 
-MpListWidget=new MetapostListWidget(StructureToolbox);
-connect(MpListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertMetaPost(QListWidgetItem*)));
-StructureToolbox->addItem(MpListWidget,QIcon(":/images/metapost.png"),tr("MetaPost Commands"));
+leftrightWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/leftright_tags.xml");
+connect(leftrightWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/leftright.png"),"left/right"), SIGNAL(triggered()), this, SLOT(ShowLeftRight()));
+LeftPanelStackedWidget->addWidget(leftrightWidget);
+
+LeftPanelToolBar->addSeparator();
+
+PsListWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/pstricks_tags.xml");
+connect(PsListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/pstricks.png"),tr("Pstricks Commands")), SIGNAL(triggered()), this, SLOT(ShowPstricks()));
+LeftPanelStackedWidget->addWidget(PsListWidget);
+
+MpListWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/metapost_tags.xml");
+connect(MpListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/metapost.png"),tr("MetaPost Commands")), SIGNAL(triggered()), this, SLOT(ShowMplist()));
+LeftPanelStackedWidget->addWidget(MpListWidget);
+
+tikzWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/tikz_tags.xml");
+connect(tikzWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/tikz.png"),tr("Tikz Commands")), SIGNAL(triggered()), this, SLOT(ShowTikz()));
+LeftPanelStackedWidget->addWidget(tikzWidget);
+
+asyWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/asymptote_tags.xml");
+connect(asyWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/asymptote.png"),tr("Asymptote Commands")), SIGNAL(triggered()), this, SLOT(ShowAsy()));
+LeftPanelStackedWidget->addWidget(asyWidget);
+//LeftPanelToolBar->addSeparator();
+
+LeftPanelLayout->setSpacing(0);
+LeftPanelLayout->setMargin(0);
+LeftPanelLayout->addWidget(LeftPanelToolBar);
+LeftPanelLayout->addWidget(LeftPanelStackedWidget);
+StructureView->setWidget(LeftPanelFrame);
+LeftPanelStackedWidget->setCurrentWidget(StructureTreeWidget);
 
 // OUTPUT WIDGETS
 OutputView = new QDockWidget(this);
@@ -161,15 +219,30 @@ addDockWidget(Qt::BottomDockWidgetArea,OutputView);
 
 
 QFrame *Outputframe=new QFrame(OutputView);
-Outputframe->setLineWidth(1);
-Outputframe->setFrameShape(QFrame::StyledPanel);
-Outputframe->setFrameShadow(QFrame::Sunken);
+Outputframe->setLineWidth(0);
+Outputframe->setFrameShape(QFrame::Box);
+Outputframe->setFrameShadow(QFrame::Plain);
 
-OutputLayout= new QVBoxLayout(Outputframe);
-OutputLayout->setSpacing(0);
-OutputLayout->setMargin(0);
+OutputLayoutH= new QHBoxLayout(Outputframe);
+OutputLayoutH->setSpacing(0);
+OutputLayoutH->setMargin(0);
 
-OutputTableWidget= new QTableWidget (1,5,Outputframe);
+logToolBar=new QToolBar("LogToolBar",Outputframe);
+logToolBar->setFloatable(false);
+logToolBar->setOrientation(Qt::Vertical);
+logToolBar->setMovable(false);
+logToolBar->setIconSize(QSize(16,16 ));
+
+QFrame *Outputframebis=new QFrame(OutputView);
+Outputframebis->setLineWidth(0);
+Outputframebis->setFrameShape(QFrame::Box);
+Outputframebis->setFrameShadow(QFrame::Plain);
+
+OutputLayoutV= new QVBoxLayout(Outputframebis);
+OutputLayoutV->setSpacing(0);
+OutputLayoutV->setMargin(0);
+
+OutputTableWidget= new QTableWidget (1,5,Outputframebis);
 QTableWidgetItem *HeaderItem = new QTableWidgetItem(" ");
 HeaderItem->setTextAlignment(Qt::AlignLeft);
 OutputTableWidget->setHorizontalHeaderItem(0,HeaderItem);
@@ -195,17 +268,21 @@ OutputTableWidget->setColumnWidth(2,fm.width("WarningW"));
 OutputTableWidget->setColumnWidth(3,fm.width("Line WWWWW"));
 OutputTableWidget->setColumnWidth(4,20*fm.width("w"));
 connect(OutputTableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(ClickedOnLogLine(QTableWidgetItem*)));
-OutputLayout->addWidget(OutputTableWidget);
+
 OutputTableWidget->setMinimumHeight(5*(fm.lineSpacing()+4));
 
 
-OutputTextEdit = new LogEditor(Outputframe);
+OutputTextEdit = new LogEditor(Outputframebis);
 OutputTextEdit->setFocusPolicy(Qt::ClickFocus);
 OutputTextEdit->setMinimumHeight(3*(fm.lineSpacing()+4));
 OutputTextEdit->setReadOnly(true);
 connect(OutputTextEdit, SIGNAL(clickonline(int )),this,SLOT(ClickedOnOutput(int )));
 
-OutputLayout->addWidget(OutputTextEdit);
+
+OutputLayoutV->addWidget(OutputTableWidget);
+OutputLayoutV->addWidget(OutputTextEdit);
+OutputLayoutH->addWidget(logToolBar);
+OutputLayoutH->addWidget(Outputframebis);
 
 OutputView->setWidget(Outputframe);
 OutputTableWidget->hide();
@@ -222,17 +299,125 @@ errorLogList.clear();
 onlyErrorList.clear();
 errorIndex=-1;
 
-
+translationList.clear();
+translationList.append(QString("en"));
+#if defined( Q_WS_X11 )
+QDir transdir(PREFIX"/share/texmaker");
+#endif
+#if defined( Q_WS_MACX )
+QDir transdir(QCoreApplication::applicationDirPath() + "/../Resources");
+#endif
+#if defined(Q_WS_WIN)
+QDir transdir(QCoreApplication::applicationDirPath());
+#endif
+foreach (QFileInfo qmFileInfo, transdir.entryInfoList(QStringList("texmaker_*.qm"),QDir::Files | QDir::Readable, QDir::Name | QDir::IgnoreCase)) 
+    {
+    QString transName = qmFileInfo.completeBaseName();
+    transName.remove("texmaker_");
+    translationList.append(transName);
+    }
 // TAB WIDGET EDITEUR
-EditorView=new QTabWidget(this);
-EditorView->setFocusPolicy(Qt::ClickFocus);
-EditorView->setFocus();
+QFrame *centralFrame=new QFrame(this);
+centralFrame->setLineWidth(0);
+centralFrame->setFrameShape(QFrame::StyledPanel);
+centralFrame->setFrameShadow(QFrame::Plain);
+
+//edit
+centralToolBar=new QToolBar("LogToolBar",centralFrame);
+centralToolBar->setFloatable(false);
+centralToolBar->setOrientation(Qt::Vertical);
+centralToolBar->setMovable(false);
+centralToolBar->setIconSize(QSize(16,16 ));
+
+Act = new QAction(QIcon(":/images/text_bold.png"),tr("Bold"), this);
+Act->setData("\\textbf{/}/8/0");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/text_italic.png"),tr("Italic"), this);
+Act->setData("\\textit{/}/8/0");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/text_under.png"),tr("Underline"), this);
+Act->setData("\\underline{/}/11/0");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/text_left.png"),tr("Left"), this);
+Act->setData("\\begin{flushleft}\n/\n\\end{flushleft}/0/1");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/text_center.png"),tr("Center"), this);
+Act->setData("\\begin{center}\n/\n\\end{center}/0/1");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/text_right.png"),tr("Right"), this);
+Act->setData("\\begin{flushright}\n/\n\\end{flushright}/0/1");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+centralToolBar->addAction(Act);
+centralToolBar->addSeparator();
+
+Act = new QAction(QIcon(":/images/newline.png"),tr("New line"), this);
+Act->setData("\\\\\n/0/1/The \\newline command breaks the line right where it is. It can only be used in paragraph mode.");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+centralToolBar->addAction(Act);
+
+centralToolBar->addSeparator();
+
+Act = new QAction(QIcon(":/images/mathmode.png"),"$...$", this);
+Act->setData("$  $/2/0/The math environment can be used in both paragraph and LR mode");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/indice.png"),"_{} - subscript", this);
+Act->setData("_{}/2/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/puissance.png"),"^{} - superscript", this);
+Act->setData("^{}/2/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/smallfrac.png"),"\\frac{}{}", this);
+Act->setData("\\frac{}{}/6/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/dfrac.png"),"\\dfrac{}{}", this);
+Act->setData("\\dfrac{}{}/7/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+centralToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/racine.png"),"\\sqrt{}", this);
+Act->setData("\\sqrt{}/6/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+centralToolBar->addAction(Act);
+
+CentralLayout= new QHBoxLayout(centralFrame);
+CentralLayout->setSpacing(0);
+CentralLayout->setMargin(0);
+CentralLayout->addWidget(centralToolBar);
+EditorView=new QTabWidget(centralFrame);
+EditorView->setTabsClosable(true);
 connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateCaption()) );
-setCentralWidget(EditorView);
+CentralLayout->addWidget(EditorView);
+
+//EditorView->setFocusPolicy(Qt::ClickFocus);
+//EditorView->setFocus();
+connect(EditorView, SIGNAL(tabCloseRequested( int ) ), this, SLOT(fileCloseRequested( int ) ) );
+setCentralWidget(centralFrame);
 setupMenus();
 setupToolBars();
 
-restoreState(windowstate, 0);
+QPalette pal = QApplication::palette();
+QColor col=pal.color(QPalette::Window);
+qApp->setStyleSheet("QDockWidget {border: 1px solid"+col.name()+"}");
+qApp->setStyleSheet("QDockWidget::title {text-align: left;background: "+col.name()+";padding-left: 5px;}");
+if (new_gui) restoreState(windowstate, 0);
 
 
 UpdateRecentFile();
@@ -248,6 +433,11 @@ stat2->setText(QString(" %1 ").arg(tr("Ready")));
 stat3->setText(QString(" %1 ").arg(input_encoding));
 
 setAcceptDrops(true);
+
+}
+
+Texmaker::~Texmaker(){
+if (spellChecker) delete spellChecker;
 }
 
 void Texmaker::setupMenus()
@@ -274,6 +464,36 @@ for (int i = 0; i < 5; ++i)
 	recentMenu->addAction(recentFileActs[i]);
 	}
 
+//add by S. R. Alavizadeh//new
+/*
+#if defined( Q_WS_X11 )
+QFileInfo pyFtx(PREFIX"/share/texmaker/ftx2uni.py");
+#endif
+#if defined( Q_WS_MACX )
+QFileInfo pyFtx(QCoreApplication::applicationDirPath() + "/../Resources/ftx2uni.py");
+#endif
+#if defined(Q_WS_WIN)
+QFileInfo exeFtx(QCoreApplication::applicationDirPath()+"/ftx2uni/ftx2uni.exe");
+QFileInfo pyFtx(QCoreApplication::applicationDirPath()+"/ftx2uni.py");
+#endif
+#if defined(Q_WS_WIN)
+if (exeFtx.exists() || pyFtx.exists())
+{
+	fileMenu->addSeparator();
+	Act = new QAction(tr("Import FTX File(s)"), this);
+	connect(Act, SIGNAL(triggered()), this, SLOT(ftx2Unicode()));
+	fileMenu->addAction(Act);
+}
+#else
+if (pyFtx.exists())
+{
+	fileMenu->addSeparator();
+	Act = new QAction(tr("Import FTX File(s)"), this);
+	connect(Act, SIGNAL(triggered()), this, SLOT(ftx2Unicode()));
+	fileMenu->addAction(Act);
+}
+#endif
+*/
 Act = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_S);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileSave()));
@@ -393,6 +613,57 @@ Act = new QAction(tr("Refresh Structure"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(UpdateStructure()));
 editMenu->addAction(Act);
 
+//[start] add by S. R. Alavizadeh
+editMenu->addSeparator();
+Act = new QAction(tr("Add LRM to Document"), this);
+Act->setShortcut(Qt::CTRL+Qt::ALT+Qt::Key_P);
+connect(Act, SIGNAL(triggered()), this, SLOT(addLRMToLatinWords()));
+editMenu->addAction(Act);
+
+Act = new QAction(tr("Remove LRM from Document"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(remLRMfromDocument()));
+editMenu->addAction(Act);
+
+editMenu->addSeparator();
+
+Act = new QAction(tr("Bidirecting (All Line)"), this);
+Act->setShortcut(Qt::CTRL+Qt::ALT+Qt::Key_B);
+connect(Act, SIGNAL(triggered()), this, SLOT(editBiDiAll()));
+editMenu->addAction(Act);
+
+Act = new QAction(tr("Text Direction Right to Left"), this);
+Act->setShortcut(Qt::CTRL+Qt::ALT+Qt::Key_R);
+connect(Act, SIGNAL(triggered()), this, SLOT(currentLineRTL()));
+editMenu->addAction(Act);
+
+if (bidiEnabled)
+	{
+	Act->setEnabled(false);
+	disconnect(Act,SIGNAL(triggered()), this, SLOT(currentLineRTL()));
+	}
+else
+	{
+	Act->setEnabled(true);
+	connect(Act,SIGNAL(triggered()), this, SLOT(currentLineRTL()));
+	}
+
+Act = new QAction(tr("Text Direction Left to Right"), this);
+Act->setShortcut(Qt::CTRL+Qt::ALT+Qt::Key_L);
+connect(Act, SIGNAL(triggered()), this, SLOT(currentLineLTR()));
+editMenu->addAction(Act);
+
+if (bidiEnabled)
+	{
+	Act->setEnabled(false);
+	disconnect(Act,SIGNAL(triggered()), this, SLOT(currentLineLTR()));
+	}
+	else
+	{
+	Act->setEnabled(true);
+	connect(Act,SIGNAL(triggered()), this, SLOT(currentLineLTR()));
+	}
+//[end] add by S. R. Alavizadeh
+
 toolMenu = menuBar()->addMenu(tr("&Tools"));
 Act = new QAction(QIcon(":/images/quick.png"),tr("Quick Build"), this);
 Act->setShortcut(Qt::Key_F1);
@@ -446,6 +717,9 @@ toolMenu->addAction(Act);
 toolMenu->addSeparator();
 Act = new QAction("MPost", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(MetaPost()));
+toolMenu->addAction(Act);
+Act = new QAction("Asymptote", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(Asymptote()));
 toolMenu->addAction(Act);
 toolMenu->addSeparator();
 Act = new QAction(tr("Clean"), this);
@@ -752,7 +1026,7 @@ connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib()));
 latex1Menu->addAction(Act);
 
 math1Menu = menuBar()->addMenu(tr("&Math"));
-Act = new QAction(QIcon(":/images/mathmode.png"),tr("Inline math mode $...$"), this);
+Act = new QAction(tr("Inline math mode $...$"), this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_M);
 Act->setData("$  $/2/0/The math environment can be used in both paragraph and LR mode");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
@@ -771,27 +1045,27 @@ Act = new QAction("\\begin{eqnarray}", this);
 Act->setData("\\begin{eqnarray}\n\n\\end{eqnarray}/0/1/\\begin{eqnarray}\nmath formula 1 \\\\\n\\end{eqnarray}\nThe eqnarray environment is used to display a sequence of equations or inequalities.");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math1Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/indice.png"),"_{} - subscript", this);
+Act = new QAction("_{} - subscript", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_D);
 Act->setData("_{}/2/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math1Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/puissance.png"),"^{} - superscript", this);
+Act = new QAction("^{} - superscript", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_U);
 Act->setData("^{}/2/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math1Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/smallfrac.png"),"\\frac{}{}", this);
+Act = new QAction("\\frac{}{}", this);
 Act->setShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_F);
 Act->setData("\\frac{}{}/6/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math1Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/dfrac.png"),"\\dfrac{}{}", this);
+Act = new QAction("\\dfrac{}{}", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_F);
 Act->setData("\\dfrac{}{}/7/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math1Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/racine.png"),"\\sqrt{}", this);
+Act = new QAction("\\sqrt{}", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_Q); //setShortcut(Qt::CTRL+Qt::ALT+Qt::Key_Q);
 Act->setData("\\sqrt{}/6/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
@@ -1184,15 +1458,45 @@ Act = new QAction(QIcon(":/images/configure.png"), tr("Configure Texmaker"), thi
 connect(Act, SIGNAL(triggered()), this, SLOT(GeneralOptions()));
 optionsMenu->addAction(Act);
 optionsMenu->addSeparator();
-#if defined( Q_WS_X11 )
-Act = new QAction(QIcon(":/images/configure.png"), tr("Change Interface Font"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(SetInterfaceFont()));
-optionsMenu->addAction(Act);
-optionsMenu->addSeparator();
-#endif
 ToggleAct = new QAction(tr("Define Current Document as 'Master Document'"), this);
 connect(ToggleAct, SIGNAL(triggered()), this, SLOT(ToggleMode()));
 optionsMenu->addAction(ToggleAct);
+optionsMenu->addSeparator();
+appearanceMenu=optionsMenu->addMenu(tr("Interface Appearance"));
+appearanceGroup = new QActionGroup(this);
+Act = new QAction("Modern", this);
+Act->setCheckable(true);
+connect(Act, SIGNAL(triggered()), this, SLOT(updateAppearance()));
+appearanceGroup->addAction(Act);
+if (modern_style) Act->setChecked(true);
+appearanceMenu->addAction(Act);
+Act = new QAction("Classic", this);
+Act->setCheckable(true);
+connect(Act, SIGNAL(triggered()), this, SLOT(updateAppearance()));
+appearanceGroup->addAction(Act);
+if (!modern_style) Act->setChecked(true);
+appearanceMenu->addAction(Act);
+#if defined( Q_WS_X11 )
+Act = new QAction(tr("Change Interface Font"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SetInterfaceFont()));
+optionsMenu->addAction(Act);
+#endif
+optionsMenu->addSeparator();
+translationMenu=optionsMenu->addMenu(tr("Interface Language"));
+translationGroup = new QActionGroup(this);
+QString currentTranslation=TexmakerApp::instance()->language;
+for (int i=0; i < translationList.count(); i++)
+	{
+	Act = new QAction(translationList.at(i), this);
+	Act->setCheckable(true);
+	connect(Act, SIGNAL(triggered()), this, SLOT(updateTranslation()));
+	translationGroup->addAction(Act);
+	if ((currentTranslation==translationList.at(i)) || (currentTranslation.left(2)==translationList.at(i)) )
+	    {
+	    Act->setChecked(true);
+	    }
+	translationMenu->addAction(Act);
+	}
 
 helpMenu = menuBar()->addMenu(tr("&Help"));
 Act = new QAction(QIcon(":/images/help.png"), tr("LaTeX Reference"), this);
@@ -1257,9 +1561,9 @@ Act = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileSave()));
 fileToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/fileclose.png"), tr("Close"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(fileClose()));
-fileToolBar->addAction(Act);
+//Act = new QAction(QIcon(":/images/fileclose.png"), tr("Close"), this);
+//connect(Act, SIGNAL(triggered()), this, SLOT(fileClose()));
+//fileToolBar->addAction(Act);
 
 //edit
 editToolBar = addToolBar("Edit");
@@ -1285,55 +1589,10 @@ Act = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(editPaste()));
 editToolBar->addAction(Act);
 
-//tools
-runToolBar = addToolBar("Tools");
-runToolBar->setObjectName("Tools");
-
-Act = new QAction(QIcon(":/images/viewlog.png"),tr("View Log"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(ViewLog()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/errornext.png"),tr("Next LaTeX Error"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(NextError()));
-runToolBar->addAction(Act);
-runToolBar->addSeparator();
-
-Act = new QAction(QIcon(":/images/quick.png"),tr("Quick Build"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(QuickBuild()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/latex.png"),"LaTeX", this);
-connect(Act, SIGNAL(triggered()), this, SLOT(Latex()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/viewdvi.png"),tr("View Dvi"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(ViewDvi()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/dvips.png"),"Dvi->PS", this);
-connect(Act, SIGNAL(triggered()), this, SLOT(DviToPS()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/viewps.png"),tr("View PS"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(ViewPS()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/pdflatex.png"),"PDFLaTeX", this);
-connect(Act, SIGNAL(triggered()), this, SLOT(PDFLatex()));
-runToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/viewpdf.png"),tr("View PDF"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(ViewPDF()));
-runToolBar->addAction(Act);
-
 //format
 formatToolBar = addToolBar("Format");
 formatToolBar->setObjectName("Format");
-insertToolBarBreak(formatToolBar);
+//insertToolBarBreak(formatToolBar);
 
 list.clear();
 list.append("part");
@@ -1347,7 +1606,6 @@ QComboBox* combo1 = new QComboBox(formatToolBar);
 combo1->addItems(list);
 connect(combo1, SIGNAL(activated(const QString&)),this,SLOT(SectionCommand(const QString&)));
 formatToolBar->addWidget(combo1);
-formatToolBar->addSeparator();
 
 list.clear();
 list.append("label");
@@ -1360,7 +1618,6 @@ QComboBox* combo2 = new QComboBox(formatToolBar);
 combo2->addItems(list);
 connect(combo2, SIGNAL(activated(const QString&)),this,SLOT(OtherCommand(const QString&)));
 formatToolBar->addWidget(combo2);
-formatToolBar->addSeparator();
 
 list.clear();
 list.append("tiny");
@@ -1377,109 +1634,64 @@ QComboBox* combo3 = new QComboBox(formatToolBar);
 combo3->addItems(list);
 connect(combo3, SIGNAL(activated(const QString&)),this,SLOT(SizeCommand(const QString&)));
 formatToolBar->addWidget(combo3);
-formatToolBar->addSeparator();
 
-Act = new QAction(QIcon(":/images/text_bold.png"),tr("Bold"), this);
-Act->setData("\\textbf{/}/8/0");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
-formatToolBar->addAction(Act);
+//tools
+runToolBar = addToolBar("Tools");
+runToolBar->setObjectName("Tools");
 
-Act = new QAction(QIcon(":/images/text_italic.png"),tr("Italic"), this);
-Act->setData("\\textit{/}/8/0");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
-formatToolBar->addAction(Act);
+//QCommandLinkButton* compileButton=new QCommandLinkButton(tr("Compile"),runToolBar);
+//connect(compileButton, SIGNAL( clicked() ), this, SLOT( doCompile() ) );
 
-Act = new QAction(QIcon(":/images/text_under.png"),tr("Underline"), this);
-Act->setData("\\underline{/}/11/0");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
-formatToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/text_left.png"),tr("Left"), this);
-Act->setData("\\begin{flushleft}\n/\n\\end{flushleft}/0/1");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
-formatToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/text_center.png"),tr("Center"), this);
-Act->setData("\\begin{center}\n/\n\\end{center}/0/1");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
-formatToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/text_right.png"),tr("Right"), this);
-Act->setData("\\begin{flushright}\n/\n\\end{flushright}/0/1");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
-formatToolBar->addAction(Act);
-formatToolBar->addSeparator();
-
-Act = new QAction(QIcon(":/images/newline.png"),tr("New line"), this);
-Act->setData("\\\\\n/0/1/The \\newline command breaks the line right where it is. It can only be used in paragraph mode.");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-formatToolBar->addAction(Act);
-
-//math
-mathToolBar = addToolBar("Math");
-mathToolBar->setObjectName("Math");
-
-Act = new QAction(QIcon(":/images/mathmode.png"),"$...$", this);
-Act->setData("$  $/2/0/The math environment can be used in both paragraph and LR mode");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-mathToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/indice.png"),"_{} - subscript", this);
-Act->setData("_{}/2/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-mathToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/puissance.png"),"^{} - superscript", this);
-Act->setData("^{}/2/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-mathToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/smallfrac.png"),"\\frac{}{}", this);
-Act->setData("\\frac{}{}/6/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-mathToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/dfrac.png"),"\\dfrac{}{}", this);
-Act->setData("\\dfrac{}{}/7/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-mathToolBar->addAction(Act);
-
-Act = new QAction(QIcon(":/images/racine.png"),"\\sqrt{}", this);
-Act->setData("\\sqrt{}/6/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-mathToolBar->addAction(Act);
-mathToolBar->addSeparator();
 
 list.clear();
-list.append("left (");
-list.append("left [");
-list.append("left {");
-list.append("left <");
-list.append("left )");
-list.append("left ]");
-list.append("left }");
-list.append("left >");
-list.append("left.");
-QComboBox* combo4 = new QComboBox(mathToolBar);
-combo4->addItems(list);
-connect(combo4, SIGNAL(activated(const QString&)),this,SLOT(LeftDelimiter(const QString&)));
-mathToolBar->addWidget(combo4);
-mathToolBar->addSeparator();
+list.append(tr("Quick Build"));
+list.append("LaTeX");
+list.append("Dvi->PS");
+list.append("PDFLaTeX");
+list.append("BibTeX");
+list.append("MakeIndex");
+list.append("MPost");
+list.append("PS->PDF");
+list.append("DVI->PDF");
+list.append("Asymptote");
+
+for ( int i = 0; i <= 4; i++ ) list.append(QString::number(i+1)+": "+UserToolName[i]);
+
+comboCompil = new QComboBox(runToolBar);
+comboCompil->addItems(list);
+comboCompil->setCurrentIndex(runIndex);
+connect(runToolBar->addAction(QIcon(":/images/run.png"),tr("Run")), SIGNAL(triggered()), this, SLOT(doCompile()));
+runToolBar->addWidget(comboCompil);
+
+//QCommandLinkButton* viewButton=new QCommandLinkButton(tr("View"),runToolBar);
+//connect(viewButton, SIGNAL( clicked() ), this, SLOT( doView() ) );
 
 list.clear();
-list.append("right )");
-list.append("right ]");
-list.append("right }");
-list.append("right >");
-list.append("right (");
-list.append("right [");
-list.append("right {");
-list.append("right <");
-list.append("right.");
-QComboBox* combo5 = new QComboBox(mathToolBar);
-combo5->addItems(list);
-connect(combo5, SIGNAL(activated(const QString&)),this,SLOT(RightDelimiter(const QString&)));
-mathToolBar->addWidget(combo5);
+list.append(tr("View Dvi"));
+list.append(tr("View PS"));
+list.append(tr("View PDF"));
+
+comboView = new QComboBox(runToolBar);
+comboView->addItems(list);
+comboView->setCurrentIndex(viewIndex);
+connect(runToolBar->addAction(QIcon(":/images/run.png"),tr("View")), SIGNAL(triggered()), this, SLOT(doView()));
+runToolBar->addWidget(comboView);
+
+
+
+Act = new QAction(QIcon(":/images/viewlog.png"),tr("View Log"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(ViewLog()));
+logToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/errornext.png"),tr("Next LaTeX Error"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(NextError()));
+logToolBar->addAction(Act);
+
+Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
+logToolBar->addAction(Act);
+
+
 
 }
 
@@ -1588,7 +1800,7 @@ void Texmaker::load( const QString &f )
 {
 raise();
 if (FileAlreadyOpen(f) || !QFile::exists( f )) return;
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,colorMath,colorCommand,colorKeyword);
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,colorMath,colorCommand,colorKeyword,inlinespellcheck,spell_ignored_words,spellChecker);
 EditorView->addTab( edit, QFileInfo( f ).fileName() );
 EditorView->setCurrentIndex(EditorView->indexOf(edit));
 edit->editor->setReadOnly(false);
@@ -1602,7 +1814,6 @@ if ( !file.open( QIODevice::ReadOnly ) )
 	return;
 	}
 QTextStream ts( &file );
-//qDebug() << ts.codec()->name();
 QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
 if(!codec) codec = QTextCodec::codecForLocale();
 //ts.setEncoding(QTextStream::Locale);
@@ -1615,6 +1826,19 @@ filenames.insert( edit, f );
 edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
+
+//[start] add by S. R. Alavizadeh
+connect(edit->editor, SIGNAL(removeLRM()), this, SLOT(remLRMfromDocument()));
+currentTabChanged();
+connect(EditorView, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged()));
+connect(edit->editor->document(), SIGNAL(contentsChanged()), this, SLOT(OldNumOfLines()));
+if (bidiEnabled)
+	addLRMToLatinWords();//new
+	//new//biDirector(2);
+else
+	disconnect(edit->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+//[end] add by S. R. Alavizadeh
+
 if (wordwrap) {edit->editor->setWordWrapMode(QTextOption::WordWrap);}
 else {edit->editor->setWordWrapMode(QTextOption::NoWrap);}
 edit->editor->setFocus();
@@ -1650,7 +1874,7 @@ if (currentEditorView() && ok)
 
 void Texmaker::fileNew()
 {
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,colorMath,colorCommand,colorKeyword);
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,colorMath,colorCommand,colorKeyword,inlinespellcheck,spell_ignored_words,spellChecker);
 edit->editor->setReadOnly(false);
 edit->editor->setEncoding(input_encoding);
 if (completion) edit->editor->setCompleter(completer);
@@ -1665,6 +1889,18 @@ filenames.insert( edit, "untitled" );
 edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
+
+//[start] add by S. R. Alavizadeh
+connect(edit->editor, SIGNAL(removeLRM()), this, SLOT(remLRMfromDocument()));
+currentTabChanged();
+connect(EditorView, SIGNAL(currentChanged(int)), this, SLOT(currentTabChanged()));
+connect(edit->editor->document(), SIGNAL(contentsChanged()), this, SLOT(OldNumOfLines()));
+if (bidiEnabled)
+	connect(edit->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+else
+	disconnect(edit->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+//[end] add by S. R. Alavizadeh
+
 UpdateCaption();
 NewDocumentStatus(false);
 edit->editor->setFocus();
@@ -1698,7 +1934,10 @@ else
 	QTextStream ts( &file );
 	QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().toLatin1());
 	ts.setCodec(codec ? codec : QTextCodec::codecForLocale());
-	ts << currentEditorView()->editor->toPlainText();
+//	ts << currentEditorView()->editor->toPlainText();
+	QString tmp = currentEditorView()->editor->toPlainText();//add by S. R. Alavizadeh//new
+	tmp.remove(QChar(LRM), Qt::CaseInsensitive);//add by S. R. Alavizadeh//new
+	ts << tmp;//add by S. R. Alavizadeh//new
 	currentEditorView()->editor->document()->setModified(false);
 	fn=getName();
 	AddRecentFile(fn);
@@ -1718,6 +1957,7 @@ if (!lastDocument.isEmpty())
 QString fn = QFileDialog::getSaveFileName(this,tr("Save As"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp);;All files (*.*)");
 if ( !fn.isEmpty() )
 	{
+	if (!fn.contains('.')) fn += ".tex";
 	QFileInfo fic(fn);
 	filenames.remove(currentEditorView());
 	filenames.insert(currentEditorView(), fn );
@@ -1730,7 +1970,7 @@ UpdateCaption();
 
 void Texmaker::fileSaveAll()
 {
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,colorMath,colorCommand,colorKeyword);
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,colorMath,colorCommand,colorKeyword,inlinespellcheck,spell_ignored_words,spellChecker);
 temp=currentEditorView();
 FilesMap::Iterator it;
 for( it = filenames.begin(); it != filenames.end(); ++it )
@@ -1775,6 +2015,12 @@ filenames.remove(currentEditorView());
 delete currentEditorView();
 }
 UpdateCaption();
+}
+
+void Texmaker::fileCloseRequested( int index)
+{
+EditorView->setCurrentIndex(index);
+fileClose();
 }
 
 void Texmaker::fileCloseAll()
@@ -2044,19 +2290,29 @@ currentEditorView()->editor->unindentSelection();
 void Texmaker::editSpell()
 {
 if ( !currentEditorView() )	return;
-SpellerDialog *spellDlg=new SpellerDialog(this,currentEditorView()->editor,spell_dic,spell_ignored_words);
-if (spellDlg->exec())
+if (spelldicExist()) 
 	{
-	spell_ignored_words=spellDlg->alwaysignoredwordList.join(",");
+	SpellerDialog *spellDlg=new SpellerDialog(this,currentEditorView()->editor,spell_ignored_words);
+	if (spellDlg->exec())
+		{
+		spell_ignored_words=spellDlg->alwaysignoredwordList.join(",");
+		}
+	}
+else
+	{
+	QMessageBox::warning( this,tr("Error"),tr("Error : Can't open the dictionary"));
+	return;
 	}
 }
 
 /////////////// CONFIG ////////////////////
 void Texmaker::ReadSettings()
 {
+#ifdef USB_VERSION
+QSettings *config=new QSettings(QCoreApplication::applicationDirPath()+"/texmaker.ini",QSettings::IniFormat); //for USB-stick version :
+#else
 QSettings *config=new QSettings(QSettings::IniFormat,QSettings::UserScope,"xm1","texmaker");
-//for USB-stick version :
-//QSettings *config=new QSettings(QCoreApplication::applicationDirPath()+"/texmaker.ini",QSettings::IniFormat);
+#endif
 if (!config->contains("IniMode")) 
 	{
 	delete config;
@@ -2068,6 +2324,9 @@ singlemode=true;
 QFontDatabase fdb;
 QStringList xf = fdb.families();
 QString deft;
+
+modern_style=config->value( "GUI/Style",true).toBool();
+new_gui=config->value( "GUI/New Version",false).toBool();
 
 QRect screen = QApplication::desktop()->screenGeometry();
 int w= config->value( "Geometries/MainwindowWidth",screen.width()-100).toInt();
@@ -2096,6 +2355,7 @@ wordwrap=config->value( "Editor/WordWrap",true).toBool();
 parenmatch=config->value( "Editor/Parentheses Matching",true).toBool();
 showline=config->value( "Editor/Line Numbers",true).toBool();
 completion=config->value( "Editor/Completion",true).toBool();
+bidiEnabled=config->value( "Editor/Auto Bidirector",false).toBool();//add by S. R. Alavizadeh
 
 shortcuts.clear();
 QStringList data,shortcut;
@@ -2113,6 +2373,7 @@ showoutputview=config->value("Show/OutputView",true).toBool();
 showstructview=config->value( "Show/Structureview",true).toBool();
 
 quickmode=config->value( "Tools/Quick Mode",1).toInt();
+QString baseName = qApp->style()->objectName();
 #ifdef Q_WS_MACX 
 // /usr/local/teTeX/bin/i386-apple-darwin-current
 // /usr/local/teTeX/bin/powerpc-apple-darwin-current
@@ -2129,6 +2390,8 @@ viewdvi_command=config->value("Tools/Dvi","open %.dvi").toString();
 viewps_command=config->value("Tools/Ps","open %.ps").toString();
 viewpdf_command=config->value("Tools/Pdf","open %.pdf").toString();
 ghostscript_command=config->value("Tools/Ghostscript","/usr/local/bin/gs").toString();
+asymptote_command=config->value("Tools/Asymptote","/usr/bin/asy %.asy").toString();
+if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
 #endif
 #ifdef Q_WS_WIN
 latex_command=config->value("Tools/Latex","latex -interaction=nonstopmode %.tex").toString();
@@ -2146,6 +2409,8 @@ viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.7/miktex/
 viewps_command=config->value("Tools/Ps","\"C:/Program Files/Ghostgum/gsview/gsview32.exe\" %.ps").toString();
 viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 9.0/Reader/AcroRd32.exe\" %.pdf").toString();
 ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs8.63/bin/gswin32c.exe\"").toString();
+asymptote_command=config->value("Tools/Asymptote","\"C:/Asymptote/asy.exe\" %.asy").toString();
+if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
 #endif
 #ifdef Q_WS_X11
 int desktop_env=1; // 1 : no kde ; 2: kde ; 3 : kde4 ; 
@@ -2190,6 +2455,7 @@ switch (desktop_env)
 
 
 ghostscript_command=config->value("Tools/Ghostscript","gs").toString();
+asymptote_command=config->value("Tools/Asymptote","asy %.asy").toString();
 
 x11style=config->value( "X11/Style","Plastique").toString();
 if (xf.contains("DejaVu Sans",Qt::CaseInsensitive)) deft="DejaVu Sans";
@@ -2200,7 +2466,39 @@ else deft=qApp->font().family();
 x11fontfamily=config->value("X11/Font Family",deft).toString();
 x11fontsize=config->value( "X11/Font Size","10").toInt();
 
-if ((desktop_env !=3) || (!styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create(x11style)); //plastique style if not kde4
+//if ((desktop_env ==3) && (styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create("Oxygen")); //kde4
+/*if ((desktop_env ==1) && (styles.contains("GTK+"))) QApplication::setStyle(QStyleFactory::create("GTK+")); //gtkstyle
+else if ((desktop_env !=3) || (!styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create(x11style));
+QString baseStyleName = qApp->style()->objectName();
+if (baseStyleName == QLatin1String("windows")) 
+{
+QApplication::setStyle(QStyleFactory::create(x11style));
+}*/
+if (modern_style)
+    {
+    if (desktop_env ==1) //no-kde
+	{
+	if (styles.contains("GTK+")) qApp->setStyle(new ManhattanStyle(QString("GTK+")));//gtkstyle
+	else qApp->setStyle(new ManhattanStyle(QString("Cleanlooks")));
+	}
+    else if ((desktop_env ==3) && (styles.contains("Oxygen"))) qApp->setStyle(new ManhattanStyle(QString("Oxygen"))); //kde4+oxygen
+    else qApp->setStyle(new ManhattanStyle(QString("Plastique"))); //others
+    QString baseStyleName = qApp->style()->objectName(); //fallback
+    if (baseStyleName == QLatin1String("Windows")) qApp->setStyle(new ManhattanStyle(QString("Plastique"))); //fallback
+    }
+else
+    {
+    if (desktop_env ==1) //no-kde
+	{
+	if (styles.contains("GTK+")) QApplication::setStyle(QStyleFactory::create("GTK+"));//gtkstyle
+	else QApplication::setStyle(QStyleFactory::create("Cleanlooks"));
+	}
+    else if ((desktop_env ==3) && (styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create("Oxygen")); //kde4+oxygen
+    else QApplication::setStyle(QStyleFactory::create("Plastique")); //others
+    QString baseStyleName = qApp->style()->objectName(); //fallback
+    if (baseStyleName == QLatin1String("Windows")) QApplication::setStyle(QStyleFactory::create("Plastique")); //fallback
+    }
+   
 // QApplication::setPalette(QApplication::style()->standardPalette());
 QFont x11Font (x11fontfamily,x11fontsize);
 QApplication::setFont(x11Font);
@@ -2242,15 +2540,6 @@ if (desktop_env ==3)
 	}
 else
 	{
-/*
-	pal.setColor( QPalette::Active, QPalette::Window, QColor("#f1f1f1") );
-	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#f1f1f1") );
-	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#f1f1f1") );
-
-	pal.setColor( QPalette::Active, QPalette::Button, QColor("#f1f1f1") );
-	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#f1f1f1") );
-	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#f1f1f1") );
-*/
 	pal.setColor( QPalette::Active, QPalette::Window, QColor("#fbf8f1") );
 	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#fbf8f1") );
 	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#fbf8f1") );
@@ -2267,6 +2556,8 @@ userClassList=config->value("Tools/User Class").toStringList();
 userPaperList=config->value("Tools/User Paper").toStringList();
 userEncodingList=config->value("Tools/User Encoding").toStringList();
 userOptionsList=config->value("Tools/User Options").toStringList();
+runIndex=config->value( "Tools/Run","0").toInt();
+viewIndex=config->value( "Tools/View","0").toInt();
 
 lastDocument=config->value("Files/Last Document","").toString();
 recentFilesList=config->value("Files/Recent Files").toStringList();
@@ -2328,10 +2619,11 @@ QString dicDir=QCoreApplication::applicationDirPath() + "/";
 #endif
 QString defaultDic=dicDir+QString(QLocale::system().name())+".dic";
 QFileInfo fi(defaultDic);
-if (!fi.exists() || !fi.isReadable()) defaultDic=dicDir+"en_US.dic";
+if (!fi.exists() || !fi.isReadable()) defaultDic=dicDir+"en_GB.dic";
 spell_dic=config->value("Spell/Dic",defaultDic).toString();
-spell_ignored_words=config->value("Spell/Words","").toString();
 
+spell_ignored_words=config->value("Spell/Words","").toString();
+inlinespellcheck=config->value( "Spell/Inline",true).toBool();
 for (int i=0; i <412 ; i++)
 	{
 	symbolScore[i]=config->value( "Symbols/symbol"+QString::number(i),0).toInt();
@@ -2346,15 +2638,19 @@ config->endGroup();
 
 void Texmaker::SaveSettings()
 {
-//QSettings config("xm1","texmaker");
+#ifdef USB_VERSION
+QSettings config(QCoreApplication::applicationDirPath()+"/texmaker.ini",QSettings::IniFormat); //for USB-stick version 
+#else
 QSettings config(QSettings::IniFormat,QSettings::UserScope,"xm1","texmaker");
-//for USB-stick version :
-//QSettings config(QCoreApplication::applicationDirPath()+"/texmaker.ini",QSettings::IniFormat);
+#endif
+
 config.setValue( "IniMode",true);
 config.beginGroup( "texmaker" );
 QList<int> sizes;
 QList<int>::Iterator it;
 
+config.setValue( "GUI/Style",modern_style);
+config.setValue( "GUI/New Version",true);
 #if defined( Q_WS_X11 )
 config.setValue( "X11/Style",x11style);
 config.setValue("X11/Font Family",x11fontfamily);
@@ -2374,6 +2670,7 @@ config.setValue( "Editor/WordWrap",wordwrap);
 config.setValue( "Editor/Parentheses Matching",parenmatch);
 config.setValue( "Editor/Line Numbers",showline);
 config.setValue( "Editor/Completion",completion);
+config.setValue( "Editor/Auto Bidirector",bidiEnabled);//add by S. R. Alavizadeh
 
 QStringList data,shortcut;
 // data.clear();
@@ -2403,11 +2700,14 @@ config.setValue("Tools/Pdf",viewpdf_command);
 config.setValue("Tools/Dvipdf",dvipdf_command);
 config.setValue("Tools/Metapost",metapost_command);
 config.setValue("Tools/Ghostscript",ghostscript_command);
+config.setValue("Tools/Asymptote",asymptote_command);
 config.setValue("Tools/Userquick",userquick_command);
 if (userClassList.count()>0) config.setValue("Tools/User Class",userClassList); 
 if (userPaperList.count()>0) config.setValue("Tools/User Paper",userPaperList); 
 if (userEncodingList.count()>0) config.setValue("Tools/User Encoding",userEncodingList); 
 if (userOptionsList.count()>0) config.setValue("Tools/User Options",userOptionsList); 
+config.setValue( "Tools/Run",comboCompil->currentIndex());
+config.setValue( "Tools/View",comboView->currentIndex());
 
 
 config.setValue("Files/Last Document",lastDocument);
@@ -2462,6 +2762,7 @@ config.setValue( "Quick/Author",author);
 
 config.setValue( "Spell/Dic",spell_dic);
 config.setValue( "Spell/Words",spell_ignored_words);
+config.setValue( "Spell/Inline",inlinespellcheck);
 
 for (int i=0; i <412 ; i++)
 	{
@@ -2479,8 +2780,51 @@ config.endGroup();
 ////////////////// STRUCTURE ///////////////////
 void Texmaker::ShowStructure()
 {
-//StructureToolbox->setCurrentItem(StructureTreeWidget);
-StructureToolbox->setCurrentIndex(StructureToolbox->indexOf(StructureTreeWidget));
+LeftPanelStackedWidget->setCurrentWidget(StructureTreeWidget);
+}
+void Texmaker::ShowRelation() //RelationListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(RelationListWidget);
+}
+void Texmaker::ShowArrow() //ArrowListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(ArrowListWidget);
+}
+void Texmaker::ShowMisc() //MiscellaneousListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(MiscellaneousListWidget);
+}
+void Texmaker::ShowDelim() //DelimitersListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(DelimitersListWidget);
+}
+void Texmaker::ShowGreek() //GreekListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(GreekListWidget);
+}
+void Texmaker::ShowMostUsed() //MostUsedListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(MostUsedListWidget);
+}
+void Texmaker::ShowPstricks() //PsListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(PsListWidget);
+}
+void Texmaker::ShowLeftRight() //
+{
+LeftPanelStackedWidget->setCurrentWidget(leftrightWidget);
+}
+void Texmaker::ShowMplist() //MpListWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(MpListWidget);
+}
+void Texmaker::ShowTikz() //TikzWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(tikzWidget);
+}
+void Texmaker::ShowAsy() //TikzWidget
+{
+LeftPanelStackedWidget->setCurrentWidget(asyWidget);
 }
 
 void Texmaker::UpdateStructure()
@@ -2756,24 +3100,27 @@ if (item)
 	}
 }
 
-void Texmaker::InsertMetaPost(QListWidgetItem *item)
+void Texmaker::InsertXmlTag(QListWidgetItem *item)
 {
-QString mpcode;
-if (item)
-	{
-	mpcode=item->text();
-	if (mpcode!="----------") InsertTag(mpcode,mpcode.length(),0);
-	}
-}
-
-void Texmaker::InsertPstricks(QListWidgetItem *item)
-{
-QString pstcode;
+QString txt, code, role;
+QStringList tagList;
+int dx,dy;
 if (item  && !item->font().bold())
 	{
-	pstcode=item->text();
-	pstcode.remove(QRegExp("\\[(.*)\\]"));
-	InsertTag(pstcode,pstcode.length(),0);
+	txt=item->text();
+	txt.remove(QRegExp("\\[(.*)\\]"));
+	txt.replace(QRegExp("([^\\\\])\\\\n"), "\\1\n"); 
+	txt.replace(QRegExp("([^\\\\])\\\\n"), "\\1\n"); 
+	role=item->data(Qt::UserRole).toString();
+	tagList= role.split("#");
+	code=tagList.at(0);
+	code.remove(QRegExp("\\[(.*)\\]"));
+	code.replace(QRegExp("([^\\\\])\\\\n"), "\\1\n"); 
+	code.replace(QRegExp("([^\\\\])\\\\n"), "\\1\n"); 
+	dx=tagList.at(1).toInt();
+	dy=tagList.at(2).toInt();
+	if ((dx==0) && (dy==0)) dx=code.length();
+	InsertTag(code,dx,dy);
 	}
 }
 
@@ -3813,32 +4160,6 @@ if (text=="Huge")
 	}
 }
 
-void Texmaker::LeftDelimiter(const QString& text)
-{
-if (text=="left (") InsertTag("\\left( ",7,0);
-if (text=="left [") InsertTag("\\left[ ",7,0);
-if (text=="left {") InsertTag("\\left\\lbrace ",13,0);
-if (text=="left <") InsertTag("\\left\\langle ",13,0);
-if (text=="left )") InsertTag("\\left) ",7,0);
-if (text=="left ]") InsertTag("\\left] ",7,0);
-if (text=="left }") InsertTag("\\left\\rbrace ",13,0);
-if (text=="left >") InsertTag("\\left\\rangle ",13,0);
-if (text=="left.") InsertTag("\\left. ",7,0);
-}
-
-void Texmaker::RightDelimiter(const QString& text)
-{
-if (text=="right (") InsertTag("\\right( ",8,0);
-if (text=="right [") InsertTag("\\right[ ",8,0);
-if (text=="right {") InsertTag("\\right\\lbrace ",14,0);
-if (text=="right <") InsertTag("\\right\\langle ",14,0);
-if (text=="right )") InsertTag("\\right) ",8,0);
-if (text=="right ]") InsertTag("\\right] ",8,0);
-if (text=="right }") InsertTag("\\right\\rbrace ",14,0);
-if (text=="right >") InsertTag("\\right\\rangle ",14,0);
-if (text=="right.") InsertTag("\\right. ",8,0);
-}
-
 ///////////////TOOLS////////////////////
 void Texmaker::RunCommand(QString comd,bool waitendprocess)
 {
@@ -3879,10 +4200,12 @@ else OutputTextEdit->insertLine("Process started\n");
 FINPROCESS=false;
 if (waitendprocess)
 	{
+	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	while (!FINPROCESS) 
 		{
 		qApp->instance()->processEvents(QEventLoop::ExcludeUserInputEvents);
 		}
+	 QApplication::restoreOverrideCursor();
 	}
 }
 
@@ -4020,6 +4343,78 @@ switch (quickmode)
         else return;
 	}
     }break;
+  case 7:
+    {
+    stat2->setText(QString(" %1 ").arg("Latex"));
+    RunCommand(latex_command,true);
+    if (ERRPROCESS && !LogExists()) 
+        {
+	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	return;
+	}
+    ViewLog();
+    if (NoLatexErrors()) 
+    	{
+	stat2->setText(QString(" %1 ").arg("Asymptote"));
+    	if (!ERRPROCESS) RunCommand(asymptote_command,true);
+        else return;
+	if (!ERRPROCESS) 
+	    {
+	    stat2->setText(QString(" %1 ").arg("Latex"));
+	    RunCommand(latex_command,true);
+	    if (ERRPROCESS && !LogExists()) 
+		{
+		QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		return;
+		}
+	    ViewLog();
+	    if (NoLatexErrors()) 
+		{
+		if (!ERRPROCESS) ViewPS();
+		else return;
+		}
+	    else {NextError();}
+	    }
+        else return;
+	}
+    else {NextError();}
+    }break;
+  case 8:
+    {
+    stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+    RunCommand(pdflatex_command,true);
+    if (ERRPROCESS && !LogExists()) 
+        {
+	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	return;
+	}
+    ViewLog();
+    if (NoLatexErrors()) 
+    	{
+	stat2->setText(QString(" %1 ").arg("Asymptote"));
+    	if (!ERRPROCESS) RunCommand(asymptote_command,true);
+        else return;
+	if (!ERRPROCESS) 
+	    {
+	    stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+	    RunCommand(pdflatex_command,true);
+	    if (ERRPROCESS && !LogExists()) 
+		{
+		QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		return;
+		}
+	    ViewLog();
+	    if (NoLatexErrors()) 
+		{
+		if (!ERRPROCESS) ViewPDF();
+		else return;
+		}
+	    else {NextError();}
+	    }
+        else return;
+	}
+    else {NextError();}
+    }break;
  }
 if (NoLatexErrors()) ViewLog();
 //ViewLog();
@@ -4128,6 +4523,12 @@ if (query==0)
 	}
 }
 
+void Texmaker::Asymptote()
+{
+stat2->setText(QString(" %1 ").arg("Asymptote"));
+RunCommand(asymptote_command,false);
+}
+
 void Texmaker::UserTool1()
 {
 QStringList commandList=UserToolCommand[0].split("|");
@@ -4225,6 +4626,92 @@ if ( utDlg->exec() )
 	Act = new QAction(tr("Edit User &Commands"), this);
 	connect(Act, SIGNAL(triggered()), this, SLOT(EditUserTool()));
 	user12Menu->addAction(Act);
+	}
+}
+
+void Texmaker::doCompile()
+{
+switch (comboCompil->currentIndex())
+	{
+	case 0:
+		{
+QuickBuild();
+		}break;
+	case 1:
+		{
+Latex();
+		}break;
+	case 2:
+		{
+DviToPS();
+		}break;
+	case 3:
+		{
+PDFLatex();
+		}break;
+	case 4:
+		{
+MakeBib();
+		}break;
+	case 5:
+		{
+MakeIndex();
+		}break;
+	case 6:
+		{
+MakeIndex();
+		}break;
+	case 7:
+		{
+PStoPDF();
+		}break;
+	case 8:
+		{
+DVItoPDF();
+		}break;
+	case 9:
+		{
+Asymptote();
+		}break;
+	case 10:
+		{
+UserTool1();
+		}break;
+	case 11:
+		{
+UserTool2();
+		}break;
+	case 12:
+		{
+UserTool3();
+		}break;
+	case 13:
+		{
+UserTool4();
+		}break;
+	case 14:
+		{
+UserTool5();
+		}break;
+	}
+}
+
+void Texmaker::doView()
+{
+switch (comboView->currentIndex())
+	{
+	case 0:
+		{
+ViewDvi();
+		}break;
+	case 1:
+		{
+ViewPS();
+		}break;
+	case 2:
+		{
+ViewPDF();
+		}break;
 	}
 }
 
@@ -4447,6 +4934,7 @@ while (tb.isValid())
 				warning+=expression.trimmed();
 				}
 			}
+
 		if ( rxWarning1.indexIn(warning) != -1 )
 			{
 			if (!filestack.isEmpty()) errorFileList.append(filestack.last());
@@ -4490,14 +4978,8 @@ while (tb.isValid())
 				latexerror+=expression.trimmed();
 				}
 			}
-		//qDebug() << latexerror;
 // 		if ( rxLatexError.indexIn(latexerror) != -1 )
 // 			{
-// 			qDebug() << rxLatexError.cap(1);
-// 			qDebug() << rxLatexError.cap(2);
-// 			qDebug() << rxLatexError.cap(3);
-// 			qDebug() << rxLatexError.cap(4);
-// 			qDebug() << rxLatexError.cap(5);
 // 			errorFileList.append(filestack.last());
 // 			errorTypeList.append("Error");
 // 			errorLineList.append(rxLatexError.cap(1));
@@ -4505,7 +4987,6 @@ while (tb.isValid())
 // 			}
 		if ( rxLineError.indexIn(latexerror) != -1 )
 			{
-			//qDebug() << "Error";
 			if (!filestack.isEmpty()) errorFileList.append(filestack.last());
 			else errorFileList.append("");
 			errorTypeList.append("Error");
@@ -4515,7 +4996,6 @@ while (tb.isValid())
 			}
 		else 
 			{
-			//qDebug() << "Error";
 			if (!filestack.isEmpty()) errorFileList.append(filestack.last());
 			else errorFileList.append("");
 			errorTypeList.append("Error");
@@ -4528,7 +5008,7 @@ while (tb.isValid())
 	else if (expression.contains(QRegExp("^(Over|Under)(full \\\\[hv]box .*)")))
 		{
 		badbox=expression.trimmed();
-		while (tb.isValid() && !expression.contains(QRegExp("(.*) at line")))
+/*		while (tb.isValid() && !expression.contains(QRegExp("(.*) at line")))
 			{
 			par++;
 			tb=tb.next();
@@ -4537,13 +5017,22 @@ while (tb.isValid())
 				expression=tb.text();
 				badbox+=expression.trimmed();
 				}
-			}
+			}*/
 		if ( rxBadBox.indexIn(badbox) != -1 )
 			{
 			if (!filestack.isEmpty()) errorFileList.append(filestack.last());
 			else errorFileList.append("");
 			errorTypeList.append("Badbox");
 			errorLineList.append(rxBadBox.cap(2));
+			errorMessageList.append(badbox.replace("*",""));
+			errorLogList.append(QString::number(errorpar));
+			}
+		else
+			{
+			if (!filestack.isEmpty()) errorFileList.append(filestack.last());
+			else errorFileList.append("");
+			errorTypeList.append("Badbox");
+			errorLineList.append("1");
 			errorMessageList.append(badbox.replace("*",""));
 			errorLogList.append(QString::number(errorpar));
 			}
@@ -4779,6 +5268,7 @@ confDlg->ui.lineEditMakeindex->setText(makeindex_command);
 confDlg->ui.lineEditPdfviewer->setText(viewpdf_command);
 confDlg->ui.lineEditMetapost->setText(metapost_command);
 confDlg->ui.lineEditGhostscript->setText(ghostscript_command);
+confDlg->ui.lineEditAsymptote->setText(asymptote_command);
 
 confDlg->ui.comboBoxFont->lineEdit()->setText(EditorFont.family() );
 confDlg->ui.comboBoxEncoding->setCurrentIndex(confDlg->ui.comboBoxEncoding->findText(input_encoding, Qt::MatchExactly));
@@ -4790,6 +5280,10 @@ if (showline) {confDlg->ui.checkBoxLinenumber->setChecked(true);}
 else {confDlg->ui.checkBoxLinenumber->setChecked(false);}
 if (completion) {confDlg->ui.checkBoxCompletion->setChecked(true);}
 else {confDlg->ui.checkBoxCompletion->setChecked(false);}
+if (inlinespellcheck) {confDlg->ui.checkBoxInlineSpell->setChecked(true);}
+else {confDlg->ui.checkBoxInlineSpell->setChecked(false);}
+if (bidiEnabled) {confDlg->ui.checkBoxBidiEnabled->setChecked(true);}//add by S. R. Alavizadeh
+else {confDlg->ui.checkBoxBidiEnabled->setChecked(false);}
 
 confDlg->ui.lineEditAspellCommand->setText(spell_dic);
 
@@ -4806,6 +5300,8 @@ if (quickmode==3) {confDlg->ui.radioButton3->setChecked(true); confDlg->ui.lineE
 if (quickmode==4)  {confDlg->ui.radioButton4->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);}
 if (quickmode==5)  {confDlg->ui.radioButton5->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);}
 if (quickmode==6)  {confDlg->ui.radioButton6->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(true);}
+if (quickmode==7)  {confDlg->ui.radioButton7->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);}
+if (quickmode==8)  {confDlg->ui.radioButton8->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);}
 confDlg->ui.lineEditUserquick->setText(userquick_command);
 
 int row=0;
@@ -4851,6 +5347,8 @@ if (confDlg->exec())
 	if (confDlg->ui.radioButton4->isChecked()) quickmode=4;
 	if (confDlg->ui.radioButton5->isChecked()) quickmode=5;
 	if (confDlg->ui.radioButton6->isChecked()) quickmode=6;
+	if (confDlg->ui.radioButton7->isChecked()) quickmode=7;
+	if (confDlg->ui.radioButton8->isChecked()) quickmode=8;
 	userquick_command=confDlg->ui.lineEditUserquick->text();
 	
 	latex_command=confDlg->ui.lineEditLatex->text();
@@ -4865,6 +5363,7 @@ if (confDlg->exec())
 	viewpdf_command=confDlg->ui.lineEditPdfviewer->text();
 	metapost_command=confDlg->ui.lineEditMetapost->text();
 	ghostscript_command=confDlg->ui.lineEditGhostscript->text();
+	asymptote_command=confDlg->ui.lineEditAsymptote->text();
 	
 	QString fam=confDlg->ui.comboBoxFont->lineEdit()->text();
 	int si=confDlg->ui.spinBoxSize->value();
@@ -4875,38 +5374,86 @@ if (confDlg->exec())
 	stat3->setText(QString(" %1 ").arg(input_encoding));
 	
 	wordwrap=confDlg->ui.checkBoxWordwrap->isChecked();
+	bidiEnabled= confDlg->ui.checkBoxBidiEnabled->isChecked();
+/*	bool wrapBidiFlag = false;//add by S. R. Alavizadeh//new
+	if(wordwrap != confDlg->ui.checkBoxWordwrap->isChecked())
+		{
+		wordwrap = confDlg->ui.checkBoxWordwrap->isChecked();
+		wrapBidiFlag = true;
+		}
+	
+	if (bidiEnabled != confDlg->ui.checkBoxBidiEnabled->isChecked()) //add by S. R. Alavizadeh
+		{
+		bidiEnabled=confDlg->ui.checkBoxBidiEnabled->isChecked();
+		menuBar()->clear();
+		setupMenus();
+		UpdateRecentFile();
+		wrapBidiFlag = true;
+		}
+*/
 	completion=confDlg->ui.checkBoxCompletion->isChecked();
 	showline=confDlg->ui.checkBoxLinenumber->isChecked();
+	inlinespellcheck=confDlg->ui.checkBoxInlineSpell->isChecked();
 	spell_dic=confDlg->ui.lineEditAspellCommand->text();
+	if (spellChecker) delete spellChecker;
+	if (spelldicExist()) 
+	      {
+	      QString dic=spell_dic.left(spell_dic.length()-4);
+	      spellChecker = new Hunspell(dic.toLatin1()+".aff",dic.toLatin1()+".dic");
+	      }
+	else spellChecker=0;
 	colorMath=confDlg->ui.pushButtonColorMath->palette().background().color();
 	colorCommand=confDlg->ui.pushButtonColorCommand->palette().background().color();
 	colorKeyword=confDlg->ui.pushButtonColorKeyword->palette().background().color();
 	if (currentEditorView())
 		{
-		LatexEditorView *temp = new LatexEditorView( EditorView,EditorFont,showline,colorMath,colorCommand,colorKeyword);
+		LatexEditorView *temp = new LatexEditorView( EditorView,EditorFont,showline,colorMath,colorCommand,colorKeyword,inlinespellcheck,spell_ignored_words,spellChecker);
 		temp=currentEditorView();
 		FilesMap::Iterator it;
 		for( it = filenames.begin(); it != filenames.end(); ++it )
 			{
+			QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 			EditorView->setCurrentIndex(EditorView->indexOf(it.key()));
 			bool  MODIFIED =currentEditorView()->editor->document()->isModified();
 			QString tmp =currentEditorView()->editor->toPlainText();
+			currentEditorView()->editor->setSpellChecker(spellChecker);
+			currentEditorView()->editor->highlighter->setSpellChecker(spellChecker);
+			currentEditorView()->editor->activateInlineSpell(inlinespellcheck);
+			currentEditorView()->editor->highlighter->activateInlineSpell(inlinespellcheck);
 			if (wordwrap) {currentEditorView()->editor->setWordWrapMode(QTextOption::WordWrap);}
 			else {currentEditorView()->editor->setWordWrapMode(QTextOption::NoWrap);}
 			if (completion) currentEditorView()->editor->setCompleter(completer);
 			else currentEditorView()->editor->setCompleter(0);
 			currentEditorView()->changeSettings(EditorFont,showline);
 			currentEditorView()->editor->highlighter->setColors(colorMath,colorCommand,colorKeyword);
+			currentEditorView()->editor->highlighter->rehighlight();
 			currentEditorView()->editor->clear();
 			currentEditorView()->editor->setPlainText( tmp );
+//add by S. R. Alavizadeh
+			if (bidiEnabled) addLRMToLatinWords();
+			else disconnect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+/*			if (wrapBidiFlag)//add by S. R. Alavizadeh//new
+				{
+				currentEditorView()->editor->clear();
+				currentEditorView()->editor->setPlainText( tmp );
+				
+				if (bidiEnabled)//add by S. R. Alavizadeh
+					addLRMToLatinWords();
+					//new//editBiDiAll();
+				else
+					disconnect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+				}*/
+//
 			if( MODIFIED ) currentEditorView()->editor->document()->setModified(TRUE );
 			else currentEditorView()->editor->document()->setModified( FALSE );
+			QApplication::restoreOverrideCursor();
 			}
 		EditorView->setCurrentIndex(EditorView->indexOf(temp));
 		UpdateCaption();
 		OutputTextEdit->clear();
 		OutputTableWidget->hide();
 		OutputTextEdit->insertLine("Editor settings apply only to new loaded document.");
+		currentEditorView()->editor->setFocus();
 		}
 	}
 }
@@ -4953,6 +5500,8 @@ for ( int i = 1; i < argc; ++i )
 	if ( arg == "-master" ) ToggleMode();
 	if (( arg == "-line" ) && (i<argc-1))  setLine( argv[ ++i ] );
 	}
+setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);//add by S. R. Alavizadeh
+show();//add by S. R. Alavizadeh
 }
 ////////////////// VIEW ////////////////
 
@@ -5110,6 +5659,16 @@ void Texmaker::updateCompleter()
 {
 QAbstractItemModel *model;
 QFile tagsfile(":/completion/completion.txt");
+
+#if defined( Q_WS_X11 )//add by S. R. Alavizadeh
+QFile userTagsfile(PREFIX"/share/texmaker/completion.txt");
+#endif
+#if defined( Q_WS_MACX )
+QFile userTagsfile(QCoreApplication::applicationDirPath() + "/../Resources/completion.txt");
+#endif
+#if defined(Q_WS_WIN)
+QFile userTagsfile(QCoreApplication::applicationDirPath()+"/completion.txt");
+#endif
 if (!tagsfile.open(QFile::ReadOnly)) model=new QStringListModel(completer);
 QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 QStringList words;
@@ -5117,6 +5676,12 @@ QString line;
 while (!tagsfile.atEnd()) 
 	{
 	line = tagsfile.readLine();
+	if (!line.isEmpty()) words.append(line.trimmed());
+	}
+if (!userTagsfile.open(QFile::ReadOnly)) model=new QStringListModel(completer);//add by S. R. Alavizadeh
+while (!userTagsfile.atEnd()) 
+	{
+	line = userTagsfile.readLine();
 	if (!line.isEmpty()) words.append(line.trimmed());
 	}
 for (int i=0; i<labelitem.count();++i) 
@@ -5132,3 +5697,472 @@ completer->setModelSorting(QCompleter::CaseSensitivelySortedModel);
 completer->setCaseSensitivity(Qt::CaseSensitive);
 completer->setWrapAround(false);
 }
+
+bool Texmaker::spelldicExist()
+{
+QString affdic=spell_dic.left(spell_dic.length()-4)+".aff";
+QFileInfo fidic(spell_dic);
+QFileInfo fiaff(affdic);
+return (fidic.exists() && fidic.isReadable() && fiaff.exists() && fiaff.isReadable());
+}
+
+void Texmaker::updateTranslation()
+{
+QAction *action = qobject_cast<QAction *>(sender());
+QString lang=action->text();
+TexmakerApp::instance()->language=lang;
+QMessageBox::information( this,"Texmaker",tr("The language setting will take effect after restarting the application."));
+}
+
+void Texmaker::updateAppearance()
+{
+QAction *action = qobject_cast<QAction *>(sender());
+QString style=action->text();
+modern_style=(action->text()=="Modern");
+QMessageBox::information( this,"Texmaker",tr("The appearance setting will take effect after restarting the application."));
+}
+//////////////////Bidirectional///////////////////////
+//add by S. R. Alavizadeh
+int Texmaker::OldNumOfLines()
+{
+if ( !currentEditorView() )    return oldNumOfLines;
+int tmp=currentEditorView()->editor->numoflines();
+if (newNumOfLines != tmp)
+	{
+	oldNumOfLines=newNumOfLines;
+	newNumOfLines=tmp;
+	}
+return oldNumOfLines;
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::editBiDiAll()
+{
+biDirector(1);
+}
+
+//add by S. R. Alavizadeh
+QString Texmaker::TeXtrimmed(QString text)
+{
+text = text.remove(QChar('%'), Qt::CaseInsensitive);
+text = text.remove(QChar(LRM), Qt::CaseInsensitive);
+text = text.trimmed();
+return text;
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::callBiDirector()
+{
+biDirector(0);
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::biDirector(int flag)
+{
+if (flagBidiEnabled)	return;
+if (!currentEditorView())	return;
+QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+disconnect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+bool  MODIFIED = currentEditorView()->editor->document()->isModified();
+QTextEdit *editor = currentEditorView()->editor;
+QTextCursor tCurrentCursor = editor->textCursor();
+int CurrentLinenum, CurrentCulNum;
+QTextBlock currentBlock = tCurrentCursor.block();
+if ( !currentBlock.isValid() )
+	{
+	if (bidiEnabled)
+	{
+		connect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+	}
+	else
+		disconnect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+	QApplication::restoreOverrideCursor();
+	return;
+	}
+//currentEditorView()->editor->document()->setUndoRedoEnabled(false, false);
+CurrentCulNum = tCurrentCursor.columnNumber();
+QString lineUnderTC = currentBlock.text();
+CurrentLinenum = currentEditorView()->editor->linefromblock(currentBlock)-1;
+QString toEnd = lineUnderTC.right(lineUnderTC.length()-(CurrentCulNum-1));
+toEnd = TeXtrimmed(toEnd);
+lineUnderTC = TeXtrimmed( lineUnderTC );
+if ( flag!=-1 )
+	{
+	if ( flag==0 )
+		{
+		if (oldNumOfLines >= newNumOfLines)
+			{
+			startcheck=CurrentLinenum;
+			endcheck=CurrentLinenum;
+			}
+		else
+			{
+			startcheck=CurrentLinenum-(newNumOfLines-oldNumOfLines);
+			endcheck=CurrentLinenum+(newNumOfLines-oldNumOfLines);
+			if (startcheck<0) startcheck=0;
+			if (endcheck>newNumOfLines-1) endcheck=newNumOfLines-1;
+			}
+		}
+	else
+		{
+		startcheck=0;
+		endcheck=newNumOfLines-1;
+		}
+	}
+oldNumOfLines=newNumOfLines;
+//new//currentEditorView()->editor->setCursorPosition(startcheck,0);
+//new//currentBlock = currentEditorView()->editor->textCursor().block();
+QTextCursor tmpCursor = editor->textCursor();
+tmpCursor.setPosition(currentEditorView()->editor->getCursorPosition(startcheck,0),QTextCursor::MoveAnchor);
+currentBlock = tmpCursor.block();
+for (int i=startcheck;i<=endcheck;i++)
+	{
+	if (!currentBlock.isValid())	break;
+	tmpCursor.joinPreviousEditBlock();
+	lineUnderTC = TeXtrimmed( currentBlock.text() );
+	if ( lineUnderTC.length() == 0 )
+		{
+		LTR(tmpCursor);
+		currentBlock = currentBlock.next();
+		tmpCursor.movePosition ( QTextCursor::NextBlock, QTextCursor::MoveAnchor );
+		tmpCursor.endEditBlock();
+		continue;
+		}
+	if ( !lineUnderTC.at(0).toLatin1() )
+		RTL(tmpCursor);
+	else
+		LTR(tmpCursor);
+	currentBlock = currentBlock.next();
+	tmpCursor.movePosition ( QTextCursor::NextBlock, QTextCursor::MoveAnchor );
+	tmpCursor.endEditBlock();
+	}
+editor->setTextCursor(tCurrentCursor);
+if (flag == 2)
+	if( MODIFIED )
+		currentEditorView()->editor->document()->setModified( TRUE );
+	else
+		currentEditorView()->editor->document()->setModified( FALSE );
+if (bidiEnabled)
+	connect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+else
+	disconnect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+//currentEditorView()->editor->document()->setUndoRedoEnabled(true);
+QApplication::restoreOverrideCursor();
+return;
+}
+
+//add by S. R. Alavizadeh
+QTextCursor Texmaker::RTL( QTextCursor tmpCursor )
+{
+if ( !currentEditorView() )	return tmpCursor;
+QTextBlockFormat tmpBlockFormat = tmpCursor.blockFormat();
+tmpBlockFormat.setLayoutDirection( Qt::RightToLeft );
+tmpCursor.setBlockFormat( tmpBlockFormat );
+return tmpCursor;
+}
+
+//add by S. R. Alavizadeh
+QTextCursor Texmaker::LTR( QTextCursor tmpCursor )
+{
+if ( !currentEditorView() )	return tmpCursor;
+QTextBlockFormat tmpBlockFormat = tmpCursor.blockFormat();
+tmpBlockFormat.setLayoutDirection( Qt::LeftToRight );
+tmpCursor.setBlockFormat( tmpBlockFormat );
+return tmpCursor;
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::currentLineLTR()
+{
+if ( !currentEditorView() )	return;
+bool  MODIFIED =currentEditorView()->editor->document()->isModified();
+QTextEdit *editor = currentEditorView()->editor;
+QTextCursor tmpCursor = editor->textCursor();
+tmpCursor = LTR(tmpCursor);
+editor->setTextCursor(tmpCursor);
+currentEditorView()->editor->document()->setModified(MODIFIED);
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::currentLineRTL()
+{
+if ( !currentEditorView() )	return;
+bool  MODIFIED =currentEditorView()->editor->document()->isModified();
+QTextEdit *editor = currentEditorView()->editor;
+QTextCursor tmpCursor = editor->textCursor();
+tmpCursor = RTL(tmpCursor);
+editor->setTextCursor(tmpCursor);
+currentEditorView()->editor->document()->setModified(MODIFIED);
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::addLRMToLatinWords()
+{
+if (!currentEditorView()) return;
+bool  MODIFIED = currentEditorView()->editor->document()->isModified();//new
+disconnect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+QString word,nextWord,lineUnderTC,tmpLine;
+bool tmpFlag=false,selFlag=false;
+int tmpBlockNum,prevWordFlag=-1,lastLatinIndex=-1;
+QTextCursor curCursor = currentEditorView()->editor->textCursor();
+QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+//new//QStringList keyWords = QString("\\bibitem,\\section,\\subsection,\\subsubsection,\\chapter,\\includegraphics,\\include,\\input,\\begin,\\end").split(",");
+QString wholeDoc;
+if (curCursor.hasSelection())
+{
+	selFlag=true;
+	wholeDoc = curCursor.selectedText();
+}
+else
+{
+wholeDoc = currentEditorView()->editor->toPlainText();
+}
+wholeDoc = wholeDoc.remove(QChar(LRM), Qt::CaseInsensitive);
+wholeDoc = wholeDoc.replace( "\n", " \n ", Qt::CaseInsensitive );
+QStringList splittedDoc = wholeDoc.split(" ");
+int beginDocumentIndex = 0;
+/*if (wholeDoc.contains("\\begin{document}"))
+{
+		word = splittedDoc.at(0);
+		while (!word.startsWith("\\begin{document}") && beginDocumentIndex < splittedDoc.size())
+		{
+			++beginDocumentIndex;
+			word = splittedDoc.at(beginDocumentIndex);
+		}
+}*/
+for (int i = beginDocumentIndex; i < splittedDoc.size(); ++i)
+	{
+	int startIndex=0;
+	word = splittedDoc.at(i);//new
+	/*for (int j=0; j< keyWords.size(); ++j)
+	{
+		word = splittedDoc.at(i);
+		if (word.trimmed().startsWith(keyWords.at(j)))
+		{
+			++i;
+			j = 0;
+			continue;
+		}
+	}*/
+
+	if ( word.isEmpty()) continue;//new// || word =="(" || word =="[" || word =="\\{" || word ==")" || word =="]" || word =="\\}")
+	if (word=="\n")
+		{
+ 		if ( lastLatinIndex!=-1 ) 
+			{
+			splittedDoc[lastLatinIndex] = splittedDoc[lastLatinIndex].append(QChar(LRM));
+			lastLatinIndex=-1;
+			}
+		prevWordFlag = -1;
+		continue;
+		}
+	if ( word.at(0).isSpace() && word.size()>1) startIndex = 1;
+	//if (word.at(startIndex) =='\\' && prevWordFlag == -2)//new
+	//{
+	//prevWordFlag = -1;
+	//continue;
+	//}
+	if ( word!=" " && word.at(word.size()-1).toLatin1() && word.at(startIndex).toLatin1() )
+		{	
+		if ( prevWordFlag==-1 )//|| prevWordFlag == -2)
+			splittedDoc[i] = word.prepend(QChar(LRM));
+		lastLatinIndex = i;
+		prevWordFlag = 1;
+		}
+ 	else
+		{
+ 		if ( lastLatinIndex!=-1 && word!=" ") 
+			{
+			splittedDoc[lastLatinIndex] = splittedDoc[lastLatinIndex].append(QChar(LRM));
+			lastLatinIndex=-1;
+			}
+		prevWordFlag = -1;
+		} 
+	}
+wholeDoc = splittedDoc.join(" ");
+wholeDoc = wholeDoc.replace( " \n ", "\n", Qt::CaseInsensitive );
+currentEditorView()->editor->textCursor().beginEditBlock();
+if (!selFlag)
+{
+currentEditorView()->editor->clear();
+currentEditorView()->editor->setPlainText( wholeDoc );
+currentEditorView()->editor->textCursor().endEditBlock();
+if (bidiEnabled)
+	{
+	editBiDiAll();
+	}
+}
+else
+{
+	QTextCursor tmpCursor = curCursor;
+	//int pos = tmpCursor.position();
+	int endSel = tmpCursor.anchor();
+	int startSel = tmpCursor.blockNumber();
+	currentEditorView()->editor->textCursor().removeSelectedText();
+	currentEditorView()->editor->textCursor().insertText(wholeDoc);
+	tmpCursor.setPosition( endSel, QTextCursor::MoveAnchor );
+	currentEditorView()->editor->setTextCursor(tmpCursor);
+	endSel = tmpCursor.blockNumber();
+	if (startSel<endSel)
+	{
+		startcheck = startSel;
+		endcheck = endSel;
+	}
+	else
+	{
+		endcheck = startSel;
+		startcheck = endSel;
+	}
+currentEditorView()->editor->textCursor().endEditBlock();
+if (bidiEnabled)
+	{
+	biDirector(-1);
+	}
+}
+QApplication::restoreOverrideCursor();
+//new//currentEditorView()->editor->setTextCursor(curCursor);
+currentEditorView()->editor->document()->setModified( MODIFIED );//new
+QTextCursor tc(currentEditorView()->editor->document());//new
+currentEditorView()->editor->setTextCursor(tc);//new
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::remLRMfromDocument()
+{
+if (!currentEditorView()) return;
+bool  MODIFIED = currentEditorView()->editor->document()->isModified();//new
+disconnect(currentEditorView()->editor->document(), SIGNAL(contentsChanged()), this, SLOT(callBiDirector()));
+QTextCursor curCursor = currentEditorView()->editor->textCursor();
+QTextCursor tmpCursor = curCursor;
+QString tmp;
+int startSel,endSel;
+if (currentEditorView()->editor->textCursor().hasSelection())
+	{
+	startcheck = currentEditorView()->editor->textCursor().position();
+	endcheck = currentEditorView()->editor->textCursor().anchor();
+	tmp = currentEditorView()->editor->textCursor().selectedText();
+	startSel = currentEditorView()->editor->textCursor().blockNumber();
+	curCursor.setPosition( endcheck, QTextCursor::MoveAnchor );
+	currentEditorView()->editor->setTextCursor(curCursor);
+	endSel = currentEditorView()->editor->textCursor().blockNumber();
+	curCursor.setPosition( startcheck, QTextCursor::KeepAnchor );
+	currentEditorView()->editor->setTextCursor(curCursor);
+	tmp = tmp.remove(QChar(LRM), Qt::CaseInsensitive);
+	currentEditorView()->editor->textCursor().beginEditBlock();
+	currentEditorView()->editor->textCursor().removeSelectedText();
+	currentEditorView()->editor->textCursor().insertText(tmp);
+	currentEditorView()->editor->textCursor().endEditBlock();
+	currentEditorView()->editor->setTextCursor(tmpCursor);
+	if (startSel>endSel)
+		{
+		startcheck = endSel;
+		endcheck = startSel;
+		}
+	else
+		{
+		startcheck = startSel;
+		endcheck = endSel;
+		}
+
+	if (bidiEnabled)
+		biDirector(-1);
+	currentEditorView()->editor->document()->setModified( MODIFIED );//new
+	return;
+	}
+tmp =currentEditorView()->editor->toPlainText();
+tmp = tmp.remove(QChar(LRM), Qt::CaseInsensitive);
+currentEditorView()->editor->textCursor().beginEditBlock();
+currentEditorView()->editor->clear();
+currentEditorView()->editor->setPlainText( tmp );
+currentEditorView()->editor->textCursor().endEditBlock();
+if (bidiEnabled)
+	editBiDiAll();
+currentEditorView()->editor->document()->setModified( MODIFIED );//new
+}
+
+//add by S. R. Alavizadeh
+void Texmaker::currentTabChanged()
+{
+if ( !currentEditorView() ) return;
+newNumOfLines=currentEditorView()->editor->numoflines();
+oldNumOfLines=newNumOfLines;
+}
+
+/*
+void Texmaker::ftx2Unicode()
+{
+QString exeConvertorPath="";
+#if defined( Q_WS_X11 )
+QString pyConvertorPath=PREFIX"/share/texmaker/ftx2uni.py";
+#endif
+#if defined( Q_WS_MACX )
+QString pyConvertorPath=QCoreApplication::applicationDirPath()+"/../Resources/ftx2uni.py";
+#endif
+#if defined(Q_WS_WIN)
+exeConvertorPath=QCoreApplication::applicationDirPath()+"/ftx2uni/ftx2uni.exe";
+QString pyConvertorPath=QCoreApplication::applicationDirPath()+"/ftx2uni.py";
+#endif
+QString currentDir=QDir::homePath();
+if (!lastDocument.isEmpty())
+	{
+	QFileInfo fi(lastDocument);
+	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
+	}
+QStringList inputFTX = QFileDialog::getOpenFileNames(this,tr("Import FarsiTeX File"),currentDir,"FrasiTeX files (*.ftx)");
+for (int i=0;i<inputFTX.size();++i)
+	{
+	if ( !inputFTX.at(i).isEmpty() ) 
+		{
+		QProcess ftxConvertor;
+		QString outputUNI = inputFTX.at(i).left(inputFTX.at(i).size()-4)+".tex";
+		if (QFile::exists(outputUNI))
+			{
+				switch(  QMessageBox::warning(this, "Texmaker",
+					tr("The output file \"%1\" already exists. Do you want to replace it?").arg(outputUNI),
+					tr("Yes"), tr("No"), tr("Cancel"),0,2 ) )
+					{
+					case 0:
+						QFile::QFile(outputUNI).close();
+						QFile::QFile(outputUNI).remove();
+						break;
+					case 1:
+						outputUNI = QFileDialog::getSaveFileName(this,tr("Import As"),currentDir,"TeX file (*.tex)");
+						outputUNI = outputUNI.left(outputUNI.size()-4)+".tex";
+						break;
+					case 2:
+					default:
+						return;
+						break;
+					}
+				}
+		ftxConvertor.execute("python", QStringList() << pyConvertorPath << inputFTX.at(i) << outputUNI+"886EA178-B648-4840-A21A-AFFADE5AD3E5" );
+		if (!QFile::QFile(outputUNI+"886EA178-B648-4840-A21A-AFFADE5AD3E5").exists())
+		{
+			if (!exeConvertorPath.isEmpty())
+			{
+				ftxConvertor.execute(exeConvertorPath, QStringList() << inputFTX.at(i) << outputUNI+"886EA178-B648-4840-A21A-AFFADE5AD3E5" );
+				if (!QFile::QFile(outputUNI+"886EA178-B648-4840-A21A-AFFADE5AD3E5").exists())
+					{
+						QMessageBox::warning(this, "Texmaker",tr("Error! Convert is not successful. Please check contents of \"ftx2uni\" directory or check your python installation and your path environment."));
+						return;
+					}
+			}
+			else
+			{
+				QMessageBox::warning(this, "Texmaker",tr("Error! Convert is not successful. Please check your python installation and your path environment."));
+				return;
+			}
+		}
+		QFile::QFile(outputUNI+"886EA178-B648-4840-A21A-AFFADE5AD3E5").rename(outputUNI);
+		QFile::QFile(outputUNI+"886EA178-B648-4840-A21A-AFFADE5AD3E5").remove();
+		if (FileAlreadyOpen(outputUNI))
+			{
+			filenames.remove(currentEditorView());
+			delete currentEditorView();
+			}
+		load( outputUNI );
+		}
+	}
+}
+
+*/

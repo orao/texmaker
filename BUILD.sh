@@ -13,11 +13,14 @@ if [ "$SYSTEM" = 1 ]
 then
 echo "Enter PREFIX (/usr , /usr/local or /opt) :"
 read PREFIX
-qmake -unix PREFIX=$PREFIX texmaker.pro
+echo "Enter  DIRECTORY for the desktop file (/usr/share/applications) :"
+read DESKTOPDIR
+echo "Enter  DIRECTORY for the icon file (/usr/share/pixmaps) :"
+read ICONDIR
+qmake -unix PREFIX=$PREFIX DESKTPDIR=$DESKTOPDIR ICONDIR=$ICONDIR texmaker.pro
 make
 make install
 echo "Compilation and installation done"
-echo "Icons and desktop file can be found in the $PREFIX/share/texmaker directory"
 # set the -spec option, if necessary. Ex : qmake -unix -spec linux-g++ PREFIX=$PREFIX texmaker.pro
 exit 0
 fi

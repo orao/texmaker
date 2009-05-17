@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,7 +16,7 @@ AboutDialog::AboutDialog(QWidget *parent)
 {
 ui.setupUi(this);
 ui.textBrowser->setOpenExternalLinks(true);
-ui.textBrowser->setHtml(QString::fromUtf8("<b>Texmaker 1.8</b><br><b>Copyright (c) 2004-2008 by Pascal Brachet</b><br><i>with the contribution of Joël Amblard (html conversion).</i><br>Texmaker contains code from the Hunspell program (GPL).<br>Texmaker uses the DSingleApplication class (Author: Dima Fedorov Levit - Copyright (C) BioImage Informatics - Licence: GPL)<br>Thanks to Frederic Devernay, Denis Bitouzé, Jean-Côme Charpentier & Luis Silvestre.<br><br>Project home site : <a href=\"http://www.xm1math.net/texmaker/\">http://www.xm1math.net/texmaker/</a><br><br>This program is licensed to you under the terms of the GNU General Public License Version 2 as published by the Free Software Foundation."));
+ui.textBrowser->setHtml(QString::fromUtf8("<b>Texmaker 1.9</b><br><b>Copyright (c) 2004-2009 by Pascal Brachet</b><br><br>Project home site : <a href=\"http://www.xm1math.net/texmaker/\">http://www.xm1math.net/texmaker/</a><br><br>This program is licensed to you under the terms of the GNU General Public License Version 2 as published by the Free Software Foundation.<br><br>Thanks to Joël Amblard (html conversion), Seyyed Razi Alavizadeh (bidirectional support), Frederic Devernay, Denis Bitouzé, Jean-Côme Charpentier, Luis Silvestre, Davide Alberelli, Ilya Barygin, Javier Jardón Cabezas, Felipe Bugno, Carles Gumí).<br>Texmaker contains code from the Hunspell (GPL) and QtCreator (Copyright (C) Nokia - Licence: GPL) programs.<br>Some piece of code has been inspirated by the Ktikz program (Florian Hackenberger and Glad Deschrijver - Licence: GPL)."));
 }
 
 AboutDialog::~AboutDialog(){

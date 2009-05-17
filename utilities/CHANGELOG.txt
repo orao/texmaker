@@ -1,3 +1,24 @@
+version 1.8 -> 1.9 :
+--------------------
+- inline spell checking has been added
+- bidirectional support (thanks to Alavizadeh,Seyyed Razi)
+- Qt>=4.5.1 is required for this version
+- asymptote support has been added and can be used with the "quick buid command"
+- new translations
+- the interface has been uncluterred (some toolbars has been modified)
+- new appaerance (users can choose between "modern" or "classic" appearance for the toolbars - GTK+ style is now used by default on linux/no-kde environment)
+- new menu to change the interface language (the application must be restarted) 
+- a bug has been fixed in the latex log parser
+- texmaker uses now the qtsingleapplication (from qtcreator) instead of the DSingleapplication
+
+IMPORTANT NOTE FOR THE LINUX PACKAGERS :
+1) The desktop file (utilities/texmaker.desktop) and the icon (utilities/texmaker.png) are now automatically installed by the "make install" command. The default paths (/usr/share/applications and /usr/share/pixmaps) can be modified in the texmaker.pro file (lines 146 and 149). 
+2) The structure of the source package has been modified :
+    - dictionaries/ subfolder : spell dictionaries (must be installed in the PREFIX/share/texmaker directory for linux)
+    - locale/ subfolder : all the translations (must be installed in the PREFIX/share/texmaker directory for linux)
+    - doc/ subfolder : all the files needed for the documentation (must be installed in the PREFIX/share/texmaker directory for linux)
+    - utilities/ subfolder : icons, desktop file, changelog, COPYING, AUTORS, files needed by the "html export" tool (blank.png, next_d.gif, next.gif, prev_d.gif, prev.gif, psheader.txt, style.css, up_d.gif, up.gif) etc... (must be installed in the PREFIX/share/texmaker directory for linux)
+The others subfolders (completion/hunspell/images/spell/symbols/tags/singleapp) are only used for compilation (no installation to do)
 version 1.7.1 -> 1.8:
 ----------------------
 - texmaker can now be only started once per user : inverse search will no more launch a new instance of texmaker

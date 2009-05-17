@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,6 +62,7 @@ connect( ui.pushButtonPs2pdf, SIGNAL(clicked()), this, SLOT(browsePs2pdf()));
 connect( ui.pushButtonPdfviewer, SIGNAL(clicked()), this, SLOT(browsePdfviewer()));
 connect( ui.pushButtonMetapost, SIGNAL(clicked()), this, SLOT(browseMetapost()));
 connect( ui.pushButtonGhostscript, SIGNAL(clicked()), this, SLOT(browseGhostscript()));
+connect( ui.pushButtonAsymptote, SIGNAL(clicked()), this, SLOT(browseAsymptote()));
 
 
 createIcons();
@@ -278,6 +279,17 @@ if ( !location.isEmpty() )
 	location.replace(QString("\\"),QString("/"));
 	location="\""+location+"\"";
 	ui.lineEditGhostscript->setText( location );
+	}
+}
+
+void ConfigDialog::browseAsymptote()
+{
+QString location=QFileDialog::getOpenFileName(this,tr("Browse program"),QDir::rootPath(),"Program (*)",0,QFileDialog::DontResolveSymlinks);
+if ( !location.isEmpty() ) 
+	{
+	location.replace(QString("\\"),QString("/"));
+	location="\""+location+"\" %.asy";
+	ui.lineEditAsymptote->setText( location );
 	}
 }
 
