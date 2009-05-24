@@ -2466,14 +2466,6 @@ else deft=qApp->font().family();
 x11fontfamily=config->value("X11/Font Family",deft).toString();
 x11fontsize=config->value( "X11/Font Size","10").toInt();
 
-//if ((desktop_env ==3) && (styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create("Oxygen")); //kde4
-/*if ((desktop_env ==1) && (styles.contains("GTK+"))) QApplication::setStyle(QStyleFactory::create("GTK+")); //gtkstyle
-else if ((desktop_env !=3) || (!styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create(x11style));
-QString baseStyleName = qApp->style()->objectName();
-if (baseStyleName == QLatin1String("windows")) 
-{
-QApplication::setStyle(QStyleFactory::create(x11style));
-}*/
 if (modern_style)
     {
     if (desktop_env ==1) //no-kde
@@ -2481,7 +2473,7 @@ if (modern_style)
 	if (styles.contains("GTK+")) qApp->setStyle(new ManhattanStyle(QString("GTK+")));//gtkstyle
 	else qApp->setStyle(new ManhattanStyle(QString("Cleanlooks")));
 	}
-    else if ((desktop_env ==3) && (styles.contains("Oxygen"))) qApp->setStyle(new ManhattanStyle(QString("Oxygen"))); //kde4+oxygen
+    else if ((desktop_env ==3) && (styles.contains("Oxygen"))) qApp->setStyle(new ManhattanStyle(QString("Oxygen"))); //kde4+oxygen 
     else qApp->setStyle(new ManhattanStyle(QString("Plastique"))); //others
     QString baseStyleName = qApp->style()->objectName(); //fallback
     if (baseStyleName == QLatin1String("Windows")) qApp->setStyle(new ManhattanStyle(QString("Plastique"))); //fallback
@@ -2540,13 +2532,13 @@ if (desktop_env ==3)
 	}
 else
 	{
-	pal.setColor( QPalette::Active, QPalette::Window, QColor("#fbf8f1") );
-	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#fbf8f1") );
-	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#fbf8f1") );
+	pal.setColor( QPalette::Active, QPalette::Window, QColor("#f6f3eb") );
+	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#f6f3eb") );
+	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#f6f3eb") );
 
-	pal.setColor( QPalette::Active, QPalette::Button, QColor("#fbf8f1") );
-	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#fbf8f1") );
-	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#fbf8f1") );
+	pal.setColor( QPalette::Active, QPalette::Button, QColor("#f6f3eb") );
+	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#f6f3eb") );
+	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#f6f3eb") );
 	}
 
 QApplication::setPalette(pal);

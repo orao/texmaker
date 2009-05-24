@@ -339,7 +339,8 @@ if (checkSpelling && pChecker)
 		      {
 		      buffer += ch;
 		      i++;
-		      ch = text.at( i );
+		      if (i < text.length()) ch = text.at( i );
+		      else break;
 		      }
 		if ( (buffer.length() > 1) && (!ignoredwordList.contains(buffer)) && (!hardignoredwordList.contains(buffer)))
 		      {
