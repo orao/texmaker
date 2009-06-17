@@ -110,7 +110,16 @@ void ConfigDialog::changePage(QListWidgetItem *current, QListWidgetItem *previou
 //pageditor
 void ConfigDialog::browseAspell()
 {
-QString location=QFileDialog::getOpenFileName(this,tr("Browse dictionary"),QDir::homePath(),"Dictionary (*.dic)",0,QFileDialog::DontResolveSymlinks);
+#if defined( Q_WS_X11 )
+QDir spelldir(PREFIX"/share/texmaker");
+#endif
+#if defined( Q_WS_MACX )
+QDir spelldir(QCoreApplication::applicationDirPath() + "/../Resources");
+#endif
+#if defined(Q_WS_WIN)
+QDir spelldir(QCoreApplication::applicationDirPath());
+#endif
+QString location=QFileDialog::getOpenFileName(this,tr("Browse dictionary"),spelldir.absolutePath(),"Dictionary (*.dic)",0,QFileDialog::DontResolveSymlinks);
 if ( !location.isEmpty() ) 
 	{
 	location.replace(QString("\\"),QString("/"));

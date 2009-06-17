@@ -216,14 +216,6 @@ a = menu->addAction(tr("Select All"), this, SLOT(selectAll()));
 a->setShortcut(Qt::CTRL+Qt::Key_A);
 a->setEnabled(!document()->isEmpty());
 menu->addSeparator();
-/*****************************/
-a = menu->addAction(tr("Add LRM"), this, SLOT(contextMenuAddLRM())); //add by S. R. Alavizadeh
-//a->setShortcut(Qt::CTRL+Qt::Key_L);
-a->setEnabled(true);
-a = menu->addAction(tr("Remove LRM from Selection"), this, SLOT(remLRMfromSelection()));
-a->setEnabled(textCursor().hasSelection());
-menu->addSeparator();
-/****************************/
 a = menu->addAction(tr("Check Spelling Word"), this, SLOT(checkSpellingWord()));
 a->setEnabled(!document()->isEmpty());
 a = menu->addAction(tr("Check Spelling Selection"), this, SLOT(checkSpellingDocument()));
@@ -344,7 +336,7 @@ if (cur.hasSelection())
 	cur.movePosition(QTextCursor::StartOfBlock,QTextCursor::MoveAnchor);
 	while ( cur.position() < end && go)
 		{
-		cur.movePosition(QTextCursor::Right,QTextCursor::KeepAnchor);
+		cur.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
 		if (cur.selectedText()=="%") 
 			{
 			cur.removeSelectedText();
@@ -395,19 +387,7 @@ void LatexEditor::setEncoding(QString enc)
 
 int LatexEditor::getCursorPosition(int para, int index)
 {
-#if QT_VERSION >= 0x040400
 return document()->findBlockByNumber(para).position()+index;
-#else
-int i = 0;
-QTextBlock p = document()->begin();
-while ( p.isValid() ) 
-	{
-	if (para==i) break;
-	i++;
-	p = p.next();
-	}
-return p.position()+index;
-#endif
 }
 
 void LatexEditor::setCursorPosition(int para, int index)
@@ -447,31 +427,12 @@ setFocus();
 
 int LatexEditor::numoflines()
 {
-#if QT_VERSION >= 0x040200
 return document()->blockCount();
-#else
-int num=0;
-QTextBlock p;
-for (p = document()->begin(); p.isValid(); p = p.next()) ++num;
-return num;
-#endif
 }
 
 int LatexEditor::linefromblock(const QTextBlock& p)
 {
-#if QT_VERSION >= 0x040400
 return p.blockNumber()+1;
-#else
-int num = 1;
-QTextBlock block=document()->begin();
-while (block.isValid())
-	{
-		if ( p == block ) {return num;}
-	num++;
-	block = block.next();
-	}
-return -1;
-#endif
 }
 
 void LatexEditor::selectword(int line, int col, QString word)
@@ -515,9 +476,7 @@ int newpos = tc.selectionStart();
 tc.setPosition(newpos, QTextCursor::MoveAnchor);
 tc.setPosition(oldpos, QTextCursor::KeepAnchor);
 QString word=tc.selectedText();
-word.remove(QChar(LRM),Qt::CaseInsensitive);//add by S. R. Alavizadeh//it just skips LRM for completer
 QString sword=word.trimmed();
-sword.remove(QChar(LRM),Qt::CaseInsensitive);//add by S. R. Alavizadeh//it just skips LRM for completer
 if (word.right(1)!=sword.right(1)) word="";
 return word;
  }
@@ -541,48 +500,6 @@ if (c && c->popup()->isVisible())
 		}
 	}
 
-//add by S. R. Alavizadeh [start]
-if (e->key() == Qt::Key_Left)
-{
-	QTextCursor tc = textCursor();
-	tc.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
-	if (tc.hasSelection())
-	{
-		if (tc.selectedText()==QChar(LRM))
-		{
-			//tc.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor,2);
-			tc.clearSelection();
-			setTextCursor(tc);
-		}
-		else
-		{
-			tc.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor);
-			tc.clearSelection();
-			setTextCursor(tc);
-		}
-	}
-}
-if (e->key() == Qt::Key_Right)
-{
-	QTextCursor tc = textCursor();
-	tc.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
-	if (tc.hasSelection())
-	{
-		if (tc.selectedText()==QChar(LRM))
-		{
-			//tc.movePosition(QTextCursor::Left, QTextCursor::MoveAnchor,2);
-			tc.clearSelection();
-			setTextCursor(tc);
-		}
-		else
-		{
-			tc.movePosition(QTextCursor::Left, QTextCursor::MoveAnchor);
-			tc.clearSelection();
-			setTextCursor(tc);
-		}
-	}
-}
-//add by S. R. Alavizadeh [end]
 //bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
 //if (!c || !isShortcut) 
 //	{
@@ -655,6 +572,8 @@ static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]-= "); // end of word
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
 //bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
 QString completionPrefix = textUnderCursor();
+
+
 if (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3 || eow.contains(e->text().right(1)))
 //if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3 || eow.contains(e->text().right(1)))) 
 	{
@@ -692,7 +611,8 @@ QObject::connect(c, SIGNAL(activated(const QString&)),this, SLOT(insertCompletio
 if (c->widget() != this) return;
 QTextCursor tc = textCursor();
 int extra = completion.length();// - c->completionPrefix().length();
-tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor, c->completionPrefix().length());
+//tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor, c->completionPrefix().length());
+tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor, textUnderCursor().size());//Add by S. R. Alavizadeh
 tc.removeSelectedText();
 //int extra = completion.length() - c->completionPrefix().length();
 //tc.movePosition(QTextCursor::Left);
@@ -759,51 +679,5 @@ void LatexEditor::activateInlineSpell(bool enable)
 {
 inlinecheckSpelling=enable;
 }
-//add by S. R. Alavizadeh
-void LatexEditor::contextMenuAddLRM()
-{
-bool MODIFIED = document()->isModified();//new
-QString word;
-int startSel,endSel,pos,anch;
-QTextCursor curCursor, tmpCursor;
-curCursor = tmpCursor = textCursor();
-if ( textCursor().hasSelection() )
-{
-	pos = textCursor().position();
-	endSel = textCursor().anchor();
-	startSel = textCursor().blockNumber();
-	curCursor.setPosition( endSel, QTextCursor::MoveAnchor );
-	setTextCursor(curCursor);
-	endSel = textCursor().blockNumber();
-	if (endSel != startSel) 
-	{
-		tmpCursor.clearSelection();
-		setTextCursor(tmpCursor);
-		document()->setModified( MODIFIED );//new
-		return;
-	}
-	curCursor.setPosition( pos, QTextCursor::KeepAnchor );
-	setTextCursor(curCursor);
-	word = textCursor().selectedText();
-}
-else 
-	{
-	word = QChar(LRM);
-	textCursor().insertText(word);
-	document()->setModified( MODIFIED );//new
-	return;
-	}
-word = (word.append(QChar(LRM))).prepend(QChar(LRM));
-textCursor().beginEditBlock();
-textCursor().removeSelectedText();
-textCursor().insertText(word);
-textCursor().endEditBlock();
-setTextCursor(tmpCursor);
-document()->setModified( MODIFIED );//new
-}
 
-//add by S. R. Alavizadeh
-void LatexEditor::remLRMfromSelection()
-{
-emit removeLRM();
-}
+

@@ -14,6 +14,8 @@
 
 #include <QTableWidget>
 #include <QTableView>
+#include <QMenu>
+#include <QAction>
 
 typedef QString codelist[412];
 const codelist code=
@@ -440,8 +442,14 @@ class SymbolListWidget : public QTableWidget
 
 public:
     SymbolListWidget(QWidget *parent, int page);
+    QAction *addAct, *remAct;
 public slots:
 void SetUserPage(usercodelist ulist);
+void SetFavoritePage(QList<int> flist);
+private slots:
+void customContentsMenu( const QPoint &pos );
+private:
+QMenu *menu;
 };
 
 #endif

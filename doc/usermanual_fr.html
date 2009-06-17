@@ -10,7 +10,7 @@ body { background: #ffffff; color: black; }
 --></style>
 </head>
 <body>
-<h1 align=center><A NAME="top">Tutoriel Texmaker</a></h1>
+<h1 align=center><A NAME="top">Manuel de Texmaker</a></h1>
 <h2><a name="sommaire"> </a> Sommaire:</h2>
 <ul>
 <li><a href="#SECTION0">1. Configurer Texmaker</a></li>
@@ -52,10 +52,11 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION33">4.3 Balises et commandes personnelles</a></li>
 	<li><a href="#SECTION34">4.4 Support Pstricks/Metapost/Tikz/Asymptote</a></li>
 	<li><a href="#SECTION35">4.5 Changer la langue et l'apparence de l'interface</a></li>
-	<li><a href="#SECTION36">4.6 Convertir son document en Html</a></li>
+	<li><a href="#SECTION36">4.6 La commande "Restaurer la session précédente"</a></li>
 	<li><a href="#SECTION37">4.7 "Forward/Inverse search" avec Texmaker</a></li>
 	<li><a href="#SECTION38">4.8 Synopsis de la commande texmaker</a></li>
 	<li><a href="#SECTION39">4.9 Raccourcis clavier</a></li>
+	<li><a href="#SECTION40">4.10 Convertir son document en Html</a></li>
 	</ul>
 </ul>
 <hr>
@@ -67,7 +68,7 @@ Avant de compiler son premier document, il faut d'abors régler l'encodage utili
 </p>
 <h2><a name="SECTION02">1.2 Configurer les commandes associées à LaTeX</a></h2>
 <p>Pour pouvoir compiler les documents avec Texmaker, les chemins vers les commandes associées à LaTeX doivent être définis correctement.<br>
-Les commandes par défaut devraient fonctionner avec les distributions LaTeX standards, mais des changements peuvent quand même être nécessaires ("Configurer Texmaker" -> "Commandes"). Pour modifier une commande, il suffit d'utiliser le bouton en fin de ligne et de sélectionner le programme correspondant avec le sélecteur de fichiers : Texmaker adaptera automatiquement la syntaxe (les modifications manuelles sont déconseillées).<br>
+Les commandes par défaut devraient fonctionner avec les distributions LaTeX standards, mais des changements peuvent quand même être nécessaires ("Configurer Texmaker" -> "Commandes"). <b>Pour modifier une commande, il suffit d'utiliser le bouton en fin de ligne et de sélectionner le programme correspondant avec le sélecteur de fichiers</b> : Texmaker adaptera automatiquement la syntaxe (les modifications manuelles sont déconseillées).<br>
 Le caractére <strong>%</strong> représente le nom du fichier courant (sans l'extension) et le caractére <strong>@</strong> sera automatiquement remplacé par le numéro de la ligne courante dans l'éditeur.<br>
 </p>
 <p><IMG src="doc14.png" border="1"></p>
@@ -137,6 +138,12 @@ La barre d'outils mathématiques permet aussi d'insérer d'un seul clic les form
 <p><IMG src="doc11.png" border="1"></p>
 <p>Les panneaux de symboles mathématiques situés à gauche permettent d'insérer d'un clic le code LaTeX de près de 400 symboles, ainsi que les balises \left et \right (cliquer sur les boutons "symboles" de la vue structure pour cela).</p>
 <p><IMG src="doc12.png" border="1"></p>
+<p><b>Option supplémentaire :</b> Un panneau <b>"symboles favoris"</b> (*) permet à l'utilisateur de créer son propre panneau de symboles. 
+<ul>
+<li>Pour ajouter un symbole dans le panneau "symboles favoris", il suffit de faire un clic-droit sur un symbole dans les autres panneaux de symboles et de sélectionner l'option "Ajouter aux favoris" dans le menu qui s'affiche.</li>
+<li>Pour supprimer un symbole du panneau "symboles favoris", il suffit de faire un clic-droit dessus et de sélectionner l'option "Retirer des favoris" dans le menu qui s'affiche.</li>
+</ul>
+</p>
 <p>Le menu "Math" permet aussi de définir le style du texte en mode mathématique (accents, styles de caractères,espacement)<br>
 Pour les matrices, un assistant basé sur le même principe que celui pour les tableaux est disponible dans le menu "Assistants". Il permet en plus de fixer l'environnement (array, matrix, pmatrix...). Les cellules peuvent être complétées directement dans l'assistant.</p>
 <p><IMG src="doc13.png" border="1"></p>
@@ -177,17 +184,8 @@ Remarque : le fait d'entrer "%monenvironnement" dans le champ "code LaTeX" insé
 <p>Quelques une des principales commandes Pstricks/Metapost/Tikz/Asymptote peuvent être insérées directement dans le code en cliquant sur les boutons "PS", "MP", "TI" et "AS" dans le panneau "Structure".</p>
 <h2><a name="SECTION35">4.5 Changer la langue et l'apparence de l'interface</a></h2>
 <p>La langue et l'apparence de l'interface peuvent être modifiées à partir du menu "Options" (redémarrer l'application est nécessaire pour que les changements soient pris en compte)</p>
-<h2><a name="SECTION36">4.6 Convertir son document en Html</a></h2>
-<p>L'option "Exporter vers Html" du menu "Outils" permet de transformer son document LaTeX en un site web où chaque page html est composée d'une seule image reproduisant exactement une des pages postscript du document. On évite ainsi les problèmes de mise en page entre le texte et les formules mathématiques des autres outils traditionnels de conversion LaTeX vers html.<br>
-<b>Texmaker</b> peut aussi créer automatiquement une page index dans le site web correspondant à la traditionnelle tables des matières du document LaTeX. Un clic sur un item de cette page index permet d'atteindre la page web correspondante.
-Il est aussi possible d'insérer des liens externes et internes à l'intérieur des pages web en utilisant la commande \ttwplink{}{} dans le document .tex.<br>
-Synopsis de cette commande :<br>
-\ttwplink{http://www.monsite.com}{texte_lien} (lien externe)<br>
-\ttwplink{page3.html}{texte_lien} (lien interne)<br>
-\ttwplink{name_of_a_label}{texte_lien} (lien interne vers un label)<br>
-Attention : \ttwplink{}{} ne peut-être utilisé que pour exporter son document en html. Une compilation normale d'un document comportant cette commande par LaTeX déclenchera une erreur. Par ailleurs, cette commande est incompatible avec plusieurs "packages" LaTeX dont notamment \hyperref.</p>
-<p><IMG src="doc18.png" border="1"></p>
-<p><IMG src="doc19.png" border="1"></p>
+<h2><a name="SECTION36">4.6 La commande "Restaurer la session précédente"</a></h2>
+<p>Quand on quitte le programme sans fermer les documents ouverts, texmaker sauvegarde automatiquement le nom de ces documents. Avec la commande "Restaurer la session précédente" du menu "Fichier", il est alors possible de réouvrir l'ensemble de ces documents d'un seul coup.</p>
 <h2><a name="SECTION37">4.7 "Forward/inverse search" avec Texmaker</a></h2>
 <p>
 Certains afficheurs dvi permettent d'afficher directement la page et la zone correspondante à une certaine ligne dans le fichier source LaTeX.<br>
@@ -289,4 +287,15 @@ Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 </li>
 </ul>
 </p>
+<h2><a name="SECTION40">4.10 Convertir son document en Html</a></h2>
+<p>L'option "Exporter vers Html" du menu "Outils" permet de transformer son document LaTeX en un site web où chaque page html est composée d'une seule image reproduisant exactement une des pages postscript du document. On évite ainsi les problèmes de mise en page entre le texte et les formules mathématiques des autres outils traditionnels de conversion LaTeX vers html.<br>
+<b>Texmaker</b> peut aussi créer automatiquement une page index dans le site web correspondant à la traditionnelle tables des matières du document LaTeX. Un clic sur un item de cette page index permet d'atteindre la page web correspondante.
+Il est aussi possible d'insérer des liens externes et internes à l'intérieur des pages web en utilisant la commande \ttwplink{}{} dans le document .tex.<br>
+Synopsis de cette commande :<br>
+\ttwplink{http://www.monsite.com}{texte_lien} (lien externe)<br>
+\ttwplink{page3.html}{texte_lien} (lien interne)<br>
+\ttwplink{name_of_a_label}{texte_lien} (lien interne vers un label)<br>
+Attention : \ttwplink{}{} ne peut-être utilisé que pour exporter son document en html. Une compilation normale d'un document comportant cette commande par LaTeX déclenchera une erreur. Par ailleurs, cette commande est incompatible avec plusieurs "packages" LaTeX dont notamment \hyperref.</p>
+<p><IMG src="doc18.png" border="1"></p>
+<p><IMG src="doc19.png" border="1"></p>
 </body></html>

@@ -31,8 +31,11 @@ public:
     QString language;
 private:
     static TexmakerApp *theAppInstance;
+#if defined( Q_WS_MACX )
+    QString MacFile;
 protected:
     bool event(QEvent *event);
+#endif
 
 };
 inline TexmakerApp *TexmakerApp::instance()

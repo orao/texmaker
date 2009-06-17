@@ -27,6 +27,11 @@ verticalHeader()->hide();
 horizontalHeader()->hide();
 setIconSize ( QSize(32,32 ));
 setSelectionMode (QAbstractItemView::SingleSelection);
+setContextMenuPolicy(Qt::CustomContextMenu);
+menu = new QMenu( this );
+addAct=new QAction(tr("Add to favorites"), this);
+remAct=new QAction(tr("Remove from favorites"), this);
+connect( this, SIGNAL( customContextMenuRequested( const QPoint & )), this, SLOT( customContentsMenu( const QPoint & )));
 switch (page)
 {
 	case 0:
@@ -49,6 +54,7 @@ setUpdatesEnabled(false);
 		setItem(i/4,i%4,item);
 		}
 setUpdatesEnabled(true);
+		menu->addAction(addAct);
 	}
 	break;
 	case 1:
@@ -69,6 +75,7 @@ setUpdatesEnabled(true);
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		setItem((i-247)/4,(i-247)%4,item);
 		}
+		menu->addAction(addAct);
 	}
 	break;
 	case 2:
@@ -89,6 +96,7 @@ setUpdatesEnabled(true);
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		setItem((i-314)/4,(i-314)%4,item);
 		}
+		menu->addAction(addAct);
 	}
 	break;
 	case 3:
@@ -109,6 +117,7 @@ setUpdatesEnabled(true);
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		setItem((i-226)/4,(i-226)%4,item);
 		}
+		menu->addAction(addAct);
 	}
 	break;
 	case 4:
@@ -129,6 +138,7 @@ setUpdatesEnabled(true);
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		setItem(i/4,i%4,item);
 		}
+		menu->addAction(addAct);
 	}
 	break;
 	case 5:
@@ -142,7 +152,16 @@ setUpdatesEnabled(true);
 		setColumnWidth(3,36);
 	}
 	break;
-
+	case 6:
+	{
+		setColumnCount(4);
+		setColumnWidth(0,36);
+		setColumnWidth(1,36);
+		setColumnWidth(2,36);
+		setColumnWidth(3,36);
+		menu->addAction(remAct);
+	}
+	break;
 show();
 }
 
@@ -170,4 +189,46 @@ for ( uint i = 0; i <=11; ++i )
 		}
 	}
 }
+
+void SymbolListWidget::SetFavoritePage(QList<int> flist)
+{
+clearContents();
+int rows=(flist.count()-1)/4+1;
+setRowCount(rows);
+for ( uint j = 0; j < rows; ++j ) setRowHeight(j,36);
+QString icon_name;
+for( int i = 0; i < flist.count(); i++ )
+	{
+	if ((flist.at(i)>-1) && (flist.at(i)<412))
+		{
+		QTableWidgetItem* item= new QTableWidgetItem();
+		if (flist.at(i)>=372)
+			{
+			icon_name=":/symbols/img"+QString::number(flist.at(i)-371)+"greek.png";
+			}
+		else
+			{
+			icon_name=":/symbols/img"+QString::number(flist.at(i)+1)+".png";
+			}
+		item->setText(code[flist.at(i)]+";"+QString::number(flist.at(i)));
+		item->setIcon(QIcon(icon_name));
+		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		setItem(i/4,i%4,item);
+		}
+	}
+}
+
+void SymbolListWidget::customContentsMenu( const QPoint &pos )
+{
+QTableWidgetItem* item= new QTableWidgetItem();
+item=this->itemAt(pos);
+if (item) 
+	{
+	addAct->setData(item->text());
+	remAct->setData(item->text());
+	}
+QPoint globalPos = this->mapToGlobal(pos);
+menu->exec( globalPos );
+}
+
 

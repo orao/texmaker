@@ -28,8 +28,6 @@
 //class ParenMatcher;
 //class QTextBlock;
 
-#define LRM 0x200E //add By S. R. Alavizadeh
-
 typedef  int UserBookmarkList[3];
 
 class LatexEditor : public QTextEdit  {
@@ -78,16 +76,12 @@ void checkSpellingWord();
 void checkSpellingDocument();
 void insertCompletion(const QString &completion);
 
-void contextMenuAddLRM();//add by S. R. Alavizadeh
-void remLRMfromSelection();//add by S. R. Alavizadeh
-
 protected:
 void paintEvent(QPaintEvent *event);
 void contextMenuEvent(QContextMenuEvent *e);
 void keyPressEvent ( QKeyEvent * e );
 void focusInEvent(QFocusEvent *e);
 signals:
-void removeLRM();//add by S. R. Alavizadeh
 void spellme();
 };
 

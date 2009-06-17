@@ -15,14 +15,13 @@
 #include "texmakerapp.h"
 #include <QStringList>
 
-bool flagBidiEnabled=false;
 
 int main( int argc, char ** argv )
 {
 TexmakerApp app("TexMaker", argc, argv ); // This is a dummy constructor so that the programs loads fast.
 
-QStringList args;
-for ( int i=0; i < argc; i++) args += QString::fromLocal8Bit(argv[i]);
+QStringList args = QCoreApplication::arguments();//add by S. R. Alavizadeh
+//for ( int i=0; i < argc; i++) args += QString::fromLocal8Bit(argv[i]);
 
 if ( app.isRunning() ) 
     {

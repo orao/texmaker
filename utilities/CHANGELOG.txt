@@ -1,6 +1,16 @@
+version 1.9.1 -> 1.9.2 :
+------------------------
+- A "favorites symbols" panel has been added (just right-click on a symbol to add it to the favorites)
+- Users can now restore a previous session (when closing the program, the names of the opened documents are automatically recorded)
+- The bidirectional support has been removed (not enough stable)
+- Words can again be selected by using SHIFT+LeftArrow and SHIFT+RightArrow.
+- On macosx, opening a file by double-clicking on it in the Finder will no more crash the program.
+- The trouble with dark color kde theme has been fixed
+
 version 1.9 -> 1.9.1 :
 --------------------
 a critical bug has been fixed (inline spell checking)
+
 version 1.8 -> 1.9 :
 --------------------
 - inline spell checking has been added
@@ -22,6 +32,7 @@ IMPORTANT NOTE FOR THE LINUX PACKAGERS :
     - doc/ subfolder : all the files needed for the documentation (must be installed in the PREFIX/share/texmaker directory for linux)
     - utilities/ subfolder : icons, desktop file, changelog, COPYING, AUTORS, files needed by the "html export" tool (blank.png, next_d.gif, next.gif, prev_d.gif, prev.gif, psheader.txt, style.css, up_d.gif, up.gif) etc... (must be installed in the PREFIX/share/texmaker directory for linux)
 The others subfolders (completion/hunspell/images/spell/symbols/tags/singleapp) are only used for compilation (no installation to do)
+
 version 1.7.1 -> 1.8:
 ----------------------
 - texmaker can now be only started once per user : inverse search will no more launch a new instance of texmaker
@@ -30,11 +41,13 @@ version 1.7.1 -> 1.8:
 - the background color of the selected symbol is now always the same (to be sure that the symbol is always visible)
 - parentheses matching is back
 - "\end{...}" is now added automatically after "\begin{...}" while using autocompletion
+
 version 1.7 -> 1.7.1 :
 --------------------
 Bugs fixed :
 - no more crash with the "Previous LaTeX error" command and the syntax highlighting
 - the "find" command starts at cursor and not at the beginning of the document
+
 version 1.6 -> 1.7 :
 --------------------
 - New search widget
@@ -53,6 +66,7 @@ texmaker file [-master] [-line xxx]
 - the documentation has been completed
 - parentheses matching is now disabled
 - the config file is now in the ini format
+
 version 1.4 -> 1.5 :
 ----------------------
 - a "most used symbols" panel has been added
@@ -64,6 +78,7 @@ version 1.4 -> 1.5 :
 - compilation trouble with Qt>=4.2 has been fixed
 - support for "QFileOpenEvent" has been added (for macosx)
 - minor bugfixes (dialogs layout, french translation...)
+
 version 1.3 -> 1.4 :
 ----------------------
 - Spell checking has been added (aspell is required)
@@ -73,6 +88,7 @@ version 1.3 -> 1.4 :
 - The syntax highlighter can now detect the math mode "\[ \]"
 - Tex files can now be dragged from a file manager to texmaker
 - minor bugfixes (replace dialog, close event...)
+
 version 1.2.1 -> 1.3 :
 ----------------------
 - Texmaker is now a pure QT4 program (qt >= 4.1 is required). The qt3 support library is no more required. The editor is now based on the qt4 QtextEdit object and the symbols icon view is an qt4 QTableWidget object.

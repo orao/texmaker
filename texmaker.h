@@ -53,8 +53,6 @@ typedef  QString Userlist[10];
 typedef  QString UserCd[5];
 typedef int SymbolList[412];
 
-extern bool flagBidiEnabled;
-
 class Texmaker : public QMainWindow
 {
     Q_OBJECT
@@ -66,17 +64,11 @@ QString getName();
 QFont EditorFont;
 QByteArray windowstate;
 
-bool bidiEnabled;//add by S. R. Alavizadeh
-int oldNumOfLines,newNumOfLines,startcheck,endcheck;//add by S. R. Alavizadeh
-
 public slots:
 void load( const QString &f );
 void setLine( const QString &line );
 void ToggleMode();
 void onOtherInstanceMessage(const QString &);  // For messages for the single instance
-
-int OldNumOfLines();//add by S. R. Alavizadeh
-void currentTabChanged();//add by S. R. Alavizadeh
 
 private:
 void setupMenus();
@@ -84,8 +76,6 @@ void setupToolBars();
 void createStatusBar();
 bool FileAlreadyOpen(QString f);
 void closeEvent(QCloseEvent *e);
-
-void biDirector(int flag);//add by S. R. Alavizadeh
 
 FilesMap filenames;
 KeysMap shortcuts, actionstext;
@@ -97,7 +87,7 @@ LogEditor* OutputTextEdit;
 //QToolBox *StructureToolbox;
 QStackedWidget *LeftPanelStackedWidget;
 XmlTagsListWidget *MpListWidget, *PsListWidget, *leftrightWidget, *tikzWidget, *asyWidget;
-SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget;
+SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget, *FavoriteListWidget;
 QTreeWidget *StructureTreeWidget;
 QVBoxLayout *OutputLayoutV;
 QHBoxLayout *OutputLayoutH, *LeftPanelLayout, *CentralLayout;
@@ -121,7 +111,7 @@ QLabel *stat1, *stat2, *stat3;
 QPushButton *pb1, *pb2, *pb3;
 QString MasterName;
 bool logpresent;
-QStringList recentFilesList;
+QStringList recentFilesList, sessionFilesList;
 //settings
 int split1_right, split1_left, split2_top, split2_bottom, quickmode;
 bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui;
@@ -155,6 +145,7 @@ int x11fontsize;
 #endif
 SymbolList symbolScore;
 usercodelist symbolMostused;
+QList<int> favoriteSymbolList;
 
 QColor colorMath, colorCommand, colorKeyword;
 
@@ -171,6 +162,7 @@ void fileOpen();
 void fileSave();
 void fileSaveAll();
 void fileSaveAs();
+void fileRestoreSession();
 void fileClose();
 void fileCloseRequested( int index);
 void fileCloseAll();
@@ -210,6 +202,7 @@ void ShowMisc(); //MiscellaneousListWidget
 void ShowDelim(); //DelimitersListWidget
 void ShowGreek(); //GreekListWidget
 void ShowMostUsed(); //MostUsedListWidget
+void ShowFavorite(); //FavoriteListWidget
 void ShowPstricks(); //PsListWidget
 void ShowLeftRight(); //leftrightWidget
 void ShowMplist(); //MpListWidget
@@ -318,7 +311,6 @@ void GeneralOptions();
 
 void gotoNextDocument();
 void gotoPrevDocument();
-//void ToggleMode();
 
 void SetInterfaceFont();
 
@@ -327,6 +319,9 @@ void gotoBookmark2();
 void gotoBookmark3();
 
 void SetMostUsedSymbols();
+void InsertFavoriteSymbols();
+void RemoveFavoriteSymbols();
+
 
 void ModifyShortcuts();
 
@@ -334,17 +329,6 @@ void updateCompleter();
 void updateTranslation();
 void updateAppearance();
 
-//add by S. R. Alavizadeh for biDirectional support
-void callBiDirector();
-void editBiDiAll();
-void addLRMToLatinWords();
-void remLRMfromDocument();
-QTextCursor RTL( QTextCursor tmpCursor );
-QTextCursor LTR( QTextCursor tmpCursor );
-void currentLineLTR();
-void currentLineRTL();
-QString TeXtrimmed(QString text);
-//void ftx2Unicode();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);

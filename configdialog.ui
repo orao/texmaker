@@ -509,7 +509,7 @@
             <item>
              <widget class="QRadioButton" name="radioButton7">
               <property name="text">
-               <string>LaTeX + Asymptote + LaTeX + View PS</string>
+               <string>LaTeX + Asymptote + LaTeX + dvips + View PS</string>
               </property>
              </widget>
             </item>
@@ -611,13 +611,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="3">
-           <widget class="QCheckBox" name="checkBoxLinenumber">
-            <property name="text">
-             <string>Show Line Numbers</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="labelSize">
             <property name="text">
@@ -642,13 +635,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QCheckBox" name="checkBoxBidiEnabled">
-            <property name="text">
-             <string>Auto Bidirector</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="labelEncoding">
             <property name="text">
@@ -658,6 +644,13 @@
           </item>
           <item row="2" column="1">
            <widget class="QComboBox" name="comboBoxEncoding"/>
+          </item>
+          <item row="2" column="2" colspan="2">
+           <widget class="QCheckBox" name="checkBoxLinenumber">
+            <property name="text">
+             <string>Show Line Numbers</string>
+            </property>
+           </widget>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="labelColorMath">
@@ -828,14 +821,14 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="0">
+          <item row="7" column="0" rowspan="2">
            <widget class="QLabel" name="labelASpellCommand">
             <property name="text">
              <string>Spelling dictionary</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="1" colspan="2">
+          <item row="7" column="1" rowspan="2" colspan="2">
            <layout class="QHBoxLayout">
             <property name="spacing">
              <number>6</number>
@@ -866,7 +859,7 @@
             </item>
            </layout>
           </item>
-          <item row="7" column="3">
+          <item row="8" column="3">
            <widget class="QCheckBox" name="checkBoxInlineSpell">
             <property name="toolTip">
              <string>Inline Spell Checking</string>
@@ -876,7 +869,7 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="1" colspan="3">
+          <item row="9" column="1" colspan="3">
            <widget class="QLabel" name="labelGetDic">
             <property name="text">
              <string/>
@@ -886,21 +879,21 @@
             </property>
            </widget>
           </item>
-          <item row="9" column="0" colspan="4">
+          <item row="10" column="0" colspan="4">
            <widget class="Line" name="line_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="10" column="0">
+          <item row="11" column="0">
            <widget class="QLabel" name="labelshortcut">
             <property name="text">
              <string>Shortcuts</string>
             </property>
            </widget>
           </item>
-          <item row="10" column="1" rowspan="2" colspan="3">
+          <item row="11" column="1" rowspan="2" colspan="3">
            <widget class="QTableWidget" name="shorttableWidget">
             <column>
              <property name="text">
@@ -914,7 +907,7 @@
             </column>
            </widget>
           </item>
-          <item row="11" column="0">
+          <item row="12" column="0">
            <spacer>
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -988,30 +981,30 @@
  </widget>
  <tabstops>
   <tabstop>lineEditLatex</tabstop>
-  <tabstop>lineEditDvips</tabstop>
-  <tabstop>lineEditBibtex</tabstop>
-  <tabstop>lineEditMakeindex</tabstop>
-  <tabstop>lineEditDviviewer</tabstop>
-  <tabstop>lineEditPsviewer</tabstop>
-  <tabstop>lineEditPdflatex</tabstop>
-  <tabstop>lineEditDvipdfm</tabstop>
-  <tabstop>lineEditPs2pdf</tabstop>
-  <tabstop>lineEditPdfviewer</tabstop>
-  <tabstop>lineEditMetapost</tabstop>
-  <tabstop>lineEditGhostscript</tabstop>
-  <tabstop>lineEditAsymptote</tabstop>
   <tabstop>pushButtonLatex</tabstop>
+  <tabstop>lineEditDvips</tabstop>
   <tabstop>pushButtonDvips</tabstop>
+  <tabstop>lineEditBibtex</tabstop>
   <tabstop>pushButtonBibtex</tabstop>
+  <tabstop>lineEditMakeindex</tabstop>
   <tabstop>pushButtonMakeindex</tabstop>
+  <tabstop>lineEditDviviewer</tabstop>
   <tabstop>pushButtonDviviewer</tabstop>
+  <tabstop>lineEditPsviewer</tabstop>
   <tabstop>pushButtonPsviewer</tabstop>
+  <tabstop>lineEditPdflatex</tabstop>
   <tabstop>pushButtonPdflatex</tabstop>
+  <tabstop>lineEditDvipdfm</tabstop>
   <tabstop>pushButtonDvipdfm</tabstop>
+  <tabstop>lineEditPs2pdf</tabstop>
   <tabstop>pushButtonPs2pdf</tabstop>
+  <tabstop>lineEditPdfviewer</tabstop>
   <tabstop>pushButtonPdfviewer</tabstop>
+  <tabstop>lineEditMetapost</tabstop>
   <tabstop>pushButtonMetapost</tabstop>
+  <tabstop>lineEditGhostscript</tabstop>
   <tabstop>pushButtonGhostscript</tabstop>
+  <tabstop>lineEditAsymptote</tabstop>
   <tabstop>pushButtonAsymptote</tabstop>
   <tabstop>radioButton1</tabstop>
   <tabstop>radioButton2</tabstop>
@@ -1019,16 +1012,15 @@
   <tabstop>radioButton4</tabstop>
   <tabstop>radioButton5</tabstop>
   <tabstop>radioButton7</tabstop>
-  <tabstop>radioButton6</tabstop>
   <tabstop>radioButton8</tabstop>
+  <tabstop>radioButton6</tabstop>
   <tabstop>lineEditUserquick</tabstop>
   <tabstop>comboBoxFont</tabstop>
   <tabstop>checkBoxWordwrap</tabstop>
-  <tabstop>checkBoxLinenumber</tabstop>
   <tabstop>spinBoxSize</tabstop>
   <tabstop>checkBoxCompletion</tabstop>
-  <tabstop>checkBoxBidiEnabled</tabstop>
   <tabstop>comboBoxEncoding</tabstop>
+  <tabstop>checkBoxLinenumber</tabstop>
   <tabstop>pushButtonColorMath</tabstop>
   <tabstop>pushButtonColorCommand</tabstop>
   <tabstop>pushButtonColorKeyword</tabstop>

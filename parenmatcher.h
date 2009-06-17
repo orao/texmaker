@@ -41,8 +41,6 @@
 #include <QTextCursor>
 #include <QObject>
 
-extern bool flagBidiEnabled;//add by S. R. Alavizadeh
-
 class ParenMatcher : public QObject
 {
     Q_OBJECT

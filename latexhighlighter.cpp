@@ -24,8 +24,10 @@ LatexHighlighter::LatexHighlighter(QTextDocument *parent,bool spelling,QString i
 	ColorCommand=QColor(0x80, 0x00, 0x00);
 	ColorKeyword=QColor(0x00, 0x00, 0xCC);
 	KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
+	QBrush brush(ColorStandard);
 	spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
 	spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+	spellingErrorFormat.setForeground(brush);
 checkSpelling=spelling;
 pChecker = spellChecker;
 if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());
@@ -148,6 +150,7 @@ while (i < text.length())
 		} else
 		if (isWordSeparator(tmp)){
 			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
 		} else
 		 {
 			setFormat( i, 1,ColorStandard);

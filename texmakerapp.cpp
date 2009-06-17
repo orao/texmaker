@@ -77,6 +77,9 @@ mw = new Texmaker();
 connect( this, SIGNAL( lastWindowClosed() ), this, SLOT( quit() ) );
 splash->finish(mw);
 delete splash;
+#if defined( Q_WS_MACX )
+if (!MacFile.isEmpty()) mw->load(MacFile);
+#endif
 for (QStringList::Iterator it = ++(args.begin()); it != args.end(); it++)
     {
     if ( (*it)[0] != '-') mw->load( *it );
@@ -86,15 +89,18 @@ for (QStringList::Iterator it = ++(args.begin()); it != args.end(); it++)
 }
 
 
-
+#if defined( Q_WS_MACX )
 bool TexmakerApp::event ( QEvent * event )
 {
-    if (event->type() == QEvent::FileOpen) {
-        QFileOpenEvent *oe = static_cast<QFileOpenEvent *>(event);
-        mw->load(oe->file());
+if (event->type() == QEvent::FileOpen) 
+    {
+    QFileOpenEvent *oe = static_cast<QFileOpenEvent *>(event);
+    if (mw) mw->load(oe->file());
+    else MacFile=oe->file();
     }
-    return QApplication::event(event);
+return QApplication::event(event);
 }
+#endif
 
 void TexmakerApp::ReadSettings()
 {

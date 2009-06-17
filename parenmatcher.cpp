@@ -190,20 +190,6 @@ ParenMatcher::MatchType ParenMatcher::match(QTextCursor *cursor)
 
     QChar leftChar = charFromCursor(*cursor, QTextCursor::PreviousCharacter);
     QChar rightChar = charFromCursor(*cursor, QTextCursor::NextCharacter);
-/************************************/
-	while (leftChar == QChar(LRM) && !cursor->atEnd())    //add by S. R. Alavizadeh
-	{
-		cursor->clearSelection();
-		cursor->movePosition( QTextCursor::PreviousCharacter,QTextCursor::MoveAnchor );
-		leftChar = charFromCursor(*cursor, QTextCursor::PreviousCharacter);
-	}
-	while (rightChar == QChar(LRM) && !cursor->atEnd())    //add by S. R. Alavizadeh
-	{
-		cursor->clearSelection();
-		cursor->movePosition( QTextCursor::NextCharacter,QTextCursor::MoveAnchor );
-		rightChar = charFromCursor(*cursor, QTextCursor::NextCharacter);
-	}
-/************************************/
     if (rightChar == QLatin1Char('{')) {
         return checkOpenParenthesis(cursor, rightChar);
     } else if (leftChar == QLatin1Char('}')) {
@@ -227,7 +213,6 @@ void ParenMatcher::matchFromSender()
     QTextEdit *edit = qobject_cast<QTextEdit *>(sender());
     if (!edit)
         return;
-	flagBidiEnabled = true;//add by S. R. Alavizadeh
     int rehighlightStart = currentMatch.selectionStart();
     int rehighlightEnd = currentMatch.selectionEnd();
     if (rehighlightStart != rehighlightEnd) {
@@ -282,7 +267,6 @@ void ParenMatcher::matchFromSender()
 
     if (rehighlightStart != rehighlightEnd)
         edit->document()->markContentsDirty(rehighlightStart, rehighlightEnd-rehighlightStart);
-	flagBidiEnabled = false;//add by S. R. Alavizadeh
 }
 
 
