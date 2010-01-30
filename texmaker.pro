@@ -4,6 +4,8 @@ TARGET	 = texmaker
 QT += network \
       xml
 CONFIG	+= qt warn_off release
+TEXMAKERVERSION=1.9.9
+DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 ###############################
 HEADERS	+= texmaker.h \
 	texmakerapp.h \
@@ -39,6 +41,7 @@ HEADERS	+= texmaker.h \
 	manhattanstyle.h \
 	stylehelper.h \
 	styleanimator.h \
+	keysequencedialog.h \
 	hunspell/affentry.hxx \
 	hunspell/affixmgr.hxx \
 	hunspell/atypes.hxx \
@@ -96,6 +99,7 @@ SOURCES	+= main.cpp \
 	manhattanstyle.cpp \
 	stylehelper.cpp \
 	styleanimator.cpp \
+	keysequencedialog.cpp \
 	hunspell/affentry.cxx \
 	hunspell/affixmgr.cxx \
 	hunspell/csutil.cxx \
@@ -130,7 +134,8 @@ FORMS   += findwidget.ui\
 	aboutdialog.ui \
 	webpublishdialog.ui \
 	configdialog.ui \
-	spellerdialog.ui
+	spellerdialog.ui \
+	keysequencedialog.ui
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
 	texmaker_es.ts \
@@ -139,7 +144,9 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_it.ts \
 	texmaker_ru.ts \
 	texmaker_zh_CN.ts \
-	texmaker_zh_TW.ts
+	texmaker_zh_TW.ts \
+	texmaker_cs.ts \
+	texmaker_pt_BR.ts 
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -225,6 +232,7 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_ru.qm \
 	locale/texmaker_zh_CN.qm \
 	locale/texmaker_zh_TW.qm \
+	locale/texmaker_cs.qm \
 	dictionaries/de_DE.aff \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \
@@ -253,21 +261,12 @@ INCLUDEPATH += C:\MinGW\include
 RC_FILE = win.rc
 #DEFINES += USB_VERSION
 SOURCES	+= singleapp/qtlockedfile_win.cpp
-}
-###############################
-macx {
-UI_DIR = .ui
-MOC_DIR = .moc
-OBJECTS_DIR = .obj
-##universal tiger
-CONFIG += link_prl x86 ppc
-QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
-target.path = /Applications
+target.path = texmakerwin32
+#target.path = texmakerwin32usb
 INSTALLS = target
-SOURCES	+= singleapp/qtlockedfile_unix.cpp
-utilities.path = Contents/Resources
-utilities.files = doc/doc1.png \
+utilities.path = texmakerwin32
+#utilities.path = texmakerwin32usb
+utilities.files =doc/doc1.png \
 	doc/doc10.png \
 	doc/doc11.png \
 	doc/doc12.png \
@@ -323,6 +322,106 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_ru.qm \
 	locale/texmaker_zh_CN.qm \
 	locale/texmaker_zh_TW.qm \
+	locale/texmaker_cs.qm \
+	dictionaries/de_DE.aff \
+	dictionaries/de_DE.dic \
+	dictionaries/en_GB.aff \
+	dictionaries/en_GB.dic \
+	dictionaries/es_ES.aff \
+	dictionaries/es_ES.dic \
+	dictionaries/fr_FR.aff \
+	dictionaries/fr_FR.dic \
+	dictionaries/it_IT.aff \
+	dictionaries/it_IT.dic 
+INSTALLS += utilities
+others.path = texmakerwin32
+#others.path = texmakerwin32usb
+others.files = texmaker.ico \
+		C:\MinGW\bin\mingwm10.dll \
+		C:\MinGW\bin\libgcc_s_dw2-1.dll \
+		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtCore4.dll \
+		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtGui4.dll \
+		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtXml4.dll \
+		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtNetwork4.dll
+INSTALLS += others
+}
+###############################
+macx {
+UI_DIR = .ui
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
+##universal tiger 32
+CONFIG += link_prl x86 ppc
+QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
+#target.path = TexmakerMacosx32
+##tiger snow 64
+#CONFIG += link_prl x86_64
+#QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.6.sdk
+#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+#target.path = TexmakerMacosx64
+target.path = /Applications
+INSTALLS = target
+SOURCES	+= singleapp/qtlockedfile_unix.cpp
+utilities.path = Contents/Resources
+utilities.files = utilities/qt_menu.nib \
+	doc/doc1.png \
+	doc/doc10.png \
+	doc/doc11.png \
+	doc/doc12.png \
+	doc/doc13.png \
+	doc/doc14.png \
+	doc/doc15.png \
+	doc/doc16.png \
+	doc/doc17.png \
+	doc/doc18.png \
+	doc/doc19.png \
+	doc/doc2.png \
+	doc/doc3.png \
+	doc/doc4.png \
+	doc/doc5.png \
+	doc/doc6.png \
+	doc/doc7.png \
+	doc/doc8.png \
+	doc/doc9.png \
+	doc/doc6bis.png \
+	doc/doc20.png \
+	doc/doc21.png \
+	doc/doc22.png \
+	doc/latexhelp.html \
+	doc/usermanual_en.html \
+	doc/usermanual_fr.html \
+	utilities/blank.png \
+	utilities/next.gif \
+	utilities/next_d.gif \
+	utilities/prev.gif \
+	utilities/prev_d.gif \
+	utilities/psheader.txt \
+	utilities/style.css \
+	utilities/up.gif \
+	utilities/up_d.gif \
+	utilities/AUTHORS \
+	utilities/COPYING \
+	utilities/CHANGELOG.txt \
+	locale/qt_de.qm \
+	locale/qt_es.qm \
+	locale/qt_fr.qm \
+	locale/qt_pt.qm \
+	locale/qt_ru.qm \
+	locale/qt_zh_CN.qm \
+	locale/qt_zh_TW.qm \
+	locale/texmaker_ca.qm \
+	locale/texmaker_de.qm \
+	locale/texmaker_es.qm \
+	locale/texmaker_fa.qm \
+	locale/texmaker_fr.qm \
+	locale/texmaker_gl.qm \
+	locale/texmaker_it.qm \
+	locale/texmaker_pt_BR.qm \
+	locale/texmaker_ru.qm \
+	locale/texmaker_zh_CN.qm \
+	locale/texmaker_zh_TW.qm \
+	locale/texmaker_cs.qm \
 	dictionaries/de_DE.aff \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \

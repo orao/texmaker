@@ -15,6 +15,8 @@
 #include "ui_configdialog.h"
 
 #include <QListWidgetItem>
+#include <QTableWidgetItem>
+#include "keysequencedialog.h"
 
 class ConfigDialog : public QDialog
 {
@@ -47,6 +49,9 @@ void browsePdfviewer();
 void browseMetapost();
 void browseGhostscript();
 void browseAsymptote();
+void configureShortCut(QTableWidgetItem *item);
+private :
+KeySequenceDialog *keydlg;
 };
 
 #endif

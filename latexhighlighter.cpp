@@ -68,6 +68,8 @@ const int StateStandard = 0;
 const int StateComment = 1;
 const int StateMath = 2;
 const int StateCommand=3;
+const int StateVerbatim =4;
+const int StateVerbatimCommand =5;
 
 BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
 if (blockData) blockData->code.clear(); 
@@ -106,6 +108,7 @@ while (i < text.length())
 			blockData->code[i]=1;
 			state=StateCommand;
 			}
+			buffer = QString::null;
 		} else
 		if (tmp=='$') {
 			setFormat( i, 1,ColorMath);
@@ -120,11 +123,13 @@ while (i < text.length())
 					blockData->code[i]=1;
 					}
 				}
+			buffer = QString::null;
 		} else
 		if (tmp== '%' ){
 			setFormat( i, 1,ColorComment);
 			state=StateComment;
 			blockData->code[i]=1;
+			buffer = QString::null;
 		} else
 		if (tmp== '{' ){
 			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
@@ -137,26 +142,32 @@ while (i < text.length())
 			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
+			if(buffer.indexOf("begin{verbatim}") != -1) {state=StateVerbatim;}
+			buffer = QString::null;
 		} else
 		if (tmp== '(' ){
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
+			buffer = QString::null;
 		} else
 		if (tmp== ')' ){
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
+			buffer = QString::null;
 		} else
 		if (isWordSeparator(tmp)){
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
+			buffer = QString::null;
 		} else
 		 {
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
+			//buffer = QString::null;
 		}
-	buffer = QString::null;
+//	buffer = QString::null;
 	} break;
 	
 	case StateComment: {
@@ -293,6 +304,145 @@ while (i < text.length())
          		state=StateCommand;
 		}
 	} break;
+       case StateVerbatim: {
+               tmp=text.at( i );
+		if (tmp=='\\') {
+			if (next=='[')
+				{
+				setFormat( i, 1,ColorStandard );
+				blockData->code[i]=1;
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorStandard);
+					blockData->code[i]=1;
+					}
+				}
+			else
+			{
+			setFormat( i, 1,ColorStandard );
+			blockData->code[i]=1;
+			state=StateVerbatimCommand;
+			}
+		} else
+		if (tmp=='$') {
+			setFormat( i, 1,ColorStandard);
+			blockData->code[i]=1;
+			if (next=='$')
+				{
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorStandard);
+					blockData->code[i]=1;
+					}
+				}
+			buffer = QString::null;
+		} else
+		if (tmp== '%' ){
+			setFormat( i, 1,ColorStandard);
+			blockData->code[i]=1;
+			buffer = QString::null;
+		} else
+		if (tmp== '{' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+		} else
+		if (tmp== '}' ){
+			blockData->code[i]=1;
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorStandard);
+			state=StateVerbatim;
+			int pos=buffer.indexOf("\\end{verbatim}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			}
+			buffer = QString::null;
+		} else
+		if (tmp== '(' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+			buffer = QString::null;
+		} else
+		if (tmp== ')' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+			buffer = QString::null;
+		} else
+		if (isWordSeparator(tmp)){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+			buffer = QString::null;
+		} else
+		 {
+			setFormat( i, 1,ColorStandard);
+			//buffer = QString::null;
+		}
+       } break;
+	case StateVerbatimCommand:{
+		tmp=text.at( i );
+		if (tmp=='$') {
+			if (last=='\\')
+				{
+				setFormat( i, 1,ColorStandard);
+				blockData->code[i]=1;
+				state=StateVerbatim;
+				}
+			else
+				{
+				setFormat( i, 1,ColorStandard);
+				blockData->code[i]=1;
+				state=StateVerbatim;
+				}
+		} else
+		if (tmp=='%') {
+			if (last=='\\')
+				{
+				setFormat( i, 1,ColorStandard);
+				state=StateVerbatim;
+				}
+			else
+				{
+				setFormat( i, 1,ColorStandard);
+				blockData->code[i]=1;
+				state=StateVerbatim;
+         			}
+		} else
+		if (tmp== ' ') {
+         		setFormat( i, 1,ColorStandard);
+         		state=StateVerbatim;
+		}  else
+		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
+			blockData->code[i]=1;
+  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorStandard);
+			state=StateVerbatim;
+		} else
+		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
+			blockData->code[i]=1;
+			if (last=='\\')
+			{
+				setFormat( i, 1,ColorStandard);
+				blockData->code[i]=1;
+				state=StateVerbatim;
+			}
+			else
+			{
+				setFormat( i, 1,ColorStandard);
+				blockData->code[i]=1;
+				state=StateVerbatim;
+			}
+		} else
+	     		{
+         		setFormat( i, 1,ColorStandard);
+			blockData->code[i]=1;
+         		state=StateVerbatimCommand;
+		}
+	} break;
 	}
 	last = ch;
 	i++;
@@ -304,7 +454,11 @@ if ( state == StateComment )
 else if ( state == StateMath ) 
 	{
 	setCurrentBlockState(StateMath) ;
-    	} 
+    	}
+else if ( state == StateVerbatim ) 
+       {
+       setCurrentBlockState(StateVerbatim) ;
+       } 
 else 
 	{
 	setCurrentBlockState(StateStandard) ;

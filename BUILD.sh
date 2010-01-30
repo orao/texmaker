@@ -17,7 +17,7 @@ echo "Enter  DIRECTORY for the desktop file (/usr/share/applications) :"
 read DESKTOPDIR
 echo "Enter  DIRECTORY for the icon file (/usr/share/pixmaps) :"
 read ICONDIR
-qmake -unix PREFIX=$PREFIX DESKTPDIR=$DESKTOPDIR ICONDIR=$ICONDIR texmaker.pro
+qmake -unix PREFIX=$PREFIX DESKTOPDIR=$DESKTOPDIR ICONDIR=$ICONDIR texmaker.pro
 make
 make install
 echo "Compilation and installation done"

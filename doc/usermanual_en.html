@@ -35,6 +35,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION110">2.10 Inserting a picture</a></li>
 	<li><a href="#SECTION111">2.11 Cross References and notes</a></li>
 	<li><a href="#SECTION112">2.12 Inserting math formulae</a></li>
+	<li><a href="#SECTION113">2.13 Using the "•" place holders</a></li>
 	</ul>
 </ul>
 <ul>
@@ -136,6 +137,11 @@ During typing, if there is an error, the word is underlined by a red underline. 
 </p>
 <p>You can also define the format of your mathematical text via the "Math" menu.<br>For the "array" environments, a wizard (like the "Tabular" wizard) is available in the "Wizard" menu. With this wizard, you can select the environment : array, matrix, pmatrix.... The cells can be directly completed.</p>
 <p><IMG src="doc13.png" border="1"></p>
+<h2><a name="SECTION113">2.13 Using the "•" place holders</a></h2>
+<p>
+The "•" place holders, automatically inserted by some Texmaker commands, allow you to reach directly the next field in the created structure by using the <b>"Tab"</b> key ("Shift+Tab" to go backward).<br>
+Note : inserting a tabulation with the "Tab" key is deactivated if the line contains  a "•" place holder.
+</p>
 <h1><a name="SECTION2">3. Compiling a document</a></h1>
 <h2><a name="SECTION22">3.1 Compiling</a></h2>
 <p>The easiest way to compile a document is to use the "Quick Build" command . You can define the sequence of commands used by the "Quick Build" command via the "Configure Texmaker" dialog.</p>
@@ -159,12 +165,18 @@ To include a TeX file into your document, just use the "\include{file}" command 
 <p>For the "bib" files , the "Bibliography" menu enables you to directly insert the entries corresponding to the standard types of document.<br>Note: the optional fields can be automatically deleted with the "Clean" command of the "Bibliography" menu.</p>
 <p><IMG src="doc16.png" border="1"></p>
 <h2><a name="SECTION33">4.3 Personals tags ans tools</a></h2>
-<p>Texmaker allows you to insert your own tags (shortcuts : Shift+F1...Shift+F10). These tags are defined with the "User - User Tags" menu.<br>Note : if the code of the menu is "%environment", Texmaker will directly insert:<br>
+<p>Texmaker allows you to insert your own tags (shortcuts : Shift+F1...Shift+F10). These tags are defined with the "User - User Tags" menu.<br>
+Notes :
+<ul>
+<li>If the code of the menu is "%environment", Texmaker will directly insert:<br>
 \begin{environment }<br>
-<br>
+•<br>
 \end{environment }<br>
+and the cursor will jump directly to the "•" field.<br><IMG src="doc17.png" border="1"></li>
+<li>All the "@" characters in the code are automatically replaced by "•" place holders in the editor and the cursor will jump directly to the first "•" field (if some text has been selected in the editor before, the first "•" field will be replaced automatically by the selected text).
+</li>
+</ul>
 </p>
-<p><IMG src="doc17.png" border="1"></p>
 <p>You can also launch your own commands (shortcuts : Alt+Shift+F1...Alt+Shift+F5). These commands are defined with the "User - User Commands" menu and can be launched via the toolbar ("Run" button) .</p>
 <h2><a name="SECTION34">4.4 Pstricks/Metapost/Tikz/Asymptote support</a></h2>
 <p>Some of the main Pstricks/Metapost/Tikz/Asymptote commands can be inserted via the "PS", "MP", "TI" and "AS" buttons in the "Structure View".<br>

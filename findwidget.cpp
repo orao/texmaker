@@ -18,6 +18,9 @@ ui.setupUi(this);
 connect(ui.findButton, SIGNAL( clicked() ), this, SLOT( doFind() ) );
 connect(ui.closeButton, SIGNAL( clicked() ), this, SLOT( doHide() ) );
 ui.findButton->setShortcut(Qt::Key_Return);
+ui.findButton->setToolTip("Return");
+ui.closeButton->setShortcut(Qt::Key_Escape);
+ui.closeButton->setToolTip("Escape");
  }
 
 FindWidget::~FindWidget()

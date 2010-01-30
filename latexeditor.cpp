@@ -485,7 +485,6 @@ void LatexEditor::keyPressEvent ( QKeyEvent * e )
 {
 if (c && c->popup()->isVisible()) 
 	{
-	// The following keys are forwarded by the completer to the widget
 	switch (e->key()) 
 		{
 		case Qt::Key_Enter:
@@ -494,92 +493,120 @@ if (c && c->popup()->isVisible())
 		case Qt::Key_Tab:
 		case Qt::Key_Backtab:
 		e->ignore();
-		return; // let the completer do default behavior
+		return; 
 		default:
 		break;
 		}
 	}
-
-//bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
-//if (!c || !isShortcut) 
-//	{
-	if ((e->key()==Qt::Key_Backtab))
+if ( e->key()==Qt::Key_Tab) 
+    {
+    QTextCursor cursor=textCursor();
+    QTextBlock block=cursor.block();
+    if (block.isValid()) 
+	{
+	QString txt=block.text();
+	if (txt.contains(QString(0x2022)))
+	    {
+	    //e->ignore();
+	    search(QString(0x2022) ,true,true,true,true);
+	    return;		
+	    }
+	}
+    QTextBlock blocknext=block.next();
+    if (blocknext.isValid()) 
+	{
+	QString txtnext=blocknext.text();
+	if (txtnext.contains(QString(0x2022)))
+	    {
+	    //e->ignore();
+	    search(QString(0x2022) ,true,true,true,true);
+	    return;		
+	    }
+	}
+    QTextEdit::keyPressEvent(e);
+    }
+else if ( e->key()==Qt::Key_Backtab) 
+    {
+    QTextCursor cursor=textCursor();
+    QTextBlock block=cursor.block();
+    if (block.isValid()) 
+	{
+	QString txt=block.text();
+	if (txt.contains(QString(0x2022)))
+	    {
+	    //e->ignore();
+	    search(QString(0x2022) ,true,true,false,true);
+	    return;		
+	    }
+	}
+    cursor.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor);
+    if (cursor.selectedText()=="\t") 
+	    {
+	    cursor.removeSelectedText();
+	    }
+    }
+// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Tab) 
+//   {
+//   e->ignore();
+//   search(QString(0x2022) ,true,true,true,true);
+//   return;
+//   }
+// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Backtab) 
+//   {
+//   e->ignore();
+//   search(QString(0x2022) ,true,true,false,true);
+//   return;
+//   }
+// if ((e->key()==Qt::Key_Backtab))
+// 	{
+// 	QTextCursor cursor=textCursor();
+// 	cursor.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor);
+// 	if (cursor.selectedText()=="\t") 
+// 			{
+// 			cursor.removeSelectedText();
+// 			}
+// 	}
+else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
+	{
+	QTextEdit::keyPressEvent(e);
+	QTextCursor cursor=textCursor();
+	cursor.joinPreviousEditBlock();
+	QTextBlock block=cursor.block();
+	QTextBlock blockprev=block.previous();
+	if (blockprev.isValid()) 
 		{
-		QTextCursor cursor=textCursor();
-		cursor.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor);
-		if (cursor.selectedText()=="\t") 
-				{
-				cursor.removeSelectedText();
-				}
-		}
-	else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
-		{
-		QTextEdit::keyPressEvent(e);
-		QTextCursor cursor=textCursor();
-		cursor.joinPreviousEditBlock();
-		QTextBlock block=cursor.block();
-		QTextBlock blockprev=block.previous();
-		if (blockprev.isValid()) 
+		QString txt=blockprev.text();
+		int j=0;
+		while ( (j<txt.count()) && ((txt[j]==' ') || txt[j]=='\t') ) 
 			{
-			QString txt=blockprev.text();
-			//QString newLine;
-			int j=0;
-			while ( (j<txt.count()) && ((txt[j]==' ') || txt[j]=='\t') ) 
-				{
-				//newLine+=(QString(txt[j]));
-				cursor.insertText(QString(txt[j]));
-				j++;
-				}
-            		/**** Added to complete \begin and \end *****/
-/*            		bool completingBeginEnd = false;
-            		int shift = txt.indexOf("\\begin{");
-            		int notthere = txt.indexOf("\\end{");
-            		if((txt.length()>0)&&(shift!=-1)&&(notthere<shift))
-				{
-                		int finish = txt.indexOf("}",shift);
-                		if(finish != -1)
-					{
-                        		j = shift+7;
-                        		newLine+="\\end{";
-                        		while (j<=finish)
-						{
-                        	    		newLine+=QString(txt[j]);
-                        	    		j++;
-                        			}
-                        		newLine = " \n" + newLine;
-                        		completingBeginEnd = true;
-                			}
-            			}
-            		cursor.insertText(newLine);
-            		if(completingBeginEnd)
-				{
-		                cursor.movePosition(QTextCursor::Up);
-		                setTextCursor(cursor);
-			        }
-*/
-           		 /********************************************/
+			cursor.insertText(QString(txt[j]));
+			j++;
 			}
-		cursor.endEditBlock();
+
 		}
-	else QTextEdit::keyPressEvent(e);
-//	}// dont process the shortcut when we have a completer
+	cursor.endEditBlock();
+	}
+else QTextEdit::keyPressEvent(e);
 
 const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
 if (!c || (ctrlOrShift && e->text().isEmpty())) return;
 
-//static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=");
-static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]-= "); // end of word
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
-//bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
 QString completionPrefix = textUnderCursor();
 
-
-if (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3 || eow.contains(e->text().right(1)))
-//if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3 || eow.contains(e->text().right(1)))) 
+if (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3)
 	{
 	c->popup()->hide();
 	return;
 	}
+
+QChar firstchar=e->text().at(0);
+if ( isWordSeparator(firstchar) || isSpace(firstchar))
+	{
+	c->popup()->hide();
+	return;
+	}
+
 if (completionPrefix != c->completionPrefix()) 
 	{
 	c->setCompletionPrefix(completionPrefix);
@@ -587,7 +614,7 @@ if (completionPrefix != c->completionPrefix())
 	}
 QRect cr = cursorRect();
 cr.setWidth(c->popup()->sizeHintForColumn(0)+ c->popup()->verticalScrollBar()->sizeHint().width());
-c->complete(cr); // popup it up!
+c->complete(cr); 
 }
 
 QCompleter *LatexEditor::completer() const
@@ -602,7 +629,7 @@ c = completer;
 if (!c) return;
 c->setWidget(this);
 c->setCompletionMode(QCompleter::PopupCompletion);
-c->setCaseSensitivity(Qt::CaseInsensitive);
+c->setCaseSensitivity(Qt::CaseSensitive);
 QObject::connect(c, SIGNAL(activated(const QString&)),this, SLOT(insertCompletion(const QString&)));
 }
 
@@ -610,57 +637,61 @@ QObject::connect(c, SIGNAL(activated(const QString&)),this, SLOT(insertCompletio
 {
 if (c->widget() != this) return;
 QTextCursor tc = textCursor();
-int extra = completion.length();// - c->completionPrefix().length();
-//tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor, c->completionPrefix().length());
-tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor, textUnderCursor().size());//Add by S. R. Alavizadeh
+tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor, textUnderCursor().size());
 tc.removeSelectedText();
-//int extra = completion.length() - c->completionPrefix().length();
-//tc.movePosition(QTextCursor::Left);
-//tc.movePosition(QTextCursor::EndOfWord);
 int pos=tc.position();
-QString insert_word = "";
-QString original_word=completion.right(extra);
-bool skipfirst=(completion.startsWith("\\begin{") || completion.startsWith("\\end{") || completion.startsWith("\\ref{") || completion.startsWith("\\pageref{"));
-QString character;
-bool ignore = false;
-int offset=0;
-for ( int i = 0; i < original_word.length(); ++i )
-	{
-	character=original_word.mid(i,1);
-	if (character=="[" || character=="{" || character=="(" || character=="<") 
-		{
-		insert_word += character;
-		if (!skipfirst) 
-			{
-			ignore = true;
-			if (offset==0) offset=i;
-			}
-		else skipfirst=false;
-		}
-	else if (character=="]" || character=="}" || character==")" || character==">") 
-		{
-		insert_word += character;
-		ignore = false;
-		}
-	else if (character==",")
-		{
-		insert_word += character;
-		}
-	else if ( ! ignore ) insert_word += character;
-	}
+QString insert_word = completion;
 QRegExp rbb("begin\\{\\s*([A-Za-z_]+)\\}");
 if (completion.contains(rbb)) 
 	{
-	insert_word+="\n\n\\end{"+rbb.cap(1)+"}";
 	tc.insertText(insert_word);
+	insertNewLine();
+	insertNewLine();
+	tc.insertText("\\end{"+rbb.cap(1)+"}");
 	tc.movePosition(QTextCursor::Up,QTextCursor::MoveAnchor,1);
+	setTextCursor(tc);
+	if (insert_word.contains(QString(0x2022)))
+	    {
+	    tc.movePosition(QTextCursor::Up,QTextCursor::MoveAnchor,1);
+	    setTextCursor(tc);
+	    search(QString(0x2022) ,true,true,true,true);
+	    emit tooltiptab();
+	    }
+
 	}
 else
 	{
 	tc.insertText(insert_word);
-	if (offset!=0) tc.setPosition(pos+offset+1,QTextCursor::MoveAnchor);
+	tc.setPosition(pos,QTextCursor::MoveAnchor);
+	setTextCursor(tc);
+	if (!search(QString(0x2022) ,true,true,true,true))
+	  {
+	  tc.setPosition(pos+completion.length(),QTextCursor::MoveAnchor);
+	  setTextCursor(tc);
+	  }
+	 else emit tooltiptab();
+	}    
+}
+
+void LatexEditor::insertNewLine()
+{
+QKeyEvent e(QEvent::KeyPress,Qt::Key_Enter,Qt::NoModifier);
+QTextEdit::keyPressEvent(&e);
+QTextCursor cursor=textCursor();
+cursor.joinPreviousEditBlock();
+QTextBlock block=cursor.block();
+QTextBlock blockprev=block.previous();
+if (blockprev.isValid()) 
+	{
+	QString txt=blockprev.text();
+	int j=0;
+	while ( (j<txt.count()) && ((txt[j]==' ') || txt[j]=='\t') ) 
+		{
+		cursor.insertText(QString(txt[j]));
+		j++;
+		}
 	}
-setTextCursor(tc);
+cursor.endEditBlock();  
 }
 
  void LatexEditor::focusInEvent(QFocusEvent *e)
@@ -680,4 +711,45 @@ void LatexEditor::activateInlineSpell(bool enable)
 inlinecheckSpelling=enable;
 }
 
+bool LatexEditor::isWordSeparator(QChar c) const
+{
+    switch (c.toLatin1()) {
+    case '.':
+    case ',':
+    case '?':
+    case '!':
+    case ':':
+    case ';':
+    case '-':
+    case '<':
+    case '>':
+    case '[':
+    case ']':
+    case '(':
+    case ')':
+    case '{':
+    case '}':
+    case '=':
+    case '/':
+    case '+':
+    case '%':
+    case '&':
+    case '^':
+    case '*':
+    case '\'':
+    case '"':
+    case '~':
+        return true;
+    default:
+        return false;
+    }
+}
 
+bool LatexEditor::isSpace(QChar c) const
+{
+    return c == QLatin1Char(' ')
+        || c == QChar::Nbsp
+        || c == QChar::LineSeparator
+        || c == QLatin1Char('\t')
+        ;
+}

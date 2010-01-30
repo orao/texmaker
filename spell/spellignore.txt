@@ -54,6 +54,7 @@ beginfig
 begingraph
 begingroup
 beveled
+block
 bluepart
 bmargin
 book
@@ -171,6 +172,7 @@ endgroup
 enumerate
 enumerate
 epsilon
+eqnarray
 equation
 etex
 evenly
@@ -208,6 +210,7 @@ flushright
 fontenc
 fontsize
 footmisc
+footnotesize
 format
 forsuffixes
 frame
@@ -244,6 +247,7 @@ hatchsep
 hatchwidth
 hex
 hide
+huge
 hyperref
 identity
 image
@@ -343,6 +347,7 @@ next
 next
 node
 normaldeviate
+normalsize
 not
 notitlepage
 notitlepage
@@ -367,6 +372,7 @@ otick
 OUT
 pair
 pair
+palatino
 path
 path
 pausing
@@ -451,6 +457,7 @@ sind
 size
 slanted
 Sleq
+small
 Smul
 Sneq
 special
@@ -471,8 +478,10 @@ substring
 summary
 swapaxes
 symbol
+T1
 tabbing
 table
+tabls
 tabular
 tabular
 tabularx
@@ -490,6 +499,8 @@ tickstyle
 tikz
 tikzpicture
 time
+times
+tiny
 titlepage
 titlepage
 titlepage

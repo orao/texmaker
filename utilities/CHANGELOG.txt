@@ -1,3 +1,12 @@
+version 1.9.2 -> 1.9.9 :
+----------------------
+- while inserting a latex structure (via the code completion or a texmaker command), the fields of the structure are marked with a special character ("•") and users can directly jump to the next field with the "Tab" key.
+- verbatim support has been added in the syntax highlighting.
+- shortcuts has been added for the "next/previous latex error" commands.
+- "escape" shortcut is now udes to close the "find" panel.
+- a new option has been added for the user tags : "@" will be replaced by "•" fields (the first "•" field will be replaced by the selected text)
+- shortcuts can now be changed by pressing directly the key sequence.
+- the blocks of a "beamer" document are now included in the "structure view".
 version 1.9.1 -> 1.9.2 :
 ------------------------
 - A "favorites symbols" panel has been added (just right-click on a symbol to add it to the favorites)

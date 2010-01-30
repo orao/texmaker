@@ -54,6 +54,12 @@
 #include <QFrame>
 #include <QFontMetrics>
 
+#ifdef Q_WS_MACX
+#if (QT_VERSION >= 0x0406)
+#include <QProcessEnvironment>
+#endif
+#endif
+
 #include "texmaker.h"
 #include "texmakerapp.h"
 #include "latexeditorview.h"
@@ -832,6 +838,11 @@ Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_C);
 Act->setData("\\textsc{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex14Menu->addAction(Act);
+Act = new QAction("\\textsf - Sans Serif  [selection]", this);
+Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_A);
+Act->setData("\\textsf{/}/8/0");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+latex14Menu->addAction(Act);
 Act = new QAction("\\emph - Emphasis  [selection]", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_E);
 Act->setData("\\emph{/}/6/0");
@@ -1453,6 +1464,7 @@ QList<QAction *> listaction;
 if (shortcuts.isEmpty())
 	{
 	actionstext.clear();
+	listaction << latex1Menu->actions();
 	listaction << latex11Menu->actions();
 	listaction << latex12Menu->actions();
 	listaction << latex13Menu->actions();
@@ -1617,9 +1629,13 @@ logToolBar->addAction(Act);
 
 Act = new QAction(QIcon(":/images/errornext.png"),tr("Next LaTeX Error"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(NextError()));
+Act->setShortcut(Qt::ALT+Qt::Key_Down);
+Act->setToolTip("Alt+Down");
 logToolBar->addAction(Act);
 
 Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
+Act->setShortcut(Qt::ALT+Qt::Key_Up);
+Act->setToolTip("Alt+Up");
 connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
 logToolBar->addAction(Act);
 
@@ -1755,6 +1771,7 @@ filenames.insert( edit, f );
 edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
+connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
 
 if (wordwrap) {edit->editor->setWordWrapMode(QTextOption::WordWrap);}
 else {edit->editor->setWordWrapMode(QTextOption::NoWrap);}
@@ -1811,6 +1828,7 @@ filenames.insert( edit, "untitled" );
 edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
+connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
 
 UpdateCaption();
 NewDocumentStatus(false);
@@ -2228,6 +2246,13 @@ else
 	}
 }
 
+void Texmaker::editTipTab()
+{
+if ( !currentEditorView() )	return;
+OutputTextEdit->clear();
+OutputTextEdit->insertLine("Use the Tab key to reach the next "+QString(0x2022)+" field");
+}
+
 /////////////// CONFIG ////////////////////
 void Texmaker::ReadSettings()
 {
@@ -2325,12 +2350,12 @@ bibtex_command=config->value("Tools/Bibtex","bibtex %").toString();
 pdflatex_command=config->value("Tools/Pdflatex","pdflatex -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","dvipdfm %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode ").toString();
-viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe\" %.dvi").toString();
+viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.8/miktex/bin/yap.exe\" %.dvi").toString();
 //C:/texmf/miktex/bin/yap.exe
 //\"C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi
 viewps_command=config->value("Tools/Ps","\"C:/Program Files/Ghostgum/gsview/gsview32.exe\" %.ps").toString();
 viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 9.0/Reader/AcroRd32.exe\" %.pdf").toString();
-ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs8.63/bin/gswin32c.exe\"").toString();
+ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs8.64/bin/gswin32c.exe\"").toString();
 asymptote_command=config->value("Tools/Asymptote","\"C:/Asymptote/asy.exe\" %.asy").toString();
 if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
 #endif
@@ -2791,12 +2816,30 @@ QTreeWidgetItem *toplabel = new QTreeWidgetItem(top);
 toplabel->setText(0,"LABELS");
 structlist.append(QString::number(0));
 structitem.append("LABELS");
+QTreeWidgetItem *blocklabel = new QTreeWidgetItem(top);
+blocklabel->setText(0,"BLOCKS");
+structlist.append(QString::number(0));
+structitem.append("BLOCKS");
 QString s;
 QTextBlock p = currentEditorView()->editor->document()->begin();
 int i = 0;
 while (p.isValid())
 	{
 	int tagStart, tagEnd;
+	//// block ////
+	tagStart=tagEnd=0;
+	s=p.text();
+	tagStart=s.indexOf(QRegExp("\\\\begin\\{block\\}\\*?[\\{\\[]"), tagEnd);
+	if (tagStart!=-1)
+		{
+		structlist.append(QString::number(i));
+		tagStart=s.indexOf("begin{block}", tagEnd);
+		s=s.mid(tagStart+12,s.length());
+		s=s+" (line "+QString::number(i+1)+")";
+		structitem.append(s);
+		Child = new QTreeWidgetItem(blocklabel);
+		Child->setText(0,s);
+		};
 	//// label ////
 	tagStart=tagEnd=0;
 	s=p.text();
@@ -2815,8 +2858,7 @@ while (p.isValid())
 			Child = new QTreeWidgetItem(toplabel);
 			Child->setText(0,s);
 			}
-		};
-	
+		};	
 	//// include ////
 	tagStart=tagEnd=0;
 	s=p.text();
@@ -3011,15 +3053,27 @@ if ((item) && (!structlist.isEmpty()))
 void Texmaker::InsertTag(QString Entity, int dx, int dy)
 {
 if ( !currentEditorView() )	return;
+OutputTextEdit->clear();
 QTextCursor cur=currentEditorView()->editor->textCursor();
 int pos=cur.position();
+Entity.replace("{}","{"+QString(0x2022)+"}");
+Entity.replace("[]","["+QString(0x2022)+"]");
+Entity.replace("\n\n","\n"+QString(0x2022)+"\n");
 currentEditorView()->editor->insertPlainText(Entity);
 cur.setPosition(pos,QTextCursor::MoveAnchor);
-if (dy>0) cur.movePosition(QTextCursor::Down,QTextCursor::MoveAnchor,dy);
-if (dx>0) cur.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,dx);
-currentEditorView()->editor->setTextCursor(cur);
+if (Entity.contains(QString(0x2022))) 
+    {
+    currentEditorView()->editor->setTextCursor(cur);
+    currentEditorView()->editor->search(QString(0x2022) ,true,true,true,true);
+    OutputTextEdit->insertLine("Use the Tab key to reach the next "+QString(0x2022)+" field");
+    }
+else
+    {
+    if (dy>0) cur.movePosition(QTextCursor::Down,QTextCursor::MoveAnchor,dy);
+    if (dx>0) cur.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,dx);
+    currentEditorView()->editor->setTextCursor(cur);
+    }
 currentEditorView()->editor->setFocus();
-OutputTextEdit->clear();
 OutputTableWidget->hide();
 logpresent=false;
 }
@@ -3029,12 +3083,15 @@ void Texmaker::InsertSymbol(QTableWidgetItem *item)
 QString code_symbol;
 QRegExp rxnumber(";([0-9]+)");
 int number=-1;
+int dx;
 if (item)
 	{
 	if ( rxnumber.indexIn(item->text()) != -1) number=rxnumber.cap(1).toInt();
 	if ((number>-1) && (number<412)) symbolScore[number]=symbolScore[number]+1;
 	code_symbol=item->text().remove(rxnumber);
-	InsertTag(code_symbol,code_symbol.length(),0);
+	dx=code_symbol.indexOf("{}",0);
+	if (dx>-1) InsertTag(code_symbol,dx+1,0);
+	else InsertTag(code_symbol,code_symbol.length(),0);
 	SetMostUsedSymbols();
 	}
 }
@@ -3098,9 +3155,9 @@ if (action)
 	else
 		{
 		currentEditorView()->editor->cut();
-		InsertTag(tagList.at(0),tagList.at(2).toInt(&ok, 10),tagList.at(3).toInt(&ok, 10));
+		InsertTag(tagList.at(0)+tagList.at(1),tagList.at(2).toInt(&ok, 10),tagList.at(3).toInt(&ok, 10));
 		currentEditorView()->editor->paste();
-		InsertTag(tagList.at(1),0,0);
+//		InsertTag(tagList.at(1),0,0);
 		}
 	}
 }
@@ -3113,14 +3170,14 @@ if ( !currentEditorView() )	return;
 tagList= text.split("/");
 if (!currentEditorView()->editor->textCursor().hasSelection())
 	{
-	InsertTag(tagList.at(0)+tagList.at(1),tagList.at(2).toInt(&ok, 10),tagList.at(3).toInt(&ok, 10));
+	InsertTag(tagList.at(0)+QString(0x2022)+tagList.at(1),tagList.at(2).toInt(&ok, 10),tagList.at(3).toInt(&ok, 10));
 	}
 else
 	{
 	currentEditorView()->editor->cut();
-	InsertTag(tagList.at(0),tagList.at(2).toInt(&ok, 10),tagList.at(3).toInt(&ok, 10));
+	InsertTag(tagList.at(0)+QString(0x2022)+tagList.at(1),tagList.at(2).toInt(&ok, 10),tagList.at(3).toInt(&ok, 10));
 	currentEditorView()->editor->paste();
-	InsertTag(tagList.at(1),0,0);
+//	InsertTag(tagList.at(1),0,0);
 	}
 }
 
@@ -3748,19 +3805,46 @@ if ( !currentEditorView() ) return;
 currentEditorView()->editor->removeOptAlt();
 }
 
+void Texmaker::InsertUserTag(QString Entity)
+{
+if ( !currentEditorView() )	return;
+QTextCursor cur=currentEditorView()->editor->textCursor();
+bool selection=cur.hasSelection();
+if (selection) currentEditorView()->editor->cut();
+int pos=cur.position();
+Entity.replace("@",QString(0x2022));
+currentEditorView()->editor->insertPlainText(Entity);
+cur.setPosition(pos,QTextCursor::MoveAnchor);
+int dx=Entity.length();
+if (Entity.contains(QString(0x2022))) 
+    {
+    currentEditorView()->editor->setTextCursor(cur);
+    currentEditorView()->editor->search(QString(0x2022) ,true,true,true,true);
+    if (selection) currentEditorView()->editor->paste();
+    }
+else
+    {
+    if (dx>0) cur.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,dx);
+    currentEditorView()->editor->setTextCursor(cur);
+    }
+currentEditorView()->editor->setFocus();
+OutputTextEdit->clear();
+OutputTableWidget->hide();
+logpresent=false;
+}
+
 void Texmaker::InsertUserTag1()
 {
 if (UserMenuTag[0].left(1)=="%")
 	{
 	QString t=UserMenuTag[0];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[0].contains(QRegExp("\n"))) InsertTag(UserMenuTag[0]+" ",UserMenuTag[0].length()+1,0);
-	else InsertTag(UserMenuTag[0],0,0);
+	InsertUserTag(UserMenuTag[0]);
 	}
 }
 
@@ -3770,13 +3854,12 @@ if (UserMenuTag[1].left(1)=="%")
 	{
 	QString t=UserMenuTag[1];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[1].contains(QRegExp("\n"))) InsertTag(UserMenuTag[1]+" ",UserMenuTag[1].length()+1,0);
-	else InsertTag(UserMenuTag[1],0,0);
+	InsertUserTag(UserMenuTag[1]);
 	}
 }
 
@@ -3786,13 +3869,12 @@ if (UserMenuTag[2].left(1)=="%")
 	{
 	QString t=UserMenuTag[2];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[2].contains(QRegExp("\n"))) InsertTag(UserMenuTag[2]+" ",UserMenuTag[2].length()+1,0);
-	else InsertTag(UserMenuTag[2],0,0);
+	InsertUserTag(UserMenuTag[2]);
 	}
 }
 
@@ -3802,13 +3884,12 @@ if (UserMenuTag[3].left(1)=="%")
 	{
 	QString t=UserMenuTag[3];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[3].contains(QRegExp("\n"))) InsertTag(UserMenuTag[3]+" ",UserMenuTag[3].length()+1,0);
-	else InsertTag(UserMenuTag[3],0,0);
+	InsertUserTag(UserMenuTag[3]);
 	}
 }
 
@@ -3818,13 +3899,12 @@ if (UserMenuTag[4].left(1)=="%")
 	{
 	QString t=UserMenuTag[4];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[4].contains(QRegExp("\n"))) InsertTag(UserMenuTag[4]+" ",UserMenuTag[4].length()+1,0);
-	else InsertTag(UserMenuTag[4],0,0);
+	InsertUserTag(UserMenuTag[4]);
 	}
 }
 
@@ -3834,13 +3914,12 @@ if (UserMenuTag[5].left(1)=="%")
 	{
 	QString t=UserMenuTag[5];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[5].contains(QRegExp("\n"))) InsertTag(UserMenuTag[5]+" ",UserMenuTag[5].length()+1,0);
-	else InsertTag(UserMenuTag[5],0,0);
+	InsertUserTag(UserMenuTag[5]);
 	}
 }
 
@@ -3850,13 +3929,12 @@ if (UserMenuTag[6].left(1)=="%")
 	{
 	QString t=UserMenuTag[6];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[6].contains(QRegExp("\n"))) InsertTag(UserMenuTag[6]+" ",UserMenuTag[6].length()+1,0);
-	else InsertTag(UserMenuTag[6],0,0);
+	InsertUserTag(UserMenuTag[6]);
 	}
 }
 
@@ -3866,13 +3944,12 @@ if (UserMenuTag[7].left(1)=="%")
 	{
 	QString t=UserMenuTag[7];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[7].contains(QRegExp("\n"))) InsertTag(UserMenuTag[7]+" ",UserMenuTag[7].length()+1,0);
-	else InsertTag(UserMenuTag[7],0,0);
+	InsertUserTag(UserMenuTag[7]);
 	}
 }
 
@@ -3882,13 +3959,12 @@ if (UserMenuTag[8].left(1)=="%")
 	{
 	QString t=UserMenuTag[8];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[8].contains(QRegExp("\n"))) InsertTag(UserMenuTag[8]+" ",UserMenuTag[8].length()+1,0);
-	else InsertTag(UserMenuTag[8],0,0);
+	InsertUserTag(UserMenuTag[8]);
 	}
 }
 
@@ -3898,13 +3974,12 @@ if (UserMenuTag[9].left(1)=="%")
 	{
 	QString t=UserMenuTag[9];
 	t=t.remove(0,1);
-	QString s="\\begin{"+t+"}\n\n\\end{"+t+"}\n";
-	InsertTag(s,0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
 	}
 else
 	{
-	if (!UserMenuTag[9].contains(QRegExp("\n"))) InsertTag(UserMenuTag[9]+" ",UserMenuTag[9].length()+1,0);
-	else InsertTag(UserMenuTag[9],0,0);
+	InsertUserTag(UserMenuTag[9]);
 	}
 }
 
@@ -4049,52 +4124,52 @@ void Texmaker::SizeCommand(const QString& text)
 if ( !currentEditorView() ) return;
 if (text=="tiny")
 	{
-	InsertWithSelectionFromString("\\begin{tiny}/\\end{tiny}/12/0");
+	InsertWithSelectionFromString("\\begin{tiny}\n/\n\\end{tiny}/12/0");
 	return;
 	}
 if (text=="scriptsize")
 	{
-	InsertWithSelectionFromString("\\begin{scriptsize}/\\end{scriptsize}/18/0");
+	InsertWithSelectionFromString("\\begin{scriptsize}\n/\n\\end{scriptsize}/18/0");
 	return;
 	}
 if (text=="footnotesize")
 	{
-	InsertWithSelectionFromString("\\begin{footnotesize}/\\end{footnotesize}/20/0");
+	InsertWithSelectionFromString("\\begin{footnotesize}\n/\n\\end{footnotesize}/20/0");
 	return;
 	}
 if (text=="small")
 	{
-	InsertWithSelectionFromString("\\begin{small}/\\end{small}/13/0");
+	InsertWithSelectionFromString("\\begin{small}\n/\n\\end{small}/13/0");
 	return;
 	}
 if (text=="normalsize")
 	{
-	InsertWithSelectionFromString("\\begin{normalsize}/\\end{normalsize}/18/0");
+	InsertWithSelectionFromString("\\begin{normalsize}\n/\n\\end{normalsize}/18/0");
 	return;
 	}
 if (text=="large")
 	{
-	InsertWithSelectionFromString("\\begin{large}/\\end{large}/13/0");
+	InsertWithSelectionFromString("\\begin{large}\n/\n\\end{large}/13/0");
 	return;
 	}
 if (text=="Large")
 	{
-	InsertWithSelectionFromString("\\begin{Large}/\\end{Large}/13/0");
+	InsertWithSelectionFromString("\\begin{Large}\n/\n\\end{Large}/13/0");
 	return;
 	}
 if (text=="LARGE")
 	{
-	InsertWithSelectionFromString("\\begin{LARGE}/\\end{LARGE}/13/0");
+	InsertWithSelectionFromString("\\begin{LARGE}\n/\n\\end{LARGE}/13/0");
 	return;
 	}
 if (text=="huge")
 	{
-	InsertWithSelectionFromString("\\begin{huge}/\\end{huge}/12/0");
+	InsertWithSelectionFromString("\\begin{huge}\n/\n\\end{huge}/12/0");
 	return;
 	}
 if (text=="Huge")
 	{
-	InsertWithSelectionFromString("\\begin{Huge}/\\end{Huge}/12/0");
+	InsertWithSelectionFromString("\\begin{Huge}\n/\n\\end{Huge}/12/0");
 	return;
 	}
 }
@@ -4119,9 +4194,20 @@ commandline.replace("%","\""+basename+"\"");
 //commandline.replace("%",basename);
 int currentline=currentEditorView()->editor->linefromblock(currentEditorView()->editor->textCursor().block());
 commandline.replace("@",QString::number(currentline));
+
+
 proc = new QProcess( this );
 proc->setWorkingDirectory(fi.absolutePath());
 
+//****
+#ifdef Q_WS_MACX
+#if (QT_VERSION >= 0x0406)
+QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+proc->setProcessEnvironment(env);
+#endif
+#endif
+//****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
 //connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
 connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndProcess(int)));
@@ -4749,7 +4835,7 @@ if (Start!=-1)
 	{
 	Start=Start+2;
 	s=s.mid(Start,s.length());
-	End=s.indexOf(QRegExp("[ a-zA-Z.\\-]"),0);
+	
 	if (End!=-1)
 	line=s.mid(0,End);
 	else
@@ -5258,7 +5344,11 @@ for( its = shortcuts.begin(); its != shortcuts.end(); ++its )
 			newItem->setData(Qt::UserRole, its.key());
 			confDlg->ui.shorttableWidget->setRowCount(row+1);
 			confDlg->ui.shorttableWidget->setItem(row, 0, newItem);
-			confDlg->ui.shorttableWidget->setItem(row, 1, new QTableWidgetItem(its.value()));
+			QTableWidgetItem *newItembis = new QTableWidgetItem(its.value());
+			//QTableWidgetItem *newItem = new QTableWidgetItem(*actionstext.find(its.key()));
+			newItembis->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+			newItembis->setData(Qt::UserRole,QString("key"));
+			confDlg->ui.shorttableWidget->setItem(row, 1,newItembis);
 			row++;
 			}
 		}
@@ -5561,6 +5651,7 @@ void Texmaker::ModifyShortcuts()
 KeysMap::Iterator its;
 QString d,f,s;
 QList<QAction *> listaction;
+listaction << latex1Menu->actions();
 listaction << latex11Menu->actions();
 listaction << latex12Menu->actions();
 listaction << latex13Menu->actions();
@@ -5602,6 +5693,7 @@ while ( iterator.hasNext() )
 
 void Texmaker::updateCompleter()
 {
+QTextCodec *codec = QTextCodec::codecForName("UTF-8");
 QAbstractItemModel *model;
 QFile tagsfile(":/completion/completion.txt");
 
@@ -5618,17 +5710,25 @@ if (!tagsfile.open(QFile::ReadOnly)) model=new QStringListModel(completer);
 QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 QStringList words;
 QString line;
-while (!tagsfile.atEnd()) 
+QTextStream tscompleter(&tagsfile);
+tscompleter.setCodec(codec);
+while (!tscompleter.atEnd()) 
 	{
-	line = tagsfile.readLine();
-	if (!line.isEmpty()) words.append(line.trimmed());
+	line = tscompleter.readLine();
+	if (!line.isEmpty()) words.append(line.remove("\n"));
 	}
-if (!userTagsfile.open(QFile::ReadOnly)) model=new QStringListModel(completer);//add by S. R. Alavizadeh
-while (!userTagsfile.atEnd()) 
-	{
-	line = userTagsfile.readLine();
-	if (!line.isEmpty()) words.append(line.trimmed());
-	}
+	
+
+if (userTagsfile.open(QFile::ReadOnly))
+    {
+    QTextStream usertscompleter(&userTagsfile);
+    usertscompleter.setCodec(codec);
+    while (!usertscompleter.atEnd()) 
+	    {
+	    line = usertscompleter.readLine();
+	    if (!line.isEmpty()) words.append(line.remove("\n"));
+	    }
+    }
 for (int i=0; i<labelitem.count();++i) 
 	{
 	words.append("\\ref{"+labelitem.at(i)+"}");

@@ -35,6 +35,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION110">2.10 Insertion d'images</a></li>
 	<li><a href="#SECTION111">2.11 Références croisées et notes</a></li>
 	<li><a href="#SECTION112">2.12 Insertion de formules mathématiques</a></li>
+	<li><a href="#SECTION113">2.13 Utilisation des marques "•"</a></li>
 	</ul>
 </ul>
 <ul>
@@ -147,6 +148,11 @@ La barre d'outils mathématiques permet aussi d'insérer d'un seul clic les form
 <p>Le menu "Math" permet aussi de définir le style du texte en mode mathématique (accents, styles de caractères,espacement)<br>
 Pour les matrices, un assistant basé sur le même principe que celui pour les tableaux est disponible dans le menu "Assistants". Il permet en plus de fixer l'environnement (array, matrix, pmatrix...). Les cellules peuvent être complétées directement dans l'assistant.</p>
 <p><IMG src="doc13.png" border="1"></p>
+<h2><a name="SECTION113">2.13 Utilisation des marques "•"</a></h2>
+<p>
+Les marques "•", automatiquement insérées par certaines commandes de Texmaker, permettent d'atteindre directement le prochain champ dans la structure qui vient d'être insérée en utilisant la touche <b>"Tab"</b> ("Shift+Tab" pour aller en arrière).<br>
+Note : l'insertion d'une tabulation avec la touche "Tab" est désactivée si la ligne contient une marque "•".
+</p>
 <h1><a name="SECTION2">3. Compiler son document</a></h1>
 <h2><a name="SECTION22">3.1 Compiler son document</a></h2>
 <p>Le plus rapide pour compiler un document est d'utiliser la commande "Compilation rapide" (raccourci-clavier : F1). Cette commande, dont le comportement est à fixer dans la boîte de dialogue de configuration de <b>Texmaker</b> permet d'enchaîner plusieurs commandes à la suite afin de passer directement du document LaTeX à la visualisation du fichier dvi, postscript ou pdf.</p>
@@ -175,10 +181,15 @@ Il est conseillé alors de déclarer le document "racine" comme "document maîtr
 <p><IMG src="doc16.png" border="1"></p>
 <h2><a name="SECTION33">4.3 Balises et commandes personnelles</a></h2>
 <p><b>Texmaker</b> permet à l'utilisateur d'enregistrer dix extraits de code LaTeX accessibles par le menu "Utilisateur - Balises utilisateur" et par les raccourcis-claviers (Shift+F1 à Shift+F10). Pour définir ces extraits, il faut lancer la commande "Editer balises utilisateur" dans ce même menu.<br>
-Remarque : le fait d'entrer "%monenvironnement" dans le champ "code LaTeX" insérera le code suivant dans l'éditeur:<br>
+Remarques :
+<ul>
+<li>Le fait d'entrer "%monenvironnement" dans le champ "code LaTeX" insérera le code suivant dans l'éditeur:<br>
 \begin{monenvironnement}<br>
-\end{monenvironnement}</p>
-<p><IMG src="doc17.png" border="1"></p>
+•<br>
+\end{monenvironnement}<br>
+et le curseur se positionnera automatiquement sur le champ "•".<br><IMG src="doc17.png" border="1"></li>
+<li>Tous les caractères "@" utilisés dans le code de la balise seront automatiquement remplacés par des marques "•" dans l'éditeur et le curseur se positionnera automatiquement sur le premier champ "•" (si du texte a été sélectionné avant dans l'éditeur, le premier champ "•" sera automatiquement remplacé par le texte sélectionné).</li>
+</ul>
 <p>Il est aussi possible de définir des commandes personnelles via le menu "Utilisateur - Commandes utilisateurs". Un % représente le nom du fichier à traiter sans extension. Les commandes, une fois définies, peuvent-être lancées par les raccourcis-claviers Alt+Shift+F1...Alt+Shift+F5 . Elles peuvent être aussi lancées à partir de la barre d'outils (il suffit de sélectionner cette commande avant de cliquer sur le bouton "Exécuter").</p>
 <h2><a name="SECTION34">4.4 Support Pstricks/Metapost/Tikz/Asymptote</a></h2>
 <p>Quelques une des principales commandes Pstricks/Metapost/Tikz/Asymptote peuvent être insérées directement dans le code en cliquant sur les boutons "PS", "MP", "TI" et "AS" dans le panneau "Structure".</p>

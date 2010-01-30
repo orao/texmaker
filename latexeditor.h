@@ -60,6 +60,7 @@ QStringList alwaysignoredwordList;
 void setSpellChecker(Hunspell * checker);
 void activateInlineSpell(bool enable);
 Hunspell * pChecker;
+void insertNewLine();
 
 private:
 QString encoding;
@@ -69,6 +70,8 @@ ParenMatcher *matcher;
 QString spell_dic, spell_encoding;
 QStringList ignoredwordList, hardignoredwordList;
 bool inlinecheckSpelling;
+bool isWordSeparator(QChar c) const;
+bool isSpace(QChar c) const;
 
 private slots:
 void correctWord();
@@ -83,6 +86,7 @@ void keyPressEvent ( QKeyEvent * e );
 void focusInEvent(QFocusEvent *e);
 signals:
 void spellme();
+void tooltiptab();
 };
 
 #endif

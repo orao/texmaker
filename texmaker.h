@@ -187,6 +187,7 @@ void editUncomment();
 void editIndent();
 void editUnindent();
 void editSpell();
+void editTipTab();
 
 void ReadSettings();
 void SaveSettings();
@@ -239,6 +240,7 @@ void InsertBib12();
 void InsertBib13();
 void CleanBib();
 
+void InsertUserTag(QString Entity);
 void InsertUserTag1();
 void InsertUserTag2();
 void InsertUserTag3();

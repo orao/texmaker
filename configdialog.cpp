@@ -16,6 +16,7 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QDir>
+#include <QDebug>
 
 ConfigDialog::ConfigDialog(QWidget* parent): QDialog( parent)
 {
@@ -64,6 +65,7 @@ connect( ui.pushButtonMetapost, SIGNAL(clicked()), this, SLOT(browseMetapost()))
 connect( ui.pushButtonGhostscript, SIGNAL(clicked()), this, SLOT(browseGhostscript()));
 connect( ui.pushButtonAsymptote, SIGNAL(clicked()), this, SLOT(browseAsymptote()));
 
+connect(ui.shorttableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(configureShortCut(QTableWidgetItem*)));
 
 createIcons();
 ui.contentsWidget->setCurrentRow(0);
@@ -302,4 +304,27 @@ if ( !location.isEmpty() )
 	}
 }
 
-
+void ConfigDialog::configureShortCut(QTableWidgetItem *item)
+{
+QString shortcut,data,newshortcut;
+if (item)
+	{
+	shortcut=item->text();
+	data=item->data(Qt::UserRole).toString();
+	if (data=="key") 
+	    {
+	    keydlg = new KeySequenceDialog(this);
+	    keydlg->setKeySequence(QKeySequence(shortcut));
+	    if ( keydlg->exec() )
+		{
+		newshortcut=keydlg->ui.lineEdit->text();
+		if (!newshortcut.isEmpty()) 
+		    {
+		    item->setText(newshortcut);
+		    item->setData(Qt::UserRole,QString("key"));
+		    }
+		}
+	    delete (keydlg);
+	    }
+	}
+}

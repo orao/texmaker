@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 1.9.2
+Version: 1.9.9
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -16,15 +16,15 @@ documents with LaTeX, in just one application.
 %setup 
 
 %build
-export QTDIR=/usr/lib/qt4
+export QTDIR=/usr/local/qt4static
 PATH=$QTDIR/bin:$PATH
 LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export QTDIR PATH LD_LIBRARY_PATH
 qmake -unix texmaker.pro
-make
+make INSTALL_ROOT=$RPM_BUILD_ROOT
 
 %install
-make install
+make INSTALL_ROOT=$RPM_BUILD_ROOT install
 
 %files 
 /usr/bin/texmaker
@@ -93,6 +93,7 @@ make install
 /usr/share/texmaker/texmaker_ru.qm
 /usr/share/texmaker/texmaker_zh_CN.qm
 /usr/share/texmaker/texmaker_zh_TW.qm
+/usr/share/texmaker/texmaker_cs.qm
 /usr/share/texmaker/de_DE.aff
 /usr/share/texmaker/de_DE.dic
 /usr/share/texmaker/en_GB.aff
