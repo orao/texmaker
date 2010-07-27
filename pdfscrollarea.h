@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2010 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,26 +9,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TABDIALOG_H
-#define TABDIALOG_H
+#ifndef PDFSCROLLAREA_H
+#define PDFSCROLLAREA_H
 
-#include "ui_tabdialog.h"
+#include <QScrollArea>
 
+class PdfScrollArea : public QScrollArea
+{
+Q_OBJECT
 
-class TabDialog : public QDialog  {
-   Q_OBJECT
 public:
-	TabDialog(QWidget *parent=0, const char *name=0);
-	~TabDialog();
-	Ui::TabDialog ui;
+    PdfScrollArea( QWidget *parent);
+    ~PdfScrollArea();
 
-protected slots:
-  void NewRows(int num);
-  void NewColumns(int num);
-  void HzSepStatus(bool enabled);
+signals:
+  void pageup();
+  void pagedown();
+protected:
+  void wheelEvent( QWheelEvent* );
+public slots:
+  void scrolltoMin();
+  void scrolltoMax();
 };
 
-
 #endif
-
 

@@ -49,6 +49,7 @@ connect( ui.pushButtonColorKeyword, SIGNAL(clicked()), this, SLOT(configureColor
 
 //pagequick
 connect(ui.radioButton6, SIGNAL(toggled(bool)),ui.lineEditUserquick, SLOT(setEnabled(bool)));
+connect(ui.radioButton6, SIGNAL(toggled(bool)),ui.pushButtonWizard, SLOT(setEnabled(bool)));
 
 //pagetools
 connect( ui.pushButtonLatex, SIGNAL(clicked()), this, SLOT(browseLatex()));
@@ -64,6 +65,8 @@ connect( ui.pushButtonPdfviewer, SIGNAL(clicked()), this, SLOT(browsePdfviewer()
 connect( ui.pushButtonMetapost, SIGNAL(clicked()), this, SLOT(browseMetapost()));
 connect( ui.pushButtonGhostscript, SIGNAL(clicked()), this, SLOT(browseGhostscript()));
 connect( ui.pushButtonAsymptote, SIGNAL(clicked()), this, SLOT(browseAsymptote()));
+
+connect( ui.pushButtonWizard, SIGNAL(clicked()), this, SLOT(userQuickWizard()));
 
 connect(ui.shorttableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(configureShortCut(QTableWidgetItem*)));
 
@@ -327,4 +330,55 @@ if (item)
 	    delete (keydlg);
 	    }
 	}
+}
+
+void ConfigDialog::userQuickWizard()
+{
+QStringList usualNames, usualCommands;
+
+usualNames.append(tr("LaTeX"));
+usualCommands.append(ui.lineEditLatex->text());
+
+usualNames.append(tr("PdfLaTeX"));
+usualCommands.append(ui.lineEditPdflatex->text());
+
+usualNames.append(tr("dvips"));
+usualCommands.append(ui.lineEditDvips->text());
+
+usualNames.append(tr("Dvi Viewer"));
+usualCommands.append(ui.lineEditDviviewer->text());
+
+usualNames.append(tr("PS Viewer"));
+usualCommands.append(ui.lineEditPsviewer->text());
+
+usualNames.append(tr("Dvipdfm"));
+usualCommands.append(ui.lineEditDvipdfm->text());
+
+usualNames.append(tr("ps2pdf"));
+usualCommands.append(ui.lineEditPs2pdf->text());
+
+usualNames.append(tr("Bibtex"));
+usualCommands.append(ui.lineEditBibtex->text());
+
+usualNames.append(tr("Makeindex"));
+usualCommands.append(ui.lineEditMakeindex->text());
+
+usualNames.append(tr("Pdf Viewer"));
+usualCommands.append(ui.lineEditPdfviewer->text());
+
+usualNames.append(tr("metapost"));
+usualCommands.append(ui.lineEditMetapost->text());
+
+usualNames.append(tr("ghostscript"));
+usualCommands.append(ui.lineEditGhostscript->text());
+
+usualNames.append(tr("Asymptote"));
+usualCommands.append(ui.lineEditAsymptote->text());
+
+userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
+if ( userquickdlg->exec() )
+   {
+   ui.lineEditUserquick->setText(userquickdlg->userQuickCommand);
+   }
+delete (userquickdlg);
 }

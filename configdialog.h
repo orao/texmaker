@@ -17,6 +17,7 @@
 #include <QListWidgetItem>
 #include <QTableWidgetItem>
 #include "keysequencedialog.h"
+#include "userquickdialog.h"
 
 class ConfigDialog : public QDialog
 {
@@ -50,8 +51,10 @@ void browseMetapost();
 void browseGhostscript();
 void browseAsymptote();
 void configureShortCut(QTableWidgetItem *item);
+void userQuickWizard();
 private :
 KeySequenceDialog *keydlg;
+UserQuickDialog *userquickdlg;
 };
 
 #endif

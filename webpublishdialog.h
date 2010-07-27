@@ -20,6 +20,7 @@
 #include <QPointer>
 #include <QTextCodec>
 #include "ui_webpublishdialog.h"
+#include "browser.h"
 
 
 typedef  QMap<QString, QString> LinkMap;
@@ -66,6 +67,7 @@ int navigation, compil, maxwidth, userwidth, startindex, tocdepth, nb_pages, nb_
 bool noindex, procfinished, ttwperr, errprocess;
 QString filename;
 QPointer<QProcess> proc, bboxproc, imgproc;
+QPointer<Browser> browserWindow;
 int nbpagesps(QString psfile);
 QString header();
 QString footer();

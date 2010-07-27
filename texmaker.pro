@@ -2,9 +2,10 @@ TEMPLATE	= app
 LANGUAGE	= C++
 TARGET	 = texmaker
 QT += network \
-      xml
+      xml \
+      webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=1.9.9
+TEXMAKERVERSION=2.0
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 ###############################
 HEADERS	+= texmaker.h \
@@ -42,6 +43,11 @@ HEADERS	+= texmaker.h \
 	stylehelper.h \
 	styleanimator.h \
 	keysequencedialog.h \
+	browser.h \
+	pdfviewer.h \
+	pdfdocumentwidget.h \
+	pdfscrollarea.h \
+	userquickdialog.h \
 	hunspell/affentry.hxx \
 	hunspell/affixmgr.hxx \
 	hunspell/atypes.hxx \
@@ -100,6 +106,11 @@ SOURCES	+= main.cpp \
 	stylehelper.cpp \
 	styleanimator.cpp \
 	keysequencedialog.cpp \
+	browser.cpp \
+	pdfviewer.cpp \
+	pdfdocumentwidget.cpp \
+	pdfscrollarea.cpp \
+	userquickdialog.cpp \
 	hunspell/affentry.cxx \
 	hunspell/affixmgr.cxx \
 	hunspell/csutil.cxx \
@@ -135,7 +146,8 @@ FORMS   += findwidget.ui\
 	webpublishdialog.ui \
 	configdialog.ui \
 	spellerdialog.ui \
-	keysequencedialog.ui
+	keysequencedialog.ui \
+	userquickdialog.ui
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
 	texmaker_es.ts \
@@ -161,6 +173,9 @@ isEmpty( DESKTOPDIR ) {
 isEmpty( ICONDIR ) {
     ICONDIR=/usr/share/pixmaps
 }
+INCLUDEPATH  += /usr/include/poppler/qt4
+LIBS         += -L/usr/lib -lpoppler-qt4
+LIBS         += -L/usr/lib -lpoppler
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
 INSTALLS = target
@@ -214,6 +229,7 @@ utilities.files = doc/doc1.png \
 	utilities/texmaker64x64.png \
 	utilities/texmaker128x128.png \
 	utilities/texmaker.svg \
+	locale/qt_cs.qm \
 	locale/qt_de.qm \
 	locale/qt_es.qm \
 	locale/qt_fr.qm \
@@ -258,6 +274,9 @@ INSTALLS += icon
 ################################
 win32 {
 INCLUDEPATH += C:\MinGW\include
+INCLUDEPATH  += C:\poppler
+LIBS         += -LC:\poppler -lpoppler-qt4
+LIBS         += -LC:\poppler -lpoppler
 RC_FILE = win.rc
 #DEFINES += USB_VERSION
 SOURCES	+= singleapp/qtlockedfile_win.cpp
@@ -304,6 +323,7 @@ utilities.files =doc/doc1.png \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
+	locale/qt_cs.qm \
 	locale/qt_de.qm \
 	locale/qt_es.qm \
 	locale/qt_fr.qm \
@@ -339,10 +359,20 @@ others.path = texmakerwin32
 others.files = texmaker.ico \
 		C:\MinGW\bin\mingwm10.dll \
 		C:\MinGW\bin\libgcc_s_dw2-1.dll \
-		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtCore4.dll \
-		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtGui4.dll \
-		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtXml4.dll \
-		C:\Qt\qt-everywhere-opensource-src-4.6.0\bin\QtNetwork4.dll
+		C:\qt-everywhere-opensource-src-4.6.3\bin\QtCore4.dll \
+		C:\qt-everywhere-opensource-src-4.6.3\bin\QtGui4.dll \
+		C:\qt-everywhere-opensource-src-4.6.3\bin\QtXml4.dll \
+		C:\qt-everywhere-opensource-src-4.6.3\bin\QtNetwork4.dll \
+		C:\qt-everywhere-opensource-src-4.6.3\bin\QtWebKit4.dll \
+		C:\qt-everywhere-opensource-src-4.6.3\bin\QtXmlPatterns4.dll \
+		C:\qt-everywhere-opensource-src-4.6.3\bin\phonon4.dll \
+		C:\poppler\libfreetype-6.dll \
+		C:\poppler\libgcc_s_sjlj-1.dll \
+		C:\poppler\libjpeg-8.dll \
+		C:\poppler\libpng14-14.dll \
+		C:\poppler\libpoppler-6.dll \
+		C:\poppler\libstdc++-6.dll \
+		C:\poppler\zlib1.dll 
 INSTALLS += others
 }
 ###############################
@@ -350,6 +380,9 @@ macx {
 UI_DIR = .ui
 MOC_DIR = .moc
 OBJECTS_DIR = .obj
+INCLUDEPATH  += /usr/local/include/poppler/qt4
+LIBS         += -L/usr/local/lib -lpoppler-qt4
+LIBS         += -L/usr/local/lib -lpoppler
 ##universal tiger 32
 CONFIG += link_prl x86 ppc
 QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
@@ -403,6 +436,7 @@ utilities.files = utilities/qt_menu.nib \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
+	locale/qt_cs.qm \
 	locale/qt_de.qm \
 	locale/qt_es.qm \
 	locale/qt_fr.qm \

@@ -1,13 +1,15 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 1.9.9
+Version: 2.0
 Release: xm1
 License: GPL
 Group: Applications/Publishing
 Source: texmaker-%{version}.tar.bz2
 Packager: Pascal Brachet
 Url: http://www.xm1math.net/texmaker/
-#BuildRequires: qt4-devel
+#BuildRequires: libqt4-devel >= 4.6.1
+#BuildRequires: libpoppler-qt4-devel
+#BuildRequires: libpoppler-devel
 %description
 Texmaker is a program, that integrates many tools needed to develop 
 documents with LaTeX, in just one application.
@@ -75,6 +77,7 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/texmaker64x64.png
 /usr/share/texmaker/texmaker128x128.png
 /usr/share/texmaker/texmaker.svg
+/usr/share/texmaker/qt_cs.qm
 /usr/share/texmaker/qt_de.qm
 /usr/share/texmaker/qt_es.qm
 /usr/share/texmaker/qt_fr.qm

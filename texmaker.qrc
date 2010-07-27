@@ -1,5 +1,11 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+	<file>images/down.png</file>
+	<file>images/up.png</file>
+	<file>images/zoom-fit-width.png</file>
+	<file>images/zoom-fit-best.png</file>
+	<file>images/zoom-in.png</file>
+	<file>images/zoom-out.png</file>
 	<file>images/asymptote.png</file>
 	<file>images/tikz.png</file>
 	<file>images/leftright.png</file>
@@ -103,6 +109,7 @@
         <file>images/inputfield_disabled.png</file>
         <file>images/extension.png</file>
         <file>images/closebutton.png</file>
+        <file>images/previous.png</file>
         <file>symbols/img1.png</file>
         <file>symbols/img10.png</file>
         <file>symbols/img100.png</file>

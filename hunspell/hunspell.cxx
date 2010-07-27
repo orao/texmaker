@@ -22,15 +22,17 @@ using namespace std;
 #endif
 #endif
 
+#include <QDebug>
+
 Hunspell::Hunspell(const char * affpath, const char * dpath, const char * key)
 {
+
     encoding = NULL;
     csconv = NULL;
     utf8 = 0;
     complexprefixes = 0;
     affixpath = mystrdup(affpath);
     maxdic = 0;
-
     /* first set up the hash manager */
     pHMgr[0] = new HashMgr(dpath, affpath, key);
     if (pHMgr[0]) maxdic = 1;

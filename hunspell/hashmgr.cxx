@@ -27,10 +27,12 @@ using namespace std;
 #endif
 #endif
 
+#include <QDebug>
 // build a hash table from a munched word list
 
 HashMgr::HashMgr(const char * tpath, const char * apath, const char * key)
 {
+
   tablesize = 0;
   tableptr = NULL;
   flag_mode = FLAG_CHAR;
@@ -48,8 +50,11 @@ HashMgr::HashMgr(const char * tpath, const char * apath, const char * key)
   numaliasm = 0;
   aliasm = NULL;
   forbiddenword = FORBIDDENWORD; // forbidden word signing flag
+
   load_config(apath, key);
+
   int ec = load_tables(tpath, key);
+ 
   if (ec) {
     /* error condition - what should we do here */
     HUNSPELL_WARNING(stderr, "Hash Manager Error : %d\n",ec);
@@ -59,6 +64,7 @@ HashMgr::HashMgr(const char * tpath, const char * apath, const char * key)
     }
     tablesize = 0;
   }
+
 }
 
 
@@ -128,13 +134,17 @@ struct hentry * HashMgr::lookup(const char *word) const
 int HashMgr::add_word(const char * word, int wbl, int wcl, unsigned short * aff,
     int al, const char * desc, bool onlyupcase)
 {
+
     bool upcasehomonym = false;
     int descl = desc ? (aliasm ? sizeof(short) : strlen(desc) + 1) : 0;
     // variable-length hash record with word and optional fields
     struct hentry* hp = 
 	(struct hentry *) malloc (sizeof(struct hentry) + wbl + descl);
     if (!hp) return 1;
-    char * hpw = &(hp->word);
+ 
+//    char * hpw = &(hp->word); gcc 4.5 trouble
+    char * hpw = HENTRY_WORD(hp);
+
     strcpy(hpw, word);
     if (ignorechars != NULL) {
       if (utf8) {
@@ -370,7 +380,6 @@ int HashMgr::load_tables(const char * tpath, const char * key)
   char * dp2;
   unsigned short * flags;
   char * ts;
-
   // open dictionary file
   FileMgr * dict = new FileMgr(tpath, key);
   if (dict == NULL) return 1;
@@ -426,7 +435,7 @@ int HashMgr::load_tables(const char * tpath, const char * key)
 	}
 	dp++;
     }
-
+ 
     // tabulator is the old morphological field separator
     dp2 = strchr(ts, '\t');
     if (dp2 && (!dp || dp2 < dp)) {
@@ -470,9 +479,11 @@ int HashMgr::load_tables(const char * tpath, const char * key)
     int captype;
     int wbl = strlen(ts);
     int wcl = get_clen_and_captype(ts, wbl, &captype);
+
     // add the word and its index plus its capitalized form optionally
     if (add_word(ts,wbl,wcl,flags,al,dp, false) ||
 	add_hidden_capitalized_word(ts, wbl, wcl, flags, al, dp, captype)) {
+               
 	delete dict;
 	return 5;
     }

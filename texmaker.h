@@ -44,6 +44,8 @@
 #include "gotolinedialog.h"
 #include "replacedialog.h"
 #include "hunspell/hunspell.hxx"
+#include "browser.h"
+#include "pdfviewer.h"
 
 
 
@@ -114,7 +116,7 @@ bool logpresent;
 QStringList recentFilesList, sessionFilesList;
 //settings
 int split1_right, split1_left, split2_top, split2_bottom, quickmode;
-bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui;
+bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance ;
 QString document_class, typeface_size, paper_size, document_encoding, author;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command;
 QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command;
@@ -125,13 +127,18 @@ QStringList userClassList, userPaperList, userEncodingList, userOptionsList;
 QStringList structlist, labelitem, structitem;
 Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
+int pdfviewerwidth, pdfviewerheight;
 //dialogs
 QPointer<ReplaceDialog> replaceDialog;
 QPointer<GotoLineDialog> gotoLineDialog;
+QPointer<Browser> browserWindow;
+QPointer<PdfViewer> pdfviewerWindow;
 
 //tools
 QProcess *proc;
 bool FINPROCESS, ERRPROCESS;
+QStringList listViewerCommands;
+bool checkViewerInstance;
 //latex errors
 QStringList errorFileList, errorTypeList, errorLineList, errorMessageList, errorLogList;
 QList<int> onlyErrorList;
@@ -158,6 +165,7 @@ QActionGroup *translationGroup, *appearanceGroup;
 private slots:
 LatexEditorView *currentEditorView() const;
 void fileNew();
+void fileNewFromFile();
 void fileOpen();
 void fileSave();
 void fileSaveAll();
@@ -269,6 +277,7 @@ void RunCommand(QString comd,bool waitendprocess);
 void readFromStderr();
 //void readFromStdoutput();
 void SlotEndProcess(int err);
+void SlotEndViewerProcess(int err);
 void QuickBuild();
 void Latex();
 void ViewDvi();

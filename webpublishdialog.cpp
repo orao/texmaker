@@ -77,7 +77,7 @@ void WebPublishDialog::init()
 readsettings();
 ui.titleEdit->setText(title );
 ui.footnoteEdit->setText(address);
-ui.browserEdit->setText(browser);
+//ui.browserEdit->setText(browser);
 ui.contentEdit->setText(contentname);
 if (noindex) ui.indexcomboBox->setCurrentIndex(1);
 else ui.indexcomboBox->setCurrentIndex(0);
@@ -161,7 +161,14 @@ if (fi.exists() && fi.isReadable())
 	if (fip.exists() && fip.isReadable() && (!browser.isEmpty()) && (!errprocess)) 
 		{
 		ui.messagetextEdit->append("Running browser .");
-		RunCommand(browser+" "+firstpage,false);
+	        if (browserWindow)
+		  {
+		  browserWindow->close();
+		  }
+		browserWindow=new Browser("file:///"+firstpage, this);
+		browserWindow->raise();
+		browserWindow->show();
+		//RunCommand(browser+" "+firstpage,false);
 		}
 	}
 else 
@@ -1098,7 +1105,7 @@ void WebPublishDialog::applyusersettings()
 {
 title=ui.titleEdit->text();
 address=ui.footnoteEdit->text();
-browser=ui.browserEdit->text();
+//browser=ui.browserEdit->text();
 contentname=ui.contentEdit->text();
 if (ui.indexcomboBox->currentIndex()==0) noindex=false;
 else noindex=true;

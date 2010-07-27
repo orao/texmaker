@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2010 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,26 +9,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TABDIALOG_H
-#define TABDIALOG_H
+#ifndef BROWSER_H
+#define BROWSER_H
 
-#include "ui_tabdialog.h"
+#include <QMainWindow>
+#include <QtWebKit>
+#include <QWebView>
 
 
-class TabDialog : public QDialog  {
-   Q_OBJECT
+class Browser : public QMainWindow
+{
+    Q_OBJECT
 public:
-	TabDialog(QWidget *parent=0, const char *name=0);
-	~TabDialog();
-	Ui::TabDialog ui;
+    Browser( const QString home, QWidget* parent = 0, Qt::WFlags flags = 0);
+    ~Browser();
 
 protected slots:
-  void NewRows(int num);
-  void NewColumns(int num);
-  void HzSepStatus(bool enabled);
+
+ 
+    void adjustTitle();
+    void setProgress(int p);
+    void finishLoading(bool);
+    
+private:
+    QWebView *view;
+    int progress;
 };
 
-
 #endif
-
 

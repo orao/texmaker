@@ -32,12 +32,16 @@ connect( ui.spinBoxColumns, SIGNAL(valueChanged(int)),this, SLOT(NewColumns(int)
 ui.comboAlignment->insertItem(0,"Center" );
 ui.comboAlignment->insertItem(1,"Left" );
 ui.comboAlignment->insertItem(2,"Right" );
-ui.comboAlignment->insertItem(3, "p{}");
+ui.comboAlignment->insertItem(3, "p{} (fixed width - left)");
+ui.comboAlignment->insertItem(4, "p{} (fixed width - center - array environment)");
+ui.comboAlignment->insertItem(5, "p{} (fixed width - right - array environment)");
 
 ui.comboSeparator->insertItem(0,"|");
 ui.comboSeparator->insertItem(1,"||");
 ui.comboSeparator->insertItem(2,"none");
 ui.comboSeparator->insertItem(3, "@{text}" );
+
+connect(ui.checkBox, SIGNAL(toggled(bool)),this, SLOT(HzSepStatus(bool)));
 setWindowTitle(tr("Quick Tabular"));
 }
 
@@ -50,4 +54,17 @@ void TabDialog::NewRows(int num)
 void TabDialog::NewColumns(int num)
 {
   ui.tableWidget->setColumnCount( num );
+}
+void TabDialog::HzSepStatus(bool enabled)
+{
+if (enabled)
+  {
+  ui.checkBoxMargin->show();
+  ui.checkBoxMargin->setEnabled(true);
+  }
+else 
+    {
+  ui.checkBoxMargin->hide();
+  ui.checkBoxMargin->setEnabled(false);
+  }
 }

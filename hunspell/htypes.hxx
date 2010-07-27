@@ -12,7 +12,9 @@
 #define H_OPT_PHON   (1 << 2)
 
 // see also csutil.hxx
-#define HENTRY_WORD(h) &(h->word)
+//#define HENTRY_WORD(h) &(h->word)
+#define HENTRY_WORD(h) ((char *) h + offsetof(struct hentry, word))
+
 
 // approx. number  of user defined words
 #define USERWORD 1000

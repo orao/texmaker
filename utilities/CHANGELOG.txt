@@ -1,3 +1,16 @@
+version 1.9.9 -> 2.0 :
+----------------------
+- a built-in pdf viewer has been added : the pdf preview is automatically refreshed after a compilation;
+- a new option to the quick build command has been added : with this option, texmaker doesn't launch a new instance of the dvi/ps/pdf viewer if the file is already opened.
+- the "tabular" assistant has been completed :
+    * option to add a vertical margin after a \hline (for big math formulae)
+    * new options  for the "p{}" column alignment (center and left alignment : \usepackage{array} is required)
+- the required blank space at the end of the metapost command is verified if the user changed manually this command 
+- user can now directly create a new document by copying an existing one.
+- a new wizard to set the "user quick build command" has been added.
+- the "AMS align" tag has been added to the "Math" menu.
+- the trouble about the compilation of the hunspell code with gcc 4.5 has been fixed.
+
 version 1.9.2 -> 1.9.9 :
 ----------------------
 - while inserting a latex structure (via the code completion or a texmaker command), the fields of the structure are marked with a special character ("•") and users can directly jump to the next field with the "Tab" key.
@@ -7,6 +20,7 @@ version 1.9.2 -> 1.9.9 :
 - a new option has been added for the user tags : "@" will be replaced by "•" fields (the first "•" field will be replaced by the selected text)
 - shortcuts can now be changed by pressing directly the key sequence.
 - the blocks of a "beamer" document are now included in the "structure view".
+
 version 1.9.1 -> 1.9.2 :
 ------------------------
 - A "favorites symbols" panel has been added (just right-click on a symbol to add it to the favorites)
