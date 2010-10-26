@@ -53,8 +53,10 @@
 #include <QListWidgetItem>
 #include <QProcess>
 #include <QPointer>
+#include <QKeyEvent>
 #include "pdfdocumentwidget.h"
 #include "pdfscrollarea.h"
+#include "synctex_parser.h"
 
 
 class PdfViewer : public QMainWindow
@@ -65,6 +67,7 @@ public:
     ~PdfViewer();
 public slots:
 void openFile(QString fn, QString ec);
+void jumpToPdfFromSource(QString sourceFile,int source_line);
 
 private:
 QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct;
@@ -83,8 +86,10 @@ bool fileLoaded;
 QPointer<QProcess> proc;
 QString lastFile;
 int lastPage;
+synctex_scanner_t scanner;
 
 private slots:
+void gotoPage(int page);
 void updateCurrentPage(int index);
 void scaleDocument(int index);
 void searchDocument();
@@ -98,6 +103,14 @@ void zoomIn();
 void zoomOut();
 void runExternalViewer();
 void slotItemClicked(QListWidgetItem* item);
+void jumpToEditor(int page, const QPointF& pos);
+
+protected:
+void keyPressEvent ( QKeyEvent * e );
+
+signals:
+void openDocAtLine(const QString&, int);
+void sendFocusToEditor();
 };
 
 #endif

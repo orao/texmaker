@@ -476,6 +476,21 @@ int newpos = tc.selectionStart();
 tc.setPosition(newpos, QTextCursor::MoveAnchor);
 tc.setPosition(oldpos, QTextCursor::KeepAnchor);
 QString word=tc.selectedText();
+QString prevword="";
+tc.setPosition(newpos, QTextCursor::MoveAnchor);
+tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor);
+//tc.setPosition(oldpos, QTextCursor::KeepAnchor);
+QString sep=tc.selectedText();
+if (sep=="{")
+    {
+    tc.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor);
+    tc.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor);
+    tc.setPosition(oldpos, QTextCursor::KeepAnchor);
+    prevword=tc.selectedText();
+    }
+if ((!prevword.isEmpty()) && (prevword.startsWith("\\"))) word=prevword;
+//qDebug() << sep << word << prevword;
+
 QString sword=word.trimmed();
 if (word.right(1)!=sword.right(1)) word="";
 return word;
@@ -594,19 +609,21 @@ if (!c || (ctrlOrShift && e->text().isEmpty())) return;
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
 QString completionPrefix = textUnderCursor();
 
-if (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3)
+//if (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3)
+if ( completionPrefix.length() < 3)
 	{
 	c->popup()->hide();
 	return;
 	}
-
-QChar firstchar=e->text().at(0);
-if ( isWordSeparator(firstchar) || isSpace(firstchar))
+if (!e->text().isEmpty())
 	{
-	c->popup()->hide();
-	return;
+	QChar firstchar=e->text().at(0);
+	if ( isWordSeparator(firstchar) || isSpace(firstchar))
+		{
+		c->popup()->hide();
+		return;
+		}
 	}
-
 if (completionPrefix != c->completionPrefix()) 
 	{
 	c->setCompletionPrefix(completionPrefix);
@@ -723,12 +740,12 @@ bool LatexEditor::isWordSeparator(QChar c) const
     case '-':
     case '<':
     case '>':
-    case '[':
-    case ']':
-    case '(':
-    case ')':
-    case '{':
-    case '}':
+//    case '[':
+//    case ']':
+//    case '(':
+//    case ')':
+//    case '{':
+//    case '}':
     case '=':
     case '/':
     case '+':

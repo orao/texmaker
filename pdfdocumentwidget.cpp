@@ -42,6 +42,9 @@
 #include <QtGui>
 #include <QDebug>
 #include <QScrollArea>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QAction>
 #include <poppler-qt4.h>
 #include "pdfdocumentwidget.h"
 
@@ -138,6 +141,18 @@ if (currentLink)
       }    
   }
 currentLink=0;
+}
+
+void PdfDocumentWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+if (!doc) return;
+QMenu *menu = new QMenu(this);
+QAction *act = new QAction(tr("Click to jump to the line"), menu);
+act->setData(QVariant(event->pos()));
+connect(act, SIGNAL(triggered()), this, SLOT(jumpToSourceFromPdf()));
+menu->addAction(act);
+menu->exec(mapToGlobal(event->pos()));
+delete menu;
 }
 
 qreal PdfDocumentWidget::scale() const
@@ -299,4 +314,15 @@ void PdfDocumentWidget::setScale(qreal scale)
         scaleFactor = scale;
         showPage();
     }
+}
+
+void PdfDocumentWidget::jumpToSourceFromPdf()
+{
+QAction *act = qobject_cast<QAction*>(sender());
+if (act != NULL) 
+  {
+  QPoint eventPos = act->data().toPoint();
+  QPointF pagePos((eventPos.x()- (width() - pixmap()->width()) / 2.0) / scaleFactor / physicalDpiX() * 72.0,(eventPos.y()- (height() - pixmap()->height()) / 2.0) / scaleFactor / physicalDpiY() * 72.0 );
+  emit syncpage(currentPage, pagePos);
+  }
 }

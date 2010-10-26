@@ -106,7 +106,7 @@ QMenu *optionsMenu, *translationMenu, *appearanceMenu;
 QMenu *helpMenu;
 
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar, *centralToolBar;
-QAction *recentFileActs[5], *ToggleAct;
+QAction *recentFileActs[10], *ToggleAct;
 QComboBox *comboCompil, *comboView;
 
 QLabel *stat1, *stat2, *stat3;
@@ -179,6 +179,8 @@ void fileOpenRecent();
 void AddRecentFile(const QString &f);
 void UpdateRecentFile();
 void filePrint();
+void fileOpenAndGoto(const QString &f, int line);
+void getFocusToEditor();
 
 void editUndo();
 void editRedo();

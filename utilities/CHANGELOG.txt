@@ -1,3 +1,11 @@
+version 2.0 -> 2.1 :
+----------------------
+- synctex support has been added
+- the bug about searching an empty text in the pdf viewer has been fixed
+- after a new compilation, the pdf viewer stays at the same page
+- the bug about the completion while typing "\begin{" has been fixed 
+- the recent files menu can now contain 10 items
+
 version 1.9.9 -> 2.0 :
 ----------------------
 - a built-in pdf viewer has been added : the pdf preview is automatically refreshed after a compilation;

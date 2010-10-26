@@ -43,6 +43,7 @@ body { background: #ffffff; color: black; }
 	<ul>
 	<li><a href="#SECTION22">3.1 Compiler son document</a></li>
 	<li><a href="#SECTION23">3.2 Les fichiers log</a></li>
+	<li><a href="#SECTION24">3.3 Synchronisation source-pdf avec synctex</a></li>
 	</ul>
 </ul>
 <ul>
@@ -171,6 +172,12 @@ Note : l'insertion d'une tabulation avec la touche "Tab" est désactivée si la 
 <p><IMG src="doc15.png" border="1"></p>
 <p>Dans les autres cas, un simple clic sur les boutons "Erreur LaTeX suivante" et "Erreur LaTeX précédente" permet d'afficher le fichier log et d'atteindre directement l'erreur recherchée.</p>
 <p><IMG src="doc22.png" border="1"></p>
+<h2><a name="SECTION24">3.3 Synchronisation source-pdf avec synctex</a></h2>
+<p>
+En ajoutant l'option "-synctex=1" à la commande pour pdflatex, l'afficheur pdf intégré se positionnera directement à la page correspondante à la ligne courante dans l'éditeur.<br>
+Réciproquement, avec un clic-droit sur un mot dans l'afficheur pdf intégré (menu contextuel), le curseur de l'éditeur se positionnera directement sur la ligne qui correspond dans le fichier source.<br>
+Remarque : si on presse la touche F1 dans l'afficheur pdf intégré, l'éditeur reprend le focus.
+</p>
 <h1><a name="SECTION3">4. Autres caractéristiques de <b>Texmaker</b></a></h1>
 <h2><a name="SECTION31">4.1 Documents scindés en plusieurs fichiers</a></h2>
 <p><b>Texmaker</b> permet aussi de travailler sur un document composé de plusieurs fichiers.<br>

@@ -489,7 +489,7 @@ connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 fileMenu->addAction(Act);
 
 recentMenu=fileMenu->addMenu(tr("Open Recent"));
-for (int i = 0; i < 5; ++i) 
+for (int i = 0; i < 10; ++i) 
 	{
 	recentFileActs[i] = new QAction(this);
 	recentFileActs[i]->setVisible(false);
@@ -1800,6 +1800,9 @@ ShowStructure();
 #ifndef Q_WS_MACX 
 show();
 if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+qApp->setActiveWindow(this);
+activateWindow();
+setFocus();
 //raise();
 //#ifdef Q_WS_WIN
 //        if (IsIconic (this->winId())) ShowWindow(this->winId(), SW_RESTORE);
@@ -2160,7 +2163,7 @@ void Texmaker::AddRecentFile(const QString &f)
 {
 if (recentFilesList.contains(f)) return;
 
-if (recentFilesList.count() < 5) recentFilesList.prepend(f);
+if (recentFilesList.count() < 10) recentFilesList.prepend(f);
 else
 	{
 	recentFilesList.removeLast();
@@ -2177,7 +2180,7 @@ for (int i=0; i < recentFilesList.count(); i++)
         recentFileActs[i]->setData(recentFilesList.at(i));
         recentFileActs[i]->setVisible(true);
 	}
-for (int j = recentFilesList.count(); j < 5; ++j) recentFileActs[j]->setVisible(false);
+for (int j = recentFilesList.count(); j < 10; ++j) recentFileActs[j]->setVisible(false);
 }
 
 void Texmaker::filePrint()
@@ -2188,6 +2191,25 @@ QPrinter printer;
 QPrintDialog *dlg = new QPrintDialog(&printer, this);
 if (dlg->exec() != QDialog::Accepted) return;
 document->print(&printer);
+}
+
+void Texmaker::fileOpenAndGoto(const QString &f, int line)
+{
+load(f);
+setLine(QString::number(line));
+getFocusToEditor();
+}
+
+void Texmaker::getFocusToEditor()
+{
+#ifndef Q_WS_MACX 
+show();
+if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+#endif
+qApp->setActiveWindow(this);
+activateWindow();
+setFocus();
+if (currentEditorView()) currentEditorView()->editor->setFocus();
 }
 //////////////////////////// EDIT ///////////////////////
 void Texmaker::editUndo()
@@ -2571,9 +2593,9 @@ runIndex=config->value( "Tools/Run","0").toInt();
 viewIndex=config->value( "Tools/View","0").toInt();
 
 lastDocument=config->value("Files/Last Document","").toString();
-recentFilesList=config->value("Files/Recent Files").toStringList();
+recentFilesList=config->value("Files/Recent Files New").toStringList();
 sessionFilesList=config->value("Files/Session Files").toStringList();
-input_encoding=config->value("Files/Input Encoding", QTextCodec::codecForLocale()->name()).toString();
+input_encoding=config->value("Files/Input Encoding","UTF-8").toString();
 UserMenuName[0]=config->value("User/Menu1","").toString();
 UserMenuTag[0]=config->value("User/Tag1","").toString();
 UserMenuName[1]=config->value("User/Menu2","").toString();
@@ -2737,7 +2759,7 @@ config.setValue("Tools/SingleViewerInstance",singleviewerinstance);
 
 
 config.setValue("Files/Last Document",lastDocument);
-if (recentFilesList.count()>0) config.setValue("Files/Recent Files",recentFilesList); 
+if (recentFilesList.count()>0) config.setValue("Files/Recent Files New",recentFilesList); 
 FilesMap::Iterator itf;
 sessionFilesList.clear();
 for( itf = filenames.begin(); itf != filenames.end(); ++itf )
@@ -2822,54 +2844,67 @@ config.endGroup();
 void Texmaker::ShowStructure()
 {
 LeftPanelStackedWidget->setCurrentWidget(StructureTreeWidget);
+StructureView->setWindowTitle(tr("Structure"));
 }
 void Texmaker::ShowRelation() //RelationListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(RelationListWidget);
+StructureView->setWindowTitle(tr("Relation symbols"));
 }
 void Texmaker::ShowArrow() //ArrowListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(ArrowListWidget);
+StructureView->setWindowTitle(tr("Arrow symbols"));
 }
 void Texmaker::ShowMisc() //MiscellaneousListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(MiscellaneousListWidget);
+StructureView->setWindowTitle(tr("Miscellaneous symbols"));
 }
 void Texmaker::ShowDelim() //DelimitersListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(DelimitersListWidget);
+StructureView->setWindowTitle(tr("Delimiters"));
 }
 void Texmaker::ShowGreek() //GreekListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(GreekListWidget);
+StructureView->setWindowTitle(tr("Greek letters"));
 }
 void Texmaker::ShowMostUsed() //MostUsedListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(MostUsedListWidget);
+StructureView->setWindowTitle(tr("Most used symbols"));
 }
 void Texmaker::ShowFavorite() //FavoriteListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(FavoriteListWidget);
+StructureView->setWindowTitle(tr("Favorites symbols"));
 }
 void Texmaker::ShowPstricks() //PsListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(PsListWidget);
+StructureView->setWindowTitle(tr("Pstricks Commands"));
 }
 void Texmaker::ShowLeftRight() //leftrightWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(leftrightWidget);
+StructureView->setWindowTitle("left/right");
 }
 void Texmaker::ShowMplist() //MpListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(MpListWidget);
+StructureView->setWindowTitle(tr("MetaPost Commands"));
 }
 void Texmaker::ShowTikz() //TikzWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(tikzWidget);
+StructureView->setWindowTitle(tr("Tikz Commands"));
 }
 void Texmaker::ShowAsy() //AsyWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(asyWidget);
+StructureView->setWindowTitle(tr("Asymptote Commands"));
 }
 
 void Texmaker::UpdateStructure()
@@ -3431,11 +3466,11 @@ if ( quickDlg->exec() )
 			{
 			item =quickDlg->ui.tableWidget->item(i,j);
 			if (item) tag +=item->text()+ QString(" & ");
-			else tag +=QString(" & ");
+			else tag +=QString(0x2022)+QString(" & ");
 			}
 		item =quickDlg->ui.tableWidget->item(i,x-1);
 		if (item) tag +=item->text()+ QString(" \\\\ \n");
-		else tag +=QString(" \\\\ \n");
+		else tag +=QString(0x2022)+QString(" \\\\ \n");
 		}
 	if (quickDlg->ui.checkBox->isChecked()) tag +=QString("\\hline \n\\end{tabular} ");
 	else tag +=QString("\\end{tabular} ");
@@ -3471,21 +3506,21 @@ if ( arrayDlg->exec() )
 			{
 			item =arrayDlg->ui.tableWidget->item(i,j);
 			if (item) tag +=item->text()+ QString(" & ");
-			else tag +=QString(" & ");
+			else tag +=QString(0x2022)+QString(" & ");
 			}
 		item =arrayDlg->ui.tableWidget->item(i,x-1);
 		if (item) tag +=item->text()+ QString(" \\\\ \n");
-		else tag +=QString(" \\\\ \n");
+		else tag +=QString(0x2022)+QString(" \\\\ \n");
 		}
 	for ( int j=0;j<x-1;j++) 
 		{
 		item =arrayDlg->ui.tableWidget->item(y-1,j);
 		if (item) tag +=item->text()+ QString(" & ");
-		else tag +=QString(" & ");
+		else tag +=QString(0x2022)+QString(" & ");
 		}
 	item =arrayDlg->ui.tableWidget->item(y-1,x-1);
 	if (item) tag +=item->text()+ QString("\n\\end{")+env+"} ";
-	else tag +=QString("\n\\end{")+env+"} ";
+	else tag +=QString(0x2022)+QString("\n\\end{")+env+"} ";
 	InsertTag(tag,0,0);
 	}
 }
@@ -4291,13 +4326,17 @@ if (builtinpdfview && (comd==viewpdf_command))
     pdfviewerWindow->show();
     pdfviewerwidth=pdfviewerWindow->width();
     pdfviewerheight=pdfviewerWindow->height();
+    if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,currentline);
     }
   else
     {
-    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, 0);
+    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
+    connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int)), this, SLOT(fileOpenAndGoto(const QString&, int)));
+    connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
     pdfviewerWindow->raise();
     pdfviewerWindow->show();
     pdfviewerWindow->resize(pdfviewerwidth,pdfviewerheight);
+    if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,currentline);
     }
   return;
   }

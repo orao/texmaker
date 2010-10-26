@@ -3,11 +3,13 @@
 **   copyright       : (C) 2003-2010 by Pascal Brachet                     
 **   http://www.xm1math.net/texmaker/                                      
 **
+** Parts of this file come from Texworks (GPL) Copyright (C) 2007-2010  Jonathan Kew
+
+** Parts of this file come from the documentation of Qt. It was originally
+** published as part of Qt Quarterly.
 ** Copyright (C) 2008 Nokia Corporation and/or its subsidiary(-ies).
 ** Contact: Qt Software Information (qt-info@nokia.com)
 **
-** This file is part of the documentation of Qt. It was originally
-** published as part of Qt Quarterly.
 **
 ** Commercial Usage
 ** Licensees holding valid Qt Commercial licenses may use this file in
@@ -44,20 +46,30 @@
 #include <QtGui>
 #include <QAction>
 #include <QFontMetrics>
+#include <QPainterPath>
 #include <QDebug>
+
+#define SYNCTEX_GZ_EXT ".synctex.gz"
+#define SYNCTEX_EXT ".synctex"
 
 
 PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, QWidget* parent, Qt::WFlags flags)
     : QMainWindow( parent, flags )
 {
 setWindowTitle("Texmaker : pdf preview");
+#ifdef Q_WS_MACX
+setWindowIcon(QIcon(":/images/logo128.png"));
+#else
+setWindowIcon(QIcon(":/images/appicon.png"));
+#endif
 pdf_file=fileName;
 viewpdf_command=externalCommand;
-lastFile="";
+lastFile=fileName;
 lastPage=1;
 fileLoaded=false;
 currentPage=1;
 currentScale=1;
+scanner=NULL;
 
 pagesWidget = new QDockWidget(this);
 pagesWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
@@ -78,6 +90,7 @@ connect(scrollArea, SIGNAL(pagedown()), this, SLOT(wheelpageDown()));
 pdfWidget = new PdfDocumentWidget();
 scrollArea->setWidget(pdfWidget);
 setCentralWidget(scrollArea);
+connect(pdfWidget, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(jumpToEditor(int, const QPointF&)));
 
 QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 fileMenu->addAction(tr("Exit"), this, SLOT(close()));
@@ -156,6 +169,7 @@ openFile(pdf_file,viewpdf_command);
 
 PdfViewer::~PdfViewer()
 {
+if (scanner != NULL) synctex_scanner_free(scanner);
 if (proc && proc->state()==QProcess::Running) 
 	{
 	proc->kill(); 
@@ -167,6 +181,12 @@ void PdfViewer::openFile(QString fn,QString ec)
 {
 pdf_file=fn;
 viewpdf_command=ec;
+int lpage=lastPage;
+if (scanner != NULL) 
+  {
+  synctex_scanner_free(scanner);
+  scanner = NULL;
+  }
 if (pdfWidget->setDocument(fn)) 
     {
     searchLineEdit->setEnabled(true);
@@ -180,16 +200,22 @@ if (pdfWidget->setDocument(fn))
     zoominAct->setEnabled(true);
     zoomoutAct->setEnabled(true);
     listpagesWidget->clear();
+    QString syncFile = QFileInfo(fn).canonicalFilePath();
+    scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
      for (int i = 1; i <= pdfWidget->document()->numPages(); ++i)
-    {
-     listpagesWidget->addItem(tr("Page")+" "+QString::number(i)); 
-    }
-    if ((fn==lastFile) && (lastPage <= pdfWidget->document()->numPages()))
       {
-      currentPage=lastPage;
+      listpagesWidget->addItem(tr("Page")+" "+QString::number(i)); 
+      }
+    if ((fn==lastFile) && (lpage <= pdfWidget->document()->numPages()) && (lpage>1))
+      {
+      currentPage=lpage;
       pdfWidget->setPage(currentPage);
       }
-    else currentPage=1;
+    else 
+      {
+      currentPage=1;
+      lastPage=1;
+      }
     fileLoaded=true;
     lastFile=fn;
     updateCurrentPage(currentPage);
@@ -201,6 +227,66 @@ if (pdfWidget->setDocument(fn))
       QMessageBox::warning( this,tr("Error"),tr("File not found"));
       fileLoaded=false;
       }
+}
+
+void PdfViewer::jumpToPdfFromSource(QString sourceFile, int source_line)
+{
+if (!fileLoaded) return;
+if (scanner == NULL) return;
+const QFileInfo sourceFileInfo(sourceFile);
+QDir curDir(QFileInfo(pdf_file).canonicalPath());
+synctex_node_t node = synctex_scanner_input(scanner);
+QString name;
+bool found = false;
+while (node != NULL) 
+  {
+  name = QString::fromUtf8(synctex_scanner_get_name(scanner, synctex_node_tag(node)));
+  const QFileInfo fi(curDir, name);
+  if (fi == sourceFileInfo) 
+    {
+    found = true;
+    break;
+    }
+  node = synctex_node_sibling(node);
+  }
+if (!found) return;
+if (synctex_display_query(scanner, name.toUtf8().data(), source_line, 0) > 0) 
+  {
+  int page = -1;
+  QPainterPath path;
+  while ((node = synctex_next_result(scanner)) != NULL) 
+    {
+    if (page == -1) page = synctex_node_page(node);
+    if (synctex_node_page(node) != page) continue;
+    QRectF nodeRect(synctex_node_box_visible_h(node),
+				    synctex_node_box_visible_v(node) - synctex_node_box_visible_height(node),
+				    synctex_node_box_visible_width(node),
+				    synctex_node_box_visible_height(node) + synctex_node_box_visible_depth(node));
+    path.addRect(nodeRect);
+    }
+  if (page > 0) 
+    {
+    gotoPage(page);
+    QRectF r = path.boundingRect();
+    scrollArea->ensureVisible((int)((r.left() + r.right()) / 2 * pdfWidget->physicalDpiX() / 72 * currentScale),
+										(int)((r.top() + r.bottom()) / 2 * pdfWidget->physicalDpiY() / 72 * currentScale));
+//    path.setFillRule(Qt::WindingFill);
+//    pdfWidget->setHighlightPath(path);
+//    pdfWidget->update();
+    }
+  }
+}
+
+void PdfViewer::gotoPage(int page)
+{
+if (!fileLoaded) return;
+if ((page <= pdfWidget->document()->numPages()) && (page>=1))
+  {
+  currentPage=page;
+  lastPage=currentPage;
+  pdfWidget->setPage(currentPage);
+  scrollArea->scrolltoMax();
+  }
 }
 
 void PdfViewer::updateCurrentPage(int index)
@@ -227,6 +313,7 @@ void PdfViewer::searchDocument()
 {
 if (!fileLoaded) return;
 QRectF location;
+if (searchLineEdit->text().isEmpty()) return;
 location = pdfWidget->searchForwards(searchLineEdit->text());
 //else location = pdfWidget->searchBackwards(searchLineEdit->text());
 
@@ -348,4 +435,29 @@ void PdfViewer::slotItemClicked(QListWidgetItem* item)
 QString txt=item->text().section(" ",-1);
 currentPage=txt.toInt();
 pdfWidget->setPage(currentPage);
+}
+
+void PdfViewer::jumpToEditor(int page, const QPointF& pos)
+{
+if (scanner == NULL) return;
+if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0) 
+  {
+  synctex_node_t node;
+  while ((node = synctex_next_result(scanner)) != NULL) 
+    {
+    QString filename = QString::fromUtf8(synctex_scanner_get_name(scanner, synctex_node_tag(node)));
+    QDir curDir(QFileInfo(pdf_file).canonicalPath());
+    emit openDocAtLine(QFileInfo(curDir, filename).canonicalFilePath(),synctex_node_line(node));
+    break;
+    }
+  }
+}
+
+void PdfViewer::keyPressEvent ( QKeyEvent * e ) 
+{
+if ( e->key()==Qt::Key_F1) 
+    {
+    emit sendFocusToEditor();
+    }
+else QMainWindow::keyPressEvent(e);
 }

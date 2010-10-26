@@ -68,13 +68,14 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-
+    void contextMenuEvent(QContextMenuEvent *event);
 signals:
     void pageChanged(int currentPage);
-
-private:
+    void syncpage(int, const QPointF&);
+private slots:
     void showPage(int page = -1);
-
+    void jumpToSourceFromPdf();
+private:
     Poppler::Document *doc;
     Poppler::Link *currentLink;
     int currentPage;

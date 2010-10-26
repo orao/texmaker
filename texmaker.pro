@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=2.0
+TEXMAKERVERSION=2.1
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 ###############################
 HEADERS	+= texmaker.h \
@@ -48,6 +48,8 @@ HEADERS	+= texmaker.h \
 	pdfdocumentwidget.h \
 	pdfscrollarea.h \
 	userquickdialog.h \
+	synctex_parser.h \
+	synctex_parser_utils.h \
 	hunspell/affentry.hxx \
 	hunspell/affixmgr.hxx \
 	hunspell/atypes.hxx \
@@ -111,6 +113,8 @@ SOURCES	+= main.cpp \
 	pdfdocumentwidget.cpp \
 	pdfscrollarea.cpp \
 	userquickdialog.cpp \
+	synctex_parser.c \
+	synctex_parser_utils.c \
 	hunspell/affentry.cxx \
 	hunspell/affixmgr.cxx \
 	hunspell/csutil.cxx \
@@ -176,6 +180,7 @@ isEmpty( ICONDIR ) {
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4
 LIBS         += -L/usr/lib -lpoppler
+LIBS         += -L/usr/lib -lz
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
 INSTALLS = target
