@@ -1,3 +1,10 @@
+version 2.2 -> 2.2.1 :
+----------------------
+- the bug about infinite update of pdf pages in some cases has been fixed
+- the bug about the "Don't launch a new instance of the viewer if the dvi/ps/pdf file is already opened" option has been fixed
+- tools actions are no more disabled while a viewer is opened
+- cs and nl translations has been updated
+
 version 2.1 -> 2.2 :
 --------------------
 - Users can mow easily select a file already opened with a new file selector in the status bar (usefull when a large number of files are opened)

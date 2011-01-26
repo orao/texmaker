@@ -24,7 +24,6 @@
 #include <QSettings>
 #include <QTextStream>
 
-
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
@@ -185,6 +184,7 @@ viewMenu->addAction(zoomoutAct);
 
 scaleComboBox = new QComboBox(toolBar);
 zoomCustom = new QLineEdit();
+//QValidator *validatorZoom = new QIntValidator(25, 400, this);
 QValidator *validatorZoom = new QRegExpValidator(QRegExp("\\d{0,3}%?"), this);
 zoomCustom->setValidator(validatorZoom);
 scaleComboBox->setInsertPolicy(QComboBox::NoInsert);
@@ -349,6 +349,7 @@ pdfWidget->updatePixmap();
 qreal portWidth = scrollArea->viewport()->width();
 QSizeF pageSize = doc->page(0)->pageSizeF();
 if (pageSize.width()!=0) currentScale = (portWidth-30) / pageSize.width()*72.0/pdfWidget->physicalDpiX();
+//(portWidth-50) /  pdfWidget->pixmap()->width();
 if (currentScale < 0.25) currentScale = 0.25;
 else if (currentScale > 4) currentScale = 4;
 pdfWidget->setScale(currentScale);
@@ -372,6 +373,7 @@ if (pdfWidget) delete pdfWidget;
   pos+=(int) pdfWidget->pixmap()->height()+scrollArea->verticalLayout->spacing();
   scrollArea->verticalLayout->addWidget(pdfWidget);
   }
+//scrollArea->verticalScrollBar()->setPageStep(heightpix);
 scrollArea->viewport()->update();
 if (scrollArea->verticalScrollBar()->pageStep()<pos) scrollMax=pos-scrollArea->verticalScrollBar()->pageStep()+scrollArea->verticalLayout->spacing();
 else scrollMax=pos;
@@ -410,6 +412,7 @@ for (int i = 0; i < doc->numPages(); ++i)
   listPdfWidgetsPos.replace(i,pos);
   pos+=(int) (listPdfWidgets.at(i)->pixmap()->height()+scrollArea->verticalLayout->spacing());
   }
+//scrollArea->verticalScrollBar()->setPageStep(heightpix);
 scrollArea->viewport()->update();
 if (scrollArea->verticalScrollBar()->pageStep()<pos) scrollMax=pos-scrollArea->verticalScrollBar()->pageStep()+scrollArea->verticalLayout->spacing();
 else scrollMax=pos;
@@ -465,8 +468,11 @@ else
   }
 if ((newpage>=0) && (newpage < doc->numPages()) && (abs(newpage-currentPage+1)<=deltaMax) && canDisplayPixmap)
   {
-  listPdfWidgets.at(newpage)->setScale(currentScale);
-  listPdfWidgets.at(newpage)->updatePixmap();
+  if (listPdfWidgetsStatus.at(newpage)==0)
+    {
+    listPdfWidgets.at(newpage)->setScale(currentScale);
+    listPdfWidgets.at(newpage)->updatePixmap();
+    }
   pageMutex.unlock();
   QTimer::singleShot( 30,this, SLOT(displayNewPage()) );
   }
@@ -478,8 +484,14 @@ altern=-altern;
 
 void PdfViewer::updatePageStatus(int page)
 {
+int pos=0;
+/*for (int i = 0; i < doc->numPages(); ++i)
+  {
+  listPdfWidgetsPos.replace(i,pos);
+  pos+=(int) listPdfWidgets.at(i)->pixmap()->height()+scrollArea->verticalLayout->contentsMargins().bottom();
+  }*/
 listPdfWidgetsStatus.replace(page,1);
-scrollArea->update();
+  scrollArea->update();
 pageMutex.unlock();
 }
 
@@ -611,6 +623,7 @@ if ((page <= doc->numPages()) && (page>=1))
   lastPage=currentPage;
   disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   scrollArea->verticalScrollBar()->setValue(listPdfWidgetsPos.at(currentPage-1));
+//  scrollArea->setVisible(0,listPdfWidgetsPos.at(currentPage-1),0,scrollMax);
   updateCurrentPage();
   connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   }
@@ -673,6 +686,7 @@ if (zoom.toInt() > 0 && zoom.toInt() <= 400)
   currentScale=zoom.toFloat() / 100.0;
   if (currentScale < 0.25) currentScale = 0.25;
   else if (currentScale > 4) currentScale = 4;
+  //zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
   disconnect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
   disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   initPagesWithNewScale();
@@ -1003,6 +1017,7 @@ if(!printer.printerName().isEmpty())
   args << "lp";
   args << QString("-d %1").arg(printer.printerName().replace(" ","_"));
   args << QString("-n %1").arg(printer.numCopies());
+//  args << QString("-t \"%1\"").arg(printer.docName());
   args << QString("-P %1-%2").arg(firstPage).arg(lastPage);
   switch(printer.duplex()) 
       {

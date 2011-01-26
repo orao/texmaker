@@ -4539,7 +4539,7 @@ proc->setProcessEnvironment(env);
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
 //connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
-if (checkViewerInstance && (comd==viewdvi_command) || (comd==viewps_command) || (comd==viewpdf_command))
+if (checkViewerInstance && ((comd==viewdvi_command) || (comd==viewps_command) || (comd==viewpdf_command)))
   {
   connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndViewerProcess(int)));
   if (singleviewerinstance)
@@ -4552,12 +4552,15 @@ if (checkViewerInstance && (comd==viewdvi_command) || (comd==viewps_command) || 
     listViewerCommands.clear();
     }    
   }
-else connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndProcess(int)));
+else 
+{
+  if (((comd!=viewdvi_command) && (comd!=viewps_command) && (comd!=viewpdf_command))) disableToolsActions();
+  connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndProcess(int)));
+}
 OutputTextEdit->clear();
 OutputTableWidget->hide();
 //OutputTextEdit->insertLine(commandline+"\n");
 //qDebug() << commandline;
-disableToolsActions();
 proc->start(commandline);
 if (!proc->waitForStarted(1000)) 
 	{
@@ -4576,6 +4579,7 @@ if (waitendprocess)
 		qApp->instance()->processEvents(QEventLoop::WaitForMoreEvents);
 		}
 	 QApplication::restoreOverrideCursor();
+	enableToolsActions();
 	}
 }
 
@@ -6241,7 +6245,7 @@ void Texmaker::disableToolsActions()
 QList<QAction *> listaction;
 listaction << toolMenu->actions();
 listaction << user12Menu->actions();
-listaction << optionsMenu->actions();
+//listaction << optionsMenu->actions();
 listaction << runToolBar->actions();
 QListIterator<QAction*> iterator(listaction);
 while ( iterator.hasNext() )
@@ -6256,7 +6260,7 @@ void Texmaker::enableToolsActions()
 QList<QAction *> listaction;
 listaction << toolMenu->actions();
 listaction << user12Menu->actions();
-listaction << optionsMenu->actions();
+//listaction << optionsMenu->actions();
 listaction << runToolBar->actions();
 QListIterator<QAction*> iterator(listaction);
 while ( iterator.hasNext() )
