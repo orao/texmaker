@@ -326,6 +326,11 @@ if (item)
 		    item->setText(newshortcut);
 		    item->setData(Qt::UserRole,QString("key"));
 		    }
+		else
+		    {
+		    item->setText("none");
+		    item->setData(Qt::UserRole,QString("key"));
+		    }
 		}
 	    delete (keydlg);
 	    }

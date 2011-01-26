@@ -64,7 +64,9 @@ void insertNewLine();
 
 private:
 QString encoding;
-QString textUnderCursor() const;
+//QString textUnderCursor() const;
+QString commandUnderCursor() const;
+QStringList fullcommandUnderCursor();
 QCompleter *c;
 ParenMatcher *matcher;
 QString spell_dic, spell_encoding;
@@ -78,6 +80,7 @@ void correctWord();
 void checkSpellingWord();
 void checkSpellingDocument();
 void insertCompletion(const QString &completion);
+void jumpToPdf();
 
 protected:
 void paintEvent(QPaintEvent *event);
@@ -87,6 +90,7 @@ void focusInEvent(QFocusEvent *e);
 signals:
 void spellme();
 void tooltiptab();
+void requestpdf(int );
 };
 
 #endif

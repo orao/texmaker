@@ -59,6 +59,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION38">4.8 Synopsis de la commande texmaker</a></li>
 	<li><a href="#SECTION39">4.9 Raccourcis clavier</a></li>
 	<li><a href="#SECTION40">4.10 Convertir son document en Html</a></li>
+	<li><a href="#SECTION41">4.11 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>
 	</ul>
 </ul>
 <hr>
@@ -122,14 +123,8 @@ Le bouton "Retour à la ligne" (raccourci-clavier : Ctrl+Return) permet aussi d'
 <p>L'"Assistant Tabulation" du menu "Assistants" permet d'insérer automatiquement le code LaTeX d'une tabulation simple grâce à la boîte de dialogue ci-dessous.</p>
 <p><IMG src="doc8.png" border="1"></p>
 <h2><a name="SECTION110">2.10 Insertion d'images</a></h2>
-<p>L'insertion d'une image se fait grâce à la commande "\includegraphics{}" du menu "LaTeX". En cliquant sur l'icône "fichier" de la boîte de dialogue ci-dessous, on peut alors sélectionner l'image à inclure.</p>
+<p>L'insertion d'une image se fait grâce à la commande "\includegraphics{}" du menu "LaTeX". En cliquant sur l'icône "fichier" de la boîte de dialogue ci-dessous, on peut alors sélectionner l'image à inclure. Remarque : en cliquant sur le bouton "+", un environnement "figure" sera automatiquement ajouté.</p>
 <p><IMG src="doc9.png" border="1"></p>
-<p>Remarques :
-<ul>
-<li>Il est conseillé d'inclure un environnement "figure" (menu "LaTeX - Environnements") avant d'insérer une image.</li>
-<li>L'option scale permet de fixer l'échelle du graphique.</li>
-<li>Si l'image est au format Eps, ses dimensions sont affichées dans le panneau "Messages".</li>
-</ul></p>
 <h2><a name="SECTION111">2.11 Références croisées et notes</a></h2>
 <p>La deuxième liste de la barre d'outils est à la disposition des utilisateurs pour insérer rapidement les commandes LaTeX usuelles pour les références croisées et les notes de bas de page. Les labels utilisés dans le document apparaissent dans la vue structure : un clic suffit à les atteindre dans l'éditeur.</p>
 <p><IMG src="doc10.png" border="1"></p>
@@ -177,6 +172,10 @@ Note : l'insertion d'une tabulation avec la touche "Tab" est désactivée si la 
 En ajoutant l'option "-synctex=1" à la commande pour pdflatex, l'afficheur pdf intégré se positionnera directement à la page correspondante à la ligne courante dans l'éditeur.<br>
 Réciproquement, avec un clic-droit sur un mot dans l'afficheur pdf intégré (menu contextuel), le curseur de l'éditeur se positionnera directement sur la ligne qui correspond dans le fichier source.<br>
 Remarque : si on presse la touche F1 dans l'afficheur pdf intégré, l'éditeur reprend le focus.
+</p>
+<h2><a name="SECTION25">3.4 Utilisation de XeLaTeX</a></h2>
+<p>
+Pour utiliser XeLaTeX avec Texmaker, il suffit de remplacer la commande pdflatex par xelatex.
 </p>
 <h1><a name="SECTION3">4. Autres caractéristiques de <b>Texmaker</b></a></h1>
 <h2><a name="SECTION31">4.1 Documents scindés en plusieurs fichiers</a></h2>
@@ -316,4 +315,10 @@ Synopsis de cette commande :<br>
 Attention : \ttwplink{}{} ne peut-être utilisé que pour exporter son document en html. Une compilation normale d'un document comportant cette commande par LaTeX déclenchera une erreur. Par ailleurs, cette commande est incompatible avec plusieurs "packages" LaTeX dont notamment \hyperref.</p>
 <p><IMG src="doc18.png" border="1"></p>
 <p><IMG src="doc19.png" border="1"></p>
+<h2><a name="SECTION41">4.11 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></h2>
+<ul>
+<li>D'abord, il faut s'assurer que le programme ghostscript est bien installé sur le système et que le chemin vers "gswin32c.exe" est correctement réglé dans le dialogue de configuration de Texmaker.</li>
+<li>Après avoir cliqué sur le bouton "Imprimer", sélectionner le format du papier et la plage de pages à imprimer.</li>
+<li>Il faut utiliser ensuite le bouton "Propriétés" de la boite de dialogue d'impression standard de windows qui apparaît pour fixer le format et l'orientation que l'on souhaite utiliser.</li>
+</ul>
 </body></html>

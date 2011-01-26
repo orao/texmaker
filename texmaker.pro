@@ -5,8 +5,10 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=2.1
+TEXMAKERVERSION=2.2
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
+DEFINES += HAVE_SPLASH
+INCLUDEPATH  +=poppler_headers
 ###############################
 HEADERS	+= texmaker.h \
 	texmakerapp.h \
@@ -23,6 +25,7 @@ HEADERS	+= texmaker.h \
 	replacedialog.h \
 	structdialog.h \
 	filechooser.h \
+	graphicfilechooser.h \
 	tabbingdialog.h \
 	arraydialog.h \
 	tabdialog.h \
@@ -43,6 +46,7 @@ HEADERS	+= texmaker.h \
 	stylehelper.h \
 	styleanimator.h \
 	keysequencedialog.h \
+	paperdialog.h \
 	browser.h \
 	pdfviewer.h \
 	pdfdocumentwidget.h \
@@ -72,7 +76,7 @@ HEADERS	+= texmaker.h \
 	singleapp/qtlocalpeer.h \
 	singleapp/qtlockedfile.h \
 	singleapp/qtsingleapplication.h \
-	singleapp/qtsinglecoreapplication.h
+	singleapp/qtsinglecoreapplication.h 
 SOURCES	+= main.cpp \
 	texmakerapp.cpp \
 	texmaker.cpp \
@@ -89,6 +93,7 @@ SOURCES	+= main.cpp \
 	replacedialog.cpp \
 	structdialog.cpp \
 	filechooser.cpp \
+	graphicfilechooser.cpp \
 	tabbingdialog.cpp \
 	arraydialog.cpp \
 	tabdialog.cpp \
@@ -108,6 +113,7 @@ SOURCES	+= main.cpp \
 	stylehelper.cpp \
 	styleanimator.cpp \
 	keysequencedialog.cpp \
+	paperdialog.cpp \
 	browser.cpp \
 	pdfviewer.cpp \
 	pdfdocumentwidget.cpp \
@@ -130,13 +136,14 @@ SOURCES	+= main.cpp \
 	singleapp/qtlocalpeer.cpp \
 	singleapp/qtlockedfile.cpp \
 	singleapp/qtsingleapplication.cpp \
-	singleapp/qtsinglecoreapplication.cpp
+	singleapp/qtsinglecoreapplication.cpp 
 RESOURCES += texmaker.qrc
 FORMS   += findwidget.ui\
 	gotolinedialog.ui \
 	replacedialog.ui \
 	structdialog.ui \
 	filechooser.ui \
+	graphicfilechooser.ui \
 	tabbingdialog.ui \
 	arraydialog.ui \
 	tabdialog.ui \
@@ -151,6 +158,7 @@ FORMS   += findwidget.ui\
 	configdialog.ui \
 	spellerdialog.ui \
 	keysequencedialog.ui \
+	paperdialog.ui \
 	userquickdialog.ui
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
@@ -162,7 +170,8 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_zh_CN.ts \
 	texmaker_zh_TW.ts \
 	texmaker_cs.ts \
-	texmaker_pt_BR.ts 
+	texmaker_pt_BR.ts \
+	texmaker_nl.ts  
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -179,7 +188,6 @@ isEmpty( ICONDIR ) {
 }
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4
-LIBS         += -L/usr/lib -lpoppler
 LIBS         += -L/usr/lib -lz
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
@@ -254,6 +262,9 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_zh_CN.qm \
 	locale/texmaker_zh_TW.qm \
 	locale/texmaker_cs.qm \
+	locale/texmaker_nl.qm \
+	dictionaries/nl_NL.aff \
+	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \
@@ -278,7 +289,7 @@ INSTALLS += icon
 }
 ################################
 win32 {
-INCLUDEPATH += C:\MinGW\include
+INCLUDEPATH += C:\Qt\2010.05\mingw\include
 INCLUDEPATH  += C:\poppler
 LIBS         += -LC:\poppler -lpoppler-qt4
 LIBS         += -LC:\poppler -lpoppler
@@ -348,6 +359,9 @@ utilities.files =doc/doc1.png \
 	locale/texmaker_zh_CN.qm \
 	locale/texmaker_zh_TW.qm \
 	locale/texmaker_cs.qm \
+	locale/texmaker_nl.qm \
+	dictionaries/nl_NL.aff \
+	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \
@@ -362,22 +376,15 @@ INSTALLS += utilities
 others.path = texmakerwin32
 #others.path = texmakerwin32usb
 others.files = texmaker.ico \
-		C:\MinGW\bin\mingwm10.dll \
-		C:\MinGW\bin\libgcc_s_dw2-1.dll \
-		C:\qt-everywhere-opensource-src-4.6.3\bin\QtCore4.dll \
-		C:\qt-everywhere-opensource-src-4.6.3\bin\QtGui4.dll \
-		C:\qt-everywhere-opensource-src-4.6.3\bin\QtXml4.dll \
-		C:\qt-everywhere-opensource-src-4.6.3\bin\QtNetwork4.dll \
-		C:\qt-everywhere-opensource-src-4.6.3\bin\QtWebKit4.dll \
-		C:\qt-everywhere-opensource-src-4.6.3\bin\QtXmlPatterns4.dll \
-		C:\qt-everywhere-opensource-src-4.6.3\bin\phonon4.dll \
-		C:\poppler\libfreetype-6.dll \
-		C:\poppler\libgcc_s_sjlj-1.dll \
-		C:\poppler\libjpeg-8.dll \
-		C:\poppler\libpng14-14.dll \
-		C:\poppler\libpoppler-6.dll \
-		C:\poppler\libstdc++-6.dll \
-		C:\poppler\zlib1.dll 
+		C:\Qt\2010.05\mingw\bin\mingwm10.dll \
+		C:\Qt\2010.05\mingw\bin\libgcc_s_dw2-1.dll \
+		C:\Qt\2010.05\qt\bin\QtCore4.dll \
+		C:\Qt\2010.05\qt\bin\QtGui4.dll \
+		C:\Qt\2010.05\qt\bin\QtWebKit4.dll \
+		C:\Qt\2010.05\qt\bin\QtXml4.dll \
+		C:\Qt\2010.05\qt\bin\QtXmlPatterns4.dll \
+		C:\Qt\2010.05\qt\bin\phonon4.dll \
+		C:\Qt\2010.05\qt\bin\QtNetwork4.dll 
 INSTALLS += others
 }
 ###############################
@@ -389,16 +396,16 @@ INCLUDEPATH  += /usr/local/include/poppler/qt4
 LIBS         += -L/usr/local/lib -lpoppler-qt4
 LIBS         += -L/usr/local/lib -lpoppler
 ##universal tiger 32
-CONFIG += link_prl x86 ppc
-QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
+#CONFIG += link_prl x86
+#QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
+#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 #target.path = TexmakerMacosx32
 ##tiger snow 64
-#CONFIG += link_prl x86_64
-#QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.6.sdk
-#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-#target.path = TexmakerMacosx64
-target.path = /Applications
+CONFIG += link_prl x86_64
+QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.6.sdk
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+target.path = TexmakerMacosx64
+#target.path = /Applications
 INSTALLS = target
 SOURCES	+= singleapp/qtlockedfile_unix.cpp
 utilities.path = Contents/Resources
@@ -461,6 +468,9 @@ utilities.files = utilities/qt_menu.nib \
 	locale/texmaker_zh_CN.qm \
 	locale/texmaker_zh_TW.qm \
 	locale/texmaker_cs.qm \
+	locale/texmaker_nl.qm \
+	dictionaries/nl_NL.aff \
+	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \

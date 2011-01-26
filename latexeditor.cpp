@@ -74,6 +74,7 @@ connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
  matcher = new ParenMatcher;
  connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
 //grabShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Tab), Qt::WidgetShortcut);
+setFocusPolicy(Qt::WheelFocus);
 setFocus();
 }
 LatexEditor::~LatexEditor(){
@@ -222,6 +223,11 @@ a = menu->addAction(tr("Check Spelling Selection"), this, SLOT(checkSpellingDocu
 a->setEnabled(textCursor().hasSelection());
 a = menu->addAction(tr("Check Spelling Document"), this, SLOT(checkSpellingDocument()));
 a->setEnabled(!document()->isEmpty() && !textCursor().hasSelection());
+menu->addSeparator();
+a=new QAction(tr("Jump to pdf"),menu);
+a->setData(QVariant(cursorForPosition(e->pos()).blockNumber() + 1));
+connect(a, SIGNAL(triggered()), this, SLOT(jumpToPdf()));
+menu->addAction(a);
 menu->exec(e->globalPos());
 delete menu;
 }
@@ -467,7 +473,7 @@ void LatexEditor::checkSpellingDocument()
 emit spellme();
 }
 
-QString LatexEditor::textUnderCursor() const
+/*QString LatexEditor::textUnderCursor() const
  {
 QTextCursor tc = textCursor();
 int oldpos=tc.position();
@@ -477,6 +483,7 @@ tc.setPosition(newpos, QTextCursor::MoveAnchor);
 tc.setPosition(oldpos, QTextCursor::KeepAnchor);
 QString word=tc.selectedText();
 QString prevword="";
+QString nextword="";
 tc.setPosition(newpos, QTextCursor::MoveAnchor);
 tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor);
 //tc.setPosition(oldpos, QTextCursor::KeepAnchor);
@@ -487,14 +494,301 @@ if (sep=="{")
     tc.movePosition(QTextCursor::PreviousWord,QTextCursor::MoveAnchor);
     tc.setPosition(oldpos, QTextCursor::KeepAnchor);
     prevword=tc.selectedText();
+    prevword=prevword.trimmed();
     }
-if ((!prevword.isEmpty()) && (prevword.startsWith("\\"))) word=prevword;
-//qDebug() << sep << word << prevword;
-
+if ((!prevword.isEmpty()) && (prevword.startsWith("\\"))) {word=prevword;}
+//if ((nextword.contains("{")) || (nextword.contains("(")) || (nextword.contains("["))) word=""; 
+//if (!nextword.isEmpty()) word=""; 
 QString sword=word.trimmed();
 if (word.right(1)!=sword.right(1)) word="";
 return word;
- }
+ }*/
+
+QString LatexEditor::commandUnderCursor() const
+{
+QString result="";
+QTextCursor tc = textCursor();
+const QTextBlock block = document()->findBlock(tc.position());
+int index=tc.position()-block.position()-1;
+if (index<0) return "";
+const QString text = block.text();
+if (text.length() < 1) return "";
+if (index >= text.length()) return "";
+int start=index;
+int end=index;
+QChar	ch = text.at(index);
+#define IS_WORD_BACK(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[')
+#define IS_WORD_FORWARD(ch) (ch.isLetter() || ch.isMark() )
+bool isControlSeq = false; // becomes true if we include an @ sign or a leading backslash
+bool includesApos = false; // becomes true if we include an apostrophe
+if (IS_WORD_BACK(ch) || ch == '@' /* || ch == '\'' || ch == 0x2019 */) 
+{
+if (ch == '@') isControlSeq = true;
+while (start > 0) 
+  {
+  --start;
+  ch = text.at(start);
+  if (IS_WORD_BACK(ch))
+	  continue;
+  if (!includesApos && ch == '@') 
+    {
+    isControlSeq = true;
+    continue;
+    }
+  if (!isControlSeq && (ch == '\'' || ch == 0x2019) && start > 0 && IS_WORD_BACK(text.at(start - 1))) 
+    {
+    includesApos = true;
+    continue;
+    }
+  ++start;
+  break;
+  }
+if (start > 0 && text.at(start - 1) == '\\') 
+  {
+  isControlSeq = true;
+  --start;
+  }
+while (++end < text.length()) 
+  {
+  ch = text.at(end);
+  if (IS_WORD_FORWARD(ch))
+	  continue;
+  if (!includesApos && ch == '@') 
+    {
+    isControlSeq = true;
+    continue;
+    }
+  if (!isControlSeq && (ch == '\'' || ch == 0x2019) && end < text.length() - 1 && IS_WORD_FORWARD(text.at(end + 1))) 
+  {
+  includesApos = true;
+  continue;
+  }
+  break;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return result;
+}
+
+if (index > 0 && text.at(index - 1) == '\\') 
+  {
+  start = index - 1;
+  end = index + 1;
+  return "";
+  }
+
+if (ch.isNumber()) 
+  {
+  while (start > 0) {
+	  --start;
+	  ch = text.at(start);
+	  if (ch.isNumber())
+		  continue;
+	  ++start;
+	  break;
+  }
+  while (++end < text.length()) {
+	  ch = text.at(end);
+	  if (ch.isNumber())
+		  continue;
+	  break;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return result;
+  }
+
+if (ch == ' ' || ch == '\t') 
+  {
+  while (start > 0) {
+	  --start;
+	  ch = text.at(start);
+	  if (!(ch == ' ' || ch == '\t')) {
+		  ++start;
+		  break;
+	  }
+  }
+  while (++end < text.length()) {
+	  ch = text.at(end);
+	  if (!(ch == ' ' || ch == '\t'))
+		  break;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return result;
+  }
+
+if (ch == '\\') 
+  {
+  if (++end < text.length()) {
+	  ch = text.at(end);
+	  if (IS_WORD_FORWARD(ch) || ch == '@')
+		  while (++end < text.length()) {
+			  ch = text.at(end);
+			  if (IS_WORD_FORWARD(ch) || ch == '@')
+				  continue;
+			  break;
+		  }
+	  else
+		  ++end;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return result;
+  }
+end = index + 1;
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return result;
+}
+
+QStringList LatexEditor::fullcommandUnderCursor()
+{
+QString result="";
+QTextCursor tc = textCursor();
+const QTextBlock block = document()->findBlock(tc.position());
+int index=tc.position()-block.position()-1;
+int start=index;
+int end=index;
+if (index<0) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
+const QString text = block.text();
+if (text.length() < 1) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
+if (index >= text.length()) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
+QChar	ch = text.at(index);
+#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']')
+bool isControlSeq = false; // becomes true if we include an @ sign or a leading backslash
+bool includesApos = false; // becomes true if we include an apostrophe
+if (IS_WORD_FORMING(ch) || ch == '@' /* || ch == '\'' || ch == 0x2019 */) 
+{
+if (ch == '@') isControlSeq = true;
+while (start > 0) 
+  {
+  --start;
+  ch = text.at(start);
+  if (IS_WORD_FORMING(ch))
+	  continue;
+  if (!includesApos && ch == '@') 
+    {
+    isControlSeq = true;
+    continue;
+    }
+  if (!isControlSeq && (ch == '\'' || ch == 0x2019) && start > 0 && IS_WORD_FORMING(text.at(start - 1))) 
+    {
+    includesApos = true;
+    continue;
+    }
+  ++start;
+  break;
+  }
+if (start > 0 && text.at(start - 1) == '\\') 
+  {
+  isControlSeq = true;
+  --start;
+  }
+while (++end < text.length()) 
+  {
+  ch = text.at(end);
+  if (IS_WORD_FORMING(ch))
+	  continue;
+  if (!includesApos && ch == '@') 
+    {
+    isControlSeq = true;
+    continue;
+    }
+  if (!isControlSeq && (ch == '\'' || ch == 0x2019) && end < text.length() - 1 && IS_WORD_FORMING(text.at(end + 1))) 
+  {
+  includesApos = true;
+  continue;
+  }
+  break;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return (QStringList() << result << QString::number(index) << QString::number(start) << QString::number(end));
+}
+
+if (index > 0 && text.at(index - 1) == '\\') 
+  {
+  start = index - 1;
+  end = index + 1;
+  return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));;
+  }
+
+if (ch.isNumber()) 
+  {
+  while (start > 0) {
+	  --start;
+	  ch = text.at(start);
+	  if (ch.isNumber())
+		  continue;
+	  ++start;
+	  break;
+  }
+  while (++end < text.length()) {
+	  ch = text.at(end);
+	  if (ch.isNumber())
+		  continue;
+	  break;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return (QStringList() << result << QString::number(index) << QString::number(start) << QString::number(end));;
+  }
+
+if (ch == ' ' || ch == '\t') 
+  {
+  while (start > 0) {
+	  --start;
+	  ch = text.at(start);
+	  if (!(ch == ' ' || ch == '\t')) {
+		  ++start;
+		  break;
+	  }
+  }
+  while (++end < text.length()) {
+	  ch = text.at(end);
+	  if (!(ch == ' ' || ch == '\t'))
+		  break;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return (QStringList() << result << QString::number(index) << QString::number(start) << QString::number(end));
+  }
+
+if (ch == '\\') 
+  {
+  if (++end < text.length()) {
+	  ch = text.at(end);
+	  if (IS_WORD_FORMING(ch) || ch == '@')
+		  while (++end < text.length()) {
+			  ch = text.at(end);
+			  if (IS_WORD_FORMING(ch) || ch == '@')
+				  continue;
+			  break;
+		  }
+	  else
+		  ++end;
+  }
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return (QStringList() << result << QString::number(index) << QString::number(start) << QString::number(end));
+  }
+end = index + 1;
+tc.setPosition(block.position() + start,QTextCursor::MoveAnchor);
+tc.setPosition(block.position() + end, QTextCursor::KeepAnchor);
+result=tc.selectedText();
+return (QStringList() << result << QString::number(index) << QString::number(start) << QString::number(end));
+}
+
 
 void LatexEditor::keyPressEvent ( QKeyEvent * e ) 
 {
@@ -602,14 +896,27 @@ else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
 	cursor.endEditBlock();
 	}
 else QTextEdit::keyPressEvent(e);
-
+if (c && !c->popup()->isVisible()) 
+	{
+	switch (e->key()) 
+		{
+		case Qt::Key_Down:
+		case Qt::Key_Right:
+		case Qt::Key_Left:
+		case Qt::Key_Up:
+		case Qt::Key_PageUp:
+		case Qt::Key_PageDown:
+		return; 
+		default:
+		break;
+		}
+	}
 const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
-if (!c || (ctrlOrShift && e->text().isEmpty())) return;
+if (!c || (ctrlOrShift && e->text().isEmpty())) {return;}
 
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
-QString completionPrefix = textUnderCursor();
-
-//if (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3)
+QString completionPrefix = commandUnderCursor();
+//qDebug()<< "command:" << completionPrefix;
 if ( completionPrefix.length() < 3)
 	{
 	c->popup()->hide();
@@ -624,10 +931,21 @@ if (!e->text().isEmpty())
 		return;
 		}
 	}
+if ((c->completionModel()->rowCount()==1) && (c->completionModel()->data(c->completionModel()->index(0,0))==completionPrefix))
+	  {
+	  c->popup()->hide();
+	  return;
+	  }
 if (completionPrefix != c->completionPrefix()) 
 	{
 	c->setCompletionPrefix(completionPrefix);
-	c->popup()->setCurrentIndex(c->completionModel()->index(0, 0));
+	if ((c->completionModel()->rowCount()==1) && (c->completionModel()->data(c->completionModel()->index(0,0))==completionPrefix))
+		  {
+		  c->popup()->hide();
+		  return;
+		  }
+	if (completionPrefix.startsWith("\\beg")) c->popup()->setCurrentIndex(c->completionModel()->index(c->completionModel()->rowCount()-1,0));
+	else c->popup()->setCurrentIndex(c->completionModel()->index(0, 0));
 	}
 QRect cr = cursorRect();
 cr.setWidth(c->popup()->sizeHintForColumn(0)+ c->popup()->verticalScrollBar()->sizeHint().width());
@@ -654,11 +972,18 @@ QObject::connect(c, SIGNAL(activated(const QString&)),this, SLOT(insertCompletio
 {
 if (c->widget() != this) return;
 QTextCursor tc = textCursor();
-tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor, textUnderCursor().size());
+QStringList check=fullcommandUnderCursor();
+int t=check.at(1).toInt();
+int r=check.at(2).toInt();
+int w=check.at(0).size();
+tc.movePosition(QTextCursor::PreviousCharacter,QTextCursor::KeepAnchor,t-r+1);
+tc.removeSelectedText();
+tc.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,w-t-1+r);
 tc.removeSelectedText();
 int pos=tc.position();
 QString insert_word = completion;
 QRegExp rbb("begin\\{\\s*([A-Za-z_]+)\\}");
+//QRegExp rbb("begin\\{\\s*(.*)\\}");
 if (completion.contains(rbb)) 
 	{
 	tc.insertText(insert_word);
@@ -726,6 +1051,16 @@ if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());
 void LatexEditor::activateInlineSpell(bool enable)
 {
 inlinecheckSpelling=enable;
+}
+
+void LatexEditor::jumpToPdf()
+{
+QAction *act = qobject_cast<QAction*>(sender());
+if (act != NULL) 
+  {
+  int i=act->data().toInt();
+  emit requestpdf(i);
+  }
 }
 
 bool LatexEditor::isWordSeparator(QChar c) const

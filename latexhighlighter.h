@@ -30,7 +30,7 @@ class LatexHighlighter : public QSyntaxHighlighter
 public:
     LatexHighlighter(QTextDocument *parent = 0,bool spelling=false, QString ignoredWords="",Hunspell *spellChecker=0);
     ~LatexHighlighter();
-    QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword;
+    QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword, ColorVerbatim;
     QStringList KeyWords;
     QTextCharFormat spellingErrorFormat;
 QStringList alwaysignoredwordList;

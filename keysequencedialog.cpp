@@ -84,7 +84,7 @@ void KeySequenceDialog::handleKeyEvent(QKeyEvent *e)
     if (m_num > 3)
         m_num = 0;
     m_keySequence = QKeySequence(k0, k1, k2, k3);
-    ui.lineEdit->setText(m_keySequence.toString(QKeySequence::NativeText));
+    ui.lineEdit->setText(m_keySequence.toString(QKeySequence::PortableText));
     e->accept();
     emit keySequenceChanged(m_keySequence);
 }
@@ -95,7 +95,7 @@ void KeySequenceDialog::setKeySequence(const QKeySequence &sequence)
         return;
     m_num = 0;
     m_keySequence = sequence;
-    ui.lineEdit->setText(m_keySequence.toString(QKeySequence::NativeText));
+    ui.lineEdit->setText(m_keySequence.toString(QKeySequence::PortableText));
 }
 
 QKeySequence KeySequenceDialog::keySequence() const

@@ -1,4 +1,4 @@
-  Texmaker is licensed to you under the terms of the GNU General 
+Texmaker is licensed to you under the terms of the GNU General 
 Public License Version 2 as published by the Free Software Foundation:
 
 		GNU LIBRARY GENERAL PUBLIC LICENSE

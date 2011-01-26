@@ -1,3 +1,20 @@
+version 2.1 -> 2.2 :
+--------------------
+- Users can mow easily select a file already opened with a new file selector in the status bar (usefull when a large number of files are opened)
+- pdf pages are now displayed in continuous mode in the pdf viewer
+- printing support has been added to the pdf previewer (ghostscript is required on windows system)
+- the shortcuts are now recorded in english (using a new langage should no more affect the shortcuts)
+- shortcuts can now be removed in the configuration dialog (bug fixed)
+- nl translation has been added
+- syntax highlighting is deactivated between sweave code
+- verbatim, pspicture, tikzpicture, asy environments are now highlighted
+- Users can now reload a document modified externally with the "Reload document from file" command in the "File" menu (all changes not saved with texmaker will be lost)
+- at the first use on windows, Texmaker now tries to autodetect the path to yap, acroread and ghostscript
+- the nl dictionnary has been added
+- completion has been modified (less intrusive)
+- all "foo*.asy" files are now automatically compiled by Texmaker with the asymptote command (new behaviour of the recent release of asymptote)
+- Options has been added to the "includegraphics" dialog (figure environment and caption can be added)
+
 version 2.0 -> 2.1 :
 ----------------------
 - synctex support has been added

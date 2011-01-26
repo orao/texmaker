@@ -107,7 +107,7 @@ QMenu *helpMenu;
 
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar, *centralToolBar;
 QAction *recentFileActs[10], *ToggleAct;
-QComboBox *comboCompil, *comboView;
+QComboBox *comboCompil, *comboView, *comboFiles;
 
 QLabel *stat1, *stat2, *stat3;
 QPushButton *pb1, *pb2, *pb3;
@@ -118,7 +118,7 @@ QStringList recentFilesList, sessionFilesList;
 int split1_right, split1_left, split2_top, split2_bottom, quickmode;
 bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance ;
 QString document_class, typeface_size, paper_size, document_encoding, author;
-QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command;
+QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize;
 QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command;
 QString spell_dic, spell_ignored_words;
 QString lastDocument, input_encoding;
@@ -127,7 +127,6 @@ QStringList userClassList, userPaperList, userEncodingList, userOptionsList;
 QStringList structlist, labelitem, structitem;
 Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
-int pdfviewerwidth, pdfviewerheight;
 //dialogs
 QPointer<ReplaceDialog> replaceDialog;
 QPointer<GotoLineDialog> gotoLineDialog;
@@ -181,6 +180,8 @@ void UpdateRecentFile();
 void filePrint();
 void fileOpenAndGoto(const QString &f, int line);
 void getFocusToEditor();
+void fileReload();
+void listSelectionActivated(int index);
 
 void editUndo();
 void editRedo();
@@ -201,6 +202,7 @@ void editTipTab();
 
 void ReadSettings();
 void SaveSettings();
+void setPrintPaperSize(const QString &p);
 
 void NewDocumentStatus(bool m);
 void UpdateCaption();
@@ -294,6 +296,7 @@ void PStoPDF();
 void DVItoPDF();
 void MetaPost();
 void Asymptote();
+void AsyFile(QString asyfile);
 void UserTool1();
 void UserTool2();
 void UserTool3();
@@ -302,6 +305,7 @@ void UserTool5();
 void EditUserTool();
 void doCompile();
 void doView();
+void jumpToPdfline(int line);
 
 void WebPublish();
 
@@ -342,6 +346,8 @@ void updateCompleter();
 void updateTranslation();
 void updateAppearance();
 
+void disableToolsActions();
+void enableToolsActions();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);

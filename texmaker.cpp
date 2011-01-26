@@ -60,6 +60,12 @@
 #endif
 #endif
 
+#ifdef Q_WS_WIN
+#if (QT_VERSION >= 0x0406)
+#include <QProcessEnvironment>
+#endif
+#endif
+
 //#ifdef Q_WS_WIN
 //#include <windows.h>
 //#endif
@@ -71,6 +77,7 @@
 #include "manhattanstyle.h"
 #include "structdialog.h"
 #include "filechooser.h"
+#include "graphicfilechooser.h"
 #include "tabdialog.h"
 #include "arraydialog.h"
 #include "tabbingdialog.h"
@@ -295,8 +302,9 @@ OutputTableWidget->setColumnWidth(2,fm.width("WarningW"));
 OutputTableWidget->setColumnWidth(3,fm.width("Line WWWWW"));
 OutputTableWidget->setColumnWidth(4,20*fm.width("w"));
 connect(OutputTableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(ClickedOnLogLine(QTableWidgetItem*)));
-
+OutputTableWidget->horizontalHeader()->setStretchLastSection(true);
 OutputTableWidget->setMinimumHeight(5*(fm.lineSpacing()+4));
+OutputTableWidget->verticalHeader()->hide();
 
 
 OutputTextEdit = new LogEditor(Outputframebis);
@@ -524,6 +532,10 @@ fileMenu->addAction(Act);
 
 Act = new QAction(tr("Close All"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileCloseAll()));
+fileMenu->addAction(Act);
+
+Act = new QAction(tr("Reload document from file"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(fileReload()));
 fileMenu->addAction(Act);
 
 Act = new QAction(tr("Print"), this);
@@ -1408,11 +1420,11 @@ user12Menu->addAction(Act);
 
 viewMenu = menuBar()->addMenu(tr("&View"));
 Act = new QAction(tr("Next Document"), this);
-Act->setShortcut(Qt::ALT+Qt::Key_PageUp);
+Act->setShortcut(Qt::ALT+Qt::Key_PageDown);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoNextDocument()));
 viewMenu->addAction(Act);
 Act = new QAction(tr("Previous Document"), this);
-Act->setShortcut(Qt::ALT+Qt::Key_PageDown);
+Act->setShortcut(Qt::ALT+Qt::Key_PageUp);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoPrevDocument()));
 viewMenu->addAction(Act);
 viewMenu->addSeparator();
@@ -1500,7 +1512,7 @@ if (shortcuts.isEmpty())
 		if (action && (!action->menu()) && (!action->data().toString().isEmpty())) 
 			{
 			if (action->shortcut().isEmpty()) shortcuts.insert(action->data().toString(),"none");
-			else shortcuts.insert(action->data().toString(),action->shortcut());
+			else shortcuts.insert(action->data().toString(),action->shortcut().toString(QKeySequence::PortableText));
 			actionstext.insert(action->data().toString(),action->text());
 			}
 		}
@@ -1570,6 +1582,7 @@ list.append("subsubsection");
 list.append("paragraph");
 list.append("subparagraph");
 QComboBox* combo1 = new QComboBox(formatToolBar);
+combo1->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 combo1->addItems(list);
 connect(combo1, SIGNAL(activated(const QString&)),this,SLOT(SectionCommand(const QString&)));
 formatToolBar->addWidget(combo1);
@@ -1582,6 +1595,7 @@ list.append("index");
 list.append("cite");
 list.append("footnote");
 QComboBox* combo2 = new QComboBox(formatToolBar);
+combo2->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 combo2->addItems(list);
 connect(combo2, SIGNAL(activated(const QString&)),this,SLOT(OtherCommand(const QString&)));
 formatToolBar->addWidget(combo2);
@@ -1598,6 +1612,7 @@ list.append("LARGE");
 list.append("huge");
 list.append("Huge");
 QComboBox* combo3 = new QComboBox(formatToolBar);
+combo3->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 combo3->addItems(list);
 connect(combo3, SIGNAL(activated(const QString&)),this,SLOT(SizeCommand(const QString&)));
 formatToolBar->addWidget(combo3);
@@ -1621,6 +1636,7 @@ list.append("Asymptote");
 for ( int i = 0; i <= 4; i++ ) list.append(QString::number(i+1)+": "+UserToolName[i]);
 
 comboCompil = new QComboBox(runToolBar);
+comboCompil->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 comboCompil->addItems(list);
 comboCompil->setCurrentIndex(runIndex);
 connect(runToolBar->addAction(QIcon(":/images/run.png"),tr("Run")), SIGNAL(triggered()), this, SLOT(doCompile()));
@@ -1632,6 +1648,7 @@ list.append(tr("View PS"));
 list.append(tr("View PDF"));
 
 comboView = new QComboBox(runToolBar);
+comboView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 comboView->addItems(list);
 comboView->setCurrentIndex(viewIndex);
 connect(runToolBar->addAction(QIcon(":/images/run.png"),tr("View")), SIGNAL(triggered()), this, SLOT(doView()));
@@ -1654,7 +1671,6 @@ Act->setShortcut(Qt::ALT+Qt::Key_Up);
 Act->setToolTip("Alt+Up");
 connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
 logToolBar->addAction(Act);
-
 
 
 }
@@ -1681,9 +1697,19 @@ pb3->setMaximumSize(20,20);
 pb1->setFlat(true);
 pb2->setFlat(true);
 pb3->setFlat(true);
+
+comboFiles=new QComboBox(status);
+comboFiles->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+comboFiles->setMinimumContentsLength(20);
+comboFiles->setMaxVisibleItems(40);
+comboFiles->setContextMenuPolicy(Qt::CustomContextMenu);
+connect(comboFiles, SIGNAL(activated(int)), this, SLOT(listSelectionActivated(int)));
+
+
 status->addPermanentWidget(stat3,0);
 status->addPermanentWidget(stat2,0);
 status->addPermanentWidget(stat1,0);
+status->addPermanentWidget(comboFiles,0);
 status->addPermanentWidget(pb1,0);
 status->addPermanentWidget(pb2,0);
 status->addPermanentWidget(pb3,0);
@@ -1707,7 +1733,11 @@ if (singlemode)
 	logpresent=false;
 	}
 QString finame=getName();
-if (finame!="untitled" && finame!="") lastDocument=finame;
+if (finame!="untitled" && finame!="") 
+  {
+  lastDocument=finame;
+  comboFiles->setCurrentIndex(comboFiles->findData(finame,Qt::UserRole,Qt::MatchExactly | Qt::MatchCaseSensitive));
+  }
 }
 
 void Texmaker::NewDocumentStatus(bool m)
@@ -1765,6 +1795,7 @@ void Texmaker::load( const QString &f )
 if (FileAlreadyOpen(f) || !QFile::exists( f )) return;
 LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,colorMath,colorCommand,colorKeyword,inlinespellcheck,spell_ignored_words,spellChecker);
 EditorView->addTab( edit, QFileInfo( f ).fileName() );
+comboFiles->addItem(QFileInfo( f ).fileName(),f);
 EditorView->setCurrentIndex(EditorView->indexOf(edit));
 edit->editor->setReadOnly(false);
 edit->editor->setEncoding(input_encoding);
@@ -1788,10 +1819,10 @@ edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
+connect(edit->editor, SIGNAL(requestpdf(int)),this, SLOT(jumpToPdfline(int)));
 
 if (wordwrap) {edit->editor->setWordWrapMode(QTextOption::WordWrap);}
 else {edit->editor->setWordWrapMode(QTextOption::NoWrap);}
-edit->editor->setFocus();
 UpdateCaption();
 NewDocumentStatus(false);
 AddRecentFile(f);
@@ -1808,7 +1839,7 @@ setFocus();
 //        if (IsIconic (this->winId())) ShowWindow(this->winId(), SW_RESTORE);
 //#endif
 #endif
-
+edit->editor->setFocus();
 }
 
 void Texmaker::setLine( const QString &line )
@@ -1852,6 +1883,7 @@ edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
+connect(edit->editor, SIGNAL(requestpdf(int)),this, SLOT(jumpToPdfline(int)));
 
 UpdateCaption();
 NewDocumentStatus(false);
@@ -1895,6 +1927,7 @@ edit->editor->document()->setModified(true);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
+connect(edit->editor, SIGNAL(requestpdf(int)),this, SLOT(jumpToPdfline(int)));
 UpdateCaption();
 NewDocumentStatus(true);
 edit->editor->setFocus();
@@ -1954,6 +1987,7 @@ if ( !fn.isEmpty() )
 	filenames.insert(currentEditorView(), fn );
 	fileSave();
 	EditorView->setTabText(EditorView->indexOf(currentEditorView()),fic.fileName());
+	comboFiles->addItem(fic.fileName(),fn);
 	}
 UpdateCaption();
 }
@@ -2001,23 +2035,26 @@ if (currentEditorView()->editor->document()->isModified())
 					2 ) )
 		{
 		case 0:
-			fileSave();
-		filenames.remove(currentEditorView());
-			delete currentEditorView();
-			break;
+		  fileSave();
+		  filenames.remove(currentEditorView());
+		  comboFiles->removeItem(comboFiles->currentIndex());
+		  delete currentEditorView();
+		  break;
 		case 1:
-		filenames.remove(currentEditorView());
-			delete currentEditorView();
-			break;
+		  filenames.remove(currentEditorView());
+		  comboFiles->removeItem(comboFiles->currentIndex());
+		  delete currentEditorView();
+		  break;
 		case 2:
-		default:
-			return;
-			break;
+		  default:
+		  return;
+		  break;
 		}
 	}
 else
 {
 filenames.remove(currentEditorView());
+comboFiles->removeItem(comboFiles->currentIndex());
 delete currentEditorView();
 }
 UpdateCaption();
@@ -2046,10 +2083,12 @@ while (currentEditorView() && go)
 			case 0:
 			fileSave();
 			filenames.remove(currentEditorView());
+			comboFiles->removeItem(comboFiles->currentIndex());
 			delete currentEditorView();
 			break;
 			case 1:
 			filenames.remove(currentEditorView());
+			comboFiles->removeItem(comboFiles->currentIndex());
 			delete currentEditorView();
 			break;
 			case 2:
@@ -2062,6 +2101,7 @@ while (currentEditorView() && go)
 	else
 		{
 		filenames.remove(currentEditorView());
+		comboFiles->removeItem(comboFiles->currentIndex());
 		delete currentEditorView();
 		}
 	}
@@ -2088,10 +2128,12 @@ while (currentEditorView() && accept)
 			case 0:
 				fileSave();
 			filenames.remove(currentEditorView());
+			comboFiles->removeItem(comboFiles->currentIndex());
 				delete currentEditorView();
 				break;
 			case 1:
 			filenames.remove(currentEditorView());
+			comboFiles->removeItem(comboFiles->currentIndex());
 				delete currentEditorView();
 				break;
 			case 2:
@@ -2104,6 +2146,7 @@ while (currentEditorView() && accept)
 	else
 		{
 		filenames.remove(currentEditorView());
+		comboFiles->removeItem(comboFiles->currentIndex());
 		delete currentEditorView();
 		}
 	}
@@ -2130,10 +2173,12 @@ while (currentEditorView() && accept)
 			case 0:
 				fileSave();
 			filenames.remove(currentEditorView());
+			comboFiles->removeItem(comboFiles->currentIndex());
 				delete currentEditorView();
 				break;
 			case 1:
 			filenames.remove(currentEditorView());
+			comboFiles->removeItem(comboFiles->currentIndex());
 				delete currentEditorView();
 				break;
 			case 2:
@@ -2145,6 +2190,7 @@ while (currentEditorView() && accept)
 	else
 		{
 		filenames.remove(currentEditorView());
+		comboFiles->removeItem(comboFiles->currentIndex());
 		delete currentEditorView();
 		}
 	}
@@ -2206,10 +2252,66 @@ void Texmaker::getFocusToEditor()
 show();
 if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
 #endif
+show();
+if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
 qApp->setActiveWindow(this);
 activateWindow();
 setFocus();
 if (currentEditorView()) currentEditorView()->editor->setFocus();
+}
+
+void Texmaker::fileReload()
+{
+if ( !currentEditorView() ) return;
+if ( getName()=="untitled" ) return;
+QString f=filenames[currentEditorView()];
+if (currentEditorView()->editor->document()->isModified())
+	{
+	switch(  QMessageBox::warning(this, "Texmaker",
+					tr("The document contains unsaved work."
+					"You will lose changes by reloading the document."),
+					tr("Reload the file"), tr("Cancel"),
+					0,
+					1 ) )
+		{
+		case 0:
+			filenames.remove(currentEditorView());
+			comboFiles->removeItem(comboFiles->currentIndex());
+			delete currentEditorView();
+			load(f);
+			break;
+		case 1:
+		default:
+			return;
+			break;
+		}
+	}
+else
+  {
+  filenames.remove(currentEditorView());
+comboFiles->removeItem(comboFiles->currentIndex());
+  delete currentEditorView();
+  load(f);
+  }
+}
+
+void Texmaker::listSelectionActivated(int index)
+{
+QString f=comboFiles->itemData(index, Qt::UserRole).toString();
+FilesMap::Iterator it;
+QString fw32,funix,forig;
+for( it = filenames.begin(); it != filenames.end(); ++it )
+	{
+	forig=filenames[it.key()];
+	fw32=filenames[it.key()];
+	funix=filenames[it.key()];
+	fw32.replace(QString("\\"),QString("/"));
+	funix.replace(QString("/"),QString("\\"));
+	if ( (forig==f) || (fw32==f) || (funix==f)) 
+		{
+		EditorView->setCurrentIndex(EditorView->indexOf(it.key()));
+		}
+	}
 }
 //////////////////////////// EDIT ///////////////////////
 void Texmaker::editUndo()
@@ -2357,12 +2459,16 @@ if (!config->contains("IniMode"))
 config->beginGroup( "texmaker" );
 singlemode=true;
 
+
 QFontDatabase fdb;
 QStringList xf = fdb.families();
 QString deft;
 
+bool new_user=(!config->contains("GUI/New Version"));
+
 modern_style=config->value( "GUI/Style",true).toBool();
 new_gui=config->value( "GUI/New Version",false).toBool();
+
 
 QRect screen = QApplication::desktop()->screenGeometry();
 int w= config->value( "Geometries/MainwindowWidth",screen.width()-150).toInt();
@@ -2372,8 +2478,7 @@ int y= config->value( "Geometries/MainwindowY",30).toInt() ;
 resize(w,h);
 move(x,y);
 windowstate=config->value("MainWindowState").toByteArray();
-pdfviewerwidth=config->value( "Geometries/PdfViewerWidth",screen.width()/2).toInt();
-pdfviewerheight= config->value( "Geometries/PdfViewerHeight",screen.height()/2).toInt() ;
+psize=config->value( "Print/PaperSize","a4").toString();
 #ifdef Q_WS_WIN
 if (xf.contains("Courier New",Qt::CaseInsensitive)) deft="Courier New";
 else deft=qApp->font().family();
@@ -2442,14 +2547,60 @@ bibtex_command=config->value("Tools/Bibtex","bibtex %").toString();
 pdflatex_command=config->value("Tools/Pdflatex","pdflatex -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","dvipdfm %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode ").toString();
-viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.8/miktex/bin/yap.exe\" %.dvi").toString();
-//C:/texmf/miktex/bin/yap.exe
-//\"C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi
+viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe\" %.dvi").toString();
 viewps_command=config->value("Tools/Ps","\"C:/Program Files/Ghostgum/gsview/gsview32.exe\" %.ps").toString();
 viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 9.0/Reader/AcroRd32.exe\" %.pdf").toString();
-ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs8.64/bin/gswin32c.exe\"").toString();
+ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs9.00/bin/gswin32c.exe\"").toString();
 asymptote_command=config->value("Tools/Asymptote","\"C:/Asymptote/asy.exe\" %.asy").toString();
+QString yap="C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe";
+QString gsview="C:/Program Files/Ghostgum/gsview/gsview32.exe";
+QString gswin="C:/Program Files/gs/gs9.00/bin/gswin32c.exe";
+QString acro="C:/Program Files/Adobe/Reader 9.0/Reader/AcroRd32.exe";
 
+if (new_user)
+  {
+  if (!QFileInfo(gswin).exists())
+    {
+    if (QFileInfo("C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs8.71/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.71/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.71/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.71/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs8.64/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.64/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.64/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.65/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs8.63/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.63/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.63/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.63/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs8.62/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.62/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.62/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.62/bin/gswin32c.exe";
+    }
+  ghostscript_command="\""+gswin+"\"";
+  if (!QFileInfo(yap).exists())
+    {
+    if (QFileInfo("C:/Program Files (x86)/MiKTeX 2.9/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 2.9/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files/MiKTeX 2.8/miktex/bin/yap.exe").exists()) yap="C:/Program Files/MiKTeX 2.8/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files (x86)/MiKTeX 2.8/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 2.8/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe").exists()) yap="C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files (x86)/MiKTeX 2.7/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 2.7/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files/MiKTeX 2.5/miktex/bin/yap.exe").exists()) yap="C:/Program Files/MiKTeX 2.5/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files (x86)/MiKTeX 2.5/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 2.5/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/texlive/2009/bin/win32/dviout.exe").exists()) yap="C:/texlive/2009/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2010/bin/win32/dviout.exe").exists()) yap="C:/texlive/2010/bin/win32/dviout.exe";
+    }
+  viewdvi_command="\""+yap+"\" %.dvi";  
+  if (!QFileInfo(gsview).exists())
+    {
+    if (QFileInfo("C:/Program Files (x86)/Ghostgum/gsview/gsview32.exe").exists()) gsview="C:/Program Files (x86)/Ghostgum/gsview/gsview32.exe";
+    else if (QFileInfo("C:/texlive/2009/bin/win32/psv.exe").exists()) gsview="C:/texlive/2009/bin/win32/psv.exe";
+    else if (QFileInfo("C:/texlive/2010/bin/win32/psv.exe").exists()) gsview="C:/texlive/2010/bin/win32/psv.exe";
+    }
+  viewps_command="\""+gsview+"\" %.ps";
+  if (!QFileInfo(acro).exists())
+    {
+    if (QFileInfo("C:/Program Files (x86)/Adobe/Reader 9.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files (x86)/Adobe/Reader 9.0/Reader/AcroRd32.exe";
+    else if (QFileInfo("C:/Program Files/Adobe/Reader 8.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files/Adobe/Reader 8.0/Reader/AcroRd32.exe";
+    else if (QFileInfo("C:/Program Files (x86)/Adobe/Reader 8.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files (x86)/Adobe/Reader 8.0/Reader/AcroRd32.exe";
+    }
+  viewpdf_command="\""+acro+"\" %.pdf"; 
+  }
+//\"C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi
 
 if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
 #endif
@@ -2460,7 +2611,7 @@ QString kdesession= ::getenv("KDE_FULL_SESSION");
 QString kdeversion= ::getenv("KDE_SESSION_VERSION");
 if (!kdesession.isEmpty()) desktop_env=2;
 if (!kdeversion.isEmpty()) desktop_env=3;
-
+//desktop_env=1;
 latex_command=config->value("Tools/Latex","latex -interaction=nonstopmode %.tex").toString();
 dvips_command=config->value("Tools/Dvips","dvips -o %.ps %.dvi").toString();
 ps2pdf_command=config->value("Tools/Ps2pdf","ps2pdf %.ps").toString();
@@ -2703,13 +2854,7 @@ config.setValue("Geometries/MainwindowHeight", height() );
 config.setValue("Geometries/MainwindowX", x() );
 config.setValue("Geometries/MainwindowY", y() );
 
-if (pdfviewerWindow)
-  {
-  pdfviewerwidth=pdfviewerWindow->width();
-  pdfviewerheight=pdfviewerWindow->height();
-  }
-config.setValue("Geometries/PdfViewerWidth",pdfviewerwidth);
-config.setValue("Geometries/PdfViewerHeight",pdfviewerheight);
+config.setValue("Print/PaperSize",psize);
 
 config.setValue("Editor/Font Family",EditorFont.family());
 config.setValue( "Editor/Font Size",EditorFont.pointSize());
@@ -2722,6 +2867,7 @@ QStringList data,shortcut;
 // data.clear();
 // shortcut.clear();
 KeysMap::Iterator its;
+
 for( its = shortcuts.begin(); its != shortcuts.end(); ++its )
 	{
 	data.append(its.key());
@@ -2838,6 +2984,11 @@ config.setValue("Color/Keyword",colorKeyword);
 
 
 config.endGroup();
+}
+
+void Texmaker::setPrintPaperSize(const QString &p)
+{
+psize=p;
 }
 
 ////////////////// STRUCTURE ///////////////////
@@ -3025,6 +3176,7 @@ while (p.isValid())
 		parent_level[0] = new QTreeWidgetItem(top);
 		parent_level[0]->setText(0,s);
 		parent_level[0]->setIcon(0,QIcon(":/images/part.png"));
+		StructureTreeWidget->expandItem(parent_level[0]);
 		parent_level[1]=parent_level[2]=parent_level[3]=parent_level[4]=parent_level[0];
 		};
 	//// chapter ////
@@ -3041,6 +3193,7 @@ while (p.isValid())
 		parent_level[1] = new QTreeWidgetItem(parent_level[0]);
 		parent_level[1]->setText(0,s);
 		parent_level[1]->setIcon(0,QIcon(":/images/chapter.png"));
+		StructureTreeWidget->expandItem(parent_level[1]);
 		parent_level[2]=parent_level[3]=parent_level[4]=parent_level[1];
 		};
 	//// section ////
@@ -3057,6 +3210,7 @@ while (p.isValid())
 		parent_level[2] = new QTreeWidgetItem(parent_level[1]);
 		parent_level[2]->setText(0,s);
 		parent_level[2]->setIcon(0,QIcon(":/images/section.png"));
+		StructureTreeWidget->expandItem(parent_level[2]);
 		parent_level[3]=parent_level[4]=parent_level[2];
 		};
 	//// subsection ////
@@ -3102,7 +3256,7 @@ if (!current.isEmpty())
 		theitem=fItems.at(0)->parent();
 		while ((theitem) && (theitem!=top)) 
 			{	
-			StructureTreeWidget->setItemExpanded (theitem,true);
+			StructureTreeWidget->expandItem(theitem);
 			theitem=theitem->parent();
 			}
 		}
@@ -3369,20 +3523,30 @@ if ( stDlg->exec() )
 void Texmaker::InsertImage()
 {
 if ( !currentEditorView() )	return;
+QString tag;
 QString currentDir=QDir::homePath();
 QString finame;
 if (singlemode) {finame=getName();}
 else {finame=MasterName;}
 QFileInfo fi(finame);
 if (finame!="untitled") currentDir=fi.absolutePath();
-FileChooser *sfDlg = new FileChooser(this,tr("Select an image File"));
+GraphicFileChooser *sfDlg = new GraphicFileChooser(this,tr("Select an image File"));
 sfDlg->setFilter("Graphic files (*.eps *.pdf *.png);;All files (*.*)");
 sfDlg->setDir(currentDir);
 if (sfDlg->exec() )
 	{
 	QString fn=sfDlg->fileName();
 	QFileInfo fi(fn);
-	InsertTag("\\includegraphics[scale=1]{"+fi.completeBaseName()+"."+fi.suffix()+"} ",26,0);
+	if (!sfDlg->ui.moreButton->isChecked()) InsertTag("\\includegraphics[scale=1]{"+fi.completeBaseName()+"."+fi.suffix()+"} ",26,0);
+	else
+	  {
+	  tag = "\\begin{figure}["+sfDlg->ui.lineEditPlacement->text()+"]\n";
+	  if(sfDlg->ui.comboBoxCaption->currentIndex()==0) tag+="\\caption{"+sfDlg->ui.lineEditCaption->text()+"}\n";
+	  tag+="\\includegraphics[scale=1]{"+fi.completeBaseName()+"."+fi.suffix()+"}\n";
+	  if(sfDlg->ui.comboBoxCaption->currentIndex()==1) tag+="\\caption{"+sfDlg->ui.lineEditCaption->text()+"}\n";
+	  tag+="\\end{figure}\n";
+	  InsertTag(tag,0,4);
+	  }
 	}
 }
 
@@ -4313,34 +4477,45 @@ fileSave();
 QFileInfo fi(finame);
 QString basename=fi.completeBaseName();
 commandline.replace("%","\""+basename+"\"");
-//commandline.replace("%",basename);
-int currentline=currentEditorView()->editor->linefromblock(currentEditorView()->editor->textCursor().block());
+int currentline=1;
+if (currentEditorView() )
+  {
+  currentline=currentEditorView()->editor->linefromblock(currentEditorView()->editor->textCursor().block());
+  }
 commandline.replace("@",QString::number(currentline));
 
 if (builtinpdfview && (comd==viewpdf_command))
   {
   if (pdfviewerWindow)
     {
-    pdfviewerWindow->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command);
+    pdfviewerWindow->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
     pdfviewerWindow->raise();
     pdfviewerWindow->show();
-    pdfviewerwidth=pdfviewerWindow->width();
-    pdfviewerheight=pdfviewerWindow->height();
     if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,currentline);
     }
   else
     {
-    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
+//    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
+    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,0);
     connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int)), this, SLOT(fileOpenAndGoto(const QString&, int)));
     connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
+    connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
     pdfviewerWindow->raise();
     pdfviewerWindow->show();
-    pdfviewerWindow->resize(pdfviewerwidth,pdfviewerheight);
     if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,currentline);
     }
   return;
   }
-
+else if (comd==asymptote_command)
+  {
+  QDir currentdir(fi.absolutePath());
+  foreach (QFileInfo asyFileInfo, currentdir.entryInfoList(QStringList(basename+"*.asy"),QDir::Files | QDir::Readable, QDir::Name | QDir::IgnoreCase)) 
+    {
+    QString asyName = asyFileInfo.absolutePath()+"/"+asyFileInfo.completeBaseName();
+    AsyFile(asyName);
+    }
+  return;
+  }
 proc = new QProcess( this );
 proc->setWorkingDirectory(fi.absolutePath());
 proc->setProperty("command",commandline);
@@ -4350,6 +4525,14 @@ proc->setProperty("command",commandline);
 #if (QT_VERSION >= 0x0406)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+proc->setProcessEnvironment(env);
+#endif
+#endif
+#ifdef Q_WS_WIN
+#if (QT_VERSION >= 0x0406)
+QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+QFileInfo figs(ghostscript_command);
+env.insert("PATH", env.value("PATH") + ":"+figs.absolutePath());
 proc->setProcessEnvironment(env);
 #endif
 #endif
@@ -4373,6 +4556,8 @@ else connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndProcess(int)));
 OutputTextEdit->clear();
 OutputTableWidget->hide();
 //OutputTextEdit->insertLine(commandline+"\n");
+//qDebug() << commandline;
+disableToolsActions();
 proc->start(commandline);
 if (!proc->waitForStarted(1000)) 
 	{
@@ -4388,7 +4573,7 @@ if (waitendprocess)
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	while (!FINPROCESS) 
 		{
-		qApp->instance()->processEvents(QEventLoop::ExcludeUserInputEvents);
+		qApp->instance()->processEvents(QEventLoop::WaitForMoreEvents);
 		}
 	 QApplication::restoreOverrideCursor();
 	}
@@ -4411,6 +4596,7 @@ if (!t.isEmpty()) OutputTextEdit->insertLine(t+"\n");
 void Texmaker::SlotEndProcess(int err)
 {
 FINPROCESS=true;
+enableToolsActions();
 QString result=((err) ? "Process exited with error(s)" : "Process exited normally");
 if (err) {ERRPROCESS=true;checkViewerInstance=false;}
 OutputTextEdit->insertLine(result);
@@ -4422,6 +4608,7 @@ void Texmaker::SlotEndViewerProcess(int err)
 QString commandline = static_cast<QProcess*>(sender())->property("command").toString();
 if ((singleviewerinstance) && (listViewerCommands.contains(commandline))) listViewerCommands.removeAll(commandline);
 FINPROCESS=true;
+enableToolsActions();
 QString result=((err) ? "Process exited with error(s)" : "Process exited normally");
 if (err) {ERRPROCESS=true;checkViewerInstance=false;}
 OutputTextEdit->insertLine(result);
@@ -4736,6 +4923,49 @@ stat2->setText(QString(" %1 ").arg("Asymptote"));
 RunCommand(asymptote_command,false);
 }
 
+void Texmaker::AsyFile(QString asyfile)
+{
+QString commandline=asymptote_command;
+QFileInfo fi(asyfile);
+commandline.replace("%","\""+asyfile+"\"");
+qDebug() << commandline;
+proc = new QProcess( this );
+proc->setWorkingDirectory(fi.absolutePath());
+proc->setProperty("command",commandline);
+
+//****
+#ifdef Q_WS_MACX
+#if (QT_VERSION >= 0x0406)
+QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+proc->setProcessEnvironment(env);
+#endif
+#endif
+//****
+connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
+//connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
+connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndProcess(int)));
+OutputTextEdit->clear();
+OutputTableWidget->hide();
+//OutputTextEdit->insertLine(commandline+"\n");
+proc->start(commandline);
+if (!proc->waitForStarted(1000)) 
+	{
+	ERRPROCESS=true;
+	OutputTextEdit->insertLine("Error : could not start the command\n");
+	checkViewerInstance=false;
+	return;
+	}
+else OutputTextEdit->insertLine("Process started\n");
+FINPROCESS=false;
+QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+while (!FINPROCESS) 
+	{
+	qApp->instance()->processEvents(QEventLoop::ExcludeUserInputEvents);
+	}
+QApplication::restoreOverrideCursor();
+}
+
 void Texmaker::UserTool1()
 {
 QStringList commandList=UserToolCommand[0].split("|");
@@ -4920,6 +5150,40 @@ ViewPS();
 ViewPDF();
 		}break;
 	}
+}
+
+void Texmaker::jumpToPdfline(int line)
+{
+QString finame;
+if (singlemode) {finame=getName();}
+else {finame=MasterName;}
+if ((singlemode && !currentEditorView()) || finame=="untitled" || finame=="")
+	{
+	QMessageBox::warning( this,tr("Error"),tr("Can't detect the file name"));
+	return;
+	}
+fileSave();
+QFileInfo fi(finame);
+if (!fi.exists()) return;
+QString basename=fi.completeBaseName();
+  if (pdfviewerWindow)
+    {
+    if (pdfviewerWindow->pdf_file!=fi.absolutePath()+"/"+basename+".pdf") pdfviewerWindow->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+    pdfviewerWindow->raise();
+    pdfviewerWindow->show();
+    if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,line);
+    }
+  else
+    {
+//    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
+    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,0);
+    connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int)), this, SLOT(fileOpenAndGoto(const QString&, int)));
+    connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
+    connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
+    pdfviewerWindow->raise();
+    pdfviewerWindow->show();
+    if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,line);
+    }
 }
 
 void Texmaker::WebPublish()
@@ -5324,11 +5588,13 @@ if (errorFileList.count()>0)
 			row++;
 			}
 		}
-	OutputTableWidget->setColumnWidth(4,maxwidth);
-	for ( int i = 0; i<OutputTableWidget->rowCount(); ++i )
-		{
-		OutputTableWidget->setRowHeight(i,rowheight);
-		}
+//	OutputTableWidget->setColumnWidth(4,maxwidth);
+//	for ( int i = 0; i<OutputTableWidget->rowCount(); ++i )
+//		{
+//		OutputTableWidget->setRowHeight(i,rowheight);
+//		}
+	OutputTableWidget->resizeColumnsToContents();
+	OutputTableWidget->resizeRowsToContents();
 	}
 else
 	{
@@ -5880,7 +6146,7 @@ while ( iterator.hasNext() )
 			{
 			f=its.key().section("/",0,0);
 			s=its.value();
-			if (f==d && s!="none" && !s.isEmpty()) action->setShortcut(s);
+			if (f==d && s!="none" && !s.isEmpty()) action->setShortcut(QKeySequence(s));
 			}
 // 		its=shortcuts.find(action->data().toString());
 // 		if (its!=shortcuts.end()) 
@@ -5968,5 +6234,35 @@ QAction *action = qobject_cast<QAction *>(sender());
 QString style=action->text();
 modern_style=(action->text()=="Modern");
 QMessageBox::information( this,"Texmaker",tr("The appearance setting will take effect after restarting the application."));
+}
+
+void Texmaker::disableToolsActions()
+{
+QList<QAction *> listaction;
+listaction << toolMenu->actions();
+listaction << user12Menu->actions();
+listaction << optionsMenu->actions();
+listaction << runToolBar->actions();
+QListIterator<QAction*> iterator(listaction);
+while ( iterator.hasNext() )
+	{
+	QAction *action=iterator.next();
+	action->setEnabled(false);
+	}
+}
+
+void Texmaker::enableToolsActions()
+{
+QList<QAction *> listaction;
+listaction << toolMenu->actions();
+listaction << user12Menu->actions();
+listaction << optionsMenu->actions();
+listaction << runToolBar->actions();
+QListIterator<QAction*> iterator(listaction);
+while ( iterator.hasNext() )
+	{
+	QAction *action=iterator.next();
+	action->setEnabled(true);
+	}
 }
 

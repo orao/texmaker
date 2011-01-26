@@ -23,11 +23,10 @@ LatexHighlighter::LatexHighlighter(QTextDocument *parent,bool spelling,QString i
 	ColorMath = QColor(0x00,0x80, 0x00);
 	ColorCommand=QColor(0x80, 0x00, 0x00);
 	ColorKeyword=QColor(0x00, 0x00, 0xCC);
+	ColorVerbatim = QColor("#9A4D00"); //#B08000
 	KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
-	QBrush brush(ColorStandard);
 	spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
 	spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
-	spellingErrorFormat.setForeground(brush);
 checkSpelling=spelling;
 pChecker = spellChecker;
 if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());
@@ -59,6 +58,7 @@ ColorKeyword=colKeyword;
 
 void LatexHighlighter::highlightBlock(const QString &text)
 {
+QRegExp rxSweave("<<(.*)>>=");
 int i = 0;
 int state = previousBlockState();
 if (state<0) state=0;
@@ -70,6 +70,11 @@ const int StateMath = 2;
 const int StateCommand=3;
 const int StateVerbatim =4;
 const int StateVerbatimCommand =5;
+const int StateSweave =6;
+const int StateSweaveCommand =7;
+const int StateGraphic =8;
+const int StateGraphicCommand =9;
+const int StateGraphicMath =10;
 
 BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
 if (blockData) blockData->code.clear(); 
@@ -143,7 +148,31 @@ while (i < text.length())
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 			if(buffer.indexOf("begin{verbatim}") != -1) {state=StateVerbatim;}
+			if(buffer.indexOf("begin{asy}") != -1) {state=StateGraphic;}
+			if(buffer.indexOf("begin{tikzpicture}") != -1) {state=StateGraphic;}
+			if(buffer.indexOf("begin{pspicture}") != -1) {state=StateGraphic;}
+			if(buffer.indexOf("begin{pspicture*}") != -1) {state=StateGraphic;}
 			buffer = QString::null;
+		} else
+		if (tmp== '<' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+			state=StateStandard;
+		} else
+		if (tmp== '>' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+			state=StateStandard;
+		} else
+		if (tmp== ',' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+			state=StateStandard;
+		} else
+		if (tmp== '=' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorStandard);
+			if(buffer.indexOf(rxSweave) != -1) {state=StateSweave;buffer = QString::null;}
 		} else
 		if (tmp== '(' ){
 			blockData->code[i]=1;
@@ -231,7 +260,60 @@ while (i < text.length())
 		}
 	buffer = QString::null;
 	} break;
-
+	case StateGraphicMath: {
+		tmp=text.at( i );
+		if (tmp== '$') {
+			setFormat( i, 1,ColorMath);
+			blockData->code[i]=1;
+			state=StateGraphic;
+			if (next=='$')
+				{
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorMath);
+					blockData->code[i]=1;
+					}
+				}
+		} else if (tmp== '\\') {
+			if (next==']')
+				{
+				setFormat( i, 1,ColorMath);
+				blockData->code[i]=1;
+				state=StateGraphic;
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorMath);
+					blockData->code[i]=1;
+					}
+				}
+			else
+				{
+				setFormat( i, 1,ColorMath);
+				blockData->code[i]=1;
+				state=StateGraphicMath;
+				}
+		} else
+		if (tmp== '{' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			setFormat( i, 1,ColorMath);
+			blockData->code[i]=1;
+			state=StateGraphicMath;
+		} else
+		if (tmp== '}' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorMath);
+			blockData->code[i]=1;
+			state=StateGraphicMath;
+		} else
+		 {
+			setFormat( i, 1,ColorMath);
+			blockData->code[i]=1;
+			state=StateGraphicMath;
+		}
+	buffer = QString::null;
+	} break;
 	case StateCommand:{
 		tmp=text.at( i );
 		if (tmp=='$') {
@@ -309,76 +391,77 @@ while (i < text.length())
 		if (tmp=='\\') {
 			if (next=='[')
 				{
-				setFormat( i, 1,ColorStandard );
+				setFormat( i, 1,ColorVerbatim );
 				blockData->code[i]=1;
 				i++;
 				if ( i < text.length())
 					{
-					setFormat( i, 1,ColorStandard);
+					setFormat( i, 1,ColorVerbatim);
 					blockData->code[i]=1;
 					}
 				}
 			else
 			{
-			setFormat( i, 1,ColorStandard );
+			setFormat( i, 1,ColorVerbatim );
 			blockData->code[i]=1;
 			state=StateVerbatimCommand;
 			}
 		} else
 		if (tmp=='$') {
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			blockData->code[i]=1;
 			if (next=='$')
 				{
 				i++;
 				if ( i < text.length())
 					{
-					setFormat( i, 1,ColorStandard);
+					setFormat( i, 1,ColorVerbatim);
 					blockData->code[i]=1;
 					}
 				}
 			buffer = QString::null;
 		} else
 		if (tmp== '%' ){
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			blockData->code[i]=1;
 			buffer = QString::null;
 		} else
 		if (tmp== '{' ){
 			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			blockData->code[i]=1;
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 		} else
 		if (tmp== '}' ){
 			blockData->code[i]=1;
 			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			state=StateVerbatim;
 			int pos=buffer.indexOf("\\end{verbatim}");
 			if( pos!= -1) 
 			{
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,10,ColorStandard);
 			}
 			buffer = QString::null;
 		} else
 		if (tmp== '(' ){
 			blockData->code[i]=1;
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			buffer = QString::null;
 		} else
 		if (tmp== ')' ){
 			blockData->code[i]=1;
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			buffer = QString::null;
 		} else
 		if (isWordSeparator(tmp)){
 			blockData->code[i]=1;
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			buffer = QString::null;
 		} else
 		 {
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			//buffer = QString::null;
 		}
        } break;
@@ -387,13 +470,13 @@ while (i < text.length())
 		if (tmp=='$') {
 			if (last=='\\')
 				{
-				setFormat( i, 1,ColorStandard);
+				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateVerbatim;
 				}
 			else
 				{
-				setFormat( i, 1,ColorStandard);
+				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateVerbatim;
 				}
@@ -401,46 +484,346 @@ while (i < text.length())
 		if (tmp=='%') {
 			if (last=='\\')
 				{
-				setFormat( i, 1,ColorStandard);
+				setFormat( i, 1,ColorVerbatim);
 				state=StateVerbatim;
 				}
 			else
 				{
-				setFormat( i, 1,ColorStandard);
+				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateVerbatim;
          			}
 		} else
 		if (tmp== ' ') {
-         		setFormat( i, 1,ColorStandard);
+         		setFormat( i, 1,ColorVerbatim);
          		state=StateVerbatim;
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
 			blockData->code[i]=1;
   			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
   			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
-			setFormat( i, 1,ColorStandard);
+			setFormat( i, 1,ColorVerbatim);
 			state=StateVerbatim;
 		} else
 		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
 			if (last=='\\')
 			{
-				setFormat( i, 1,ColorStandard);
+				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateVerbatim;
 			}
 			else
 			{
-				setFormat( i, 1,ColorStandard);
+				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateVerbatim;
 			}
 		} else
 	     		{
-         		setFormat( i, 1,ColorStandard);
+         		setFormat( i, 1,ColorVerbatim);
 			blockData->code[i]=1;
          		state=StateVerbatimCommand;
+		}
+	} break;
+       case StateGraphic: {
+               tmp=text.at( i );
+		if (tmp=='\\') {
+			if (next=='[')
+				{
+				setFormat( i, 1,ColorVerbatim );
+				blockData->code[i]=1;
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorVerbatim);
+					blockData->code[i]=1;
+					}
+				}
+			else
+			{
+			setFormat( i, 1,ColorVerbatim );
+			blockData->code[i]=1;
+			state=StateGraphicCommand;
+			}
+		} else
+		if (tmp=='$') {
+			setFormat( i, 1,ColorMath);
+			blockData->code[i]=1;
+			state=StateGraphicMath;
+			if (next=='$')
+				{
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorMath);
+					blockData->code[i]=1;
+					}
+				}
+			buffer = QString::null;
+		} else
+		if (tmp== '%' ){
+			setFormat( i, 1,ColorVerbatim);
+			blockData->code[i]=1;
+			buffer = QString::null;
+		} else
+		if (tmp== '{' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+		} else
+		if (tmp== '}' ){
+			blockData->code[i]=1;
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorVerbatim);
+			state=StateGraphic;
+			int pos=buffer.indexOf("\\end{asy}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,5,ColorStandard);
+			}
+			pos=buffer.indexOf("\\end{tikzpicture}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,13,ColorStandard);
+			}
+			pos=buffer.indexOf("\\end{pspicture}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,11,ColorStandard);
+			}
+			pos=buffer.indexOf("\\end{pspicture*}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,12,ColorStandard);
+			}
+			buffer = QString::null;
+		} else
+		if (tmp== '(' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			buffer = QString::null;
+		} else
+		if (tmp== ')' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			buffer = QString::null;
+		} else
+		if (isWordSeparator(tmp)){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			buffer = QString::null;
+		} else
+		 {
+			setFormat( i, 1,ColorVerbatim);
+			//buffer = QString::null;
+		}
+       } break;
+	case StateGraphicCommand:{
+		tmp=text.at( i );
+		if (tmp=='$') {
+			if (last=='\\')
+				{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateGraphic;
+				}
+			else
+				{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateGraphic;
+				}
+		} else
+		if (tmp=='%') {
+			if (last=='\\')
+				{
+				setFormat( i, 1,ColorVerbatim);
+				state=StateGraphic;
+				}
+			else
+				{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateGraphic;
+         			}
+		} else
+		if (tmp== ' ') {
+         		setFormat( i, 1,ColorVerbatim);
+         		state=StateGraphic;
+		}  else
+		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
+			blockData->code[i]=1;
+  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorVerbatim);
+			state=StateGraphic;
+		} else
+		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
+			blockData->code[i]=1;
+			if (last=='\\')
+			{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateGraphic;
+			}
+			else
+			{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateGraphic;
+			}
+		} else
+	     		{
+         		setFormat( i, 1,ColorVerbatim);
+			blockData->code[i]=1;
+         		state=StateGraphicCommand;
+		}
+	} break;
+       case StateSweave: {
+               tmp=text.at( i );
+		if (tmp=='\\') {
+			if (next=='[')
+				{
+				setFormat( i, 1,ColorVerbatim );
+				blockData->code[i]=1;
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorVerbatim);
+					blockData->code[i]=1;
+					}
+				}
+			else
+			{
+			setFormat( i, 1,ColorVerbatim );
+			blockData->code[i]=1;
+			state=StateSweaveCommand;
+			}
+		} else
+		if (tmp=='$') {
+			setFormat( i, 1,ColorVerbatim);
+			blockData->code[i]=1;
+			if (next=='$')
+				{
+				i++;
+				if ( i < text.length())
+					{
+					setFormat( i, 1,ColorVerbatim);
+					blockData->code[i]=1;
+					}
+				}
+			buffer = QString::null;
+		} else
+		if (tmp== '%' ){
+			setFormat( i, 1,ColorVerbatim);
+			blockData->code[i]=1;
+			buffer = QString::null;
+		} else
+		if (tmp== '{' ){
+			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+		} else
+		if (tmp== '}' ){
+			blockData->code[i]=1;
+			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorVerbatim);
+			buffer = QString::null;
+		} else
+		if (tmp== '@' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			state=StateStandard;
+			buffer = QString::null;
+		} else
+		if (tmp== '(' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			buffer = QString::null;
+		} else
+		if (tmp== ')' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			buffer = QString::null;
+		} else
+		if (isWordSeparator(tmp)){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			buffer = QString::null;
+		} else
+		 {
+			setFormat( i, 1,ColorVerbatim);
+			//buffer = QString::null;
+		}
+       } break;
+	case StateSweaveCommand:{
+		tmp=text.at( i );
+		if (tmp=='$') {
+			if (last=='\\')
+				{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateSweave;
+				}
+			else
+				{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateSweave;
+				}
+		} else
+		if (tmp=='%') {
+			if (last=='\\')
+				{
+				setFormat( i, 1,ColorVerbatim);
+				state=StateSweave;
+				}
+			else
+				{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateSweave;
+         			}
+		} else
+		if (tmp== ' ') {
+         		setFormat( i, 1,ColorVerbatim);
+         		state=StateSweave;
+		}  else
+		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
+			blockData->code[i]=1;
+  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
+  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+			setFormat( i, 1,ColorVerbatim);
+			state=StateSweave;
+		} else
+		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
+			blockData->code[i]=1;
+			if (last=='\\')
+			{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateSweave;
+			}
+			else
+			{
+				setFormat( i, 1,ColorVerbatim);
+				blockData->code[i]=1;
+				state=StateSweave;
+			}
+		} else
+	     		{
+         		setFormat( i, 1,ColorVerbatim);
+			blockData->code[i]=1;
+         		state=StateSweaveCommand;
 		}
 	} break;
 	}
@@ -455,9 +838,33 @@ else if ( state == StateMath )
 	{
 	setCurrentBlockState(StateMath) ;
     	}
+else if ( state == StateGraphicMath ) 
+	{
+	setCurrentBlockState(StateGraphicMath) ;
+    	}
 else if ( state == StateVerbatim ) 
        {
        setCurrentBlockState(StateVerbatim) ;
+       }
+else if ( state == StateVerbatimCommand ) 
+       {
+       setCurrentBlockState(StateVerbatimCommand) ;
+       }
+else if ( state == StateGraphic ) 
+       {
+       setCurrentBlockState(StateGraphic) ;
+       }
+else if ( state == StateGraphicCommand ) 
+       {
+       setCurrentBlockState(StateGraphicCommand) ;
+       }
+else if ( state == StateSweave ) 
+       {
+       setCurrentBlockState(StateSweave) ;
+       }
+else if ( state == StateSweaveCommand ) 
+       {
+       setCurrentBlockState(StateSweaveCommand) ;
        } 
 else 
 	{
@@ -488,6 +895,8 @@ if (checkSpelling && pChecker)
 	int check;
 	QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
 	QByteArray encodedString;
+	QBrush brushstandard(ColorStandard);
+	QBrush brushverbatim(ColorVerbatim);
 	while (i < text.length())
 		{
 		buffer = QString::null;
@@ -501,6 +910,8 @@ if (checkSpelling && pChecker)
 		      }
 		if ( (buffer.length() > 1) && (!ignoredwordList.contains(buffer)) && (!hardignoredwordList.contains(buffer)))
 		      {
+		      if (format(i - buffer.length()).foreground()==brushverbatim) spellingErrorFormat.setForeground(brushverbatim);
+		      else spellingErrorFormat.setForeground(brushstandard);
 		      encodedString = codec->fromUnicode(buffer);
 		      check = pChecker->spell(encodedString.data());
 		      if (!check) setFormat(i - buffer.length(), buffer.length(), spellingErrorFormat);
@@ -534,7 +945,7 @@ bool LatexHighlighter::isWordSeparator(QChar c) const
     case '%':
     case '&':
     case '^':
-    case '*':
+//    case '*':
     case '\'':
     case '"':
     case '~':

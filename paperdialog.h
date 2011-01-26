@@ -9,33 +9,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PDFSCROLLAREA_H
-#define PDFSCROLLAREA_H
+#ifndef PAPERDIALOG_H
+#define PAPERDIALOG_H
 
-#include <QScrollArea>
-#include <QVBoxLayout>
-class PdfScrollArea : public QScrollArea
-{
-Q_OBJECT
+#include "ui_paperdialog.h"
 
+
+
+class PaperDialog : public QDialog  {
+   Q_OBJECT
 public:
-    PdfScrollArea( QWidget *parent);
-    ~PdfScrollArea();
-QWidget *scrollAreaWidgetContents;
-QVBoxLayout *verticalLayout;
-signals:
-  void doScroll(int);
-  void doRange();
-  void pagezoomOut();
-  void pagezoomIn();
-protected:
-  void wheelEvent( QWheelEvent* );
-private slots:
-  void scrollChanged(int value);
-    void rChanged(int min,int max);
-public slots:
-void setVisible(int x, int y, int margin, int maxv);
+	PaperDialog(QWidget *parent=0, const char *name=0);
+	~PaperDialog();
+	Ui::PaperDialog ui;
+
 };
 
-#endif
 
+#endif

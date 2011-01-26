@@ -44,6 +44,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION22">3.1 Compiling</a></li>
 	<li><a href="#SECTION23">3.2 The log files</a></li>
 	<li><a href="#SECTION24">3.3 Synchronization source-pdf with Synctex</a></li>
+	<li><a href="#SECTION25">3.4 Using XeLaTeX</a></li>
 	</ul>
 </ul>
 <ul>
@@ -59,6 +60,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION38">4.8 Synopsis of the Texmaker command</a></li>
 	<li><a href="#SECTION39">4.9 Keyboard shortcuts</a></li>
 	<li><a href="#SECTION40">4.10 The "Convert to Html" command</a></li>
+	<li><a href="#SECTION41">4.11 Printing a pdf document with the built-in pdf viewer on windows</a></li>
 	</ul>
 </ul>
 <hr>
@@ -119,7 +121,7 @@ During typing, if there is an error, the word is underlined by a red underline. 
 <p>To help you to insert a "tabbing" code, you can use the "Tabbing" wizard ("Wizard" menu) :</p>
 <p><IMG src="doc8.png" border="1"></p>
 <h2><a name="SECTION110">2.10 Inserting a picture</a></h2>
-<p>To insert a picture in your document, just use the "\includegraphics" command in the "LaTeX" menu. Then, click on the "browser" button in the dialog to select the graphic file.<br>Note : you can insert a "figure" LaTeX environment ("LaTeX - Environments" menu) before inserting the picture.</p>
+<p>To insert a picture in your document, just use the "\includegraphics" command in the "LaTeX" menu. Then, click on the "browser" button in the dialog to select the graphic file.<br>Note : if you click on the "+" button, a "figure" LaTeX environment will be added automatically.</p>
 <p><IMG src="doc9.png" border="1"></p>
 <h2><a name="SECTION111">2.11 Cross References and notes</a></h2>
 <p>This toolbox in the toolbar allows you to insert quickly the label, cite, ref, footnote... code.<br>Note : the labels used in your documents are displayed in the "Structure View".</p>
@@ -162,6 +164,10 @@ Remark : a summary of the latex errors and warnings is displayed before the full
 If you add the "-synctex=1" option to the pdflatex command, the built-in pdf viewer will jump directly to the position in the PDF file that corresponds to the current line in the (La)TeX source file.<br>
 Reciprocally, with a right-clic on a word in the built-in pdf viewer (context menu), the editor will jump to the corresponding line in the source file.<br>
 Remark : if you press the F1 key in the built-in pdf viewer, the focus go to the editor.
+</p>
+<h2><a name="SECTION25">3.4 Using XeLaTeX</a></h2>
+<p>
+To use xelatex with Texmaker, just replace the pdflatex command by xelatex.
 </p>
 <h1><a name="SECTION3">4. Other features</a></h1>
 <h2><a name="SECTION31">4.1 About documents separated in several files</a></h2>
@@ -306,4 +312,10 @@ Synopsis :<br>
 <b>Warning : </b>You can't use this command with the hyperref package (and some others packages). This command can only be used with the "Convert to html" tool.</p>
 <p><IMG src="doc18.png" border="1"></p>
 <p><IMG src="doc19.png" border="1"></p>
+<h2><a name="SECTION41">4.11 Printing a pdf document with the built-in pdf viewer on windows</a></h2>
+<ul>
+<li>Be sure that the ghostscript program is installed and that the path to the "gswin32c.exe" file in the Texmaker configuration dialog is good.</li>
+<li>After clicking on the "print" button, fix the paper size and the print range.</li>
+<li>Use the "properties" button in the standard windows printing dialog wich appears to fix the paper size and orientation.</li>
+</ul>
 </body></html>

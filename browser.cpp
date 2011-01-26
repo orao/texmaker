@@ -17,6 +17,12 @@
 Browser::Browser( const QString home, QWidget* parent, Qt::WFlags flags)
     : QMainWindow( parent, flags )
 {
+setWindowTitle("Texmaker");
+#ifdef Q_WS_MACX
+setWindowIcon(QIcon(":/images/logo128.png"));
+#else
+setWindowIcon(QIcon(":/images/appicon.png"));
+#endif
 progress = 0;
 view = new QWebView(this);
 if ( !home.isEmpty()) view->load(QUrl(home));

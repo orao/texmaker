@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,33 +9,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PDFSCROLLAREA_H
-#define PDFSCROLLAREA_H
+#ifndef GRAPHICFILECHOOSER_H
+#define GRAPHICFILECHOOSER_H
 
-#include <QScrollArea>
-#include <QVBoxLayout>
-class PdfScrollArea : public QScrollArea
+#include "ui_graphicfilechooser.h"
+
+class GraphicFileChooser : public QDialog
 {
-Q_OBJECT
+    Q_OBJECT
 
-public:
-    PdfScrollArea( QWidget *parent);
-    ~PdfScrollArea();
-QWidget *scrollAreaWidgetContents;
-QVBoxLayout *verticalLayout;
-signals:
-  void doScroll(int);
-  void doRange();
-  void pagezoomOut();
-  void pagezoomIn();
-protected:
-  void wheelEvent( QWheelEvent* );
-private slots:
-  void scrollChanged(int value);
-    void rChanged(int min,int max);
+ public:
+    GraphicFileChooser( QWidget *parent = 0, QString name="");
+    Ui::GraphicFileChooser ui;
+    QString fileName() const;
+    QString filter,dir;
+
 public slots:
-void setVisible(int x, int y, int margin, int maxv);
+    void setDir( const QString &di );
+    void setFilter( const QString &fil );
+
+signals:
+    void fileNameChanged( const QString & );
+
+private slots:
+    void chooseFile();
+
 };
 
 #endif
-
