@@ -47,11 +47,13 @@ else QAbstractScrollArea::wheelEvent( e );
 
 void PdfScrollArea::scrollChanged(int value)
 {
+//qDebug() << "scroll" << value << verticalScrollBar()->maximum();
 emit doScroll(value);
 }
 
 void PdfScrollArea::rChanged(int min,int max)
 {
+//qDebug() << "range" << max ;
 emit doRange();
 }
 
@@ -76,5 +78,6 @@ if (y - ymargin < verticalScrollBar()->value())
 else if (y > verticalScrollBar()->value() + viewport()->height() - ymargin) 
 {
   verticalScrollBar()->setValue(qMin(y  - ymargin, maxv));
+//    verticalScrollBar()->setValue(qMin(y  - ymargin, verticalScrollBar()->maximum()));
 }
 }

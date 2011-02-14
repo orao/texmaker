@@ -106,7 +106,7 @@ QMenu *optionsMenu, *translationMenu, *appearanceMenu;
 QMenu *helpMenu;
 
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar, *centralToolBar;
-QAction *recentFileActs[10], *ToggleAct;
+QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct ;
 QComboBox *comboCompil, *comboView, *comboFiles;
 
 QLabel *stat1, *stat2, *stat3;
@@ -135,7 +135,7 @@ QPointer<PdfViewer> pdfviewerWindow;
 
 //tools
 QProcess *proc;
-bool FINPROCESS, ERRPROCESS;
+bool FINPROCESS, ERRPROCESS, STOPPROCESS;
 QStringList listViewerCommands;
 bool checkViewerInstance;
 //latex errors
@@ -279,6 +279,7 @@ void QuickDocument();
 
 void RunCommand(QString comd,bool waitendprocess);
 void readFromStderr();
+void stopProcess();
 //void readFromStdoutput();
 void SlotEndProcess(int err);
 void SlotEndViewerProcess(int err);
@@ -348,6 +349,8 @@ void updateAppearance();
 
 void disableToolsActions();
 void enableToolsActions();
+
+void clipboardDataChanged();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);

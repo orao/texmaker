@@ -12,6 +12,7 @@
 \because
 \begin{•}
 \begin{abstract}
+\begin{align}
 \begin{array}{•}
 \begin{array}{•}
 \begin{bmatrix}
@@ -104,6 +105,7 @@
 \emptyset
 \end{•}
 \end{abstract}
+\end{align}
 \end{array}
 \end{array}
 \end{bmatrix}

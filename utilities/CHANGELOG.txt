@@ -1,3 +1,15 @@
+version 2.2.1 -> 2.2.2:
+----------------------
+- the bug about the pdfviewer on macosx 10.6 cocoa has been fixed (Qt bug)
+- the parentheses matcher has been modified and simplified to work with Qt 4.7.x
+- compilation process can't now be killed (new button on the "log panel")
+- the name of the pdf file is now displayed in the title bar of the pdf viewer
+- multiple files can now be opened at the same time
+- the drag and drop bug on windows has been fixed
+- .synctex.gz, .out and .blg have been added to the list of extensions for the "clean" command
+- history manager with "back" and "forward" buttons have been added to the pdf viwer
+- if an error in the "log panel" concerns a file different from the current document, the corresponding file is now automatically opened after clicking on it.
+
 version 2.2 -> 2.2.1 :
 ----------------------
 - the bug about infinite update of pdf pages in some cases has been fixed

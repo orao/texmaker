@@ -1,7 +1,7 @@
 /***************************************************************************
  *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
- *   addons by Luis Silvestre                                              *
+ *   contains some code from CLedit (C) 2010 Heinz van Saanen -GPL         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -10,27 +10,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef BLOCKDATA_H
-#define BLOCKDATA_H
+#include "blockdata.h"
 
-#include <QTextBlock>
-#include <QTextBlockUserData>
 
-struct ParenthesisInfo {
-	QChar character;
-	int position;
-}; 
+QVector<ParenthesisInfo *> BlockData::parentheses() {
+	return m_parentheses;
+}
 
-class BlockData : public QTextBlockUserData
-{
-public:
-    BlockData() {};
-    static BlockData *data(const QTextBlock &block) { return static_cast<BlockData *>(block.userData()); }
-    QList<int> code;
-    QVector<ParenthesisInfo *> parentheses();
-    void insert( ParenthesisInfo *info );
-private:
-	QVector<ParenthesisInfo *> m_parentheses;
-};
 
-#endif
+void BlockData::insert( ParenthesisInfo *info ) {
+	int i = 0;
+	while (
+		i < m_parentheses.size() &&
+		info->position > m_parentheses.at(i)->position )
+		++i;
+	m_parentheses.insert( i, info );
+}

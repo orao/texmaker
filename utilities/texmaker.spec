@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 2.2.1
+Version: 2.2.2
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -9,7 +9,6 @@ Packager: Pascal Brachet
 Url: http://www.xm1math.net/texmaker/
 #BuildRequires: libqt4-devel >= 4.6.1
 #BuildRequires: libpoppler-qt4-devel
-#BuildRequires: libpoppler-devel
 %description
 Texmaker is a program, that integrates many tools needed to develop 
 documents with LaTeX, in just one application.
@@ -18,7 +17,7 @@ documents with LaTeX, in just one application.
 %setup 
 
 %build
-export QTDIR=/usr/lib/qt4
+export QTDIR=/usr/local/qt4static
 PATH=$QTDIR/bin:$PATH
 LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export QTDIR PATH LD_LIBRARY_PATH

@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=2.2.1
+TEXMAKERVERSION=2.2.2
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 INCLUDEPATH  +=poppler_headers
@@ -41,7 +41,6 @@ HEADERS	+= texmaker.h \
 	spellerdialog.h \
 	xmltagslistwidget.h \
 	blockdata.h \
-	parenmatcher.h \
 	manhattanstyle.h \
 	stylehelper.h \
 	styleanimator.h \
@@ -108,7 +107,7 @@ SOURCES	+= main.cpp \
 	webpublishdialog.cpp \
 	spellerdialog.cpp \
 	xmltagslistwidget.cpp \
-	parenmatcher.cpp \
+	blockdata.cpp \
 	manhattanstyle.cpp \
 	stylehelper.cpp \
 	styleanimator.cpp \
@@ -384,7 +383,7 @@ others.files = texmaker.ico \
 		C:\Qt\2010.05\qt\bin\QtXml4.dll \
 		C:\Qt\2010.05\qt\bin\QtXmlPatterns4.dll \
 		C:\Qt\2010.05\qt\bin\phonon4.dll \
-		C:\Qt\2010.05\qt\bin\QtNetwork4.dll 
+		C:\Qt\2010.05\qt\bin\QtNetwork4.dll
 INSTALLS += others
 }
 ###############################
@@ -394,7 +393,6 @@ MOC_DIR = .moc
 OBJECTS_DIR = .obj
 INCLUDEPATH  += /usr/local/include/poppler/qt4
 LIBS         += -L/usr/local/lib -lpoppler-qt4
-LIBS         += -L/usr/local/lib -lpoppler
 ##universal tiger 32
 #CONFIG += link_prl x86
 #QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk

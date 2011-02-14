@@ -298,8 +298,8 @@ OutputTableWidget->setSelectionMode (QAbstractItemView::SingleSelection);
 QFontMetrics fm(qApp->font());
 OutputTableWidget->setColumnWidth(0,fm.width("> "));
 OutputTableWidget->setColumnWidth(1,20*fm.width("w"));
-OutputTableWidget->setColumnWidth(2,fm.width("WarningW"));
-OutputTableWidget->setColumnWidth(3,fm.width("Line WWWWW"));
+OutputTableWidget->setColumnWidth(2,fm.width("WarningWW"));
+OutputTableWidget->setColumnWidth(3,fm.width("Line WWWWWWWW"));
 OutputTableWidget->setColumnWidth(4,20*fm.width("w"));
 connect(OutputTableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(ClickedOnLogLine(QTableWidgetItem*)));
 OutputTableWidget->horizontalHeader()->setStretchLastSection(true);
@@ -449,6 +449,7 @@ connect(EditorView, SIGNAL(tabCloseRequested( int ) ), this, SLOT(fileCloseReque
 setCentralWidget(centralFrame);
 setupMenus();
 setupToolBars();
+connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
 QPalette pal = QApplication::palette();
 QColor col=pal.color(QPalette::Window);
@@ -510,11 +511,12 @@ connect(Act, SIGNAL(triggered()), this, SLOT(fileRestoreSession()));
 fileMenu->addAction(Act);
 Act->setEnabled(!sessionFilesList.isEmpty());
 
-Act = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
-Act->setShortcut(Qt::CTRL+Qt::Key_S);
-connect(Act, SIGNAL(triggered()), this, SLOT(fileSave()));
+SaveAct = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
+SaveAct->setShortcut(Qt::CTRL+Qt::Key_S);
+connect(SaveAct, SIGNAL(triggered()), this, SLOT(fileSave()));
+fileMenu->addAction(SaveAct);
 fileMenu->addSeparator();
-fileMenu->addAction(Act);
+
 
 Act = new QAction(tr("Save As"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
@@ -551,31 +553,31 @@ fileMenu->addSeparator();
 fileMenu->addAction(Act);
 
 editMenu = menuBar()->addMenu(tr("&Edit"));
-Act = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
-Act->setShortcut(Qt::CTRL+Qt::Key_Z);
-connect(Act, SIGNAL(triggered()), this, SLOT(editUndo()));
-editMenu->addAction(Act);
+UndoAct = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
+UndoAct->setShortcut(Qt::CTRL+Qt::Key_Z);
+connect(UndoAct, SIGNAL(triggered()), this, SLOT(editUndo()));
+editMenu->addAction(UndoAct);
 
-Act = new QAction(QIcon(":/images/redo.png"), tr("Redo"), this);
-Act->setShortcut(Qt::CTRL+Qt::Key_Y);
-connect(Act, SIGNAL(triggered()), this, SLOT(editRedo()));
-editMenu->addAction(Act);
+RedoAct = new QAction(QIcon(":/images/redo.png"), tr("Redo"), this);
+RedoAct->setShortcut(Qt::CTRL+Qt::Key_Y);
+connect(RedoAct, SIGNAL(triggered()), this, SLOT(editRedo()));
+editMenu->addAction(RedoAct);
 editMenu->addSeparator();
 
-Act = new QAction(QIcon(":/images/editcopy.png"), tr("Copy"), this);
-Act->setShortcut(Qt::CTRL+Qt::Key_C);
-connect(Act, SIGNAL(triggered()), this, SLOT(editCopy()));
-editMenu->addAction(Act);
+CopyAct = new QAction(QIcon(":/images/editcopy.png"), tr("Copy"), this);
+CopyAct->setShortcut(Qt::CTRL+Qt::Key_C);
+connect(CopyAct, SIGNAL(triggered()), this, SLOT(editCopy()));
+editMenu->addAction(CopyAct);
 
-Act = new QAction(QIcon(":/images/editcut.png"), tr("Cut"), this);
-Act->setShortcut(Qt::CTRL+Qt::Key_X);
-connect(Act, SIGNAL(triggered()), this, SLOT(editCut()));
-editMenu->addAction(Act);
+CutAct = new QAction(QIcon(":/images/editcut.png"), tr("Cut"), this);
+CutAct->setShortcut(Qt::CTRL+Qt::Key_X);
+connect(CutAct, SIGNAL(triggered()), this, SLOT(editCut()));
+editMenu->addAction(CutAct);
 
-Act = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
-Act->setShortcut(Qt::CTRL+Qt::Key_V);
-connect(Act, SIGNAL(triggered()), this, SLOT(editPaste()));
-editMenu->addAction(Act);
+PasteAct = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
+PasteAct->setShortcut(Qt::CTRL+Qt::Key_V);
+connect(PasteAct, SIGNAL(triggered()), this, SLOT(editPaste()));
+editMenu->addAction(PasteAct);
 
 Act = new QAction( tr("Select All"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_A);
@@ -1536,9 +1538,9 @@ Act = new QAction(QIcon(":/images/fileopen.png"), tr("Open"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 fileToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(fileSave()));
-fileToolBar->addAction(Act);
+//Act = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
+//connect(Act, SIGNAL(triggered()), this, SLOT(fileSave()));
+fileToolBar->addAction(SaveAct);
 
 //Act = new QAction(QIcon(":/images/fileclose.png"), tr("Close"), this);
 //connect(Act, SIGNAL(triggered()), this, SLOT(fileClose()));
@@ -1548,25 +1550,25 @@ fileToolBar->addAction(Act);
 editToolBar = addToolBar("Edit");
 editToolBar->setObjectName("Edit");
 
-Act = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(editUndo()));
-editToolBar->addAction(Act);
+//Act = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
+//connect(Act, SIGNAL(triggered()), this, SLOT(editUndo()));
+editToolBar->addAction(UndoAct);
 
-Act = new QAction(QIcon(":/images/redo.png"), tr("Redo"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(editRedo()));
-editToolBar->addAction(Act);
+//Act = new QAction(QIcon(":/images/redo.png"), tr("Redo"), this);
+//connect(Act, SIGNAL(triggered()), this, SLOT(editRedo()));
+editToolBar->addAction(RedoAct);
 
-Act = new QAction(QIcon(":/images/editcopy.png"), tr("Copy"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(editCopy()));
-editToolBar->addAction(Act);
+//Act = new QAction(QIcon(":/images/editcopy.png"), tr("Copy"), this);
+//connect(Act, SIGNAL(triggered()), this, SLOT(editCopy()));
+editToolBar->addAction(CopyAct);
 
-Act = new QAction(QIcon(":/images/editcut.png"), tr("Cut"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(editCut()));
-editToolBar->addAction(Act);
+//Act = new QAction(QIcon(":/images/editcut.png"), tr("Cut"), this);
+//connect(Act, SIGNAL(triggered()), this, SLOT(editCut()));
+editToolBar->addAction(CutAct);
 
-Act = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(editPaste()));
-editToolBar->addAction(Act);
+//Act = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
+//connect(Act, SIGNAL(triggered()), this, SLOT(editPaste()));
+editToolBar->addAction(PasteAct);
 
 //format
 formatToolBar = addToolBar("Format");
@@ -1672,6 +1674,10 @@ Act->setToolTip("Alt+Up");
 connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
 logToolBar->addAction(Act);
 
+StopAct = new QAction(QIcon(":/images/process-stop.png"),tr("Stop Process"), this);
+connect(StopAct, SIGNAL(triggered()), this, SLOT(stopProcess()));
+logToolBar->addAction(StopAct);
+StopAct->setEnabled(false);
 
 }
 
@@ -1738,6 +1744,22 @@ if (finame!="untitled" && finame!="")
   lastDocument=finame;
   comboFiles->setCurrentIndex(comboFiles->findData(finame,Qt::UserRole,Qt::MatchExactly | Qt::MatchCaseSensitive));
   }
+if   (currentEditorView())
+  {
+   SaveAct->setEnabled(currentEditorView()->editor->document()->isModified());
+   UndoAct->setEnabled(currentEditorView()->editor->document()->isUndoAvailable());
+   RedoAct->setEnabled(currentEditorView()->editor->document()->isRedoAvailable());
+   CopyAct->setEnabled(currentEditorView()->editor->textCursor().hasSelection());
+   CutAct->setEnabled(currentEditorView()->editor->textCursor().hasSelection());
+  }
+else
+  {
+   SaveAct->setEnabled(false);
+   UndoAct->setEnabled(false);
+   RedoAct->setEnabled(false);
+   CopyAct->setEnabled(false);
+   CutAct->setEnabled(false);    
+  }
 }
 
 void Texmaker::NewDocumentStatus(bool m)
@@ -1747,11 +1769,13 @@ if (m)
 	{
 	EditorView->setTabIcon(EditorView->indexOf(currentEditorView()),QIcon(":/images/modified.png"));
 	EditorView->setTabText(EditorView->indexOf(currentEditorView()),QFileInfo( getName() ).fileName());
+	SaveAct->setEnabled(true);
 	}
 else
 	{
 	EditorView->setTabIcon(EditorView->indexOf(currentEditorView()),QIcon(":/images/empty.png"));
 	EditorView->setTabText(EditorView->indexOf(currentEditorView()),QFileInfo( getName() ).fileName());
+	SaveAct->setEnabled(false);
 	}
 }
 
@@ -1821,6 +1845,11 @@ connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
 connect(edit->editor, SIGNAL(requestpdf(int)),this, SLOT(jumpToPdfline(int)));
 
+connect(edit->editor->document(), SIGNAL(undoAvailable(bool)),UndoAct, SLOT(setEnabled(bool)));
+connect(edit->editor->document(), SIGNAL(redoAvailable(bool)),RedoAct, SLOT(setEnabled(bool)));
+connect(edit->editor, SIGNAL(copyAvailable(bool)), CutAct, SLOT(setEnabled(bool)));
+connect(edit->editor, SIGNAL(copyAvailable(bool)), CopyAct, SLOT(setEnabled(bool)));
+
 if (wordwrap) {edit->editor->setWordWrapMode(QTextOption::WordWrap);}
 else {edit->editor->setWordWrapMode(QTextOption::NoWrap);}
 UpdateCaption();
@@ -1885,6 +1914,10 @@ connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
 connect(edit->editor, SIGNAL(requestpdf(int)),this, SLOT(jumpToPdfline(int)));
 
+connect(edit->editor->document(), SIGNAL(undoAvailable(bool)),UndoAct, SLOT(setEnabled(bool)));
+connect(edit->editor->document(), SIGNAL(redoAvailable(bool)),RedoAct, SLOT(setEnabled(bool)));
+connect(edit->editor, SIGNAL(copyAvailable(bool)), CutAct, SLOT(setEnabled(bool)));
+connect(edit->editor, SIGNAL(copyAvailable(bool)), CopyAct, SLOT(setEnabled(bool)));
 UpdateCaption();
 NewDocumentStatus(false);
 edit->editor->setFocus();
@@ -1928,6 +1961,12 @@ connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 connect(edit->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
 connect(edit->editor, SIGNAL(requestpdf(int)),this, SLOT(jumpToPdfline(int)));
+
+connect(edit->editor->document(), SIGNAL(undoAvailable(bool)),UndoAct, SLOT(setEnabled(bool)));
+connect(edit->editor->document(), SIGNAL(redoAvailable(bool)),RedoAct, SLOT(setEnabled(bool)));
+connect(edit->editor, SIGNAL(copyAvailable(bool)), CutAct, SLOT(setEnabled(bool)));
+connect(edit->editor, SIGNAL(copyAvailable(bool)), CopyAct, SLOT(setEnabled(bool)));
+
 UpdateCaption();
 NewDocumentStatus(true);
 edit->editor->setFocus();
@@ -1941,8 +1980,11 @@ if (!lastDocument.isEmpty())
 	QFileInfo fi(lastDocument);
 	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
 	}
-QString fn = QFileDialog::getOpenFileName(this,tr("Open File"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp);;All files (*.*)");
-if ( !fn.isEmpty() ) load( fn );
+QStringList filesNames = QFileDialog::getOpenFileNames(this,tr("Open File"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp);;All files (*.*)");
+foreach (const QString& fn, filesNames)
+  {
+  if ( !fn.isEmpty() ) load( fn );
+  }
 }
 
 void Texmaker::fileSave()
@@ -4571,15 +4613,24 @@ if (!proc->waitForStarted(1000))
 	}
 else OutputTextEdit->insertLine("Process started\n");
 FINPROCESS=false;
+STOPPROCESS=false;
 if (waitendprocess)
 	{
+	StopAct->setEnabled(true);
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	while (!FINPROCESS) 
 		{
-		qApp->instance()->processEvents(QEventLoop::WaitForMoreEvents);
+		qApp->instance()->processEvents(QEventLoop::AllEvents);
+		if (STOPPROCESS && proc && proc->state()==QProcess::Running) 
+		  {
+		  proc->kill();
+		  FINPROCESS=true;
+		  ERRPROCESS=true;
+		  }
 		}
-	 QApplication::restoreOverrideCursor();
+	QApplication::restoreOverrideCursor();
 	enableToolsActions();
+	StopAct->setEnabled(false);
 	}
 }
 
@@ -4591,6 +4642,10 @@ t=t.simplified();
 if (!t.isEmpty()) OutputTextEdit->insertLine(t+"\n");
 }
 
+void Texmaker::stopProcess()
+{
+STOPPROCESS=true;  
+}
 // void Texmaker::readFromStdoutput()
 // {
 // QByteArray result=proc->readAllStandardOutput ();
@@ -4902,8 +4957,8 @@ QFileInfo fi(finame);
 QString name=fi.absoluteFilePath();
 QString ext=fi.suffix();
 QString basename=name.left(name.length()-ext.length()-1);
-QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind").split(",");
-int query =QMessageBox::warning(this, "Texmaker", tr("Delete the output files generated by LaTeX ?\n(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind)"),tr("Delete Files"), tr("Cancel") );
+QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg").split(",");
+int query =QMessageBox::warning(this, "Texmaker", tr("Delete the output files generated by LaTeX ?\n(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)"),tr("Delete Files"), tr("Cancel") );
 if (query==0)
 	{
 	stat2->setText(QString(" %1 ").arg(tr("Clean")));
@@ -4932,7 +4987,6 @@ void Texmaker::AsyFile(QString asyfile)
 QString commandline=asymptote_command;
 QFileInfo fi(asyfile);
 commandline.replace("%","\""+asyfile+"\"");
-qDebug() << commandline;
 proc = new QProcess( this );
 proc->setWorkingDirectory(fi.absolutePath());
 proc->setProperty("command",commandline);
@@ -5272,7 +5326,13 @@ currentEditorView()->editor->gotoLine(l);
 void Texmaker::ClickedOnLogLine(QTableWidgetItem *item)
 {
 if ( !currentEditorView() ) return;
+if ( !item ) return;
 QString content=item->text();
+int row=OutputTableWidget->row(item);
+int col=OutputTableWidget->column(item);
+if (col!=3) content=OutputTableWidget->item(row,3)->text();
+QString file=OutputTableWidget->item(row,1)->text();
+
 int Start, End;
 bool ok;
 QString s;
@@ -5322,7 +5382,18 @@ if (Start!=-1)
 int l=line.toInt(&ok,10)-1;
 if (ok)
 	{
-	currentEditorView()->editor->gotoLine(l);
+	if (file.isEmpty()) currentEditorView()->editor->gotoLine(l);
+	else 
+	  {
+	  QFileInfo fi(file);
+	  if (fi.exists() && fi.isReadable() ) fileOpenAndGoto(file,l+1);
+	  else 
+	    {
+	    QFileInfo fic(getName());
+	    file=fic.absolutePath()+"/"+file;
+	    fileOpenAndGoto(file,l+1);
+	    }
+	  }
 	}
 QString ll=item->data(Qt::UserRole).toString();
 int logline=ll.toInt(&ok,10)-1;
@@ -5340,7 +5411,7 @@ errorLogList.clear();
 onlyErrorList.clear();
 errorIndex=-1;
 
-QString mot,suivant,lettre,expression,warning,latexerror,badbox;
+QString mot,suivant,lettre,expression,warning,latexerror,badbox,name;
 QStringList pile,filestack;
 filestack.clear();
 pile.clear();
@@ -5356,6 +5427,7 @@ QRegExp rxWarning2("Warning: (.*)");
 QRegExp rxLatexError("(! )*(LaTeX Error:)* *(.*)\\.l\\.(\\d+) *(.*)");
 QRegExp rxLineError("l\\.(\\d+)");
 QRegExp rxBadBox("at (line|lines) ([0-9]+)");
+QRegExp rxFile("(.*(\\.tex|\\.sty|\\.cls))");
 
 
 QTextBlock tb = OutputTextEdit->document()->begin();
@@ -5392,7 +5464,9 @@ while (tb.isValid())
 			{
 			suivant=pile.last();
 			pile.removeLast();
-			filestack.append(suivant.remove("./"));
+			if (rxFile.indexIn(suivant) != -1) name=rxFile.cap(1);
+			else name="";
+			filestack.append(name.remove("./"));
 			}
 		else if (mot==")" && filestack.count()>0) filestack.removeLast();
 		}
@@ -6037,13 +6111,18 @@ if (event->mimeData()->hasFormat("text/uri-list")) event->acceptProposedAction()
 
 void Texmaker::dropEvent(QDropEvent *event)
 {
-QRegExp rx("file://(.*\\.(?:tex|bib|sty|cls|mp))");
+#if defined(Q_WS_WIN)
+QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp))");
+#else
+QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp))");
+#endif
 QList<QUrl> uris=event->mimeData()->urls();
 QString uri;
 for (int i = 0; i < uris.size(); ++i)
 	{
 	uri=uris.at(i).toString();
-	if (rx.exactMatch(uri)) load(rx.cap(1));//uri.remove(0,8));
+	qDebug() << uri;
+	if (rx.exactMatch(uri)) {qDebug() << rx.cap(2);load(rx.cap(2));}
 	}
 event->acceptProposedAction();
 }
@@ -6270,3 +6349,8 @@ while ( iterator.hasNext() )
 	}
 }
 
+void Texmaker::clipboardDataChanged()
+{
+if ( !currentEditorView() ) return;
+PasteAct->setEnabled(!QApplication::clipboard()->text().isEmpty());
+}

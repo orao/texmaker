@@ -35,6 +35,7 @@
 #include <QStackedWidget>
 #include <QTreeWidget>
 #include <QToolBar>
+#include <QStack>
 #include "pdfdocumentwidget.h"
 #include "pdfscrollarea.h"
 #include "synctex_parser.h"
@@ -61,7 +62,7 @@ QHBoxLayout *LeftPanelLayout,*CentralLayout;
 QByteArray windowstate;
 QList<PdfDocumentWidget*> listPdfWidgets, templist;
 Poppler::Document *doc;
-QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct;
+QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct;
 QDockWidget *StructureView;
 QListWidget *listpagesWidget;
 #if defined(Q_WS_WIN)
@@ -88,6 +89,8 @@ QMutex pageMutex;
 bool canDisplayPixmap;
 int scrollMax, deltaMax;
 QPainterPath path;
+QStack<int> stack;
+QStack<int> forwardStack;
 
 
 private slots:
@@ -124,6 +127,11 @@ void ShowStructure();
 void ShowListPages();
 void ParseToc(const QDomNode &parent, QTreeWidget *tree, QTreeWidgetItem *parentItem);
 void ClickedOnStructure();
+void historyBack();
+void historyForward();
+void clearHistory();
+void updateHistory(int pos);
+
 protected:
 void keyPressEvent ( QKeyEvent * e );
 
@@ -131,6 +139,8 @@ signals:
 void openDocAtLine(const QString&, int);
 void sendFocusToEditor();
 void sendPaperSize(const QString&);
+void backwardAvailable(bool);
+void forwardAvailable(bool);
 };
 
 #endif

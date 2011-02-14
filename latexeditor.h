@@ -1,6 +1,8 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
+ *   addons by Luis Silvestre                                              *
+ *   contains some code from CLedit (C) 2010 Heinz van Saanen -GPL         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,7 +23,6 @@
 #include <QCompleter>
 
 #include "latexhighlighter.h"
-#include "parenmatcher.h"
 #include "hunspell/hunspell.hxx"
 
 //class QCompleter;
@@ -68,12 +69,15 @@ QString encoding;
 QString commandUnderCursor() const;
 QStringList fullcommandUnderCursor();
 QCompleter *c;
-ParenMatcher *matcher;
 QString spell_dic, spell_encoding;
 QStringList ignoredwordList, hardignoredwordList;
 bool inlinecheckSpelling;
 bool isWordSeparator(QChar c) const;
 bool isSpace(QChar c) const;
+
+bool matchLeftPar ( QTextBlock currentBlock, int index, int numRightPar );
+bool matchRightPar( QTextBlock currentBlock, int index, int numLeftPar );
+void createParSelection( int pos );
 
 private slots:
 void correctWord();
@@ -81,6 +85,8 @@ void checkSpellingWord();
 void checkSpellingDocument();
 void insertCompletion(const QString &completion);
 void jumpToPdf();
+
+void matchPar();
 
 protected:
 void paintEvent(QPaintEvent *event);

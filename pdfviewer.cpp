@@ -91,7 +91,7 @@ LeftPanelStackedWidget=new QStackedWidget(StructureView);
 
 listpagesWidget=new QListWidget(LeftPanelStackedWidget);
 
-connect(LeftPanelToolBar->addAction(QIcon(":/images/pages.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowListPages()));
+connect(LeftPanelToolBar->addAction(QIcon(":/images/pages.png"),tr("Pages")), SIGNAL(triggered()), this, SLOT(ShowListPages()));
 LeftPanelStackedWidget->addWidget(listpagesWidget);
 
 LeftPanelToolBar->addSeparator();
@@ -107,6 +107,8 @@ StructureTreeWidget->header()->setStretchLastSection(false);
 
 connect(LeftPanelToolBar->addAction(QIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
 LeftPanelStackedWidget->addWidget(StructureTreeWidget);
+
+ShowListPages();
 
 LeftPanelLayout->setSpacing(0);
 LeftPanelLayout->setMargin(0);
@@ -155,9 +157,11 @@ QToolBar *toolBar = addToolBar("Pdf controls");
 toolBar->setObjectName("Pdf controls");
 
 upAct = new QAction(QIcon(":/images/up.png"), tr("Previous"), this);
+upAct->setShortcut(QKeySequence::MoveToPreviousPage);
 toolBar->addAction(upAct);
 
 downAct = new QAction(QIcon(":/images/down.png"), tr("Next"), this);
+downAct->setShortcut(QKeySequence::MoveToNextPage);
 toolBar->addAction(downAct);
 
 toolBar->addSeparator();
@@ -179,8 +183,18 @@ zoomoutAct->setShortcut(QKeySequence::ZoomOut);
 toolBar->addAction(zoomoutAct);
 viewMenu->addAction(zoomoutAct);
 
+historyBackAct = new QAction(QIcon(":/images/errorprev.png"), tr("Previous Position"), this);
+historyBackAct->setShortcut(QKeySequence::Back);
+//connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
+LeftPanelToolBar->addAction(historyBackAct);
 
+historyForwardAct = new QAction(QIcon(":/images/errornext.png"), tr("Next Position"), this);
+historyForwardAct->setShortcut(QKeySequence::Forward);
+//connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
+LeftPanelToolBar->addAction(historyForwardAct);
 
+connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
+connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 
 scaleComboBox = new QComboBox(toolBar);
 zoomCustom = new QLineEdit();
@@ -322,6 +336,9 @@ if (doc!=0)
       }
     fileLoaded=true;
     lastFile=fn;
+    setWindowTitle(QFileInfo(fn).fileName());
+    clearHistory();
+	ShowListPages();
     gotoPage(currentPage);
     } 
     else 
@@ -519,6 +536,10 @@ connect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(searchDocument()));
 connect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
 if (scrollArea) connect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut()));
 if (scrollArea) connect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
+connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
+connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
+//connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
+//connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
 
 void PdfViewer::disconnectActions()
@@ -538,6 +559,10 @@ disconnect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(searchDocument())
 disconnect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
 if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut()));
 if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
+disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
+disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
+//disconnect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
+//disconnect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
 
 void PdfViewer::jumpToPdfFromSource(QString sourceFile, int source_line)
@@ -624,6 +649,7 @@ if ((page <= doc->numPages()) && (page>=1))
   disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   scrollArea->verticalScrollBar()->setValue(listPdfWidgetsPos.at(currentPage-1));
 //  scrollArea->setVisible(0,listPdfWidgetsPos.at(currentPage-1),0,scrollMax);
+  updateHistory(listPdfWidgetsPos.at(currentPage-1));
   updateCurrentPage();
   connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   }
@@ -668,6 +694,7 @@ if ((page <= doc->numPages()) && (page>=1))
     int hpos=left-10;
     scrollArea->setVisible(hpos,vpos,20,scrollMax);
     updateCurrentPage();
+    updateHistory(vpos);
   connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   }
 }
@@ -683,6 +710,7 @@ if (!fileLoaded) return;
 if (zoom.contains("%")) zoom.remove("%");
 if (zoom.toInt() > 0 && zoom.toInt() <= 400)
   {
+
   currentScale=zoom.toFloat() / 100.0;
   if (currentScale < 0.25) currentScale = 0.25;
   else if (currentScale > 4) currentScale = 4;
@@ -693,6 +721,7 @@ if (zoom.toInt() > 0 && zoom.toInt() <= 400)
   connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   connect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
   gotoPage(currentPage);
+   clearHistory();
   }
 }
 
@@ -1125,5 +1154,53 @@ if (items.count() > 0)
       }
     }
   }
+}
+
+void PdfViewer::historyBack()
+{
+if (stack.count() <= 1) return;
+// Update the history entry
+forwardStack.push(scrollArea->verticalScrollBar()->value());
+stack.pop(); // throw away the old version of the current entry
+scrollArea->verticalScrollBar()->setValue(stack.top()); // previous entry
+updateCurrentPage();
+emit backwardAvailable(stack.count() > 1);
+emit forwardAvailable(true);
+}
+
+void PdfViewer::historyForward()
+{
+if (forwardStack.isEmpty()) return;
+if (!stack.isEmpty()) 
+  {
+    // Update the history entry
+    stack.top() =scrollArea->verticalScrollBar()->value();
+  }
+stack.push(forwardStack.pop());
+scrollArea->verticalScrollBar()->setValue(stack.top()); // previous entry
+updateCurrentPage();
+emit backwardAvailable(true);
+emit forwardAvailable(!forwardStack.isEmpty());
+}
+
+void PdfViewer::clearHistory()
+{
+forwardStack.clear();
+if (!stack.isEmpty()) 
+  {
+  int tmp=stack.top();
+  stack.resize(0);
+  stack.push(tmp);
+  }
+emit forwardAvailable(false);
+emit backwardAvailable(false);
+}
+
+void PdfViewer::updateHistory(int pos)
+{
+if (!stack.isEmpty() && stack.top()==pos) return;
+stack.push(pos);
+emit backwardAvailable(stack.count() > 1);
+emit forwardAvailable(!forwardStack.isEmpty());
 }
 

@@ -18,15 +18,15 @@
 LatexHighlighter::LatexHighlighter(QTextDocument *parent,bool spelling,QString ignoredWords,Hunspell *spellChecker)
     : QSyntaxHighlighter(parent)
 {
-	ColorStandard = QColor(0x00, 0x00, 0x00);
-	ColorComment = QColor("#606060");
-	ColorMath = QColor(0x00,0x80, 0x00);
-	ColorCommand=QColor(0x80, 0x00, 0x00);
-	ColorKeyword=QColor(0x00, 0x00, 0xCC);
-	ColorVerbatim = QColor("#9A4D00"); //#B08000
-	KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
-	spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
-	spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+ColorStandard = QColor(0x00, 0x00, 0x00);
+ColorComment = QColor("#606060");
+ColorMath = QColor(0x00,0x80, 0x00);
+ColorCommand=QColor(0x80, 0x00, 0x00);
+ColorKeyword=QColor(0x00, 0x00, 0xCC);
+ColorVerbatim = QColor("#9A4D00"); //#B08000
+KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
+spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
+spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
 checkSpelling=spelling;
 pChecker = spellChecker;
 if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());
@@ -76,13 +76,37 @@ const int StateGraphic =8;
 const int StateGraphicCommand =9;
 const int StateGraphicMath =10;
 
-BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
+BlockData *blockData = new BlockData;
+int leftPos = text.indexOf( '{' );
+while ( leftPos != -1 ) 
+  {
+  ParenthesisInfo *info = new ParenthesisInfo;
+  info->character = '{';
+  info->position = leftPos;
+
+  blockData->insert( info );
+  leftPos = text.indexOf( '{', leftPos+1 );
+  }
+
+int rightPos = text.indexOf('}');
+while ( rightPos != -1 ) 
+  {
+  ParenthesisInfo *info = new ParenthesisInfo;
+  info->character = '}';
+  info->position = rightPos;
+
+  blockData->insert( info );
+  rightPos = text.indexOf( '}', rightPos+1 );
+  }
+setCurrentBlockUserData(blockData);
+	
+/*BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
 if (blockData) blockData->code.clear(); 
 else 
 	{
 	blockData = new BlockData;
 	setCurrentBlockUserData(blockData);
-	}
+	}*/
 for (int j=0; j < text.length(); j++) blockData->code.append(0);
 while (i < text.length())
 	{
@@ -137,14 +161,12 @@ while (i < text.length())
 			buffer = QString::null;
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 		} else
 		if (tmp== '}' ){
 			blockData->code[i]=1;
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 			if(buffer.indexOf("begin{verbatim}") != -1) {state=StateVerbatim;}
@@ -242,13 +264,11 @@ while (i < text.length())
 				}
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateMath;
 		} else
 		if (tmp== '}' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateMath;
@@ -296,13 +316,11 @@ while (i < text.length())
 				}
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicMath;
 		} else
 		if (tmp== '}' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicMath;
@@ -349,8 +367,6 @@ while (i < text.length())
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
 			blockData->code[i]=1;
-  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
-  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
 			if ( buffer.length() > 0 )
@@ -427,13 +443,11 @@ while (i < text.length())
 			buffer = QString::null;
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
 		} else
 		if (tmp== '}' ){
 			blockData->code[i]=1;
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorVerbatim);
 			state=StateVerbatim;
 			int pos=buffer.indexOf("\\end{verbatim}");
@@ -500,8 +514,6 @@ while (i < text.length())
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
 			blockData->code[i]=1;
-  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
-  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorVerbatim);
 			state=StateVerbatim;
 		} else
@@ -568,13 +580,11 @@ while (i < text.length())
 			buffer = QString::null;
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
 		} else
 		if (tmp== '}' ){
-			blockData->code[i]=1;
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
+		  	blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
 			state=StateGraphic;
 			int pos=buffer.indexOf("\\end{asy}");
@@ -662,8 +672,6 @@ while (i < text.length())
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
 			blockData->code[i]=1;
-  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
-  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorVerbatim);
 			state=StateGraphic;
 		} else
@@ -729,13 +737,11 @@ while (i < text.length())
 			buffer = QString::null;
 		} else
 		if (tmp== '{' ){
-			blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
 		} else
 		if (tmp== '}' ){
 			blockData->code[i]=1;
-			blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorVerbatim);
 			buffer = QString::null;
 		} else
@@ -800,8 +806,6 @@ while (i < text.length())
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
 			blockData->code[i]=1;
-  			if (tmp== '{' )	blockData->parentheses << Parenthesis(Parenthesis::Open, tmp, i);
-  			if (tmp== '}' )	blockData->parentheses << Parenthesis(Parenthesis::Closed, tmp, i);
 			setFormat( i, 1,ColorVerbatim);
 			state=StateSweave;
 		} else
@@ -870,25 +874,7 @@ else
 	{
 	setCurrentBlockState(StateStandard) ;
     	}
-if (text.isEmpty()) return;//add by S. R. Alavizadeh
- if (blockData->parenthesisMatchStart != -1) 
- 	{
- 	if (text.at(blockData->parenthesisMatchStart)=='{' || text.at(blockData->parenthesisMatchStart)=='}')
- 		{
- 		QTextCharFormat fmt = format(blockData->parenthesisMatchStart);
- 		fmt.merge(blockData->parenthesisMatchingFormat);
- 		setFormat(blockData->parenthesisMatchStart, 1, fmt);
- 		}
-	if (blockData->parenthesisMatchEnd<=text.size())//add by S. R. Alavizadeh
-		{
-		if (text.at(blockData->parenthesisMatchEnd-1)=='{' || text.at(blockData->parenthesisMatchEnd-1)=='}')
-			{
-			QTextCharFormat fmtbis = format(blockData->parenthesisMatchEnd-1);
-			fmtbis.merge(blockData->parenthesisMatchingFormat);
-			setFormat(blockData->parenthesisMatchEnd-1, 1, fmtbis);
-			}
-		}
- 	}
+if (text.isEmpty()) return;
 if (checkSpelling && pChecker)
 	{
 	i=0;

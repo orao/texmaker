@@ -1,7 +1,8 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   addons by Luis Silvestre                                              *
+ *   contains some code from CLedit (C) 2010 Heinz van Saanen -GPL         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -71,36 +72,14 @@ highlighter->setColors(colMath,colCommand,colKeyword);
 
 //c=0;
 connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
- matcher = new ParenMatcher;
- connect(this, SIGNAL(cursorPositionChanged()), matcher, SLOT(matchFromSender()));
+connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchPar()));
 //grabShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Tab), Qt::WidgetShortcut);
 setFocusPolicy(Qt::WheelFocus);
 setFocus();
 }
 LatexEditor::~LatexEditor(){
-delete matcher;
 //delete pChecker;
 }
-
- void LatexEditor::clearMarkerFormat(const QTextBlock &block, int markerId)
- {
-     QTextLayout *layout = block.layout();
-     QList<QTextLayout::FormatRange> formats = layout->additionalFormats();
-     bool formatsChanged = false;
-     for (int i = 0; i < formats.count(); ++i)
-         if (formats.at(i).format.hasProperty(markerId)) {
-             formats[i].format.clearBackground();
-             formats[i].format.clearProperty(markerId);
-             if (formats.at(i).format.properties().isEmpty()) {
-                 formats.removeAt(i);
-                 --i;
-             }
-             formatsChanged = true;
-         }
- 
-     if (formatsChanged)
-         layout->setAdditionalFormats(formats);
- }
 
 void LatexEditor::paintEvent(QPaintEvent *event)
 {
@@ -124,7 +103,9 @@ if (inlinecheckSpelling && pChecker)
       QFont spellmenufont (qApp->font());
       spellmenufont.setBold(true);
       QTextCursor c = cursorForPosition(e->pos());
-      BlockData* data;
+      BlockData *data = static_cast<BlockData *>(c.block().userData() );
+      //BlockData* data;
+      //data = (BlockData*)c.block().userData();
       QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
       QByteArray encodedString;
       QTextBlock block;
@@ -136,7 +117,6 @@ if (inlinecheckSpelling && pChecker)
       QStringList suggWords;
       //c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor);
       c.movePosition(QTextCursor::StartOfWord,QTextCursor::MoveAnchor);
-      data = (BlockData*)c.block().userData();
       li=c.blockNumber();
       block=c.block();
       colstart=c.position()-block.position();
@@ -1104,4 +1084,121 @@ bool LatexEditor::isSpace(QChar c) const
         || c == QChar::LineSeparator
         || c == QLatin1Char('\t')
         ;
+}
+
+void LatexEditor::matchPar() 
+{
+
+QList<QTextEdit::ExtraSelection> selections;
+setExtraSelections(selections);
+QTextBlock textBlock = textCursor().block();
+BlockData *data = static_cast<BlockData *>( textBlock.userData() );
+
+if ( data ) {
+	QVector<ParenthesisInfo *> infos = data->parentheses();
+	int pos = textCursor().block().position();
+
+	for ( int i=0; i<infos.size(); ++i ) {
+		ParenthesisInfo *info = infos.at(i);
+		int curPos = textCursor().position() - textBlock.position();
+		// Clicked on a left parenthesis?
+		if ( info->position == curPos-1 && info->character == '{' ) {
+			if ( matchLeftPar( textBlock, i+1, 0 ) )
+				createParSelection( pos + info->position );
+		}
+
+		// Clicked on a right parenthesis?
+		if ( info->position == curPos-1 && info->character == '}' ) {
+			if ( matchRightPar( textBlock, i-1, 0 ) )
+				createParSelection( pos + info->position );
+		}
+	}
+}
+}
+
+bool LatexEditor::matchLeftPar(	QTextBlock currentBlock, int index, int numLeftPar ) 
+{
+
+BlockData *data = static_cast<BlockData *>( currentBlock.userData() );
+QVector<ParenthesisInfo *> infos = data->parentheses();
+int docPos = currentBlock.position();
+
+// Match in same line?
+for ( ; index<infos.size(); ++index ) {
+	ParenthesisInfo *info = infos.at(index);
+
+	if ( info->character == '{' ) {
+		++numLeftPar;
+		continue;
+	}
+
+	if ( info->character == '}' && numLeftPar == 0 ) {
+		createParSelection( docPos + info->position );
+		return true;
+	} else
+		--numLeftPar;
+}
+
+// No match yet? Then try next block
+currentBlock = currentBlock.next();
+if ( currentBlock.isValid() )
+	return matchLeftPar( currentBlock, 0, numLeftPar );
+
+// No match at all
+return false;
+}
+
+bool LatexEditor::matchRightPar(QTextBlock currentBlock, int index, int numRightPar) 
+{
+
+BlockData *data = static_cast<BlockData *>( currentBlock.userData() );
+QVector<ParenthesisInfo *> infos = data->parentheses();
+int docPos = currentBlock.position();
+
+// Match in same line?
+for (int j=index; j>=0; --j ) {
+	ParenthesisInfo *info = infos.at(j);
+
+	if ( info->character == '}' ) {
+		++numRightPar;
+		continue;
+	}
+
+	if ( info->character == '{' && numRightPar == 0 ) {
+		createParSelection( docPos + info->position );
+		return true;
+	} else
+		--numRightPar;
+}
+
+// No match yet? Then try previous block
+currentBlock = currentBlock.previous();
+if ( currentBlock.isValid() ) {
+
+	// Recalculate correct index first
+	BlockData *data = static_cast<BlockData *>( currentBlock.userData() );
+	QVector<ParenthesisInfo *> infos = data->parentheses();
+
+	return matchRightPar( currentBlock, infos.size()-1, numRightPar );
+}
+
+// No match at all
+return false;
+}
+
+void LatexEditor::createParSelection( int pos ) 
+{
+QList<QTextEdit::ExtraSelection> selections = extraSelections();
+QTextEdit::ExtraSelection selection;
+QTextCharFormat format = selection.format;
+format.setBackground( QColor("#FFFF99") );
+format.setForeground( QColor("#FF0000") );
+selection.format = format;
+
+QTextCursor cursor = textCursor();
+cursor.setPosition( pos );
+cursor.movePosition( QTextCursor::NextCharacter, QTextCursor::KeepAnchor );
+selection.cursor = cursor;
+selections.append( selection );
+setExtraSelections( selections );
 }
