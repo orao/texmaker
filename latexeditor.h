@@ -17,21 +17,20 @@
 #include <QWidget>
 #include <QString>
 #include <QTextEdit>
+#include <QPlainTextEdit>
 #include <QTextDocument>
 #include <QTextCursor>
 #include <QTextBlock>
 #include <QCompleter>
+#include <QDateTime>
+#include <QTimer>
 
 #include "latexhighlighter.h"
 #include "hunspell/hunspell.hxx"
 
-//class QCompleter;
-//class ParenMatcher;
-//class QTextBlock;
-
 typedef  int UserBookmarkList[3];
 
-class LatexEditor : public QTextEdit  {
+class LatexEditor : public QPlainTextEdit  {
    Q_OBJECT
 public:
 LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0);
@@ -51,6 +50,7 @@ int getCursorPosition(int parag, int index);
 void setCursorPosition(int para, int index);
 void removeOptAlt();
 int numoflines();
+int searchLine( const QString &expr);
 int linefromblock(const QTextBlock& p);
 UserBookmarkList UserBookmark;
 void selectword(int line, int col, QString word);
@@ -62,9 +62,48 @@ void setSpellChecker(Hunspell * checker);
 void activateInlineSpell(bool enable);
 Hunspell * pChecker;
 void insertNewLine();
+void fold(int start, int end);
+void unfold(int start, int end);
+QRectF blockGeometry(const QTextBlock & block) {return blockBoundingGeometry(block).translated(contentOffset());}
+QRectF blockRect(const QTextBlock & block) {return blockBoundingRect(block);}
+QMap<int,int> foldedLines;
+QMap<int,int> foldableLines;
+
+
+QStringList structlist, structitem;
+QList<int> structtype, structpos, structlen;
+QList<QTextCursor> structcursor;
+
+void removeStructureItem(int offset,int len, int line);
+void appendStructureItem(int line,QString item,int type,const QTextCursor& cursor);
+
+int getLastNumLines();
+void setLastNumLines(int n);
+
+QDateTime getLastSavedTime();
+void setLastSavedTime(QDateTime t);
+
+class StructItem {
+public:
+int line;
+QString item;
+int type;
+QTextCursor cursor;
+StructItem(int l, const QString& it, int t,const QTextCursor& curs): line(l),item(it),type(t),cursor(curs) { };
+};
+const QList<StructItem> getStructItems() const { return StructItemsList; }
+
+public slots:
+void matchAll();
+void setHightLightLine();
+void clearHightLightLine();
+
 
 private:
+QDateTime lastSavedTime;
+QList<StructItem> StructItemsList;
 QString encoding;
+int lastnumlines;
 //QString textUnderCursor() const;
 QString commandUnderCursor() const;
 QStringList fullcommandUnderCursor();
@@ -79,14 +118,26 @@ bool matchLeftPar ( QTextBlock currentBlock, int index, int numRightPar );
 bool matchRightPar( QTextBlock currentBlock, int index, int numLeftPar );
 void createParSelection( int pos );
 
+bool matchLeftLat ( QTextBlock currentBlock, int index, int numRightLat, int bpos );
+bool matchRightLat( QTextBlock currentBlock, int index, int numLeftLat, int epos );
+void createLatSelection(int start, int end );
+int endBlock;
+QTimer highlightRemover;
+bool highlightLine;
+
 private slots:
 void correctWord();
 void checkSpellingWord();
 void checkSpellingDocument();
 void insertCompletion(const QString &completion);
 void jumpToPdf();
+void jumpToEndBlock();
+
 
 void matchPar();
+void matchLat();
+
+void ensureFinalNewLine();//Qt 4.7.1 bug
 
 protected:
 void paintEvent(QPaintEvent *event);
@@ -97,6 +148,10 @@ signals:
 void spellme();
 void tooltiptab();
 void requestpdf(int );
+void setBlockRange(int,int);
+void updatelineWidget();
+void requestUpdateStructure();
+void requestGotoStructure(int);
 };
 
 #endif

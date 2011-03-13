@@ -190,7 +190,7 @@ SpellingNextWord();
 
 void SpellerDialog::SpellingNextWord()
 {
-QApplication::setOverrideCursor(Qt::WaitCursor);
+/*QApplication::setOverrideCursor(Qt::WaitCursor);
 BlockData* data;
 QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
 QByteArray encodedString;
@@ -282,6 +282,114 @@ while(gonext && c.position() < endpos+deltacol && go)
 		}
 	go=c.movePosition(QTextCursor::NextWord,QTextCursor::MoveAnchor);
 	}
+QApplication::restoreOverrideCursor();*/
+QApplication::setOverrideCursor(Qt::WaitCursor);
+QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
+QTextBlock block;
+QString text;
+int i;
+int check;
+int offset ;
+int ns;
+char ** wlst;
+QChar ch;
+QString buffer;
+QByteArray encodedString;
+QStringList suggWords;
+BlockData* blockData;
+block=c.block();
+bool gonext=true;
+while (gonext && c.position() < endpos+deltacol && block.isValid() ) 
+{
+ui.listWidget->setEnabled(false);
+ui.lineEditNew->setEnabled(false);
+ui.pushButtonIgnore->setEnabled(false);
+ui.pushButtonAlwaysIgnore->setEnabled(false);
+ui.pushButtonReplace->setEnabled(false);
+ui.lineEditOriginal->setEnabled(false);
+ui.lineEditOriginal->clear();
+ui.listWidget->clear();
+ui.lineEditNew->clear();
+ui.labelMessage->setText("<b>"+tr("No more misspelled words")+"</b>");
+i=0;
+text=block.text();
+blockData= (BlockData*)block.userData();
+while (gonext && i < text.length())
+	{
+	buffer = QString::null;
+	ch = text.at( i );
+	offset=0;
+	while ((blockData->code[i]!=1) && (!isSpace(ch)))
+	      {
+	      buffer += ch;
+	      i++;
+	      if (i < text.length()) ch = text.at( i );
+	      else break;
+	      }
+	while (buffer.startsWith('\''))
+	  {
+	  buffer=buffer.right(buffer.size()-1);
+	  }
+	while (buffer.endsWith('\''))
+	  {
+	  buffer.chop(1);
+	  offset++;
+	  }
+	if ( (i - buffer.length()-offset+block.position() <= endpos+deltacol) && (i-offset+block.position()>=c.position()) && (buffer.length() > 1) && (!ignoredwordList.contains(buffer)) && (!hardignoredwordList.contains(buffer)))
+	  {
+	  encodedString = codec->fromUnicode(buffer);
+	  if (pChecker) check = pChecker->spell(encodedString.data());
+	  else check=true;
+	  if (!check)
+		  {
+		  editor->selectword(block.blockNumber(),i - buffer.length()-offset,buffer);
+		  ui.listWidget->setEnabled(true);
+		  ui.lineEditNew->setEnabled(true);
+		  ui.pushButtonIgnore->setEnabled(true);
+		  ui.pushButtonAlwaysIgnore->setEnabled(true);
+		  ui.pushButtonReplace->setEnabled(true);
+		  ui.lineEditOriginal->setEnabled(true);
+		  ui.lineEditOriginal->setText(buffer);
+		  ui.listWidget->clear();
+		  ui.lineEditNew->clear();
+		  ui.labelMessage->setText("");
+		  gonext=false;
+		  ns = pChecker->suggest(&wlst,encodedString.data());
+		  if (ns > 0)
+			  {
+			  suggWords.clear();
+			  for (int i=0; i < ns; i++) 
+				  {
+				  suggWords.append(codec->toUnicode(wlst[i]));
+			  //free(wlst[i]);
+				  } 
+		  //free(wlst);
+			  pChecker->free_list(&wlst, ns);
+			  if (!suggWords.isEmpty())
+				  {
+				  if (suggWords.contains(buffer)) gonext=true;
+				  else
+					  {
+					  ui.listWidget->addItems(suggWords);
+					  ui.lineEditNew->setText(suggWords.at(0));
+					  }
+				  }
+			  }
+		  }
+	  }
+	i++;
+	}
+block = block.next();
+}
 QApplication::restoreOverrideCursor();
+
 }
 
+bool SpellerDialog::isSpace(QChar c) const
+{
+    return c == QLatin1Char(' ')
+        || c == QChar::Nbsp
+        || c == QChar::LineSeparator
+        || c == QLatin1Char('\t')
+        ;
+}

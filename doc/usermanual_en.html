@@ -50,17 +50,18 @@ body { background: #ffffff; color: black; }
 <ul>
 <li><a href="#SECTION3">4. Other features</a></li>
 	<ul>
-	<li><a href="#SECTION31">4.1 About documents separated in several files</a></li>
-	<li><a href="#SECTION32">4.2 Bibliography</a></li>
-	<li><a href="#SECTION33">4.3 Personals tags ans tools</a></li>
-	<li><a href="#SECTION34">4.4 Pstricks/Metapost/Tikz/Asymptote support</a></li>
-	<li><a href="#SECTION35">4.5 Change the interface language and appearance</a></li>
-	<li><a href="#SECTION36">4.6 The "Restore previous session" command</a></li>
-	<li><a href="#SECTION37">4.7 "Forward/Inverse search" with Texmaker</a></li>
-	<li><a href="#SECTION38">4.8 Synopsis of the Texmaker command</a></li>
-	<li><a href="#SECTION39">4.9 Keyboard shortcuts</a></li>
-	<li><a href="#SECTION40">4.10 The "Convert to Html" command</a></li>
-	<li><a href="#SECTION41">4.11 Printing a pdf document with the built-in pdf viewer on windows</a></li>
+	<li><a href="#SECTION301">4.1 Folding/unfolding parts of the document</a></li>
+	<li><a href="#SECTION31">4.2 About documents separated in several files</a></li>
+	<li><a href="#SECTION32">4.3 Bibliography</a></li>
+	<li><a href="#SECTION33">4.4 Personals tags ans tools</a></li>
+	<li><a href="#SECTION34">4.5 Pstricks/Metapost/Tikz/Asymptote support</a></li>
+	<li><a href="#SECTION35">4.6 Change the interface language and appearance</a></li>
+	<li><a href="#SECTION36">4.7 The "Restore previous session" command</a></li>
+	<li><a href="#SECTION37">4.8 "Forward/Inverse search" with Texmaker</a></li>
+	<li><a href="#SECTION38">4.9 Synopsis of the Texmaker command</a></li>
+	<li><a href="#SECTION39">4.10 Keyboard shortcuts</a></li>
+	<li><a href="#SECTION40">4.11 The "Convert to Html" command</a></li>
+	<li><a href="#SECTION41">4.12 Printing a pdf document with the built-in pdf viewer on windows</a></li>
 	</ul>
 </ul>
 <hr>
@@ -68,7 +69,7 @@ body { background: #ffffff; color: black; }
 Before using Texmaker, you must configure the editor and latex related commands via the "Configure Texmaker" command in the "Options" menu ("Preferences" under macosx).
 <h2><a name="SECTION01">1.1 Configuring the editor</a></h2>
 <p>
-Before compiling your first document, you must set the encoding used by the editor ("Configure Texmaker" -> "Editor" -> "Editor Font Encoding"). Then, you should use the same encoding in the preamble of yours TeX documents (example : \usepackage[latin]{inputenc}, if you use the "ISO-8859-1" encoding for the editor)
+Before compiling your first document, you must set the encoding used by the editor ("Configure Texmaker" -> "Editor" -> "Editor Font Encoding"). Then, you should use the same encoding in the preamble of yours TeX documents (example : \usepackage[latin]{inputenc}, if you use the "ISO-8859-1" encoding for the editor)<br>Note : while opening a file, you're warned if the document can't be decoded correctly with the default encoding and the program lets you choose an other encoding (without modifying the default encoding) .
 </p>
 <h2><a name="SECTION02">1.2 Configuring the latex related commands</a></h2>
 <p>Texmaker can't compile yours documents if the paths to the LaTeX related commands are wrong.<br>
@@ -101,7 +102,7 @@ During typing, if there is an error, the word is underlined by a red underline. 
 <h2><a name="SECTION14">2.4 Browsing your document</a></h2>
 <p>The "Structure View" (left panel) lets you quickly reach any part of your document. All you need to do is to click on any item (label, section...) and you will be taken to the beginning of the corresponding area in the editor.</p>
 <p><IMG src="doc5.png" border="1"></p>
-<p>The "Structure View" is automatically updated when you save or compile your document. You can also use the "Refresh Structure" ("Edit" menu) command at any moment.</p>
+<p>The "Structure View" is automatically updated while typing. You can also use the "Refresh Structure" ("Edit" menu) command at any moment.</p>
 <p>For each file, three bookmarks can be used to speed up navigation : just click on a line number to add or remove a bookmark. When you have already defined three bookmarks, you must remove one of them to add a new bookmark. To jump to the line corresponding to a bookmark in the editor, just click on the buttons in the status bar.</p>
 <p><IMG src="doc20.png" border="1"></p>
 <h2><a name="SECTION15">2.5 Formatting your text</a></h2>
@@ -170,14 +171,19 @@ Remark : if you press the F1 key in the built-in pdf viewer, the focus go to the
 To use xelatex with Texmaker, just replace the pdflatex command by xelatex.
 </p>
 <h1><a name="SECTION3">4. Other features</a></h1>
-<h2><a name="SECTION31">4.1 About documents separated in several files</a></h2>
+<h2><a name="SECTION301">4.1 Folding/unfolding parts of the document</a></h2>
+<p>Texmaker allows you to fold/unfold all \part, \chapter, \section,.., \begin{foo} \end{foo} blocks in your document. To do that, the cursor must be localized in the first line of a block ("contextual code folding"). Then, you have just to click on the "-" icon to fold the corresponding block.<br>
+Note : you can also use the contextual menu to jump directly to the end of the block.</p>
+<h2><a name="SECTION31">4.2 About documents separated in several files</a></h2>
 <p>Texmaker allows you to work onto documents separated in several files.<br>
 To include a TeX file into your document, just use the "\include{file}" command in the "LaTeX" menu. The file will appear in the "Structure View". With a click on his name, Texmaker will open it.</p>
-<p>Then, you can define your "master document" with the "Options" menu. All the commands of the "Tools" menu will apply only to this document even when working on the "children" documents (you can even close the "master" document).<br>Note : you can leave the "master" mode with the "Options" menu.</p>
-<h2><a name="SECTION32">4.2 Bibliography</a></h2>
+<p>Then, you can define your "master document" with the "Options" menu. All the commands of the "Tools" menu will apply only to this document even when working on the "children" documents (you can even close the "master" document).<br>
+You can easily switch toggle between the master document and the current document via the corresponding button (just above the "Bold" button).<br>Note : you can leave the "master" mode with the "Options" menu.</p>
+<h2><a name="SECTION32">4.3 Bibliography</a></h2>
+<p>While opening a .tex document, the detected .bib files are parsed automatically and the bibliography references are added to the auto-completion. The list of the bibkiography references can be refreshed via the "Update Bibliography" option of the "Edit" menu.</p>
 <p>For the "bib" files , the "Bibliography" menu enables you to directly insert the entries corresponding to the standard types of document.<br>Note: the optional fields can be automatically deleted with the "Clean" command of the "Bibliography" menu.</p>
 <p><IMG src="doc16.png" border="1"></p>
-<h2><a name="SECTION33">4.3 Personals tags ans tools</a></h2>
+<h2><a name="SECTION33">4.4 Personals tags ans tools</a></h2>
 <p>Texmaker allows you to insert your own tags (shortcuts : Shift+F1...Shift+F10). These tags are defined with the "User - User Tags" menu.<br>
 Notes :
 <ul>
@@ -191,14 +197,14 @@ and the cursor will jump directly to the "•" field.<br><IMG src="doc17.png" bo
 </ul>
 </p>
 <p>You can also launch your own commands (shortcuts : Alt+Shift+F1...Alt+Shift+F5). These commands are defined with the "User - User Commands" menu and can be launched via the toolbar ("Run" button) .</p>
-<h2><a name="SECTION34">4.4 Pstricks/Metapost/Tikz/Asymptote support</a></h2>
+<h2><a name="SECTION34">4.5 Pstricks/Metapost/Tikz/Asymptote support</a></h2>
 <p>Some of the main Pstricks/Metapost/Tikz/Asymptote commands can be inserted via the "PS", "MP", "TI" and "AS" buttons in the "Structure View".<br>
 The "mpost" and "asy" commands can be launched via the "Tools" menu or via the "Run" button.</p>
-<h2><a name="SECTION35">4.5 Change the interface language and appearance</a></h2>
+<h2><a name="SECTION35">4.6 Change the interface language and appearance</a></h2>
 The interface language and appearance can be changed via the "Options" menu (restarting the application is required).
-<h2><a name="SECTION36">4.6 The "Restore previous session" command</a></h2>
+<h2><a name="SECTION36">4.7 The "Restore previous session" command</a></h2>
 <p>If you quit the program without closing the opened documents, texmaker records automatically the names of these documents. With the "Restore session" command in the "File" menu, all these files can be re-opened in one click.</p>
-<h2><a name="SECTION37">4.7 "Forward/Inverse search" with Texmaker</a></h2>
+<h2><a name="SECTION37">4.8 "Forward/Inverse search" with Texmaker</a></h2>
 <p>
 Some dvi viewers can jump to (and visually highlight) a position in the DVI file that corresponds to a certain line number in the (La)TeX source file.<br>
 To use this feature, you can use the <b>@</b> character in the syntax of the dvi viewer command ("Configure Texmaker" -> "Commands").<br>
@@ -215,13 +221,13 @@ For the opposite operation ("Inverse search") :
 </ul>
 <!--Remark : if you try to use "inverse search" with texmaker (the opposite operation of the "forward search"), a new instance of texmaker will be launched at each time. This operation is not recommended.-->
 </p>
-<h2><a name="SECTION38">4.8 Synopsis of the texmaker command</a></h2>
+<h2><a name="SECTION38">4.9 Synopsis of the texmaker command</a></h2>
 <p>
 texmaker file [-master] [-line xx]<br>
 With the "-master" option, the document will be automatically defined as a "master" document.<br>
 With the "-line xx" option, Texmaker will ask you if you want to jump to the xx line after loading the document.
 </p>
-<h2><a name="SECTION39">4.9 Keyboard shortcuts</a></h2>
+<h2><a name="SECTION39">4.10 Keyboard shortcuts</a></h2>
 <p>
 Defaults keyboard shorscuts (*:can be modified - "Configure Texmaker" -> "Editor") :
 <ul>
@@ -301,7 +307,7 @@ Defaults keyboard shorscuts (*:can be modified - "Configure Texmaker" -> "Editor
 </li>
 </ul>
 </p>
-<h2><a name="SECTION40">4.10 The "Convert to Html" command</a></h2>
+<h2><a name="SECTION40">4.11 The "Convert to Html" command</a></h2>
 <p>This command (from the "Tools" menu ) produces a set of html pages from a LaTeX source file with one image for each html page. Each page in the slide presentation corresponds to one of the postscript pages you would obtain running LaTeX.<br>
 The command also produces an index page corresponding to the table of contents you would obtain with LaTeX. Each item of the index page includes a link to the corresponding html page.</p>
 <p>You can create links in the html pages by using the \ttwplink{}{} command in the tex file.<br>
@@ -312,7 +318,7 @@ Synopsis :<br>
 <b>Warning : </b>You can't use this command with the hyperref package (and some others packages). This command can only be used with the "Convert to html" tool.</p>
 <p><IMG src="doc18.png" border="1"></p>
 <p><IMG src="doc19.png" border="1"></p>
-<h2><a name="SECTION41">4.11 Printing a pdf document with the built-in pdf viewer on windows</a></h2>
+<h2><a name="SECTION41">4.12 Printing a pdf document with the built-in pdf viewer on windows</a></h2>
 <ul>
 <li>Be sure that the ghostscript program is installed and that the path to the "gswin32c.exe" file in the Texmaker configuration dialog is good.</li>
 <li>After clicking on the "print" button, fix the paper size and the print range.</li>

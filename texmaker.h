@@ -1,6 +1,7 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
+ *   addons by Luis Silvestre ; Tom Hoffmann                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -46,6 +47,7 @@
 #include "hunspell/hunspell.hxx"
 #include "browser.h"
 #include "pdfviewer.h"
+#include "encodingprober/qencodingprober.h"
 
 
 
@@ -78,6 +80,10 @@ void setupToolBars();
 void createStatusBar();
 bool FileAlreadyOpen(QString f);
 void closeEvent(QCloseEvent *e);
+int LevelItem(const QTreeWidgetItem *item);
+int LineItem(const QTreeWidgetItem *item);
+bool currentfileSaved();
+bool isCurrentModifiedOutside();
 
 FilesMap filenames;
 KeysMap shortcuts, actionstext;
@@ -106,7 +112,7 @@ QMenu *optionsMenu, *translationMenu, *appearanceMenu;
 QMenu *helpMenu;
 
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar, *centralToolBar;
-QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct ;
+QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct ;
 QComboBox *comboCompil, *comboView, *comboFiles;
 
 QLabel *stat1, *stat2, *stat3;
@@ -119,12 +125,12 @@ int split1_right, split1_left, split2_top, split2_bottom, quickmode;
 bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance ;
 QString document_class, typeface_size, paper_size, document_encoding, author;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize;
-QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command;
+QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command;
 QString spell_dic, spell_ignored_words;
-QString lastDocument, input_encoding;
+QString lastDocument, input_encoding, lastChild;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
 QStringList userClassList, userPaperList, userEncodingList, userOptionsList;
-QStringList structlist, labelitem, structitem;
+QStringList labelitem, bibitem, listbibfiles;
 Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
 //dialogs
@@ -166,6 +172,7 @@ LatexEditorView *currentEditorView() const;
 void fileNew();
 void fileNewFromFile();
 void fileOpen();
+void checkModifiedOutsideAll();
 void fileSave();
 void fileSaveAll();
 void fileSaveAs();
@@ -182,6 +189,8 @@ void fileOpenAndGoto(const QString &f, int line);
 void getFocusToEditor();
 void fileReload();
 void listSelectionActivated(int index);
+void ComboFilesInsert(const QString & file);
+void ToggleMasterCurrent();
 
 void editUndo();
 void editRedo();
@@ -208,6 +217,10 @@ void NewDocumentStatus(bool m);
 void UpdateCaption();
 
 void UpdateStructure();
+void UpdateBibliography();
+void ParseTree(QTreeWidgetItem *item);
+void ItemToRange(QTreeWidgetItem *item);
+
 void ShowStructure();
 void ShowRelation(); //RelationListWidget
 void ShowArrow(); //ArrowListWidget
@@ -267,6 +280,7 @@ void EditUserMenu();
 
 void SectionCommand(const QString& text);
 void OtherCommand(const QString& text);
+void InsertCite();
 void InsertRef();
 void InsertPageRef();
 void SizeCommand(const QString& text);
@@ -297,6 +311,7 @@ void PStoPDF();
 void DVItoPDF();
 void MetaPost();
 void Asymptote();
+void LatexMk();
 void AsyFile(QString asyfile);
 void UserTool1();
 void UserTool2();
@@ -351,10 +366,20 @@ void disableToolsActions();
 void enableToolsActions();
 
 void clipboardDataChanged();
+void refreshAll();
+void refreshAllFromCursor(int newnumlines);
+void refreshRange();
+void jumpToStructure(int line);
+void mainWindowActivated();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);
 void dropEvent(QDropEvent *event);
+virtual void changeEvent(QEvent *e);
+
+signals:
+void windowActivated();
+    
 };
 
 #endif

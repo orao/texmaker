@@ -46,7 +46,11 @@ translatorsList.clear();
 QTranslator* appTranslator=new QTranslator(this);
 QTranslator* basicTranslator=new QTranslator(this);
 #if defined( Q_WS_X11 )
+#ifdef USB_VERSION
+QString transdir=QCoreApplication::applicationDirPath();
+#else
 QString transdir=PREFIX"/share/texmaker";
+#endif
 #endif
 #if defined( Q_WS_MACX )
 QString transdir=QCoreApplication::applicationDirPath() + "/../Resources";

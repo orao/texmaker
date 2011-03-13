@@ -1,3 +1,18 @@
+version 2.2.2 -> 2.3 :
+----------------------
+-  \part, \chapter, \section,.., \begin{foo} \end{foo} blocks can now be collapsed (contextual code folding : the folding marks are only displayed when the cursor is on the first line of a block)
+- the structure view is now updated dynamically while typing
+- while opening a file, users are warned if the document can't be decoded correctly with the default encoding and they can choose an other encoding.
+- in the pdf viewer, the zoom is now centered on the center of the current view
+- a new button allows to toggle in one click between the master document and the current document
+- latexmk can now be chosen for the "Quick build" command
+- relative paths for the \include like latex tags are now supported
+- before saving a file, users are warned if the document has been changed outside texmaker
+- bibliography items are now added to the auto-completion for the \cite command (the .bib files are now parsed while opening a .tex document)
+- the code for the < and > symbols has been fixed
+- the spell checker has been modified to take care of the apostrophes
+- users can now move the editor tabs (thanks to Tim Hoffmann)
+
 version 2.2.1 -> 2.2.2:
 ----------------------
 - the bug about the pdfviewer on macosx 10.6 cocoa has been fixed (Qt bug)

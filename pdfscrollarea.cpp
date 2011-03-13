@@ -21,13 +21,53 @@ setFrameStyle(QFrame::NoFrame);
 scrollAreaWidgetContents = new QWidget();
 verticalLayout = new QVBoxLayout(scrollAreaWidgetContents);
 setWidget(scrollAreaWidgetContents);
+connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sChanged(int)));
 connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollChanged(int)));
 connect(verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(rChanged(int,int)));
+handmode=false;
 }
 
 PdfScrollArea::~PdfScrollArea()
 {
 
+}
+
+void PdfScrollArea::pressHere(QPoint p)
+{
+scrollPos = p;
+
+}
+
+void PdfScrollArea::moveHere(QPoint p)
+{
+QPoint delta = p - scrollPos;
+scrollPos = p;
+int oldX = horizontalScrollBar()->value();
+horizontalScrollBar()->setValue(oldX - delta.x());
+int oldY = verticalScrollBar()->value();
+verticalScrollBar()->setValue(oldY - delta.y());
+}
+
+void PdfScrollArea::mousePressEvent(QMouseEvent *event)
+{
+QApplication::setOverrideCursor(Qt::ClosedHandCursor);
+//setCursor(Qt::ClosedHandCursor);
+handmode=true;
+pressHere(event->globalPos());
+}
+
+void PdfScrollArea::mouseMoveEvent(QMouseEvent *event)
+{
+if (handmode) {setCursor(Qt::ClosedHandCursor);moveHere(event->globalPos());}
+else setCursor(Qt::ArrowCursor);
+event->accept();
+}
+
+void PdfScrollArea::mouseReleaseEvent(QMouseEvent *event)
+{
+QApplication::restoreOverrideCursor();
+//setCursor(Qt::ArrowCursor);
+handmode=false;
 }
 
 void PdfScrollArea::wheelEvent( QWheelEvent *e )
@@ -49,6 +89,11 @@ void PdfScrollArea::scrollChanged(int value)
 {
 //qDebug() << "scroll" << value << verticalScrollBar()->maximum();
 emit doScroll(value);
+}
+
+void PdfScrollArea::sChanged(int value)
+{
+//qDebug() << "scroll" << value << horizontalScrollBar()->maximum() << horizontalScrollBar()->pageStep() << horizontalScrollBar()->maximum()+horizontalScrollBar()->pageStep() << viewport()->width();
 }
 
 void PdfScrollArea::rChanged(int min,int max)

@@ -1082,7 +1082,13 @@ address=settings->value("/address","").toString();
 QString kdesession= ::getenv("KDE_FULL_SESSION");
 if (!kdesession.isEmpty()) browser=settings->value("/browser","konqueror").toString();
 else browser=settings->value("/browser","firefox").toString();
+
+#ifdef USB_VERSION
+programdir=QCoreApplication::applicationDirPath();
+#else
 programdir=PREFIX"/share/texmaker";
+#endif
+
 #endif
 #ifdef Q_WS_MACX
 browser=settings->value("/browser","open").toString();

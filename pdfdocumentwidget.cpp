@@ -32,6 +32,7 @@ PdfDocumentWidget::PdfDocumentWidget(QWidget *parent, int page,Poppler::Page *dp
     setMouseTracking(true);
     highlightRemover.setSingleShot(true);
     connect(&highlightRemover, SIGNAL(timeout()), this, SLOT(clearHighlight()));
+    handmode=false;
 }
 
 PdfDocumentWidget::~PdfDocumentWidget()
@@ -55,10 +56,10 @@ void PdfDocumentWidget::mousePressEvent(QMouseEvent *event)
 {
 if (!doc_page) return;
 currentLink=0;
-setCursor(Qt::ArrowCursor);
 clearPaths();
 updatePixmap();
 //setPage();
+
 foreach (Poppler::Link* link, doc_page->links())
   {
   QPointF scaledPos((event->pos().x()- (width() - pixmap()->width()) / 2.0) / scaleFactor / physicalDpiX() * 72.0 / doc_page->pageSizeF().width(),(event->pos().y()- (height() - pixmap()->height()) / 2.0) / scaleFactor / physicalDpiY() * 72.0 / doc_page->pageSizeF().height());
@@ -68,12 +69,21 @@ foreach (Poppler::Link* link, doc_page->links())
     break;
     }
   }
+  if (currentLink==0)
+  {
+  setCursor(Qt::ClosedHandCursor);
+  QApplication::setOverrideCursor(Qt::ClosedHandCursor);
+  handmode=true;
+  emit pressOnPoint(event->globalPos());
+  }
+  else setCursor(Qt::ArrowCursor);
 }
 
 void PdfDocumentWidget::mouseMoveEvent(QMouseEvent *event)
 {
 if (!doc_page) return;
-setCursor(Qt::ArrowCursor);
+if (handmode) {setCursor(Qt::ClosedHandCursor);emit moveOnPoint(event->globalPos());}
+else {setCursor(Qt::ArrowCursor);}
 foreach (Poppler::Link* link, doc_page->links())
   {
   QPointF scaledPos((event->pos().x()- (width() - pixmap()->width()) / 2.0) / scaleFactor / physicalDpiX() * 72.0 / doc_page->pageSizeF().width(),(event->pos().y()- (height() - pixmap()->height()) / 2.0) / scaleFactor / physicalDpiY() * 72.0 / doc_page->pageSizeF().height());
@@ -83,13 +93,13 @@ foreach (Poppler::Link* link, doc_page->links())
     break;
     }
   }
+
 event->accept();
 }
 
 void PdfDocumentWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 if (!doc_page) return;
-setCursor(Qt::ArrowCursor);
 if (currentLink)
   {
    QPointF scaledPos((event->pos().x()- (width() - pixmap()->width()) / 2.0) / scaleFactor / physicalDpiX() * 72.0 / doc_page->pageSizeF().width(),(event->pos().y()- (height() - pixmap()->height()) / 2.0) / scaleFactor / physicalDpiY() * 72.0 / doc_page->pageSizeF().height());
@@ -110,11 +120,17 @@ if (currentLink)
       }
   }
 currentLink=0;
+handmode=false;
+setCursor(Qt::ArrowCursor);
+ QApplication::restoreOverrideCursor();
 }
 
 void PdfDocumentWidget::contextMenuEvent(QContextMenuEvent *event)
 {
 if (!doc_page) return;
+handmode=false;
+setCursor(Qt::ArrowCursor);
+QApplication::restoreOverrideCursor();
 QMenu *menu = new QMenu(this);
 QAction *act = new QAction(tr("Click to jump to the line"), menu);
 act->setData(QVariant(event->pos()));

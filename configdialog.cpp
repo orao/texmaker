@@ -65,6 +65,7 @@ connect( ui.pushButtonPdfviewer, SIGNAL(clicked()), this, SLOT(browsePdfviewer()
 connect( ui.pushButtonMetapost, SIGNAL(clicked()), this, SLOT(browseMetapost()));
 connect( ui.pushButtonGhostscript, SIGNAL(clicked()), this, SLOT(browseGhostscript()));
 connect( ui.pushButtonAsymptote, SIGNAL(clicked()), this, SLOT(browseAsymptote()));
+connect( ui.pushButtonLatexmk, SIGNAL(clicked()), this, SLOT(browseLatexmk()));
 
 connect( ui.pushButtonWizard, SIGNAL(clicked()), this, SLOT(userQuickWizard()));
 
@@ -116,7 +117,13 @@ void ConfigDialog::changePage(QListWidgetItem *current, QListWidgetItem *previou
 void ConfigDialog::browseAspell()
 {
 #if defined( Q_WS_X11 )
+
+#ifdef USB_VERSION
+QDir spelldir(QCoreApplication::applicationDirPath());
+#else
 QDir spelldir(PREFIX"/share/texmaker");
+#endif
+
 #endif
 #if defined( Q_WS_MACX )
 QDir spelldir(QCoreApplication::applicationDirPath() + "/../Resources");
@@ -307,6 +314,17 @@ if ( !location.isEmpty() )
 	}
 }
 
+void ConfigDialog::browseLatexmk()
+{
+QString location=QFileDialog::getOpenFileName(this,tr("Browse program"),QDir::rootPath(),"Program (*)",0,QFileDialog::DontResolveSymlinks);
+if ( !location.isEmpty() ) 
+	{
+	location.replace(QString("\\"),QString("/"));
+	location="\""+location+"\" -e \"$pdflatex=q/pdflatex -interaction=nonstopmode/\" -pdf %.tex";
+	ui.lineEditLatexmk->setText( location );
+	}
+}
+
 void ConfigDialog::configureShortCut(QTableWidgetItem *item)
 {
 QString shortcut,data,newshortcut;
@@ -379,6 +397,9 @@ usualCommands.append(ui.lineEditGhostscript->text());
 
 usualNames.append(tr("Asymptote"));
 usualCommands.append(ui.lineEditAsymptote->text());
+
+usualNames.append(tr("Latexmk"));
+usualCommands.append(ui.lineEditLatexmk->text());
 
 userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
 if ( userquickdlg->exec() )

@@ -13,6 +13,7 @@
 #include <QtGui>
 
 #include "latexhighlighter.h"
+#include "latexeditor.h"
 #include "blockdata.h"
 
 LatexHighlighter::LatexHighlighter(QTextDocument *parent,bool spelling,QString ignoredWords,Hunspell *spellChecker)
@@ -25,6 +26,7 @@ ColorCommand=QColor(0x80, 0x00, 0x00);
 ColorKeyword=QColor(0x00, 0x00, 0xCC);
 ColorVerbatim = QColor("#9A4D00"); //#B08000
 KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
+//spellingErrorFormat.setFontUnderline(true);
 spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
 spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
 checkSpelling=spelling;
@@ -49,6 +51,11 @@ LatexHighlighter::~LatexHighlighter(){
 //delete pChecker;
 }
 
+void LatexHighlighter::SetEditor(LatexEditor *ed)
+{
+editor=ed;
+}
+
 void LatexHighlighter::setColors(QColor colMath, QColor colCommand, QColor colKeyword)
 {
 ColorMath = colMath;
@@ -59,6 +66,18 @@ ColorKeyword=colKeyword;
 void LatexHighlighter::highlightBlock(const QString &text)
 {
 QRegExp rxSweave("<<(.*)>>=");
+QStringList types;
+types << QLatin1String("article") << QLatin1String("book")
+  << QLatin1String("booklet") << QLatin1String("inbook")
+  << QLatin1String("incollection") << QLatin1String("inproceedings")
+  << QLatin1String("manual") << QLatin1String("mastersthesis")
+  << QLatin1String("misc") << QLatin1String("phdthesis")
+  << QLatin1String("proceedings") << QLatin1String("techreport")
+  << QLatin1String("unpublished") << QLatin1String("periodical")
+  << QLatin1String("conference");
+QRegExp rxBib("@("+types.join("|")+")\\s*\\{\\s*(.*),", Qt::CaseInsensitive);
+rxBib.setMinimal(true);
+
 int i = 0;
 int state = previousBlockState();
 if (state<0) state=0;
@@ -75,6 +94,8 @@ const int StateSweaveCommand =7;
 const int StateGraphic =8;
 const int StateGraphicCommand =9;
 const int StateGraphicMath =10;
+const int StateBib =11;
+const int StateBibCommand =12;
 
 BlockData *blockData = new BlockData;
 int leftPos = text.indexOf( '{' );
@@ -84,7 +105,7 @@ while ( leftPos != -1 )
   info->character = '{';
   info->position = leftPos;
 
-  blockData->insert( info );
+  blockData->insertPar( info );
   leftPos = text.indexOf( '{', leftPos+1 );
   }
 
@@ -95,19 +116,302 @@ while ( rightPos != -1 )
   info->character = '}';
   info->position = rightPos;
 
-  blockData->insert( info );
+  blockData->insertPar( info );
   rightPos = text.indexOf( '}', rightPos+1 );
   }
+  
+leftPos = text.indexOf( "\\begin{" );
+while ( leftPos != -1 ) 
+  {
+  LatexBlockInfo *info = new LatexBlockInfo;
+  info->character = 'b';
+  info->position = leftPos;
+
+  blockData->insertLat( info );
+  leftPos = text.indexOf("\\begin{", leftPos+1 );
+  }
+
+rightPos = text.indexOf("\\end{");
+while ( rightPos != -1 ) 
+  {
+  LatexBlockInfo *info = new LatexBlockInfo;
+  info->character = 'e';
+  info->position = rightPos;
+
+  blockData->insertLat( info );
+  rightPos = text.indexOf("\\end{", rightPos+1 );
+  }
+
 setCurrentBlockUserData(blockData);
-	
-/*BlockData *blockData = static_cast<BlockData *>(currentBlockUserData());
-if (blockData) blockData->code.clear(); 
-else 
+
+
+/////////////////////
+i=currentBlock().blockNumber();
+//qDebug() << "high" << i;
+editor->removeStructureItem(currentBlock().position(), currentBlock().length(),i);
+int tagStart, tagEnd,offset;
+QString s;
+QString struct_level1="part";
+QString struct_level2="chapter";
+QString struct_level3="section";
+QString struct_level4="subsection";
+QString struct_level5="subsubsection";
+
+
+bool found=false;
+//// section ////
+/*QRegExp rxSection=QRegExp("^\\s*\\\\section\\*?\\s*(?:\\[[^]]*\\]\s*)?\\{([^}]*)\\}");
+offset=text.indexOf(rxSection);
+if (offset!=-1)
+  {
+  s=rxSection.cap(1);
+  if (s.isEmpty()) s=rxSection.cap(0);
+  QTextCursor cursor(document());
+  cursor.setPosition(currentBlock().position() + offset);
+  cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+  editor->appendStructureItem(i,s,6,cursor);found=true;
+  }*/
+
+tagStart=tagEnd=offset=0;
+s=text; 
+ tagStart=s.indexOf(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+	if (tagStart!=-1)
 	{
-	blockData = new BlockData;
-	setCurrentBlockUserData(blockData);
-	}*/
-for (int j=0; j < text.length(); j++) blockData->code.append(0);
+	tagStart=s.indexOf(struct_level3, tagEnd);
+	s=s.mid(tagStart+struct_level3.length(),s.length());
+		tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,6,cursor);found=true;
+	  }
+	};
+if (!found)
+{
+//// subsection ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level4, tagEnd);
+	s=s.mid(tagStart+struct_level4.length(),s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,7,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// subsubsection ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level5, tagEnd);
+	s=s.mid(tagStart+struct_level5.length(),s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,8,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// block ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\begin\\{block\\}\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf("begin{block}", tagEnd);
+	s=s.mid(tagStart+12,s.length());
+
+	if (s.startsWith("{")) s=s.remove(0,1);
+	if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	//s=s+" (line "+QString::number(i+1)+")";
+	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	editor->appendStructureItem(i,s,0,cursor);found=true;
+	};
+}
+if (!found)
+{
+//// label ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\label{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+7,s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+		//s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,1,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// include ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\include{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+8,s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+			   	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,2,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// input ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\input{", tagEnd);
+offset=tagStart;
+	if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+6,s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+			   	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,3,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// part ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level1, tagEnd);
+	s=s.mid(tagStart+struct_level1.length(),s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,4,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// chapter ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level2+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level2, tagEnd);
+	s=s.mid(tagStart+struct_level2.length(),s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,5,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// bib files ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\bibliography{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+13,s.length());
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+				      	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,9,cursor);found=true;
+		}
+	};
+}
+/////////////////
+i=0;
+blockData->code.clear(); 
+blockData->misspelled.clear(); 
+for (int j=0; j < text.length(); j++) {blockData->code.append(0);blockData->misspelled.append(false);}
 while (i < text.length())
 	{
         ch = text.at( i );
@@ -190,6 +494,7 @@ while (i < text.length())
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
+			if(buffer.indexOf(rxBib) != -1) {state=StateBib;buffer = QString::null;}
 		} else
 		if (tmp== '=' ){
 			blockData->code[i]=1;
@@ -211,7 +516,7 @@ while (i < text.length())
 		if (isWordSeparator(tmp)){
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
-			buffer = QString::null;
+			//buffer = QString::null;
 		} else
 		 {
 			setFormat( i, 1,ColorStandard);
@@ -364,6 +669,10 @@ while (i < text.length())
 		if (tmp== ' ') {
          		setFormat( i, 1,ColorStandard);
          		state=StateStandard;
+		} else
+		if (tmp== '\t') {
+         		setFormat( i, 1,ColorStandard);
+         		state=StateStandard;
 		}  else
 		if (tmp=='(' || tmp=='[' || tmp=='{' || tmp==')' || tmp==']' || tmp=='}') {
 			blockData->code[i]=1;
@@ -381,7 +690,7 @@ while (i < text.length())
 					}
 				}
 		} else
-		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
+		if (tmp=='\\' || tmp==',' || tmp==';' /*|| tmp=='\''*/ || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
 			if (last=='\\')
 			{
@@ -517,7 +826,7 @@ while (i < text.length())
 			setFormat( i, 1,ColorVerbatim);
 			state=StateVerbatim;
 		} else
-		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
+		if (tmp=='\\' || tmp==',' || tmp==';' || /*tmp=='\'' ||*/ tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
 			if (last=='\\')
 			{
@@ -675,7 +984,7 @@ while (i < text.length())
 			setFormat( i, 1,ColorVerbatim);
 			state=StateGraphic;
 		} else
-		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
+		if (tmp=='\\' || tmp==',' || tmp==';' || /*tmp=='\'' ||*/ tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
 			if (last=='\\')
 			{
@@ -696,6 +1005,42 @@ while (i < text.length())
          		state=StateGraphicCommand;
 		}
 	} break;
+/****************************/
+       case StateBib: {
+               tmp=text.at( i );
+		if (tmp== '\"' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			state=StateBibCommand;
+		} else
+		if (tmp== '}' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			if (next!=',')
+			  {
+			  state=StateStandard;
+			  buffer = QString::null;
+			  }
+		} else
+		 {
+			setFormat( i, 1,ColorVerbatim);
+			state=StateBib;
+			//buffer = QString::null;
+		}
+       } break;
+       case StateBibCommand: {
+               tmp=text.at( i );
+		if (tmp== '\"' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			state=StateBib;
+		} else
+		 {
+			setFormat( i, 1,ColorVerbatim);
+			state=StateBibCommand;
+		}
+       } break;
+/***************************/
        case StateSweave: {
                tmp=text.at( i );
 		if (tmp=='\\') {
@@ -809,7 +1154,7 @@ while (i < text.length())
 			setFormat( i, 1,ColorVerbatim);
 			state=StateSweave;
 		} else
-		if (tmp=='\\' || tmp==',' || tmp==';' || tmp=='\'' || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
+		if (tmp=='\\' || tmp==',' || tmp==';' /*|| tmp=='\''*/ || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
 			if (last=='\\')
 			{
@@ -869,16 +1214,25 @@ else if ( state == StateSweave )
 else if ( state == StateSweaveCommand ) 
        {
        setCurrentBlockState(StateSweaveCommand) ;
+       }
+else if ( state == StateBib ) 
+       {
+       setCurrentBlockState(StateBib) ;
+       }
+else if ( state == StateBibCommand ) 
+       {
+       setCurrentBlockState(StateBibCommand) ;
        } 
 else 
 	{
 	setCurrentBlockState(StateStandard) ;
     	}
 if (text.isEmpty()) return;
-if (checkSpelling && pChecker)
+if (pChecker)
 	{
 	i=0;
 	int check;
+	int offset ;
 	QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
 	QByteArray encodedString;
 	QBrush brushstandard(ColorStandard);
@@ -887,6 +1241,7 @@ if (checkSpelling && pChecker)
 		{
 		buffer = QString::null;
 		ch = text.at( i );
+		offset=0;
 		while ((blockData->code[i]!=1) && (!isSpace(ch)))
 		      {
 		      buffer += ch;
@@ -894,13 +1249,26 @@ if (checkSpelling && pChecker)
 		      if (i < text.length()) ch = text.at( i );
 		      else break;
 		      }
+		while (buffer.startsWith('\''))
+		  {
+		  buffer=buffer.right(buffer.size()-1);
+		  }
+		while (buffer.endsWith('\''))
+		  {
+		  buffer.chop(1);
+		  offset++;
+		  }
 		if ( (buffer.length() > 1) && (!ignoredwordList.contains(buffer)) && (!hardignoredwordList.contains(buffer)))
 		      {
-		      if (format(i - buffer.length()).foreground()==brushverbatim) spellingErrorFormat.setForeground(brushverbatim);
+		      if (format(i - buffer.length()-offset).foreground()==brushverbatim) spellingErrorFormat.setForeground(brushverbatim);
 		      else spellingErrorFormat.setForeground(brushstandard);
 		      encodedString = codec->fromUnicode(buffer);
 		      check = pChecker->spell(encodedString.data());
-		      if (!check) setFormat(i - buffer.length(), buffer.length(), spellingErrorFormat);
+		      if (!check) 
+			{
+			if (checkSpelling) setFormat(i - buffer.length()-offset, buffer.length(), spellingErrorFormat);
+			for (int k=i - buffer.length()-offset;  k< i-offset; k++) blockData->misspelled[k]=true;
+			}
 		      }
 		i++;
 		}
@@ -931,8 +1299,9 @@ bool LatexHighlighter::isWordSeparator(QChar c) const
     case '%':
     case '&':
     case '^':
+    case '`':
 //    case '*':
-    case '\'':
+//    case '\'':
     case '"':
     case '~':
         return true;

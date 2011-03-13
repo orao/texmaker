@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>886</width>
-    <height>531</height>
+    <width>844</width>
+    <height>545</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,7 +70,7 @@
      </property>
      <widget class="QWidget" name="pt">
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0">
+       <item row="1" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -466,6 +466,33 @@
             </property>
            </widget>
           </item>
+          <item row="13" column="0">
+           <widget class="QLabel" name="labelLatexmk">
+            <property name="text">
+             <string>Latexmk</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="1" colspan="3">
+           <widget class="QLineEdit" name="lineEditLatexmk"/>
+          </item>
+          <item row="13" column="4">
+           <widget class="QPushButton" name="pushButtonLatexmk">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="texmaker.qrc">
+              <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -539,6 +566,13 @@
              <widget class="QRadioButton" name="radioButton8">
               <property name="text">
                <string>PdfLaTeX + Asymptote + PdfLaTeX + View Pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton9">
+              <property name="text">
+               <string>LatexMk + View PDF</string>
               </property>
              </widget>
             </item>
@@ -1065,6 +1099,8 @@
   <tabstop>pushButtonGhostscript</tabstop>
   <tabstop>lineEditAsymptote</tabstop>
   <tabstop>pushButtonAsymptote</tabstop>
+  <tabstop>lineEditLatexmk</tabstop>
+  <tabstop>pushButtonLatexmk</tabstop>
   <tabstop>radioButton1</tabstop>
   <tabstop>radioButton2</tabstop>
   <tabstop>radioButton3</tabstop>
@@ -1072,24 +1108,27 @@
   <tabstop>radioButton5</tabstop>
   <tabstop>radioButton7</tabstop>
   <tabstop>radioButton8</tabstop>
+  <tabstop>radioButton9</tabstop>
   <tabstop>radioButton6</tabstop>
   <tabstop>lineEditUserquick</tabstop>
   <tabstop>pushButtonWizard</tabstop>
+  <tabstop>checkBoxSingleInstanceViewer</tabstop>
   <tabstop>comboBoxFont</tabstop>
   <tabstop>checkBoxWordwrap</tabstop>
   <tabstop>spinBoxSize</tabstop>
   <tabstop>checkBoxCompletion</tabstop>
   <tabstop>comboBoxEncoding</tabstop>
   <tabstop>checkBoxLinenumber</tabstop>
-  <tabstop>contentsWidget</tabstop>
   <tabstop>pushButtonColorMath</tabstop>
+  <tabstop>pushButtonColorCommand</tabstop>
   <tabstop>pushButtonColorKeyword</tabstop>
   <tabstop>lineEditAspellCommand</tabstop>
   <tabstop>pushButtonAspell</tabstop>
+  <tabstop>checkBoxInlineSpell</tabstop>
   <tabstop>shorttableWidget</tabstop>
-  <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
-  <tabstop>pushButtonColorCommand</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>contentsWidget</tabstop>
  </tabstops>
  <resources>
   <include location="texmaker.qrc"/>

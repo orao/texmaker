@@ -14,7 +14,7 @@
 #include <QFrame>
 #include <QTextDocument>
 #include <QTextCursor>
-#include <QTextEdit>
+//#include <QTextEdit>
 #include <QTextBlock>
 
 LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker) : QWidget(parent)
@@ -33,7 +33,7 @@ editor=new LatexEditor(frame,efont,colMath,colCommand,colKeyword,inlinespelling,
 m_lineNumberWidget = new LineNumberWidget( editor, frame);
 m_lineNumberWidget->setFont(efont);
 QFontMetrics fm( efont );
-m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 14 );
+m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 32 );
 QHBoxLayout* lay = new QHBoxLayout( frame );
 lay->setSpacing(0);
 lay->setMargin(0);
@@ -66,7 +66,7 @@ void LatexEditorView::changeSettings(QFont & new_font,bool line)
   editor->changeFont(new_font);
   m_lineNumberWidget->setFont(new_font);
   QFontMetrics fm( new_font );
-  m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 14 );
+  m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 32 );
   setLineNumberWidgetVisible(line);
 }
 

@@ -44,22 +44,24 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION22">3.1 Compiler son document</a></li>
 	<li><a href="#SECTION23">3.2 Les fichiers log</a></li>
 	<li><a href="#SECTION24">3.3 Synchronisation source-pdf avec synctex</a></li>
+	<li><a href="#SECTION25">3.4 Utilisation de XeLaTeX</a></li>
 	</ul>
 </ul>
 <ul>
 <li><a href="#SECTION3">4. Autres caractéristiques de <b>Texmaker</b></a></li>
 	<ul>
-	<li><a href="#SECTION31">4.1 Documents scindés en plusieurs fichiers</a></li>
-	<li><a href="#SECTION32">4.2 Bibliographie</a></li>
-	<li><a href="#SECTION33">4.3 Balises et commandes personnelles</a></li>
-	<li><a href="#SECTION34">4.4 Support Pstricks/Metapost/Tikz/Asymptote</a></li>
-	<li><a href="#SECTION35">4.5 Changer la langue et l'apparence de l'interface</a></li>
-	<li><a href="#SECTION36">4.6 La commande "Restaurer la session précédente"</a></li>
-	<li><a href="#SECTION37">4.7 "Forward/Inverse search" avec Texmaker</a></li>
-	<li><a href="#SECTION38">4.8 Synopsis de la commande texmaker</a></li>
-	<li><a href="#SECTION39">4.9 Raccourcis clavier</a></li>
-	<li><a href="#SECTION40">4.10 Convertir son document en Html</a></li>
-	<li><a href="#SECTION41">4.11 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>
+	<li><a href="#SECTION301">4.1 Replier/déplier des blocs d'un document</a></li>
+	<li><a href="#SECTION31">4.2 Documents scindés en plusieurs fichiers</a></li>
+	<li><a href="#SECTION32">4.3 Bibliographie</a></li>
+	<li><a href="#SECTION33">4.4 Balises et commandes personnelles</a></li>
+	<li><a href="#SECTION34">4.5 Support Pstricks/Metapost/Tikz/Asymptote</a></li>
+	<li><a href="#SECTION35">4.6 Changer la langue et l'apparence de l'interface</a></li>
+	<li><a href="#SECTION36">4.7 La commande "Restaurer la session précédente"</a></li>
+	<li><a href="#SECTION37">4.8 "Forward/Inverse search" avec Texmaker</a></li>
+	<li><a href="#SECTION38">4.9 Synopsis de la commande texmaker</a></li>
+	<li><a href="#SECTION39">4.10 Raccourcis clavier</a></li>
+	<li><a href="#SECTION40">4.11 Convertir son document en Html</a></li>
+	<li><a href="#SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>
 	</ul>
 </ul>
 <hr>
@@ -67,7 +69,8 @@ body { background: #ffffff; color: black; }
 Avant d'utiliser Texmaker, il faut d'abord configurer l'éditeur et les commandes associées à LaTeX via l'option "Configurer Texmaker" du menu "Options" ("Préférences" sous macosx).
 <h2><a name="SECTION01">1.1 Configurer l'éditeur</a></h2>
 <p>
-Avant de compiler son premier document, il faut d'abors régler l'encodage utilisé par l'éditeur ("Configurer Texmaker" -> "Editeur" -> "Encodage"). Il faut ensuite utiliser l'encodage correspondant dans le préambule des documents LaTeX (Exemple : \usepackage[latin]{inputenc}, si l'on utilise l'encodage "ISO-8859-1" pour l'éditeur).
+Avant de compiler son premier document, il faut d'abors régler l'encodage utilisé par l'éditeur ("Configurer Texmaker" -> "Editeur" -> "Encodage"). Il faut ensuite utiliser l'encodage correspondant dans le préambule des documents LaTeX (Exemple : \usepackage[latin]{inputenc}, si l'on utilise l'encodage "ISO-8859-1" pour l'éditeur).<br>
+Note : lors de l'ouverture d'un fichier, l'utilisateur est prévenu si le document ne peut pas être décodé correctement avec l'encodage par défaut. Le programme laisse alors la possibilité de charger le fichier avec un autre encodage (sans que cela ne modifie l'encodage par défaut). 
 </p>
 <h2><a name="SECTION02">1.2 Configurer les commandes associées à LaTeX</a></h2>
 <p>Pour pouvoir compiler les documents avec Texmaker, les chemins vers les commandes associées à LaTeX doivent être définis correctement.<br>
@@ -102,7 +105,7 @@ On peut aussi utiliser un modèle de préambule que l'on a préalablement enregi
 <h2><a name="SECTION14">2.4 Navigation à l'intérieur d'un document</a></h2>
 <p><b>Texmaker</b> facilite la navigation dans un long document LaTeX grâce à la vue structure située à gauche de l'interface :</p>
 <p><IMG src="doc5.png" border="1"></p>
-<p>Un simple clic sur un item permet d'atteindre la ligne correspondante dans l'éditeur. Cette vue structure est actualisée à chaque enregistrement ou compilation du document. L'utilisateur peut aussi utiliser la commande "Rafraîchir Structure" du menu "Edition" à tout moment.</p>
+<p>Un simple clic sur un item permet d'atteindre la ligne correspondante dans l'éditeur. Cette vue structure est actualisée automatiquement lors de la frappe. L'utilisateur peut aussi utiliser la commande "Rafraîchir Structure" du menu "Edition" à tout moment.</p>
 <p>Pour chaque fichier, l'utilisateur peut définir trois "signets" pour accelérer la navigation dans un document. Pour ajouter ou supprimer un "signet", il suffit de cliquer sur un numéro de ligne. Quand vous avez déja défini trois signets, il faut en supprimer un pour pouvoir en ajouter un nouveau. Pour atteindre la ligne correspondante à un signet, il suffit de cliquer sur les boutons "1,2,3" dans la barre d'état de Texmaker.</p>
 <p><IMG src="doc20.png" border="1"></p>
 <h2><a name="SECTION15">2.5 Mise en forme du texte avec <b>Texmaker</b></a></h2>
@@ -178,14 +181,19 @@ Remarque : si on presse la touche F1 dans l'afficheur pdf intégré, l'éditeur 
 Pour utiliser XeLaTeX avec Texmaker, il suffit de remplacer la commande pdflatex par xelatex.
 </p>
 <h1><a name="SECTION3">4. Autres caractéristiques de <b>Texmaker</b></a></h1>
-<h2><a name="SECTION31">4.1 Documents scindés en plusieurs fichiers</a></h2>
+<h2><a name="SECTION301">4.1 Replier/déplier des blocs d'un document</a></h2>
+<p>Texmaker permet de replier/déplier tous les blocs de code du type  "part, \chapter, \section,.., \begin{foo} \end{foo}" lors de l'édition d'un document. Pour cela, il faut obligatoirement positionner le curseur sur la première ligne du bloc ("repliage de code contextuel"). Il suffit ensuite de cliquer sur l'icone "-" pour replier le bloc correspondant.<br>
+Note : quand on est positionné sur la première ligne d'un bloc, il est aussi possible d'aller directement à la fin du bloc en question (option "Aller à la fin du bloc" du menu contextuel).</p>
+<h2><a name="SECTION31">4.2 Documents scindés en plusieurs fichiers</a></h2>
 <p><b>Texmaker</b> permet aussi de travailler sur un document composé de plusieurs fichiers.<br>
 Pour inclure un fichier .tex dans son document, il suffit d'utiliser la commande "\include{file}" du menu "LaTeX". Une boîte de dialogue permet alors de sélectionner le fichier à inclure. Ce fichier apparaît alors à la fin de la vue "Structure". Un clic sur son nom permet de l'ouvrir automatiquement.<br>
-Il est conseillé alors de déclarer le document "racine" comme "document maître" à l'aide du menu "Options". Dès lors, toute compilation ne se fera plus à partir du document ouvert dans l'éditeur mais à partir du "document maître". On peut ainsi facilement travailler sur les documents "enfants" tout en compilant le document "racine" (qui peut même être fermé). Le menu "Options" permet aussi de retourner au mode "normal" (en désactivant la définition d'un document "maître").</p>
-<h2><a name="SECTION32">4.2 Bibliographie</a></h2>
+Il est conseillé alors de déclarer le document "racine" comme "document maître" à l'aide du menu "Options". Dès lors, toute compilation ne se fera plus à partir du document ouvert dans l'éditeur mais à partir du "document maître". On peut ainsi facilement travailler sur les documents "enfants" tout en compilant le document "racine" (qui peut même être fermé). Le menu "Options" permet aussi de retourner au mode "normal" (en désactivant la définition d'un document "maître").<br>
+Un bouton spécial (juste au-dessus du bouton "Gras") permet de basculer d'un clic entre le document maître et le document courant.</p>
+<h2><a name="SECTION32">4.3 Bibliographie</a></h2>
+<p>Lors de l'ouverture d'un document .tex, les fichiers .bib détectés sont automatiquement parcourus et les références bibliographiques sont ajoutées à l'auto-complétion. Les références bibliographiques peuvent être réinitialisées via l'option "Rafraichir Bibliographie" du menu "Edition".</p>
 <p><b>Texmaker</b> facilite la rédaction d'un fichier de bibliographie (au format standard .bib) grâce au menu "Bibliographie". Un clic sur un item de ce menu insère directement le code standard associé à ce style de bibliographie. Les commandes optionnelles signalées par "OPT" sont automatiquement effacées par la commande "Clean" du menu "Bibliographie" : il faut donc effacer le "OPT" pour les conserver.</p>
 <p><IMG src="doc16.png" border="1"></p>
-<h2><a name="SECTION33">4.3 Balises et commandes personnelles</a></h2>
+<h2><a name="SECTION33">4.4 Balises et commandes personnelles</a></h2>
 <p><b>Texmaker</b> permet à l'utilisateur d'enregistrer dix extraits de code LaTeX accessibles par le menu "Utilisateur - Balises utilisateur" et par les raccourcis-claviers (Shift+F1 à Shift+F10). Pour définir ces extraits, il faut lancer la commande "Editer balises utilisateur" dans ce même menu.<br>
 Remarques :
 <ul>
@@ -197,13 +205,13 @@ et le curseur se positionnera automatiquement sur le champ "•".<br><IMG src="d
 <li>Tous les caractères "@" utilisés dans le code de la balise seront automatiquement remplacés par des marques "•" dans l'éditeur et le curseur se positionnera automatiquement sur le premier champ "•" (si du texte a été sélectionné avant dans l'éditeur, le premier champ "•" sera automatiquement remplacé par le texte sélectionné).</li>
 </ul>
 <p>Il est aussi possible de définir des commandes personnelles via le menu "Utilisateur - Commandes utilisateurs". Un % représente le nom du fichier à traiter sans extension. Les commandes, une fois définies, peuvent-être lancées par les raccourcis-claviers Alt+Shift+F1...Alt+Shift+F5 . Elles peuvent être aussi lancées à partir de la barre d'outils (il suffit de sélectionner cette commande avant de cliquer sur le bouton "Exécuter").</p>
-<h2><a name="SECTION34">4.4 Support Pstricks/Metapost/Tikz/Asymptote</a></h2>
+<h2><a name="SECTION34">4.5 Support Pstricks/Metapost/Tikz/Asymptote</a></h2>
 <p>Quelques une des principales commandes Pstricks/Metapost/Tikz/Asymptote peuvent être insérées directement dans le code en cliquant sur les boutons "PS", "MP", "TI" et "AS" dans le panneau "Structure".</p>
-<h2><a name="SECTION35">4.5 Changer la langue et l'apparence de l'interface</a></h2>
+<h2><a name="SECTION35">4.6 Changer la langue et l'apparence de l'interface</a></h2>
 <p>La langue et l'apparence de l'interface peuvent être modifiées à partir du menu "Options" (redémarrer l'application est nécessaire pour que les changements soient pris en compte)</p>
-<h2><a name="SECTION36">4.6 La commande "Restaurer la session précédente"</a></h2>
+<h2><a name="SECTION36">4.7 La commande "Restaurer la session précédente"</a></h2>
 <p>Quand on quitte le programme sans fermer les documents ouverts, texmaker sauvegarde automatiquement le nom de ces documents. Avec la commande "Restaurer la session précédente" du menu "Fichier", il est alors possible de réouvrir l'ensemble de ces documents d'un seul coup.</p>
-<h2><a name="SECTION37">4.7 "Forward/inverse search" avec Texmaker</a></h2>
+<h2><a name="SECTION37">4.8 "Forward/inverse search" avec Texmaker</a></h2>
 <p>
 Certains afficheurs dvi permettent d'afficher directement la page et la zone correspondante à une certaine ligne dans le fichier source LaTeX.<br>
 Pour utiliser cette caractéristique, il faut utiliser le caractère <b>@</b> dans la ligne de commande correspondant à l'afficheur dvi ("Configurer Texmaker" -> "Commandes").<br>
@@ -219,13 +227,13 @@ Pour l'opération inverse ("Inverse search") :
 <li>Lancer texmaker à partir de xdvi : xdvi -editor "texmaker %f -line" %.dvi -sourceposition @:%.tex</li>
 </ul>
 </p>
-<h2><a name="SECTION38">4.8 Synopsis de la commande texmaker</a></h2>
+<h2><a name="SECTION38">4.9 Synopsis de la commande texmaker</a></h2>
 <p>
 texmaker fichier [-master] [-line xx]<br>
 Avec l'option "-master" , le document chargé sera automatiquement défini comme document "maître".<br>
 Avec l'option "-line xx" , Texmaker demandera s'il doit aller à la ligne xx après avoir chargé le document.
 </p>
-<h2><a name="SECTION39">4.9 Raccourcis clavier</a></h2>
+<h2><a name="SECTION39">4.10 Raccourcis clavier</a></h2>
 <p>
 Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 <ul>
@@ -304,7 +312,7 @@ Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 </li>
 </ul>
 </p>
-<h2><a name="SECTION40">4.10 Convertir son document en Html</a></h2>
+<h2><a name="SECTION40">4.11 Convertir son document en Html</a></h2>
 <p>L'option "Exporter vers Html" du menu "Outils" permet de transformer son document LaTeX en un site web où chaque page html est composée d'une seule image reproduisant exactement une des pages postscript du document. On évite ainsi les problèmes de mise en page entre le texte et les formules mathématiques des autres outils traditionnels de conversion LaTeX vers html.<br>
 <b>Texmaker</b> peut aussi créer automatiquement une page index dans le site web correspondant à la traditionnelle tables des matières du document LaTeX. Un clic sur un item de cette page index permet d'atteindre la page web correspondante.
 Il est aussi possible d'insérer des liens externes et internes à l'intérieur des pages web en utilisant la commande \ttwplink{}{} dans le document .tex.<br>
@@ -315,7 +323,7 @@ Synopsis de cette commande :<br>
 Attention : \ttwplink{}{} ne peut-être utilisé que pour exporter son document en html. Une compilation normale d'un document comportant cette commande par LaTeX déclenchera une erreur. Par ailleurs, cette commande est incompatible avec plusieurs "packages" LaTeX dont notamment \hyperref.</p>
 <p><IMG src="doc18.png" border="1"></p>
 <p><IMG src="doc19.png" border="1"></p>
-<h2><a name="SECTION41">4.11 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></h2>
+<h2><a name="SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></h2>
 <ul>
 <li>D'abord, il faut s'assurer que le programme ghostscript est bien installé sur le système et que le chemin vers "gswin32c.exe" est correctement réglé dans le dialogue de configuration de Texmaker.</li>
 <li>Après avoir cliqué sur le bouton "Imprimer", sélectionner le format du papier et la plage de pages à imprimer.</li>

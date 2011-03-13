@@ -50,6 +50,7 @@ void browsePdfviewer();
 void browseMetapost();
 void browseGhostscript();
 void browseAsymptote();
+void browseLatexmk();
 void configureShortCut(QTableWidgetItem *item);
 void userQuickWizard();
 private :

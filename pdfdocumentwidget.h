@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <poppler-qt4.h>
 
+
 class PdfDocumentWidget : public QLabel
 {
     Q_OBJECT
@@ -52,6 +53,8 @@ signals:
     void syncpage(int, const QPointF&);
     void gotoDest(int,int,int);
     void updateDone(int);
+    void pressOnPoint(QPoint p);
+    void moveOnPoint(QPoint p);
 private slots:
     void jumpToSourceFromPdf();
 private:
@@ -60,6 +63,7 @@ private:
     qreal scaleFactor;
     QPainterPath highlightPath, searchPath;
     QTimer highlightRemover;
+    bool handmode;
 };
 
 #endif

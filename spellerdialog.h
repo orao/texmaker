@@ -32,6 +32,7 @@ int startpos, endpos, deltacol;
 Hunspell * pChecker;
 bool go;
 QTextCursor c;
+bool isSpace(QChar c) const;
 protected:
 void closeEvent( QCloseEvent* );
 private slots:

@@ -76,7 +76,7 @@ QLineEdit *searchLineEdit;
 QPushButton *findButton, *externButton, *printButton;
 QString viewpdf_command, gswin32c_command, paper_size;
 int currentPage;
-qreal currentScale;
+qreal currentScale, lastScale, previousScale;
 bool fileLoaded;
 QPointer<QProcess> proc;
 QString lastFile;
@@ -91,13 +91,13 @@ int scrollMax, deltaMax;
 QPainterPath path;
 QStack<int> stack;
 QStack<int> forwardStack;
-
+bool showingListPages;
 
 private slots:
 void connectActions();
 void disconnectActions();
 void setScrollMax();
-void initPages();
+void initPages(bool checkScale);
 void initPagesWithNewScale();
 void displayPage(int page);
 void displayNewPage();

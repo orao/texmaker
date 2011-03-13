@@ -19,9 +19,11 @@
 #include <QTextCharFormat>
 #include <QColor>
 #include <QTextBlockUserData>
+//#include "latexeditor.h"
 #include "hunspell/hunspell.hxx"
 
 class QTextDocument;
+class LatexEditor;
 
 class LatexHighlighter : public QSyntaxHighlighter
 {
@@ -38,6 +40,7 @@ public slots:
 void setColors(QColor colMath, QColor colCommand, QColor colKeyword);
 void setSpellChecker(Hunspell * checker);
 void activateInlineSpell(bool enable);
+void SetEditor(LatexEditor *ed);
 private :
 QString spell_dic, spell_encoding;
 QStringList ignoredwordList, hardignoredwordList;
@@ -46,7 +49,8 @@ bool checkSpelling;
 bool isWordSeparator(QChar c) const;
 bool isSpace(QChar c) const;
 protected:
-    void highlightBlock(const QString &text);
+LatexEditor *editor;
+void highlightBlock(const QString &text);
 };
 
 

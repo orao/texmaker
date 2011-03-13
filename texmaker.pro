@@ -5,10 +5,9 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=2.2.2
+TEXMAKERVERSION=2.3
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
-INCLUDEPATH  +=poppler_headers
 ###############################
 HEADERS	+= texmaker.h \
 	texmakerapp.h \
@@ -51,6 +50,7 @@ HEADERS	+= texmaker.h \
 	pdfdocumentwidget.h \
 	pdfscrollarea.h \
 	userquickdialog.h \
+	encodingdialog.h \
 	synctex_parser.h \
 	synctex_parser_utils.h \
 	hunspell/affentry.hxx \
@@ -75,7 +75,30 @@ HEADERS	+= texmaker.h \
 	singleapp/qtlocalpeer.h \
 	singleapp/qtlockedfile.h \
 	singleapp/qtsingleapplication.h \
-	singleapp/qtsinglecoreapplication.h 
+	singleapp/qtsinglecoreapplication.h \
+	encodingprober/CharDistribution.h \
+	encodingprober/ChineseGroupProber.h \
+	encodingprober/ctype_test_p.h \
+	encodingprober/JapaneseGroupProber.h \
+	encodingprober/JpCntx.h \
+	encodingprober/nsBig5Prober.h \
+	encodingprober/nsCharSetProber.h \
+	encodingprober/nsCodingStateMachine.h \
+	encodingprober/nsEscCharsetProber.h \
+	encodingprober/nsEUCJPProber.h \
+	encodingprober/nsEUCKRProber.h \
+	encodingprober/nsEUCTWProber.h \
+	encodingprober/nsGB2312Prober.h \
+	encodingprober/nsHebrewProber.h \
+	encodingprober/nsLatin1Prober.h \
+	encodingprober/nsMBCSGroupProber.h \
+	encodingprober/nsPkgInt.h \
+	encodingprober/nsSBCharSetProber.h \
+	encodingprober/nsSBCSGroupProber.h \
+	encodingprober/nsSJISProber.h \
+	encodingprober/nsUniversalDetector.h \
+	encodingprober/qencodingprober.h \
+	encodingprober/UnicodeGroupProber.h 
 SOURCES	+= main.cpp \
 	texmakerapp.cpp \
 	texmaker.cpp \
@@ -118,6 +141,7 @@ SOURCES	+= main.cpp \
 	pdfdocumentwidget.cpp \
 	pdfscrollarea.cpp \
 	userquickdialog.cpp \
+	encodingdialog.cpp \
 	synctex_parser.c \
 	synctex_parser_utils.c \
 	hunspell/affentry.cxx \
@@ -135,7 +159,35 @@ SOURCES	+= main.cpp \
 	singleapp/qtlocalpeer.cpp \
 	singleapp/qtlockedfile.cpp \
 	singleapp/qtsingleapplication.cpp \
-	singleapp/qtsinglecoreapplication.cpp 
+	singleapp/qtsinglecoreapplication.cpp \
+	encodingprober/CharDistribution.cpp \
+	encodingprober/ChineseGroupProber.cpp \
+	encodingprober/JapaneseGroupProber.cpp \
+	encodingprober/JpCntx.cpp \
+	encodingprober/LangBulgarianModel.cpp \
+	encodingprober/LangCyrillicModel.cpp \
+	encodingprober/LangGreekModel.cpp \
+	encodingprober/LangHebrewModel.cpp \
+	encodingprober/LangHungarianModel.cpp \
+	encodingprober/LangThaiModel.cpp \
+	encodingprober/nsBig5Prober.cpp \
+	encodingprober/nsCharSetProber.cpp \
+	encodingprober/nsEscCharsetProber.cpp \
+	encodingprober/nsEscSM.cpp \
+	encodingprober/nsEUCJPProber.cpp \
+	encodingprober/nsEUCKRProber.cpp \
+	encodingprober/nsEUCTWProber.cpp \
+	encodingprober/nsGB2312Prober.cpp \
+	encodingprober/nsHebrewProber.cpp \
+	encodingprober/nsLatin1Prober.cpp \
+	encodingprober/nsMBCSGroupProber.cpp \
+	encodingprober/nsMBCSSM.cpp \
+	encodingprober/nsSBCharSetProber.cpp \
+	encodingprober/nsSBCSGroupProber.cpp \
+	encodingprober/nsSJISProber.cpp \
+	encodingprober/nsUniversalDetector.cpp \
+	encodingprober/qencodingprober.cpp \
+	encodingprober/UnicodeGroupProber.cpp 
 RESOURCES += texmaker.qrc
 FORMS   += findwidget.ui\
 	gotolinedialog.ui \
@@ -158,7 +210,8 @@ FORMS   += findwidget.ui\
 	spellerdialog.ui \
 	keysequencedialog.ui \
 	paperdialog.ui \
-	userquickdialog.ui
+	userquickdialog.ui \
+	encodingdialog.ui
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
 	texmaker_es.ts \
@@ -170,7 +223,9 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_zh_TW.ts \
 	texmaker_cs.ts \
 	texmaker_pt_BR.ts \
-	texmaker_nl.ts  
+	texmaker_nl.ts  \
+	texmaker_vi_VN.ts \
+	texmaker_da.ts
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -185,17 +240,21 @@ isEmpty( DESKTOPDIR ) {
 isEmpty( ICONDIR ) {
     ICONDIR=/usr/share/pixmaps
 }
+
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4
 LIBS         += -L/usr/lib -lz
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
+
 INSTALLS = target
 HEADERS	+= x11fontdialog.h 
 SOURCES	+= x11fontdialog.cpp \
 	  singleapp/qtlockedfile_unix.cpp
 FORMS += x11fontdialog.ui
+
 utilities.path = $${PREFIX}/share/texmaker
+
 utilities.files = doc/doc1.png \
 	doc/doc10.png \
 	doc/doc11.png \
@@ -279,27 +338,36 @@ utilities.files = doc/doc1.png \
 	dictionaries/README_DIC_fr_FR.txt \
 	dictionaries/README_es_ES.txt 
 INSTALLS += utilities
+
 desktop.path = $${DESKTOPDIR}
+
 desktop.files = utilities/texmaker.desktop
 INSTALLS += desktop
+
 icon.path = $${ICONDIR}
+
 icon.files = utilities/texmaker.png
 INSTALLS += icon
 }
 ################################
 win32 {
-INCLUDEPATH += C:\Qt\2010.05\mingw\include
-INCLUDEPATH  += C:\poppler
+INCLUDEPATH += C:\QtSDK\mingw\include
+INCLUDEPATH += C:\poppler
 LIBS         += -LC:\poppler -lpoppler-qt4
-LIBS         += -LC:\poppler -lpoppler
 RC_FILE = win.rc
+
 #DEFINES += USB_VERSION
+
 SOURCES	+= singleapp/qtlockedfile_win.cpp
+
 target.path = texmakerwin32
 #target.path = texmakerwin32usb
+
 INSTALLS = target
+
 utilities.path = texmakerwin32
 #utilities.path = texmakerwin32usb
+
 utilities.files =doc/doc1.png \
 	doc/doc10.png \
 	doc/doc11.png \
@@ -372,18 +440,20 @@ utilities.files =doc/doc1.png \
 	dictionaries/it_IT.aff \
 	dictionaries/it_IT.dic 
 INSTALLS += utilities
+
 others.path = texmakerwin32
 #others.path = texmakerwin32usb
+
 others.files = texmaker.ico \
-		C:\Qt\2010.05\mingw\bin\mingwm10.dll \
-		C:\Qt\2010.05\mingw\bin\libgcc_s_dw2-1.dll \
-		C:\Qt\2010.05\qt\bin\QtCore4.dll \
-		C:\Qt\2010.05\qt\bin\QtGui4.dll \
-		C:\Qt\2010.05\qt\bin\QtWebKit4.dll \
-		C:\Qt\2010.05\qt\bin\QtXml4.dll \
-		C:\Qt\2010.05\qt\bin\QtXmlPatterns4.dll \
-		C:\Qt\2010.05\qt\bin\phonon4.dll \
-		C:\Qt\2010.05\qt\bin\QtNetwork4.dll
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\mingwm10.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\libgcc_s_dw2-1.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtCore4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtGui4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtWebKit4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtXml4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtXmlPatterns4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\phonon4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtNetwork4.dll 
 INSTALLS += others
 }
 ###############################
@@ -391,18 +461,22 @@ macx {
 UI_DIR = .ui
 MOC_DIR = .moc
 OBJECTS_DIR = .obj
+
 INCLUDEPATH  += /usr/local/include/poppler/qt4
 LIBS         += -L/usr/local/lib -lpoppler-qt4
-##universal tiger 32
+
+##tiger 32
 #CONFIG += link_prl x86
 #QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 #target.path = TexmakerMacosx32
+
 ##tiger snow 64
 CONFIG += link_prl x86_64
 QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.6.sdk
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 target.path = TexmakerMacosx64
+
 #target.path = /Applications
 INSTALLS = target
 SOURCES	+= singleapp/qtlockedfile_unix.cpp

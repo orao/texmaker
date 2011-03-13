@@ -29,14 +29,17 @@ public:
 public slots:
     void doRepaint() { repaint(); }
     void setFont(QFont efont);
+    void setRange(int s, int e);
 
 protected:
-    virtual void paintEvent( QPaintEvent* );
+    virtual bool event(QEvent *event);
+    virtual void paintEvent( QPaintEvent* event);
     virtual void mousePressEvent(QMouseEvent *e);
 
 private:
     LatexEditor* m_editor;
     QFont numfont;
+    int start, end;
 };
 
 #endif // __linenumberwidget_h

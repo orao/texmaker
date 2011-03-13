@@ -29,12 +29,21 @@ signals:
   void pagezoomOut();
   void pagezoomIn();
 protected:
-  void wheelEvent( QWheelEvent* );
+  void wheelEvent( QWheelEvent *e );
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
 private slots:
   void scrollChanged(int value);
+  void sChanged(int value);
     void rChanged(int min,int max);
 public slots:
 void setVisible(int x, int y, int margin, int maxv);
+void pressHere(QPoint p);
+void moveHere(QPoint p);
+private:
+QPoint scrollPos;
+bool handmode;
 };
 
 #endif

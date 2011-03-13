@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <QTextStream>
 
+
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
@@ -61,6 +62,7 @@ gswin32c_command=ghostscriptCommand;
 paper_size=psize;
 lastFile=fileName;
 lastPage=1;
+lastScale=0.1;
 fileLoaded=false;
 currentPage=1;
 doc = 0;
@@ -108,6 +110,7 @@ StructureTreeWidget->header()->setStretchLastSection(false);
 connect(LeftPanelToolBar->addAction(QIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
 LeftPanelStackedWidget->addWidget(StructureTreeWidget);
 
+showingListPages=true;
 ShowListPages();
 
 LeftPanelLayout->setSpacing(0);
@@ -182,6 +185,10 @@ zoomoutAct = new QAction(QIcon(":/images/zoom-out.png"), tr("Zoom Out"), this);
 zoomoutAct->setShortcut(QKeySequence::ZoomOut);
 toolBar->addAction(zoomoutAct);
 viewMenu->addAction(zoomoutAct);
+
+viewMenu->addSeparator();
+viewMenu->addAction(StructureView->toggleViewAction());
+
 
 historyBackAct = new QAction(QIcon(":/images/errorprev.png"), tr("Previous Position"), this);
 historyBackAct->setShortcut(QKeySequence::Back);
@@ -289,6 +296,7 @@ pdf_file=fn;
 viewpdf_command=ec;
 gswin32c_command=pc;
 int lpage=lastPage;
+qreal lscale=lastScale;
 if (scanner != NULL) 
   {
   synctex_scanner_free(scanner);
@@ -324,21 +332,28 @@ if (doc!=0)
       } 
     QString syncFile = QFileInfo(fn).canonicalFilePath();
     scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
-    initPages();
+
     if ((fn==lastFile) && (lpage <= doc->numPages()) && (lpage>0))
       {
       currentPage=lpage;
+      currentScale=lscale;
+      if ((currentScale < 0.25) || (currentScale > 4)) initPages(true);
+      else initPages(false);
       }
     else 
       {
       currentPage=1;
       lastPage=1;
+      initPages(true);
+      lastScale=currentScale;
       }
+    previousScale=currentScale;
     fileLoaded=true;
     lastFile=fn;
     setWindowTitle(QFileInfo(fn).fileName());
     clearHistory();
-	ShowListPages();
+    if (showingListPages) ShowListPages();
+    else ShowStructure();
     gotoPage(currentPage);
     } 
     else 
@@ -348,7 +363,7 @@ if (doc!=0)
       }
 }
 
-void PdfViewer::initPages()
+void PdfViewer::initPages(bool checkScale)
 {
 canDisplayPixmap=false;
 disconnectActions();
@@ -362,13 +377,17 @@ listPdfWidgetsStatus.clear();
 PdfDocumentWidget *pdfWidget;
 int pos=0;
 pdfWidget = new PdfDocumentWidget(0,0,doc->page(0));
-pdfWidget->updatePixmap();
-qreal portWidth = scrollArea->viewport()->width();
-QSizeF pageSize = doc->page(0)->pageSizeF();
-if (pageSize.width()!=0) currentScale = (portWidth-30) / pageSize.width()*72.0/pdfWidget->physicalDpiX();
-//(portWidth-50) /  pdfWidget->pixmap()->width();
-if (currentScale < 0.25) currentScale = 0.25;
-else if (currentScale > 4) currentScale = 4;
+if (checkScale)
+    {
+    pdfWidget->updatePixmap();
+    qreal portWidth = scrollArea->viewport()->width();
+    QSizeF pageSize = doc->page(0)->pageSizeF();
+    if (pageSize.width()!=0) currentScale = (portWidth-30) / pageSize.width()*72.0/pdfWidget->physicalDpiX();
+    //(portWidth-50) /  pdfWidget->pixmap()->width();
+    if (currentScale < 0.25) currentScale = 0.25;
+    else if (currentScale > 4) currentScale = 4;
+    lastScale=currentScale;
+    }
 pdfWidget->setScale(currentScale);
 pdfWidget->updatePixmap();
 zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
@@ -384,6 +403,8 @@ if (pdfWidget) delete pdfWidget;
   connect(pdfWidget, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(jumpToEditor(int, const QPointF&)));
   connect(pdfWidget, SIGNAL(updateDone(int)), this, SLOT(updatePageStatus(int)));
   connect(pdfWidget, SIGNAL(gotoDest(int,int,int)), this, SLOT(jumpToDest(int,int,int)));
+  connect(pdfWidget, SIGNAL(pressOnPoint(QPoint)), scrollArea, SLOT(pressHere(QPoint)));
+  connect(pdfWidget, SIGNAL(moveOnPoint(QPoint)), scrollArea, SLOT(moveHere(QPoint)));
   pdfWidget->createblankPixmap(1,heightpix);
   listPdfWidgets.append(pdfWidget);
   listPdfWidgetsPos.append(pos);
@@ -524,6 +545,7 @@ void PdfViewer::connectActions()
 connect(findAct, SIGNAL(triggered()), this, SLOT(enableSearch()));
 connect(upAct, SIGNAL(triggered()), this, SLOT(pageUp()));
 connect(downAct, SIGNAL(triggered()), this, SLOT(pageDown()));
+connect(listpagesWidget, SIGNAL(itemActivated ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 connect(listpagesWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 connect(StructureTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(ClickedOnStructure()));
 connect(fitWithAct, SIGNAL(triggered()), this, SLOT(fitWidth()));
@@ -547,6 +569,7 @@ void PdfViewer::disconnectActions()
 disconnect(findAct, SIGNAL(triggered()), this, SLOT(enableSearch()));
 disconnect(upAct, SIGNAL(triggered()), this, SLOT(pageUp()));
 disconnect(downAct, SIGNAL(triggered()), this, SLOT(pageDown()));
+disconnect(listpagesWidget, SIGNAL(itemActivated ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 disconnect(listpagesWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 disconnect(StructureTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(ClickedOnStructure()));
 disconnect(fitWithAct, SIGNAL(triggered()), this, SLOT(fitWidth()));
@@ -701,6 +724,7 @@ if ((page <= doc->numPages()) && (page>=1))
 
 void PdfViewer::userZoom()
 {
+previousScale=currentScale;
 scaleDocumentZoom(zoomCustom->text());  
 }
 
@@ -710,17 +734,25 @@ if (!fileLoaded) return;
 if (zoom.contains("%")) zoom.remove("%");
 if (zoom.toInt() > 0 && zoom.toInt() <= 400)
   {
-
+    qreal s=1;
   currentScale=zoom.toFloat() / 100.0;
   if (currentScale < 0.25) currentScale = 0.25;
   else if (currentScale > 4) currentScale = 4;
+  if (previousScale!=0)  s=currentScale/previousScale;
+  int newhpos=(int) (s*(scrollArea->horizontalScrollBar()->value()+scrollArea->viewport()->width()/2)-scrollArea->viewport()->width()/2);
+  int newvpos=(int) (s*(scrollArea->verticalScrollBar()->value()+scrollArea->viewport()->height()/2)-scrollArea->viewport()->height()/2);
+  lastScale=currentScale;
+  previousScale=currentScale;
   //zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
   disconnect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
   disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   initPagesWithNewScale();
   connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
   connect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
-  gotoPage(currentPage);
+  //gotoPage(currentPage);
+  updateCurrentPage();
+  scrollArea->horizontalScrollBar()->setValue(newhpos);
+  scrollArea->verticalScrollBar()->setValue(newvpos);
    clearHistory();
   }
 }
@@ -899,19 +931,22 @@ if (currentPage<doc->numPages())
 void PdfViewer::fitWidth()
 {
 if (!fileLoaded) return;
+previousScale=currentScale;
 qreal portWidth = scrollArea->viewport()->width();
 QSizeF	pageSize = doc->page(currentPage-1)->pageSizeF();
 if (pageSize.width()!=0) currentScale = (portWidth-10) / pageSize.width()*72.0/listPdfWidgets.at(currentPage-1)->physicalDpiX();
 else return;
 if (currentScale < 0.25) currentScale = 0.25;
 else if (currentScale > 4) currentScale = 4;
+lastScale=currentScale;
 zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
-userZoom();
+scaleDocumentZoom(zoomCustom->text());
 }
 
 void PdfViewer::fitPage()
 {
 if (!fileLoaded) return;
+previousScale=currentScale;
 qreal portWidth = scrollArea->viewport()->width();
 qreal portHeight = scrollArea->viewport()->height();
 if (scrollArea->horizontalScrollBar()->isVisible()) portHeight+=scrollArea->horizontalScrollBar()->height();
@@ -926,26 +961,31 @@ if (scaleH < scaleW) currentScale=scaleH;
 else currentScale=scaleW ;
 if (currentScale < 0.25) currentScale = 0.25;
 else if (currentScale > 4) currentScale = 4;
+lastScale=currentScale;
 zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
-userZoom();
+scaleDocumentZoom(zoomCustom->text());
 }
 
 void PdfViewer::zoomIn()
 {
 if (!fileLoaded) return;
+previousScale=currentScale;
 currentScale+=0.1;
 if (currentScale > 4) currentScale = 4;
+lastScale=currentScale;
 zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
-userZoom();
+scaleDocumentZoom(zoomCustom->text());
 }
 
 void PdfViewer::zoomOut()
 {
 if (!fileLoaded) return;
+previousScale=currentScale;
 currentScale-=0.1;
 if (currentScale < 0.25) currentScale = 0.25;
+lastScale=currentScale;
 zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
-userZoom();
+scaleDocumentZoom(zoomCustom->text());
 }
 
 void PdfViewer::runExternalViewer()
@@ -1105,12 +1145,14 @@ else QMainWindow::keyPressEvent(e);
 
 void PdfViewer::ShowStructure()
 {
+showingListPages=false;
 LeftPanelStackedWidget->setCurrentWidget(StructureTreeWidget);
 StructureView->setWindowTitle(tr("Structure"));
 }
 
 void PdfViewer::ShowListPages()
 {
+showingListPages=true;
 LeftPanelStackedWidget->setCurrentWidget(listpagesWidget);
 StructureView->setWindowTitle(tr("Pages"));
 }

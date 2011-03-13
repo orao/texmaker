@@ -33,13 +33,13 @@
 #include <QFile>
 #include "blockdata.h"
 
-LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker) : QTextEdit(parent),c(0)
+LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker) : QPlainTextEdit(parent),c(0)
 {
 QPalette p = palette();
 p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
 p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
 setPalette(p);
-setAcceptRichText(false);
+//setAcceptRichText(false);
 setLineWidth(0);
 setFrameShape(QFrame::NoFrame);
 for (int i = 0; i < 3; ++i) UserBookmark[i]=0;
@@ -47,7 +47,9 @@ encoding="";
 setFont(efont);
 setTabStopWidth(fontMetrics().width("    "));
 setTabChangesFocus(false);
-
+endBlock=-1;
+foldableLines.clear();
+lastnumlines=0;
 /*********************************/
 inlinecheckSpelling=inlinespelling;
 pChecker = spellChecker;
@@ -68,14 +70,21 @@ if (wordsfile.open(QFile::ReadOnly))
 /********************************/
 
 highlighter = new LatexHighlighter(document(),inlinespelling,ignoredWords,spellChecker);
+highlighter->SetEditor(this);
 highlighter->setColors(colMath,colCommand,colKeyword);
 
 //c=0;
-connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
-connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchPar()));
+//connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
+connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchAll()));
+//connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchLat()));
 //grabShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Tab), Qt::WidgetShortcut);
+//setCenterOnScroll(true);
 setFocusPolicy(Qt::WheelFocus);
 setFocus();
+lastSavedTime=QDateTime::currentDateTime();
+highlightLine=false;
+highlightRemover.setSingleShot(true);
+connect(&highlightRemover, SIGNAL(timeout()), this, SLOT(clearHightLightLine()));
 }
 LatexEditor::~LatexEditor(){
 //delete pChecker;
@@ -83,14 +92,26 @@ LatexEditor::~LatexEditor(){
 
 void LatexEditor::paintEvent(QPaintEvent *event)
 {
+QColor selBlendColor=QColor("#FF0000");
+QColor blCol = selBlendColor.dark( 140 );
+blCol.setAlphaF( 0.2 );
 QRect rect = cursorRect();
 rect.setX(0);
 rect.setWidth(viewport()->width());
 QPainter painter(viewport());
-const QBrush brush(QColor("#ececec"));
-painter.fillRect(rect, brush);
-painter.end();
-QTextEdit::paintEvent(event);
+if (!highlightLine)
+  {
+  const QBrush brush(QColor("#ececec"));
+  painter.fillRect(rect, brush);
+  painter.end();
+  }
+else
+  {
+  const QBrush brush(blCol);
+  painter.fillRect(rect, brush);
+  painter.end();
+  }
+QPlainTextEdit::paintEvent(event);
 }
 
 void LatexEditor::contextMenuEvent(QContextMenuEvent *e)
@@ -103,76 +124,77 @@ if (inlinecheckSpelling && pChecker)
       QFont spellmenufont (qApp->font());
       spellmenufont.setBold(true);
       QTextCursor c = cursorForPosition(e->pos());
+      int cpos=c.position();
+      QTextBlock block=c.block();
+      int bpos=block.position();
       BlockData *data = static_cast<BlockData *>(c.block().userData() );
-      //BlockData* data;
-      //data = (BlockData*)c.block().userData();
       QTextCodec *codec = QTextCodec::codecForName(spell_encoding.toLatin1());
       QByteArray encodedString;
-      QTextBlock block;
       QString text,word;
       bool gonext=true;
       QByteArray t;
       int li,cols,cole,colstart,colend,check,ns;
       char ** wlst;
       QStringList suggWords;
-      //c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor);
-      c.movePosition(QTextCursor::StartOfWord,QTextCursor::MoveAnchor);
-      li=c.blockNumber();
-      block=c.block();
-      colstart=c.position()-block.position();
-      c.movePosition(QTextCursor::EndOfWord,QTextCursor::KeepAnchor);
-      block=c.block();
-      colend=c.position()-block.position()-1;
-      cols=colstart;
-      text=c.selectedText();
-      while ((cols<colend && cols<data->code.count() && data->code[cols]==1) || text.mid(cols-colstart,1)==" " || text.mid(cols-colstart,1)=="\t" )
-	      {
-	      cols++;
-	      }
-      cole=colend;
-      while (cole>colstart && cole<data->code.count() && data->code[cole]==1)
-	      {
-	      cole--;
-	      }
-      if (text.length()>1 && cole>cols)
-	      {
-	      word=text.mid(cols-colstart,cole-cols+1);
-	      if (!ignoredwordList.contains(word) && !hardignoredwordList.contains(word))
-		      {
-		      encodedString = codec->fromUnicode(word);
-		      check = pChecker->spell(encodedString.data());
-		      if (!check)
-			      {
-			      selectword(li,cols,word);
-			      gonext=false;
-			      ns = pChecker->suggest(&wlst,encodedString.data());
-			      if (ns > 0)
-				      {
-				      suggWords.clear();
-				      for (int i=0; i < ns; i++) 
-					      {
-					      suggWords.append(codec->toUnicode(wlst[i]));
-				      //free(wlst[i]);
-					      } 
-			      //free(wlst);
-				      pChecker->free_list(&wlst, ns);
-				      if (!suggWords.isEmpty())
-					      {
-					      if (suggWords.contains(word)) gonext=true;
-					      else
-						      {
-						      foreach (const QString &suggestion, suggWords)
-							  {
-							  a = menu->addAction(suggestion, this, SLOT(correctWord()));
-							  a->setFont(spellmenufont);
-							  }
-						      }
-					      }
-				      }
-			      }
-		      }
-	      }
-      menu->addSeparator();
+      colstart=cpos-bpos;
+      if (data->misspelled[colstart]==true)
+      {
+ 	while ((colstart>=0) && (colstart<data->misspelled.count()) && (data->misspelled[colstart]==true))
+	{
+	colstart--;
+	}
+	colstart++;
+	colend=cpos-bpos;
+	while ((colend>=0) && (colend<data->misspelled.count()) && (data->misspelled[colend]==true))
+	{
+	colend++;
+	}
+	c.setPosition(bpos+colstart,QTextCursor::MoveAnchor);
+	c.setPosition(bpos+colend,QTextCursor::KeepAnchor);
+	text=c.selectedText();
+ 
+	li=c.blockNumber();
+	cols=colstart;
+        if (text.length()>1 && colend>colstart)
+		{
+		word=text;
+		if (!ignoredwordList.contains(word) && !hardignoredwordList.contains(word))
+			{
+			encodedString = codec->fromUnicode(word);
+			check = pChecker->spell(encodedString.data());
+			if (!check)
+				{
+				selectword(li,cols,word);
+				gonext=false;
+				ns = pChecker->suggest(&wlst,encodedString.data());
+				if (ns > 0)
+					{
+					suggWords.clear();
+					for (int i=0; i < ns; i++) 
+						{
+						suggWords.append(codec->toUnicode(wlst[i]));
+					//free(wlst[i]);
+						} 
+				//free(wlst);
+					pChecker->free_list(&wlst, ns);
+					if (!suggWords.isEmpty())
+						{
+						if (suggWords.contains(word)) gonext=true;
+						else
+							{
+							foreach (const QString &suggestion, suggWords)
+							    {
+							    a = menu->addAction(suggestion, this, SLOT(correctWord()));
+							    a->setFont(spellmenufont);
+							    }
+							}
+						}
+					}
+				}
+			}
+		}
+	menu->addSeparator();
+	}
       }
 /*******************************************/
 a = menu->addAction(tr("Undo"), this, SLOT(undo()));
@@ -198,11 +220,21 @@ a->setShortcut(Qt::CTRL+Qt::Key_A);
 a->setEnabled(!document()->isEmpty());
 menu->addSeparator();
 a = menu->addAction(tr("Check Spelling Word"), this, SLOT(checkSpellingWord()));
-a->setEnabled(!document()->isEmpty());
+a->setEnabled(!document()->isEmpty() && !inlinecheckSpelling);
 a = menu->addAction(tr("Check Spelling Selection"), this, SLOT(checkSpellingDocument()));
 a->setEnabled(textCursor().hasSelection());
 a = menu->addAction(tr("Check Spelling Document"), this, SLOT(checkSpellingDocument()));
-a->setEnabled(!document()->isEmpty() && !textCursor().hasSelection());
+a->setEnabled(!document()->isEmpty() /*&& !textCursor().hasSelection()*/);
+if (endBlock>=0)
+  {
+  if (linefromblock(textCursor().block())-1!=endBlock)
+    {
+    menu->addSeparator();
+    a=new QAction(tr("Jump to the end of this block"),menu);
+    connect(a, SIGNAL(triggered()), this, SLOT(jumpToEndBlock()));
+    menu->addAction(a);
+    }
+  }
 menu->addSeparator();
 a=new QAction(tr("Jump to pdf"),menu);
 a->setData(QVariant(cursorForPosition(e->pos()).blockNumber() + 1));
@@ -237,7 +269,8 @@ QTextCursor c = textCursor();
 QTextDocument::FindFlags options;
 if (! startAtCursor) 
 	{
-	c.movePosition(QTextCursor::Start);
+	  c.setPosition(0);
+	//c.movePosition(QTextCursor::Start);//Qt 4.7.1 bug
 	setTextCursor(c);
 	}
 if (forward == false) flags |= QTextDocument::FindBackward;
@@ -249,6 +282,19 @@ else
 	setTextCursor(found);
 	return true;
 	}
+}
+
+int LatexEditor::searchLine( const QString &expr)
+{
+int result=-1;
+QTextCursor c = textCursor();
+c.setPosition(0);
+//c.movePosition(QTextCursor::Start); //Qt 4.7.1 bug
+QTextCursor found = document()->find(expr, c, QTextDocument::FindCaseSensitively|QTextDocument::FindWholeWords);
+if (found.isNull()) return result;
+QTextBlock p = document()->findBlock(found.position());
+if (p.blockNumber()>=0) result=p.blockNumber();
+return result;
 }
 
 void LatexEditor::replace( const QString &r)
@@ -269,7 +315,11 @@ if (c.hasSelection())
 
 void LatexEditor::gotoLine( int line )
 {
-if (line<=numoflines()) setCursorPosition( line, 0 );
+if (line<=numoflines())  
+  {
+  setCursorPosition( line, 0 );
+  if (textCursor().block().isVisible()) setHightLightLine();
+  }
 }
 
 void LatexEditor::commentSelection()
@@ -381,7 +431,7 @@ void LatexEditor::setCursorPosition(int para, int index)
 int pos=getCursorPosition(para,index);
 QTextCursor cur=textCursor();
 cur.setPosition(pos,QTextCursor::MoveAnchor);
-setTextCursor(cur);
+if (cur.block().isVisible()) setTextCursor(cur);
 ensureCursorVisible();
 setFocus();
 }
@@ -442,14 +492,48 @@ ensureCursorVisible();
 
 void LatexEditor::checkSpellingWord()
 {
-QTextCursor cur=textCursor();
-cur.select(QTextCursor::WordUnderCursor);
-setTextCursor(cur);
-if (cur.hasSelection()) emit spellme();
+QTextCursor c=textCursor();
+int cpos=c.position();
+QTextBlock block=c.block();
+int bpos=block.position();
+BlockData *data = static_cast<BlockData *>(c.block().userData() );
+QString text;
+int li,cols,colstart,colend;
+colstart=cpos-bpos;
+if (data->misspelled[colstart]==true)
+  {
+    while ((colstart>=0) && (colstart<data->misspelled.count()) && (data->misspelled[colstart]==true))
+    {
+    colstart--;
+    }
+    colstart++;
+    colend=cpos-bpos;
+    while ((colend>=0) && (colend<data->misspelled.count()) && (data->misspelled[colend]==true))
+    {
+    colend++;
+    }
+    c.setPosition(bpos+colstart,QTextCursor::MoveAnchor);
+    c.setPosition(bpos+colend,QTextCursor::KeepAnchor);
+    text=c.selectedText();
+      li=c.blockNumber();
+  cols=colstart;
+  if (text.length()>1 && colend>colstart) 
+    {
+    selectword(li,cols,text);
+    emit spellme();
+    }
+  }
+
 }
 
 void LatexEditor::checkSpellingDocument()
 {
+QTextCursor cur=textCursor();
+if (!cur.hasSelection())
+{
+cur.movePosition(QTextCursor::Start,QTextCursor::MoveAnchor);
+setTextCursor(cur);
+}
 emit spellme();
 }
 
@@ -641,8 +725,10 @@ if (text.length() < 1) return (QStringList() << "" << QString::number(index) << 
 if (index >= text.length()) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
 QChar	ch = text.at(index);
 #define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']')
+//#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']')
 bool isControlSeq = false; // becomes true if we include an @ sign or a leading backslash
 bool includesApos = false; // becomes true if we include an apostrophe
+bool first=true;
 if (IS_WORD_FORMING(ch) || ch == '@' /* || ch == '\'' || ch == 0x2019 */) 
 {
 if (ch == '@') isControlSeq = true;
@@ -650,6 +736,7 @@ while (start > 0)
   {
   --start;
   ch = text.at(start);
+
   if (IS_WORD_FORMING(ch))
 	  continue;
   if (!includesApos && ch == '@') 
@@ -673,8 +760,14 @@ if (start > 0 && text.at(start - 1) == '\\')
 while (++end < text.length()) 
   {
   ch = text.at(end);
+
   if (IS_WORD_FORMING(ch))
-	  continue;
+  {
+    if ((first) && (ch=='}' || ch==']')) break;
+    first=false;
+    continue;
+	  
+  }
   if (!includesApos && ch == '@') 
     {
     isControlSeq = true;
@@ -812,7 +905,7 @@ if ( e->key()==Qt::Key_Tab)
 	    return;		
 	    }
 	}
-    QTextEdit::keyPressEvent(e);
+    QPlainTextEdit::keyPressEvent(e);
     }
 else if ( e->key()==Qt::Key_Backtab) 
     {
@@ -857,7 +950,7 @@ else if ( e->key()==Qt::Key_Backtab)
 // 	}
 else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
 	{
-	QTextEdit::keyPressEvent(e);
+	QPlainTextEdit::keyPressEvent(e);
 	QTextCursor cursor=textCursor();
 	cursor.joinPreviousEditBlock();
 	QTextBlock block=cursor.block();
@@ -875,7 +968,7 @@ else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
 		}
 	cursor.endEditBlock();
 	}
-else QTextEdit::keyPressEvent(e);
+else QPlainTextEdit::keyPressEvent(e);
 if (c && !c->popup()->isVisible()) 
 	{
 	switch (e->key()) 
@@ -896,7 +989,6 @@ if (!c || (ctrlOrShift && e->text().isEmpty())) {return;}
 
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
 QString completionPrefix = commandUnderCursor();
-//qDebug()<< "command:" << completionPrefix;
 if ( completionPrefix.length() < 3)
 	{
 	c->popup()->hide();
@@ -992,13 +1084,14 @@ else
 	  setTextCursor(tc);
 	  }
 	 else emit tooltiptab();
-	}    
+	} 
+
 }
 
 void LatexEditor::insertNewLine()
 {
 QKeyEvent e(QEvent::KeyPress,Qt::Key_Enter,Qt::NoModifier);
-QTextEdit::keyPressEvent(&e);
+QPlainTextEdit::keyPressEvent(&e);
 QTextCursor cursor=textCursor();
 cursor.joinPreviousEditBlock();
 QTextBlock block=cursor.block();
@@ -1019,7 +1112,7 @@ cursor.endEditBlock();
  void LatexEditor::focusInEvent(QFocusEvent *e)
 {
 if (c) c->setWidget(this);
-QTextEdit::focusInEvent(e);
+QPlainTextEdit::focusInEvent(e);
 }
 
  void LatexEditor::setSpellChecker(Hunspell * checker)
@@ -1086,14 +1179,23 @@ bool LatexEditor::isSpace(QChar c) const
         ;
 }
 
+void LatexEditor::matchAll() 
+{
+viewport()->update();
+QList<QTextEdit::ExtraSelection> selections;
+setExtraSelections(selections);
+matchPar();
+matchLat();
+if (foldableLines.keys().contains(textCursor().block().blockNumber())) emit requestGotoStructure(textCursor().block().blockNumber());
+}
+
 void LatexEditor::matchPar() 
 {
 
-QList<QTextEdit::ExtraSelection> selections;
-setExtraSelections(selections);
+//QList<QTextEdit::ExtraSelection> selections;
+//setExtraSelections(selections);
 QTextBlock textBlock = textCursor().block();
 BlockData *data = static_cast<BlockData *>( textBlock.userData() );
-
 if ( data ) {
 	QVector<ParenthesisInfo *> infos = data->parentheses();
 	int pos = textCursor().block().position();
@@ -1202,3 +1304,238 @@ selection.cursor = cursor;
 selections.append( selection );
 setExtraSelections( selections );
 }
+
+/********************************************************/
+void LatexEditor::matchLat() 
+{
+//QList<QTextEdit::ExtraSelection> selections;
+//setExtraSelections(selections);
+
+QTextBlock textBlock = textCursor().block();
+if (foldableLines.keys().contains(textBlock.blockNumber())) createLatSelection(textBlock.blockNumber(),foldableLines[textBlock.blockNumber()]);
+else
+  {
+  BlockData *data = static_cast<BlockData *>( textBlock.userData() );
+  if ( data ) 
+    {
+    QVector<LatexBlockInfo *> infos = data->latexblocks();
+    int pos = textCursor().block().position();
+    if (infos.size()==0) 
+      {
+      emit setBlockRange(-1,-1);
+      endBlock=-1;
+      }
+    for ( int i=0; i<infos.size(); ++i ) 
+      {
+      LatexBlockInfo *info = infos.at(i);
+      int curPos = textCursor().position() - textBlock.position();
+      if ( info->position <= curPos && info->character == 'b' ) matchLeftLat( textBlock, i+1, 0, textBlock.blockNumber());
+      if ( info->position <= curPos && info->character == 'e' ) matchRightLat( textBlock, i-1, 0,textBlock.blockNumber());
+      }
+    }
+  }
+
+}
+
+bool LatexEditor::matchLeftLat(	QTextBlock currentBlock, int index, int numLeftLat, int bpos ) 
+{
+
+BlockData *data = static_cast<BlockData *>( currentBlock.userData() );
+QVector<LatexBlockInfo *> infos = data->latexblocks();
+int docPos = currentBlock.position();
+
+// Match in same line?
+for ( ; index<infos.size(); ++index ) {
+	LatexBlockInfo *info = infos.at(index);
+
+	if ( info->character == 'b' ) {
+		++numLeftLat;
+		continue;
+	}
+
+	if ( info->character == 'e' && numLeftLat == 0 ) {
+		createLatSelection( bpos,currentBlock.blockNumber() );
+		return true;
+	} else
+		--numLeftLat;
+}
+
+// No match yet? Then try next block
+currentBlock = currentBlock.next();
+if ( currentBlock.isValid() )
+	return matchLeftLat( currentBlock, 0, numLeftLat, bpos );
+
+// No match at all
+return false;
+}
+
+bool LatexEditor::matchRightLat(QTextBlock currentBlock, int index, int numRightLat, int epos) 
+{
+
+BlockData *data = static_cast<BlockData *>( currentBlock.userData() );
+QVector<LatexBlockInfo *> infos = data->latexblocks();
+int docPos = currentBlock.position();
+
+// Match in same line?
+for (int j=index; j>=0; --j ) {
+	LatexBlockInfo *info = infos.at(j);
+
+	if ( info->character == 'e' ) {
+		++numRightLat;
+		continue;
+	}
+
+	if ( info->character == 'b' && numRightLat == 0 ) {
+		createLatSelection( epos, currentBlock.blockNumber() );
+		return true;
+	} else
+		--numRightLat;
+}
+
+// No match yet? Then try previous block
+currentBlock = currentBlock.previous();
+if ( currentBlock.isValid() ) {
+
+	// Recalculate correct index first
+	BlockData *data = static_cast<BlockData *>( currentBlock.userData() );
+	QVector<LatexBlockInfo *> infos = data->latexblocks();
+
+	return matchRightLat( currentBlock, infos.size()-1, numRightLat, epos );
+}
+
+// No match at all
+return false;
+}
+
+void LatexEditor::createLatSelection( int start, int end ) 
+{
+int s=qMin(start,end);
+int e=qMax(start,end);
+emit setBlockRange(s,e);
+endBlock=e;
+}
+
+void LatexEditor::jumpToEndBlock()
+{
+gotoLine(endBlock);
+QTextCursor c = textCursor();
+c.movePosition(QTextCursor::EndOfBlock);
+setTextCursor(c);
+}
+
+void LatexEditor::fold(int start, int end)
+{
+foldedLines.insert(start, end);
+ensureFinalNewLine();//Qt 4.7.1 bug
+for (int i = start + 1; i <= end; i++) {document()->findBlockByNumber(i).setVisible(false);}
+update();
+resizeEvent(new QResizeEvent(QSize(0, 0), size()));
+viewport()->update();
+emit updatelineWidget();
+ensureCursorVisible();
+}
+ 
+void LatexEditor::unfold(int start, int end)
+{
+if (!foldedLines.keys().contains(start)) return;
+foldedLines.remove(start);
+int i=start+1;
+while (i<=end)
+{
+if (foldedLines.keys().contains(i)) 
+  {
+  document()->findBlockByNumber(i).setVisible(true);
+  i=foldedLines[i]; 
+  }
+else document()->findBlockByNumber(i).setVisible(true);
+i++;
+}
+update();
+resizeEvent(new QResizeEvent(QSize(0, 0), size()));
+viewport()->update();
+emit updatelineWidget();
+ensureCursorVisible();
+}
+
+void LatexEditor::removeStructureItem(int offset,int len, int line)
+{
+
+bool r=false;
+for ( int j=StructItemsList.count()-1;j>=0; --j ) 
+  {
+  //if (StructItemsList[j].cursor.selectionStart() < offset) break;
+  //if (StructItemsList[j].cursor.selectionStart() < offset+len)
+  //if (StructItemsList[j].cursor.position() < offset) break;
+  //if (StructItemsList[j].cursor.position() < offset+len)
+    if ( StructItemsList[j].cursor.block().blockNumber()==line)
+    {
+      //qDebug() << "remove" << StructItemsList[j].item << StructItemsList[j].cursor.selectionStart() << offset << len;
+      //qDebug() << "remove" << StructItemsList[j].item << StructItemsList[j].cursor.block().blockNumber() << line;
+      StructItemsList.removeAt(j);
+    r=true;
+    }
+  }
+if (r) {emit requestUpdateStructure();}
+}
+
+void LatexEditor::appendStructureItem(int line,QString item,int type,const QTextCursor& cursor)
+{
+int j = 0;
+while (j < StructItemsList.count()) 
+  {
+  if (StructItemsList[j].cursor.position() > cursor.position()) break;
+  //if (StructItemsList[j].cursor.selectionStart() > cursor.selectionStart()) break;
+  ++j;
+  }
+StructItemsList.insert(j,StructItem(line,item,type,cursor));
+//qDebug() << "add" << StructItemsList[j].item;
+emit requestUpdateStructure();
+}
+
+void LatexEditor::ensureFinalNewLine()//Qt 4.7.1 bug
+{
+QTextCursor cursor = textCursor();
+cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+bool emptyFile = !cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+if (!emptyFile && cursor.selectedText().at(0) != QChar::ParagraphSeparator)
+    {
+    cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+    cursor.insertText(QLatin1String("\n"));
+    }
+}
+
+int LatexEditor::getLastNumLines()
+{
+return lastnumlines;
+}
+
+void LatexEditor::setLastNumLines(int n)
+{
+lastnumlines=n;  
+}
+
+void LatexEditor::setHightLightLine()
+{
+highlightRemover.stop();
+highlightLine=true;
+update();
+highlightRemover.start(1000);
+}
+
+void LatexEditor::clearHightLightLine()
+{
+highlightLine=false;
+emit cursorPositionChanged();
+update();
+}
+
+QDateTime LatexEditor::getLastSavedTime()
+{
+return lastSavedTime;  
+}
+
+void LatexEditor::setLastSavedTime(QDateTime t)
+{
+lastSavedTime=t;  
+}
+
