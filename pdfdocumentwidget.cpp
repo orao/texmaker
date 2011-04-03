@@ -122,7 +122,13 @@ if (currentLink)
 currentLink=0;
 handmode=false;
 setCursor(Qt::ArrowCursor);
- QApplication::restoreOverrideCursor();
+QApplication::restoreOverrideCursor();
+if ((event->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier)
+{
+  QPointF pagePos((event->pos().x()- (width() - pixmap()->width()) / 2.0) / scaleFactor / physicalDpiX() * 72.0,(event->pos().y()- (height() - pixmap()->height()) / 2.0) / scaleFactor / physicalDpiY() * 72.0 );
+  emit syncpage(numPage, pagePos);
+}
+
 }
 
 void PdfDocumentWidget::contextMenuEvent(QContextMenuEvent *event)
@@ -132,7 +138,8 @@ handmode=false;
 setCursor(Qt::ArrowCursor);
 QApplication::restoreOverrideCursor();
 QMenu *menu = new QMenu(this);
-QAction *act = new QAction(tr("Click to jump to the line"), menu);
+QAction *act = new QAction(tr("Click to jump to the line")+" (ctrl+clic)", menu);
+//act->setShortcut(Qt::CTRL+Qt::Key_Space);
 act->setData(QVariant(event->pos()));
 connect(act, SIGNAL(triggered()), this, SLOT(jumpToSourceFromPdf()));
 menu->addAction(act);
@@ -243,3 +250,4 @@ void PdfDocumentWidget::clearPaths()
 searchPath = QPainterPath();
 highlightPath = QPainterPath();
 }
+

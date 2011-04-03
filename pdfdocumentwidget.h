@@ -19,8 +19,7 @@
 #include <QRectF>
 #include <QPainterPath>
 #include <QTimer>
-#include <poppler-qt4.h>
-
+#include "poppler-qt4.h"
 
 class PdfDocumentWidget : public QLabel
 {

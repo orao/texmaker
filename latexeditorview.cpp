@@ -19,14 +19,27 @@
 
 LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker) : QWidget(parent)
 {
-QVBoxLayout* mainlay = new QVBoxLayout( this );
+  
+splitter=new MiniSplitter(this);
+splitter->setOrientation(Qt::Vertical);
+
+QFrame *framebis=new QFrame(splitter);
+framebis->setLineWidth(0);
+framebis->setFrameShape(QFrame::NoFrame);
+framebis->setFrameShadow(QFrame::Plain);
+framebis->setFrameStyle(QFrame::NoFrame);
+
+
+QVBoxLayout* mainlay = new QVBoxLayout(framebis );
 mainlay->setSpacing(0);
 mainlay->setMargin(0);
 
-QFrame *frame=new QFrame(this);
+
+QFrame *frame=new QFrame(framebis);
 frame->setLineWidth(1);
-frame->setFrameShape(QFrame::StyledPanel);
-frame->setFrameShadow(QFrame::Sunken);
+frame->setFrameShape(QFrame::NoFrame);
+frame->setFrameShadow(QFrame::Plain);
+frame->setFrameStyle(QFrame::NoFrame);
 mainlay->addWidget(frame);
 
 editor=new LatexEditor(frame,efont,colMath,colCommand,colKeyword,inlinespelling,ignoredWords,spellChecker);
@@ -42,10 +55,20 @@ lay->addWidget( editor );
 setFocusProxy( editor );
 setLineNumberWidgetVisible(line);
 
-findwidget=new FindWidget(this);
+findwidget=new FindWidget(splitter);
 mainlay->addWidget(findwidget);
 findwidget->SetEditor(editor);
 findwidget->hide();
+
+splitter->addWidget(framebis);
+splitter->addWidget(findwidget);
+QVBoxLayout *mainlayout= new QVBoxLayout(this);
+mainlayout->setSpacing(0);
+mainlayout->setMargin(0);
+mainlayout->addWidget(splitter);
+QList<int> sizes;
+sizes << findwidget->width() << height()-findwidget->width();
+splitter->setSizes( sizes );
 }
 
 LatexEditorView::~LatexEditorView()

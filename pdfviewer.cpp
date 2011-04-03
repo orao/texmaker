@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <QTextStream>
 
+#include "poppler-qt4.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
@@ -105,6 +106,7 @@ StructureTreeWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 StructureTreeWidget->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 StructureTreeWidget->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 StructureTreeWidget->header()->setStretchLastSection(false);
+StructureTreeWidget->setIndentation(15);
 
 
 connect(LeftPanelToolBar->addAction(QIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
@@ -223,6 +225,7 @@ toolBar->addWidget(searchLineEdit);
 
 findButton=new QPushButton(tr("Find"),toolBar);
 toolBar->addWidget(findButton);
+
 
 toolBar->addSeparator();
 QWidget* spacer = new QWidget();
@@ -547,7 +550,8 @@ connect(upAct, SIGNAL(triggered()), this, SLOT(pageUp()));
 connect(downAct, SIGNAL(triggered()), this, SLOT(pageDown()));
 connect(listpagesWidget, SIGNAL(itemActivated ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 connect(listpagesWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
-connect(StructureTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(ClickedOnStructure()));
+connect(StructureTreeWidget, SIGNAL(itemActivated (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
+connect(StructureTreeWidget, SIGNAL(itemClicked (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
 connect(fitWithAct, SIGNAL(triggered()), this, SLOT(fitWidth()));
 connect(fitPageAct, SIGNAL(triggered()), this, SLOT(fitPage()));
 connect(zoominAct, SIGNAL(triggered()), this, SLOT(zoomIn()));
@@ -571,7 +575,8 @@ disconnect(upAct, SIGNAL(triggered()), this, SLOT(pageUp()));
 disconnect(downAct, SIGNAL(triggered()), this, SLOT(pageDown()));
 disconnect(listpagesWidget, SIGNAL(itemActivated ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 disconnect(listpagesWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
-disconnect(StructureTreeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(ClickedOnStructure()));
+disconnect(StructureTreeWidget, SIGNAL(itemActivated (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
+disconnect(StructureTreeWidget, SIGNAL(itemClicked (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
 disconnect(fitWithAct, SIGNAL(triggered()), this, SLOT(fitWidth()));
 disconnect(fitPageAct, SIGNAL(triggered()), this, SLOT(fitPage()));
 disconnect(zoominAct, SIGNAL(triggered()), this, SLOT(zoomIn()));
@@ -760,10 +765,11 @@ if (zoom.toInt() > 0 && zoom.toInt() <= 400)
 void PdfViewer::searchDocument()
 {
 if (!fileLoaded) return;
-QRectF location;
+//QRectF location;
 if (searchLineEdit->text().isEmpty()) return;
 disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
-location = searchForwards(searchLineEdit->text());
+//QMetaObject::invokeMethod(this, "searchForwards", Qt::QueuedConnection,Q_ARG(QString,searchLineEdit->text()));
+searchForwards(searchLineEdit->text());
 connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
 //else location = searchBackwards(searchLineEdit->text());
 //QPoint target = pdfWidget->matrix().mapRect(location).center().toPoint();
@@ -836,12 +842,13 @@ connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
     return QRectF();
 }*/
 
-QRectF PdfViewer::searchForwards(const QString &text)
+void PdfViewer::searchForwards(const QString &text)
 {
 int page = currentPage-1;
 
 while (page < doc->numPages()) 
   {
+
   if (currentPage>=1) 
     {
     listPdfWidgets.at(currentPage-1)->clearPaths();
@@ -862,7 +869,7 @@ while (page < doc->numPages())
       path.setFillRule(Qt::WindingFill);
       listPdfWidgets.at(currentPage-1)->setSearchPath(path);
       updateCurrentPage();
-      return searchLocation;
+      return;
       }
     }
     page += 1;
@@ -893,12 +900,11 @@ while (page < currentPage-1)
       listPdfWidgets.at(currentPage-1)->setSearchPath(path);
       //if (!path.isEmpty()) displayPage(currentPage-1);
       updateCurrentPage();
-      return searchLocation;
+      return;
       }
     }
   page += 1;
   }
-return QRectF();
 }
 
 void PdfViewer::enableSearch()
@@ -1054,7 +1060,6 @@ else
   return;  
   }
 command = "\""+gs+"\" -dBATCH -dNOPAUSE -dQUIET -dNoCancel -sPAPERSIZE="+paper_size+" -dFirstPage="+QString::number(firstp)+" -dLastPage="+QString::number(lastp)+" -sDEVICE=mswinpr2 \""+pdf_file+"\"";
-qDebug() << command;
 #else
 unsigned int firstPage, lastPage;
 QPrinter printer(QPrinter::HighResolution);
@@ -1128,7 +1133,7 @@ if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0)
     {
     QString filename = QString::fromUtf8(synctex_scanner_get_name(scanner, synctex_node_tag(node)));
     QDir curDir(QFileInfo(pdf_file).canonicalPath());
-    emit openDocAtLine(QFileInfo(curDir, filename).canonicalFilePath(),synctex_node_line(node));
+    emit openDocAtLine(QFileInfo(curDir, filename).canonicalFilePath(),synctex_node_line(node),false);
     break;
     }
   }
@@ -1136,7 +1141,7 @@ if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0)
 
 void PdfViewer::keyPressEvent ( QKeyEvent * e ) 
 {
-if ( e->key()==Qt::Key_F1) 
+if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space)
     {
     emit sendFocusToEditor();
     }
@@ -1166,6 +1171,7 @@ for (QDomNode node = parent.firstChild(); !node.isNull(); node = node.nextSiblin
   if (!parentItem) newitem = new QTreeWidgetItem(tree, newitem);
   else newitem = new QTreeWidgetItem(parentItem, newitem);
   newitem->setText(0, e.tagName());
+  newitem->setFont(0,QFont("DejaVu Sans Condensed",qApp->font().pointSize()));
   bool isOpen = false;
   if (e.hasAttribute("Open")) isOpen = QVariant(e.attribute("Open")).toBool();
   if (isOpen) tree->expandItem(newitem);
@@ -1173,12 +1179,11 @@ for (QDomNode node = parent.firstChild(); !node.isNull(); node = node.nextSiblin
   if (e.hasChildNodes()) ParseToc(node, tree, newitem);
   }
 }
-void PdfViewer::ClickedOnStructure()
+
+void PdfViewer::ClickedOnStructure(QTreeWidgetItem* item,int c)
 {
-QList<QTreeWidgetItem*> items = StructureTreeWidget->selectedItems();
-if (items.count() > 0) 
+if (item) 
   {
-  QTreeWidgetItem* item = items.first();
   QString destname = item->text(1);
   if (!destname.isEmpty()) 
     {
@@ -1190,9 +1195,14 @@ if (items.count() > 0)
       int destTop=0;
       if ((dest->pageNumber() > 0) && (dest->pageNumber() <= doc->numPages())) destPage=dest->pageNumber();
       else return;
+
       if (dest->isChangeLeft()) destLeft = (int)floor(dest->left() * listPdfWidgets.at(destPage-1)->scale() * listPdfWidgets.at(destPage-1)->physicalDpiX() / 72.0 * doc->page(destPage-1)->pageSizeF().width());
       if (dest->isChangeTop()) destTop = (int)floor(dest->top() * listPdfWidgets.at(destPage-1)->scale() * listPdfWidgets.at(destPage-1)->physicalDpiY() / 72.0 * doc->page(destPage-1)->pageSizeF().height());
       jumpToDest(destPage,destLeft,destTop);
+  QPointF pagePos((destLeft+10- (listPdfWidgets.at(destPage-1)->width() - listPdfWidgets.at(destPage-1)->pixmap()->width()) / 2.0) / listPdfWidgets.at(destPage-1)->scale() / listPdfWidgets.at(destPage-1)->physicalDpiX() * 72.0,(destTop- (listPdfWidgets.at(destPage-1)->height() - listPdfWidgets.at(destPage-1)->pixmap()->height()) / 2.0) / listPdfWidgets.at(destPage-1)->scale() / listPdfWidgets.at(destPage-1)->physicalDpiY() * 72.0 );
+  jumpToEditor(destPage-1,pagePos);
+  raise();
+  scrollArea->setFocus();
       }
     }
   }

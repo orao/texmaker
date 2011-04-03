@@ -1,5 +1,15 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+	<file>fonts/DejaVuSansCondensed.ttf</file>
+	<file>fonts/DejaVuSansCondensed-Bold.ttf</file>
+	<file>fonts/DejaVuSansCondensed-Oblique.ttf</file>
+	<file>images/log_button_enabled.png</file>
+	<file>images/log_button_disabled.png</file>
+	<file>images/structure_button_enabled.png</file>
+	<file>images/structure_button_disabled.png</file>
+	<file>images/pdf_button_enabled.png</file>
+	<file>images/pdf_button_disabled.png</file>
+	<file>images/process.png</file>
 	<file>images/down.png</file>
 	<file>images/up.png</file>
 	<file>images/zoom-fit-width.png</file>

@@ -17,6 +17,7 @@
 #include <QDir>
 #include <QFileOpenEvent>
 #include <QSettings>
+#include <QFontDatabase>
 #include "texmakerapp.h"
 
 TexmakerApp *TexmakerApp::theAppInstance = NULL;
@@ -77,6 +78,9 @@ QSplashScreen *splash = new QSplashScreen(pixmap);
 splash->show();
 ReadSettings();
 makeTranslation(language);
+QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/fonts/DejaVuSansCondensed.ttf"));
+QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/fonts/DejaVuSansCondensed-Bold.ttf"));
+QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/fonts/DejaVuSansCondensed-Oblique.ttf"));
 mw = new Texmaker();
 connect( this, SIGNAL( lastWindowClosed() ), this, SLOT( quit() ) );
 splash->finish(mw);

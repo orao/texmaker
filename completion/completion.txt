@@ -1,5 +1,6 @@
 \abstractname{•}
 \acute{•}
+\addbibresource{•}
 \Alph{•}
 \alph{•}
 \alpha
@@ -149,6 +150,7 @@
 \eta
 \exists
 \exp
+\footcite{•}
 \footnote{•}
 \forall
 \frac{•}{•}

@@ -65,7 +65,8 @@ void insertNewLine();
 void fold(int start, int end);
 void unfold(int start, int end);
 QRectF blockGeometry(const QTextBlock & block) {return blockBoundingGeometry(block).translated(contentOffset());}
-QRectF blockRect(const QTextBlock & block) {return blockBoundingRect(block);}
+//const QRectF blockGeometry(const QTextBlock & block);
+//const QRectF blockRect(const QTextBlock & block) {return blockBoundingRect(block).translated(contentOffset());};
 QMap<int,int> foldedLines;
 QMap<int,int> foldableLines;
 

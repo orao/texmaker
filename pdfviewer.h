@@ -42,6 +42,7 @@
 #include "paperdialog.h"
 
 
+
 class PdfViewer : public QMainWindow
 {
     Q_OBJECT
@@ -93,6 +94,7 @@ QStack<int> stack;
 QStack<int> forwardStack;
 bool showingListPages;
 
+
 private slots:
 void connectActions();
 void disconnectActions();
@@ -122,11 +124,11 @@ void printPdf();
 void slotItemClicked(QListWidgetItem* item);
 void jumpToEditor(int page, const QPointF& pos);
 //QRectF searchBackwards(const QString &text);
-QRectF searchForwards(const QString &text);
+void searchForwards(const QString &text);
 void ShowStructure();
 void ShowListPages();
 void ParseToc(const QDomNode &parent, QTreeWidget *tree, QTreeWidgetItem *parentItem);
-void ClickedOnStructure();
+void ClickedOnStructure(QTreeWidgetItem* item,int c);
 void historyBack();
 void historyForward();
 void clearHistory();
@@ -136,7 +138,7 @@ protected:
 void keyPressEvent ( QKeyEvent * e );
 
 signals:
-void openDocAtLine(const QString&, int);
+void openDocAtLine(const QString&, int,bool);
 void sendFocusToEditor();
 void sendPaperSize(const QString&);
 void backwardAvailable(bool);

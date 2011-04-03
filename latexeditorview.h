@@ -18,6 +18,7 @@
 #include "latexeditor.h"
 #include "linenumberwidget.h"
 #include "findwidget.h"
+#include "minisplitter.h"
 #include "hunspell/hunspell.hxx"
 
 class LatexEditorView : public QWidget  {
@@ -29,6 +30,7 @@ public:
   FindWidget *findwidget;
   void changeSettings(QFont & new_font,bool line);
 private:
+  MiniSplitter *splitter;
   LineNumberWidget* m_lineNumberWidget;
   void setLineNumberWidgetVisible( bool );
 };

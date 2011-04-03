@@ -5,12 +5,14 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=2.3
+TEXMAKERVERSION=3.0
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
 HEADERS	+= texmaker.h \
 	texmakerapp.h \
+	minisplitter.h \
+	playerbutton.h \
 	symbollistwidget.h \
 	icondelegate.h \
 	latexeditor.h \
@@ -36,7 +38,6 @@ HEADERS	+= texmaker.h \
 	refdialog.h \
 	configdialog.h \
 	aboutdialog.h \
-	webpublishdialog.h \
 	spellerdialog.h \
 	xmltagslistwidget.h \
 	blockdata.h \
@@ -46,11 +47,13 @@ HEADERS	+= texmaker.h \
 	keysequencedialog.h \
 	paperdialog.h \
 	browser.h \
+	pdfviewerwidget.h \
 	pdfviewer.h \
 	pdfdocumentwidget.h \
 	pdfscrollarea.h \
 	userquickdialog.h \
 	encodingdialog.h \
+	usercompletiondialog.h \
 	synctex_parser.h \
 	synctex_parser_utils.h \
 	hunspell/affentry.hxx \
@@ -102,6 +105,8 @@ HEADERS	+= texmaker.h \
 SOURCES	+= main.cpp \
 	texmakerapp.cpp \
 	texmaker.cpp \
+	minisplitter.cpp \
+	playerbutton.cpp \
 	symbollistwidget.cpp \
 	icondelegate.cpp \
 	latexeditor.cpp \
@@ -127,7 +132,6 @@ SOURCES	+= main.cpp \
 	refdialog.cpp \
 	configdialog.cpp \
 	aboutdialog.cpp \
-	webpublishdialog.cpp \
 	spellerdialog.cpp \
 	xmltagslistwidget.cpp \
 	blockdata.cpp \
@@ -137,11 +141,13 @@ SOURCES	+= main.cpp \
 	keysequencedialog.cpp \
 	paperdialog.cpp \
 	browser.cpp \
+	pdfviewerwidget.cpp \
 	pdfviewer.cpp \
 	pdfdocumentwidget.cpp \
 	pdfscrollarea.cpp \
 	userquickdialog.cpp \
 	encodingdialog.cpp \
+	usercompletiondialog.cpp \
 	synctex_parser.c \
 	synctex_parser_utils.c \
 	hunspell/affentry.cxx \
@@ -205,13 +211,13 @@ FORMS   += findwidget.ui\
 	usertooldialog.ui \
 	refdialog.ui \
 	aboutdialog.ui \
-	webpublishdialog.ui \
 	configdialog.ui \
 	spellerdialog.ui \
 	keysequencedialog.ui \
 	paperdialog.ui \
 	userquickdialog.ui \
-	encodingdialog.ui
+	encodingdialog.ui \
+	usercompletiondialog.ui
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
 	texmaker_es.ts \
@@ -247,6 +253,8 @@ LIBS         += -L/usr/lib -lz
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
 
+#DEFINES += DEBIAN_SPELLDIR
+
 INSTALLS = target
 HEADERS	+= x11fontdialog.h 
 SOURCES	+= x11fontdialog.cpp \
@@ -281,15 +289,6 @@ utilities.files = doc/doc1.png \
 	doc/latexhelp.html \
 	doc/usermanual_en.html \
 	doc/usermanual_fr.html \
-	utilities/blank.png \
-	utilities/next.gif \
-	utilities/next_d.gif \
-	utilities/prev.gif \
-	utilities/prev_d.gif \
-	utilities/psheader.txt \
-	utilities/style.css \
-	utilities/up.gif \
-	utilities/up_d.gif \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -394,15 +393,6 @@ utilities.files =doc/doc1.png \
 	doc/latexhelp.html \
 	doc/usermanual_en.html \
 	doc/usermanual_fr.html \
-	utilities/blank.png \
-	utilities/next.gif \
-	utilities/next_d.gif \
-	utilities/prev.gif \
-	utilities/prev_d.gif \
-	utilities/psheader.txt \
-	utilities/style.css \
-	utilities/up.gif \
-	utilities/up_d.gif \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -508,15 +498,6 @@ utilities.files = utilities/qt_menu.nib \
 	doc/latexhelp.html \
 	doc/usermanual_en.html \
 	doc/usermanual_fr.html \
-	utilities/blank.png \
-	utilities/next.gif \
-	utilities/next_d.gif \
-	utilities/prev.gif \
-	utilities/prev_d.gif \
-	utilities/psheader.txt \
-	utilities/style.css \
-	utilities/up.gif \
-	utilities/up_d.gif \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \

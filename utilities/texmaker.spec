@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 2.3
+Version: 3.0
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -57,15 +57,6 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/latexhelp.html
 /usr/share/texmaker/usermanual_en.html
 /usr/share/texmaker/usermanual_fr.html
-/usr/share/texmaker/blank.png
-/usr/share/texmaker/next.gif
-/usr/share/texmaker/next_d.gif
-/usr/share/texmaker/prev.gif
-/usr/share/texmaker/prev_d.gif
-/usr/share/texmaker/psheader.txt
-/usr/share/texmaker/style.css
-/usr/share/texmaker/up.gif
-/usr/share/texmaker/up_d.gif
 /usr/share/texmaker/AUTHORS
 /usr/share/texmaker/COPYING
 /usr/share/texmaker/CHANGELOG.txt

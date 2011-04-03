@@ -1,3 +1,21 @@
+version 2.3 -> 3.0 :
+----------------------
+- The GUI has been extensively modified : tabs are no more used for the editor and the pdf viewer is now fully embedded in the main window (for screen with a resolution greater than 1400 px)
+- a critical bug has been fixed in the editor
+- the bug about the "latex+asymptote+latex+dvips+viewps" mode for the "quick build" command has been fixed
+- the preamble can now be collapsed (from the first line to the \begin{document} command)
+- users can now add items to the auto-complete commands list
+- labels are now checked in the "childs" documents while using the "master mode" (for one level only)
+- a "full screen" mode has been added
+- the \addbibresource{} command is now detected like \bibliography{}
+- the code of the mathematicals symbols are displayed in a "tooltip" while moving mouse in the "symbols panels"
+- some new keyboard shortcuts has been added : ctrl+space for switching between the editor and the embedded pdf viewer and ctrl+>/ctrl+< for indenting/unindenting the selected text.
+- the obsolete "export to html" command has been removed (for packagers : the files "next.gif", "next_d.gif", "prev.gif", "prev_d.gif", "psheader.txt", "style.css", "up.gif" and "up_d.gif" in the "utilities/" directory have been deleted and don't have anymore to be installed)
+
+NOTE for debian packagers : 
+* by uncommenting the line "DEFINES += DEBIAN_SPELLDIR" in the texmaker.pro file (line 256), the spelldir will be automtically set to "PREFIX"/share/myspell/dicts" in the configdialog.cpp file (spelling_dict.patch)
+* the spelling-error-in-binary.patch is now useless (the spelling errors has been fixed in the texmaker.cpp file)
+
 version 2.2.2 -> 2.3 :
 ----------------------
 -  \part, \chapter, \section,.., \begin{foo} \end{foo} blocks can now be collapsed (contextual code folding : the folding marks are only displayed when the cursor is on the first line of a block)

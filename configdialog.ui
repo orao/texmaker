@@ -1053,16 +1053,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="okButton">
-       <property name="text">
-        <string>OK</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="cancelButton">
-       <property name="text">
-        <string>Cancel</string>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
        </property>
       </widget>
      </item>
@@ -1126,8 +1119,6 @@
   <tabstop>pushButtonAspell</tabstop>
   <tabstop>checkBoxInlineSpell</tabstop>
   <tabstop>shorttableWidget</tabstop>
-  <tabstop>cancelButton</tabstop>
-  <tabstop>okButton</tabstop>
   <tabstop>contentsWidget</tabstop>
  </tabstops>
  <resources>
@@ -1135,34 +1126,34 @@
  </resources>
  <connections>
   <connection>
-   <sender>okButton</sender>
-   <signal>clicked()</signal>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
    <receiver>ConfigDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>466</x>
-     <y>470</y>
+     <x>704</x>
+     <y>523</y>
     </hint>
     <hint type="destinationlabel">
-     <x>307</x>
-     <y>250</y>
+     <x>421</x>
+     <y>272</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>cancelButton</sender>
-   <signal>clicked()</signal>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
    <receiver>ConfigDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>557</x>
-     <y>470</y>
+     <x>704</x>
+     <y>523</y>
     </hint>
     <hint type="destinationlabel">
-     <x>307</x>
-     <y>250</y>
+     <x>421</x>
+     <y>272</y>
     </hint>
    </hints>
   </connection>

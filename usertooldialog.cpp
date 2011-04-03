@@ -19,14 +19,10 @@ ui.setupUi(this);
 
 previous_index=0;
 
-ui.comboBox->insertItem(0, "Command 1" );
-ui.comboBox->insertItem(1, "Command 2" );
-ui.comboBox->insertItem(2, "Command 3" );
-ui.comboBox->insertItem(3, "Command 4" );
-ui.comboBox->insertItem(4, "Command 5" );
-connect(ui.comboBox, SIGNAL(activated(int)),this,SLOT(change(int)));
 
-connect( ui.okButton, SIGNAL(clicked()), SLOT(slotOk()) );
+connect(ui.listWidget, SIGNAL(currentRowChanged(int)),this,SLOT(change(int)));
+
+connect( ui.buttonBox, SIGNAL(accepted()), SLOT(slotOk()) );
 }
 
 UserToolDialog::~UserToolDialog()
@@ -35,9 +31,15 @@ UserToolDialog::~UserToolDialog()
 
 void UserToolDialog::init()
 {
+ui.listWidget->insertItem(0, "Command 1 : "+Name[0] );
+ui.listWidget->insertItem(1, "Command 2 : "+Name[1] );
+ui.listWidget->insertItem(2, "Command 3 : "+Name[2] );
+ui.listWidget->insertItem(3, "Command 4 : "+Name[3] );
+ui.listWidget->insertItem(4, "Command 5 : "+Name[4] );
 ui.toolEdit->setText(Tool[0]);
 ui.itemEdit->setText(Name[0]);
-ui.comboBox->setCurrentIndex(0);
+ui.listWidget->setCurrentRow(0);
+connect(ui.itemEdit, SIGNAL(textChanged(const QString &)),this,SLOT(updateItem()));
 }
 
 void UserToolDialog::change(int index)
@@ -55,3 +57,10 @@ Tool[previous_index]=ui.toolEdit->text();
 Name[previous_index]=ui.itemEdit->text();
 accept();
 }
+
+void UserToolDialog::updateItem()
+{
+int i=ui.listWidget->currentRow();
+ui.listWidget->item(i)->setText("Command "+QString::number(i+1)+" : "+ui.itemEdit->text());
+}
+

@@ -21,19 +21,8 @@ ui.setupUi(this);
 
 previous_index=0;
 
-ui.comboBox->insertItem(0, "Menu 1" );
-ui.comboBox->insertItem(1, "Menu 2" );
-ui.comboBox->insertItem(2, "Menu 3" );
-ui.comboBox->insertItem(3, "Menu 4" );
-ui.comboBox->insertItem(4, "Menu 5" );
-ui.comboBox->insertItem(5, "Menu 6" );
-ui.comboBox->insertItem(6, "Menu 7" );
-ui.comboBox->insertItem(7, "Menu 8" );
-ui.comboBox->insertItem(8, "Menu 9" );
-ui.comboBox->insertItem(9, "Menu 10" );
-connect(ui.comboBox, SIGNAL(activated(int)),this,SLOT(change(int)));
-
-connect(ui.okButton, SIGNAL(clicked()), SLOT(slotOk()) );
+connect(ui.listWidget, SIGNAL(currentRowChanged(int)),this,SLOT(change(int)));
+connect( ui.buttonBox, SIGNAL(accepted()), SLOT(slotOk()) );
 }
 
 UserMenuDialog::~UserMenuDialog()
@@ -42,9 +31,20 @@ UserMenuDialog::~UserMenuDialog()
 
 void UserMenuDialog::init()
 {
+ui.listWidget->insertItem(0, "Menu 1 : "+Name[0] );
+ui.listWidget->insertItem(1, "Menu 2 : "+Name[1] );
+ui.listWidget->insertItem(2, "Menu 3 : "+Name[2] );
+ui.listWidget->insertItem(3, "Menu 4 : "+Name[3] );
+ui.listWidget->insertItem(4, "Menu 5 : "+Name[4] );
+ui.listWidget->insertItem(5, "Menu 6 : "+Name[5] );
+ui.listWidget->insertItem(6, "Menu 7 : "+Name[6] );
+ui.listWidget->insertItem(7, "Menu 8 : "+Name[7] );
+ui.listWidget->insertItem(8, "Menu 9 : "+Name[8] );
+ui.listWidget->insertItem(9, "Menu 10 : "+Name[9] );
 ui.tagEdit->setPlainText(Tag[0]);
 ui.itemEdit->setText(Name[0]);
-ui.comboBox->setCurrentIndex(0);  
+ui.listWidget->setCurrentRow(0); 
+connect(ui.itemEdit, SIGNAL(textChanged(const QString &)),this,SLOT(updateItem()));
 }
 
 void UserMenuDialog::change(int index)
@@ -61,4 +61,10 @@ void UserMenuDialog::slotOk()
 Tag[previous_index]=ui.tagEdit->toPlainText();
 Name[previous_index]=ui.itemEdit->text();
 accept();
+}
+
+void UserMenuDialog::updateItem()
+{
+int i=ui.listWidget->currentRow();
+ui.listWidget->item(i)->setText("Menu "+QString::number(i+1)+" : "+ui.itemEdit->text());
 }

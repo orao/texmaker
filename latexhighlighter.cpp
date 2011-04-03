@@ -180,7 +180,8 @@ offset=tagStart;
 	{
 	tagStart=s.indexOf(struct_level3, tagEnd);
 	s=s.mid(tagStart+struct_level3.length(),s.length());
-		tagStart=s.indexOf("}", tagEnd);
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 	  {
 	  if (s.startsWith("*")) s=s.remove(0,1);
@@ -204,6 +205,7 @@ if (tagStart!=-1)
 	{
 	tagStart=s.indexOf(struct_level4, tagEnd);
 	s=s.mid(tagStart+struct_level4.length(),s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 	  {
@@ -229,6 +231,7 @@ if (tagStart!=-1)
 	{
 	tagStart=s.indexOf(struct_level5, tagEnd);
 	s=s.mid(tagStart+struct_level5.length(),s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 	  {
@@ -254,7 +257,6 @@ if (tagStart!=-1)
 	{
 	tagStart=s.indexOf("begin{block}", tagEnd);
 	s=s.mid(tagStart+12,s.length());
-
 	if (s.startsWith("{")) s=s.remove(0,1);
 	if (s.endsWith("}")) s=s.remove(s.length()-1,1);
 	//s=s+" (line "+QString::number(i+1)+")";
@@ -274,6 +276,7 @@ offset=tagStart;
 if (tagStart!=-1)
 	{
 	s=s.mid(tagStart+7,s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 		{
@@ -298,6 +301,7 @@ offset=tagStart;
 if (tagStart!=-1)
 	{
 	s=s.mid(tagStart+8,s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 		{
@@ -321,6 +325,7 @@ offset=tagStart;
 	if (tagStart!=-1)
 	{
 	s=s.mid(tagStart+6,s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 		{
@@ -345,6 +350,7 @@ if (tagStart!=-1)
 	{
 	tagStart=s.indexOf(struct_level1, tagEnd);
 	s=s.mid(tagStart+struct_level1.length(),s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 	  {
@@ -370,6 +376,7 @@ if (tagStart!=-1)
 	{
 	tagStart=s.indexOf(struct_level2, tagEnd);
 	s=s.mid(tagStart+struct_level2.length(),s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 	  {
@@ -394,6 +401,31 @@ offset=tagStart;
 if (tagStart!=-1)
 	{
 	s=s.mid(tagStart+13,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+				      	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,9,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// bib files ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\addbibresource{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+15,s.length());
+	s=s.trimmed();
 	tagStart=s.indexOf("}", tagEnd);
 	if (tagStart!=-1)
 		{

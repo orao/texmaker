@@ -51,6 +51,7 @@ setUpdatesEnabled(false);
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		item->setToolTip(code[i]);
 		setItem(i/4,i%4,item);
 		}
 setUpdatesEnabled(true);
@@ -73,6 +74,7 @@ setUpdatesEnabled(true);
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		item->setToolTip(code[i]);
 		setItem((i-247)/4,(i-247)%4,item);
 		}
 		menu->addAction(addAct);
@@ -94,6 +96,7 @@ setUpdatesEnabled(true);
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		item->setToolTip(code[i]);
 		setItem((i-314)/4,(i-314)%4,item);
 		}
 		menu->addAction(addAct);
@@ -115,6 +118,7 @@ setUpdatesEnabled(true);
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		item->setToolTip(code[i]);
 		setItem((i-226)/4,(i-226)%4,item);
 		}
 		menu->addAction(addAct);
@@ -136,6 +140,7 @@ setUpdatesEnabled(true);
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i+372]+";"+QString::number(i+372));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		item->setToolTip(code[i+372]);
 		setItem(i/4,i%4,item);
 		}
 		menu->addAction(addAct);
@@ -185,6 +190,7 @@ for ( uint i = 0; i <=11; ++i )
 		item->setText(code[ulist[i]]+";"+QString::number(ulist[i]));
 		item->setIcon(QIcon(icon_name));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		item->setToolTip(code[ulist[i]]);
 		setItem(i/4,i%4,item);
 		}
 	}
@@ -212,6 +218,7 @@ for( int i = 0; i < flist.count(); i++ )
 			}
 		item->setText(code[flist.at(i)]+";"+QString::number(flist.at(i)));
 		item->setIcon(QIcon(icon_name));
+		item->setToolTip(code[flist.at(i)]);
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		setItem(i/4,i%4,item);
 		}

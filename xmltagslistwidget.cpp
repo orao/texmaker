@@ -18,6 +18,7 @@
 #include <QDomDocument>
 #include <QFile>
 #include <QApplication>
+#include <QFontDatabase>
 #include <QDebug>
 
 XmlTagsListWidget::XmlTagsListWidget(QWidget *parent, QString file):QListWidget(parent)
@@ -83,11 +84,12 @@ return tagList;
 
 void XmlTagsListWidget::addListWidgetItems(const xmlTagList &tagList)
 {
-QFont titleFont = qApp->font();
+QFont deft=QFont("DejaVu Sans Condensed",qApp->font().pointSize());
+QFont titleFont = deft;//qApp->font();
 titleFont.setBold(true);
-QFont optionFont=qApp->font();
+QFont optionFont=deft;//qApp->font();
 optionFont.setItalic(true);
-QFont commandFont=qApp->font();
+QFont commandFont=deft;//qApp->font();
 //QColor titleBg(QApplication::style()->standardPalette().color(QPalette::Normal, QPalette::Highlight));
 //QColor titleFg(QApplication::style()->standardPalette().color(QPalette::Normal, QPalette::HighlightedText));
 QColor titleBg("#447BCD");

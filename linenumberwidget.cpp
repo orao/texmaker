@@ -70,9 +70,9 @@ int top;
 int delta;
 while ( p.isValid()) 
 	{
-	top = (int) m_editor->blockGeometry(p).top();
+	if (p.isVisible()) top = (int) m_editor->blockGeometry(p).top();
 	np=p.next();
-	if ( np.isValid()) delta= (int) m_editor->blockGeometry(np).top()-top;
+	if ( np.isValid() && np.isVisible()) delta= (int) m_editor->blockGeometry(np).top()-top;
 	else delta=fm.lineSpacing();
 	if (top<0)
 	  {
@@ -166,7 +166,6 @@ if ((rmin>=0) && (rmax>=0))
     }
     }
 painter.end();
-
 }
 
 void LineNumberWidget::mousePressEvent(QMouseEvent *e)
@@ -230,7 +229,6 @@ if (event->type() == QEvent::ToolTip)
   {
   QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
   int p = helpEvent->pos().x();
-  //qDebug() << p;
   if (abs(p)>=fm.width("0")+8) 
     {
      QToolTip::hideText();

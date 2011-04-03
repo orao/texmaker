@@ -39,6 +39,7 @@ QPalette p = palette();
 p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
 p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
 setPalette(p);
+setFrameStyle(QFrame::NoFrame);
 //setAcceptRichText(false);
 setLineWidth(0);
 setFrameShape(QFrame::NoFrame);
@@ -237,6 +238,7 @@ if (endBlock>=0)
   }
 menu->addSeparator();
 a=new QAction(tr("Jump to pdf"),menu);
+a->setShortcut(Qt::CTRL+Qt::Key_Space);
 a->setData(QVariant(cursorForPosition(e->pos()).blockNumber() + 1));
 connect(a, SIGNAL(triggered()), this, SLOT(jumpToPdf()));
 menu->addAction(a);
@@ -338,7 +340,7 @@ if (cur.hasSelection())
 		end++;
 		go=cur.movePosition(QTextCursor::NextBlock,QTextCursor::MoveAnchor);
 		}
-}	
+      }	
 }
 
 void LatexEditor::indentSelection()
@@ -968,6 +970,10 @@ else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
 		}
 	cursor.endEditBlock();
 	}
+else if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space) 
+  {
+  emit requestpdf(textCursor().blockNumber() + 1);
+  }
 else QPlainTextEdit::keyPressEvent(e);
 if (c && !c->popup()->isVisible()) 
 	{
@@ -1459,7 +1465,6 @@ ensureCursorVisible();
 
 void LatexEditor::removeStructureItem(int offset,int len, int line)
 {
-
 bool r=false;
 for ( int j=StructItemsList.count()-1;j>=0; --j ) 
   {
@@ -1539,3 +1544,14 @@ void LatexEditor::setLastSavedTime(QDateTime t)
 lastSavedTime=t;  
 }
 
+/*const QRectF LatexEditor::blockGeometry(const QTextBlock & block) 
+{
+qDebug() << "ok1" << block.isValid() << block.isVisible();
+//if (block.isVisible()) return blockBoundingGeometry(block).translated(contentOffset());
+//else return QRectF();
+return blockBoundingGeometry(block).translated(contentOffset());
+//const QRectF rec=blockBoundingGeometry(block);
+//qDebug() << "ok2";
+//if (rec.isValid()) return rec.translated(contentOffset());
+//else return QRectF();
+}*/

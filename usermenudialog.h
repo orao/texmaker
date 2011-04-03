@@ -37,6 +37,7 @@ public slots:
 private slots:
     void change(int index);
     void slotOk();
+    void updateItem();
 };
 
 #endif // USERMENUDIALOG_H

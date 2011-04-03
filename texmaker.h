@@ -37,8 +37,11 @@
 #include <QVBoxLayout>
 #include <QTableWidget>
 #include <QTranslator>
+#include <QToolButton>
 
 #include "latexeditorview.h"
+#include "minisplitter.h"
+#include "playerbutton.h"
 #include "symbollistwidget.h"
 #include "xmltagslistwidget.h"
 #include "logeditor.h"
@@ -46,6 +49,7 @@
 #include "replacedialog.h"
 #include "hunspell/hunspell.hxx"
 #include "browser.h"
+#include "pdfviewerwidget.h"
 #include "pdfviewer.h"
 #include "encodingprober/qencodingprober.h"
 
@@ -66,7 +70,7 @@ public:
     ~Texmaker();
 QString getName();
 QFont EditorFont;
-QByteArray windowstate;
+QByteArray windowstate,splitter1state,splitter2state,fullscreenstate;
 
 public slots:
 void load( const QString &f );
@@ -85,19 +89,25 @@ int LineItem(const QTreeWidgetItem *item);
 bool currentfileSaved();
 bool isCurrentModifiedOutside();
 
+int untitled_id;
+
 FilesMap filenames;
 KeysMap shortcuts, actionstext;
 //gui
-QDockWidget *OutputView, *StructureView;
-QTabWidget *EditorView;
+QFrame *LeftPanelFrameBis, *Outputframe;
+MiniSplitter *splitter1, *splitter2 ;
+PlayerButton *toggleStructureButton, *toggleLogButton, *togglePdfButton; 
+bool largescreen;
+
+QStackedWidget *EditorView;
+QStackedWidget *StackedViewers;
 LogEditor* OutputTextEdit;
 
-//QToolBox *StructureToolbox;
 QStackedWidget *LeftPanelStackedWidget;
 XmlTagsListWidget *MpListWidget, *PsListWidget, *leftrightWidget, *tikzWidget, *asyWidget;
 SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget, *FavoriteListWidget;
 QTreeWidget *StructureTreeWidget;
-QVBoxLayout *OutputLayoutV;
+QVBoxLayout *OutputLayoutV, *CentralLayoutBis,*LeftPanelLayoutBis,;
 QHBoxLayout *OutputLayoutH, *LeftPanelLayout, *CentralLayout;
 QTableWidget *OutputTableWidget;
 //menu-toolbar
@@ -111,32 +121,32 @@ QMenu *viewMenu;
 QMenu *optionsMenu, *translationMenu, *appearanceMenu;
 QMenu *helpMenu;
 
-QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar, *centralToolBar;
-QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct ;
+QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar,*LeftPanelToolBarBis, *centralToolBar, *centralToolBarBis;
+QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct, *ViewStructurePanelAct, *ViewLogPanelAct, *ViewPdfPanelAct, *FullScreenAct ;
 QComboBox *comboCompil, *comboView, *comboFiles;
-
-QLabel *stat1, *stat2, *stat3;
+QLabel *stat1, *stat3, *titleLeftPanel;
 QPushButton *pb1, *pb2, *pb3;
 QString MasterName;
 bool logpresent;
 QStringList recentFilesList, sessionFilesList;
 //settings
 int split1_right, split1_left, split2_top, split2_bottom, quickmode;
-bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance ;
+bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, showpdfview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance ;
 QString document_class, typeface_size, paper_size, document_encoding, author;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize;
 QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command;
 QString spell_dic, spell_ignored_words;
 QString lastDocument, input_encoding, lastChild;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
-QStringList userClassList, userPaperList, userEncodingList, userOptionsList;
-QStringList labelitem, bibitem, listbibfiles;
+QStringList userClassList, userPaperList, userEncodingList, userOptionsList, userCompletionList;
+QStringList labelitem, bibitem, listbibfiles, listchildfiles;
 Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
 //dialogs
 QPointer<ReplaceDialog> replaceDialog;
 QPointer<GotoLineDialog> gotoLineDialog;
 QPointer<Browser> browserWindow;
+QPointer<PdfViewerWidget> pdfviewerWidget;
 QPointer<PdfViewer> pdfviewerWindow;
 
 //tools
@@ -185,7 +195,7 @@ void fileOpenRecent();
 void AddRecentFile(const QString &f);
 void UpdateRecentFile();
 void filePrint();
-void fileOpenAndGoto(const QString &f, int line);
+void fileOpenAndGoto(const QString &f, int line, bool focus);
 void getFocusToEditor();
 void fileReload();
 void listSelectionActivated(int index);
@@ -217,6 +227,7 @@ void NewDocumentStatus(bool m);
 void UpdateCaption();
 
 void UpdateStructure();
+void UpdateChildsLabels(QStringList listfiles);
 void UpdateBibliography();
 void ParseTree(QTreeWidgetItem *item);
 void ItemToRange(QTreeWidgetItem *item);
@@ -323,8 +334,7 @@ void doCompile();
 void doView();
 void jumpToPdfline(int line);
 
-void WebPublish();
-
+void LoadLog();
 void ViewLog();
 void ClickedOnOutput(int l);
 void ClickedOnLogLine(QTableWidgetItem *item);
@@ -372,6 +382,14 @@ void refreshRange();
 void jumpToStructure(int line);
 void mainWindowActivated();
 
+void ToggleStructurePanel();
+void ToggleLogPanel();
+void TogglePdfPanel();
+void ShowStructView(bool change);
+void ShowOutputView(bool change);
+void ShowPdfView(bool change);
+void ToggleFullScreen(); 
+void EditUserCompletion();
 protected:
 void dragEnterEvent(QDragEnterEvent *event);
 void dropEvent(QDropEvent *event);

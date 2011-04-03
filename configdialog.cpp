@@ -121,7 +121,11 @@ void ConfigDialog::browseAspell()
 #ifdef USB_VERSION
 QDir spelldir(QCoreApplication::applicationDirPath());
 #else
+#ifdef DEBIAN_SPELLDIR
+QDir spelldir(PREFIX"/share/myspell/dicts");
+#else
 QDir spelldir(PREFIX"/share/texmaker");
+#endif
 #endif
 
 #endif
