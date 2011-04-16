@@ -60,8 +60,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION37">4.8 "Forward/Inverse search" avec Texmaker</a></li>
 	<li><a href="#SECTION38">4.9 Synopsis de la commande texmaker</a></li>
 	<li><a href="#SECTION39">4.10 Raccourcis clavier</a></li>
-	<li><a href="#SECTION40">4.11 Convertir son document en Html</a></li>
-	<li><a href="#SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>
+	<li><a href="#SECTION41">4.11 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>
 	</ul>
 </ul>
 <hr>
@@ -312,18 +311,7 @@ Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 </li>
 </ul>
 </p>
-<h2><a name="SECTION40">4.11 Convertir son document en Html</a></h2>
-<p>L'option "Exporter vers Html" du menu "Outils" permet de transformer son document LaTeX en un site web où chaque page html est composée d'une seule image reproduisant exactement une des pages postscript du document. On évite ainsi les problèmes de mise en page entre le texte et les formules mathématiques des autres outils traditionnels de conversion LaTeX vers html.<br>
-<b>Texmaker</b> peut aussi créer automatiquement une page index dans le site web correspondant à la traditionnelle tables des matières du document LaTeX. Un clic sur un item de cette page index permet d'atteindre la page web correspondante.
-Il est aussi possible d'insérer des liens externes et internes à l'intérieur des pages web en utilisant la commande \ttwplink{}{} dans le document .tex.<br>
-Synopsis de cette commande :<br>
-\ttwplink{http://www.monsite.com}{texte_lien} (lien externe)<br>
-\ttwplink{page3.html}{texte_lien} (lien interne)<br>
-\ttwplink{name_of_a_label}{texte_lien} (lien interne vers un label)<br>
-Attention : \ttwplink{}{} ne peut-être utilisé que pour exporter son document en html. Une compilation normale d'un document comportant cette commande par LaTeX déclenchera une erreur. Par ailleurs, cette commande est incompatible avec plusieurs "packages" LaTeX dont notamment \hyperref.</p>
-<p><IMG src="doc18.png" border="1"></p>
-<p><IMG src="doc19.png" border="1"></p>
-<h2><a name="SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></h2>
+<h2><a name="SECTION41">4.11 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></h2>
 <ul>
 <li>D'abord, il faut s'assurer que le programme ghostscript est bien installé sur le système et que le chemin vers "gswin32c.exe" est correctement réglé dans le dialogue de configuration de Texmaker.</li>
 <li>Après avoir cliqué sur le bouton "Imprimer", sélectionner le format du papier et la plage de pages à imprimer.</li>

@@ -97,7 +97,7 @@ KeysMap shortcuts, actionstext;
 QFrame *LeftPanelFrameBis, *Outputframe;
 MiniSplitter *splitter1, *splitter2 ;
 PlayerButton *toggleStructureButton, *toggleLogButton, *togglePdfButton; 
-bool largescreen;
+bool embedinternalpdf;
 
 QStackedWidget *EditorView;
 QStackedWidget *StackedViewers;

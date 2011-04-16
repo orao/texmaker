@@ -1,3 +1,18 @@
+version 3.0 -> 3.0.1 :
+----------------------
+- The internal pdf viewer can now be embedded in the main window whatever the screen width (issues 177, 183)
+- auto-completion for \eqref and \autoref has been added (issue 112)
+- the "external viewer" button has been added to the tool bar of the embedded pdf viewer (issue 169)
+- Bugs fixed :
+* memory leak about the syntax highlighting for .bib files has been fixed
+* no more extra closing bracket with the auto-completion of \begin{} environments (issues 168, 173, 193)
+* Alt+PgUp end Alt+PgDown keyboard shortcuts work again (issues 150, 195)
+* the bug about the "jump to next error" command has been fixed (issue 164)
+* the columns in the "Log" panel are resizable again (issue 162)
+* multiline "user tags" respect now the indentation of the current line (issue 145)
+* the "check spelling selection" option is no more displayed in the contextual menu if there is no selection (issue 199)
+* the bug about the "latexmk+view pdf" option for the "Quick build" command has been fixed
+
 version 2.3 -> 3.0 :
 ----------------------
 - The GUI has been extensively modified : tabs are no more used for the editor and the pdf viewer is now fully embedded in the main window (for screen with a resolution greater than 1400 px)

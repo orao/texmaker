@@ -50,6 +50,7 @@ public:
     PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,QWidget* parent = 0);
     ~PdfViewerWidget();
     QString pdf_file;
+    QToolBar *centralToolBarBis;
 public slots:
 void openFile(QString fn, QString ec,QString pc);
 void jumpToPdfFromSource(QString sourceFile,int source_line);
@@ -61,10 +62,10 @@ MiniSplitter *splitter;
 QTreeWidget *StructureTreeWidget;
 QList<PdfDocumentWidget*> listPdfWidgets, templist;
 Poppler::Document *doc;
-QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct, *toggleStructAct;
+QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *printAct, *externAct, *historyForwardAct, *toggleStructAct;
 QHBoxLayout *CentralLayout;
 QVBoxLayout *CentralLayoutBis;
-QToolBar *centralToolBarBis;
+
 QListWidget *listpagesWidget;
 #if defined(Q_WS_WIN)
 QComboBox *comboBoxPaper;
@@ -74,11 +75,12 @@ QList<int> listPdfWidgetsPos;
 QList<int> listPdfWidgetsStatus;
 QComboBox *scaleComboBox;
 QLineEdit *searchLineEdit;
-QPushButton *findButton, *printButton;
+QPushButton *findButton;
 QString viewpdf_command, gswin32c_command, paper_size;
 int currentPage;
 qreal currentScale, lastScale, previousScale;
 bool fileLoaded;
+QPointer<QProcess> proc;
 QString lastFile;
 int lastPage, altern;
 synctex_scanner_t scanner;
@@ -118,6 +120,7 @@ void fitWidth();
 void fitPage();
 void zoomIn();
 void zoomOut();
+void runExternalViewer();
 void printPdf();
 void slotItemClicked(QListWidgetItem* item);
 void jumpToEditor(int page, const QPointF& pos);

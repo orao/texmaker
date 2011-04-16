@@ -63,7 +63,7 @@ QHBoxLayout *LeftPanelLayout,*CentralLayout;
 QByteArray windowstate;
 QList<PdfDocumentWidget*> listPdfWidgets, templist;
 Poppler::Document *doc;
-QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct;
+QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct,*printAct, *externAct;
 QDockWidget *StructureView;
 QListWidget *listpagesWidget;
 #if defined(Q_WS_WIN)
@@ -74,7 +74,7 @@ QList<int> listPdfWidgetsPos;
 QList<int> listPdfWidgetsStatus;
 QComboBox *scaleComboBox;
 QLineEdit *searchLineEdit;
-QPushButton *findButton, *externButton, *printButton;
+QPushButton *findButton;
 QString viewpdf_command, gswin32c_command, paper_size;
 int currentPage;
 qreal currentScale, lastScale, previousScale;

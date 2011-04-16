@@ -95,7 +95,7 @@ const int StateGraphic =8;
 const int StateGraphicCommand =9;
 const int StateGraphicMath =10;
 const int StateBib =11;
-const int StateBibCommand =12;
+//const int StateBibCommand =12;
 
 BlockData *blockData = new BlockData;
 int leftPos = text.indexOf( '{' );
@@ -1039,16 +1039,17 @@ while (i < text.length())
 	} break;
 /****************************/
        case StateBib: {
+//	 qDebug() << "bib" << buffer << next;
                tmp=text.at( i );
-		if (tmp== '\"' ){
+/*		if (tmp== '\"' ){
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
 			state=StateBibCommand;
-		} else
+		} else*/
 		if (tmp== '}' ){
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
-			if (next!=',')
+			if (next=='\n' || i == text.length()-1)
 			  {
 			  state=StateStandard;
 			  buffer = QString::null;
@@ -1060,18 +1061,31 @@ while (i < text.length())
 			//buffer = QString::null;
 		}
        } break;
-       case StateBibCommand: {
+/*       case StateBibCommand: {
+	 	 qDebug() << "bibcommand" << buffer;
                tmp=text.at( i );
 		if (tmp== '\"' ){
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
 			state=StateBib;
 		} else
+		if (tmp== '}' ){
+			blockData->code[i]=1;
+			setFormat( i, 1,ColorVerbatim);
+			if (next!=',' || i == text.length()-1)
+			  {
+			  state=StateBib;
+			  }
+			else 
+			{
+			 state=StateBibCommand; 
+			}
+		} else
 		 {
 			setFormat( i, 1,ColorVerbatim);
 			state=StateBibCommand;
 		}
-       } break;
+       } break;*/
 /***************************/
        case StateSweave: {
                tmp=text.at( i );
@@ -1251,10 +1265,10 @@ else if ( state == StateBib )
        {
        setCurrentBlockState(StateBib) ;
        }
-else if ( state == StateBibCommand ) 
+/*else if ( state == StateBibCommand ) 
        {
        setCurrentBlockState(StateBibCommand) ;
-       } 
+       } */
 else 
 	{
 	setCurrentBlockState(StateStandard) ;

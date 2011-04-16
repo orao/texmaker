@@ -94,6 +94,7 @@ StructItem(int l, const QString& it, int t,const QTextCursor& curs): line(l),ite
 };
 const QList<StructItem> getStructItems() const { return StructItemsList; }
 
+QString beginningLine();
 public slots:
 void matchAll();
 void setHightLightLine();

@@ -220,10 +220,16 @@ a = menu->addAction(tr("Select All"), this, SLOT(selectAll()));
 a->setShortcut(Qt::CTRL+Qt::Key_A);
 a->setEnabled(!document()->isEmpty());
 menu->addSeparator();
+if (!document()->isEmpty() && !inlinecheckSpelling)
+{
 a = menu->addAction(tr("Check Spelling Word"), this, SLOT(checkSpellingWord()));
-a->setEnabled(!document()->isEmpty() && !inlinecheckSpelling);
+//a->setEnabled(!document()->isEmpty() && !inlinecheckSpelling);
+}
+if (textCursor().hasSelection())
+{
 a = menu->addAction(tr("Check Spelling Selection"), this, SLOT(checkSpellingDocument()));
-a->setEnabled(textCursor().hasSelection());
+//a->setEnabled(textCursor().hasSelection());
+}
 a = menu->addAction(tr("Check Spelling Document"), this, SLOT(checkSpellingDocument()));
 a->setEnabled(!document()->isEmpty() /*&& !textCursor().hasSelection()*/);
 if (endBlock>=0)
@@ -1060,6 +1066,7 @@ tc.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,w-t-1+r);
 tc.removeSelectedText();
 int pos=tc.position();
 QString insert_word = completion;
+QString env;
 QRegExp rbb("begin\\{\\s*([A-Za-z_]+)\\}");
 //QRegExp rbb("begin\\{\\s*(.*)\\}");
 if (completion.contains(rbb)) 
@@ -1067,7 +1074,9 @@ if (completion.contains(rbb))
 	tc.insertText(insert_word);
 	insertNewLine();
 	insertNewLine();
-	tc.insertText("\\end{"+rbb.cap(1)+"}");
+	tc.select(QTextCursor::WordUnderCursor);
+	env=rbb.cap(1);
+	tc.insertText("\\end{"+env+"}");
 	tc.movePosition(QTextCursor::Up,QTextCursor::MoveAnchor,1);
 	setTextCursor(tc);
 	if (insert_word.contains(QString(0x2022)))
@@ -1544,6 +1553,24 @@ void LatexEditor::setLastSavedTime(QDateTime t)
 lastSavedTime=t;  
 }
 
+QString LatexEditor::beginningLine()
+{
+QString result="";
+QTextCursor cursor=textCursor();
+QTextBlock block=cursor.block();
+if (block.isValid()) 
+	{
+	QString txt=block.text();
+	int j=0;
+	while ( (j<txt.count()) && ((txt[j]==' ') || txt[j]=='\t') ) 
+		{
+		result+=QString(txt[j]);
+		j++;
+		}
+
+	}
+return result;
+}
 /*const QRectF LatexEditor::blockGeometry(const QTextBlock & block) 
 {
 qDebug() << "ok1" << block.isValid() << block.isVisible();

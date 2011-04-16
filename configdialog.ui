@@ -89,10 +89,10 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" colspan="3">
+          <item row="0" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditLatex"/>
           </item>
-          <item row="0" column="4">
+          <item row="0" column="5">
            <widget class="QPushButton" name="pushButtonLatex">
             <property name="text">
              <string/>
@@ -116,10 +116,10 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1" colspan="3">
+          <item row="1" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditDvips"/>
           </item>
-          <item row="1" column="4">
+          <item row="1" column="5">
            <widget class="QPushButton" name="pushButtonDvips">
             <property name="text">
              <string/>
@@ -143,10 +143,10 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1" colspan="3">
+          <item row="2" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditBibtex"/>
           </item>
-          <item row="2" column="4">
+          <item row="2" column="5">
            <widget class="QPushButton" name="pushButtonBibtex">
             <property name="text">
              <string/>
@@ -170,10 +170,10 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1" colspan="3">
+          <item row="3" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditMakeindex"/>
           </item>
-          <item row="3" column="4">
+          <item row="3" column="5">
            <widget class="QPushButton" name="pushButtonMakeindex">
             <property name="text">
              <string/>
@@ -197,10 +197,10 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1" colspan="3">
+          <item row="4" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditDviviewer"/>
           </item>
-          <item row="4" column="4">
+          <item row="4" column="5">
            <widget class="QPushButton" name="pushButtonDviviewer">
             <property name="text">
              <string/>
@@ -224,10 +224,10 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="1" colspan="3">
+          <item row="5" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditPsviewer"/>
           </item>
-          <item row="5" column="4">
+          <item row="5" column="5">
            <widget class="QPushButton" name="pushButtonPsviewer">
             <property name="text">
              <string/>
@@ -251,10 +251,10 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="1" colspan="3">
+          <item row="6" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditPdflatex"/>
           </item>
-          <item row="6" column="4">
+          <item row="6" column="5">
            <widget class="QPushButton" name="pushButtonPdflatex">
             <property name="text">
              <string/>
@@ -278,10 +278,10 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="1" colspan="3">
+          <item row="7" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditDvipdfm"/>
           </item>
-          <item row="7" column="4">
+          <item row="7" column="5">
            <widget class="QPushButton" name="pushButtonDvipdfm">
             <property name="text">
              <string/>
@@ -305,10 +305,10 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="1" colspan="3">
+          <item row="8" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditPs2pdf"/>
           </item>
-          <item row="8" column="4">
+          <item row="8" column="5">
            <widget class="QPushButton" name="pushButtonPs2pdf">
             <property name="text">
              <string/>
@@ -345,57 +345,17 @@
             </property>
            </widget>
           </item>
-          <item row="9" column="2">
-           <widget class="QRadioButton" name="radioButtonExternalPdfViewer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>External Viewer</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="3">
-           <widget class="QLineEdit" name="lineEditPdfviewer">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>20</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="4">
-           <widget class="QPushButton" name="pushButtonPdfviewer">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="texmaker.qrc">
-              <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="0">
+          <item row="11" column="0">
            <widget class="QLabel" name="labelMetapost">
             <property name="text">
              <string>metapost</string>
             </property>
            </widget>
           </item>
-          <item row="10" column="1" colspan="3">
+          <item row="11" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditMetapost"/>
           </item>
-          <item row="10" column="4">
+          <item row="11" column="5">
            <widget class="QPushButton" name="pushButtonMetapost">
             <property name="text">
              <string/>
@@ -412,17 +372,17 @@
             </property>
            </widget>
           </item>
-          <item row="11" column="0">
+          <item row="12" column="0">
            <widget class="QLabel" name="labelGhostscript">
             <property name="text">
              <string>ghostscript</string>
             </property>
            </widget>
           </item>
-          <item row="11" column="1" colspan="3">
+          <item row="12" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditGhostscript"/>
           </item>
-          <item row="11" column="4">
+          <item row="12" column="5">
            <widget class="QPushButton" name="pushButtonGhostscript">
             <property name="text">
              <string/>
@@ -439,17 +399,17 @@
             </property>
            </widget>
           </item>
-          <item row="12" column="0">
+          <item row="13" column="0">
            <widget class="QLabel" name="labelAsymptote">
             <property name="text">
              <string>Asymptote</string>
             </property>
            </widget>
           </item>
-          <item row="12" column="1" colspan="3">
+          <item row="13" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditAsymptote"/>
           </item>
-          <item row="12" column="4">
+          <item row="13" column="5">
            <widget class="QPushButton" name="pushButtonAsymptote">
             <property name="text">
              <string/>
@@ -466,17 +426,17 @@
             </property>
            </widget>
           </item>
-          <item row="13" column="0">
+          <item row="14" column="0">
            <widget class="QLabel" name="labelLatexmk">
             <property name="text">
              <string>Latexmk</string>
             </property>
            </widget>
           </item>
-          <item row="13" column="1" colspan="3">
+          <item row="14" column="1" colspan="4">
            <widget class="QLineEdit" name="lineEditLatexmk"/>
           </item>
-          <item row="13" column="4">
+          <item row="14" column="5">
            <widget class="QPushButton" name="pushButtonLatexmk">
             <property name="text">
              <string/>
@@ -490,6 +450,53 @@
               <width>16</width>
               <height>16</height>
              </size>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="QRadioButton" name="radioButtonExternalPdfViewer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>External Viewer</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="3">
+           <widget class="QLineEdit" name="lineEditPdfviewer">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>20</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="5">
+           <widget class="QPushButton" name="pushButtonPdfviewer">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="texmaker.qrc">
+              <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="3">
+           <widget class="QCheckBox" name="checkBoxInternalPdfViewEmbed">
+            <property name="text">
+             <string>Embed</string>
             </property>
            </widget>
           </item>
@@ -1083,9 +1090,6 @@
   <tabstop>lineEditPs2pdf</tabstop>
   <tabstop>pushButtonPs2pdf</tabstop>
   <tabstop>radioButtonInternalPdfViewer</tabstop>
-  <tabstop>radioButtonExternalPdfViewer</tabstop>
-  <tabstop>lineEditPdfviewer</tabstop>
-  <tabstop>pushButtonPdfviewer</tabstop>
   <tabstop>lineEditMetapost</tabstop>
   <tabstop>pushButtonMetapost</tabstop>
   <tabstop>lineEditGhostscript</tabstop>
@@ -1154,6 +1158,22 @@
     <hint type="destinationlabel">
      <x>421</x>
      <y>272</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButtonInternalPdfViewer</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBoxInternalPdfViewEmbed</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>310</x>
+     <y>321</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>582</x>
+     <y>321</y>
     </hint>
    </hints>
   </connection>

@@ -63,7 +63,6 @@ centralFrame->setFrameShadow(QFrame::Plain);
 centralFrame->setFrameStyle(QFrame::NoFrame);
 
 listpagesWidget=new QListWidget(centralFrame);
-listpagesWidget->setAutoFillBackground( true );
 QPalette palette;
 QBrush brush(QColor(19, 104, 114, 255));
 brush.setStyle(Qt::SolidPattern);
@@ -80,6 +79,7 @@ QBrush brush3(QColor(244, 244, 244, 255));
 brush3.setStyle(Qt::SolidPattern);
 palette.setBrush(QPalette::Disabled, QPalette::Base, brush3);
 listpagesWidget->setPalette(palette);
+listpagesWidget->setAutoFillBackground( true );
 /*QPalette p( listpagesWidget->palette() );
 p.setColor( listpagesWidget->backgroundRole(), QColor( "#DEE4EB" ) );
 listpagesWidget->setPalette( p );*/
@@ -173,16 +173,15 @@ centralToolBarBis->addAction(historyForwardAct);
 connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 centralToolBarBis->addSeparator();
-printButton=new QPushButton(tr("Print"),centralToolBarBis);
-//printButton->setShortcut(Qt::CTRL+Qt::Key_P);
-connect(printButton, SIGNAL(clicked()), this, SLOT(printPdf()));
-centralToolBarBis->addWidget(printButton);
+
+printAct = new QAction(QIcon(":/images/print.png"), tr("Print"), this);
+centralToolBarBis->addAction(printAct);
+
+externAct = new QAction(QIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
+centralToolBarBis->addAction(externAct);
 
 
 
-//externButton=new QPushButton(tr("External Viewer"),centralToolBarBis);
-//connect(externButton, SIGNAL(clicked()), this, SLOT(runExternalViewer()));
-//centralToolBarBis->addWidget(externButton);
 
 scrollArea=new PdfScrollArea(centralFrame);
 scrollArea->setWidgetResizable(false);
@@ -230,7 +229,6 @@ StructureTreeWidget->hide();
 searchLineEdit->setEnabled(false);
 findButton->setEnabled(false);
 scaleComboBox->setEnabled(false);
-//externButton->setEnabled(false);
 upAct->setEnabled(false);
 downAct->setEnabled(false);
 fitWithAct->setEnabled(false);
@@ -245,6 +243,11 @@ connectActions();
 PdfViewerWidget::~PdfViewerWidget()
 {
 if (scanner != NULL) synctex_scanner_free(scanner);
+if (proc && proc->state()==QProcess::Running) 
+	{
+	proc->kill(); 
+	delete proc ;
+	}
 }
 
 
@@ -284,7 +287,6 @@ if (doc!=0)
     searchLineEdit->setEnabled(true);
     findButton->setEnabled(true);
     scaleComboBox->setEnabled(true);
-    //externButton->setEnabled(true);
     upAct->setEnabled(false);
     downAct->setEnabled(true);
     fitWithAct->setEnabled(true);
@@ -533,6 +535,8 @@ if (scrollArea) connect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut())
 if (scrollArea) connect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
 connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
+connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
+connect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
 //connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -558,6 +562,8 @@ if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut
 if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
 disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
+disconnect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
+disconnect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
 //disconnect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //disconnect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -963,7 +969,7 @@ zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
 scaleDocumentZoom(zoomCustom->text());
 }
 
-/*void PdfViewerWidget::runExternalViewer()
+void PdfViewerWidget::runExternalViewer()
 {
 if (!fileLoaded) return;
 QString command=viewpdf_command;
@@ -975,7 +981,7 @@ if (fi.exists())
 	proc->setWorkingDirectory(fi.absolutePath());
 	proc->start(command);
 	}
-}*/
+}
 
 void PdfViewerWidget::printPdf()
 {

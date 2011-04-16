@@ -166,7 +166,7 @@ StructureTreeWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 StructureTreeWidget->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 StructureTreeWidget->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 StructureTreeWidget->header()->setStretchLastSection(false);
-StructureTreeWidget->setIndentation(10);
+//StructureTreeWidget->setIndentation(10);
 
 connect( StructureTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *,int )), SLOT(ClickedOnStructure(QTreeWidgetItem *,int)));
 
@@ -493,6 +493,9 @@ centralToolBarBis->setOrientation(Qt::Horizontal);
 centralToolBarBis->setMovable(false);
 centralToolBarBis->setIconSize(QSize(16,16 ));
 centralToolBarBis->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+LeftPanelToolBarBis->setMinimumHeight(centralToolBarBis->height());
+LeftPanelToolBarBis->setMaximumHeight(centralToolBarBis->height());
 //centralToolBarBis->setStyle(QStyleFactory::create("Plastique"));
 
 ToggleDocAct=new QAction(QIcon(":/images/toggle.png"),tr("Toggle between the master document and the current document"), this);
@@ -500,11 +503,11 @@ connect(ToggleDocAct, SIGNAL(triggered()), this, SLOT(ToggleMasterCurrent()));
 centralToolBarBis->addAction(ToggleDocAct);
 
 Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous Document"), this);
-Act->setShortcut(Qt::ALT+Qt::Key_PageUp);
+//Act->setShortcut(Qt::ALT+Qt::Key_PageUp);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoPrevDocument()));
 centralToolBarBis->addAction(Act);
 Act = new QAction(QIcon(":/images/errornext.png"),tr("Next Document"), this);
-Act->setShortcut(Qt::ALT+Qt::Key_PageDown);
+//Act->setShortcut(Qt::ALT+Qt::Key_PageDown);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoNextDocument()));
 centralToolBarBis->addAction(Act);
 
@@ -568,8 +571,7 @@ sizes.clear();
 sizes << 180 << (int) (width()-180)*0.5 << (int) (width()-180)*0.5;
 splitter1->setSizes( sizes );
 //setCentralWidget(centralFrameBis);
-QRect screen = QApplication::desktop()->screenGeometry();
-largescreen=(screen.width()>1400);
+
 
 
 createStatusBar();
@@ -590,7 +592,7 @@ ShowOutputView(false);
 ShowStructView(false);
 ShowPdfView(false);
 
-if (largescreen && builtinpdfview && showpdfview ) StackedViewers->show();
+if (embedinternalpdf && builtinpdfview && showpdfview ) StackedViewers->show();
 else StackedViewers->hide();
 
 UpdateRecentFile();
@@ -1594,7 +1596,7 @@ ViewPdfPanelAct = new QAction(tr("Pdf Viewer"), this);
 ViewPdfPanelAct->setCheckable(true);
 ViewPdfPanelAct->setChecked(showpdfview);
 connect(ViewPdfPanelAct, SIGNAL(triggered()), this, SLOT(TogglePdfPanel()));
-if (largescreen) 
+if (embedinternalpdf) 
   {
   viewMenu->addAction(ViewPdfPanelAct);
   if (builtinpdfview) ViewPdfPanelAct->setEnabled(true);
@@ -1874,9 +1876,8 @@ togglePdfButton=new PlayerButton(statusBar());
 togglePdfButton->setImages("pdf_button");
 connect(togglePdfButton, SIGNAL( clicked() ), this, SLOT(TogglePdfPanel() ) );
 statusBar()->addPermanentWidget(togglePdfButton,0);
-//if (largescreen && builtinpdfview) ViewPdfPanelAct->setEnabled(true);
-//else ViewPdfPanelAct->setEnabled(false);
-if (largescreen && builtinpdfview) togglePdfButton->show();
+
+if (embedinternalpdf && builtinpdfview) togglePdfButton->show();
 else togglePdfButton->hide();
 statusBar()->addPermanentWidget(new QLabel(),1);
 stat1=new QLabel(statusBar());
@@ -2220,7 +2221,7 @@ foreach (const QString& fn, filesNames)
   {
   if ( !fn.isEmpty() ) load( fn );
   }
-if ((filesNames.count()==1) && largescreen && builtinpdfview && showpdfview)
+if ((filesNames.count()==1) && embedinternalpdf && builtinpdfview && showpdfview)
   {
   if ( !currentEditorView() || !singlemode ) return;
   QString finame=getName();
@@ -2234,6 +2235,7 @@ if ((filesNames.count()==1) && largescreen && builtinpdfview && showpdfview)
 	{
 	pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
 	StackedViewers->setCurrentWidget(pdfviewerWidget);
+	
 	//pdfviewerWidget->raise();
 	pdfviewerWidget->show();
 	}
@@ -2241,6 +2243,8 @@ if ((filesNames.count()==1) && largescreen && builtinpdfview && showpdfview)
 	{
     //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
 	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,StackedViewers);
+	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
+	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
 	connect(pdfviewerWidget, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
 	connect(pdfviewerWidget, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -2261,7 +2265,7 @@ QFileInfo fi(fn);
 fi.refresh();
 QDateTime disktime=fi.lastModified();
 int delta=disktime.secsTo(currentEditorView()->editor->getLastSavedTime());
-if (delta<-2) return true;
+if (delta<-3) return true;
 else return false;
 }
 
@@ -2787,7 +2791,7 @@ QAction *action = qobject_cast<QAction *>(sender());
 if (action) 
   {
   load(action->data().toString());
-  if (largescreen && builtinpdfview && showpdfview)
+  if (embedinternalpdf && builtinpdfview && showpdfview)
       {
       if ( !currentEditorView() || !singlemode ) return;
       QString finame=getName();
@@ -2808,6 +2812,8 @@ if (action)
 	    {
 	//    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
 	    pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,StackedViewers);
+	    pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
+	    pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	    connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
 	    connect(pdfviewerWidget, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
 	    connect(pdfviewerWidget, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -3182,6 +3188,7 @@ showpdfview=config->value( "Show/Pdfview",true).toBool();
 quickmode=config->value( "Tools/Quick Mode",3).toInt();
 QString baseName = qApp->style()->objectName();
 builtinpdfview=config->value("Tools/IntegratedPdfViewer",true).toBool();
+embedinternalpdf=config->value("Tools/PdfInternalViewEmbed", screen.width() > 1400).toBool();
 singleviewerinstance=config->value("Tools/SingleViewerInstance",false).toBool();
 #ifdef Q_WS_MACX 
 // /usr/local/teTeX/bin/i386-apple-darwin-current
@@ -3580,6 +3587,7 @@ if (userOptionsList.count()>0) config.setValue("Tools/User Options",userOptionsL
 config.setValue( "Tools/Run",comboCompil->currentIndex());
 config.setValue( "Tools/View",comboView->currentIndex());
 config.setValue("Tools/IntegratedPdfViewer",builtinpdfview);
+config.setValue("Tools/PdfInternalViewEmbed",embedinternalpdf);
 config.setValue("Tools/SingleViewerInstance",singleviewerinstance);
 
 
@@ -4191,7 +4199,7 @@ if (item)
 	    QFileInfo fic(finame);
 	    if (!fic.exists()) return;
 	    QString basename=fic.completeBaseName();
-	    if (largescreen && builtinpdfview)
+	    if (embedinternalpdf && builtinpdfview)
 	      {
 	      if (pdfviewerWidget)
 		{
@@ -4991,11 +4999,13 @@ currentEditorView()->editor->removeOptAlt();
 void Texmaker::InsertUserTag(QString Entity)
 {
 if ( !currentEditorView() )	return;
+QString pre=currentEditorView()->editor->beginningLine();
 QTextCursor cur=currentEditorView()->editor->textCursor();
 bool selection=cur.hasSelection();
 if (selection) currentEditorView()->editor->cut();
 int pos=cur.position();
 Entity.replace("@",QString(0x2022));
+if (Entity.contains("\n") && !pre.isEmpty()) Entity.replace("\n","\n"+pre);
 currentEditorView()->editor->insertPlainText(Entity);
 cur.setPosition(pos,QTextCursor::MoveAnchor);
 int dx=Entity.length();
@@ -5324,52 +5334,92 @@ void Texmaker::SizeCommand(const QString& text)
 if ( !currentEditorView() ) return;
 if (text=="tiny")
 	{
-	InsertWithSelectionFromString("\\begin{tiny}\n/\n\\end{tiny}/12/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\tiny /}/7/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{tiny}\n/\n\\end{tiny}/12/0");
 	return;
 	}
 if (text=="scriptsize")
 	{
-	InsertWithSelectionFromString("\\begin{scriptsize}\n/\n\\end{scriptsize}/18/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\scriptsize /}/13/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{scriptsize}\n/\n\\end{scriptsize}/18/0");
 	return;
 	}
 if (text=="footnotesize")
 	{
-	InsertWithSelectionFromString("\\begin{footnotesize}\n/\n\\end{footnotesize}/20/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\footnotesize /}/15/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{footnotesize}\n/\n\\end{footnotesize}/20/0");
 	return;
 	}
 if (text=="small")
 	{
-	InsertWithSelectionFromString("\\begin{small}\n/\n\\end{small}/13/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\small /}/8/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{small}\n/\n\\end{small}/13/0");
 	return;
 	}
 if (text=="normalsize")
 	{
-	InsertWithSelectionFromString("\\begin{normalsize}\n/\n\\end{normalsize}/18/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\normalsize /}/13/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{normalsize}\n/\n\\end{normalsize}/18/0");
 	return;
 	}
 if (text=="large")
 	{
-	InsertWithSelectionFromString("\\begin{large}\n/\n\\end{large}/13/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\large /}/8/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{large}\n/\n\\end{large}/13/0");
 	return;
 	}
 if (text=="Large")
 	{
-	InsertWithSelectionFromString("\\begin{Large}\n/\n\\end{Large}/13/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\Large /}/8/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{Large}\n/\n\\end{Large}/13/0");
 	return;
 	}
 if (text=="LARGE")
 	{
-	InsertWithSelectionFromString("\\begin{LARGE}\n/\n\\end{LARGE}/13/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\LARGE /}/8/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{LARGE}\n/\n\\end{LARGE}/13/0");
 	return;
 	}
 if (text=="huge")
 	{
-	InsertWithSelectionFromString("\\begin{huge}\n/\n\\end{huge}/12/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\huge /}/7/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{huge}\n/\n\\end{huge}/12/0");
 	return;
 	}
 if (text=="Huge")
 	{
-	InsertWithSelectionFromString("\\begin{Huge}\n/\n\\end{Huge}/12/0");
+	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
+	    {
+	    InsertWithSelectionFromString("{\\Huge /}/7/0");
+	    }
+	else InsertWithSelectionFromString("\\begin{Huge}\n/\n\\end{Huge}/12/0");
 	return;
 	}
 }
@@ -5405,7 +5455,7 @@ commandline.replace("@",QString::number(currentline));
 
 if (builtinpdfview && (comd==viewpdf_command))
   {
-    if (largescreen)
+    if (embedinternalpdf)
       {
       if (pdfviewerWidget)
 	{
@@ -5419,6 +5469,8 @@ if (builtinpdfview && (comd==viewpdf_command))
 	{
     //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
 	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,StackedViewers);
+	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
+	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
 	connect(pdfviewerWidget, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
 	connect(pdfviewerWidget, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -6168,7 +6220,7 @@ fileSave();
 QFileInfo fi(finame);
 if (!fi.exists()) return;
 QString basename=fi.completeBaseName();
-if (largescreen)
+if (embedinternalpdf)
     {
     if (pdfviewerWidget)
       {
@@ -6183,6 +6235,8 @@ if (largescreen)
       {
   //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
       pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,StackedViewers);
+      pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
+      pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
       connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWidget, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWidget, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -6637,7 +6691,7 @@ if (errorFileList.count()>0)
 			row++;
 			}
 		}
-	OutputTableWidget->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+	//OutputTableWidget->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
 	OutputTableWidget->horizontalHeader()->resizeSection(3,maxwidthline+10);
 	//OutputTableWidget->horizontalHeader()->resizeSection(4,maxwidth);
 	//OutputTableWidget->setColumnWidth(4,maxwidth);
@@ -6646,7 +6700,7 @@ if (errorFileList.count()>0)
 		{
 		OutputTableWidget->setRowHeight(i,rowheight);
 		}
-	//OutputTableWidget->resizeColumnsToContents();
+	OutputTableWidget->resizeColumnsToContents();
 //	OutputTableWidget->resizeRowsToContents();
 	}
 else
@@ -6669,7 +6723,8 @@ void Texmaker::NextError()
 int line=0;
 QTableWidgetItem *Item;
 if (!logpresent) {LoadLog();}
-ViewLog();
+if (!showoutputview) ShowOutputView(true);
+//ViewLog();
 if (logpresent && !onlyErrorList.isEmpty())
   	{
 	if (errorIndex<onlyErrorList.size()-1) errorIndex=errorIndex+1;
@@ -6703,7 +6758,8 @@ void Texmaker::PreviousError()
 int line=0;
 QTableWidgetItem *Item;
 if (!logpresent) {LoadLog();}
-ViewLog();
+if (!showoutputview) ShowOutputView(true);
+//ViewLog();
 if (logpresent && !onlyErrorList.isEmpty())
   	{
 	if (errorIndex>0) errorIndex=errorIndex-1;
@@ -6821,6 +6877,7 @@ confDlg->ui.lineEditMakeindex->setText(makeindex_command);
 confDlg->ui.lineEditPdfviewer->setText(viewpdf_command);
 if (builtinpdfview) confDlg->ui.radioButtonInternalPdfViewer->setChecked(true);
 else confDlg->ui.radioButtonExternalPdfViewer->setChecked(true);
+confDlg->ui.checkBoxInternalPdfViewEmbed->setChecked(embedinternalpdf);
 confDlg->ui.lineEditMetapost->setText(metapost_command);
 confDlg->ui.lineEditGhostscript->setText(ghostscript_command);
 confDlg->ui.lineEditAsymptote->setText(asymptote_command);
@@ -6857,7 +6914,7 @@ if (quickmode==5)  {confDlg->ui.radioButton5->setChecked(true); confDlg->ui.line
 if (quickmode==6)  {confDlg->ui.radioButton6->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(true);confDlg->ui.pushButtonWizard->setEnabled(true);}
 if (quickmode==7)  {confDlg->ui.radioButton7->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 if (quickmode==8)  {confDlg->ui.radioButton8->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
-if (quickmode==9)  {confDlg->ui.radioButton8->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
+if (quickmode==9)  {confDlg->ui.radioButton9->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 confDlg->ui.lineEditUserquick->setText(userquick_command);
 
 int row=0;
@@ -6929,7 +6986,8 @@ if (confDlg->exec())
 	asymptote_command=confDlg->ui.lineEditAsymptote->text();
 	latexmk_command=confDlg->ui.lineEditLatexmk->text();
 	builtinpdfview=confDlg->ui.radioButtonInternalPdfViewer->isChecked();
-	if (largescreen && builtinpdfview) 
+	embedinternalpdf=confDlg->ui.checkBoxInternalPdfViewEmbed->isChecked();
+	if (embedinternalpdf && builtinpdfview) 
 	  {
 	  StackedViewers->show();
 	  ViewPdfPanelAct->setEnabled(true);
@@ -7342,6 +7400,8 @@ for (int i=0; i<labelitem.count();++i)
 	{
 	words.append("\\ref{"+labelitem.at(i)+"}");
 	words.append("\\pageref{"+labelitem.at(i)+"}");
+	words.append("\\eqref{"+labelitem.at(i)+"}");
+	words.append("\\autoref{"+labelitem.at(i)+"}");
 	}
 for (int i=0; i<userCompletionList.count();++i) 
 	{

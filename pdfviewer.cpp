@@ -232,21 +232,15 @@ QWidget* spacer = new QWidget();
 spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 toolBar->addWidget(spacer);
 
-printButton=new QPushButton(tr("Print"),toolBar);
-printButton->setShortcut(Qt::CTRL+Qt::Key_P);
-connect(printButton, SIGNAL(clicked()), this, SLOT(printPdf()));
-toolBar->addWidget(printButton);
+printAct = new QAction(QIcon(":/images/print.png"), tr("Print"), this);
+toolBar->addAction(printAct);
 
-
-
-externButton=new QPushButton(tr("External Viewer"),toolBar);
-connect(externButton, SIGNAL(clicked()), this, SLOT(runExternalViewer()));
-toolBar->addWidget(externButton);
+externAct = new QAction(QIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
+toolBar->addAction(externAct);
 
 searchLineEdit->setEnabled(false);
 findButton->setEnabled(false);
 scaleComboBox->setEnabled(false);
-externButton->setEnabled(false);
 upAct->setEnabled(false);
 downAct->setEnabled(false);
 fitWithAct->setEnabled(false);
@@ -319,7 +313,6 @@ if (doc!=0)
     searchLineEdit->setEnabled(true);
     findButton->setEnabled(true);
     scaleComboBox->setEnabled(true);
-    externButton->setEnabled(true);
     upAct->setEnabled(false);
     downAct->setEnabled(true);
     fitWithAct->setEnabled(true);
@@ -564,6 +557,8 @@ if (scrollArea) connect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut())
 if (scrollArea) connect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
 connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
+connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
+connect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
 //connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -589,6 +584,8 @@ if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut
 if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
 disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
+disconnect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
+disconnect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
 //disconnect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //disconnect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
