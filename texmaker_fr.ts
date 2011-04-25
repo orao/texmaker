@@ -419,7 +419,7 @@ avec l&apos;encodage défini par défaut</translation>
     <message>
         <location filename="encodingdialog.ui" line="31"/>
         <source>Use this encoding :</source>
-        <translation>Utilser cet encodage :</translation>
+        <translation>Utiliser cet encodage :</translation>
     </message>
 </context>
 <context>

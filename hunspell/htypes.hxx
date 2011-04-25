@@ -11,6 +11,7 @@
 #define H_OPT_ALIASM (1 << 1)
 #define H_OPT_PHON   (1 << 2)
 
+#include <cstddef>
 // see also csutil.hxx
 //#define HENTRY_WORD(h) &(h->word)
 #define HENTRY_WORD(h) ((char *) h + offsetof(struct hentry, word))

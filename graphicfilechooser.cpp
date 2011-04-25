@@ -22,8 +22,9 @@ connect(ui.lineEdit, SIGNAL(textChanged( const QString & ) ), this, SIGNAL( file
 connect(ui.pushButton, SIGNAL( clicked() ), this, SLOT( chooseFile() ) );
 ui.moreButton->setCheckable(true);
 ui.moreButton->setAutoDefault(false);
-connect(ui.moreButton, SIGNAL(toggled(bool)), ui.extension, SLOT(setVisible(bool)));
+connect(ui.moreButton, SIGNAL(toggled(bool)), this, SLOT(expand(bool)));
 ui.extension->hide();
+updateGeometry();
 setWindowTitle(name);
 }
 
@@ -50,5 +51,11 @@ if ( !fn.isEmpty() )
 	ui.lineEdit->setText( fn );
 	emit fileNameChanged( fn );
 	}
+}
+
+void GraphicFileChooser::expand(bool e)
+{
+ ui.extension->setVisible(e);
+ updateGeometry();
 }
 

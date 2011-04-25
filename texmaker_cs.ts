@@ -231,7 +231,7 @@
     <message>
         <location filename="configdialog.ui" line="499"/>
         <source>Embed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="525"/>
@@ -901,7 +901,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="pdfviewerwidget.cpp" line="180"/>
         <source>External Viewer</source>
-        <translation type="unfinished">Vnější prohlížeč</translation>
+        <translation>Vnější prohlížeč</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="331"/>

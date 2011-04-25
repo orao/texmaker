@@ -2032,7 +2032,6 @@ hasDecodingError = (minSize < buf.size()- 4 || memcmp(verifyBuf.constData() + ve
 #endif
 QString new_encoding;
 QEncodingProber prober (QEncodingProber::Universal);
-
 if (hasDecodingError)
   {
   prober.feed (buf.constData());
@@ -2040,7 +2039,10 @@ if (hasDecodingError)
   if (prober.confidence() > 0.5) //Kencodingprober works very bad with tex documents
     {
     detected_codec = QTextCodec::codecForName(prober.encoding());
-    new_encoding=detected_codec->name();
+    if (detected_codec) new_encoding=detected_codec->name();
+    else if (input_encoding=="UTF-8") new_encoding="ISO-8859-1";
+    else if (input_encoding=="ISO-8859-1") new_encoding="UTF-8";
+    else new_encoding=QString(QTextCodec::codecForLocale()->name());
     }
   else if (input_encoding=="UTF-8") new_encoding="ISO-8859-1";
   else if (input_encoding=="ISO-8859-1") new_encoding="UTF-8";
@@ -2066,7 +2068,6 @@ else edit->editor->setEncoding(input_encoding);
 if (completion) edit->editor->setCompleter(completer);
 else edit->editor->setCompleter(0);
 edit->editor->setPlainText(text);
-
 filenames.remove( edit);
 filenames.insert( edit, f );
 edit->editor->document()->setModified(false);
@@ -4281,7 +4282,11 @@ if (item  && !item->font().bold())
 	code.replace(QRegExp("([^\\\\])\\\\n"), "\\1\n"); 
 	dx=tagList.at(1).toInt();
 	dy=tagList.at(2).toInt();
-	if ((dx==0) && (dy==0)) dx=code.length();
+	if ((dx==0) && (dy==0)) 
+	{
+	if (!currentEditorView()->editor->textCursor().hasSelection()) dx=code.length();
+	else dx=code.length()-currentEditorView()->editor->textCursor().selectedText().length();
+	}
 	InsertTag(code,dx,dy);
 	}
 }
@@ -6488,7 +6493,8 @@ while (tb.isValid())
 			pile.removeLast();
 			if (rxFile.indexIn(suivant) != -1) name=rxFile.cap(1);
 			else name="";
-			filestack.append(name.remove("./"));
+			if (name.startsWith("./")) name.remove("./");
+			filestack.append(name);
 			}
 		else if (mot==")" && filestack.count()>0) filestack.removeLast();
 		}
@@ -7395,6 +7401,7 @@ for (int i=0; i<bibitem.count();++i)
 	{
 	words.append("\\cite{"+bibitem.at(i)+"}");
 	words.append("\\footcite{"+bibitem.at(i)+"}");
+	words.append("\\citep{"+bibitem.at(i)+"}");
 	}
 for (int i=0; i<labelitem.count();++i) 
 	{

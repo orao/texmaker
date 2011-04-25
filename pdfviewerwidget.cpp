@@ -1064,7 +1064,7 @@ if(!printer.printerName().isEmpty())
   {
   QStringList args;
   args << "lp";
-  args << QString("-d %1").arg(printer.printerName().replace(" ","_"));
+  if (!printer.printerName().contains(" ")) args << QString("-d %1").arg(printer.printerName());//.replace(" ","_"));
   args << QString("-n %1").arg(printer.numCopies());
 //  args << QString("-t \"%1\"").arg(printer.docName());
   args << QString("-P %1-%2").arg(firstPage).arg(lastPage);

@@ -33,6 +33,7 @@ signals:
 
 private slots:
     void chooseFile();
+    void expand(bool e);
 
 };
 
