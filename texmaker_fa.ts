@@ -6,7 +6,7 @@
     <message>
         <location filename="aboutdialog.ui" line="14"/>
         <source>About Texmaker</source>
-        <translation>‏‎‏‫درباره  Texmaker</translation>
+        <translation>‏‎‏‫درباره تک‌میکر(Texmaker)‏</translation>
     </message>
     <message>
         <source>OK</source>
@@ -66,16 +66,161 @@
     </message>
 </context>
 <context>
-    <name>Browser</name>
+    <name>BiDi</name>
     <message>
-        <location filename="browser.cpp" line="33"/>
-        <source>&amp;File</source>
-        <translation type="unfinished">&amp;F فایل</translation>
+        <source>Auto &amp;Bi-Director</source>
+        <translation type="obsolete">&amp;B ‫دوجهت کننده خودکار</translation>
     </message>
     <message>
+        <source>Add &amp;LRM Automatically</source>
+        <translation type="obsolete">&amp;L وارد کردن خودکار LRM</translation>
+    </message>
+    <message>
+        <source>Bi-Directing &amp;Method</source>
+        <translation type="obsolete">&amp;M روش‌های دوجهت کردن</translation>
+    </message>
+    <message>
+        <source>&amp;First Strong Character(LTR)</source>
+        <translation type="obsolete">&amp;F برمبنای جهت اولین کارکتر الفبایی</translation>
+    </message>
+    <message>
+        <source>&amp;All Strong Character(RTL)</source>
+        <translation type="obsolete">&amp;A وجود حداقل یک کاراکتر الفبایی از راست به چپ</translation>
+    </message>
+    <message>
+        <source>Auto New &amp;Line(RTL)</source>
+        <translation type="obsolete">&amp;L ایجاد خط جدید با تغییر زبان</translation>
+    </message>
+    <message>
+        <source>RTL &amp;Environment</source>
+        <translation type="obsolete">&amp;E محیط راست به چپ</translation>
+    </message>
+    <message>
+        <source>Bi-Directing(&amp;All Line)</source>
+        <translation type="obsolete">&amp;A ‫دوجهت کردن(تمام خطوط)</translation>
+    </message>
+    <message>
+        <source>Text Direction &amp;Right to Left</source>
+        <translation type="obsolete">&amp;R جهت متن راست به چپ</translation>
+    </message>
+    <message>
+        <source>Text Direction &amp;Left to Right</source>
+        <translation type="obsolete">&amp;L جهت متن چپ به راست</translation>
+    </message>
+    <message>
+        <source>Insert LTR Text</source>
+        <translation type="obsolete">وارد کردن متن از چپ به راست</translation>
+    </message>
+    <message>
+        <source>PTD File Support</source>
+        <translation type="obsolete">حمایت از فایل‌های PTD</translation>
+    </message>
+    <message>
+        <source>Changing Language by typing &apos;\&apos;</source>
+        <translation type="obsolete">تغییر خودکار زبان با تایپ &apos;\&apos;</translation>
+    </message>
+    <message>
+        <source>BiDi Patch Help</source>
+        <translation type="obsolete">راهنمای پچ دوجهته</translation>
+    </message>
+    <message>
+        <source>BiDi Patch Manual...</source>
+        <translation type="obsolete">راهنمای پچ دوجهته...</translation>
+    </message>
+    <message>
+        <source>About BiDi Patch...</source>
+        <translation type="obsolete">درباره پچ دوجهته...</translation>
+    </message>
+    <message>
+        <source>insert: \lr{...}</source>
+        <translation type="obsolete">وارد کردن: \lr{...}</translation>
+    </message>
+    <message>
+        <source>insert: \rl{...}</source>
+        <translation type="obsolete">وارد کردن: \rl{...}</translation>
+    </message>
+    <message>
+        <source>insert LRM</source>
+        <translation type="obsolete">وارد کردن LRM</translation>
+    </message>
+    <message>
+        <source>insert LTR text</source>
+        <translation type="obsolete">وارد کردن متن از چپ به راست</translation>
+    </message>
+    <message>
+        <source>consider as LTR text</source>
+        <translation type="obsolete">متن انتخابی را از چپ به راست در نظر بگیر</translation>
+    </message>
+    <message>
+        <source>Remove Unicode Control Characters</source>
+        <translation type="obsolete">پاک کردن کاراکترهای کنترلی یونیکد</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="obsolete">خطا</translation>
+    </message>
+    <message>
+        <source>BiDi help file not found</source>
+        <translation type="obsolete">راهنمای دوجهته یافت نشد</translation>
+    </message>
+    <message>
+        <source>About BiDi Texmaker</source>
+        <translation type="obsolete">درباره تک‌میکر دوجهته</translation>
+    </message>
+    <message>
+        <source>
+Bi-Directional Patch
+Author: S. Razi Alavizadeh
+Patch Date: %1</source>
+        <translation type="obsolete">
+پچ دوجهته
+نویسنده پچ: سید رضی علوی‌زاده
+Patch Date: %1</translation>
+    </message>
+    <message>
+        <source>About Qt...</source>
+        <translation type="obsolete">درباره کیوت...</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation type="obsolete">درباره کیوت</translation>
+    </message>
+    <message>
+        <source>Disable</source>
+        <translation type="obsolete">غیرفعال کردن</translation>
+    </message>
+    <message>
+        <source>The PTD file could not be saved. Please check if you have write permission.</source>
+        <translation type="obsolete">فایل PTD قابل ذخیره‌سازی نیست بررسی کنید که آیا اجازه نوشتن در محل فایل مورد نظر دارید.</translation>
+    </message>
+</context>
+<context>
+    <name>Browser</name>
+    <message>
         <location filename="browser.cpp" line="34"/>
+        <source>&amp;File</source>
+        <translation>&amp;فایل</translation>
+    </message>
+    <message>
+        <location filename="browser.cpp" line="35"/>
+        <location filename="browser.cpp" line="98"/>
+        <source>Print</source>
+        <translation type="unfinished">چاپ</translation>
+    </message>
+    <message>
+        <location filename="browser.cpp" line="37"/>
         <source>Exit</source>
-        <translation type="unfinished">خروج</translation>
+        <translation>خروج</translation>
+    </message>
+    <message>
+        <location filename="browser.cpp" line="41"/>
+        <source>Index</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="browser.cpp" line="54"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -96,18 +241,18 @@
     <message>
         <location filename="configdialog.cpp" line="93"/>
         <source>Quick Build</source>
-        <translation>ساختن سریع</translation>
+        <translation>ساخت سریع</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="694"/>
+        <location filename="configdialog.ui" line="752"/>
         <location filename="configdialog.cpp" line="99"/>
         <source>Editor</source>
-        <translation>ویرایشگر</translation>
+        <translation>ویرایش‌گر</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="14"/>
         <source>Configure Texmaker</source>
-        <translation>‫تنظیم Texmaker</translation>
+        <translation>‫تنظیم تک‌میکر</translation>
     </message>
     <message>
         <location filename="configdialog.cpp" line="180"/>
@@ -128,188 +273,209 @@
         <translation>مرور برنامه‌ها</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="82"/>
+        <location filename="configdialog.ui" line="119"/>
         <source>Commands (% : filename without extension - @ : line number)</source>
         <translation>‫دستورات (%:نام فایل بدون پسوند - @:شماره خط)</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="196"/>
+        <location filename="configdialog.ui" line="233"/>
         <location filename="configdialog.cpp" line="375"/>
         <source>Dvi Viewer</source>
-        <translation>‫نمایشگر Dvi</translation>
+        <translation>‫نمایش‌گر دی.وی.آی</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="223"/>
+        <location filename="configdialog.ui" line="260"/>
         <location filename="configdialog.cpp" line="378"/>
         <source>PS Viewer</source>
-        <translation>‫نمایشگر PS</translation>
+        <translation>‫نمایش‌گر پی.اس</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="378"/>
+        <location filename="configdialog.ui" line="415"/>
         <location filename="configdialog.cpp" line="399"/>
         <source>ghostscript</source>
         <translation>ghostscript</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="142"/>
+        <location filename="configdialog.ui" line="179"/>
         <location filename="configdialog.cpp" line="387"/>
         <source>Bibtex</source>
         <translation>Bibtex</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="277"/>
+        <location filename="configdialog.ui" line="314"/>
         <location filename="configdialog.cpp" line="381"/>
         <source>Dvipdfm</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="250"/>
+        <location filename="configdialog.ui" line="287"/>
         <location filename="configdialog.cpp" line="369"/>
         <source>PdfLaTeX</source>
         <translation>PdfLaTeX</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="169"/>
+        <location filename="configdialog.ui" line="206"/>
         <location filename="configdialog.cpp" line="390"/>
         <source>Makeindex</source>
         <translation>Makeindex</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="304"/>
+        <location filename="configdialog.ui" line="341"/>
         <location filename="configdialog.cpp" line="384"/>
         <source>ps2pdf</source>
         <translation>ps2pdf</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="331"/>
+        <location filename="configdialog.ui" line="368"/>
         <location filename="configdialog.cpp" line="393"/>
         <source>Pdf Viewer</source>
-        <translation>‫نمایشگر PDF</translation>
+        <translation>‫نمایش‌گر پی.دی.اف</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="351"/>
+        <location filename="configdialog.ui" line="388"/>
         <location filename="configdialog.cpp" line="396"/>
         <source>metapost</source>
         <translation>metapost</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="88"/>
+        <location filename="configdialog.ui" line="125"/>
         <location filename="configdialog.cpp" line="366"/>
         <source>LaTeX</source>
         <translation>LaTeX</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="115"/>
+        <location filename="configdialog.ui" line="152"/>
         <location filename="configdialog.cpp" line="372"/>
         <source>dvips</source>
         <translation>dvips</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="344"/>
+        <location filename="configdialog.ui" line="381"/>
         <source>Built-in Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش‌گر داخلی</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="465"/>
-        <source>External Viewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="configdialog.ui" line="405"/>
+        <location filename="configdialog.ui" line="442"/>
         <location filename="configdialog.cpp" line="402"/>
         <source>Asymptote</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="432"/>
+        <location filename="configdialog.ui" line="469"/>
         <location filename="configdialog.cpp" line="405"/>
         <source>Latexmk</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="499"/>
+        <location filename="configdialog.ui" line="502"/>
+        <source>External Viewer</source>
+        <translation>نمایش‌گر خارجی</translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="536"/>
         <source>Embed</source>
+        <translation>جاسازی‌شده</translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="543"/>
+        <location filename="configdialog.cpp" line="408"/>
+        <source>R Sweave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="525"/>
+        <location filename="configdialog.ui" line="583"/>
         <source>Quick Build Command</source>
-        <translation>دستور ساختن سریع</translation>
+        <translation>دستور ساخت سریع</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="533"/>
+        <location filename="configdialog.ui" line="591"/>
         <source>LaTeX + dvips + View PS</source>
         <translation>LaTeX + dvips + View PS</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="540"/>
+        <location filename="configdialog.ui" line="598"/>
         <source>LaTeX + View DVI</source>
         <translation>LaTeX + View DVI</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="547"/>
+        <location filename="configdialog.ui" line="605"/>
         <source>PdfLaTeX + View PDF</source>
         <translation>PdfLaTeX + View PDF</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="554"/>
+        <location filename="configdialog.ui" line="612"/>
         <source>LaTeX + dvipdfm + View PDF</source>
         <translation>LaTeX + dvipdfm + View PDF</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="561"/>
+        <location filename="configdialog.ui" line="619"/>
         <source>LaTeX + dvips + ps2pdf + View PDF</source>
         <translation>LaTeX + dvips + ps2pdf + View PDF</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="568"/>
-        <source>LaTeX + Asymptote + LaTeX + dvips + View PS</source>
-        <oldsource>LaTeX + Asymptote + LaTeX + View PS</oldsource>
-        <translation type="unfinished"></translation>
+        <source>Auto Save</source>
+        <translation type="obsolete">ذخیره خودکار</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="575"/>
+        <source>LaTeX + Asymptote + LaTeX + View PS</source>
+        <oldsource>LaTeX + Asymptote + LaTeX + dvips + View PS</oldsource>
+        <translation type="obsolete">LaTeX + Asymptote + LaTeX + View PS</translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="633"/>
         <source>PdfLaTeX + Asymptote + PdfLaTeX + View Pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX + Asymptote + PdfLaTeX + View Pdf</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="582"/>
+        <location filename="configdialog.ui" line="640"/>
         <source>LatexMk + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="589"/>
+        <location filename="configdialog.ui" line="647"/>
         <source>User : (% : filename without extension)</source>
         <translation>‫کاربر (%: نام فایل بدون پسوند)</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="610"/>
+        <location filename="configdialog.ui" line="668"/>
         <source>wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>جادوگر</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="623"/>
+        <location filename="configdialog.ui" line="681"/>
         <source>(the commands must be separated by &apos;|&apos;)</source>
         <translation>‫(دستورات باید با &apos;|&apos; جدا شوند)</translation>
+    </message>
+    <message>
+        <source>AutoSave</source>
+        <translation type="obsolete">ذخیره خودکار</translation>
+    </message>
+    <message>
+        <source>every:</source>
+        <translation type="obsolete">هر:</translation>
+    </message>
+    <message>
+        <source>minute(s)</source>
+        <translation type="obsolete">دقیقه(ها)</translation>
     </message>
     <message>
         <source>Aspell Lang</source>
         <translation type="obsolete">زبان Aspell</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="755"/>
+        <location filename="configdialog.ui" line="911"/>
         <source>Show Line Numbers</source>
-        <translation>نشان دادن شماره خطوط</translation>
+        <translation>نمایش شماره خطوط</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="787"/>
-        <location filename="configdialog.ui" line="841"/>
-        <location filename="configdialog.ui" line="895"/>
+        <location filename="configdialog.ui" line="820"/>
+        <location filename="configdialog.ui" line="885"/>
+        <location filename="configdialog.ui" line="943"/>
         <source>Click here to set this color</source>
-        <translation>برای تنظیم رنگ در اینجا  کلیک کن</translation>
+        <translation>برای تنظیم رنگ اینجا را کلیک کنید</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="870"/>
+        <location filename="configdialog.ui" line="918"/>
         <source>&quot;Keyword&quot; color</source>
         <translation>‫رنگ &quot;کلمه کلیدی&quot;</translation>
     </message>
@@ -322,79 +488,108 @@
         <translation type="obsolete">Aspell Encoding</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="816"/>
+        <location filename="configdialog.ui" line="860"/>
         <source>&quot;Command&quot; color</source>
         <translation>‫رنگ &quot;فرمان&quot;</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="762"/>
+        <location filename="configdialog.ui" line="795"/>
         <source>&quot;Math&quot; color</source>
         <translation>‫رنگ &quot;ریاضی&quot;</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="714"/>
-        <source>Word Wrap</source>
-        <translation>شکستن خطوط</translation>
+        <location filename="configdialog.ui" line="626"/>
+        <source>LaTeX + Asymptote + LaTeX + dvips + View PS</source>
+        <translation></translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="700"/>
-        <source>Editor Font Family</source>
-        <translation>خانواده فونت ویرایشگر</translation>
-    </message>
-    <message>
-        <location filename="configdialog.ui" line="648"/>
+        <location filename="configdialog.ui" line="706"/>
         <source>Don&apos;t launch a new instance of the viewer if the dvi/ps/pdf file is already opened</source>
-        <translation type="unfinished"></translation>
+        <translation>اگر فایل dvi/ps/pdf هم‌اکنون باز است نمونه جدیدی از نمایش‌گر را باز نکن</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="721"/>
+        <location filename="configdialog.ui" line="781"/>
+        <source>Word Wrap</source>
+        <translation>شکست خطوط</translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="760"/>
+        <source>Editor Font Family</source>
+        <translation>خانواده قلم ویرایش‌گر</translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="836"/>
         <source>Editor Font Size</source>
-        <translation>اندازه فونت ویرایشگر</translation>
+        <translation>اندازه قلم ویرایش‌گر</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="745"/>
+        <source>Bi-Di Support</source>
+        <translation type="obsolete">حمایت از سندهای دوجهته</translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="901"/>
         <source>Editor Font Encoding</source>
-        <translation>رمزگردانی</translation>
+        <translation>رمزینه قلم ویرایش‌گر</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="967"/>
+        <location filename="configdialog.ui" line="959"/>
+        <source>Check for external changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="966"/>
+        <source>Backup documents every 10 min</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="1018"/>
         <source>Inline Spell Checking</source>
-        <translation type="unfinished"></translation>
+        <translation>غلط‌یابی در هنگام تایپ</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="970"/>
+        <location filename="configdialog.ui" line="1021"/>
         <source>Inline</source>
+        <translation>در هنگام تایپ</translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="1049"/>
+        <source>Tab width (num of spaces)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="996"/>
+        <location filename="configdialog.ui" line="1084"/>
+        <source>Replace tab with spaces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="configdialog.ui" line="1098"/>
         <source>Shortcuts</source>
-        <translation>میان‌بر ها</translation>
+        <translation>میان‌برها</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="1004"/>
+        <location filename="configdialog.ui" line="1106"/>
         <source>Action</source>
-        <translation>عمل</translation>
+        <translation>عملکرد</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="1009"/>
+        <location filename="configdialog.ui" line="1111"/>
         <source>Shortcut</source>
         <translation>میان‌بر</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="931"/>
+        <location filename="configdialog.ui" line="982"/>
         <source>Spelling dictionary</source>
-        <translation>فرهنگ لغت برای غلط‌یاب</translation>
+        <translation>فرهنگ غلط‌یاب</translation>
     </message>
     <message>
-        <location filename="configdialog.ui" line="738"/>
+        <location filename="configdialog.ui" line="853"/>
         <source>Completion</source>
         <translation>تکمیل‌گر</translation>
     </message>
     <message>
         <location filename="configdialog.cpp" line="42"/>
         <source>Get dictionary at: %1</source>
-        <translation>‫گرفتن فرهنگ لغت در:‪ %1</translation>
+        <translation>فرهنگ غلط‌یاب را از این آدرس دریافت کنید:‪ %1</translation>
     </message>
     <message>
         <location filename="configdialog.cpp" line="138"/>
@@ -411,18 +606,18 @@
     <message>
         <location filename="encodingdialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="encodingdialog.ui" line="20"/>
         <source>It seems that this file cannot be correctly decoded
 with the default encoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>به‌نظر می‌رسد که این فایل با رمزینه پیش‌فرض نمی‌تواند رمزگشایی شود</translation>
     </message>
     <message>
         <location filename="encodingdialog.ui" line="31"/>
         <source>Use this encoding :</source>
-        <translation type="unfinished"></translation>
+        <translation>این رمزینه را به‌کار ببر:</translation>
     </message>
 </context>
 <context>
@@ -492,42 +687,42 @@ with the default encoding setting</source>
 <context>
     <name>FindWidget</name>
     <message>
-        <location filename="findwidget.ui" line="14"/>
+        <location filename="findwidget.ui" line="20"/>
         <source>Form</source>
         <translation>فرم</translation>
     </message>
     <message>
-        <location filename="findwidget.ui" line="33"/>
+        <location filename="findwidget.ui" line="39"/>
         <source>Find</source>
         <translation>جستجو</translation>
     </message>
     <message>
-        <location filename="findwidget.ui" line="43"/>
+        <location filename="findwidget.ui" line="49"/>
         <source>Forward</source>
         <translation>به جلو</translation>
     </message>
     <message>
-        <location filename="findwidget.ui" line="53"/>
+        <location filename="findwidget.ui" line="59"/>
         <source>Backward</source>
         <translation>به عقب</translation>
     </message>
     <message>
-        <location filename="findwidget.ui" line="73"/>
+        <location filename="findwidget.ui" line="79"/>
         <source>Whole words only</source>
         <translation>فقط کل کلمه</translation>
     </message>
     <message>
-        <location filename="findwidget.ui" line="80"/>
+        <location filename="findwidget.ui" line="86"/>
         <source>Case sensitive</source>
         <translation>حساس به حروف کوچک و بزرگ</translation>
     </message>
     <message>
-        <location filename="findwidget.ui" line="87"/>
+        <location filename="findwidget.ui" line="93"/>
         <source>Start at Beginning</source>
         <translation>شروع از ابتدا</translation>
     </message>
     <message>
-        <location filename="findwidget.ui" line="94"/>
+        <location filename="findwidget.ui" line="100"/>
         <source>Close</source>
         <translation>بستن</translation>
     </message>
@@ -535,72 +730,91 @@ with the default encoding setting</source>
 <context>
     <name>GotoLineDialog</name>
     <message>
-        <location filename="gotolinedialog.ui" line="13"/>
         <source>Goto Line</source>
-        <translation>برو به خط</translation>
+        <translation type="obsolete">برو به خط</translation>
     </message>
     <message>
-        <location filename="gotolinedialog.ui" line="81"/>
         <source>Line</source>
-        <translation>خط</translation>
+        <translation type="obsolete">خط</translation>
     </message>
     <message>
-        <location filename="gotolinedialog.ui" line="46"/>
         <source>Goto</source>
-        <translation>برو به</translation>
+        <translation type="obsolete">برو به</translation>
     </message>
     <message>
-        <location filename="gotolinedialog.ui" line="56"/>
         <source>Close</source>
-        <translation>بستن</translation>
+        <translation type="obsolete">بستن</translation>
+    </message>
+</context>
+<context>
+    <name>GotoLineWidget</name>
+    <message>
+        <location filename="gotolinewidget.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished">فرم</translation>
+    </message>
+    <message>
+        <location filename="gotolinewidget.ui" line="32"/>
+        <source>Line</source>
+        <translation type="unfinished">خط</translation>
+    </message>
+    <message>
+        <location filename="gotolinewidget.ui" line="58"/>
+        <source>Goto</source>
+        <translation type="unfinished">برو به</translation>
+    </message>
+    <message>
+        <location filename="gotolinewidget.ui" line="68"/>
+        <source>Close</source>
+        <translation type="unfinished">بستن</translation>
     </message>
 </context>
 <context>
     <name>GraphicFileChooser</name>
     <message>
-        <location filename="graphicfilechooser.ui" line="23"/>
+        <location filename="graphicfilechooser.ui" line="36"/>
         <source>File</source>
-        <translation type="unfinished">فایل</translation>
+        <translation>فایل</translation>
     </message>
     <message>
-        <location filename="graphicfilechooser.ui" line="78"/>
+        <location filename="graphicfilechooser.ui" line="114"/>
         <source>+</source>
-        <translation type="unfinished">+</translation>
+        <translation>+</translation>
     </message>
     <message>
-        <location filename="graphicfilechooser.ui" line="95"/>
-        <source>Use &quot;figure&quot; environment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="graphicfilechooser.ui" line="105"/>
+        <location filename="graphicfilechooser.ui" line="138"/>
         <source>Caption</source>
-        <translation type="unfinished"></translation>
+        <translation>لقب</translation>
     </message>
     <message>
-        <location filename="graphicfilechooser.ui" line="116"/>
+        <location filename="graphicfilechooser.ui" line="162"/>
         <source>Above</source>
-        <translation type="unfinished"></translation>
+        <translation>بالا</translation>
     </message>
     <message>
-        <location filename="graphicfilechooser.ui" line="121"/>
+        <location filename="graphicfilechooser.ui" line="167"/>
         <source>Below</source>
-        <translation type="unfinished"></translation>
+        <translation>پایین</translation>
     </message>
     <message>
-        <location filename="graphicfilechooser.ui" line="129"/>
+        <location filename="graphicfilechooser.ui" line="181"/>
         <source>Placement</source>
-        <translation type="unfinished"></translation>
+        <translation>شکل‌قرارگیری</translation>
     </message>
     <message>
-        <location filename="graphicfilechooser.ui" line="136"/>
+        <location filename="graphicfilechooser.ui" line="194"/>
         <source>hbtp</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="graphicfilechooser.cpp" line="47"/>
+        <location filename="graphicfilechooser.ui" line="207"/>
+        <source>Use &quot;figure&quot; environment</source>
+        <translation>از محیط «figure» استفاده کن</translation>
+    </message>
+    <message>
+        <location filename="graphicfilechooser.cpp" line="48"/>
         <source>Select a File</source>
-        <translation type="unfinished">انتخاب فایل</translation>
+        <translation>انتخاب فایل</translation>
     </message>
 </context>
 <context>
@@ -624,70 +838,102 @@ with the default encoding setting</source>
         <location filename="keysequencedialog.ui" line="37"/>
         <location filename="keysequencedialog.cpp" line="42"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>پاک کردن</translation>
     </message>
     <message>
         <location filename="keysequencedialog.ui" line="14"/>
         <source>Shortcut</source>
-        <translation type="unfinished">میان‌بر</translation>
+        <translation>میان‌بر</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="obsolete">قبول</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="obsolete">رد</translation>
     </message>
 </context>
 <context>
     <name>LatexEditor</name>
     <message>
-        <location filename="latexeditor.cpp" line="201"/>
+        <location filename="latexeditor.cpp" line="205"/>
         <source>Undo</source>
         <translation>برگرداندن آخرین عمل</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="204"/>
+        <location filename="latexeditor.cpp" line="208"/>
         <source>Redo</source>
         <translation>انجام دوباره عمل باطل‌شده</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="208"/>
+        <location filename="latexeditor.cpp" line="212"/>
         <source>Cut</source>
         <translation>بریدن</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="211"/>
+        <location filename="latexeditor.cpp" line="215"/>
         <source>Copy</source>
         <translation>نسخه‌برداری</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="214"/>
+        <location filename="latexeditor.cpp" line="218"/>
         <source>Paste</source>
         <translation>چسباندن</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="219"/>
+        <location filename="latexeditor.cpp" line="223"/>
         <source>Select All</source>
         <translation>انتخاب همه</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="225"/>
+        <location filename="latexeditor.cpp" line="244"/>
+        <source>Jump to the end of this block</source>
+        <translation>پرش به آخر بلوک</translation>
+    </message>
+    <message>
+        <location filename="latexeditor.cpp" line="250"/>
+        <source>Jump to pdf</source>
+        <translation>پرش به PDF</translation>
+    </message>
+    <message>
+        <source>insert LRM</source>
+        <translation type="obsolete">وارد کردن LRM</translation>
+    </message>
+    <message>
+        <source>insert LTR text</source>
+        <translation type="obsolete">وارد کردن متن از چپ به راست</translation>
+    </message>
+    <message>
+        <source>consider as LTR text</source>
+        <translation type="obsolete">متن انتخابی را از چپ به راست در نظر بگیر</translation>
+    </message>
+    <message>
+        <source>Remove Unicode Control Characters</source>
+        <translation type="obsolete">پاک کردن کاراکترهای کنترلی یونیکد</translation>
+    </message>
+    <message>
+        <location filename="latexeditor.cpp" line="229"/>
         <source>Check Spelling Word</source>
         <translation>غلط‌یابی کلمه</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="230"/>
+        <location filename="latexeditor.cpp" line="234"/>
         <source>Check Spelling Selection</source>
         <translation>غلط‌یابی متن انتخابی</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="233"/>
+        <location filename="latexeditor.cpp" line="237"/>
         <source>Check Spelling Document</source>
         <translation>غلط‌یابی تمام سند</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="240"/>
-        <source>Jump to the end of this block</source>
-        <translation type="unfinished"></translation>
+        <source>Open File Location</source>
+        <translation type="obsolete">بازکردن محل فایل</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="246"/>
-        <source>Jump to pdf</source>
-        <translation type="unfinished"></translation>
+        <source>Jump to PDF</source>
+        <translation type="obsolete">برو به PDF</translation>
     </message>
 </context>
 <context>
@@ -727,6 +973,44 @@ with the default encoding setting</source>
     </message>
 </context>
 <context>
+    <name>LightLatexEditor</name>
+    <message>
+        <location filename="lightlatexeditor.cpp" line="390"/>
+        <source>Error</source>
+        <translation type="unfinished">خطا</translation>
+    </message>
+    <message>
+        <location filename="lightlatexeditor.cpp" line="390"/>
+        <source>You do not have read permission to this file.</source>
+        <translation type="unfinished">‫مجوز خواندن این فایل را ندارید.</translation>
+    </message>
+    <message>
+        <location filename="lightlatexeditor.cpp" line="464"/>
+        <location filename="lightlatexeditor.cpp" line="467"/>
+        <location filename="lightlatexeditor.cpp" line="470"/>
+        <source>Click to jump to the bookmark</source>
+        <translation type="unfinished">برای رفتن به بوک‌مارک کلیک کن</translation>
+    </message>
+    <message>
+        <location filename="lightlatexeditor.cpp" line="474"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="lightlatexeditor.cpp" line="477"/>
+        <source>Goto Line</source>
+        <translation type="unfinished">برو به خط</translation>
+    </message>
+</context>
+<context>
+    <name>LightLineNumberWidget</name>
+    <message>
+        <location filename="lightlinenumberwidget.cpp" line="164"/>
+        <source>Click to add or remove a bookmark</source>
+        <translation type="unfinished">برای اضافه و کم کردن بوک‫مارک کلیک کنید</translation>
+    </message>
+</context>
+<context>
     <name>LineNumberWidget</name>
     <message>
         <location filename="linenumberwidget.cpp" line="237"/>
@@ -746,32 +1030,32 @@ with the default encoding setting</source>
     <message>
         <location filename="paperdialog.ui" line="14"/>
         <source>Print</source>
-        <translation type="unfinished">چاپ</translation>
+        <translation>چاپ</translation>
     </message>
     <message>
         <location filename="paperdialog.ui" line="28"/>
         <source>Paper Size</source>
-        <translation type="unfinished">اندازه کاغذ</translation>
+        <translation>اندازه کاغذ</translation>
     </message>
     <message>
         <location filename="paperdialog.ui" line="46"/>
         <source>Print range</source>
-        <translation type="unfinished"></translation>
+        <translation>محدوده چاپ</translation>
     </message>
     <message>
         <location filename="paperdialog.ui" line="58"/>
         <source>Print all</source>
-        <translation type="unfinished"></translation>
+        <translation>چاپ همه</translation>
     </message>
     <message>
         <location filename="paperdialog.ui" line="76"/>
         <source>Pages from</source>
-        <translation type="unfinished"></translation>
+        <translation>صفحه‌های از</translation>
     </message>
     <message>
         <location filename="paperdialog.ui" line="96"/>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation>تا</translation>
     </message>
 </context>
 <context>
@@ -779,122 +1063,122 @@ with the default encoding setting</source>
     <message>
         <location filename="pdfdocumentwidget.cpp" line="141"/>
         <source>Click to jump to the line</source>
-        <translation type="unfinished"></translation>
+        <translation>برای پرش به‌خط متناظر کلیک کنید</translation>
     </message>
 </context>
 <context>
     <name>PdfViewer</name>
     <message>
+        <location filename="pdfviewer.cpp" line="78"/>
+        <location filename="pdfviewer.cpp" line="112"/>
+        <location filename="pdfviewer.cpp" line="1164"/>
+        <source>Structure</source>
+        <translation>ساختار</translation>
+    </message>
+    <message>
         <location filename="pdfviewer.cpp" line="97"/>
-        <location filename="pdfviewer.cpp" line="1159"/>
+        <location filename="pdfviewer.cpp" line="1171"/>
         <source>Pages</source>
-        <translation type="unfinished"></translation>
+        <translation>صفحه‌ها</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="148"/>
         <source>&amp;File</source>
-        <translation type="unfinished">&amp;F فایل</translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="78"/>
-        <location filename="pdfviewer.cpp" line="112"/>
-        <location filename="pdfviewer.cpp" line="1152"/>
-        <source>Structure</source>
-        <translation type="unfinished">ساختار</translation>
+        <translation>&amp;فایل</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="152"/>
         <source>Exit</source>
-        <translation type="unfinished">خروج</translation>
+        <translation>خروج</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="154"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">&amp;E ویرایش</translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="164"/>
-        <source>Previous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="168"/>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="174"/>
-        <source>&amp;View</source>
-        <translation type="unfinished">&amp;V نما</translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="175"/>
-        <source>Fit Width</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="178"/>
-        <source>Fit Page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="181"/>
-        <source>Zoom In</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="186"/>
-        <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="195"/>
-        <source>Previous Position</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="200"/>
-        <source>Next Position</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="1029"/>
-        <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ویرایش</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="155"/>
         <location filename="pdfviewer.cpp" line="226"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>پیداکردن</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="164"/>
+        <source>Previous</source>
+        <translation>قبلی</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="168"/>
+        <source>Next</source>
+        <translation>بعدی</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="174"/>
+        <source>&amp;View</source>
+        <translation>&amp;نما</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="175"/>
+        <source>Fit Width</source>
+        <translation>پر کردن عرض</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="178"/>
+        <source>Fit Page</source>
+        <translation>پر کردن صفحه</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="181"/>
+        <source>Zoom In</source>
+        <translation>بزرگ‌نمایی</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="186"/>
+        <source>Zoom Out</source>
+        <translation>کوچک‌نمایی</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="195"/>
+        <source>Previous Position</source>
+        <translation>حالت قبلی</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="200"/>
+        <source>Next Position</source>
+        <translation>حالت بعدی</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="235"/>
-        <location filename="pdfviewer.cpp" line="1072"/>
+        <location filename="pdfviewer.cpp" line="1076"/>
         <source>Print</source>
-        <translation type="unfinished">چاپ</translation>
+        <translation>چاپ</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="238"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش‌گر خارجی</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="357"/>
+        <location filename="pdfviewer.cpp" line="1033"/>
+        <source>Error</source>
+        <translation>خطا</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="357"/>
+        <source>File not found</source>
+        <translation>فایل پیدا نشد</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="396"/>
         <location filename="pdfviewer.cpp" line="705"/>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>صفحه</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="357"/>
-        <location filename="pdfviewer.cpp" line="1029"/>
-        <source>Error</source>
-        <translation type="unfinished">خطا</translation>
-    </message>
-    <message>
-        <location filename="pdfviewer.cpp" line="357"/>
-        <source>File not found</source>
-        <translation type="unfinished">فایل پیدا نشد</translation>
+        <location filename="pdfviewer.cpp" line="1033"/>
+        <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
+        <translation>قادر به چاپ نیست: فرمان ghostscript ‏(gswin32c.exe)‏ روی سیستم‌تان پیدا نشد.</translation>
     </message>
 </context>
 <context>
@@ -902,79 +1186,79 @@ with the default encoding setting</source>
     <message>
         <location filename="pdfviewerwidget.cpp" line="105"/>
         <source>Show/Hide Table of contents</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش/پنهان کردن فهرست مطالب</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="111"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>قبلی</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="115"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>بعدی</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="121"/>
         <source>Fit Width</source>
-        <translation type="unfinished"></translation>
+        <translation>پر کردن عرض</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="124"/>
         <source>Fit Page</source>
-        <translation type="unfinished"></translation>
+        <translation>پر کردن صفحه</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="127"/>
         <source>Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>بزرگ‌نمایی</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="132"/>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>کوچک‌نمایی</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="154"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>پیداکردن</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="163"/>
         <source>Previous Position</source>
-        <translation type="unfinished"></translation>
+        <translation>حالت قبلی</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="168"/>
         <source>Next Position</source>
-        <translation type="unfinished"></translation>
+        <translation>حالت بعدی</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="177"/>
-        <location filename="pdfviewerwidget.cpp" line="1050"/>
+        <location filename="pdfviewerwidget.cpp" line="1054"/>
         <source>Print</source>
-        <translation type="unfinished">چاپ</translation>
+        <translation>چاپ</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="180"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش‌گر خارجی</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="331"/>
-        <location filename="pdfviewerwidget.cpp" line="1007"/>
+        <location filename="pdfviewerwidget.cpp" line="1011"/>
         <source>Error</source>
-        <translation type="unfinished">خطا</translation>
+        <translation>خطا</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="331"/>
         <source>File not found</source>
-        <translation type="unfinished">فایل پیدا نشد</translation>
+        <translation>فایل پیدا نشد</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="1007"/>
+        <location filename="pdfviewerwidget.cpp" line="1011"/>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
-        <translation type="unfinished"></translation>
+        <translation>قادر به چاپ نیست: فرمان ghostscript ‏(gswin32c.exe)‏ روی سیستم‌تان پیدا نشد.</translation>
     </message>
 </context>
 <context>
@@ -1056,60 +1340,81 @@ with the default encoding setting</source>
         <translation type="obsolete">رد</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="37"/>
+        <location filename="quickdocumentdialog.ui" line="157"/>
         <source>Author</source>
         <translation>مولف</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="44"/>
+        <location filename="quickdocumentdialog.ui" line="41"/>
         <location filename="quickdocumentdialog.ui" line="70"/>
-        <location filename="quickdocumentdialog.ui" line="103"/>
-        <location filename="quickdocumentdialog.ui" line="181"/>
+        <location filename="quickdocumentdialog.ui" line="115"/>
+        <location filename="quickdocumentdialog.ui" line="144"/>
+        <location filename="quickdocumentdialog.ui" line="199"/>
         <source>+</source>
         <translation>+</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="60"/>
+        <location filename="quickdocumentdialog.ui" line="25"/>
         <source>Document Class</source>
         <translation>نوع سند</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="86"/>
+        <location filename="quickdocumentdialog.ui" line="173"/>
         <source>Title</source>
         <translation>عنوان</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="93"/>
+        <location filename="quickdocumentdialog.ui" line="183"/>
+        <source>babel Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="quickdocumentdialog.ui" line="206"/>
+        <source>geometry Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="quickdocumentdialog.ui" line="213"/>
+        <source>left=2cm,right=2cm,top=2cm,bottom=2cm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="quickdocumentdialog.ui" line="220"/>
         <source>AMS Packages</source>
         <translation>‫بسته‌های AMS</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="119"/>
+        <location filename="quickdocumentdialog.ui" line="237"/>
+        <source>graphicx Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="quickdocumentdialog.ui" line="83"/>
         <source>Typeface Size</source>
         <translation>اندازه سبک حروف</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="135"/>
+        <location filename="quickdocumentdialog.ui" line="99"/>
         <source>Paper Size</source>
         <translation>اندازه کاغذ</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="148"/>
+        <location filename="quickdocumentdialog.ui" line="54"/>
         <source>Other Options</source>
         <translation>امکانات اضافی </translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="164"/>
+        <location filename="quickdocumentdialog.ui" line="128"/>
         <source>Encoding</source>
-        <translation>رمزگردانی</translation>
+        <translation>رمزینه</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.ui" line="171"/>
+        <location filename="quickdocumentdialog.ui" line="230"/>
         <source>makeidx Package</source>
         <translation>‫بسته makeidx</translation>
     </message>
     <message>
-        <location filename="quickdocumentdialog.cpp" line="29"/>
+        <location filename="quickdocumentdialog.cpp" line="31"/>
         <source>Quick Start</source>
         <translation>شروع سریع</translation>
     </message>
@@ -1134,85 +1439,155 @@ with the default encoding setting</source>
 <context>
     <name>ReplaceDialog</name>
     <message>
-        <location filename="replacedialog.ui" line="13"/>
         <source>Replace Text</source>
-        <translation>جایگزینی نوشته</translation>
+        <translation type="obsolete">جایگزینی نوشته</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="89"/>
-        <location filename="replacedialog.ui" line="122"/>
         <source>Find</source>
-        <translation>جستجو</translation>
+        <translation type="obsolete">جستجو</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="132"/>
         <source>Replace All</source>
-        <translation>جایگزینی همه</translation>
+        <translation type="obsolete">جایگزینی همه</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="139"/>
         <source>Close</source>
-        <translation>بستن</translation>
+        <translation type="obsolete">بستن</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="71"/>
         <source>Replace</source>
-        <translation>جایگزینی</translation>
+        <translation type="obsolete">جایگزینی</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="156"/>
         <source>Options</source>
-        <translation>امکانات</translation>
+        <translation type="obsolete">امکانات</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="176"/>
         <source>Whole words only</source>
-        <translation>فقط کل کلمه</translation>
+        <translation type="obsolete">فقط کل کلمه</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="183"/>
         <source>Case sensitive</source>
-        <translation>حساس به حروف کوچک و بزرگ</translation>
+        <translation type="obsolete">حساس به حروف کوچک و بزرگ</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="190"/>
         <source>Start at Beginning</source>
-        <translation>شروع از ابتدا</translation>
+        <translation type="obsolete">شروع از ابتدا</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="202"/>
         <source>Direction</source>
-        <translation>جهت</translation>
+        <translation type="obsolete">جهت</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="222"/>
         <source>Forward</source>
-        <translation>به جلو</translation>
+        <translation type="obsolete">به جلو</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="232"/>
         <source>Backward</source>
-        <translation>به عقب</translation>
+        <translation type="obsolete">به عقب</translation>
     </message>
     <message>
-        <location filename="replacedialog.cpp" line="40"/>
         <source>Replace this occurence ? </source>
-        <translation>مورد پیدا شده جایگزین شود؟</translation>
+        <translation type="obsolete">مورد پیدا شده جایگزین شود؟</translation>
     </message>
     <message>
-        <location filename="replacedialog.cpp" line="40"/>
         <source>Yes</source>
-        <translation>بله</translation>
+        <translation type="obsolete">بله</translation>
     </message>
     <message>
-        <location filename="replacedialog.cpp" line="40"/>
         <source>No</source>
-        <translation>نه</translation>
+        <translation type="obsolete">نه</translation>
     </message>
     <message>
-        <location filename="replacedialog.cpp" line="40"/>
         <source>Cancel</source>
-        <translation>رد</translation>
+        <translation type="obsolete">رد</translation>
+    </message>
+</context>
+<context>
+    <name>ReplaceWidget</name>
+    <message>
+        <location filename="replacewidget.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished">فرم</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="32"/>
+        <location filename="replacewidget.ui" line="55"/>
+        <source>Find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="65"/>
+        <source>Forward</source>
+        <translation type="unfinished">به جلو</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="75"/>
+        <source>Backward</source>
+        <translation type="unfinished">به عقب</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="101"/>
+        <source>Replace</source>
+        <translation type="unfinished">جایگزینی</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="124"/>
+        <source>Replace All</source>
+        <translation type="unfinished">جایگزینی همه</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="131"/>
+        <source>Whole words only</source>
+        <translation type="unfinished">فقط کل کلمه</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="138"/>
+        <source>Case sensitive</source>
+        <translation type="unfinished">حساس به حروف کوچک و بزرگ</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="145"/>
+        <source>Start at Beginning</source>
+        <translation type="unfinished">شروع از ابتدا</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="152"/>
+        <source>Close</source>
+        <translation type="unfinished">بستن</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.cpp" line="41"/>
+        <source>Replace this occurence ? </source>
+        <translation type="unfinished">مورد پیدا شده جایگزین شود؟</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.cpp" line="41"/>
+        <source>Yes</source>
+        <translation type="unfinished">بله</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.cpp" line="41"/>
+        <source>No</source>
+        <translation type="unfinished">نه</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.cpp" line="41"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SourceView</name>
+    <message>
+        <location filename="sourceview.cpp" line="44"/>
+        <source>Open</source>
+        <translation type="unfinished">بازکردن</translation>
+    </message>
+    <message>
+        <location filename="sourceview.cpp" line="131"/>
+        <source>Open File</source>
+        <translation type="unfinished">بازکردن فایل</translation>
     </message>
 </context>
 <context>
@@ -1327,12 +1702,12 @@ with the default encoding setting</source>
     <message>
         <location filename="symbollistwidget.cpp" line="32"/>
         <source>Add to favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>اضافه کردن به فهرست برگزیده‌ها</translation>
     </message>
     <message>
         <location filename="symbollistwidget.cpp" line="33"/>
         <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>حذف کردن از فهرست برگزیده‌ها</translation>
     </message>
 </context>
 <context>
@@ -1346,37 +1721,103 @@ with the default encoding setting</source>
         <translation type="obsolete">رد</translation>
     </message>
     <message>
-        <location filename="tabdialog.ui" line="31"/>
         <source>Horizontal Separator</source>
-        <translation>جداساز افقی</translation>
+        <translation type="obsolete">جداساز افقی</translation>
     </message>
     <message>
-        <location filename="tabdialog.ui" line="41"/>
+        <location filename="tabdialog.ui" line="37"/>
         <source>Num of Columns</source>
         <translation>تعداد ستونها</translation>
     </message>
     <message>
-        <location filename="tabdialog.ui" line="58"/>
+        <location filename="tabdialog.ui" line="78"/>
+        <source>Columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="86"/>
+        <source>Column :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="113"/>
+        <source>Alignment :</source>
+        <translation type="unfinished">تنظيم انطباق:</translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="127"/>
+        <source>Left Border :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="167"/>
+        <source>Apply to all columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="194"/>
+        <source>Right Border (last column) :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="263"/>
+        <source>Rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="271"/>
+        <source>Row :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="296"/>
+        <source>Top Border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="305"/>
+        <source>Merge columns :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="321"/>
+        <source>-&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="364"/>
+        <source>Apply to all rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="389"/>
+        <source>Bottom Border (last row)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="tabdialog.ui" line="396"/>
+        <source>Add vertical margin for each row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Columns Alignment</source>
-        <translation>تنظيم انطباق ستون‌ها</translation>
+        <translation type="obsolete">تنظيم انطباق ستون‌ها</translation>
     </message>
     <message>
-        <location filename="tabdialog.ui" line="72"/>
         <source>Vertical Separator</source>
-        <translation>جداساز عمودی</translation>
+        <translation type="obsolete">جداساز عمودی</translation>
     </message>
     <message>
-        <location filename="tabdialog.ui" line="92"/>
+        <location filename="tabdialog.ui" line="232"/>
         <source>Num of Rows</source>
         <translation>تعداد ردیف‌ها</translation>
     </message>
     <message>
-        <location filename="tabdialog.ui" line="102"/>
         <source>add a margin with the horizontal line</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">اضافه‌کردن حاشیه با خط افقی</translation>
     </message>
     <message>
-        <location filename="tabdialog.cpp" line="45"/>
+        <location filename="tabdialog.cpp" line="107"/>
         <source>Quick Tabular</source>
         <translation>جدول سریع</translation>
     </message>
@@ -1409,7 +1850,7 @@ with the default encoding setting</source>
     <message>
         <location filename="tabbingdialog.cpp" line="26"/>
         <source>Quick Tabbing</source>
-        <translation>‫Tabbing سریع</translation>
+        <translation>ایجاد سریع ‫Tabbing</translation>
     </message>
 </context>
 <context>
@@ -1417,84 +1858,79 @@ with the default encoding setting</source>
     <message>
         <location filename="texmaker.cpp" line="173"/>
         <location filename="texmaker.cpp" line="272"/>
-        <location filename="texmaker.cpp" line="1584"/>
-        <location filename="texmaker.cpp" line="3685"/>
+        <location filename="texmaker.cpp" line="1617"/>
+        <location filename="texmaker.cpp" line="3814"/>
         <source>Structure</source>
         <translation>ساختار</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6651"/>
-        <location filename="texmaker.cpp" line="6683"/>
+        <location filename="texmaker.cpp" line="6900"/>
+        <location filename="texmaker.cpp" line="6932"/>
         <source>Click to jump to the line</source>
         <translation>برای رفتن به خط کلیک کن</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="180"/>
-        <location filename="texmaker.cpp" line="3690"/>
+        <location filename="texmaker.cpp" line="3819"/>
         <source>Relation symbols</source>
         <translation>نمادهای رابطه</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="188"/>
-        <location filename="texmaker.cpp" line="3695"/>
+        <location filename="texmaker.cpp" line="3824"/>
         <source>Arrow symbols</source>
         <translation>نمادهای پیکان</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="195"/>
-        <location filename="texmaker.cpp" line="3700"/>
+        <location filename="texmaker.cpp" line="3829"/>
         <source>Miscellaneous symbols</source>
         <translation>نمادهای متفرقه</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="202"/>
-        <location filename="texmaker.cpp" line="3705"/>
+        <location filename="texmaker.cpp" line="3834"/>
         <source>Delimiters</source>
         <translation>حائل‌ها</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="209"/>
-        <location filename="texmaker.cpp" line="3710"/>
+        <location filename="texmaker.cpp" line="3839"/>
         <source>Greek letters</source>
         <translation>حروف یونانی</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="223"/>
-        <location filename="texmaker.cpp" line="3720"/>
+        <location filename="texmaker.cpp" line="3849"/>
         <source>Favorites symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>نمادهای برگزیده</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="247"/>
-        <location filename="texmaker.cpp" line="3735"/>
+        <location filename="texmaker.cpp" line="3864"/>
         <source>MetaPost Commands</source>
         <translation>‫فرمان‌های MetaPost</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="253"/>
-        <location filename="texmaker.cpp" line="3740"/>
+        <location filename="texmaker.cpp" line="3869"/>
         <source>Tikz Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>‫فرمان‌های Tikz</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="259"/>
-        <location filename="texmaker.cpp" line="3745"/>
+        <location filename="texmaker.cpp" line="3874"/>
         <source>Asymptote Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>‫فرمان‌های Asymptote</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1589"/>
+        <location filename="texmaker.cpp" line="1622"/>
         <source>Messages / Log File</source>
-        <translation>‫پیام‌ها/فایل Log</translation>
+        <translation>‫پیام‌ها/فایل گزارش</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="501"/>
-        <source>Toggle between the master document and the current document</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="611"/>
-        <location filename="texmaker.cpp" line="7108"/>
+        <location filename="texmaker.cpp" line="631"/>
+        <location filename="texmaker.cpp" line="7411"/>
         <source>Normal Mode</source>
         <translation>حالت عادی</translation>
     </message>
@@ -1503,195 +1939,224 @@ with the default encoding setting</source>
         <translation type="obsolete">آماده</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="627"/>
-        <source>&amp;File</source>
-        <translation>&amp;F فایل</translation>
+        <source>There is one file recovered from last session. Do you want open this file?</source>
+        <translation type="obsolete">یک فایل از آخرین دوره کاری بازیابی شده است. آیا می‌خواهید این فایل بارگذاری شود؟</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="628"/>
-        <location filename="texmaker.cpp" line="1712"/>
+        <source>There are %1 files recovered from last session. Do you want open these files?</source>
+        <translation type="obsolete">%1 فایل از آخرین دوره کاری بازیابی شده است. آیا می‌خواهید این فایل‌ها بارگذاری شود؟</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="653"/>
+        <source>&amp;File</source>
+        <translation>&amp;فایل</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="654"/>
+        <location filename="texmaker.cpp" line="1752"/>
         <source>New</source>
         <translation>جدید</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="633"/>
-        <source>New by copying an existing file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="637"/>
-        <location filename="texmaker.cpp" line="1716"/>
+        <location filename="texmaker.cpp" line="663"/>
+        <location filename="texmaker.cpp" line="1756"/>
         <source>Open</source>
         <translation>بازکردن</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="642"/>
+        <location filename="texmaker.cpp" line="668"/>
         <source>Open Recent</source>
         <translation>بازکردن سند‌های متاخر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="651"/>
+        <location filename="texmaker.cpp" line="677"/>
         <source>Restore previous session</source>
-        <translation type="unfinished"></translation>
+        <translation>بازکردن حالت کاری قبلی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="656"/>
-        <location filename="texmaker.cpp" line="2315"/>
-        <location filename="texmaker.cpp" line="2452"/>
-        <location filename="texmaker.cpp" line="2508"/>
+        <source>Import FTX File(s)</source>
+        <translation type="obsolete">تبدیل و بازکردن فایل(های) فارسی‌تک</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="682"/>
+        <location filename="texmaker.cpp" line="2375"/>
+        <location filename="texmaker.cpp" line="2514"/>
+        <location filename="texmaker.cpp" line="2570"/>
         <source>Save</source>
         <translation>ذخیره</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="663"/>
-        <location filename="texmaker.cpp" line="2564"/>
+        <location filename="texmaker.cpp" line="689"/>
+        <location filename="texmaker.cpp" line="2626"/>
         <source>Save As</source>
         <translation>ذخیره به عنوان</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="667"/>
+        <location filename="texmaker.cpp" line="693"/>
         <source>Save All</source>
         <translation>ذخیره همه</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="527"/>
-        <location filename="texmaker.cpp" line="671"/>
+        <location filename="texmaker.cpp" line="524"/>
+        <location filename="texmaker.cpp" line="697"/>
         <source>Close</source>
         <translation>بستن</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="677"/>
+        <location filename="texmaker.cpp" line="499"/>
+        <source>Toggle between the master document and the current document</source>
+        <translation>جابجایی بین سندجاری و سند اصلی</translation>
+    </message>
+    <message>
+        <source>There is one file recovered from last session. Do you want to open this file?</source>
+        <translation type="obsolete">یک فایل از آخرین کارکرد بازیابی شده است. آیا می‌خواهید این فایل بارگذاری شود؟</translation>
+    </message>
+    <message>
+        <source>There are %1 files recovered from last session. Do you want to open these files?</source>
+        <translation type="obsolete">%1 فایل از آخرین کارکرد بازیابی شده است. آیا می‌خواهید این فایل‌ها بارگذاری شوند؟</translation>
+    </message>
+    <message>
+        <source>Recovered from Last Session</source>
+        <translation type="obsolete">بازیابی سندهای آخرین کارکرد</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="659"/>
+        <source>New by copying an existing file</source>
+        <translation>ایجاد سند جدید با کپی‌برداری از فایل موجود</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="703"/>
         <source>Close All</source>
         <translation>بستن همه</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="681"/>
+        <location filename="texmaker.cpp" line="707"/>
         <source>Reload document from file</source>
-        <translation type="unfinished"></translation>
+        <translation>بارگذاری مجدد سند از فایل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="691"/>
+        <location filename="texmaker.cpp" line="717"/>
         <source>Exit</source>
         <translation>خروج</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="697"/>
+        <location filename="texmaker.cpp" line="723"/>
         <source>&amp;Edit</source>
-        <translation>&amp;E ویرایش</translation>
+        <translation>&amp;ویرایش</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="698"/>
+        <location filename="texmaker.cpp" line="724"/>
         <source>Undo</source>
         <translation>برگرداندن آخرین عمل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="703"/>
+        <location filename="texmaker.cpp" line="729"/>
         <source>Redo</source>
         <translation>انجام دوباره عمل باطل‌شده</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="709"/>
+        <location filename="texmaker.cpp" line="735"/>
         <source>Copy</source>
         <translation>نسخه‌برداری</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="714"/>
+        <location filename="texmaker.cpp" line="740"/>
         <source>Cut</source>
         <translation>بریدن</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="719"/>
+        <location filename="texmaker.cpp" line="745"/>
         <source>Paste</source>
         <translation>چسباندن</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="724"/>
+        <location filename="texmaker.cpp" line="750"/>
         <source>Select All</source>
         <translation>انتخاب همه</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="730"/>
+        <location filename="texmaker.cpp" line="756"/>
         <source>Comment</source>
         <translation>تبدیل به حالت توضیح</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="735"/>
+        <location filename="texmaker.cpp" line="761"/>
         <source>Uncomment</source>
         <translation>از حالت توضیح خارج کردن</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="740"/>
+        <location filename="texmaker.cpp" line="766"/>
         <source>Indent</source>
-        <translation type="unfinished">Indent</translation>
+        <translation>تورفتگی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="751"/>
+        <location filename="texmaker.cpp" line="777"/>
         <source>Find</source>
         <translation>پیدا کن</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="756"/>
+        <location filename="texmaker.cpp" line="782"/>
         <source>FindNext</source>
         <translation>بعدی را پیدا کن</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="761"/>
+        <location filename="texmaker.cpp" line="787"/>
         <source>Replace</source>
         <translation>جایگزینی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="766"/>
+        <location filename="texmaker.cpp" line="792"/>
         <source>Goto Line</source>
         <translation>برو به خط</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="778"/>
+        <location filename="texmaker.cpp" line="804"/>
         <source>Refresh Structure</source>
         <translation>نوسازی ساختار</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="783"/>
+        <location filename="texmaker.cpp" line="809"/>
         <source>Refresh Bibliography</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="787"/>
-        <source>&amp;Tools</source>
-        <translation>&amp;T ابزارها</translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="788"/>
-        <location filename="texmaker.cpp" line="1806"/>
-        <source>Quick Build</source>
-        <translation>ساختن سریع</translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="797"/>
-        <location filename="texmaker.cpp" line="1828"/>
-        <source>View Dvi</source>
-        <translation>‫دیدن Dvi</translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="805"/>
-        <location filename="texmaker.cpp" line="1829"/>
-        <source>View PS</source>
-        <translation>‫دیدن PS</translation>
+        <translation>نوسازی کتاب‌نامه</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="813"/>
-        <location filename="texmaker.cpp" line="1830"/>
+        <source>&amp;Tools</source>
+        <translation>&amp;ابزارها</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="814"/>
+        <location filename="texmaker.cpp" line="1846"/>
+        <source>Quick Build</source>
+        <translation>ساخت سریع</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="823"/>
+        <location filename="texmaker.cpp" line="1869"/>
+        <source>View Dvi</source>
+        <translation>‫نمایش دی‌.وی.آی</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="831"/>
+        <location filename="texmaker.cpp" line="1870"/>
+        <source>View PS</source>
+        <translation>‫نمایش پی.اس</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="839"/>
+        <location filename="texmaker.cpp" line="1871"/>
         <source>View PDF</source>
-        <translation>‫دیدن PDF</translation>
+        <translation>نمایش پی.دی.اف</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="825"/>
-        <location filename="texmaker.cpp" line="1841"/>
+        <location filename="texmaker.cpp" line="851"/>
+        <location filename="texmaker.cpp" line="1882"/>
         <source>View Log</source>
-        <translation>‫دیدن Log</translation>
+        <translation>نمایش گزارش پردازش</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="848"/>
-        <location filename="texmaker.cpp" line="1493"/>
+        <location filename="texmaker.cpp" line="877"/>
+        <location filename="texmaker.cpp" line="1526"/>
         <source>Clean</source>
         <translation>شکل ساده</translation>
     </message>
@@ -1700,404 +2165,605 @@ with the default encoding setting</source>
         <translation type="obsolete">‫تبدیل به Html</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="852"/>
-        <location filename="texmaker.cpp" line="1851"/>
+        <location filename="texmaker.cpp" line="881"/>
+        <location filename="texmaker.cpp" line="1892"/>
         <source>Previous LaTeX Error</source>
-        <translation>‫خطای LaTeX قبلی</translation>
+        <translation>‫خطای لاتک قبلی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="854"/>
-        <location filename="texmaker.cpp" line="1845"/>
+        <location filename="texmaker.cpp" line="883"/>
+        <location filename="texmaker.cpp" line="1886"/>
         <source>Next LaTeX Error</source>
-        <translation>‫خطای LaTeX بعدی</translation>
+        <translation>‫خطای لاتک بعدی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="857"/>
+        <location filename="texmaker.cpp" line="886"/>
         <source>&amp;LaTeX</source>
-        <translation type="unfinished">&amp;LaTeX</translation>
+        <translation>&amp;لاتک</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1150"/>
+        <location filename="texmaker.cpp" line="1183"/>
         <source>&amp;Math</source>
-        <translation>&amp;M ریاضی</translation>
+        <translation>&amp;ریاضی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1434"/>
+        <location filename="texmaker.cpp" line="1467"/>
         <source>&amp;Wizard</source>
-        <translation>&amp;W جادوگر</translation>
+        <translation>&amp;جادوگر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1435"/>
+        <location filename="texmaker.cpp" line="1468"/>
         <source>Quick Start</source>
         <translation>شروع سریع</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1438"/>
+        <location filename="texmaker.cpp" line="1471"/>
         <source>Quick Letter</source>
-        <translation>نامه سریع</translation>
+        <translation>شروع سریع نامه‌</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1442"/>
+        <location filename="texmaker.cpp" line="1475"/>
         <source>Quick Tabular</source>
-        <translation>جدول سریع</translation>
+        <translation>جدول‌ساز سریع</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1445"/>
+        <location filename="texmaker.cpp" line="1478"/>
         <source>Quick Tabbing</source>
-        <translation>‫Tabbing سریع</translation>
+        <translation>ایجاد سریع ‫Tabbing</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1448"/>
+        <location filename="texmaker.cpp" line="1481"/>
         <source>Quick Array</source>
-        <translation> آرایه سریع</translation>
+        <translation>آرایه‌ساز سریع</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1452"/>
+        <location filename="texmaker.cpp" line="1485"/>
         <source>&amp;Bibliography</source>
-        <translation>&amp;B کتاب‌نامه</translation>
+        <translation>&amp;کتاب‌نامه</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1497"/>
+        <location filename="texmaker.cpp" line="1530"/>
         <source>&amp;User</source>
-        <translation>&amp;U کاربر</translation>
+        <translation>&amp;کاربر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1498"/>
+        <location filename="texmaker.cpp" line="1531"/>
         <source>User &amp;Tags</source>
-        <translation>&amp;T تگ‌های کاربر</translation>
+        <translation>&amp;تگ‌های کاربر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1543"/>
+        <location filename="texmaker.cpp" line="1576"/>
         <source>User &amp;Commands</source>
-        <translation>&amp;C فرمان‌های کاربر</translation>
+        <translation>&amp;فرمان‌های کاربر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1569"/>
+        <location filename="texmaker.cpp" line="1602"/>
         <source>Customize Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>شخصی‌سازی تکمیل‌گر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1573"/>
+        <location filename="texmaker.cpp" line="1606"/>
         <source>&amp;View</source>
-        <translation>&amp;V نما</translation>
+        <translation>&amp;نما</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="509"/>
-        <location filename="texmaker.cpp" line="1574"/>
+        <location filename="texmaker.cpp" line="507"/>
+        <location filename="texmaker.cpp" line="1607"/>
         <source>Next Document</source>
         <translation>سند بعدی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="505"/>
-        <location filename="texmaker.cpp" line="1578"/>
+        <location filename="texmaker.cpp" line="503"/>
+        <location filename="texmaker.cpp" line="1611"/>
         <source>Previous Document</source>
         <translation>سند قبلی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1595"/>
-        <source>Pdf Viewer</source>
-        <translation type="unfinished">‫نمایشگر PDF</translation>
+        <source>Bi-&amp;Directional</source>
+        <translation type="obsolete">&amp;D دوجهتی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1607"/>
-        <source>Full Screen</source>
-        <translation type="unfinished"></translation>
+        <source>Auto &amp;Bi-Director</source>
+        <translation type="obsolete">&amp;B ‫دوجهت کننده خودکار</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1615"/>
+        <source>Add &amp;LRM Automatically</source>
+        <translation type="obsolete">&amp;L وارد کردن خودکار LRM</translation>
+    </message>
+    <message>
+        <source>Bi-Directing &amp;Method</source>
+        <translation type="obsolete">&amp;M روش‌های دوجهت کردن</translation>
+    </message>
+    <message>
+        <source>&amp;First Strong Character(LTR)</source>
+        <translation type="obsolete">&amp;F برمبنای جهت اولین کارکتر الفبایی</translation>
+    </message>
+    <message>
+        <source>&amp;All Strong Character(RTL)</source>
+        <translation type="obsolete">&amp;A وجود حداقل یک کاراکتر الفبایی از راست به چپ</translation>
+    </message>
+    <message>
+        <source>Auto New &amp;Line(RTL)</source>
+        <translation type="obsolete">&amp;L ایجاد خط جدید با تغییر زبان</translation>
+    </message>
+    <message>
+        <source>RTL &amp;Environment</source>
+        <translation type="obsolete">&amp;E محیط راست به چپ</translation>
+    </message>
+    <message>
+        <source>Bi-Directing(&amp;All Line)</source>
+        <translation type="obsolete">&amp;A ‫دوجهت کردن(تمام خطوط)</translation>
+    </message>
+    <message>
+        <source>Text Direction &amp;Right to Left</source>
+        <translation type="obsolete">&amp;R جهت متن راست به چپ</translation>
+    </message>
+    <message>
+        <source>Text Direction &amp;Left to Right</source>
+        <translation type="obsolete">&amp;L جهت متن چپ به راست</translation>
+    </message>
+    <message>
+        <source>Insert LTR Text</source>
+        <translation type="obsolete">وارد کردن متن از چپ به راست</translation>
+    </message>
+    <message>
+        <source>PTD File Support</source>
+        <translation type="obsolete">حمایت از فایل‌های PTD</translation>
+    </message>
+    <message>
+        <source>After &apos;\&apos; change Language</source>
+        <translation type="obsolete">تغییر خودکار زبان با تایپ &apos;\&apos;</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="1655"/>
         <source>&amp;Options</source>
-        <translation>&amp;O امکانات</translation>
+        <translation>&amp;امکانات</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1616"/>
+        <location filename="texmaker.cpp" line="1656"/>
         <source>Configure Texmaker</source>
-        <translation>‫تنظیم Texmaker</translation>
+        <translation>‫تنظیم تک‌میکر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1620"/>
-        <location filename="texmaker.cpp" line="7101"/>
+        <location filename="texmaker.cpp" line="1660"/>
+        <location filename="texmaker.cpp" line="7404"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
         <translation>سند جاری را به عنوان &quot;سند اصلی&quot; در نظر بگیر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1624"/>
-        <source>Interface Appearance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="1644"/>
-        <source>Interface Language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="1660"/>
-        <source>&amp;Help</source>
-        <translation>&amp;H کمک</translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="1661"/>
-        <source>LaTeX Reference</source>
-        <translation>‫مراجع LaTeX</translation>
-    </message>
-    <message>
         <location filename="texmaker.cpp" line="1664"/>
+        <source>Interface Appearance</source>
+        <translation>ظاهر رابط کاربری</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="1684"/>
+        <source>Interface Language</source>
+        <translation>زبان رابط کاربری</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="1700"/>
+        <source>&amp;Help</source>
+        <translation>&amp;راهنما</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="1701"/>
+        <source>LaTeX Reference</source>
+        <translation>‫مراجع لاتک</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="1704"/>
         <source>User Manual</source>
         <translation>راهنمای کاربر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1668"/>
+        <location filename="texmaker.cpp" line="1708"/>
         <source>About Texmaker</source>
-        <translation>‏‎‏‫درباره  Texmaker</translation>
+        <translation>‏‎‏‫درباره تک‌میکر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1857"/>
-        <source>Stop Process</source>
-        <translation type="unfinished"></translation>
+        <source>About BiDi Patch</source>
+        <translation type="obsolete">درباره پچ دوجهته</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2313"/>
-        <location filename="texmaker.cpp" line="2450"/>
-        <location filename="texmaker.cpp" line="2506"/>
-        <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="2902"/>
-        <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
-        <oldsource>The document contains unsaved work. you will lose changes by reloading the file</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="2315"/>
-        <location filename="texmaker.cpp" line="2452"/>
-        <location filename="texmaker.cpp" line="2508"/>
-        <location filename="texmaker.cpp" line="2904"/>
-        <source>Reload the file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="5946"/>
-        <source>Delete the output files generated by LaTeX ?
-(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="7434"/>
+        <location filename="texmaker.cpp" line="7774"/>
         <source>The language setting will take effect after restarting the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیمات زبان در اجرای بعدی نرم‌افزار اثر خواهد کرد.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7442"/>
+        <location filename="texmaker.cpp" line="7782"/>
         <source>The appearance setting will take effect after restarting the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیمات ظاهر در اجرای بعدی نرم‌افزار اثر خواهد کرد.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="417"/>
+        <source>Disable</source>
+        <translation type="obsolete">غیرفعال کردن</translation>
+    </message>
+    <message>
+        <source>About BiDi Texmaker</source>
+        <translation type="obsolete">درباره تک‌میکر دوجهته</translation>
+    </message>
+    <message>
+        <source>
+Bi-Directional Patch
+Author: S. Razi Alavizadeh
+Patch Date: %1</source>
+        <translation type="obsolete">
+پچ دوجهته
+نویسنده پچ: سید رضی علوی‌زاده
+Patch Date: %1</translation>
+    </message>
+    <message>
+        <source>About Qt...</source>
+        <translation type="obsolete">درباره کیوت...</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation type="obsolete">درباره کیوت</translation>
+    </message>
+    <message>
+        <source>Import FarsiTeX File</source>
+        <translation type="obsolete">تبدیل و بازکردن فایل(های) فارسی‌تک</translation>
+    </message>
+    <message>
+        <source>The output file &quot;%1&quot; already exists. Do you want to replace it?</source>
+        <translation type="obsolete">فایلی با نام &quot;%1&quot; موجود است. آیا می‌خواهید آن را جایگزین کنید؟</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="obsolete">بله</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="obsolete">نه</translation>
+    </message>
+    <message>
+        <source>Import As</source>
+        <translation type="obsolete">تبدیل تغییر نام به</translation>
+    </message>
+    <message>
+        <source>Error! Convert is not successful. Please check contents of &quot;ftx2uni&quot; directory or check your python installation and your path environment.</source>
+        <translation type="obsolete">خطا! عمل تبدیل ناموفق بود. لطفا محتویات پوشه &quot;ftx2uni&quot; و یا نصب پایتون و متغیر محیطی سیستم عامل را چک کنید.</translation>
+    </message>
+    <message>
+        <source>Error! Convert is not successful. Please check your python installation and your path environment.</source>
+        <translation type="obsolete">خطا! عمل تبدیل ناموفق بود. لطفا نصب پایتون و متغیر محیطی سیستم عامل را چک کنید.</translation>
+    </message>
+    <message>
+        <source>The &quot;auto save file&quot; could not be saved. Please check if you have write permission.</source>
+        <translation type="obsolete">فایل ذخیره خودکار قابل ذخیره‌سازی نیست بررسی کنید که آیا اجازه نوشتن در محل فایل مورد نظر دارید.</translation>
+    </message>
+    <message>
+        <source>The PTD file could not be saved. Please check if you have write permission.</source>
+        <translation type="obsolete">فایل PTD قابل ذخیره‌سازی نیست بررسی کنید که آیا اجازه نوشتن در محل فایل مورد نظر دارید.</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="415"/>
         <source>Bold</source>
         <translation>ضخیم</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="422"/>
+        <location filename="texmaker.cpp" line="420"/>
         <source>Italic</source>
         <translation>ایتالیک</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="427"/>
+        <location filename="texmaker.cpp" line="425"/>
         <source>Underline</source>
         <translation>زیر خط</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="432"/>
+        <location filename="texmaker.cpp" line="430"/>
         <source>Left</source>
         <translation>چپ</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="437"/>
+        <location filename="texmaker.cpp" line="435"/>
         <source>Center</source>
         <translation>مرکز</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="442"/>
+        <location filename="texmaker.cpp" line="440"/>
         <source>Right</source>
         <translation>راست</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="448"/>
+        <location filename="texmaker.cpp" line="446"/>
         <source>New line</source>
         <translation>خط جدید</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1824"/>
+        <location filename="texmaker.cpp" line="1628"/>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>Pdf Viewer</source>
+        <translation>‫نمایشگر پی.دی.اف</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="1647"/>
+        <source>Full Screen</source>
+        <translation>تمام‌صفحه</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="1865"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>پردازش</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1836"/>
+        <location filename="texmaker.cpp" line="1877"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2012"/>
-        <location filename="texmaker.cpp" line="2168"/>
-        <location filename="texmaker.cpp" line="2478"/>
-        <location filename="texmaker.cpp" line="2536"/>
-        <location filename="texmaker.cpp" line="3102"/>
-        <location filename="texmaker.cpp" line="5437"/>
-        <location filename="texmaker.cpp" line="5646"/>
-        <location filename="texmaker.cpp" line="5668"/>
-        <location filename="texmaker.cpp" line="5687"/>
-        <location filename="texmaker.cpp" line="5706"/>
-        <location filename="texmaker.cpp" line="5728"/>
-        <location filename="texmaker.cpp" line="5761"/>
-        <location filename="texmaker.cpp" line="5778"/>
-        <location filename="texmaker.cpp" line="5804"/>
-        <location filename="texmaker.cpp" line="5821"/>
-        <location filename="texmaker.cpp" line="5844"/>
-        <location filename="texmaker.cpp" line="5937"/>
-        <location filename="texmaker.cpp" line="6216"/>
-        <location filename="texmaker.cpp" line="6304"/>
-        <location filename="texmaker.cpp" line="6334"/>
-        <location filename="texmaker.cpp" line="6821"/>
-        <location filename="texmaker.cpp" line="6855"/>
-        <location filename="texmaker.cpp" line="7117"/>
+        <location filename="texmaker.cpp" line="1898"/>
+        <source>Stop Process</source>
+        <translation>متوقف کردن فرایند درحال اجرا</translation>
+    </message>
+    <message>
+        <source>CMD Here</source>
+        <translation type="obsolete">باز کردن پنجره خطذفرمان در اینجا</translation>
+    </message>
+    <message>
+        <source>Open File Location</source>
+        <translation type="obsolete">بازکردن محل حاوی فایل</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="2063"/>
+        <location filename="texmaker.cpp" line="2225"/>
+        <location filename="texmaker.cpp" line="2540"/>
+        <location filename="texmaker.cpp" line="2598"/>
+        <location filename="texmaker.cpp" line="3182"/>
+        <location filename="texmaker.cpp" line="5665"/>
+        <location filename="texmaker.cpp" line="5880"/>
+        <location filename="texmaker.cpp" line="5902"/>
+        <location filename="texmaker.cpp" line="5921"/>
+        <location filename="texmaker.cpp" line="5940"/>
+        <location filename="texmaker.cpp" line="5962"/>
+        <location filename="texmaker.cpp" line="5995"/>
+        <location filename="texmaker.cpp" line="6012"/>
+        <location filename="texmaker.cpp" line="6038"/>
+        <location filename="texmaker.cpp" line="6055"/>
+        <location filename="texmaker.cpp" line="6078"/>
+        <location filename="texmaker.cpp" line="6171"/>
+        <location filename="texmaker.cpp" line="6463"/>
+        <location filename="texmaker.cpp" line="6552"/>
+        <location filename="texmaker.cpp" line="6582"/>
+        <location filename="texmaker.cpp" line="7070"/>
+        <location filename="texmaker.cpp" line="7104"/>
+        <location filename="texmaker.cpp" line="7420"/>
         <source>Error</source>
         <translation>خطا</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2012"/>
-        <location filename="texmaker.cpp" line="2168"/>
+        <location filename="texmaker.cpp" line="2063"/>
+        <location filename="texmaker.cpp" line="2225"/>
         <source>You do not have read permission to this file.</source>
         <translation>‫مجوز خواندن این فایل را ندارید.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2163"/>
-        <location filename="texmaker.cpp" line="2219"/>
+        <location filename="texmaker.cpp" line="2220"/>
+        <location filename="texmaker.cpp" line="2278"/>
         <source>Open File</source>
         <translation>بازکردن فایل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2478"/>
-        <location filename="texmaker.cpp" line="2536"/>
+        <location filename="texmaker.cpp" line="2373"/>
+        <location filename="texmaker.cpp" line="2512"/>
+        <location filename="texmaker.cpp" line="2568"/>
+        <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
+        <translation>این سند خارج از تک‌میکر تغییر کرده است. آیا می‌خواهید آن را بارگذاری مجدد کنید(و تغییرات ایجاد شده توسط خودتان را نادیده بگیرید) یا می‌خواهید سند را ذخیره کنید(و بر روی فایل دوباره نویسی کنید)؟</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="2375"/>
+        <location filename="texmaker.cpp" line="2514"/>
+        <location filename="texmaker.cpp" line="2570"/>
+        <location filename="texmaker.cpp" line="3003"/>
+        <source>Reload the file</source>
+        <translation>بارگذاری مجدد فایل</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="2540"/>
+        <location filename="texmaker.cpp" line="2598"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>‫قادر به ذخیره فایل نیست. لطفا رسیدگی کنید که آیا مجوز نوشتن دارید.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2315"/>
-        <location filename="texmaker.cpp" line="2452"/>
-        <location filename="texmaker.cpp" line="2508"/>
-        <location filename="texmaker.cpp" line="2617"/>
-        <location filename="texmaker.cpp" line="2663"/>
-        <location filename="texmaker.cpp" line="2709"/>
-        <location filename="texmaker.cpp" line="2755"/>
-        <location filename="texmaker.cpp" line="2904"/>
-        <location filename="texmaker.cpp" line="5946"/>
+        <location filename="texmaker.cpp" line="2375"/>
+        <location filename="texmaker.cpp" line="2514"/>
+        <location filename="texmaker.cpp" line="2570"/>
+        <location filename="texmaker.cpp" line="2710"/>
+        <location filename="texmaker.cpp" line="2756"/>
+        <location filename="texmaker.cpp" line="2802"/>
+        <location filename="texmaker.cpp" line="2848"/>
+        <location filename="texmaker.cpp" line="3003"/>
+        <location filename="texmaker.cpp" line="6180"/>
         <source>Cancel</source>
         <translation>رد</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2615"/>
+        <location filename="texmaker.cpp" line="2708"/>
         <source>The document contains unsaved work. Do you want to save it before closing?</source>
         <translation>سند دارای تغییرات ذخیره نشده است. قصد دارید قبل از بستن تغییرات را ذخیره کنید؟</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2617"/>
-        <location filename="texmaker.cpp" line="2663"/>
-        <location filename="texmaker.cpp" line="2709"/>
-        <location filename="texmaker.cpp" line="2755"/>
+        <location filename="texmaker.cpp" line="2710"/>
+        <location filename="texmaker.cpp" line="2756"/>
+        <location filename="texmaker.cpp" line="2802"/>
+        <location filename="texmaker.cpp" line="2848"/>
         <source>Save and Close</source>
         <translation>ذخیره کن و خارج شو</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2617"/>
-        <location filename="texmaker.cpp" line="2663"/>
-        <location filename="texmaker.cpp" line="2709"/>
-        <location filename="texmaker.cpp" line="2755"/>
+        <location filename="texmaker.cpp" line="2710"/>
+        <location filename="texmaker.cpp" line="2756"/>
+        <location filename="texmaker.cpp" line="2802"/>
+        <location filename="texmaker.cpp" line="2848"/>
         <source>Don&apos;t Save and Close</source>
         <translation>ذخیره نکن و خارج شو</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2661"/>
-        <location filename="texmaker.cpp" line="2707"/>
-        <location filename="texmaker.cpp" line="2753"/>
+        <location filename="texmaker.cpp" line="2754"/>
+        <location filename="texmaker.cpp" line="2800"/>
+        <location filename="texmaker.cpp" line="2846"/>
         <source>The document contains unsaved work. Do you want to save it before exiting?</source>
         <translation>سند دارای تغییرات ذخیره نشده است. قصد دارید قبل از خروج تغییرات را ذخیره کنید؟</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3102"/>
-        <source>Error : Can&apos;t open the dictionary</source>
-        <translation type="unfinished">خطا: فرهنگ لغت باز نمی‌شود</translation>
+        <location filename="texmaker.cpp" line="3001"/>
+        <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
+        <translation>سند دارای تغییرات ذخیره نشده است. بارگذاری مجدد سند تغییرات ایجادشده را از بین می‌برد.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4430"/>
+        <location filename="texmaker.cpp" line="3182"/>
+        <source>Error : Can&apos;t open the dictionary</source>
+        <translation>خطا: فرهنگ لغت باز نمی‌شود</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="4545"/>
         <source>Select an image File</source>
         <translation>انتخاب فایل تصویر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4460"/>
-        <location filename="texmaker.cpp" line="4485"/>
+        <location filename="texmaker.cpp" line="4575"/>
+        <location filename="texmaker.cpp" line="4600"/>
         <source>Select a File</source>
         <translation>انتخاب فایل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="5437"/>
-        <location filename="texmaker.cpp" line="5937"/>
-        <location filename="texmaker.cpp" line="6216"/>
+        <location filename="texmaker.cpp" line="5665"/>
+        <location filename="texmaker.cpp" line="6171"/>
+        <location filename="texmaker.cpp" line="6463"/>
         <source>Can&apos;t detect the file name</source>
         <translation>‫قادر به تشخیص نام فایل نیست</translation>
     </message>
     <message>
         <source>View Dvi file</source>
-        <translation type="obsolete">‫دیدن فایلDvi </translation>
+        <translation type="obsolete">نمایش فایل دی.وی.آی</translation>
     </message>
     <message>
         <source>View PS file</source>
-        <translation type="obsolete">‫دیدن فایل PS</translation>
+        <translation type="obsolete">نمایش فایل پی.اس</translation>
     </message>
     <message>
         <source>View Pdf file</source>
-        <translation type="obsolete">‫دیدن فایل PDF</translation>
+        <translation type="obsolete">نمایش فایل پی.دی.اف</translation>
     </message>
     <message>
         <source>Delete the output files generated by LaTeX ?
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind)</source>
-        <translation type="obsolete">‫فایل‌های خروجی تولید شده توسط LaTeX را حذف کن؟
+        <translation type="obsolete">‫فایل‌های خروجی تولید شده توسط لاتک را حذف کن؟
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="5946"/>
+        <location filename="texmaker.cpp" line="6180"/>
         <source>Delete Files</source>
         <translation>پاک کردن فایل‌ها</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="5646"/>
-        <location filename="texmaker.cpp" line="5668"/>
-        <location filename="texmaker.cpp" line="5687"/>
-        <location filename="texmaker.cpp" line="5706"/>
-        <location filename="texmaker.cpp" line="5728"/>
-        <location filename="texmaker.cpp" line="5761"/>
-        <location filename="texmaker.cpp" line="5778"/>
-        <location filename="texmaker.cpp" line="5804"/>
-        <location filename="texmaker.cpp" line="5821"/>
-        <location filename="texmaker.cpp" line="5844"/>
-        <location filename="texmaker.cpp" line="6304"/>
-        <location filename="texmaker.cpp" line="7117"/>
+        <location filename="texmaker.cpp" line="5880"/>
+        <location filename="texmaker.cpp" line="5902"/>
+        <location filename="texmaker.cpp" line="5921"/>
+        <location filename="texmaker.cpp" line="5940"/>
+        <location filename="texmaker.cpp" line="5962"/>
+        <location filename="texmaker.cpp" line="5995"/>
+        <location filename="texmaker.cpp" line="6012"/>
+        <location filename="texmaker.cpp" line="6038"/>
+        <location filename="texmaker.cpp" line="6055"/>
+        <location filename="texmaker.cpp" line="6078"/>
+        <location filename="texmaker.cpp" line="6552"/>
+        <location filename="texmaker.cpp" line="7420"/>
         <source>Could not start the command.</source>
         <translation>‫قادر به اجرای فرمان نیست.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6334"/>
+        <location filename="texmaker.cpp" line="6180"/>
+        <source>Delete the output files generated by LaTeX ?
+(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</source>
+        <translation>‫فایل‌های خروجی تولید شده توسط لاتک را حذف کن؟
+(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>LaTeX</source>
+        <translation type="unfinished">LaTeX</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>PdfLaTeX</source>
+        <translation type="unfinished">PdfLaTeX</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>dvips</source>
+        <translation type="unfinished">dvips</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>Dvi Viewer</source>
+        <translation type="unfinished">‫نمایش‌گر دی.وی.آی</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>PS Viewer</source>
+        <translation type="unfinished">‫نمایش‌گر پی.اس</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>Dvipdfm</source>
+        <translation type="unfinished">Dvipdfm</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>ps2pdf</source>
+        <translation type="unfinished">ps2pdf</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>Bibtex</source>
+        <translation type="unfinished">Bibtex</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>Makeindex</source>
+        <translation type="unfinished">Makeindex</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>metapost</source>
+        <translation type="unfinished">metapost</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>ghostscript</source>
+        <translation type="unfinished">ghostscript</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>Asymptote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>Latexmk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6316"/>
+        <source>R Sweave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="6582"/>
         <source>Log File not found !</source>
-        <translation>‫فایل Log پیدا نشد!</translation>
+        <translation>‫فایل گزارش پیدا نشد!</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6751"/>
-        <location filename="texmaker.cpp" line="6786"/>
+        <location filename="texmaker.cpp" line="7000"/>
+        <location filename="texmaker.cpp" line="7035"/>
         <source>No LaTeX errors detected !</source>
-        <translation>‫هیچ خطای LaTeXی یافت نشد!</translation>
+        <translation>‫هیچ خطای لاتکی یافت نشد!</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6821"/>
-        <location filename="texmaker.cpp" line="6855"/>
+        <location filename="texmaker.cpp" line="7070"/>
+        <location filename="texmaker.cpp" line="7104"/>
         <source>File not found</source>
         <translation>فایل پیدا نشد</translation>
     </message>
@@ -2106,19 +2772,19 @@ with the default encoding setting</source>
         <translation type="obsolete">راهنمای کاربر:Texmaker</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7123"/>
+        <location filename="texmaker.cpp" line="7426"/>
         <source>Normal Mode (current master document :</source>
-        <translation type="unfinished">Normal Mode (current master document :</translation>
+        <translation>حالت‌عادی (current master document :</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7125"/>
+        <location filename="texmaker.cpp" line="7428"/>
         <source>Master Document :</source>
         <translation>سند اصلی :</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1639"/>
+        <location filename="texmaker.cpp" line="1679"/>
         <source>Change Interface Font</source>
-        <translation>تغییر فونت رابط</translation>
+        <translation>تغییر قلم رابط کاربری</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="531"/>
@@ -2129,114 +2795,114 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="241"/>
-        <location filename="texmaker.cpp" line="3725"/>
+        <location filename="texmaker.cpp" line="3854"/>
         <source>Pstricks Commands</source>
         <translation>‫فرمان‌های Pstricks</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="772"/>
+        <location filename="texmaker.cpp" line="798"/>
         <source>Check Spelling</source>
         <translation>غلط‌یابی</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="216"/>
-        <location filename="texmaker.cpp" line="3715"/>
+        <location filename="texmaker.cpp" line="3844"/>
         <source>Most used symbols</source>
         <translation>نمادهای پرکاربردتر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="891"/>
+        <location filename="texmaker.cpp" line="920"/>
         <source>&amp;Sectioning</source>
-        <translation>&amp;S ساختار</translation>
+        <translation>&amp;ساختار</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="921"/>
+        <location filename="texmaker.cpp" line="950"/>
         <source>&amp;Environment</source>
-        <translation>&amp;E محیط</translation>
+        <translation>&amp;محیط</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="963"/>
+        <location filename="texmaker.cpp" line="996"/>
         <source>&amp;List Environment</source>
-        <translation>&amp;L  محیط لیست</translation>
+        <translation>&amp;محیط لیست</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="987"/>
+        <location filename="texmaker.cpp" line="1020"/>
         <source>Font St&amp;yles</source>
-        <translation> &amp;y سبک فونت</translation>
+        <translation> &amp;سبک قلم</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1024"/>
+        <location filename="texmaker.cpp" line="1057"/>
         <source>&amp;Tabular Environment</source>
-        <translation>&amp;T محیط جدول</translation>
+        <translation>&amp;محیط جدول</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1050"/>
+        <location filename="texmaker.cpp" line="1083"/>
         <source>S&amp;pacing</source>
-        <translation>&amp;p فاصله‌بندی</translation>
+        <translation>&amp;فاصله‌بندی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1077"/>
+        <location filename="texmaker.cpp" line="1110"/>
         <source>International &amp;Accents</source>
-        <translation>&amp;A الفبای جهانی</translation>
+        <translation>&amp;لهجه‌های جهانی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1214"/>
+        <location filename="texmaker.cpp" line="1247"/>
         <source>Math &amp;Functions</source>
-        <translation>&amp;F توابع ریاضی</translation>
+        <translation>&amp;توابع ریاضی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1336"/>
+        <location filename="texmaker.cpp" line="1369"/>
         <source>Math Font St&amp;yles</source>
-        <translation>&amp;y سبک فونت ریاضی</translation>
+        <translation>&amp;سبک قلم ریاضی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1370"/>
+        <location filename="texmaker.cpp" line="1403"/>
         <source>Math &amp;Accents</source>
-        <translation>&amp;A الفبای ریاضی</translation>
+        <translation>&amp;الفبای ریاضی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1412"/>
+        <location filename="texmaker.cpp" line="1445"/>
         <source>Math S&amp;paces</source>
-        <translation>&amp;p فاصله ریاضی</translation>
+        <translation>&amp;فاصله ریاضی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1540"/>
-        <location filename="texmaker.cpp" line="5182"/>
-        <location filename="texmaker.cpp" line="5238"/>
+        <location filename="texmaker.cpp" line="1573"/>
+        <location filename="texmaker.cpp" line="5410"/>
+        <location filename="texmaker.cpp" line="5466"/>
         <source>Edit User &amp;Tags</source>
-        <translation>&amp;T ویرایش تگ‌های کاربر</translation>
+        <translation>&amp;ویرایش تگ‌های کاربر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1565"/>
-        <location filename="texmaker.cpp" line="6076"/>
-        <location filename="texmaker.cpp" line="6112"/>
+        <location filename="texmaker.cpp" line="1598"/>
+        <location filename="texmaker.cpp" line="6319"/>
+        <location filename="texmaker.cpp" line="6355"/>
         <source>Edit User &amp;Commands</source>
-        <translation>&amp;C ویرایش فرمان‌های کاربر</translation>
+        <translation>&amp;ویرایش فرمان‌های کاربر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1151"/>
+        <location filename="texmaker.cpp" line="1184"/>
         <source>Inline math mode $...$</source>
         <translation>حالت ریاضی در متن $...$</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1156"/>
+        <location filename="texmaker.cpp" line="1189"/>
         <source>Display math mode \[...\]</source>
         <translation>حالت ریاضی برجسته \[...\]</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1161"/>
+        <location filename="texmaker.cpp" line="1194"/>
         <source>Numbered equations \begin{equation}</source>
         <translation>معادله شماره‌گذاری‌شده \begin{equation}</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="685"/>
+        <location filename="texmaker.cpp" line="711"/>
         <source>Print</source>
         <translation>چاپ</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="745"/>
+        <location filename="texmaker.cpp" line="771"/>
         <source>Unindent</source>
-        <translation type="unfinished">UnIndent</translation>
+        <translation>حذف تورفتگی</translation>
     </message>
     <message>
         <source>Bidirecting(All Line)</source>
@@ -2256,27 +2922,27 @@ with the default encoding setting</source>
     <message>
         <location filename="usercompletiondialog.ui" line="14"/>
         <source>Completion</source>
-        <translation type="unfinished">تکمیل‌گر</translation>
+        <translation>تکمیل‌گر</translation>
     </message>
     <message>
         <location filename="usercompletiondialog.ui" line="25"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>اضافه‌کردن</translation>
     </message>
     <message>
         <location filename="usercompletiondialog.ui" line="52"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>حذف‌کردن</translation>
     </message>
     <message>
         <location filename="usercompletiondialog.ui" line="59"/>
         <source>( @ : placeholder )</source>
-        <translation type="unfinished"></translation>
+        <translation>( @ : جایگزین‌شونده )</translation>
     </message>
     <message>
         <location filename="usercompletiondialog.ui" line="81"/>
         <source>Items already supplied by Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>گزینه‌هایی که هم‌اکنون توسط تک‌میکر دردسترسند</translation>
     </message>
 </context>
 <context>
@@ -2302,7 +2968,7 @@ with the default encoding setting</source>
     <message>
         <location filename="usermenudialog.ui" line="55"/>
         <source>LaTeX Content</source>
-        <translation>‫کد LaTeX</translation>
+        <translation>‫کد لاتک</translation>
     </message>
 </context>
 <context>
@@ -2310,32 +2976,32 @@ with the default encoding setting</source>
     <message>
         <location filename="userquickdialog.ui" line="14"/>
         <source>Quick Build Command</source>
-        <translation type="unfinished">دستور ساختن سریع</translation>
+        <translation>دستور ساخت سریع</translation>
     </message>
     <message>
         <location filename="userquickdialog.ui" line="42"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>اضافه‌کردن</translation>
     </message>
     <message>
         <location filename="userquickdialog.ui" line="70"/>
         <source>Ordered list of commands :</source>
-        <translation type="unfinished"></translation>
+        <translation>فهرست مرتب شده دستورات:</translation>
     </message>
     <message>
         <location filename="userquickdialog.ui" line="80"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>بالا</translation>
     </message>
     <message>
         <location filename="userquickdialog.ui" line="87"/>
         <source>Down</source>
-        <translation type="unfinished"></translation>
+        <translation>پایین</translation>
     </message>
     <message>
         <location filename="userquickdialog.ui" line="94"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>حذف‌کردن</translation>
     </message>
 </context>
 <context>
@@ -2354,14 +3020,19 @@ with the default encoding setting</source>
         <translation type="obsolete">رد</translation>
     </message>
     <message>
-        <location filename="usertooldialog.ui" line="64"/>
+        <location filename="usertooldialog.ui" line="70"/>
         <source>Menu Item</source>
         <translation>نام در منو</translation>
     </message>
     <message>
-        <location filename="usertooldialog.ui" line="71"/>
+        <location filename="usertooldialog.ui" line="77"/>
         <source>Command (% : filename without extension)</source>
         <translation>‫دستورات (%:نام فایل بدون پسوند)</translation>
+    </message>
+    <message>
+        <location filename="usertooldialog.ui" line="103"/>
+        <source>wizard</source>
+        <translation type="unfinished">جادوگر</translation>
     </message>
     <message>
         <location filename="usertooldialog.ui" line="51"/>
@@ -2389,7 +3060,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <source>Navigation :</source>
-        <translation type="obsolete">Navigation :</translation>
+        <translation type="obsolete">ناوبری :</translation>
     </message>
     <message>
         <source>Footnote :</source>
@@ -2397,7 +3068,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <source>Navigation mode</source>
-        <translation type="obsolete">Mode navigation</translation>
+        <translation type="obsolete">حالت ناوبری</translation>
     </message>
     <message>
         <source>Alignment :</source>
@@ -2433,11 +3104,11 @@ with the default encoding setting</source>
     </message>
     <message>
         <source>LaTeX options</source>
-        <translation type="obsolete">‫امکانات و تنظیمات  LaTeX</translation>
+        <translation type="obsolete">‫امکانات و تنظیمات لاتک</translation>
     </message>
     <message>
         <source>Number of latex compilations for the input file</source>
-        <translation type="obsolete">تعداد کامپایل شدن فایل ورودی</translation>
+        <translation type="obsolete">تعداد پردازش لاتک روی فایل ورودی</translation>
     </message>
     <message>
         <source>Content name :</source>
@@ -2453,19 +3124,19 @@ with the default encoding setting</source>
     </message>
     <message>
         <source>Latex code for the title of the table of contents</source>
-        <translation type="obsolete">&quot;‫کد Latex برای عنوان the table of contents&quot;</translation>
+        <translation type="obsolete">&quot;‫کد لاتک برای عنوان فهرست مطالب&quot;</translation>
     </message>
     <message>
         <source>The number of the ps page corresponding to the first numberline indexed in the toc file</source>
-        <translation type="obsolete">‫شماره صفحه ps مرتبط با اولین شماره خط نمایه شده در فایل toc</translation>
+        <translation type="obsolete">‫شماره صفحه پی.اس مرتبط با اولین شماره خط نمایه شده در فایل toc</translation>
     </message>
     <message>
         <source>Set the value of the LaTeX tocdepth counter</source>
-        <translation type="obsolete">‫تنظیم میزان شمارنده ‪&quot;the LaTeX tocdepth&quot;</translation>
+        <translation type="obsolete">Set the value of the LaTeX tocdepth counter</translation>
     </message>
     <message>
         <source>Number of compilations :</source>
-        <translation type="obsolete">تعداد کامپایل‌ها:</translation>
+        <translation type="obsolete">تعداد پردازش‌ها:</translation>
     </message>
     <message>
         <source>Browser command. Let&apos;s empty to not run the browser at the end of the conversion</source>
@@ -2519,13 +3190,25 @@ with the default encoding setting</source>
         <source>Open File</source>
         <translation type="obsolete">بازکردن فایل</translation>
     </message>
+    <message>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Bitstream Vera Sans&apos;;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;LaTeX to Html conversion tool&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Bitstream Vera Sans&apos;; color:#000000;&quot;&gt;Copyright 2004-2006 P.Brachet &amp;amp; J.Amblard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Bitstream Vera Sans&apos;;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;Html به LaTeX ابزار تبدیل &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Bitstream Vera Sans&apos;; color:#000000;&quot;&gt;Copyright 2004-2006 P.Brachet &amp;amp; J.Amblard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
 </context>
 <context>
     <name>X11FontDialog</name>
     <message>
         <location filename="x11fontdialog.ui" line="14"/>
         <source>Select a Font</source>
-        <translation>انتخاب فونت</translation>
+        <translation>انتخاب قلم</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2538,12 +3221,12 @@ with the default encoding setting</source>
     <message>
         <location filename="x11fontdialog.ui" line="34"/>
         <source>Font Family</source>
-        <translation>خانواده فونت</translation>
+        <translation>خانواده قلم</translation>
     </message>
     <message>
         <location filename="x11fontdialog.ui" line="44"/>
         <source>Font Size</source>
-        <translation>اندازه فونت</translation>
+        <translation>اندازه قلم</translation>
     </message>
 </context>
 </TS>

@@ -3,6 +3,8 @@
 	<file>fonts/DejaVuSansCondensed.ttf</file>
 	<file>fonts/DejaVuSansCondensed-Bold.ttf</file>
 	<file>fonts/DejaVuSansCondensed-Oblique.ttf</file>
+	<file>images/source_button_enabled.png</file>
+	<file>images/source_button_disabled.png</file>
 	<file>images/log_button_enabled.png</file>
 	<file>images/log_button_disabled.png</file>
 	<file>images/structure_button_enabled.png</file>
@@ -64,6 +66,7 @@
         <file>images/fileclose.png</file>
         <file>images/filenew.png</file>
         <file>images/fileopen.png</file>
+        <file>images/fileopen16.png</file>
         <file>images/filesave.png</file>
         <file>images/goto.png</file>
         <file>images/grave.png</file>

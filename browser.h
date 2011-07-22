@@ -13,6 +13,8 @@
 #define BROWSER_H
 
 #include <QMainWindow>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QtWebKit>
 #include <QWebView>
 
@@ -25,15 +27,18 @@ public:
     ~Browser();
 
 protected slots:
-
- 
     void adjustTitle();
     void setProgress(int p);
     void finishLoading(bool);
-    
+private slots:
+  void Index();
+  void Print();
+  void Find();
 private:
     QWebView *view;
     int progress;
+    QLineEdit *searchLineEdit;
+    QPushButton *findButton;
 };
 
 #endif

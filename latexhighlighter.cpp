@@ -78,11 +78,6 @@ types << QLatin1String("article") << QLatin1String("book")
 QRegExp rxBib("@("+types.join("|")+")\\s*\\{\\s*(.*),", Qt::CaseInsensitive);
 rxBib.setMinimal(true);
 
-int i = 0;
-int state = previousBlockState();
-if (state<0) state=0;
-QChar last, next ,ch,tmp;
-QString buffer;
 const int StateStandard = 0;
 const int StateComment = 1;
 const int StateMath = 2;
@@ -96,6 +91,13 @@ const int StateGraphicCommand =9;
 const int StateGraphicMath =10;
 const int StateBib =11;
 //const int StateBibCommand =12;
+
+int i = 0;
+int state = previousBlockState();
+if (state<0) state=0;
+QChar last, next ,ch,tmp;
+QString buffer;
+
 
 BlockData *blockData = new BlockData;
 int leftPos = text.indexOf( '{' );
@@ -146,299 +148,7 @@ setCurrentBlockUserData(blockData);
 
 
 /////////////////////
-i=currentBlock().blockNumber();
-//qDebug() << "high" << i;
-editor->removeStructureItem(currentBlock().position(), currentBlock().length(),i);
-int tagStart, tagEnd,offset;
-QString s;
-QString struct_level1="part";
-QString struct_level2="chapter";
-QString struct_level3="section";
-QString struct_level4="subsection";
-QString struct_level5="subsubsection";
 
-
-bool found=false;
-//// section ////
-/*QRegExp rxSection=QRegExp("^\\s*\\\\section\\*?\\s*(?:\\[[^]]*\\]\s*)?\\{([^}]*)\\}");
-offset=text.indexOf(rxSection);
-if (offset!=-1)
-  {
-  s=rxSection.cap(1);
-  if (s.isEmpty()) s=rxSection.cap(0);
-  QTextCursor cursor(document());
-  cursor.setPosition(currentBlock().position() + offset);
-  cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-  editor->appendStructureItem(i,s,6,cursor);found=true;
-  }*/
-
-tagStart=tagEnd=offset=0;
-s=text; 
- tagStart=s.indexOf(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
-offset=tagStart;
-	if (tagStart!=-1)
-	{
-	tagStart=s.indexOf(struct_level3, tagEnd);
-	s=s.mid(tagStart+struct_level3.length(),s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-	  {
-	  if (s.startsWith("*")) s=s.remove(0,1);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-	  //s=s+" (line "+QString::number(i+1)+")";
-	QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-	  editor->appendStructureItem(i,s,6,cursor);found=true;
-	  }
-	};
-if (!found)
-{
-//// subsection ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	tagStart=s.indexOf(struct_level4, tagEnd);
-	s=s.mid(tagStart+struct_level4.length(),s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-	  {
-	  if (s.startsWith("*")) s=s.remove(0,1);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-	  //s=s+" (line "+QString::number(i+1)+")";
-	QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-	  editor->appendStructureItem(i,s,7,cursor);found=true;
-	  }
-	};
-}
-if (!found)
-{
-//// subsubsection ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	tagStart=s.indexOf(struct_level5, tagEnd);
-	s=s.mid(tagStart+struct_level5.length(),s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-	  {
-	  if (s.startsWith("*")) s=s.remove(0,1);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-	  //s=s+" (line "+QString::number(i+1)+")";
-		QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-	  editor->appendStructureItem(i,s,8,cursor);found=true;
-	  }
-	};
-}
-if (!found)
-{
-//// block ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf(QRegExp("\\\\begin\\{block\\}\\*?[\\{\\[]"), tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	tagStart=s.indexOf("begin{block}", tagEnd);
-	s=s.mid(tagStart+12,s.length());
-	if (s.startsWith("{")) s=s.remove(0,1);
-	if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-	//s=s+" (line "+QString::number(i+1)+")";
-	QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-	editor->appendStructureItem(i,s,0,cursor);found=true;
-	};
-}
-if (!found)
-{
-//// label ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf("\\label{", tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	s=s.mid(tagStart+7,s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-		{
-		s=s.mid(0,tagStart);
-		if (s.startsWith("{")) s=s.remove(0,1);
-		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-		//s=s+" (line "+QString::number(i+1)+")";
-		QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-		editor->appendStructureItem(i,s,1,cursor);found=true;
-		}
-	};
-}
-if (!found)
-{
-//// include ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf("\\include{", tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	s=s.mid(tagStart+8,s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-		{
-		s=s.mid(0,tagStart+1);
-		if (s.startsWith("{")) s=s.remove(0,1);
-		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-			   	QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-		editor->appendStructureItem(i,s,2,cursor);found=true;
-		}
-	};
-}
-if (!found)
-{
-//// input ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf("\\input{", tagEnd);
-offset=tagStart;
-	if (tagStart!=-1)
-	{
-	s=s.mid(tagStart+6,s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-		{
-		s=s.mid(0,tagStart+1);
-		if (s.startsWith("{")) s=s.remove(0,1);
-		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-			   	QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-		editor->appendStructureItem(i,s,3,cursor);found=true;
-		}
-	};
-}
-if (!found)
-{
-//// part ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	tagStart=s.indexOf(struct_level1, tagEnd);
-	s=s.mid(tagStart+struct_level1.length(),s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-	  {
-	  if (s.startsWith("*")) s=s.remove(0,1);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-	  //s=s+" (line "+QString::number(i+1)+")";
-		QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-	  editor->appendStructureItem(i,s,4,cursor);found=true;
-	  }
-	};
-}
-if (!found)
-{
-//// chapter ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf(QRegExp("\\\\"+struct_level2+"\\*?[\\{\\[]"), tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	tagStart=s.indexOf(struct_level2, tagEnd);
-	s=s.mid(tagStart+struct_level2.length(),s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-	  {
-	  if (s.startsWith("*")) s=s.remove(0,1);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-	  //s=s+" (line "+QString::number(i+1)+")";
-		QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-	  editor->appendStructureItem(i,s,5,cursor);found=true;
-	  }
-	};
-}
-if (!found)
-{
-//// bib files ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf("\\bibliography{", tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	s=s.mid(tagStart+13,s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-		{
-		s=s.mid(0,tagStart+1);
-		if (s.startsWith("{")) s=s.remove(0,1);
-		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-				      	QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-		editor->appendStructureItem(i,s,9,cursor);found=true;
-		}
-	};
-}
-if (!found)
-{
-//// bib files ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf("\\addbibresource{", tagEnd);
-offset=tagStart;
-if (tagStart!=-1)
-	{
-	s=s.mid(tagStart+15,s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-		{
-		s=s.mid(0,tagStart+1);
-		if (s.startsWith("{")) s=s.remove(0,1);
-		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-				      	QTextCursor	cursor(document());
-	cursor.setPosition(currentBlock().position() + offset+1);
-	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
-		editor->appendStructureItem(i,s,9,cursor);found=true;
-		}
-	};
-}
 /////////////////
 i=0;
 blockData->code.clear(); 
@@ -1272,7 +982,308 @@ else if ( state == StateBib )
 else 
 	{
 	setCurrentBlockState(StateStandard) ;
+	state=StateStandard;
     	}
+/////////////////////
+bool found=false;
+bool update=true;
+int oldstate=state;
+
+editor->setOldStructureItem();
+i=currentBlock().blockNumber();
+editor->removeStructureItem(currentBlock().position(), currentBlock().length(),i);
+int tagStart, tagEnd,offset;
+QString s;
+QString struct_level1="part";
+QString struct_level2="chapter";
+QString struct_level3="section";
+QString struct_level4="subsection";
+QString struct_level5="subsubsection";
+
+//// section ////
+/*QRegExp rxSection=QRegExp("^\\s*\\\\section\\*?\\s*(?:\\[[^]]*\\]\s*)?\\{([^}]*)\\}");
+offset=text.indexOf(rxSection);
+if (offset!=-1)
+  {
+  s=rxSection.cap(1);
+  if (s.isEmpty()) s=rxSection.cap(0);
+  QTextCursor cursor(document());
+  cursor.setPosition(currentBlock().position() + offset);
+  cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+  editor->appendStructureItem(i,s,6,cursor);found=true;
+  }*/
+
+tagStart=tagEnd=offset=0;
+s=text; 
+ tagStart=s.indexOf(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+	if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level3, tagEnd);
+	s=s.mid(tagStart+struct_level3.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,6,cursor);found=true;
+	  }
+	};
+if (!found)
+{
+//// subsection ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level4, tagEnd);
+	s=s.mid(tagStart+struct_level4.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,7,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// subsubsection ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level5, tagEnd);
+	s=s.mid(tagStart+struct_level5.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,8,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// block ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\begin\\{block\\}\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf("begin{block}", tagEnd);
+	s=s.mid(tagStart+12,s.length());
+	if (s.startsWith("{")) s=s.remove(0,1);
+	if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	//s=s+" (line "+QString::number(i+1)+")";
+	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	editor->appendStructureItem(i,s,0,cursor);found=true;
+	};
+}
+if (!found)
+{
+//// label ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\label{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+7,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+		//s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,1,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// include ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\include{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+8,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+			   	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,2,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// input ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\input{", tagEnd);
+offset=tagStart;
+	if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+6,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+			   	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,3,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// part ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level1, tagEnd);
+	s=s.mid(tagStart+struct_level1.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,4,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// chapter ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level2+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level2, tagEnd);
+	s=s.mid(tagStart+struct_level2.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	  //s=s+" (line "+QString::number(i+1)+")";
+		QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+	  editor->appendStructureItem(i,s,5,cursor);found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// bib files ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\bibliography{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+13,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+				      	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,9,cursor);found=true;
+		}
+	};
+}
+if (!found)
+{
+//// bib files ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\addbibresource{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+15,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+				      	QTextCursor	cursor(document());
+	cursor.setPosition(currentBlock().position() + offset+1);
+	//cursor.setPosition(currentBlock().position() + offset + 1, QTextCursor::KeepAnchor);
+		editor->appendStructureItem(i,s,9,cursor);found=true;
+		}
+	};
+}
+if (editor->StructureHasChanged()) editor->setStructureDirty();
+
+////////////////////
+
 if (text.isEmpty()) return;
 if (pChecker)
 	{

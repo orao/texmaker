@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,28 +9,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef REPLACEDIALOG_H
-#define REPLACEDIALOG_H
+#ifndef LIGHTGOTOLINEWIDGET_H
+#define LIGHTGOTOLINEWIDGET_H
 
-#include "ui_replacedialog.h"
-#include "latexeditor.h"
+#include "ui_gotolinewidget.h"
+#include "lightlatexeditor.h"
 
-class ReplaceDialog : public QDialog
+class LightGotoLineWidget : public QWidget
 { 
     Q_OBJECT
 
 public:
-    ReplaceDialog(QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
-    ~ReplaceDialog();
-    Ui::ReplaceDialog ui;
+    LightGotoLineWidget(QWidget* parent = 0);
+    ~LightGotoLineWidget();
+    Ui::GotoLineWidget ui;
 
 public slots:
-    virtual void doReplace();
-    virtual void doReplaceAll();
-    void SetEditor(LatexEditor *ed);
-
+    virtual void gotoLine();
+    void SetEditor(LightLatexEditor *ed);
+    void doHide();
 protected:
-    LatexEditor *editor;
+    LightLatexEditor *editor;
+signals:
+void requestHide();
 };
 
-#endif // REPLACEDIALOG_H
+#endif 

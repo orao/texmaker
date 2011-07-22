@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-20079 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,27 +9,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GOTOLINEDIALOG_H
-#define GOTOLINEDIALOG_H
+#ifndef LIGHTLINENUMBERWIDGET_H
+#define LIGHTLINENUMBERWIDGET_H
 
-#include "ui_gotolinedialog.h"
-#include "latexeditor.h"
+#include <QtGui>
+#include <QWidget>
+#include <QFont>
+#include <QPaintEvent>
+#include "lightlatexeditor.h"
 
-class GotoLineDialog : public QDialog
-{ 
+
+class LightLineNumberWidget: public QWidget
+{
     Q_OBJECT
-
 public:
-    GotoLineDialog(QWidget* parent = 0, const char* name = 0,Qt::WFlags fl = 0 );
-    ~GotoLineDialog();
-    Ui::GotoLineDialog ui;
+    LightLineNumberWidget(LightLatexEditor*, QWidget* parent);
+    virtual ~LightLineNumberWidget();
 
 public slots:
-    virtual void gotoLine();
-    void SetEditor(LatexEditor *ed);
+    void doRepaint() { repaint(); }
+    void setFont(QFont efont);
 
 protected:
-    LatexEditor *editor;
+    virtual bool event(QEvent *event);
+    virtual void paintEvent( QPaintEvent* event);
+    virtual void mousePressEvent(QMouseEvent *e);
+
+private:
+    LightLatexEditor* m_editor;
+    QFont numfont;
+    int start, end;
 };
 
-#endif // GOTOLINEDIALOG_H
+#endif

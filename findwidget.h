@@ -30,6 +30,8 @@ public slots:
 
 protected:
     LatexEditor *editor;
+signals:
+void requestHide();
 };
 
 #endif

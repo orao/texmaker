@@ -175,15 +175,22 @@ const QFontMetrics fm(numfont);
 QPoint p = m_editor->viewport()->mapFromGlobal(e->globalPos());
 QTextCursor cur( m_editor->cursorForPosition(p) );
 int i = m_editor->linefromblock(cur.block());
-
 if (abs(p.x())<width()-fm.width("0")-6) 
   {
   if (i==start+1) 
   {
-    if (m_editor->foldedLines.keys().contains(start)) m_editor->unfold(start,end);
-    else  m_editor->fold(start,end);
+/* QMapIterator<int, int> it(m_editor->foldedLines);
+ while (it.hasNext()) {
+     it.next();
+     qDebug() << "folded" << it.key() << ": " << it.value();
+ }*/   
+    if (m_editor->foldedLines.keys().contains(start)) 
+      {
+      m_editor->unfold(start,end);
+      }
+    else  {m_editor->fold(start,end);}
   }
-  else if (m_editor->foldedLines.keys().contains(i-1)) m_editor->unfold(i-1,m_editor->foldedLines[i-1]);
+  else if (m_editor->foldedLines.keys().contains(i-1)) {m_editor->unfold(i-1,m_editor->foldedLines[i-1]);}
   }
 else
   {

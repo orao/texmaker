@@ -31,9 +31,10 @@
 #include <QScrollBar>
 #include <QTextCodec>
 #include <QFile>
+#include <QInputContext>
 #include "blockdata.h"
 
-LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker) : QPlainTextEdit(parent),c(0)
+LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces,int tabwidth) : QPlainTextEdit(parent),c(0)
 {
 QPalette p = palette();
 p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
@@ -46,7 +47,9 @@ setFrameShape(QFrame::NoFrame);
 for (int i = 0; i < 3; ++i) UserBookmark[i]=0;
 encoding="";
 setFont(efont);
-setTabStopWidth(fontMetrics().width("    "));
+tabWidth=tabwidth;
+tabSpaces=tabspaces;
+setTabStopWidth(fontMetrics().width(" ")*tabWidth);
 setTabChangesFocus(false);
 endBlock=-1;
 foldableLines.clear();
@@ -77,6 +80,7 @@ highlighter->setColors(colMath,colCommand,colKeyword);
 //c=0;
 //connect(this, SIGNAL(cursorPositionChanged()), viewport(), SLOT(update()));
 connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchAll()));
+connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(requestNewNumLines(int)));
 //connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchLat()));
 //grabShortcut(QKeySequence(Qt::SHIFT + Qt::Key_Tab), Qt::WidgetShortcut);
 //setCenterOnScroll(true);
@@ -86,6 +90,7 @@ lastSavedTime=QDateTime::currentDateTime();
 highlightLine=false;
 highlightRemover.setSingleShot(true);
 connect(&highlightRemover, SIGNAL(timeout()), this, SLOT(clearHightLightLine()));
+emit poshaschanged(1,1);
 }
 LatexEditor::~LatexEditor(){
 //delete pChecker;
@@ -118,6 +123,7 @@ QPlainTextEdit::paintEvent(event);
 void LatexEditor::contextMenuEvent(QContextMenuEvent *e)
 {
 QMenu *menu=new QMenu(this);
+//menu = createStandardContextMenu();
 QAction *a;
 /*******************************************/
 if (inlinecheckSpelling && pChecker)
@@ -244,10 +250,23 @@ if (endBlock>=0)
   }
 menu->addSeparator();
 a=new QAction(tr("Jump to pdf"),menu);
+#ifdef Q_WS_MACX
+a->setShortcut(Qt::CTRL+Qt::Key_Dollar);
+#else
 a->setShortcut(Qt::CTRL+Qt::Key_Space);
+#endif
 a->setData(QVariant(cursorForPosition(e->pos()).blockNumber() + 1));
 connect(a, SIGNAL(triggered()), this, SLOT(jumpToPdf()));
 menu->addAction(a);
+
+QInputContext *qic = inputContext();
+if (qic) 
+    {
+    QList<QAction *> imActions = qic->actions();
+    for (int i = 0; i < imActions.size(); ++i)
+    menu->addAction(imActions.at(i));
+    }
+
 menu->exec(e->globalPos());
 delete menu;
 }
@@ -589,7 +608,7 @@ if (index >= text.length()) return "";
 int start=index;
 int end=index;
 QChar	ch = text.at(index);
-#define IS_WORD_BACK(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[')
+#define IS_WORD_BACK(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch==':')
 #define IS_WORD_FORWARD(ch) (ch.isLetter() || ch.isMark() )
 bool isControlSeq = false; // becomes true if we include an @ sign or a leading backslash
 bool includesApos = false; // becomes true if we include an apostrophe
@@ -732,7 +751,7 @@ const QString text = block.text();
 if (text.length() < 1) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
 if (index >= text.length()) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
 QChar	ch = text.at(index);
-#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']')
+#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']' || ch==':')
 //#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']')
 bool isControlSeq = false; // becomes true if we include an @ sign or a leading backslash
 bool includesApos = false; // becomes true if we include an apostrophe
@@ -913,7 +932,8 @@ if ( e->key()==Qt::Key_Tab)
 	    return;		
 	    }
 	}
-    QPlainTextEdit::keyPressEvent(e);
+    if (tabSpaces) insertPlainText(QString().fill(' ', tabWidth));
+    else QPlainTextEdit::keyPressEvent(e);
     }
 else if ( e->key()==Qt::Key_Backtab) 
     {
@@ -976,10 +996,17 @@ else if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return))
 		}
 	cursor.endEditBlock();
 	}
+#ifdef Q_WS_MACX
+else if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Dollar) 
+  {
+  emit requestpdf(textCursor().blockNumber() + 1);
+  }
+#else
 else if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space) 
   {
   emit requestpdf(textCursor().blockNumber() + 1);
   }
+#endif
 else QPlainTextEdit::keyPressEvent(e);
 if (c && !c->popup()->isVisible()) 
 	{
@@ -1158,7 +1185,7 @@ bool LatexEditor::isWordSeparator(QChar c) const
     case ',':
     case '?':
     case '!':
-    case ':':
+//    case ':':
     case ';':
     case '-':
     case '<':
@@ -1202,6 +1229,8 @@ setExtraSelections(selections);
 matchPar();
 matchLat();
 if (foldableLines.keys().contains(textCursor().block().blockNumber())) emit requestGotoStructure(textCursor().block().blockNumber());
+//emit poshaschanged(textCursor().blockNumber() + 1,textCursor().position() - document()->findBlock(textCursor().selectionStart()).position()+1);
+emit poshaschanged(textCursor().blockNumber() + 1,textCursor().position() - textCursor().block().position()+1);
 }
 
 void LatexEditor::matchPar() 
@@ -1472,6 +1501,31 @@ emit updatelineWidget();
 ensureCursorVisible();
 }
 
+void LatexEditor::setOldStructureItem()
+{
+OldStructItemsList=StructItemsList;
+}
+
+bool LatexEditor::StructureHasChanged()
+{
+QList<StructItem> tempStructItemsList, tempOldStructItemsList;
+tempStructItemsList=StructItemsList;
+tempOldStructItemsList=OldStructItemsList;
+qSort(tempOldStructItemsList.begin(),tempOldStructItemsList.end());
+qSort(tempStructItemsList.begin(), tempStructItemsList.end());
+/*if (tempStructItemsList!=tempOldStructItemsList)
+{
+qDebug() << tempOldStructItemsList.count() << tempStructItemsList.count();
+for (int i=0;i<tempOldStructItemsList.count();i++)
+{
+qDebug() <<  tempOldStructItemsList[i].line << tempStructItemsList[i].line;
+qDebug() <<  tempOldStructItemsList[i].item << tempStructItemsList[i].item;
+qDebug() <<  tempOldStructItemsList[i].type << tempStructItemsList[i].type;
+}
+}*/
+return (tempStructItemsList!=tempOldStructItemsList);
+}
+
 void LatexEditor::removeStructureItem(int offset,int len, int line)
 {
 bool r=false;
@@ -1489,7 +1543,8 @@ for ( int j=StructItemsList.count()-1;j>=0; --j )
     r=true;
     }
   }
-if (r) {emit requestUpdateStructure();}
+
+//if (r && update) {qDebug() << "update remove" << line  ;emit requestUpdateStructure();}
 }
 
 void LatexEditor::appendStructureItem(int line,QString item,int type,const QTextCursor& cursor)
@@ -1502,12 +1557,18 @@ while (j < StructItemsList.count())
   ++j;
   }
 StructItemsList.insert(j,StructItem(line,item,type,cursor));
-//qDebug() << "add" << StructItemsList[j].item;
+//qDebug() << "update append" << line ;
+//if (update) emit requestUpdateStructure();
+}
+
+void LatexEditor::setStructureDirty()
+{
 emit requestUpdateStructure();
 }
 
 void LatexEditor::ensureFinalNewLine()//Qt 4.7.1 bug
 {
+disconnect(this, SIGNAL(blockCountChanged(int)), this, SLOT(requestNewNumLines(int)));
 QTextCursor cursor = textCursor();
 cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
 bool emptyFile = !cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
@@ -1516,6 +1577,8 @@ if (!emptyFile && cursor.selectedText().at(0) != QChar::ParagraphSeparator)
     cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
     cursor.insertText(QLatin1String("\n"));
     }
+setLastNumLines(document()->blockCount());
+connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(requestNewNumLines(int)));
 }
 
 int LatexEditor::getLastNumLines()
@@ -1571,6 +1634,19 @@ if (block.isValid())
 	}
 return result;
 }
+
+void LatexEditor::setTabSettings(bool tabspaces,int tabwidth)
+{
+tabWidth=tabwidth;
+tabSpaces=tabspaces;
+setTabStopWidth(fontMetrics().width(" ")*tabWidth);
+}
+
+void LatexEditor::requestNewNumLines(int n)
+{
+emit numLinesChanged(n);
+}
+
 /*const QRectF LatexEditor::blockGeometry(const QTextBlock & block) 
 {
 qDebug() << "ok1" << block.isValid() << block.isVisible();

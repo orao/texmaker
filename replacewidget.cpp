@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,30 +9,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "replacedialog.h"
+#include "replacewidget.h"
 #include <QMessageBox>
 
-ReplaceDialog::ReplaceDialog(QWidget* parent,  const char* name, Qt::WFlags fl )
-    : QDialog( parent, fl )
+ReplaceWidget::ReplaceWidget(QWidget* parent)
+    : QWidget( parent)
 {
-setWindowTitle(name);
-setModal(true);
 ui.setupUi(this);
 connect( ui.findButton, SIGNAL( clicked() ), this, SLOT( doReplace() ) );
 connect( ui.replaceallButton, SIGNAL( clicked() ), this, SLOT( doReplaceAll() ) );
-connect( ui.closeButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
+connect( ui.closeButton, SIGNAL( clicked() ), this, SLOT( doHide() ) );
 ui.findButton->setShortcut(Qt::Key_Return);
+ui.findButton->setToolTip("Return");
+ui.closeButton->setShortcut(Qt::Key_Escape);
+ui.closeButton->setToolTip("Escape");
 }
 
 
-ReplaceDialog::~ReplaceDialog()
+ReplaceWidget::~ReplaceWidget()
 {
 }
 
-void ReplaceDialog::doReplace()
+void ReplaceWidget::doReplace()
 {
-reject();
-if ( !editor ) 	return;
+doHide();
+if ( !editor ) return;
 bool go=true;
 while (go && editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),
 	ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked()) )
@@ -54,7 +55,7 @@ while (go && editor->search( ui.comboFind->currentText(), ui.checkCase->isChecke
 if (go) ui.checkBegin->setChecked( TRUE );
 }
 
-void ReplaceDialog::doReplaceAll()
+void ReplaceWidget::doReplaceAll()
 {
 if ( !editor ) return;
 while ( editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),
@@ -66,10 +67,19 @@ ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChec
 ui.checkBegin->setChecked( TRUE );
 }
 
-void ReplaceDialog::SetEditor(LatexEditor *ed)
+void ReplaceWidget::SetEditor(LatexEditor *ed)
 {
 editor=ed;
 }
 
+void ReplaceWidget::doHide()
+{
+emit requestHide();
+if ( editor ) 
+	{
+	editor->viewport()->repaint();
+	editor->setFocus();
+	}
+}
 
 

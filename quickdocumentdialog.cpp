@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,9 @@ ui.comboBoxSize->addItem( "12pt" );
 connect(ui.pushButtonPaper , SIGNAL(clicked()), SLOT(addUserPaper()) );
 connect(ui.pushButtonEncoding , SIGNAL(clicked()), SLOT(addUserEncoding()) );
 connect(ui.pushButtonOptions , SIGNAL(clicked()), SLOT(addUserOptions()) );
+connect(ui.pushButtonBabel , SIGNAL(clicked()), SLOT(addUserBabel()) );
 ui.listWidgetOptions->setSelectionMode(QAbstractItemView::ExtendedSelection  );
+ui.listWidgetBabel->setSelectionMode(QAbstractItemView::ExtendedSelection  );
 setWindowTitle(tr("Quick Start"));
 }
 
@@ -56,6 +58,7 @@ ui.comboBoxEncoding->addItem( "latin1" );
 ui.comboBoxEncoding->addItem( "latin2" );
 ui.comboBoxEncoding->addItem( "latin3" );
 ui.comboBoxEncoding->addItem( "latin5" );
+ui.comboBoxEncoding->addItem( "utf8" );
 ui.comboBoxEncoding->addItem( "utf8x" );
 ui.comboBoxEncoding->addItem( "ascii" );
 ui.comboBoxEncoding->addItem( "decmulti" );
@@ -88,6 +91,27 @@ ui.listWidgetOptions->addItem("openbib" );
 ui.listWidgetOptions->addItem("leqno" );
 ui.listWidgetOptions->addItem("fleqn" );
 if (!otherOptionsList.isEmpty ()) ui.listWidgetOptions->addItems(otherOptionsList);
+
+ui.listWidgetBabel->clear();
+ui.listWidgetBabel->addItem("arabic" );
+ui.listWidgetBabel->addItem("czech" );
+ui.listWidgetBabel->addItem("english" );
+ui.listWidgetBabel->addItem("farsi" );
+ui.listWidgetBabel->addItem("finnish" );
+ui.listWidgetBabel->addItem("francais" );
+ui.listWidgetBabel->addItem("french" );
+ui.listWidgetBabel->addItem("frenchb" );
+ui.listWidgetBabel->addItem("german" );
+ui.listWidgetBabel->addItem("greek" );
+ui.listWidgetBabel->addItem("icelandic" );
+ui.listWidgetBabel->addItem("italian" );
+ui.listWidgetBabel->addItem("magyar" );
+ui.listWidgetBabel->addItem("polish" );
+ui.listWidgetBabel->addItem("portuguese" );
+ui.listWidgetBabel->addItem("russian" );
+ui.listWidgetBabel->addItem("slovak" );
+ui.listWidgetBabel->addItem("spanish" );
+if (!otherBabelList.isEmpty ()) ui.listWidgetBabel->addItems(otherBabelList);
 }
 
 void QuickDocumentDialog::addUserClass()
@@ -137,6 +161,19 @@ dlg = new AddOptionDialog(this,"New");
   {
   newoption=dlg->ui.lineEdit->text();
   if (newoption!="") otherOptionsList.append(newoption);
+  Init();
+  }
+delete (dlg);
+}
+
+void QuickDocumentDialog::addUserBabel()
+{
+QString newoption="";
+dlg = new AddOptionDialog(this,"New");
+  if ( dlg->exec() )
+  {
+  newoption=dlg->ui.lineEdit->text();
+  if (newoption!="") otherBabelList.append(newoption);
   Init();
   }
 delete (dlg);

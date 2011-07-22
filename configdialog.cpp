@@ -405,6 +405,9 @@ usualCommands.append(ui.lineEditAsymptote->text());
 usualNames.append(tr("Latexmk"));
 usualCommands.append(ui.lineEditLatexmk->text());
 
+usualNames.append(tr("R Sweave"));
+usualCommands.append(ui.lineEditSweave->text());
+
 userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
 if ( userquickdlg->exec() )
    {

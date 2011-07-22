@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
+    <width>706</width>
     <height>250</height>
    </rect>
   </property>
@@ -45,7 +45,7 @@
      <property name="spacing">
       <number>6</number>
      </property>
-     <item row="3" column="0" colspan="2">
+     <item row="3" column="0" colspan="3">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>(the commands must be separated by '|')</string>
@@ -55,17 +55,23 @@
      <item row="2" column="0" colspan="2">
       <widget class="QLineEdit" name="toolEdit"/>
      </item>
-     <item row="0" column="1">
+     <item row="0" column="1" colspan="2">
       <widget class="QLineEdit" name="itemEdit"/>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Menu Item</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="2">
+     <item row="1" column="0" colspan="3">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Command (% : filename without extension)</string>
@@ -85,6 +91,23 @@
        </property>
       </spacer>
      </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="pushButtonWizard">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>wizard</string>
+       </property>
+       <property name="icon">
+        <iconset resource="texmaker.qrc">
+         <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="1" column="0" colspan="3">
@@ -100,7 +123,9 @@
   <tabstop>itemEdit</tabstop>
   <tabstop>toolEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="texmaker.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

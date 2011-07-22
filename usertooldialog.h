@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -13,6 +13,7 @@
 #define USERTOOLDIALOG_H
 
 #include <QString>
+#include "userquickdialog.h"
 #include "ui_usertooldialog.h"
 
 typedef QString userCd[5];
@@ -21,7 +22,7 @@ typedef QString userCd[5];
 class UserToolDialog : public QDialog  {
    Q_OBJECT
 public: 
-	UserToolDialog(QWidget *parent=0, QString name="");
+	UserToolDialog(QWidget *parent=0, QString name="", QStringList names=QStringList(""), QStringList commands=QStringList(""));
 	~UserToolDialog();
 	Ui::UserToolDialog ui;
 
@@ -29,7 +30,8 @@ public:
 
 private:
     int previous_index;
-
+    UserQuickDialog *userquickdlg;
+    QStringList usualNames, usualCommands;
 public slots:
     void init();
 
@@ -37,6 +39,7 @@ private slots:
     void change(int index);
     void slotOk();
     void updateItem();
+    void userQuickWizard();
 };
 
 #endif

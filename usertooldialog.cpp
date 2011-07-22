@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -11,16 +11,18 @@
 
 #include "usertooldialog.h"
 
-UserToolDialog::UserToolDialog(QWidget *parent, QString name ) : QDialog(parent)
+UserToolDialog::UserToolDialog(QWidget *parent, QString name,QStringList names, QStringList commands ) : QDialog(parent)
 {
 setWindowTitle(name);
 setModal(true);
 ui.setupUi(this);
-
+usualNames=names;
+usualCommands=commands;
 previous_index=0;
 
 
 connect(ui.listWidget, SIGNAL(currentRowChanged(int)),this,SLOT(change(int)));
+connect( ui.pushButtonWizard, SIGNAL(clicked()), this, SLOT(userQuickWizard()));
 
 connect( ui.buttonBox, SIGNAL(accepted()), SLOT(slotOk()) );
 }
@@ -64,3 +66,12 @@ int i=ui.listWidget->currentRow();
 ui.listWidget->item(i)->setText("Command "+QString::number(i+1)+" : "+ui.itemEdit->text());
 }
 
+void UserToolDialog::userQuickWizard()
+{
+userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
+if ( userquickdlg->exec() )
+   {
+   ui.toolEdit->setText(userquickdlg->userQuickCommand);
+   }
+delete (userquickdlg);
+}

@@ -14,8 +14,9 @@
 \begin{•}
 \begin{abstract}
 \begin{align}
+\begin{align*}
 \begin{array}{•}
-\begin{array}{•}
+\begin{block}
 \begin{bmatrix}
 \begin{center}
 \begin{description}
@@ -28,6 +29,7 @@
 \begin{flushleft}
 \begin{flushright}
 \begin{footnotesize}
+\begin{frame}
 \begin{Huge}
 \begin{huge}
 \begin{itemize}
@@ -40,6 +42,7 @@
 \begin{minipage}{•}
 \begin{normalsize}
 \begin{pmatrix}
+\begin{proof}
 \begin{quotation}
 \begin{quote}
 \begin{scriptsize}
@@ -107,8 +110,9 @@
 \end{•}
 \end{abstract}
 \end{align}
+\end{align*}
 \end{array}
-\end{array}
+\end{block}
 \end{bmatrix}
 \end{center}
 \end{description}
@@ -121,6 +125,7 @@
 \end{flushleft}
 \end{flushright}
 \end{footnotesize}
+\end{frame}
 \end{Huge}
 \end{huge}
 \end{itemize}
@@ -132,6 +137,7 @@
 \end{minipage}
 \end{normalsize}
 \end{pmatrix}
+\end{proof}
 \end{quotation}
 \end{quote}
 \end{scriptsize}

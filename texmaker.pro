@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.0.2
+TEXMAKERVERSION=3.1
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -19,11 +19,17 @@ HEADERS	+= texmaker.h \
 	latexhighlighter.h \
 	latexeditorview.h \
 	linenumberwidget.h \
+	lightlatexeditor.h \
+	lightlatexhighlighter.h \
+	lightlinenumberwidget.h \
+	sourceview.h \
 	logeditor.h \
 	loghighlighter.h \
 	findwidget.h \
-	gotolinedialog.h \
-	replacedialog.h \
+	gotolinewidget.h \
+	lightfindwidget.h \
+	lightgotolinewidget.h \
+	replacewidget.h \
 	structdialog.h \
 	filechooser.h \
 	graphicfilechooser.h \
@@ -113,11 +119,17 @@ SOURCES	+= main.cpp \
 	latexhighlighter.cpp \
 	latexeditorview.cpp \
 	linenumberwidget.cpp \
+	lightlatexeditor.cpp \
+	lightlatexhighlighter.cpp \
+	lightlinenumberwidget.cpp \
+	sourceview.cpp \
 	logeditor.cpp \
 	loghighlighter.cpp \
 	findwidget.cpp \
-	gotolinedialog.cpp \
-	replacedialog.cpp \
+	gotolinewidget.cpp \
+	lightfindwidget.cpp \
+	lightgotolinewidget.cpp \
+	replacewidget.cpp \
 	structdialog.cpp \
 	filechooser.cpp \
 	graphicfilechooser.cpp \
@@ -196,8 +208,8 @@ SOURCES	+= main.cpp \
 	encodingprober/UnicodeGroupProber.cpp 
 RESOURCES += texmaker.qrc
 FORMS   += findwidget.ui\
-	gotolinedialog.ui \
-	replacedialog.ui \
+	gotolinewidget.ui \
+	replacewidget.ui \
 	structdialog.ui \
 	filechooser.ui \
 	graphicfilechooser.ui \
@@ -221,7 +233,6 @@ FORMS   += findwidget.ui\
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
 	texmaker_es.ts \
-	texmaker_fa.ts \
 	texmaker_gl.ts \
 	texmaker_it.ts \
 	texmaker_ru.ts \
@@ -230,8 +241,12 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_cs.ts \
 	texmaker_pt_BR.ts \
 	texmaker_nl.ts  \
+	texmaker_hu.ts  \
+	texmaker_fa.ts  \
+	texmaker_pl.ts  \
 	texmaker_vi_VN.ts \
-	texmaker_da.ts
+	texmaker_da.ts \
+	texmaker_ca.ts
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -307,10 +322,12 @@ utilities.files = doc/doc1.png \
 	locale/qt_ru.qm \
 	locale/qt_zh_CN.qm \
 	locale/qt_zh_TW.qm \
+	locale/qt_fa.qm \
+	locale/qt_pl.qm \
+	locale/qt_nl.qm \
 	locale/texmaker_ca.qm \
 	locale/texmaker_de.qm \
 	locale/texmaker_es.qm \
-	locale/texmaker_fa.qm \
 	locale/texmaker_fr.qm \
 	locale/texmaker_gl.qm \
 	locale/texmaker_it.qm \
@@ -320,6 +337,9 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_zh_TW.qm \
 	locale/texmaker_cs.qm \
 	locale/texmaker_nl.qm \
+	locale/texmaker_fa.qm \
+	locale/texmaker_pl.qm \
+	locale/texmaker_hu.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -333,6 +353,9 @@ utilities.files = doc/doc1.png \
 	dictionaries/it_IT.aff \
 	dictionaries/it_IT.dic \
 	dictionaries/it_IT_README.txt \
+	dictionaries/hu_HU.aff \
+	dictionaries/hu_HU.dic \
+	dictionaries/README_hu_HU.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \
 	dictionaries/README_es_ES.txt 
@@ -404,10 +427,12 @@ utilities.files =doc/doc1.png \
 	locale/qt_ru.qm \
 	locale/qt_zh_CN.qm \
 	locale/qt_zh_TW.qm \
+	locale/qt_fa.qm \
+	locale/qt_pl.qm \
+	locale/qt_nl.qm \
 	locale/texmaker_ca.qm \
 	locale/texmaker_de.qm \
 	locale/texmaker_es.qm \
-	locale/texmaker_fa.qm \
 	locale/texmaker_fr.qm \
 	locale/texmaker_gl.qm \
 	locale/texmaker_it.qm \
@@ -417,6 +442,9 @@ utilities.files =doc/doc1.png \
 	locale/texmaker_zh_TW.qm \
 	locale/texmaker_cs.qm \
 	locale/texmaker_nl.qm \
+	locale/texmaker_fa.qm \
+	locale/texmaker_pl.qm \
+	locale/texmaker_hu.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -428,22 +456,24 @@ utilities.files =doc/doc1.png \
 	dictionaries/fr_FR.aff \
 	dictionaries/fr_FR.dic \
 	dictionaries/it_IT.aff \
-	dictionaries/it_IT.dic 
+	dictionaries/it_IT.dic \
+	dictionaries/hu_HU.aff \
+	dictionaries/hu_HU.dic
 INSTALLS += utilities
 
 others.path = texmakerwin32
 #others.path = texmakerwin32usb
 
 others.files = texmaker.ico \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\mingwm10.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\libgcc_s_dw2-1.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtCore4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtGui4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtWebKit4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtXml4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtXmlPatterns4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\phonon4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.2\mingw\bin\QtNetwork4.dll 
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\mingwm10.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\libgcc_s_dw2-1.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtCore4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtGui4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtWebKit4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtXml4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtXmlPatterns4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\phonon4.dll \
+		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtNetwork4.dll 
 INSTALLS += others
 }
 ###############################
@@ -509,10 +539,15 @@ utilities.files = utilities/qt_menu.nib \
 	locale/qt_ru.qm \
 	locale/qt_zh_CN.qm \
 	locale/qt_zh_TW.qm \
+	locale/qt_fa.qm \
+	locale/qt_pl.qm \
+	locale/qt_nl.qm \
+	locale/texmaker_fa.qm \
+	locale/texmaker_pl.qm \
+	locale/texmaker_hu.qm \
 	locale/texmaker_ca.qm \
 	locale/texmaker_de.qm \
 	locale/texmaker_es.qm \
-	locale/texmaker_fa.qm \
 	locale/texmaker_fr.qm \
 	locale/texmaker_gl.qm \
 	locale/texmaker_it.qm \
@@ -535,6 +570,9 @@ utilities.files = utilities/qt_menu.nib \
 	dictionaries/it_IT.aff \
 	dictionaries/it_IT.dic \
 	dictionaries/it_IT_README.txt \
+	dictionaries/hu_HU.aff \
+	dictionaries/hu_HU.dic \
+	dictionaries/README_hu_HU.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \
 	dictionaries/README_es_ES.txt 

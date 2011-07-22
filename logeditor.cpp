@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,18 +12,25 @@
 #include "logeditor.h"
 #include <QRegExp>
 #include <QPainter>
+#include <QDebug>
 
-LogEditor::LogEditor(QWidget *parent) : QTextEdit(parent)
+LogEditor::LogEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
 //setToolTip(tr("Click to jump to the line"));
 highlighter = new LogHighlighter(document());
+
+connect(this, SIGNAL(cursorPositionChanged()),this, SLOT(update()));
+setReadOnly(true);
+setEnabled(true);
+setFocusPolicy(Qt::WheelFocus);
+setTextInteractionFlags(Qt::TextSelectableByMouse|Qt::TextSelectableByKeyboard);
 }
 LogEditor::~LogEditor(){
 }
 
 void LogEditor::insertLine(QString l)
 {
-append(l);
+appendPlainText(l);
 }
 
 void LogEditor::setCursorPosition(int para, int index)
@@ -46,7 +53,7 @@ ensureCursorVisible();
 
 void LogEditor::mousePressEvent (QMouseEvent *e)
 {
-QTextEdit::mousePressEvent(e);
+QPlainTextEdit::mousePressEvent(e);
 QString content=textCursor().block().text();
  int Start, End;
  bool ok;
@@ -105,11 +112,14 @@ emit clickonline(l);
 void LogEditor::paintEvent(QPaintEvent *event)
 {
 QRect rect = cursorRect();
-rect.setX(0);
-rect.setWidth(viewport()->width());
+QRect rectbis=rect;
+rectbis.setX(0);
+rectbis.setWidth(viewport()->width());
 QPainter painter(viewport());
-const QBrush brush(QColor("#ececec"));
+const QBrush brush(QColor("#000000"));
+const QBrush brushbis(QColor("#ececec"));
+painter.fillRect(rectbis, brushbis);
 painter.fillRect(rect, brush);
 painter.end();
-QTextEdit::paintEvent(event);
+QPlainTextEdit::paintEvent(event);
 }

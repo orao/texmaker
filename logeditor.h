@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -14,7 +14,7 @@
 
 #include <QWidget>
 #include <QString>
-#include <QTextEdit>
+#include <QPlainTextEdit>
 #include <QTextDocument>
 #include <QTextCursor>
 #include <QTextBlock>
@@ -22,7 +22,7 @@
 
 #include "loghighlighter.h"
 
-class LogEditor : public QTextEdit  {
+class LogEditor : public QPlainTextEdit  {
    Q_OBJECT
 public: 
 	LogEditor(QWidget *parent);

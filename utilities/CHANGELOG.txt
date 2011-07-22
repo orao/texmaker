@@ -1,3 +1,28 @@
+version 3.0.2 -> 3.1 :
+----------------------
+- the "tabular" wizard has been completed and improved
+- a document can now be opened (in read-only mode) beside the editor to make easy copy and paste operations between files ("source viewer" panel)
+- the "R Sweave" command has been added to the predefined commands
+- a wizard has been added to set the "user commands" (same wizard used for the user "quick build" command)
+- an option to replace tab with spaces has been added to the "configure" dialog 
+- current column position is now displayed
+- the "replace" and "goto line" forms are now embedded in the editor (like the "find" form)
+- the "quick document" wizard has been completed
+- users can now search for words in the help browser
+- polish and hungarian translation have been added (thanks to Jan Jełowicki and Tamas Orosz)
+- watching for external changes is now optionnal (disabled by default)
+- an option to backup opened documents every 10 min has been added (disabled by default - copy of the documents are saved with the .bak extension)
+- a new document is now created automatically while using the "Quick start" wizard if a file is not already open (issue 221)
+- the regression about the performance of the syntax highlighting for math environment has been fixed (issue 148)
+- completion doesn't stop anymore on colons (:), but will continue to stop on other words separators (,.) (issue 242)
+- no more crash while refreshing the structure without opening a document (issue 281)
+- the bug about collapsed block has been fixed (issue 272)
+- multiple .bib files (absolute or relative) are now detected in the \bibliography{} command (issue 243)
+- included files with absolute path are now detected correctly (issue 255)
+- the trouble with the path to ghostscript on windows has been fixed
+- the texmaker.desktop file is now compatible with gnome 3 (issue 316)
+
+
 version 3.0.1 -> 3.0.2 :
 ----------------------
 - a potential crash has been fixed while loading non unicode/latin1 files (issue 216)

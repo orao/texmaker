@@ -24,7 +24,6 @@
 #include <QSettings>
 #include <QTextStream>
 
-
 #include "poppler-qt4.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
@@ -991,7 +990,11 @@ if (!fi.exists()) return;
 QString command;
 #ifdef Q_WS_WIN
 QString gs="none";
-if (QFileInfo(gswin32c_command).exists()) gs=gswin32c_command;
+QString gstemp=gswin32c_command;
+gstemp.remove("\"");
+if (QFileInfo(gstemp).exists()) gs=gstemp;
+else if (QFileInfo("C:/Program Files/gs/gs9.02/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.02/bin/gswin32c.exe";
+else if (QFileInfo("C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe";
 else if (QFileInfo("C:/Program Files/gs/gs9.00/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.00/bin/gswin32c.exe";
 else if (QFileInfo("C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe";
 else if (QFileInfo("C:/Program Files/gs/gs8.71/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs8.71/bin/gswin32c.exe";
@@ -1117,12 +1120,19 @@ if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0)
 
 void PdfViewerWidget::keyPressEvent ( QKeyEvent * e ) 
 {
-//if ( e->key()==Qt::Key_F1) 
+#ifdef Q_WS_MACX
+if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Dollar)
+    {
+    emit sendFocusToEditor();
+    }
+else QWidget::keyPressEvent(e);
+#else
 if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space)
     {
     emit sendFocusToEditor();
     }
 else QWidget::keyPressEvent(e);
+#endif
 }
 
 void PdfViewerWidget::ToggleStructure()

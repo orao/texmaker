@@ -6,48 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>437</height>
+    <width>507</width>
+    <height>418</height>
    </rect>
   </property>
-  <layout class="QGridLayout">
-   <property name="margin">
-    <number>9</number>
-   </property>
-   <property name="spacing">
-    <number>6</number>
-   </property>
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <layout class="QGridLayout">
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <item row="5" column="0">
-      <widget class="QLabel" name="labelAuthor">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Author</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="2">
-      <widget class="QPushButton" name="pushButtonOptions">
-       <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="comboBoxPaper"/>
-     </item>
+    <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="labelClass">
        <property name="sizePolicy">
@@ -61,18 +26,140 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEditAuthor"/>
+     <item row="0" column="1" colspan="2">
+      <widget class="QComboBox" name="comboBoxClass"/>
      </item>
-     <item row="0" column="2">
+     <item row="0" column="3">
       <widget class="QPushButton" name="pushButtonClass">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>+</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelOptions">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Other Options</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QListWidget" name="listWidgetOptions"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QPushButton" name="pushButtonOptions">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelSize">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Typeface Size</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
       <widget class="QComboBox" name="comboBoxSize"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="labelPaper">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Paper Size</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="2">
+      <widget class="QComboBox" name="comboBoxPaper"/>
+     </item>
+     <item row="3" column="3">
+      <widget class="QPushButton" name="pushButtonPaper">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelEncoding">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Encoding</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" colspan="2">
+      <widget class="QComboBox" name="comboBoxEncoding"/>
+     </item>
+     <item row="4" column="3">
+      <widget class="QPushButton" name="pushButtonEncoding">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="labelAuthor">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Author</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEditAuthor"/>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="labelTitle">
@@ -87,7 +174,47 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="6" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEditTitle"/>
+     </item>
+     <item row="7" column="0">
+      <widget class="QCheckBox" name="checkBoxBabel">
+       <property name="text">
+        <string>babel Package</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1" colspan="2">
+      <widget class="QListWidget" name="listWidgetBabel"/>
+     </item>
+     <item row="7" column="3">
+      <widget class="QPushButton" name="pushButtonBabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QCheckBox" name="checkBoxGeometry">
+       <property name="text">
+        <string>geometry Package</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEditGeometry">
+       <property name="text">
+        <string>left=2cm,right=2cm,top=2cm,bottom=2cm</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
       <widget class="QCheckBox" name="checkBoxAMS">
        <property name="text">
         <string>AMS Packages</string>
@@ -97,88 +224,17 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
-      <widget class="QPushButton" name="pushButtonEncoding">
-       <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="comboBoxClass"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="labelSize">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Typeface Size</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="lineEditTitle"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="labelPaper">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Paper Size</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="labelOptions">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Other Options</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QListWidget" name="listWidgetOptions"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="labelEncoding">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Encoding</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
+     <item row="9" column="1">
       <widget class="QCheckBox" name="checkBoxIDX">
        <property name="text">
         <string>makeidx Package</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="comboBoxEncoding"/>
-     </item>
-     <item row="2" column="2">
-      <widget class="QPushButton" name="pushButtonPaper">
+     <item row="9" column="2">
+      <widget class="QCheckBox" name="checkBoxGraphicx">
        <property name="text">
-        <string>+</string>
+        <string>graphicx Package</string>
        </property>
       </widget>
      </item>
@@ -262,6 +318,54 @@
     <hint type="destinationlabel">
      <x>255</x>
      <y>218</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxBabel</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>listWidgetBabel</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>286</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxBabel</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>pushButtonBabel</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>286</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>483</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxGeometry</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditGeometry</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>339</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>339</y>
     </hint>
    </hints>
   </connection>

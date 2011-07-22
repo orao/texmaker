@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -9,34 +9,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "gotolinedialog.h"
+#ifndef REPLACEWIDGET_H
+#define REPLACEWIDGET_H
 
+#include "ui_replacewidget.h"
+#include "latexeditor.h"
 
-GotoLineDialog::GotoLineDialog(QWidget* parent,  const char* name, Qt::WFlags fl )
-    : QDialog( parent, fl )
-{
-setWindowTitle(name);
-setModal(true);
-ui.setupUi(this);
-connect( ui.closeButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
-connect( ui.gotoButton, SIGNAL( clicked() ), this, SLOT( gotoLine() ) );
-}
+class ReplaceWidget : public QWidget
+{ 
+    Q_OBJECT
 
-GotoLineDialog::~GotoLineDialog()
-{
+public:
+    ReplaceWidget(QWidget* parent = 0);
+    ~ReplaceWidget();
+    Ui::ReplaceWidget ui;
 
-}
-void GotoLineDialog::gotoLine()
-{
-    if ( editor )
-    {
-    editor->gotoLine( ui.spinLine->value() - 1 );
-    editor->setFocus();
-    }
-    accept();
-}
-void GotoLineDialog::SetEditor(LatexEditor *ed)
-{
-editor=ed;
-}
+public slots:
+    virtual void doReplace();
+    virtual void doReplaceAll();
+    void SetEditor(LatexEditor *ed);
+    void doHide();
+    
+protected:
+    LatexEditor *editor;
+signals:
+void requestHide();
+};
 
+#endif 

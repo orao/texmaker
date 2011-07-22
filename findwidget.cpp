@@ -41,7 +41,7 @@ editor->viewport()->repaint();
 
 void FindWidget::doHide()
 {
-hide();
+emit requestHide();
 if ( editor ) 
 	{
 	editor->viewport()->repaint();

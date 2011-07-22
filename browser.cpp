@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2010 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,6 +12,7 @@
 #include "browser.h"
 
 #include <QtGui>
+#include <QPrinter>
 
 
 Browser::Browser( const QString home, QWidget* parent, Qt::WFlags flags)
@@ -31,13 +32,28 @@ connect(view, SIGNAL(loadProgress(int)), SLOT(setProgress(int)));
 connect(view, SIGNAL(loadFinished(bool)), SLOT(finishLoading(bool)));
 
 QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
+fileMenu->addAction(tr("Print"), this, SLOT(Print()));
+fileMenu->addSeparator();
 fileMenu->addAction(tr("Exit"), this, SLOT(close()));
 
 QToolBar *toolBar = addToolBar("Navigation");
+QAction *Act;
+Act = new QAction(QIcon(":/images/home.png"), tr("Index"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(Index()));
+toolBar->addAction(Act);
 toolBar->addAction(view->pageAction(QWebPage::Back));
 toolBar->addAction(view->pageAction(QWebPage::Forward));
-toolBar->addAction(view->pageAction(QWebPage::Reload));
-toolBar->addAction(view->pageAction(QWebPage::Stop));
+
+QWidget* spacer = new QWidget();
+spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+toolBar->addWidget(spacer);
+searchLineEdit = new QLineEdit(toolBar);
+connect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(Find()));
+toolBar->addWidget(searchLineEdit);
+
+findButton=new QPushButton(tr("Find"),toolBar);
+connect(findButton, SIGNAL(clicked()), this, SLOT(Find()));
+toolBar->addWidget(findButton);
 
 setCentralWidget(view);
 setUnifiedTitleAndToolBarOnMac(true);
@@ -70,3 +86,22 @@ progress = 100;
 adjustTitle();
 }
 
+void Browser::Index()
+{
+view->page()->mainFrame()->evaluateJavaScript("window.location.href='#top';");
+}
+
+void Browser::Print()
+{
+QPrinter printer;
+QPrintDialog *dialog = new QPrintDialog(&printer, this);
+dialog->setWindowTitle(tr("Print"));
+if (dialog->exec() != QDialog::Accepted) return;
+view->page()->mainFrame()->print(&printer);
+}
+
+void Browser::Find()
+{
+if (searchLineEdit->text().isEmpty()) return;
+view->findText(searchLineEdit->text(),QWebPage::FindWrapsAroundDocument);
+}
