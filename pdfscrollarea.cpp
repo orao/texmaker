@@ -94,6 +94,7 @@ emit doScroll(value);
 void PdfScrollArea::sChanged(int value)
 {
 //qDebug() << "scroll" << value << horizontalScrollBar()->maximum() << horizontalScrollBar()->pageStep() << horizontalScrollBar()->maximum()+horizontalScrollBar()->pageStep() << viewport()->width();
+if ( horizontalScrollBar()->maximum()!=0) emit doHScroll(value);
 }
 
 void PdfScrollArea::rChanged(int min,int max)

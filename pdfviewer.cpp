@@ -24,12 +24,13 @@
 #include <QSettings>
 #include <QTextStream>
 
+
 #include "poppler-qt4.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
-PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,QWidget* parent, Qt::WFlags flags)
+PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,QWidget* parent, Qt::WFlags flags)
     : QMainWindow( parent, flags )
 {
 setWindowTitle("Texmaker : pdf preview");
@@ -55,6 +56,7 @@ move(x,y);
 windowstate=config->value("MainWindowState").toByteArray();
 config->endGroup();
 
+KeySequenceEditorFocus=edfocus;
 setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
 canDisplayPixmap=false;
 pdf_file=fileName;
@@ -63,6 +65,7 @@ gswin32c_command=ghostscriptCommand;
 paper_size=psize;
 lastFile=fileName;
 lastPage=1;
+lastHpos=0;
 lastScale=0.1;
 fileLoaded=false;
 currentPage=1;
@@ -527,6 +530,9 @@ int pos=0;
 listPdfWidgetsStatus.replace(page,1);
   scrollArea->update();
 pageMutex.unlock();
+disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+if (scrollArea->horizontalScrollBar()->isVisible())  scrollArea->horizontalScrollBar()->setValue(lastHpos);
+connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
 }
 
 void PdfViewer::setScrollMax()
@@ -1140,21 +1146,44 @@ if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0)
   }
 }
 
+void PdfViewer::setKeyEditorFocus(QKeySequence s)
+{
+KeySequenceEditorFocus=s;
+}
+
 void PdfViewer::keyPressEvent ( QKeyEvent * e ) 
 {
-#ifdef Q_WS_MACX
-if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Dollar)
-    {
-    emit sendFocusToEditor();
-    }
+int qtKeyCode = e->key();
+if(e->modifiers() & Qt::ShiftModifier) {
+	qtKeyCode += Qt::SHIFT;
+}
+if(e->modifiers() & Qt::ControlModifier) {
+	qtKeyCode += Qt::CTRL;
+}
+if(e->modifiers() & Qt::AltModifier) {
+	qtKeyCode += Qt::ALT;
+}
+if(e->modifiers() & Qt::MetaModifier) {
+	qtKeyCode += Qt::META;
+}
+QKeySequence s1 = QKeySequence(qtKeyCode);
+//QKeySequence s1 = new QKeySequence(e->key() | e->modifiers());
+//QKeySequence s2 = QKeySequence("Ctrl+Space");
+if (s1.matches(KeySequenceEditorFocus)==QKeySequence::ExactMatch) emit sendFocusToEditor();
 else QMainWindow::keyPressEvent(e);
-#else
-if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space)
-    {
-    emit sendFocusToEditor();
-    }
-else QMainWindow::keyPressEvent(e);
-#endif
+// #ifdef Q_WS_MACX
+// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Dollar)
+//     {
+//     emit sendFocusToEditor();
+//     }
+// else QMainWindow::keyPressEvent(e);
+// #else
+// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space)
+//     {
+//     emit sendFocusToEditor();
+//     }
+// else QMainWindow::keyPressEvent(e);
+// #endif
 }
 
 void PdfViewer::ShowStructure()
@@ -1263,5 +1292,10 @@ if (!stack.isEmpty() && stack.top()==pos) return;
 stack.push(pos);
 emit backwardAvailable(stack.count() > 1);
 emit forwardAvailable(!forwardStack.isEmpty());
+}
+
+void PdfViewer::setHpos(int pos)
+{
+lastHpos=pos;
 }
 

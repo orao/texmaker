@@ -23,6 +23,7 @@
 #include <QTextBlock>
 
 #include "lightlatexhighlighter.h"
+#include "textblockselection.h"
 #include "encodingprober/qencodingprober.h"
 
 
@@ -31,7 +32,7 @@ typedef  int UserBookmarkList[3];
 class LightLatexEditor : public QPlainTextEdit  {
    Q_OBJECT
 public:
-LightLatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword);
+LightLatexEditor(QWidget *parent,QFont & efont,QList<QColor> edcolors, QList<QColor> hicolors, QString name="");
 ~LightLatexEditor();
 static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
@@ -53,22 +54,25 @@ int getLastNumLines();
 void setLastNumLines(int n);
 
 QString beginningLine();
-
+void updateName(QString f);
+TextBlockSelection blockSelection;
 public slots:
 void matchAll();
 void load( const QString &f );
+void setColors(QList<QColor> colors);
 
 private:
+bool inBlockSelectionMode;
 QString encoding;
 int lastnumlines;
-
+QString fname;
 bool matchLeftPar ( QTextBlock currentBlock, int index, int numRightPar );
 bool matchRightPar( QTextBlock currentBlock, int index, int numLeftPar );
 void createParSelection( int pos );
 
 int endBlock;
-
-
+QString copyBlockSelection() const;
+QColor colorBackground, colorLine, colorHighlight, colorCursor;
 private slots:
 void jumpToEndBlock();
 void matchPar();
@@ -79,10 +83,16 @@ void gotoBookmark3();
 void editFind();
 void editGotoLine();
 
+void removeBlockSelection(const QString &text = QString());
 
 protected:
 void paintEvent(QPaintEvent *event);
 void contextMenuEvent(QContextMenuEvent *e);
+void mouseMoveEvent(QMouseEvent *);
+void mousePressEvent(QMouseEvent *);
+QMimeData *createMimeDataFromSelection() const;
+bool canInsertFromMimeData(const QMimeData *source) const;
+void insertFromMimeData(const QMimeData *source);
 
 signals:
 void updatelineWidget();

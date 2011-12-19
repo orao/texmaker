@@ -28,6 +28,7 @@ setPalette( p );
 start=-1;
 end=-1;
 connect( m_editor->verticalScrollBar(), SIGNAL( valueChanged( int ) ), this, SLOT( update() ) );
+connect( m_editor->verticalScrollBar(), SIGNAL( actionTriggered( int ) ), this, SLOT( update() ) );
 connect( m_editor, SIGNAL( textChanged() ), this, SLOT( update() ) );
 connect(m_editor, SIGNAL(updatelineWidget()), this, SLOT(update()));
 }

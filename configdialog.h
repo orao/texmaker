@@ -34,9 +34,6 @@ public slots:
 private slots:
 void createIcons();
 void browseAspell();
-void configureColorMath();
-void configureColorCommand();
-void configureColorKeyword();
 void browseLatex();
 void browseDvips();
 void browseBibtex();
@@ -52,7 +49,10 @@ void browseGhostscript();
 void browseAsymptote();
 void browseLatexmk();
 void configureShortCut(QTableWidgetItem *item);
+void configureKeyToggle();
 void userQuickWizard();
+void restoreColors();
+void darkColors();
 private :
 KeySequenceDialog *keydlg;
 UserQuickDialog *userquickdlg;

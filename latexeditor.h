@@ -24,8 +24,10 @@
 #include <QCompleter>
 #include <QDateTime>
 #include <QTimer>
+#include <QKeySequence>
 
 #include "latexhighlighter.h"
+#include "textblockselection.h"
 #include "hunspell/hunspell.hxx"
 
 typedef  int UserBookmarkList[3];
@@ -33,7 +35,7 @@ typedef  int UserBookmarkList[3];
 class LatexEditor : public QPlainTextEdit  {
    Q_OBJECT
 public:
-LatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4);
+LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4,const QKeySequence viewfocus=QKeySequence("Ctrl+Space"), QString name="");
 ~LatexEditor();
 static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
@@ -86,6 +88,8 @@ void setLastNumLines(int n);
 QDateTime getLastSavedTime();
 void setLastSavedTime(QDateTime t);
 void setTabSettings(bool tabspaces,int tabwidth);
+void setKeyViewerFocus(QKeySequence s);
+void updateName(QString f);
 
 class StructItem {
 public:
@@ -105,15 +109,26 @@ bool operator<( const StructItem other ) const
 };
 const QList<StructItem> getStructItems() const { return StructItemsList; }
 
+
+
 QString beginningLine();
 bool StructureHasChanged();
+
+
+TextBlockSelection blockSelection;
 public slots:
 void matchAll();
 void setHightLightLine();
 void clearHightLightLine();
-
+virtual void paste();
+virtual void cut();
+void setCursorVisible() {ensureCursorVisible ();};
+void setColors(QList<QColor> colors);
 
 private:
+bool inBlockSelectionMode;
+QKeySequence vfocus;
+QString fname;
 bool tabSpaces;
 int tabWidth;
 QDateTime lastSavedTime;
@@ -140,7 +155,8 @@ void createLatSelection(int start, int end );
 int endBlock;
 QTimer highlightRemover;
 bool highlightLine;
-
+QString copyBlockSelection() const;
+QColor colorBackground, colorLine, colorHighlight, colorCursor;
 private slots:
 void correctWord();
 void checkSpellingWord();
@@ -154,12 +170,22 @@ void matchPar();
 void matchLat();
 
 void ensureFinalNewLine();//Qt 4.7.1 bug
+void removeBlockSelection(const QString &text = QString());
+
 
 protected:
 void paintEvent(QPaintEvent *event);
 void contextMenuEvent(QContextMenuEvent *e);
 void keyPressEvent ( QKeyEvent * e );
 void focusInEvent(QFocusEvent *e);
+void mouseMoveEvent(QMouseEvent *);
+void mousePressEvent(QMouseEvent *);
+QMimeData *createMimeDataFromSelection() const;
+bool canInsertFromMimeData(const QMimeData *source) const;
+void insertFromMimeData(const QMimeData *source);
+
+
+
 signals:
 void spellme();
 void tooltiptab();

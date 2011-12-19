@@ -17,7 +17,7 @@
 #include <QFileDialog>
 #include <QTextBlock>
 
-SourceView::SourceView(QWidget *parent,QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword) : QWidget(parent)
+SourceView::SourceView(QWidget *parent,QFont & efont,bool line, QList<QColor> edcolors, QList<QColor> hicolors ) : QWidget(parent)
 {
   
 splitter=new MiniSplitter(this);
@@ -57,7 +57,7 @@ frame->setFrameStyle(QFrame::NoFrame);
 mainlay->addWidget(frame);
 
 lastdocument="";
-editor=new LightLatexEditor(frame,efont,colMath,colCommand,colKeyword);
+editor=new LightLatexEditor(frame,efont,edcolors,hicolors,"");
 connect(editor, SIGNAL(requestFind()), this, SLOT(showFind()));
 connect(editor, SIGNAL(requestGotoLine()), this, SLOT(showGoto()));
 m_lineNumberWidget = new LightLineNumberWidget( editor, frame);
@@ -128,7 +128,7 @@ if (!lastdocument.isEmpty())
 	QFileInfo fi(lastdocument);
 	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
 	}
-QString fn = QFileDialog::getOpenFileName(this,tr("Open File"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp *.Rnw);;All files (*.*)");
+QString fn = QFileDialog::getOpenFileName(this,tr("Open File"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp *.Rnw *.asy);;All files (*.*)");
 if ( fn.isEmpty() ) return;
 if (!QFile::exists( fn )) return;
 editor->load( fn );

@@ -1,3 +1,31 @@
+version 3.1 -> 3.2 :
+----------------------
+New features :
+- block selection mode has been added (alt+mouse)
+- a "search in folders" dialog has been added
+- the settings file can now be saved, deleted or loaded
+- all the colors for the syntax highlighting can now be changed (a preconfigured dark theme is available)
+- graphics environments and .asy files have their own syntax highlighting mode
+- a selected piece of text can now be surrounded by french/german quotes (these quotes has been added to the "LaTeX" menu and to the completion)
+- a panel can be added in the structure view to show the list of opened files ("View" menu)
+- the Texdoc tool can be launched directly via the Help menu (users can select the name of the environment before calling Texdoc)
+- the list of label and bibliography items can now be used to customize the completion
+- the "recent files" list can now be cleaned
+- the shortcuts of some commands can now be changed ("switching between the editor and the pdf viewer", "french/german quotes", "next/previous document",...)
+- *.asy files can now be opened directly without using the "all files" filter
+- *.jpeg has been added to the list of the "includegraphics wizard"
+- .thm and .pre files are now deleted while using the "clean" command 
+- windows and mac versions are now compiled with Qt 4.8 and poppler 0.18.2
+- a version compiled on macosx lion is now available
+- the version number is now added to the info.plist file (macosx)
+
+Bugs fixed :
+- some syntax highlighting troubles has been fixed (\verb, \lstinline, lstlisting environment,..)
+- the metapost command in the toolbar launches now really metapost (and not makeindex)
+- extra bracket is no more inserted for the \label command in the completion
+- the user commands list is now refreshed after using the "Edit user commands" dialog
+- the line numbers are now refreshed while clicking in the "grey areas" of the scrollbar
+
 version 3.0.2 -> 3.1 :
 ----------------------
 - the "tabular" wizard has been completed and improved

@@ -39,6 +39,7 @@
 #include <QTranslator>
 #include <QToolButton>
 #include <QTimer>
+#include <QKeySequence>
 
 #include "latexeditorview.h"
 #include "minisplitter.h"
@@ -52,6 +53,7 @@
 #include "pdfviewer.h"
 #include "sourceview.h"
 #include "encodingprober/qencodingprober.h"
+#include "scandialog.h"
 
 
 
@@ -70,7 +72,7 @@ public:
     ~Texmaker();
 QString getName();
 QFont EditorFont;
-QByteArray windowstate,splitter1state,splitter2state,fullscreenstate;
+QByteArray windowstate,splitter1state,splitter2state,splitter3state,fullscreenstate;
 
 public slots:
 void load( const QString &f );
@@ -94,8 +96,8 @@ int untitled_id;
 FilesMap filenames;
 KeysMap shortcuts, actionstext;
 //gui
-QFrame *LeftPanelFrameBis, *Outputframe;
-MiniSplitter *splitter1, *splitter2 ;
+QFrame *LeftPanelFrameBis, *Outputframe, *separatorline;
+MiniSplitter *splitter1, *splitter2, *splitter3 ;
 PlayerButton *toggleStructureButton, *toggleLogButton, *togglePdfButton, *toggleSourceButton; 
 bool embedinternalpdf,winmaximized;
 
@@ -104,6 +106,7 @@ QStackedWidget *StackedViewers;
 LogEditor* OutputTextEdit;
 
 QStackedWidget *LeftPanelStackedWidget;
+QListWidget *OpenedFilesListWidget;
 XmlTagsListWidget *MpListWidget, *PsListWidget, *leftrightWidget, *tikzWidget, *asyWidget;
 SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget, *FavoriteListWidget;
 QTreeWidget *StructureTreeWidget;
@@ -112,19 +115,19 @@ QHBoxLayout *OutputLayoutH, *LeftPanelLayout, *CentralLayout;
 QTableWidget *OutputTableWidget;
 //menu-toolbar
 QMenu *fileMenu, *recentMenu, *editMenu, *toolMenu;
-QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu, *latex17Menu ;
+QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu, *latex17Menu, *latex18Menu ;
 QMenu *math1Menu, *math11Menu, *math12Menu, *math13Menu, *math14Menu;
 QMenu *wizardMenu;
 QMenu *bibMenu;
 QMenu *user1Menu, *user11Menu, *user12Menu;
 QMenu *viewMenu;
-QMenu *optionsMenu, *translationMenu, *appearanceMenu;
+QMenu *optionsMenu, *translationMenu, *appearanceMenu, *settingsMenu;
 QMenu *helpMenu;
 
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar,*LeftPanelToolBarBis, *centralToolBar, *centralToolBarBis;
-QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct, *ViewStructurePanelAct, *ViewLogPanelAct, *ViewPdfPanelAct, *ViewSourcePanelAct, *FullScreenAct ;
+QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct, *ViewStructurePanelAct, *ViewLogPanelAct, *ViewPdfPanelAct, *ViewSourcePanelAct, *FullScreenAct, *NextDocAct, *PrevDocAct, *ViewOpenedFilesPanelAct ;
 QComboBox *comboCompil, *comboView, *comboFiles;
-QLabel *stat1, *stat3, *titleLeftPanel, *posLabel;
+QLabel *stat1, *stat2, *stat3, *titleLeftPanel, *posLabel;
 QPushButton *pb1, *pb2, *pb3;
 QString MasterName;
 bool logpresent;
@@ -132,11 +135,13 @@ QStringList recentFilesList, sessionFilesList;
 
 
 //settings
+bool eraseSettings, replaceSettings;
+QString settingsFileName;
 int split1_right, split1_left, split2_top, split2_bottom, quickmode, tabwidth;
-bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, showpdfview, showsourceview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance, babel_package, geometry_package, graphicx_package, watchfiles, autosave, tabspaces ;
+bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, showpdfview, showsourceview, showfilesview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance, babel_package, geometry_package, graphicx_package, watchfiles, autosave, tabspaces ;
 QString document_class, typeface_size, paper_size, document_encoding, author, geometry_options, babel_default;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize;
-QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command, sweave_command;
+QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command, sweave_command, texdoc_command;
 QString spell_dic, spell_ignored_words;
 QString lastDocument, input_encoding, lastChild;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
@@ -144,7 +149,9 @@ QStringList userClassList, userPaperList, userEncodingList, userOptionsList, use
 QStringList labelitem, bibitem, listbibfiles, listchildfiles;
 Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
+QString keyToggleFocus;
 //dialogs
+QPointer<ScanDialog> scanDialog;
 QPointer<Browser> browserWindow;
 QPointer<PdfViewerWidget> pdfviewerWidget;
 QPointer<PdfViewer> pdfviewerWindow;
@@ -169,7 +176,10 @@ SymbolList symbolScore;
 usercodelist symbolMostused;
 QList<int> favoriteSymbolList;
 
-QColor colorMath, colorCommand, colorKeyword;
+QColor colorBackground, colorLine, colorHighlight, colorStandard, colorComment, colorMath, colorCommand, colorKeyword, colorVerbatim, colorTodo, colorKeywordGraphic, colorNumberGraphic;
+
+QList<QColor> edcolors() {QList<QColor> e; e << colorBackground << colorLine << colorHighlight ; return e;}
+QList<QColor> hicolors() {QList<QColor> h; h << colorStandard << colorComment << colorMath << colorCommand << colorKeyword << colorVerbatim << colorTodo << colorKeywordGraphic << colorNumberGraphic; return h;}
 
 QCompleter *completer;
 Hunspell * spellChecker;
@@ -196,6 +206,7 @@ void fileExit();
 void fileOpenRecent();
 void AddRecentFile(const QString &f);
 void UpdateRecentFile();
+void CleanRecent();
 void filePrint();
 void fileOpenAndGoto(const QString &f, int line, bool focus);
 void getFocusToEditor();
@@ -212,6 +223,7 @@ void editPaste();
 void editSelectAll();
 void editFind();
 void editFindNext();
+void editFindInDirectory();
 void editReplace();
 void editGotoLine();
 void editComment();
@@ -223,6 +235,9 @@ void editTipTab();
 
 void ReadSettings();
 void SaveSettings();
+void DeleteSettings();
+void CopySettings();
+void ReplaceSettings();
 void setPrintPaperSize(const QString &p);
 
 void NewDocumentStatus(bool m);
@@ -234,6 +249,8 @@ void UpdateBibliography();
 void ParseTree(QTreeWidgetItem *item);
 void ItemToRange(QTreeWidgetItem *item);
 
+void ShowOpenedFiles();
+void OpenedFileActivated(QListWidgetItem *item);
 void ShowStructure();
 void ShowRelation(); //RelationListWidget
 void ShowArrow(); //ArrowListWidget
@@ -351,6 +368,7 @@ bool LogExists();
 /////
 void LatexHelp();
 void UserManualHelp();
+void TexDocHelp();
 void HelpAbout();
 
 void GeneralOptions();
@@ -390,10 +408,12 @@ void ToggleStructurePanel();
 void ToggleLogPanel();
 void TogglePdfPanel();
 void ToggleSourcePanel();
+void ToggleFilesPanel();
 void ShowStructView(bool change);
 void ShowOutputView(bool change);
 void ShowPdfView(bool change);
 void ShowSourceView(bool change);
+void ShowFilesView(bool change); 
 void ToggleFullScreen(); 
 void EditUserCompletion();
 void addBibFiles(QString param);

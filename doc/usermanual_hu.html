@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Texmaker: felhasználói kézikönyv</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="author" content="Tamas Orosz">
+<style type="text/css">
+a:link { color: #004faf; text-decoration: none }
+a:visited { color: #672967; text-decoration: none }
+body { background: #ffffff; color: black; }
+</style>
+</head>
+<body>
+<h1 align=center><A NAME="top">Texmaker: Felhasználói kézikönyv</a></h1>
+<h2><a name="sommaire">Tartalom</a>:</h2>
+<ul>
+<li><a href="#SECTION0">1. A Texmaker beállítása</a></li>
+	<ul>
+	<li><a href="#SECTION01">1.1 A szerkesztő beállítása</a></li>
+	<li><a href="#SECTION02">1.2 A LaTeX-függő parancsok beállítása</a></li>
+	<li><a href="#SECTION03">1.3 A helyesírás-ellenőrzés beállítása</a></li>
+	</ul>
+</ul>
+<ul>
+<li><a href="#SECTION1">2. Egy TeX dokumentum szerkesztése</a></li>
+	<ul>
+	<li><a href="#SECTION11">2.1 Általános parancsok</a></li>
+	<li><a href="#SECTION12">2.2 Egy TeX dokumentum preambulumának beállítása</a></li>
+	<li><a href="#SECTION13">2.3 A dokumentum szerkezete</a></li>
+	<li><a href="#SECTION14">2.4 Böngészés a dokumentumban</a></li>
+	<li><a href="#SECTION15">2.5 A szöveg formázása</a></li>
+	<li><a href="#SECTION16">2.6 Térközök</a></li>
+	<li><a href="#SECTION17">2.7 Lista beszúrása</a></li>
+	<li><a href="#SECTION18">2.8 Táblázat beszúrása</a></li>
+	<li><a href="#SECTION19">2.9 Tabulátoros környezet beszúrása</a></li>
+	<li><a href="#SECTION110">2.10 Kép beszúrása</a></li>
+	<li><a href="#SECTION111">2.11 Kereszthivatkozások és jegyzetek</a></li>
+	<li><a href="#SECTION112">2.12 Matematikai képletek beszúrása</a></li>
+	<li><a href="#SECTION113">2.13 Helykitöltők "•" használata</a></li>
+	</ul>
+</ul>
+<ul>
+<li><a href="#SECTION2">3. A dokumentum fordítása</a></li>
+	<ul>
+	<li><a href="#SECTION22">3.1 Fordítás</a></li>
+	<li><a href="#SECTION23">3.2 Naplófájlok</a></li>
+	<li><a href="#SECTION24">3.3 A forrás-pdf szinronizálása a Synctex-hel</a></li>
+	<li><a href="#SECTION25">3.4 A XeLaTeX használata</a></li>
+	</ul>
+</ul>
+<ul>
+<li><a href="#SECTION3">4. Egyéb funkciók</a></li>
+	<ul>
+	<li><a href="#SECTION301">4.1 A dokumentum egyes részeinek összecsukása/kibontása</a></li>
+	<li><a href="#SECTION31">4.2 Több fájlból álló dokumentumok</a></li>
+	<li><a href="#SECTION32">4.3 Irodalomjegyzék</a></li>
+	<li><a href="#SECTION33">4.4 Személyes sablonok és eszközök</a></li>
+	<li><a href="#SECTION34">4.5 Pstricks/Metapost/Tikz/Asymptote támogatás</a></li>
+	<li><a href="#SECTION35">4.6 A felület nyelvének és megjelenésének megváltoztatása</a></li>
+	<li><a href="#SECTION36">4.7 Az előző munkamenet helyreállítása</a></li>
+	<li><a href="#SECTION37">4.8 Ablakok közötti keresés a Texmakerrel</a></li>
+	<li><a href="#SECTION38">4.9 A texmaker parancs áttekintése</a></li>
+	<li><a href="#SECTION39">4.10 Gyorsbillentyűk</a></li>
+	<li><a href="#SECTION40">4.11 A "Forrás nézet" panel</a></li>
+	<li><a href="#SECTION41">4.12 PDF dokumentum nyomtatása a beépített pdf megjelenítővel Windows alatt</a></li>
+	</ul>
+</ul>
+<hr>
+<h1><a name="SECTION0">1. A Texmaker beállítása</a></h1>
+A Texmaker használata előtt be kell állítania a szerkesztőt és a LaTeX-függő parancsokat a "Texmaker beállítása" parancsra kattintva a "Beállítások" menüben.
+<h2><a name="SECTION01">1.1 A szerkesztő beállítása</a></h2>
+<p>
+Az első dokumentum fordítása előtt be kell állítania a szerkesztő karakterkódolását ("Texmaker beállítása" -> "Szerkesztő" -> "Szerkesztő karakterkódolása"). Ezután ennek megfelelő karakterkódolást kell használnia a dokumentum preambulumában (például: \usepackage[latin1]{inputenc}, ha az "ISO-8859-1" kódolást választotta a szerkesztőben).<br>Megjegyzés: egy fájl megnyitásakor figyelmeztetést kap, ha a dokumentumot nem sikerül helyesen dekódolni az alapértelmezett kódolási beállítással. Ekkor egy másik kódolás kiválasztására van lehetősége (az alapértelmezett karakterkódolás változatlan marad).
+</p>
+<h2><a name="SECTION02">1.2 A LaTeX-függő parancsok beállítása</a></h2>
+<p>A Texmaker nem tudja lefordítani a dokumentumot, ha a LaTeX-függő parancsok elérési útvonalai hibásak.<br>
+Az alapértelmezett beállítások a legutóbbi standard LaTeX disztribúcióknál működnek, de lehetséges, hogy módosítania kell azokat ("Texmaker beállítása" -> "Parancsok"). <b>
+Egy parancs megváltoztatásához kattintson az adott sor végén lévő gombra és válassza ki a parancsot a böngészőből</b>: a Texmaker automatikusan alkalmazkodni fog a parancs szintaxisához.<br>
+A <strong>%</strong> karakter a kiterjesztés nélküli fájlnevet helyettesíti, a <strong>@</strong> karakter pedig a sorok számát jelöli.<br>
+</p>
+<p><IMG src="doc14hu.png" border="1"></p>
+<h2><a name="SECTION03">1.3 A helyesírás-ellenőrzés beállítása</a></h2>
+<p>
+A helyesírás-ellenőrzés az OpenOffice.org (2.x verzió) szótárait használja. Jelenleg a GPL francia, angol, német, spanyol, olasz, holand és magyar szótárak települnek a Texmakerrel.<br>
+Más szótárakat innen tölthet le: <A href="http://wiki.services.openoffice.org/wiki/Dictionaries" target="_blank">http://wiki.services.openoffice.org/wiki/Dictionaries</A><br>
+A helyesírás-ellenőrzés beállításához: "Texmaker beállítása" -> "Szerkesztő" -> "Helyesírás szótára" -> kattintson a sor végén található gombra és válassza ki a szótárt a böngészőből.<br>
+<b>Figyelmeztetés: a helyesírás-ellenőrzés a kurzornál kezdődik, nem pedig a dokumentum elején.</b><br>
+Gépelés közben piros hullámvonal jelöli a helytelenül írt szót. Jobb gombbal kattintva egy helyi menüben néhány javaslat jelenik meg. A használni kívánt szóra kattintva végezheti el a cserét.
+</p>
+<h1><a name="SECTION1">2. Egy TeX dokumentum szerkesztése</a></h1>
+<h2><a name="SECTION11">2.1 Általános parancsok</a></h2>
+<p>A standard parancsok (kivágás, másolás, keresés...) a "Szerkesztés" menüben és a "Szerkesztés" eszköztáron találhatók.</p>
+<p><IMG src="doc1hu.png" border="1"></p>
+<h2><a name="SECTION12">2.2 Egy TeX dokumentum preambulumának beállítása</a></h2>
+<p>Egy dokumentum preambulumának beállításához használhatja a "Gyorsindítás" varázslót ("Varázsló" menü).
+</p>
+<p><IMG src="doc2hu.png" border="1"></p>
+<p>Ezen a párbeszédpanelen állíthatja be a dokumentum legfontosabb jellemzőit (osztály, papírméret, kódolás...).<br>Megjegyzés: Más lehetőségeket is hozzáadhat a "+" gombra kattintva. Minden beállítása rögzítésre kerül.</p>
+<p>Saját preambulum modelljét is beírhatja a szerkesztőbe: a "Másolás/Beillesztés" vagy a  "Mentés másként" parancsokkal egy új dokumentumhoz is használhatja majd.</p>
+<h2><a name="SECTION13">2.3 A dokumentum szerkezete</a></h2>
+<p>Új szakasz megadásához (fejezet, alfejezet...) használja ezt a legördülő menüt az eszköztáron:</p>
+<p><IMG src="doc3hu.png" border="1"></p>
+<p>A felugró ablakban kiválaszthatja a szakasz stílusát (fejezet, alfejezet...).<br>Megjegyzés: a "Szerkezet" nézet automatikusan frissül.</p>
+<p><IMG src="doc4hu.png" border="1"></p>
+<h2><a name="SECTION14">2.4 Böngészés a dokumentumban</a></h2>
+<p>A "Szerkezet" nézet (bal panel) lehetővé teszi a dokumentum bármely szakaszának gyors elérését. Tetszőleges elemre kattintva (címke, fejezet...) az adott rész kezdetéhez ugorhat a szerkesztőben.</p>
+<p><IMG src="doc5hu.png" border="1"></p>
+<p>A "Szerkezet" nézet automatikusan frissül gépelés közben, de bármikor használhatja a "Szerkezet frissítése" parancsot a "Szerkesztés" menüben.</p>
+<p>Minden egyes fájl esetén három könyvjelző segíti a gyors navigációt: kattintson a sor száma elé egy könyvjelző hozzáadásához vagy eltávolításához. Mindhárom könyvjelző beállítása esetén újabbat csak valamely előzőleg beállított könyvjelző eltávolításával hozhat létre. Az adott sorba ugráshoz kattintson az "1", "2" vagy "3" gombra az állapotsoron.</p>
+<p><IMG src="doc20hu.png" border="1"></p>
+<h2><a name="SECTION15">2.5 A szöveg formázása</a></h2>
+<p>Egyszerűen formázhatja a szöveg részeit a következőkkel:</p>
+<p><IMG src="doc6hu.png" border="1"></p>
+<p><IMG src="doc6ahu.png" border="1"></p>
+<p><b>További lehetőség:</b> a kiválasztott szöveg közvetlenül környezetbe foglalható. Például: a "Hello" szó kiválasztása után a "Félkövér" gombra kattintva az alábbi kódot kapja: \textbf{Hello}.<br>Ez a lehetőség a "LaTeX" menü minden "[selection]" jelzéssel ellátott környezetére fennáll.
+</p>
+<h2><a name="SECTION16">2.6 Térközök</a></h2>
+<p>Az általános "térköz" parancsok a "LaTeX" és a "Matematika" menükben találhatók.
+Az "új sor" LaTeX parancs gyors beillesztéséhez használhatja a kapcsolódó parancsot az eszköztáron (gyorsbillentyű: Ctrl+Alt+Return).</p>
+<h2><a name="SECTION17">2.7 Lista beszúrása</a></h2>
+<p>A lista környezet általános kódjai könnyen beszúrhatók a "LaTeX -> Listakörnyezet" menüből.<br>Megjegyzés: az \item parancs gyorsbillentyűje: Ctrl+Shift+I.</p> 
+<h2><a name="SECTION18">2.8 Táblázat beszúrása</a></h2>
+<p>Táblázat beillesztéséhez használhatja a "Varzsló" menü "Táblázat varázsló" parancsát:</p>
+<p><IMG src="doc7hu.png" border="1"></p>
+<p>Könnyen beállíthatja a táblázat legfőbb tulajdonságait.<br>Megjegyzés: az ablakban lehetőség van a kódokat közvetlenül a cellába gépelni. <br>
+A megfelelő LaTeX kódok automatikusan kerülnek a szerkesztőbe.</p>
+<h2><a name="SECTION19">2.9 Tabulátoros környezet beszúrása</a></h2>
+<p>Tabulátoros környezet beszúrásához használhatja a "Varázsló" menü "Tabulátor varázsló" parancsát:</p>
+<p><IMG src="doc8hu.png" border="1"></p>
+<h2><a name="SECTION110">2.10 Kép beszúrása</a></h2>
+<p>Kép beillesztéséhez használja a "LaTeX" menü "\includegraphics" parancsát. A megjelenő ablakban kattintson a mappa ikonra és válassza ki a képet.
+<br>Megjegyzés: a "+" gombra kattintva feliratot adhat a képhez.</p>
+<p><IMG src="doc9hu.png" border="1"></p>
+<h2><a name="SECTION111">2.11 Kereszthivatkozások és jegyzetek</a></h2>
+<p>Az eszköztár ezen legördülő menüjével gyorsan szúrhat be címkét, hivatkozást, idézést, lábjegyzetet a forráskódba.<br>Megjegyzés: a dokumentumban használt címkék megjelennek a "Szerkezet" nézetben.</p>
+<p><IMG src="doc10hu.png" border="1"></p>
+<p><b>További lehetőség:</b> a \ref parancs esetén egy felbukkanó ablakban közvetlenül kiválaszthatja a címkét.</p>
+<h2><a name="SECTION112">2.12 Matematikai képletek beszúrása</a></h2>
+<p>Szövegközi matematikai módba váltáshoz nyomja meg az eszköztár "$$" gombját (gyorsbillentyű Ctrl+Shift+M) vagy használja a "Matematika" menü kapcsolódó parancsát. A kiemelt matematikai mód gyorsbillentyűje: Alt+Shift+M.<br> A "Matematika" eszköztárból beszúrhatja a leggyakoribb matematikai formulákat (tört, gyök...):</p>
+<p><IMG src="doc11hu.png" border="1"></p>
+<p>A "Szerkezet" nézet "szimbólumok" panelje segítségével mintegy 400 matematikai szimbólumot, valamint \left és \right tagot illeszthet a dokumentumba (kattintson a szimbólumokra a lehetőségek megtekintéséhez).
+</p>
+<p><IMG src="doc12hu.png" border="1"></p>
+<p><b>További lehetőség:</b> A <b>"Kedvenc szimbólumok"</b> (*) panelen összegyűjtheti saját kedvenc szimbólumait. 
+<ul>
+<li>Szimbólum hozzáadásához kattintson jobb gombbal egy tetszőleges szimbólumra, majd a felbukkanó menüben válassza a "Hozzáadás a kedvencekhez" lehetőséget.</li>
+<li>Egy szimbólumot úgy törölhet a kedvencek közül, hogy jobb gombbal kattint rajta, majd a felbukkanó menüben kiválasztja az "Eltávolítás a kedvencek közül" lehetőséget.
+</li>
+</ul>
+</p>
+<p>Matematikai szövegét a "Matematika" menü elemeivel formázhatja.<br> A tömbszerű környezetekhez használhatja a "Varázsló" menü "Tömb varázsló" parancsát. Ezzel a varázslóval az array, matrix, pmatrix... környezeteket hozhatja létre. A cellák közvetlenül szerkeszthetők.</p>
+<p><IMG src="doc13hu.png" border="1"></p>
+<h2><a name="SECTION113">2.13 Helykitöltők "•" használata</a></h2>
+<p>Egyes texmaker parancsok helykitöltőket "•" szúrnak be, hogy megkönnyítsék a létrehozott parancs következő argumentumára ugrást a "Tab" billentyű használatával. (a "Shift+Tab" billentyűkombinációval visszafelé halad).<br>
+Megjegyzés: ha a sor helykitöltőt "•" tartalmaz, A "Tab" billentyű nem használható tabulátor beszúrására.
+</p>
+<h1><a name="SECTION2">3. A dokumentum fordítása</a></h1>
+<h2><a name="SECTION22">3.1 Fordítás</a></h2>
+<p>Egy dokumentum fordításának legegyszerűbb módja a "Gyorsfordítás" használata. A "Gyorsfordítás" parancsainak sorrendjét a "Texmaker beállítása" párbeszédpanelen adhatja meg.</p>
+<p>Parancs futtatása az eszköztárról: először válassza ki a parancsot, majd kattintson a "Futtatás" gombra.</p>
+<p><IMG src="doc21hu.png" border="1"></p>
+<p>A parancsokat egyesével is futtathatja (gyorsbillentyűk: F2...F12 - lásd az "Eszközök" menüben).<br>Megjegyzés:
+Az "Eszközök" menü "Takarítás" parancsa törli a LaTeX fordítás során keletkezett fáljokat (dvi, toc, aux...), kivéve a ps és pdf fájlokat.<br>
+<b>Figyelmeztetés: Minden fájlnak kiterjesztése kell, hogy legyen és nem fordíthat névtelen vagy a fájlnévben szóközt tartalmazó dokumentumot.</b></p>
+<p></p>
+<h2><a name="SECTION23">3.2 Naplófájlok</a></h2>
+<p>A "Gyorsfordítás" parancs használatakor a naplófájl automatikusan megjelenik az "Üzenetek/Naplófájl" panelen. A "Sor" oszlop egy cellájára kattintva a kurzor a szerkesztőben a kapcsolódó sorba ugrik és megjeleníti a hibát.<br>
+Megjegyzés: A latex hibák és figyelmeztetések összefoglalója a teljes naplófájl előtt látható.</p>
+<p><IMG src="doc15hu.png" border="1"></p>
+<p>A "Következő LaTeX hiba" és az "Előző LaTeX hiba" parancsokkal a fordítás során felismert hibák között lehet tallózni:</p>
+<p><IMG src="doc22hu.png" border="1"></p>
+<h2><a name="SECTION24">3.3 A forrás-pdf szinronizálása a Synctex-hel</a></h2>
+<p>Ha a pdflatex parancsot kiegészíti a "-synctex=1" kapcsolóval, a beépített pdf megjelenítő a (La)TeX forrásfájl kurzorának megfelelő helyre ugrik a PDF fájlban.
+<br>
+Fordítva, ha a beépített pdf megjelenítőben jobb gombbal kattint egy szóra, a felbukkanó helyi menüből a forrásfájl kapcsolódó sorába ugorhat a szerkesztőben.<br>
+Megjegyzés: A beépített pdf megjelenítőben a Ctrl+szóköz billentyűkombinációt (ctrl+$ a MacOsX-ban) használva a fókusz a szerkesztőablakra kerül.
+</p>
+<h2><a name="SECTION25">3.4 A XeLaTeX használata</a></h2>
+<p>A xelatex használatához helyettesítse a pdflatex parancsot a xelatex-hel.
+</p>
+<h1><a name="SECTION3">4. Egyéb funkciók</a></h1>
+<h2><a name="SECTION301">4.1 A dokumentum egyes részeinek összecsukása/kibontása</a></h2>
+<p>A Texmakerben lehetőség van minden \part, \chapter, \section,..., valamint \begin{...} \end{...} blokk összecsukására és kibontására. Vigye a kurzort a blokk első sorába, majd kattintson a sor mellett megjelenő, narancssárga "-" gombra.<br>
+Megjegyzés: A helyi menüt is használhatja a blokk végére ugráshoz ("Ugrás a blokk végére" parancs).</p>
+<h2><a name="SECTION31">4.2 Több fájlból álló dokumentumok</a></h2>
+<p>A Texmakerrel lehetősége nyílik a több fájlból álló dokumentumok szerkesztésére.<br>
+TeX fájlt a "LaTeX" menü "\include{file}" paranccsal illeszthet dokumentumába. A fájl megjelenik a "Szerkezet" nézetben is. A fájlnévre kattitva a Texmaker megnyitja azt.</p>
+<p>Ezután beállíthatja "fődokumentumát" a "Beállítások" menüben. Az "Eszközök" menü parancsai csak erre a dokumentumra hatnak majd, még akkor is, ha az "aldokumentumokat" szerkeszti (akár be is zárhatja a fődokumentumot).<br>
+Könnyen válthat a fődokumentum és a jelenlegi dokumentum között az erre szolgáló gombbal (a "Félkövér" gomb fölött).<br>Megjegyzés: a "Beállítások" menüben visszaválthat a normál módra.</p>
+<h2><a name="SECTION32">4.3 Irodalomjegyzék</a></h2>
+<p>Egy .tex dokumentum megnyitásakor a talált .bib fájlok automatikusan feldolgozásra kerülnek és az irodalomjegyzék hivatkozásai hozzáadódnak az automatikus kiegészítéshez. Az irodalomjegyzék hivatkozásainak listája a "Szerkesztés" menü "Irodalomjegyzék frissítése" parancsával is frissíthető.</p>
+<p>A .bib fájlok szerkesztésekor a "Bibliográfia" menüből beillesztheti az adott stílushoz tartozó bejegyzés kódját a dokumentumba.<br>
+Megjegyzés: a nem kötelező mezőket törölheti a "Bibliográfia" menü "Takarítás" parancsával.</p>
+<p><IMG src="doc16hu.png" border="1"></p>
+<h2><a name="SECTION33">4.4 Személyes sablonok és eszközök</a></h2>
+<p>A Texmakerben lehetőség van személyes sablonok használatára (gyorsbillentyűk: Shift+F1...Shift+F10). A sablonok testreszabásához kattintson a "Felhasználó" menü "Felhasználói sablonok" elemének "Felhasználói sablonok szerkesztése" parancsára.<br>
+Megjegyzések:
+<ul>
+<li>Ha a LaTeX tartalmat "%környezet" formában írja be, a Texmaker az alábbi kódot illeszti a dokumentumba:<br><br>
+\begin{környezet}<br>
+•<br>
+\end{környezet}<br><br>
+és a kurzor a helykitöltőre "•" ugrik.<br>
+<br><IMG src="doc17hu.png" border="1"></li>
+<br><li>A kód minden "@" karakterének egy helykitöltő "•" felel meg és a kurzor automatikusan az első helykitöltőhöz ugrik (ha előzőleg szöveget jelölt ki a szerkesztőben, a kijelölt szöveg kerül az első helykitöltő helyére).</li>
+</ul>
+</p>
+<p>Saját parancsokat is definiálhat (gyorsbillentyűk: Alt+Shift+F1...Alt+Shift+F5) a "Felhasználó" menü "Felhasználói parancsok" elemének "Felhasználói parancsok szerkesztése" parancsára kattintva. Az itt definiált parancsokat az eszköztár "Futtatás" gombjával futtathatja.</p>
+<h2><a name="SECTION34">4.5 Pstricks/Metapost/Tikz/Asymptote támogatás</a></h2>
+<p>A legfontosabb Pstricks/Metapost/Tikz/Asymptote parancsok a "Szerkezet" nézet "PS", "MP", "TI" és "AS" gombjai alatt kaptak helyet.<br>
+Az "mpost" és "asy" parancsokat az "Eszközök" menüből vagy az eszköztár "Futtatás" gombjával futtathatja.</p>
+<h2><a name="SECTION35">4.6 A felület nyelvének és megjelenésének megváltoztatása</a></h2>
+A felület nyelvét és megjelenését a "Beállítások" menüben változtathatja meg (indítsa újra a programot a változtatások véglegesítéséhez).
+<h2><a name="SECTION36">4.7 Az előző munkamenet helyreállítása</a></h2>
+<p>Ha az éppen nyitott fájlok bezárása nélkül lép ki a programból, a Texmaker automatikusan megjegyzi ezen dokumentumok nevét. A "Fájl" menü "Előző munkamenet helyreállítása" parancsával egy kattintással megnyithatja ezeket a fájlokat.</p>
+<h2><a name="SECTION37">4.8 Ablakok közötti keresés a Texmakerrel</a></h2>
+<p>
+Néhány dvi megjelenítő a forrásfájl adott sorának megfelelő sorhoz tud ugrani (és azt kiemelni) a DVI fájlban. Ehhez használja a <b>@</b> karaktert a dvi megjelenítő parancsában (a "Texmaker beállítása" menü "Parancsok" fülén).<br>
+Példák:
+<ul>
+<li>Yap indítása a Texmakerből: "C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe" -1 -s @%.tex %.dvi</li>
+<li>Xdvi indítása a Texmakerből: xdvi %.dvi  -sourceposition @:%.tex</li>
+<li>Kdvi indítása a Texmakerből: kdvi "file:%.dvi#src:@ %.tex"</li>
+</ul>
+Ellenkező irányba:
+<ul>
+<li>Texmaker indítása a Yapból : "C:\Program Files\Texmaker\texmaker.exe" "%f" -line %l <i>(the program arguments : "%f" -line %l )</i></li>
+<li>Texmaker indítása az xdvi-ből: xdvi -editor "texmaker %f -line" %.dvi -sourceposition @:%.tex</li>
+</ul>
+<!--Remark : if you try to use "inverse search" with texmaker (the opposite operation of the "forward search"), a new instance of texmaker will be launched at each time. This operation is not recommended.-->
+</p>
+<h2><a name="SECTION38">4.9 A texmaker parancs áttekintése</a></h2>
+<p>
+texmaker file [-master] [-line xx]<br>
+A "-master" kapcsolóval a dokumentum automatikusan fődokumentumként lesz beállítva.<br>
+A "-line xx" kapcsolóval a Texmaker megkérdezi, hogy a dokumentum betöltése után az xx sorhoz kíván-e ugrani.</p>
+<h2><a name="SECTION39">4.10 Gyorsbillentyűk</a></h2>
+<p>
+Alapértelmezett gyorsbillentyűk (*: módosítható a "Texmaker beállítása" -> "Szerkesztő" fülön) :
+<ul>
+<li> "Fájl" menü:
+	<ul>
+	<li>Új: Ctrl+N</li>
+	<li>Megnyitás: Ctrl+O</li>
+	<li>Mentés: Ctrl+S</li>
+	<li>Bezárás: Ctrl+W</li>
+	<li>Kilépés: Ctrl+Q</li>
+	</ul>
+</li>
+<li> "Szerkesztés" menü:
+	<ul>
+	<li>Visszavonás: Ctrl+Z</li>
+	<li>Újra: Ctrl+Y</li>
+	<li>Másolás: Ctrl+C</li>
+	<li>Kivágás: Ctrl+X</li>
+	<li>Beillesztés: Ctrl+V</li>
+	<li>Mind kijelölése: Ctrl+A</li>
+	<li>Megjegyzésként megjelöl: Ctrl+T</li>
+	<li>Megjelölés törlése: Ctrl+U</li>
+	<li>Behúzás növelése: Ctrl+> </li>
+	<li>Behúzás csökkentése: Ctrl+< </li>
+	<li>Keresés: Ctrl+F</li>
+	<li>Következő keresése: Ctrl+M</li>
+	<li>Csere: Ctrl+R</li>
+	<li>Ugrás a sorhoz: Ctrl+G</li>
+	<li>Helyesítás-ellenőrzés (a kurzortól): Ctrl+Shift+F7</li>
+	<li>Szerkezet frissítése: Ctrl+Shift+F1</li>
+	</ul>
+</li>
+<li> "Eszközök" menü:
+	<ul>
+	<li>Gyorsfordítás: F1</li>
+	<li>Latex: F2</li>
+	<li>Dvi megtekintése: F3</li>
+	<li>Dvi->PS: F4</li>
+	<li>PS megtekintése: F5</li>
+	<li>Pdflatex: F6</li>
+	<li>Pdf megtekintése: F7</li>
+	<li>PS->Pdf: F8</li>
+	<li>Dvi->Pdf: F9</li>
+	<li>Napló megtekintése: F10</li>
+	<li>Bibtex: F11</li>
+	<li>Make index: F12</li>
+	</ul>
+</li>
+<li> * "LaTeX" menü:
+	<ul>
+	<li>* item: Ctrl+Shift+I</li>
+	<li>* Kurzív: Ctrl+I</li>
+	<li>* Döntött: Ctrl+Shift+S</li>
+	<li>* Félkövér: Ctrl+O</li>
+	<li>* Írógép: Ctrl+Shift+T</li>
+	<li>* Kiskapitális: Ctrl+Shift+C</li>
+	<li>* Kiemelés: Ctrl+Shift+E</li>
+	<li>* Új sor: Ctrl+Return</li>
+	</ul>
+</li>
+<li> * "Matematika" menü:
+	<ul>
+	<li>* Szövegközi matematikai mód: Ctrl+Shift+M</li>
+	<li>* Kiemelt matematikai mód: Alt+Shift+M</li>
+	<li>* Számozott egyenletek: Ctrl+Shift+N</li>
+	<li>* Alsó index: Ctrl+Shift+D</li>
+	<li>* Felső index: CTrl+Shift+U</li>
+	<li>* Frac : Alt+Shift+F</li>
+	<li>* Dfrac : Ctrl+Shift+F</li>
+	<li>* Sqrt : Ctrl+Shift+Q</li>
+	<li>* Balra: Ctrl+Shift+L</li>
+	<li>* Jobbra: Ctrl+Shift+R</li>
+	</ul>
+</li>
+<li> "Felhasználó" menü:
+	<ul>
+	<li>Felhasználói sablonok: Shift+F1...Shift+F10</li>
+	<li>Felhasználói parancsok: Shift+Alt+F1...Shift+Alt+F10</li>
+	</ul>
+</li>
+</ul>
+</p>
+<h2><a name="SECTION40">4.11 A "Forrás nézet" panel</a></h2>
+Két dokumentum közötti egyszerű másoláshoz/beillesztéshez megnyithat (csak olvasható módban) egy dokumentumot, ami a szerkesztő mellett a "Forrás nézet" panelen lesz látható.
+<h2><a name="SECTION41">4.12 PDF dokumentum nyomtatása a beépített pdf megjelenítővel Windows alatt</a></h2>
+<ul>
+<li>Győződjön meg róla, hogy a ghostscript program telepítve van és a Texmaker beállításainál a "gswin32c.exe" fájl elérési útvonala helyes.</li>
+<li>Kattintson a "Nyomtatás" gombra, majd állítsa be a papírméretet és a nyomtatni kívánt tartományt.</li>
+<li>Használja a "Tulajdonságok" gombot a papírméret, a tájolás és a margók beállításához.</li>
+</ul>
+</body></html>

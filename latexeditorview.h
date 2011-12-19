@@ -27,7 +27,7 @@
 class LatexEditorView : public QWidget  {
    Q_OBJECT
 public: 
-	LatexEditorView(QWidget *parent, QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4);
+	LatexEditorView(QWidget *parent, QFont & efont,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4,const QKeySequence viewfocus=QKeySequence("Ctrl+Space"), QString name="");
 	~LatexEditorView();
   LatexEditor *editor;
   void changeSettings(QFont & new_font,bool line);

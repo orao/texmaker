@@ -16,6 +16,7 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QDir>
+#include <QTableWidgetItem>
 #include <QDebug>
 
 ConfigDialog::ConfigDialog(QWidget* parent): QDialog( parent)
@@ -43,9 +44,72 @@ ui.labelGetDic->setText( tr("Get dictionary at: %1").arg("<br><a href=\"http://w
 ui.labelGetDic->setOpenExternalLinks(true);
 
 
-connect( ui.pushButtonColorMath, SIGNAL(clicked()), this, SLOT(configureColorMath()));
-connect( ui.pushButtonColorCommand, SIGNAL(clicked()), this, SLOT(configureColorCommand()));
-connect( ui.pushButtonColorKeyword, SIGNAL(clicked()), this, SLOT(configureColorKeyword()));
+QTableWidgetItem *colorItem = new QTableWidgetItem();
+ui.colortableWidget->setRowCount(12);
+
+colorItem= new QTableWidgetItem("Background");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(0,0,colorItem);
+
+colorItem= new QTableWidgetItem("Current line");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(1,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Highlighted line");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(2,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Text");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(3,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Comment");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(4,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Math");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(5,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("LaTeX command");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(6,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Structure");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(7,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Verbatim/Graphics environments");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(8,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Todo");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(9,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Graphic keywords");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(10,0,colorItem);
+
+
+colorItem= new QTableWidgetItem("Graphic Numbers");
+colorItem->setFlags(Qt::NoItemFlags);
+ui.colortableWidget->setItem(11,0,colorItem);
+
+ui.colortableWidget->horizontalHeader()->resizeSection( 0, 150 );
+
+connect( ui.pushButtonDefault, SIGNAL(clicked()), this, SLOT(restoreColors()));
+connect( ui.pushButtonDark, SIGNAL(clicked()), this, SLOT(darkColors()));
+
 
 //pagequick
 connect(ui.radioButton6, SIGNAL(toggled(bool)),ui.lineEditUserquick, SLOT(setEnabled(bool)));
@@ -70,6 +134,7 @@ connect( ui.pushButtonLatexmk, SIGNAL(clicked()), this, SLOT(browseLatexmk()));
 connect( ui.pushButtonWizard, SIGNAL(clicked()), this, SLOT(userQuickWizard()));
 
 connect(ui.shorttableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(configureShortCut(QTableWidgetItem*)));
+connect(ui.pushButtonToggleFocus, SIGNAL(clicked()), this, SLOT(configureKeyToggle()));
 
 createIcons();
 ui.contentsWidget->setCurrentRow(0);
@@ -144,34 +209,112 @@ if ( !location.isEmpty() )
 	}
 }
 
-void ConfigDialog::configureColorMath()
+void ConfigDialog::restoreColors()
 {
-QColor color = QColorDialog::getColor(ui.pushButtonColorMath->palette().background().color(), this);
-if (color.isValid()) 
-	{
-	ui.pushButtonColorMath->setPalette(QPalette(color));
-	ui.pushButtonColorMath->setAutoFillBackground(true);
-	}
+QTableWidgetItem *colorItem;
+
+colorItem= new QTableWidgetItem("#FFFFFF");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(0,1,colorItem);
+
+colorItem= new QTableWidgetItem("#ececec");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(1,1,colorItem);
+
+colorItem= new QTableWidgetItem("#FF0000");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(2,1,colorItem);
+
+colorItem= new QTableWidgetItem("#000000");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(3,1,colorItem);
+
+colorItem= new QTableWidgetItem("#606060");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(4,1,colorItem);
+
+colorItem= new QTableWidgetItem("#008000");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(5,1,colorItem);
+
+colorItem= new QTableWidgetItem("#800000");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(6,1,colorItem);
+
+colorItem= new QTableWidgetItem("#0000CC");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(7,1,colorItem);
+
+colorItem= new QTableWidgetItem("#9A4D00");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(8,1,colorItem);
+
+colorItem= new QTableWidgetItem("#FF0000");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(9,1,colorItem);
+
+colorItem= new QTableWidgetItem("#006699");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(10,1,colorItem);
+
+
+colorItem= new QTableWidgetItem("#660066");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(11,1,colorItem);
 }
 
-void ConfigDialog::configureColorCommand()
+void ConfigDialog::darkColors()
 {
-QColor color = QColorDialog::getColor(ui.pushButtonColorCommand->palette().background().color(), this);
-if (color.isValid()) 
-	{
-	ui.pushButtonColorCommand->setPalette(QPalette(color));
-	ui.pushButtonColorCommand->setAutoFillBackground(true);
-	}
-}
+QTableWidgetItem *colorItem;
 
-void ConfigDialog::configureColorKeyword()
-{
-QColor color = QColorDialog::getColor(ui.pushButtonColorKeyword->palette().background().color(), this);
-if (color.isValid()) 
-	{
-	ui.pushButtonColorKeyword->setPalette(QPalette(color));
-	ui.pushButtonColorKeyword->setAutoFillBackground(true);
-	}
+colorItem= new QTableWidgetItem("#0c1021");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(0,1,colorItem);
+
+colorItem= new QTableWidgetItem("#131727");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(1,1,colorItem);
+
+colorItem= new QTableWidgetItem("#FF0000");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(2,1,colorItem);
+
+colorItem= new QTableWidgetItem("#f8f8f8");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(3,1,colorItem);
+
+colorItem= new QTableWidgetItem("#aeaeae");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(4,1,colorItem);
+
+colorItem= new QTableWidgetItem("#61ce3c");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(5,1,colorItem);
+
+colorItem= new QTableWidgetItem("#8da6ce");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(6,1,colorItem);
+
+colorItem= new QTableWidgetItem("#fadd2d");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(7,1,colorItem);
+
+colorItem= new QTableWidgetItem("#e6a252");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(8,1,colorItem);
+
+colorItem= new QTableWidgetItem("#FF6400");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(9,1,colorItem);
+
+colorItem= new QTableWidgetItem("#f47bda");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(10,1,colorItem);
+
+
+colorItem= new QTableWidgetItem("#660066");
+colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+ui.colortableWidget->setItem(11,1,colorItem);
 }
 
 //pagetools
@@ -357,6 +500,27 @@ if (item)
 	    delete (keydlg);
 	    }
 	}
+}
+
+void ConfigDialog::configureKeyToggle()
+{
+QString shortcut,data,newshortcut;
+shortcut=ui.pushButtonToggleFocus->text();
+keydlg = new KeySequenceDialog(this);
+keydlg->setKeySequence(QKeySequence(shortcut));
+if ( keydlg->exec() )
+	{
+	newshortcut=keydlg->ui.lineEdit->text();
+	if (!newshortcut.isEmpty()) 
+	    {
+	    ui.pushButtonToggleFocus->setText(newshortcut);
+	    }
+	else
+	    {
+	    ui.pushButtonToggleFocus->setText("none");
+	    }
+	}
+delete (keydlg);
 }
 
 void ConfigDialog::userQuickWizard()

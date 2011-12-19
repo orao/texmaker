@@ -31,18 +31,64 @@
 #include <QScrollBar>
 #include <QTextCodec>
 #include <QFile>
+#include <QFileInfo>
 #include <QTextCodec>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QInputContext>
+#include <QTextDocumentFragment>
+
 #include "blockdata.h"
 #include "encodingdialog.h"
 
-LightLatexEditor::LightLatexEditor(QWidget *parent,QFont & efont, QColor colMath, QColor colCommand, QColor colKeyword) : QPlainTextEdit(parent)
+static void convertToPlainText(QString &txt)
 {
+    QChar *uc = txt.data();
+    QChar *e = uc + txt.size();
+
+    for (; uc != e; ++uc) {
+        switch (uc->unicode()) {
+        case 0xfdd0: // QTextBeginningOfFrame
+        case 0xfdd1: // QTextEndOfFrame
+        case QChar::ParagraphSeparator:
+        case QChar::LineSeparator:
+            *uc = QLatin1Char('\n');
+            break;
+        case QChar::Nbsp:
+            *uc = QLatin1Char(' ');
+            break;
+        default:
+            ;
+        }
+    }
+}
+
+LightLatexEditor::LightLatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,QString name) : QPlainTextEdit(parent)
+{
+fname=name;
+/***********************/
+inBlockSelectionMode=false;
+blockSelection.tabSize=4;
+blockSelection.clear();
+setCursorWidth(2);
+/***********************/
+colorBackground=edcolors.at(0);
+colorLine=edcolors.at(1);
+colorHighlight=edcolors.at(2);
+colorCursor=hicolors.at(0);
+
 QPalette p = palette();
-p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
-p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
+p.setColor(QPalette::Active, QPalette::Base, colorBackground);
+p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
+p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
+p.setColor(QPalette::Active, QPalette::Window, colorBackground);
+
+// QPalette p = palette();
+// p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
+// p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
 setPalette(p);
+setBackgroundVisible(true);
+
 setFrameStyle(QFrame::NoFrame);
 //setAcceptRichText(false);
 setLineWidth(0);
@@ -57,7 +103,9 @@ lastnumlines=0;
 
 highlighter = new LightLatexHighlighter(document());
 highlighter->SetEditor(this);
-highlighter->setColors(colMath,colCommand,colKeyword);
+highlighter->setColors(hicolors);
+QFileInfo fi(fname);
+if (!fname.startsWith("untitled") && (fi.suffix()=="asy" || fi.suffix()=="mp")) highlighter->setModeGraphic(true);
 
 connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(matchAll()));
 
@@ -69,6 +117,25 @@ setFocus();
 
 }
 LightLatexEditor::~LightLatexEditor(){
+}
+
+void LightLatexEditor::setColors(QList<QColor> colors)
+{
+colorBackground=colors.at(0);
+colorLine=colors.at(1);
+colorHighlight=colors.at(2);
+QPalette p = palette();
+p.setColor(QPalette::Active, QPalette::Base, colorBackground);
+p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
+p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
+p.setColor(QPalette::Active, QPalette::Window, colorBackground);
+
+// QPalette p = palette();
+// p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
+// p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
+setPalette(p);
+setBackgroundVisible(true);
+update();
 }
 
 bool LightLatexEditor::search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor )
@@ -438,6 +505,7 @@ if (hasDecodingError)
   }
 if (hasDecodingError) setEncoding(new_encoding);
 else setEncoding(encoding);
+updateName(f);
 setPlainText(text);
 }
 
@@ -448,12 +516,217 @@ QRect rectbis=rect;
 rectbis.setX(0);
 rectbis.setWidth(viewport()->width());
 QPainter painter(viewport());
-const QBrush brush(QColor("#000000"));
-const QBrush brushbis(QColor("#ececec"));
+//const QBrush brush(QColor("#000000"));
+const QBrush brushbis(colorLine);
 painter.fillRect(rectbis, brushbis);
-painter.fillRect(rect, brush);
-painter.end();
-QPlainTextEdit::paintEvent(event);
+//painter.fillRect(rect, brush);
+//painter.end();
+//QPlainTextEdit::paintEvent(event);
+QTextDocument *doc = document();  
+QPointF offset(contentOffset());
+QTextBlock textCursorBlock = textCursor().block();
+bool hasMainSelection = textCursor().hasSelection();
+QRect er = event->rect();
+QRect viewportRect = viewport()->rect();
+painter.setBrushOrigin(offset);
+
+
+int blockSelectionIndex = -1;
+
+QAbstractTextDocumentLayout::PaintContext context = getPaintContext();
+if (inBlockSelectionMode
+    && context.selections.count() && context.selections.last().cursor == textCursor()) 
+{
+    blockSelectionIndex = context.selections.size()-1;
+    context.selections[blockSelectionIndex].format.clearBackground();
+}
+
+QTextLayout *cursor_layout = 0;
+QPointF cursor_offset;
+int cursor_cpos = 0;
+QPen cursor_pen;
+QTextBlock block = firstVisibleBlock();
+while (block.isValid()) {
+QRectF r = blockBoundingRect(block).translated(offset);
+
+if (r.bottom() >= er.top() && r.top() <= er.bottom()) {
+
+    QTextLayout *layout = block.layout();
+
+    QTextOption option = layout->textOption();
+
+	option.setFlags(option.flags() & ~QTextOption::SuppressColors);
+	painter.setPen(context.palette.text().color());
+   
+    layout->setTextOption(option);
+    layout->setFont(doc->defaultFont()); 
+int blpos = block.position();
+int bllen = block.length();
+
+QVector<QTextLayout::FormatRange> selections;
+QVector<QTextLayout::FormatRange> prioritySelections;
+
+for (int i = 0; i < context.selections.size(); ++i) {
+    const QAbstractTextDocumentLayout::Selection &range = context.selections.at(i);
+    const int selStart = range.cursor.selectionStart() - blpos;
+    const int selEnd = range.cursor.selectionEnd() - blpos;
+    if (selStart < bllen && selEnd >= 0
+	&& selEnd >= selStart) {
+	QTextLayout::FormatRange o;
+	o.start = selStart;
+	o.length = selEnd - selStart;
+	o.format = range.format;
+	if (i == blockSelectionIndex) {
+	    QString text = block.text();
+	    o.start = blockSelection.positionAtColumn(text, blockSelection.firstVisualColumn,0);
+	    o.length = blockSelection.positionAtColumn(text, blockSelection.lastVisualColumn,0) - o.start;
+	}
+	if ((hasMainSelection && i == context.selections.size()-1)
+	    || (o.format.foreground().style() == Qt::NoBrush
+	    && o.format.underlineStyle() != QTextCharFormat::NoUnderline
+	    && o.format.background() == Qt::NoBrush))
+	    prioritySelections.append(o);
+	else
+	    selections.append(o);
+    }
+}
+ selections += prioritySelections;
+ 
+QRectF blockSelectionCursorRect;
+if (inBlockSelectionMode
+	&& block.position() >= blockSelection.firstBlock.block().position()
+	&& block.position() <= blockSelection.lastBlock.block().position()) {
+    QString text = block.text();
+    qreal spacew = QFontMetricsF(font()).width(QLatin1Char(' '));
+
+    int offset = 0;
+    int relativePos  =  blockSelection.positionAtColumn(text, blockSelection.firstVisualColumn, &offset);
+    QTextLine line = layout->lineForTextPosition(relativePos);
+    qreal x = line.cursorToX(relativePos) + offset * spacew;
+
+    int eoffset = 0;
+    int erelativePos  =  blockSelection.positionAtColumn(text, blockSelection.lastVisualColumn, &eoffset);
+    QTextLine eline = layout->lineForTextPosition(erelativePos);
+    qreal ex = eline.cursorToX(erelativePos) + eoffset * spacew;
+
+    QRectF rr = line.naturalTextRect();
+    rr.moveTop(rr.top() + r.top());
+    rr.setLeft(r.left() + x);
+    if (line.lineNumber() == eline.lineNumber())  {
+	rr.setRight(r.left() + ex);
+    }
+    painter.fillRect(rr, palette().highlight());
+    if ((blockSelection.anchor == TextBlockSelection::TopLeft
+	    && block == blockSelection.firstBlock.block())
+	    || (blockSelection.anchor == TextBlockSelection::BottomLeft
+		&& block == blockSelection.lastBlock.block())
+	    ) {
+	rr.setRight(rr.left()+2);
+	blockSelectionCursorRect = rr;
+    }
+    for (int i = line.lineNumber() + 1; i < eline.lineNumber(); ++i) {
+	rr = layout->lineAt(i).naturalTextRect();
+	rr.moveTop(rr.top() + r.top());
+	rr.setLeft(r.left() + x);
+	painter.fillRect(rr, palette().highlight());
+    }
+
+    rr = eline.naturalTextRect();
+    rr.moveTop(rr.top() + r.top());
+    rr.setRight(r.left() + ex);
+    if (line.lineNumber() != eline.lineNumber())
+	painter.fillRect(rr, palette().highlight());
+    if ((blockSelection.anchor == TextBlockSelection::TopRight
+	  && block == blockSelection.firstBlock.block())
+	    || (blockSelection.anchor == TextBlockSelection::BottomRight
+		&& block == blockSelection.lastBlock.block())) {
+	rr.setLeft(rr.right()-2);
+	blockSelectionCursorRect = rr;
+    }
+}
+            bool drawCursor = ((true) // we want the cursor in read-only mode
+                               && context.cursorPosition >= blpos
+                               && context.cursorPosition < blpos + bllen);
+
+            bool drawCursorAsBlock = drawCursor && overwriteMode() ;
+
+            if (drawCursorAsBlock) {
+                int relativePos = context.cursorPosition - blpos;
+                bool doSelection = true;
+                QTextLine line = layout->lineForTextPosition(relativePos);
+                qreal x = line.cursorToX(relativePos);
+                qreal w = 0;
+                if (relativePos < line.textLength() - line.textStart()) {
+                    w = line.cursorToX(relativePos + 1) - x;
+                    if (doc->characterAt(context.cursorPosition) == QLatin1Char('\t')) {
+                        doSelection = false;
+                        qreal space = QFontMetricsF(layout->font()).width(QLatin1Char(' '));
+                        if (w > space) {
+                            x += w-space;
+                            w = space;
+                        }
+                    }
+                } else
+                    w = QFontMetrics(layout->font()).width(QLatin1Char(' ')); // in sync with QTextLine::draw()
+
+                QRectF rr = line.rect();
+                rr.moveTop(rr.top() + r.top());
+                rr.moveLeft(r.left() + x);
+                rr.setWidth(w);
+                painter.fillRect(rr, palette().text());
+                if (doSelection) {
+                    QTextLayout::FormatRange o;
+                    o.start = relativePos;
+                    o.length = 1;
+                    o.format.setForeground(palette().base());
+                    selections.append(o);
+                }
+            }
+layout->draw(&painter, offset, selections, er); 
+            if ((drawCursor && !drawCursorAsBlock)
+                || (context.cursorPosition < -1
+                    && !layout->preeditAreaText().isEmpty())) {
+                int cpos = context.cursorPosition;
+                if (cpos < -1)
+                    cpos = layout->preeditAreaPosition() - (cpos + 2);
+                else
+                    cpos -= blpos;
+                cursor_layout = layout;
+                cursor_offset = offset;
+                cursor_cpos = cpos;
+                cursor_pen = painter.pen();
+            }
+#ifndef Q_WS_MAC // no visible cursor on mac
+            if (blockSelectionCursorRect.isValid())
+                painter.fillRect(blockSelectionCursorRect, palette().text());
+#endif
+}
+offset.ry() += r.height();
+
+
+if (offset.y() > viewportRect.height())
+    break;
+
+block = block.next();
+       if (!block.isVisible()) {
+            // invisible blocks do have zero line count
+            block = doc->findBlockByLineNumber(block.firstLineNumber());
+        }
+
+}
+    painter.setPen(context.palette.text().color());
+
+    if (backgroundVisible() && !block.isValid() && offset.y() <= er.bottom()
+        && (centerOnScroll() || verticalScrollBar()->maximum() == verticalScrollBar()->minimum())) {
+        painter.fillRect(QRect(QPoint((int)er.left(), (int)offset.y()), er.bottomRight()), palette().background());
+    }
+    
+
+   if (cursor_layout && !inBlockSelectionMode) {
+	cursor_pen.setBrush(QBrush(colorCursor));
+        painter.setPen(cursor_pen);
+        cursor_layout->drawCursor(&painter, cursor_offset, cursor_cpos, cursorWidth());
+    }
 }
 
 void LightLatexEditor::contextMenuEvent(QContextMenuEvent *e)
@@ -507,4 +780,281 @@ emit requestFind();
 void LightLatexEditor::editGotoLine()
 {
 emit requestGotoLine();
+}
+
+void LightLatexEditor::updateName(QString f)
+{
+QFileInfo fiold(fname);
+QFileInfo finew(f);
+if ((fname.startsWith("untitled") || (fiold.suffix()!="asy" && fiold.suffix()!="mp")) && (finew.suffix()=="asy" || finew.suffix()=="mp") )
+  {
+  highlighter->setModeGraphic(true);
+  highlighter->rehighlight();
+  }
+fname=f;
+}
+
+void LightLatexEditor::mouseMoveEvent(QMouseEvent *e)
+{
+QPlainTextEdit::mouseMoveEvent(e);
+
+if (e->modifiers() & Qt::AltModifier) 
+{
+    if (!inBlockSelectionMode) {
+	blockSelection.fromSelection(textCursor());
+	inBlockSelectionMode = true;
+    } else {
+
+	QTextCursor cursor = textCursor();
+	// get visual column
+	int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
+	if (cursor.positionInBlock() == cursor.block().length()-1) {
+	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
+	}
+	  blockSelection.moveAnchor(cursor.blockNumber(), column);
+	setTextCursor(blockSelection.selection());
+	viewport()->update();
+    }
+}
+    if (viewport()->cursor().shape() == Qt::BlankCursor)
+        viewport()->setCursor(Qt::IBeamCursor);
+}
+
+void LightLatexEditor::mousePressEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton) {
+    if (inBlockSelectionMode) {
+        inBlockSelectionMode = false;
+        blockSelection.clear();
+        QTextCursor cursor = textCursor();
+        cursor.clearSelection();
+        setTextCursor(cursor);
+    }       
+    }
+
+    QPlainTextEdit::mousePressEvent(e);
+}
+
+void LightLatexEditor::removeBlockSelection(const QString &text)
+{
+    QTextCursor cursor = textCursor();
+    if (!cursor.hasSelection() || !inBlockSelectionMode)
+        return;
+
+    int cursorPosition = cursor.selectionStart();
+    cursor.clearSelection();
+    cursor.beginEditBlock();
+
+   
+    QTextBlock block = blockSelection.firstBlock.block();
+    QTextBlock lastBlock = blockSelection.lastBlock.block();
+    for (;;) {
+        QString text = block.text();
+        int startOffset = 0;
+        int startPos = blockSelection.positionAtColumn(text, blockSelection.firstVisualColumn, &startOffset);
+        int endOffset = 0;
+        int endPos = blockSelection.positionAtColumn(text, blockSelection.lastVisualColumn, &endOffset);
+
+        cursor.setPosition(block.position() + startPos);
+        cursor.setPosition(block.position() + endPos, QTextCursor::KeepAnchor);
+        cursor.removeSelectedText();
+
+        if (startOffset < 0)
+            cursor.insertText(QString(blockSelection.tabSize + startOffset, QLatin1Char(' ')));
+        if (endOffset < 0)
+            cursor.insertText(QString(-endOffset, QLatin1Char(' ')));
+
+        if (block == lastBlock)
+            break;
+        block = block.next();
+    }
+
+    cursor.setPosition(cursorPosition);
+    if (!text.isEmpty())
+        cursor.insertText(text);
+    cursor.endEditBlock();
+    setTextCursor(cursor);
+}
+
+QMimeData *LightLatexEditor::createMimeDataFromSelection() const
+{
+    if (inBlockSelectionMode) {
+        QMimeData *mimeData = new QMimeData;
+        QString text = copyBlockSelection();
+        mimeData->setData(QLatin1String("application/vnd.texmaker.vblocktext"), text.toUtf8());
+        mimeData->setText(text); // for exchangeability
+        return mimeData;
+    } else if (textCursor().hasSelection()) {
+        QTextCursor cursor = textCursor();
+        QMimeData *mimeData = new QMimeData;
+
+        // Copy the selected text as plain text
+        QString text = cursor.selectedText();
+        convertToPlainText(text);
+        mimeData->setText(text);
+
+        // Copy the selected text as HTML
+        {
+            // Create a new document from the selected text document fragment
+            QTextDocument *tempDocument = new QTextDocument;
+            QTextCursor tempCursor(tempDocument);
+            tempCursor.insertFragment(cursor.selection());
+
+            // Apply the additional formats set by the syntax highlighter
+            QTextBlock start = document()->findBlock(cursor.selectionStart());
+            QTextBlock end = document()->findBlock(cursor.selectionEnd());
+            end = end.next();
+
+            const int selectionStart = cursor.selectionStart();
+            const int endOfDocument = tempDocument->characterCount() - 1;
+            for (QTextBlock current = start; current.isValid() && current != end; current = current.next()) {
+                const QTextLayout *layout = current.layout();
+                foreach (const QTextLayout::FormatRange &range, layout->additionalFormats()) {
+                    const int start = current.position() + range.start - selectionStart;
+                    const int end = start + range.length;
+                    if (end <= 0 || start >= endOfDocument)
+                        continue;
+                    tempCursor.setPosition(qMax(start, 0));
+                    tempCursor.setPosition(qMin(end, endOfDocument), QTextCursor::KeepAnchor);
+                    tempCursor.setCharFormat(range.format);
+                }
+            }
+
+            // Reset the user states since they are not interesting
+            for (QTextBlock block = tempDocument->begin(); block.isValid(); block = block.next())
+                block.setUserState(-1);
+
+            // Make sure the text appears pre-formatted
+            tempCursor.setPosition(0);
+            tempCursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+            QTextBlockFormat blockFormat = tempCursor.blockFormat();
+            blockFormat.setNonBreakableLines(true);
+            tempCursor.setBlockFormat(blockFormat);
+
+            mimeData->setHtml(tempCursor.selection().toHtml());
+            delete tempDocument;
+        }
+
+        /*
+          Try to figure out whether we are copying an entire block, and store the complete block
+          including indentation in the qtcreator.blocktext mimetype.
+        */
+        QTextCursor selstart = cursor;
+        selstart.setPosition(cursor.selectionStart());
+        QTextCursor selend = cursor;
+        selend.setPosition(cursor.selectionEnd());
+
+        bool startOk = blockSelection.cursorIsAtBeginningOfLine(selstart);
+        bool multipleBlocks = (selend.block() != selstart.block());
+
+        if (startOk && multipleBlocks) {
+            selstart.movePosition(QTextCursor::StartOfBlock);
+            if (blockSelection.cursorIsAtBeginningOfLine(selend))
+                selend.movePosition(QTextCursor::StartOfBlock);
+            cursor.setPosition(selstart.position());
+            cursor.setPosition(selend.position(), QTextCursor::KeepAnchor);
+            text = cursor.selectedText();
+            mimeData->setData(QLatin1String("application/vnd.texmaker.blocktext"), text.toUtf8());
+        }
+        return mimeData;
+    }
+    return 0;
+}
+
+bool LightLatexEditor::canInsertFromMimeData(const QMimeData *source) const
+{
+    return QPlainTextEdit::canInsertFromMimeData(source);
+}
+
+void LightLatexEditor::insertFromMimeData(const QMimeData *source)
+{
+    if (isReadOnly())
+        return;
+
+    if (source->hasFormat(QLatin1String("application/vnd.texmaker.vblocktext"))) {
+        QString text = QString::fromUtf8(source->data(QLatin1String("application/vnd.texmaker.vblocktext")));
+        if (text.isEmpty())
+            return;
+
+
+        QStringList lines = text.split(QLatin1Char('\n'));
+        QTextCursor cursor = textCursor();
+        cursor.beginEditBlock();
+        int initialCursorPosition = cursor.position();
+        int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
+        cursor.insertText(lines.first());
+        for (int i = 1; i < lines.count(); ++i) {
+            QTextBlock next = cursor.block().next();
+            if (next.isValid()) {
+                cursor.setPosition(next.position());
+            } else {
+                cursor.movePosition(QTextCursor::EndOfBlock);
+                cursor.insertBlock();
+            }
+            int offset = 0;
+            int position = blockSelection.positionAtColumn(cursor.block().text(), column, &offset);
+            cursor.setPosition(cursor.block().position() + position);
+            if (offset < 0) {
+                cursor.deleteChar();
+                cursor.insertText(QString(-offset, QLatin1Char(' ')));
+            } else {
+                cursor.insertText(QString(offset, QLatin1Char(' ')));
+            }
+            cursor.insertText(lines.at(i));
+        }
+        cursor.setPosition(initialCursorPosition);
+        cursor.endEditBlock();
+        setTextCursor(cursor);
+        ensureCursorVisible();
+
+
+        return;
+    }
+
+    QString text = source->text();
+    if (text.isEmpty())
+        return;
+
+    QTextCursor cursor = textCursor();
+        cursor.beginEditBlock();
+        cursor.insertText(text);
+        cursor.endEditBlock();
+        setTextCursor(cursor);
+}
+
+QString LightLatexEditor::copyBlockSelection() const
+{
+    QString selection;
+    QTextCursor cursor = textCursor();
+    if (!inBlockSelectionMode)
+        return selection;
+    QTextBlock block = blockSelection.firstBlock.block();
+    QTextBlock lastBlock = blockSelection.lastBlock.block();
+    for (;;) {
+        QString text = block.text();
+        int startOffset = 0;
+        int startPos = blockSelection.positionAtColumn(text, blockSelection.firstVisualColumn, &startOffset);
+        int endOffset = 0;
+        int endPos = blockSelection.positionAtColumn(text, blockSelection.lastVisualColumn, &endOffset);
+
+        if (startPos == endPos) {
+            selection += QString(endOffset - startOffset, QLatin1Char(' '));
+        } else {
+            if (startOffset < 0)
+                selection += QString(-startOffset, QLatin1Char(' '));
+            if (endOffset < 0)
+                --endPos;
+            selection += text.mid(startPos, endPos - startPos);
+            if (endOffset < 0) {
+                selection += QString(blockSelection.tabSize + endOffset, QLatin1Char(' '));
+            } else if (endOffset > 0) {
+                selection += QString(endOffset, QLatin1Char(' '));
+            }
+        }
+        if (block == lastBlock)
+            break;
+        selection += QLatin1Char('\n');
+        block = block.next();
+    }
+    return selection;
 }

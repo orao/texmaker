@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 3.1
+Version: 3.2
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -17,7 +17,7 @@ documents with LaTeX, in just one application.
 %setup 
 
 %build
-export QTDIR=/usr/local/qt4static
+export QTDIR=/usr/lib/qt4
 PATH=$QTDIR/bin:$PATH
 LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export QTDIR PATH LD_LIBRARY_PATH
@@ -54,9 +54,32 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/doc20.png
 /usr/share/texmaker/doc21.png
 /usr/share/texmaker/doc22.png
+/usr/share/texmaker/doc10hu.png
+/usr/share/texmaker/doc11hu.png
+/usr/share/texmaker/doc12hu.png
+/usr/share/texmaker/doc13hu.png
+/usr/share/texmaker/doc14hu.png
+/usr/share/texmaker/doc15hu.png
+/usr/share/texmaker/doc16hu.png
+/usr/share/texmaker/doc17hu.png
+/usr/share/texmaker/doc1hu.png
+/usr/share/texmaker/doc20hu.png
+/usr/share/texmaker/doc21hu.png
+/usr/share/texmaker/doc22hu.png
+/usr/share/texmaker/doc2hu.png
+/usr/share/texmaker/doc3hu.png
+/usr/share/texmaker/doc4hu.png
+/usr/share/texmaker/doc5hu.png
+/usr/share/texmaker/doc6ahu.png
+/usr/share/texmaker/doc6hu.png
+/usr/share/texmaker/doc7hu.png
+/usr/share/texmaker/doc8hu.png
+/usr/share/texmaker/doc9hu.png
 /usr/share/texmaker/latexhelp.html
 /usr/share/texmaker/usermanual_en.html
 /usr/share/texmaker/usermanual_fr.html
+/usr/share/texmaker/usermanual_hu.html
+/usr/share/texmaker/usermanual_ru.html
 /usr/share/texmaker/AUTHORS
 /usr/share/texmaker/COPYING
 /usr/share/texmaker/CHANGELOG.txt
@@ -80,7 +103,6 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/qt_nl.qm
 /usr/share/texmaker/texmaker_pl.qm
 /usr/share/texmaker/texmaker_hu.qm
-/usr/share/texmaker/texmaker_ca.qm
 /usr/share/texmaker/texmaker_de.qm
 /usr/share/texmaker/texmaker_es.qm
 /usr/share/texmaker/texmaker_fa.qm
@@ -93,6 +115,8 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/texmaker_zh_TW.qm
 /usr/share/texmaker/texmaker_cs.qm
 /usr/share/texmaker/texmaker_nl.qm
+/usr/share/texmaker/texmaker_sr.qm
+/usr/share/texmaker/texmaker_el.qm
 /usr/share/texmaker/nl_NL.aff
 /usr/share/texmaker/nl_NL.dic
 /usr/share/texmaker/de_DE.aff

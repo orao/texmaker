@@ -23,15 +23,18 @@
 #include <QPrintDialog>
 #include <QSettings>
 #include <QTextStream>
+#include <QKeySequence>
+
 
 #include "poppler-qt4.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
-PdfViewerWidget::PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,QWidget* parent)
+PdfViewerWidget::PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,QWidget* parent)
     : QWidget( parent)
 {
+KeySequenceEditorFocus=edfocus;
 canDisplayPixmap=false;
 pdf_file=fileName;
 viewpdf_command=externalCommand;
@@ -39,6 +42,7 @@ gswin32c_command=ghostscriptCommand;
 paper_size=psize;
 lastFile=fileName;
 lastPage=1;
+lastHpos=0;
 lastScale=0.1;
 fileLoaded=false;
 currentPage=1;
@@ -188,6 +192,7 @@ scrollArea->verticalLayout->setSizeConstraint(QLayout::SetFixedSize);
 scrollArea->verticalLayout->setSpacing(10);
 scrollArea->verticalLayout->setMargin(0);
 scrollArea->setAlignment(Qt::AlignCenter);
+connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
 
 CentralLayout= new QHBoxLayout(centralFrame);
 CentralLayout->setSpacing(0);
@@ -301,7 +306,6 @@ if (doc!=0)
       } 
     QString syncFile = QFileInfo(fn).canonicalFilePath();
     scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
-
     listpagesWidget->setFixedWidth(30+fm.width(QString::number(doc->numPages())));
     if ((fn==lastFile) && (lpage <= doc->numPages()) && (lpage>0))
       {
@@ -322,7 +326,7 @@ if (doc!=0)
     lastFile=fn;
     setWindowTitle(QFileInfo(fn).fileName());
     clearHistory();
-    gotoPage(currentPage);
+    gotoPage(currentPage);   
     } 
     else 
       {
@@ -504,6 +508,9 @@ int pos=0;
 listPdfWidgetsStatus.replace(page,1);
   scrollArea->update();
 pageMutex.unlock();
+disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+if (scrollArea->horizontalScrollBar()->isVisible())  scrollArea->horizontalScrollBar()->setValue(lastHpos);
+connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
 }
 
 void PdfViewerWidget::setScrollMax()
@@ -654,6 +661,7 @@ if ((page <= doc->numPages()) && (page>=1))
   updateHistory(listPdfWidgetsPos.at(currentPage-1));
   updateCurrentPage();
   connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
+
   }
 }
 
@@ -1118,21 +1126,42 @@ if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0)
   }
 }
 
+void PdfViewerWidget::setKeyEditorFocus(QKeySequence s)
+{
+KeySequenceEditorFocus=s;
+}
+
 void PdfViewerWidget::keyPressEvent ( QKeyEvent * e ) 
 {
-#ifdef Q_WS_MACX
-if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Dollar)
-    {
-    emit sendFocusToEditor();
-    }
+int qtKeyCode = e->key();
+if(e->modifiers() & Qt::ShiftModifier) {
+	qtKeyCode += Qt::SHIFT;
+}
+if(e->modifiers() & Qt::ControlModifier) {
+	qtKeyCode += Qt::CTRL;
+}
+if(e->modifiers() & Qt::AltModifier) {
+	qtKeyCode += Qt::ALT;
+}
+if(e->modifiers() & Qt::MetaModifier) {
+	qtKeyCode += Qt::META;
+}
+QKeySequence s1 = QKeySequence(qtKeyCode);
+if (s1.matches(KeySequenceEditorFocus)==QKeySequence::ExactMatch) emit sendFocusToEditor();
 else QWidget::keyPressEvent(e);
-#else
-if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space)
-    {
-    emit sendFocusToEditor();
-    }
-else QWidget::keyPressEvent(e);
-#endif
+// #ifdef Q_WS_MACX
+// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Dollar)
+//     {
+//     emit sendFocusToEditor();
+//     }
+// else QWidget::keyPressEvent(e);
+// #else
+// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space)
+//     {
+//     emit sendFocusToEditor();
+//     }
+// else QWidget::keyPressEvent(e);
+// #endif
 }
 
 void PdfViewerWidget::ToggleStructure()
@@ -1237,3 +1266,9 @@ void PdfViewerWidget::getFocus()
 {
 scrollArea->setFocus();
 }
+
+void PdfViewerWidget::setHpos(int pos)
+{
+lastHpos=pos;
+}
+

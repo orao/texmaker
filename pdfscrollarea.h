@@ -25,6 +25,7 @@ QWidget *scrollAreaWidgetContents;
 QVBoxLayout *verticalLayout;
 signals:
   void doScroll(int);
+  void doHScroll(int);
   void doRange();
   void pagezoomOut();
   void pagezoomIn();

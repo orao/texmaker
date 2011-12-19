@@ -36,6 +36,8 @@
 #include <QTreeWidget>
 #include <QToolBar>
 #include <QStack>
+#include <QKeySequence>
+
 #include "pdfdocumentwidget.h"
 #include "pdfscrollarea.h"
 #include "synctex_parser.h"
@@ -47,14 +49,16 @@ class PdfViewer : public QMainWindow
 {
     Q_OBJECT
 public:
-    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,QWidget* parent = 0, Qt::WFlags flags = 0);
+    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, QWidget* parent = 0, Qt::WFlags flags = 0);
     ~PdfViewer();
     QString pdf_file;
 public slots:
 void openFile(QString fn, QString ec,QString pc);
 void jumpToPdfFromSource(QString sourceFile,int source_line);
+void setKeyEditorFocus(QKeySequence s);
 private:
 void closeEvent(QCloseEvent *e);
+QKeySequence KeySequenceEditorFocus;
 PaperDialog *dlg;
 QStackedWidget *LeftPanelStackedWidget;
 QTreeWidget *StructureTreeWidget;
@@ -93,6 +97,7 @@ QPainterPath path;
 QStack<int> stack;
 QStack<int> forwardStack;
 bool showingListPages;
+int lastHpos;
 
 
 private slots:
@@ -133,6 +138,7 @@ void historyBack();
 void historyForward();
 void clearHistory();
 void updateHistory(int pos);
+void setHpos(int pos);
 
 protected:
 void keyPressEvent ( QKeyEvent * e );

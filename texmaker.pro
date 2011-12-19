@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.1
+TEXMAKERVERSION=3.2
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -60,6 +60,9 @@ HEADERS	+= texmaker.h \
 	userquickdialog.h \
 	encodingdialog.h \
 	usercompletiondialog.h \
+	texdocdialog.h \
+	textblockselection.h \
+	scandialog.h \
 	synctex_parser.h \
 	synctex_parser_utils.h \
 	hunspell/affentry.hxx \
@@ -107,7 +110,7 @@ HEADERS	+= texmaker.h \
 	encodingprober/nsSJISProber.h \
 	encodingprober/nsUniversalDetector.h \
 	encodingprober/qencodingprober.h \
-	encodingprober/UnicodeGroupProber.h 
+	encodingprober/UnicodeGroupProber.h
 SOURCES	+= main.cpp \
 	texmakerapp.cpp \
 	texmaker.cpp \
@@ -160,6 +163,8 @@ SOURCES	+= main.cpp \
 	userquickdialog.cpp \
 	encodingdialog.cpp \
 	usercompletiondialog.cpp \
+	texdocdialog.cpp \
+	scandialog.cpp \
 	synctex_parser.c \
 	synctex_parser_utils.c \
 	hunspell/affentry.cxx \
@@ -229,7 +234,9 @@ FORMS   += findwidget.ui\
 	paperdialog.ui \
 	userquickdialog.ui \
 	encodingdialog.ui \
-	usercompletiondialog.ui
+	usercompletiondialog.ui \
+	texdocdialog.ui \
+	scandialog.ui
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
 	texmaker_es.ts \
@@ -246,7 +253,9 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_pl.ts  \
 	texmaker_vi_VN.ts \
 	texmaker_da.ts \
-	texmaker_ca.ts
+	texmaker_ca.ts \
+	texmaker_sr.ts \
+	texmaker_el.ts
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -269,6 +278,7 @@ DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 target.path = $${PREFIX}/bin
 
 #DEFINES += DEBIAN_SPELLDIR
+
 
 INSTALLS = target
 HEADERS	+= x11fontdialog.h 
@@ -301,9 +311,32 @@ utilities.files = doc/doc1.png \
 	doc/doc20.png \
 	doc/doc21.png \
 	doc/doc22.png \
+	doc/doc10hu.png \
+	doc/doc11hu.png \
+	doc/doc12hu.png \
+	doc/doc13hu.png \
+	doc/doc14hu.png \
+	doc/doc15hu.png \
+	doc/doc16hu.png \
+	doc/doc17hu.png \
+	doc/doc1hu.png \
+	doc/doc20hu.png \
+	doc/doc21hu.png \
+	doc/doc22hu.png \
+	doc/doc2hu.png \
+	doc/doc3hu.png \
+	doc/doc4hu.png \
+	doc/doc5hu.png \
+	doc/doc6ahu.png \
+	doc/doc6hu.png \
+	doc/doc7hu.png \
+	doc/doc8hu.png \
+	doc/doc9hu.png \
 	doc/latexhelp.html \
 	doc/usermanual_en.html \
 	doc/usermanual_fr.html \
+	doc/usermanual_ru.html \
+	doc/usermanual_hu.html \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -325,7 +358,6 @@ utilities.files = doc/doc1.png \
 	locale/qt_fa.qm \
 	locale/qt_pl.qm \
 	locale/qt_nl.qm \
-	locale/texmaker_ca.qm \
 	locale/texmaker_de.qm \
 	locale/texmaker_es.qm \
 	locale/texmaker_fr.qm \
@@ -340,6 +372,8 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_fa.qm \
 	locale/texmaker_pl.qm \
 	locale/texmaker_hu.qm \
+	locale/texmaker_sr.qm \
+	locale/texmaker_el.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -413,9 +447,32 @@ utilities.files =doc/doc1.png \
 	doc/doc20.png \
 	doc/doc21.png \
 	doc/doc22.png \
+	doc/doc10hu.png \
+	doc/doc11hu.png \
+	doc/doc12hu.png \
+	doc/doc13hu.png \
+	doc/doc14hu.png \
+	doc/doc15hu.png \
+	doc/doc16hu.png \
+	doc/doc17hu.png \
+	doc/doc1hu.png \
+	doc/doc20hu.png \
+	doc/doc21hu.png \
+	doc/doc22hu.png \
+	doc/doc2hu.png \
+	doc/doc3hu.png \
+	doc/doc4hu.png \
+	doc/doc5hu.png \
+	doc/doc6ahu.png \
+	doc/doc6hu.png \
+	doc/doc7hu.png \
+	doc/doc8hu.png \
+	doc/doc9hu.png \
 	doc/latexhelp.html \
 	doc/usermanual_en.html \
 	doc/usermanual_fr.html \
+	doc/usermanual_ru.html \
+	doc/usermanual_hu.html \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -430,7 +487,6 @@ utilities.files =doc/doc1.png \
 	locale/qt_fa.qm \
 	locale/qt_pl.qm \
 	locale/qt_nl.qm \
-	locale/texmaker_ca.qm \
 	locale/texmaker_de.qm \
 	locale/texmaker_es.qm \
 	locale/texmaker_fr.qm \
@@ -445,6 +501,8 @@ utilities.files =doc/doc1.png \
 	locale/texmaker_fa.qm \
 	locale/texmaker_pl.qm \
 	locale/texmaker_hu.qm \
+	locale/texmaker_sr.qm \
+	locale/texmaker_el.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -465,15 +523,15 @@ others.path = texmakerwin32
 #others.path = texmakerwin32usb
 
 others.files = texmaker.ico \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\mingwm10.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\libgcc_s_dw2-1.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtCore4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtGui4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtWebKit4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtXml4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtXmlPatterns4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\phonon4.dll \
-		C:\QtSDK\Desktop\Qt\4.7.3\mingw\bin\QtNetwork4.dll 
+		C:\Qt\4.8.0\bin\mingwm10.dll \
+		C:\Qt\4.8.0\bin\libgcc_s_dw2-1.dll \
+		C:\Qt\4.8.0\bin\QtCore4.dll \
+		C:\Qt\4.8.0\bin\QtGui4.dll \
+		C:\Qt\4.8.0\bin\QtWebKit4.dll \
+		C:\Qt\4.8.0\bin\QtXml4.dll \
+		C:\Qt\4.8.0\bin\QtXmlPatterns4.dll \
+		C:\Qt\4.8.0\bin\phonon4.dll \
+		C:\Qt\4.8.0\bin\QtNetwork4.dll 
 INSTALLS += others
 }
 ###############################
@@ -486,16 +544,16 @@ INCLUDEPATH  += /usr/local/include/poppler/qt4
 LIBS         += -L/usr/local/lib -lpoppler-qt4
 
 ##tiger 32
-#CONFIG += link_prl x86
-#QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
-#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
-#target.path = TexmakerMacosx32
+CONFIG += link_prl x86
+QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
+target.path = TexmakerMacosx32
 
 ##tiger snow 64
-CONFIG += link_prl x86_64
-QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.6.sdk
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-target.path = TexmakerMacosx64
+#CONFIG += link_prl x86_64
+#QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.6.sdk
+#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+#target.path = TexmakerMacosx64
 
 #target.path = /Applications
 INSTALLS = target
@@ -525,9 +583,32 @@ utilities.files = utilities/qt_menu.nib \
 	doc/doc20.png \
 	doc/doc21.png \
 	doc/doc22.png \
+	doc/doc10hu.png \
+	doc/doc11hu.png \
+	doc/doc12hu.png \
+	doc/doc13hu.png \
+	doc/doc14hu.png \
+	doc/doc15hu.png \
+	doc/doc16hu.png \
+	doc/doc17hu.png \
+	doc/doc1hu.png \
+	doc/doc20hu.png \
+	doc/doc21hu.png \
+	doc/doc22hu.png \
+	doc/doc2hu.png \
+	doc/doc3hu.png \
+	doc/doc4hu.png \
+	doc/doc5hu.png \
+	doc/doc6ahu.png \
+	doc/doc6hu.png \
+	doc/doc7hu.png \
+	doc/doc8hu.png \
+	doc/doc9hu.png \
 	doc/latexhelp.html \
 	doc/usermanual_en.html \
 	doc/usermanual_fr.html \
+	doc/usermanual_ru.html \
+	doc/usermanual_hu.html \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -542,10 +623,6 @@ utilities.files = utilities/qt_menu.nib \
 	locale/qt_fa.qm \
 	locale/qt_pl.qm \
 	locale/qt_nl.qm \
-	locale/texmaker_fa.qm \
-	locale/texmaker_pl.qm \
-	locale/texmaker_hu.qm \
-	locale/texmaker_ca.qm \
 	locale/texmaker_de.qm \
 	locale/texmaker_es.qm \
 	locale/texmaker_fr.qm \
@@ -557,6 +634,11 @@ utilities.files = utilities/qt_menu.nib \
 	locale/texmaker_zh_TW.qm \
 	locale/texmaker_cs.qm \
 	locale/texmaker_nl.qm \
+	locale/texmaker_fa.qm \
+	locale/texmaker_pl.qm \
+	locale/texmaker_hu.qm \
+	locale/texmaker_sr.qm \
+	locale/texmaker_el.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \

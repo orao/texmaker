@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="hu_HU">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -50,15 +50,15 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Nyomtatás</translation>
+        <translation>Nyomtatás</translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation>Tárgymutató</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished">Keresés</translation>
+        <translation>Keresés</translation>
     </message>
 </context>
 <context>
@@ -221,19 +221,19 @@
     </message>
     <message>
         <source>&quot;Math&quot; color</source>
-        <translation>&quot;Matematika&quot; színe</translation>
+        <translation type="obsolete">&quot;Matematika&quot; színe</translation>
     </message>
     <message>
         <source>Click here to set this color</source>
-        <translation>Kattintson ide a szín beállításához</translation>
+        <translation type="obsolete">Kattintson ide a szín beállításához</translation>
     </message>
     <message>
         <source>&quot;Command&quot; color</source>
-        <translation>&quot;Parancs&quot; színe</translation>
+        <translation type="obsolete">&quot;Parancs&quot; színe</translation>
     </message>
     <message>
         <source>&quot;Keyword&quot; color</source>
-        <translation>&quot;Kulcsszó&quot; színe</translation>
+        <translation type="obsolete">&quot;Kulcsszó&quot; színe</translation>
     </message>
     <message>
         <source>Spelling dictionary</source>
@@ -241,11 +241,11 @@
     </message>
     <message>
         <source>Inline Spell Checking</source>
-        <translation>Beágyazott helyesírás-ellenőrzés</translation>
+        <translation>Helyesírás-ellenőrzés gépelés közben</translation>
     </message>
     <message>
         <source>Inline</source>
-        <translation>Beágyazott</translation>
+        <translation>Gépelés közben</translation>
     </message>
     <message>
         <source>Shortcuts</source>
@@ -281,23 +281,51 @@
     </message>
     <message>
         <source>R Sweave</source>
-        <translation type="unfinished"></translation>
+        <translation>R Sweave</translation>
     </message>
     <message>
         <source>Check for external changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Külső változások ellenőrzése</translation>
     </message>
     <message>
         <source>Backup documents every 10 min</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokumentumok biztonsági mentése 10 percenként</translation>
     </message>
     <message>
         <source>Tab width (num of spaces)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabulátor szélessége (szóközök száma)</translation>
     </message>
     <message>
         <source>Replace tab with spaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabulátor cseréje szóközökre</translation>
+    </message>
+    <message>
+        <source>Toggle focus editor/pdf viewer</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>PushButton</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Item</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Colors</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Default Theme</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -309,7 +337,7 @@
     <message>
         <source>It seems that this file cannot be correctly decoded
 with the default encoding setting</source>
-        <translation>Úgy tűnik, ezt a fájlt nem lehet pontosan dekódolni
+        <translation>Úgy tűnik, ezt a fájlt nem lehet helyesen dekódolni
 az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
@@ -386,19 +414,19 @@ az alapértelmezett kódolási beállítással</translation>
     <name>GotoLineWidget</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">Formula</translation>
+        <translation>Formula</translation>
     </message>
     <message>
         <source>Line</source>
-        <translation type="unfinished">Sor</translation>
+        <translation>Sor</translation>
     </message>
     <message>
         <source>Goto</source>
-        <translation type="unfinished">Ugrás</translation>
+        <translation>Ugrás</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Bezárás</translation>
+        <translation>Bezárás</translation>
     </message>
 </context>
 <context>
@@ -525,30 +553,30 @@ az alapértelmezett kódolási beállítással</translation>
     <name>LightLatexEditor</name>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Hiba</translation>
+        <translation>Hiba</translation>
     </message>
     <message>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished">Nincs olvasási jogosultsága a fájlhoz.</translation>
+        <translation>Nincs olvasási jogosultsága a fájlhoz.</translation>
     </message>
     <message>
         <source>Click to jump to the bookmark</source>
-        <translation type="unfinished">Ugrás a könyvjelzőhöz</translation>
+        <translation>Ugrás a könyvjelzőhöz</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished">Keresés</translation>
+        <translation>Keresés</translation>
     </message>
     <message>
         <source>Goto Line</source>
-        <translation type="unfinished">Ugrás a sorhoz</translation>
+        <translation>Ugrás a sorhoz</translation>
     </message>
 </context>
 <context>
     <name>LightLineNumberWidget</name>
     <message>
         <source>Click to add or remove a bookmark</source>
-        <translation type="unfinished">Kattintson egy könyvjelző hozzáadásához vagy eltávolításához</translation>
+        <translation>Kattintson egy könyvjelző hozzáadásához vagy eltávolításához</translation>
     </message>
 </context>
 <context>
@@ -746,55 +774,55 @@ az alapértelmezett kódolási beállítással</translation>
     <name>QObject</name>
     <message>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>ismeretlen</translation>
     </message>
     <message>
         <source>Type 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Type 1</translation>
     </message>
     <message>
         <source>Type 1C</source>
-        <translation type="unfinished"></translation>
+        <translation>Type 1C</translation>
     </message>
     <message>
         <source>Type 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Type 3</translation>
     </message>
     <message>
         <source>TrueType</source>
-        <translation type="unfinished"></translation>
+        <translation>TrueType</translation>
     </message>
     <message>
         <source>CID Type 0</source>
-        <translation type="unfinished"></translation>
+        <translation>CID Type 0</translation>
     </message>
     <message>
         <source>CID Type 0C</source>
-        <translation type="unfinished"></translation>
+        <translation>CID Type 0C</translation>
     </message>
     <message>
         <source>CID TrueType</source>
-        <translation type="unfinished"></translation>
+        <translation>CID TrueType</translation>
     </message>
     <message>
         <source>Type 1C (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>Type 1C (OpenType)</translation>
     </message>
     <message>
         <source>TrueType (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>TrueType (OpenType)</translation>
     </message>
     <message>
         <source>CID Type 0C (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>CID Type 0C (OpenType)</translation>
     </message>
     <message>
         <source>CID TrueType (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>CID TrueType (OpenType)</translation>
     </message>
     <message>
         <source>Bug: unexpected font type. Notify poppler mailing list!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiba: ismeretlen font. Értesítse a poppler levelezőlistát!</translation>
     </message>
 </context>
 <context>
@@ -845,19 +873,19 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>babel Package</source>
-        <translation type="unfinished"></translation>
+        <translation>babel csomag</translation>
     </message>
     <message>
         <source>geometry Package</source>
-        <translation type="unfinished"></translation>
+        <translation>geometry csomag</translation>
     </message>
     <message>
         <source>left=2cm,right=2cm,top=2cm,bottom=2cm</source>
-        <translation type="unfinished"></translation>
+        <translation>bal=2cm,jobb=2cm,felül=2cm,alul=2cm</translation>
     </message>
     <message>
         <source>graphicx Package</source>
-        <translation type="unfinished"></translation>
+        <translation>graphicx csomag</translation>
     </message>
 </context>
 <context>
@@ -938,70 +966,101 @@ az alapértelmezett kódolási beállítással</translation>
     <name>ReplaceWidget</name>
     <message>
         <source>Form</source>
-        <translation type="unfinished">Formula</translation>
+        <translation>Formula</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished">Keresés</translation>
+        <translation>Keresés</translation>
     </message>
     <message>
         <source>Forward</source>
-        <translation type="unfinished">Előre</translation>
+        <translation>Előre</translation>
     </message>
     <message>
         <source>Backward</source>
-        <translation type="unfinished">Hátra</translation>
+        <translation>Hátra</translation>
     </message>
     <message>
         <source>Replace</source>
-        <translation type="unfinished">Csere</translation>
+        <translation>Csere</translation>
     </message>
     <message>
         <source>Replace All</source>
-        <translation type="unfinished">Mindet cseréli</translation>
+        <translation>Mindet cseréli</translation>
     </message>
     <message>
         <source>Whole words only</source>
-        <translation type="unfinished">Csak teljes szavak</translation>
+        <translation>Csak teljes szavak</translation>
     </message>
     <message>
         <source>Case sensitive</source>
-        <translation type="unfinished">Kis- és nagybetű</translation>
+        <translation>Kis- és nagybetű</translation>
     </message>
     <message>
         <source>Start at Beginning</source>
-        <translation type="unfinished">Kezdés az elejétől</translation>
+        <translation>Kezdés az elejétől</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished">Bezárás</translation>
+        <translation>Bezárás</translation>
     </message>
     <message>
         <source>Replace this occurence ? </source>
-        <translation type="unfinished">Cseréli ezt az előfordulást?</translation>
+        <translation>Cseréli ezt az előfordulást?</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished">Igen</translation>
+        <translation>Igen</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished">Nem</translation>
+        <translation>Nem</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Mégse</translation>
+        <translation>Mégse</translation>
+    </message>
+</context>
+<context>
+    <name>ScanDialog</name>
+    <message>
+        <source>Texmaker</source>
+        <translation>Texmaker</translation>
+    </message>
+    <message>
+        <source>In directory :</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Text :</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Find</source>
+        <translation>Keresés</translation>
+    </message>
+    <message>
+        <source>Include subdirectories</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Abort</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Bezárás</translation>
     </message>
 </context>
 <context>
     <name>SourceView</name>
     <message>
         <source>Open</source>
-        <translation type="unfinished">Megnyitás</translation>
+        <translation>Megnyitás</translation>
     </message>
     <message>
         <source>Open File</source>
-        <translation type="unfinished">Fájl megnyitása</translation>
+        <translation>Fájl megnyitása</translation>
     </message>
 </context>
 <context>
@@ -1055,7 +1114,7 @@ az alapértelmezett kódolási beállítással</translation>
     <name>StructDialog</name>
     <message>
         <source>Structure</source>
-        <translation>Szerekezet</translation>
+        <translation>Szerkezet</translation>
     </message>
     <message>
         <source>Numeration</source>
@@ -1109,59 +1168,59 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszlopok</translation>
     </message>
     <message>
         <source>Column :</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszlop :</translation>
     </message>
     <message>
         <source>Alignment :</source>
-        <translation type="unfinished"></translation>
+        <translation>Igazítás :</translation>
     </message>
     <message>
         <source>Left Border :</source>
-        <translation type="unfinished"></translation>
+        <translation>Bal szegély :</translation>
     </message>
     <message>
         <source>Apply to all columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmazás minden oszlopra</translation>
     </message>
     <message>
         <source>Right Border (last column) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Jobb szegély (utolsó oszlop) :</translation>
     </message>
     <message>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorok</translation>
     </message>
     <message>
         <source>Row :</source>
-        <translation type="unfinished"></translation>
+        <translation>Sor :</translation>
     </message>
     <message>
         <source>Top Border</source>
-        <translation type="unfinished"></translation>
+        <translation>Felső szegély</translation>
     </message>
     <message>
         <source>Merge columns :</source>
-        <translation type="unfinished"></translation>
+        <translation>Oszlopok egyesítése :</translation>
     </message>
     <message>
         <source>-&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>-&gt;</translation>
     </message>
     <message>
         <source>Apply to all rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmazás minden sorra</translation>
     </message>
     <message>
         <source>Bottom Border (last row)</source>
-        <translation type="unfinished"></translation>
+        <translation>Alsó szegély (utolsó sor)</translation>
     </message>
     <message>
         <source>Add vertical margin for each row</source>
-        <translation type="unfinished"></translation>
+        <translation>Függőleges margó hozzáadása minden sorhoz</translation>
     </message>
 </context>
 <context>
@@ -1181,6 +1240,25 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <source>Quick Tabbing</source>
         <translation>Tabulátor varázsló</translation>
+    </message>
+</context>
+<context>
+    <name>TexdocDialog</name>
+    <message>
+        <source>Search documentation about :</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>+</source>
+        <translation>+</translation>
+    </message>
+    <message>
+        <source>Texdoc command :</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Browse program</source>
+        <translation>Program böngészése</translation>
     </message>
 </context>
 <context>
@@ -1319,11 +1397,11 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>Save All</source>
-        <translation>Mindet menti</translation>
+        <translation>Összes mentése</translation>
     </message>
     <message>
         <source>Close All</source>
-        <translation>Mindet bezárja</translation>
+        <translation>Összes bezárása</translation>
     </message>
     <message>
         <source>Reload document from file</source>
@@ -1483,7 +1561,7 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>Inline math mode $...$</source>
-        <translation>Sorközi matematikai mód $...$</translation>
+        <translation>Szövegközi matematikai mód $...$</translation>
     </message>
     <message>
         <source>Display math mode \[...\]</source>
@@ -1700,7 +1778,7 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <source>Delete the output files generated by LaTeX ?
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</source>
-        <translation>Törli a LaTeX által előállított kimeneti fájlokat?
+        <translation type="obsolete">Törli a LaTeX által előállított kimeneti fájlokat?
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</translation>
     </message>
     <message>
@@ -1725,7 +1803,7 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>Normal Mode (current master document :</source>
-        <translation>Normál mód (jelenlegi fődokumentum :</translation>
+        <translation>Normál mód (jelenlegi fődokumentum) :</translation>
     </message>
     <message>
         <source>Master Document :</source>
@@ -1741,59 +1819,110 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>LaTeX</source>
-        <translation type="unfinished">LaTeX</translation>
+        <translation>LaTeX</translation>
     </message>
     <message>
         <source>PdfLaTeX</source>
-        <translation type="unfinished">PdfLaTeX</translation>
+        <translation>PdfLaTeX</translation>
     </message>
     <message>
         <source>dvips</source>
-        <translation type="unfinished">dvips</translation>
+        <translation>dvips</translation>
     </message>
     <message>
         <source>Dvi Viewer</source>
-        <translation type="unfinished">Dvi megjelenítő</translation>
+        <translation>Dvi megjelenítő</translation>
     </message>
     <message>
         <source>PS Viewer</source>
-        <translation type="unfinished">PS megjelenítő</translation>
+        <translation>PS megjelenítő</translation>
     </message>
     <message>
         <source>Dvipdfm</source>
-        <translation type="unfinished">Dvipdfm</translation>
+        <translation>Dvipdfm</translation>
     </message>
     <message>
         <source>ps2pdf</source>
-        <translation type="unfinished">ps2pdf</translation>
+        <translation>ps2pdf</translation>
     </message>
     <message>
         <source>Bibtex</source>
-        <translation type="unfinished">Bibtex</translation>
+        <translation>Bibtex</translation>
     </message>
     <message>
         <source>Makeindex</source>
-        <translation type="unfinished">Makeindex</translation>
+        <translation>Makeindex</translation>
     </message>
     <message>
         <source>metapost</source>
-        <translation type="unfinished">metapost</translation>
+        <translation>metapost</translation>
     </message>
     <message>
         <source>ghostscript</source>
-        <translation type="unfinished">ghostscript</translation>
+        <translation>ghostscript</translation>
     </message>
     <message>
         <source>Asymptote</source>
-        <translation type="unfinished">Asymptote</translation>
+        <translation>Asymptote</translation>
     </message>
     <message>
         <source>Latexmk</source>
-        <translation type="unfinished">Latexmk</translation>
+        <translation>Latexmk</translation>
     </message>
     <message>
         <source>R Sweave</source>
-        <translation type="unfinished"></translation>
+        <translation>R Sweave</translation>
+    </message>
+    <message>
+        <source>Find In Directory</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>International &amp;Quotes</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>List of opened files</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Settings File</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Reset Settings</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Save a copy of the settings file</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Replace the settings file by a new one</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Delete settings file?
+(Texmaker will be closed and you will have to restart it)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Replace settings file by a new one?
+(Texmaker will be closed and you will have to restart it)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Opened Files</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Delete the output files generated by LaTeX ?
+(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre)</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1817,6 +1946,14 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <source>Items already supplied by Texmaker</source>
         <translation>A Texmaker által felajánlott elemek</translation>
+    </message>
+    <message>
+        <source>( #bib# : bibliography item )</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>( #label# : label item )</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1881,7 +2018,7 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>wizard</source>
-        <translation type="unfinished">varázsló</translation>
+        <translation>varázsló</translation>
     </message>
 </context>
 <context>

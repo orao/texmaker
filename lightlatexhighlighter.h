@@ -31,13 +31,16 @@ class LightLatexHighlighter : public QSyntaxHighlighter
 public:
     LightLatexHighlighter(QTextDocument *parent = 0);
     ~LightLatexHighlighter();
-    QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword, ColorVerbatim;
-    QStringList KeyWords;
+    QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword, ColorVerbatim, ColorTodo, ColorKeywordGraphic, ColorNumberGraphic;
+    QStringList KeyWords, KeyWordsGraphic;
 public slots:
-void setColors(QColor colMath, QColor colCommand, QColor colKeyword);
+void setColors(QList<QColor> colors);
 void SetEditor(LightLatexEditor *ed);
+void setModeGraphic(bool m);
 private :
 bool isWordSeparator(QChar c) const;
+bool isSpace(QChar c) const;
+bool isGraphic;
 protected:
 LightLatexEditor *editor;
 void highlightBlock(const QString &text);

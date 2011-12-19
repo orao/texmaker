@@ -166,6 +166,7 @@
 \geometry{•}
 \geq
 \geqslant
+\glqq • \grqq
 \grave{•}
 \hat{•}
 \hfill
@@ -245,6 +246,7 @@
 \nexists
 \nolinebreak
 \nopagebreak
+\og • \fg{} 
 \oint
 \oint
 \Omega

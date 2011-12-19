@@ -138,7 +138,7 @@ handmode=false;
 setCursor(Qt::ArrowCursor);
 QApplication::restoreOverrideCursor();
 QMenu *menu = new QMenu(this);
-QAction *act = new QAction(tr("Click to jump to the line")+" (ctrl+clic)", menu);
+QAction *act = new QAction(tr("Click to jump to the line")+" (ctrl+click)", menu);
 //act->setShortcut(Qt::CTRL+Qt::Key_Space);
 act->setData(QVariant(event->pos()));
 connect(act, SIGNAL(triggered()), this, SLOT(jumpToSourceFromPdf()));

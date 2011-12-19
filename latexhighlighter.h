@@ -32,15 +32,17 @@ class LatexHighlighter : public QSyntaxHighlighter
 public:
     LatexHighlighter(QTextDocument *parent = 0,bool spelling=false, QString ignoredWords="",Hunspell *spellChecker=0);
     ~LatexHighlighter();
-    QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword, ColorVerbatim;
-    QStringList KeyWords;
+    QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword, ColorVerbatim, ColorTodo, ColorKeywordGraphic, ColorNumberGraphic;
+    QStringList KeyWords, KeyWordsGraphic;
     QTextCharFormat spellingErrorFormat;
 QStringList alwaysignoredwordList;
 public slots:
-void setColors(QColor colMath, QColor colCommand, QColor colKeyword);
+void SetAlwaysIgnoredWords(QString ignoredWords);
+void setColors(QList<QColor> colors);
 void setSpellChecker(Hunspell * checker);
 void activateInlineSpell(bool enable);
 void SetEditor(LatexEditor *ed);
+void setModeGraphic(bool m);
 private :
 QString spell_dic, spell_encoding;
 QStringList ignoredwordList, hardignoredwordList;
@@ -48,6 +50,7 @@ Hunspell * pChecker;
 bool checkSpelling;
 bool isWordSeparator(QChar c) const;
 bool isSpace(QChar c) const;
+bool isGraphic;
 protected:
 LatexEditor *editor;
 void highlightBlock(const QString &text);

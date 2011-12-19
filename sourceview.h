@@ -27,7 +27,7 @@
 class SourceView : public QWidget  {
    Q_OBJECT
 public: 
-SourceView(QWidget *parent, QFont & efont,bool line, QColor colMath, QColor colCommand, QColor colKeyword);
+SourceView(QWidget *parent, QFont & efont,bool line, QList<QColor> edcolors, QList<QColor> hicolors);
 ~SourceView();
   LightLatexEditor *editor;
   QToolBar *centralToolBar;
