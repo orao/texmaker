@@ -25,12 +25,39 @@
 #include <QDateTime>
 #include <QTimer>
 #include <QKeySequence>
+#include <QThread>
+#include <QSemaphore>
+#include <QMutex>
+#include <QQueue>
+#include <QDebug>
 
 #include "latexhighlighter.h"
 #include "textblockselection.h"
 #include "hunspell/hunspell.hxx"
 
 typedef  int UserBookmarkList[3];
+
+class StructItem {
+public:
+int line;
+QString item;
+int type;
+QTextCursor cursor;
+StructItem(int l, const QString& it, int t,const QTextCursor& curs): line(l),item(it),type(t),cursor(curs) { };
+bool operator==( const StructItem other ) const
+    {
+    return ((item==other.item) && (type==other.type));
+    }
+bool operator<( const StructItem other ) const
+    {
+    return (item<other.item);
+    }
+};
+
+struct updateStruct {
+bool isdirty;
+QList<StructItem> list;
+};
 
 class LatexEditor : public QPlainTextEdit  {
    Q_OBJECT
@@ -73,14 +100,12 @@ QMap<int,int> foldedLines;
 QMap<int,int> foldableLines;
 
 
+
 QStringList structlist, structitem;
-QList<int> structtype, structpos, structlen;
+//QList<int> structtype, structpos, structlen;
 QList<QTextCursor> structcursor;
 
-void removeStructureItem(int offset,int len, int line);
-void appendStructureItem(int line,QString item,int type,const QTextCursor& cursor);
-void setOldStructureItem();
-void setStructureDirty();
+void checkStructUpdate(QTextDocument *doc,int blockpos,QString text,int line);
 
 int getLastNumLines();
 void setLastNumLines(int n);
@@ -91,29 +116,14 @@ void setTabSettings(bool tabspaces,int tabwidth);
 void setKeyViewerFocus(QKeySequence s);
 void updateName(QString f);
 
-class StructItem {
-public:
-int line;
-QString item;
-int type;
-QTextCursor cursor;
-StructItem(int l, const QString& it, int t,const QTextCursor& curs): line(l),item(it),type(t),cursor(curs) { };
-bool operator==( const StructItem other ) const
-    {
-    return ((item==other.item) && (type==other.type));
-    }
-bool operator<( const StructItem other ) const
-    {
-    return (item<other.item);
-    }
-};
-const QList<StructItem> getStructItems() const { return StructItemsList; }
+
+const QList<StructItem> getStructItems() const {return StructItemsList; }
 
 
 
 QString beginningLine();
-bool StructureHasChanged();
 
+void setTextCursor(const QTextCursor &cursor);
 
 TextBlockSelection blockSelection;
 public slots:
@@ -157,6 +167,8 @@ QTimer highlightRemover;
 bool highlightLine;
 QString copyBlockSelection() const;
 QColor colorBackground, colorLine, colorHighlight, colorCursor;
+
+
 private slots:
 void correctWord();
 void checkSpellingWord();
@@ -171,7 +183,7 @@ void matchLat();
 
 void ensureFinalNewLine();//Qt 4.7.1 bug
 void removeBlockSelection(const QString &text = QString());
-
+void slotSelectionChanged();
 
 protected:
 void paintEvent(QPaintEvent *event);
@@ -183,8 +195,6 @@ void mousePressEvent(QMouseEvent *);
 QMimeData *createMimeDataFromSelection() const;
 bool canInsertFromMimeData(const QMimeData *source) const;
 void insertFromMimeData(const QMimeData *source);
-
-
 
 signals:
 void spellme();

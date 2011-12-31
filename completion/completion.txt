@@ -166,7 +166,7 @@
 \geometry{•}
 \geq
 \geqslant
-\glqq • \grqq
+\glqq •\grqq
 \grave{•}
 \hat{•}
 \hfill

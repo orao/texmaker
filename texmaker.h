@@ -178,7 +178,7 @@ QList<int> favoriteSymbolList;
 
 QColor colorBackground, colorLine, colorHighlight, colorStandard, colorComment, colorMath, colorCommand, colorKeyword, colorVerbatim, colorTodo, colorKeywordGraphic, colorNumberGraphic;
 
-QList<QColor> edcolors() {QList<QColor> e; e << colorBackground << colorLine << colorHighlight ; return e;}
+QList<QColor> edcolors() {QList<QColor> e; e << colorBackground << colorLine << colorHighlight << colorStandard; return e;}
 QList<QColor> hicolors() {QList<QColor> h; h << colorStandard << colorComment << colorMath << colorCommand << colorKeyword << colorVerbatim << colorTodo << colorKeywordGraphic << colorNumberGraphic; return h;}
 
 QCompleter *completer;
@@ -423,6 +423,7 @@ void showCursorPos(int li, int col);
 protected:
 void dragEnterEvent(QDragEnterEvent *event);
 void dropEvent(QDropEvent *event);
+void keyPressEvent(QKeyEvent * event);
 virtual void changeEvent(QEvent *e);
 
 signals:

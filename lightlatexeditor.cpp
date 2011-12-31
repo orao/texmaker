@@ -71,17 +71,19 @@ inBlockSelectionMode=false;
 blockSelection.tabSize=4;
 blockSelection.clear();
 setCursorWidth(2);
+connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 /***********************/
 colorBackground=edcolors.at(0);
 colorLine=edcolors.at(1);
 colorHighlight=edcolors.at(2);
-colorCursor=hicolors.at(0);
+colorCursor=edcolors.at(3);
 
 QPalette p = palette();
 p.setColor(QPalette::Active, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
 p.setColor(QPalette::Active, QPalette::Window, colorBackground);
+p.setColor(QPalette::Normal,QPalette::Text,colorCursor);
 
 // QPalette p = palette();
 // p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
@@ -124,12 +126,13 @@ void LightLatexEditor::setColors(QList<QColor> colors)
 colorBackground=colors.at(0);
 colorLine=colors.at(1);
 colorHighlight=colors.at(2);
+colorCursor=colors.at(3);
 QPalette p = palette();
 p.setColor(QPalette::Active, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
 p.setColor(QPalette::Active, QPalette::Window, colorBackground);
-
+p.setColor(QPalette::Normal,QPalette::Text,colorCursor);
 // QPalette p = palette();
 // p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
 // p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
@@ -807,10 +810,18 @@ if (e->modifiers() & Qt::AltModifier)
 
 	QTextCursor cursor = textCursor();
 	// get visual column
+#if (QT_VERSION >= 0x040700)
 	int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
 	if (cursor.positionInBlock() == cursor.block().length()-1) {
 	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
 	}
+#else
+	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
+if (cursor.position() - cursor.block().position() == cursor.block().length()-1) {
+	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
+	}
+#endif
+
 	  blockSelection.moveAnchor(cursor.blockNumber(), column);
 	setTextCursor(blockSelection.selection());
 	viewport()->update();
@@ -981,7 +992,11 @@ void LightLatexEditor::insertFromMimeData(const QMimeData *source)
         QTextCursor cursor = textCursor();
         cursor.beginEditBlock();
         int initialCursorPosition = cursor.position();
+#if (QT_VERSION >= 0x040700)
         int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
+#else
+	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
+#endif
         cursor.insertText(lines.first());
         for (int i = 1; i < lines.count(); ++i) {
             QTextBlock next = cursor.block().next();
@@ -1057,4 +1072,24 @@ QString LightLatexEditor::copyBlockSelection() const
         block = block.next();
     }
     return selection;
+}
+
+void LightLatexEditor::setTextCursor(const QTextCursor &cursor)
+{
+    // workaround for QTextControl bug
+    bool selectionChange = cursor.hasSelection() || textCursor().hasSelection();
+    QTextCursor c = cursor;
+    QPlainTextEdit::setTextCursor(c);
+    if (selectionChange)
+        slotSelectionChanged();
+}
+
+void LightLatexEditor::slotSelectionChanged()
+{
+    if (inBlockSelectionMode && !textCursor().hasSelection()) {
+        inBlockSelectionMode = false;
+        blockSelection.clear();
+        viewport()->update();
+    }
+
 }

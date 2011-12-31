@@ -55,6 +55,7 @@ void setLastNumLines(int n);
 
 QString beginningLine();
 void updateName(QString f);
+void setTextCursor(const QTextCursor &cursor);
 TextBlockSelection blockSelection;
 public slots:
 void matchAll();
@@ -84,7 +85,7 @@ void editFind();
 void editGotoLine();
 
 void removeBlockSelection(const QString &text = QString());
-
+void slotSelectionChanged();
 protected:
 void paintEvent(QPaintEvent *event);
 void contextMenuEvent(QContextMenuEvent *e);

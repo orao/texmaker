@@ -578,6 +578,7 @@ centralToolBarBis->addAction(Act);
 EditorView=new QStackedWidget(centralFrame);
 
 connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateCaption()) );
+connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateStructure()) );
 
 CentralLayout= new QHBoxLayout(centralFrame);
 CentralLayout->setSpacing(0);
@@ -1205,11 +1206,11 @@ latex17Menu->addAction(Act);
 
 latex18Menu=latex1Menu->addMenu(tr("International &Quotes"));
 Act = new QAction("French Quotes  [selection]", this);
-Act->setData("\\og / \\lg{}/4/0/ ");
+Act->setData("\\og / \\fg{}/4/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex18Menu->addAction(Act);
 Act = new QAction("German Quotes  [selection]", this);
-Act->setData("\\glqq / \\grrq/6/0/ ");
+Act->setData("\\glqq /\\grqq/6/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex18Menu->addAction(Act);
 
@@ -2072,7 +2073,7 @@ else
 	//input_encoding=currentEditorView()->editor->getEncoding();
 	}
 setWindowTitle(title);
-UpdateStructure();
+//UpdateStructure();
 if (singlemode)
 	{
 	OutputTextEdit->clear();
@@ -3331,6 +3332,7 @@ scanDialog->raise();
 
 void Texmaker::editFind()
 {
+if ( !currentEditorView() )	return;
 currentEditorView()->showFind();
 }
 
@@ -4249,7 +4251,7 @@ blocklabel->setText(0,"BLOCKS");
 blocklabel->setFont(0,deft);
 QString s;
 QTextBlock p = currentEditorView()->editor->document()->begin();
-const QList<LatexEditor::StructItem>& structure = currentEditorView()->editor->getStructItems();
+const QList<StructItem>& structure = currentEditorView()->editor->getStructItems();
 //int i;
 for (int j = 0; j < structure.count(); j++)
 {
@@ -4517,7 +4519,7 @@ void Texmaker::ParseTree(QTreeWidgetItem *item)
 int Texmaker::LevelItem(const QTreeWidgetItem *item)
 {
 int level=0;
-const QList<LatexEditor::StructItem>& structure = currentEditorView()->editor->getStructItems();
+const QList<StructItem>& structure = currentEditorView()->editor->getStructItems();
 if ((item) && (structure.count()>0))
   {
   int index = item->text(1).toInt();
@@ -4546,7 +4548,7 @@ return level;*/
 int Texmaker::LineItem(const QTreeWidgetItem *item)
 {
 int line=-1;
-const QList<LatexEditor::StructItem>& structure = currentEditorView()->editor->getStructItems();
+const QList<StructItem>& structure = currentEditorView()->editor->getStructItems();
 if ((item) && (structure.count()>0))
   {
   int index = item->text(1).toInt();
@@ -4629,7 +4631,7 @@ basename=name.left(name.length()-flname.length());
 if (item)
   {
   int index = item->text(1).toInt();
-  const QList<LatexEditor::StructItem>& structure = currentEditorView()->editor->getStructItems();
+  const QList<StructItem>& structure = currentEditorView()->editor->getStructItems();
   if (index<structure.count())
       {
       int type=structure.at(index).type;
@@ -4657,7 +4659,7 @@ if (item)
 		if (pdfviewerWidget->pdf_file!=fic.absolutePath()+"/"+basename+".pdf") pdfviewerWidget->openFile(fic.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
 		StackedViewers->setCurrentWidget(pdfviewerWidget);
 		pdfviewerWidget->show();
-		if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(finame,structure.at(index).cursor.block().blockNumber()+1);
+		if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),structure.at(index).cursor.block().blockNumber()+1);
 		}
 	      }
 	  }
@@ -6017,6 +6019,8 @@ if (!currentfileSaved())
 QFileInfo fi(finame);
 QString basename=fi.completeBaseName();
 commandline.replace("%","\""+basename+"\"");
+QFileInfo ficur(getName());
+commandline.replace("#","\""+ficur.completeBaseName()+"\"");
 int currentline=1;
 if (currentEditorView() )
   {
@@ -6850,7 +6854,7 @@ if (embedinternalpdf)
       StackedViewers->setCurrentWidget(pdfviewerWidget);
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(finame,line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
       pdfviewerWidget->getFocus();
       }
     else
@@ -6867,7 +6871,7 @@ if (embedinternalpdf)
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
       pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(finame,line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
       pdfviewerWidget->getFocus();
       }
     }
@@ -6878,7 +6882,7 @@ else
       if (pdfviewerWindow->pdf_file!=fi.absolutePath()+"/"+basename+".pdf") pdfviewerWindow->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
       }
     else
       {
@@ -6889,7 +6893,7 @@ else
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(finame,line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
       }  
     }
 }
@@ -7759,7 +7763,7 @@ if (confDlg->exec())
 	      spellChecker = new Hunspell(dic.toLatin1()+".aff",dic.toLatin1()+".dic");
 	      }
 	else spellChecker=0;
-
+#if (QT_VERSION >= 0x040700)
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(0,1)->text())) colorBackground=QColor(confDlg->ui.colortableWidget->item(0,1)->text());
 	
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(1,1)->text())) colorLine=QColor(confDlg->ui.colortableWidget->item(1,1)->text());
@@ -7783,7 +7787,31 @@ if (confDlg->exec())
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(10,1)->text())) colorKeywordGraphic=QColor(confDlg->ui.colortableWidget->item(10,1)->text());
 	
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(11,1)->text())) colorNumberGraphic=QColor(confDlg->ui.colortableWidget->item(11,1)->text());
+#else
+	if (QColor(confDlg->ui.colortableWidget->item(0,1)->text()).isValid()) colorBackground=QColor(confDlg->ui.colortableWidget->item(0,1)->text());
 	
+	if (QColor(confDlg->ui.colortableWidget->item(1,1)->text()).isValid()) colorLine=QColor(confDlg->ui.colortableWidget->item(1,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(2,1)->text()).isValid()) colorHighlight=QColor(confDlg->ui.colortableWidget->item(2,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(3,1)->text()).isValid()) colorStandard=QColor(confDlg->ui.colortableWidget->item(3,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(4,1)->text()).isValid()) colorComment=QColor(confDlg->ui.colortableWidget->item(4,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(5,1)->text()).isValid()) colorMath=QColor(confDlg->ui.colortableWidget->item(5,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(6,1)->text()).isValid()) colorCommand=QColor(confDlg->ui.colortableWidget->item(6,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(7,1)->text()).isValid()) colorKeyword=QColor(confDlg->ui.colortableWidget->item(7,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(8,1)->text()).isValid()) colorVerbatim=QColor(confDlg->ui.colortableWidget->item(8,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(9,1)->text()).isValid()) colorTodo=QColor(confDlg->ui.colortableWidget->item(9,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(10,1)->text()).isValid()) colorKeywordGraphic=QColor(confDlg->ui.colortableWidget->item(10,1)->text());
+	
+	if (QColor(confDlg->ui.colortableWidget->item(11,1)->text()).isValid()) colorNumberGraphic=QColor(confDlg->ui.colortableWidget->item(11,1)->text());	
+#endif
 	QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
 	if(!codec) codec = QTextCodec::codecForLocale();
 	
@@ -7823,6 +7851,7 @@ if (confDlg->exec())
 			disconnect(currentEditorView()->editor, SIGNAL(numLinesChanged(int)), this, SLOT(refreshAllFromCursor(int)));
 			disconnect(currentEditorView()->editor, SIGNAL(requestGotoStructure(int)),this, SLOT(jumpToStructure(int)));
 			disconnect(currentEditorView()->editor, SIGNAL(poshaschanged(int,int)),this, SLOT(showCursorPos(int,int)));
+			//currentEditorView()->editor->clear();
 			currentEditorView()->editor->setSpellChecker(spellChecker);
 			currentEditorView()->editor->highlighter->setSpellChecker(spellChecker);
 			currentEditorView()->editor->activateInlineSpell(inlinespellcheck);
@@ -7834,8 +7863,9 @@ if (confDlg->exec())
 			currentEditorView()->editor->setTabSettings(tabspaces,tabwidth);
 			currentEditorView()->editor->setKeyViewerFocus(QKeySequence(keyToggleFocus));
 			currentEditorView()->changeSettings(EditorFont,showline);
-			currentEditorView()->editor->setColors(edcolors());
 			currentEditorView()->editor->highlighter->setColors(hicolors());
+			currentEditorView()->editor->setColors(edcolors());
+
 			QTextStream ts( &tmp,QIODevice::ReadOnly );
 			ts.setCodec(codec);
 			currentEditorView()->editor->setPlainText( ts.readAll() );
@@ -7855,12 +7885,14 @@ if (confDlg->exec())
 			connect(currentEditorView()->editor, SIGNAL(numLinesChanged(int)), this, SLOT(refreshAllFromCursor(int)));
 			connect(currentEditorView()->editor, SIGNAL(requestGotoStructure(int)),this, SLOT(jumpToStructure(int)));
 			connect(currentEditorView()->editor, SIGNAL(poshaschanged(int,int)),this, SLOT(showCursorPos(int,int)));
-			UpdateStructure();
-			UpdateBibliography();
+			//UpdateStructure();
+			//UpdateBibliography();
 			QApplication::restoreOverrideCursor();
 			}
 		EditorView->setCurrentIndex(EditorView->indexOf(temp));
 		UpdateCaption();
+		UpdateStructure();
+		UpdateBibliography();
 		OutputTextEdit->clear();
 		OutputTableWidget->hide();
 		separatorline->hide();
@@ -7992,9 +8024,9 @@ if (event->mimeData()->hasFormat("text/uri-list")) event->acceptProposedAction()
 void Texmaker::dropEvent(QDropEvent *event)
 {
 #if defined(Q_WS_WIN)
-QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp))");
+QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp|asy))");
 #else
-QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp))");
+QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp|asy))");
 #endif
 QList<QUrl> uris=event->mimeData()->urls();
 QString uri;
@@ -8378,7 +8410,7 @@ for (int i =0; i <start.count(); i++) currentEditorView()->editor->foldedLines.i
  }
 qDebug() << "**********";*/
 /*QList<int> listofmodifiedlines;
-const QList<LatexEditor::StructItem>& structure = currentEditorView()->editor->getStructItems();
+const QList<StructItem>& structure = currentEditorView()->editor->getStructItems();
 for (int j = 0; j < structure.count(); j++)
   {
   l=structure.at(j).line;
@@ -8422,7 +8454,7 @@ currentEditorView()->editor->matchAll();
 
 void Texmaker::jumpToStructure(int line)
 {
-const QList<LatexEditor::StructItem>& structure = currentEditorView()->editor->getStructItems();
+const QList<StructItem>& structure = currentEditorView()->editor->getStructItems();
 int index=-1;
 for (int j = 0; j < structure.count(); j++)
     {
@@ -8721,4 +8753,12 @@ else linenumber.sprintf("L: %d C: %d", li,1);
 posLabel->setText(linenumber);
 }
 
+void Texmaker::keyPressEvent(QKeyEvent *event)
+{
+ if ((event->key() == Qt::Key_Escape) && showoutputview) 
+  {  
+       ShowOutputView(true);
+   } 
+else QMainWindow::keyPressEvent(event);
+}
 

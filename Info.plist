@@ -17,6 +17,8 @@
                     <string>CLS</string>
                     <string>mp</string>
                     <string>MP</string>
+		    <string>asy</string>
+		    <string>ASY</string>
                 </array>
                 <key>CFBundleTypeIconFile</key>
                 <string>texmaker.icns</string>
@@ -37,13 +39,13 @@
 	<key>CFBundleExecutable</key>
 	<string>texmaker</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Copyright (c) 2003-2011, Pascal Brachet</string>
+	<string>Copyright (c) 2003-2012, Pascal Brachet</string>
 	<key>CFBundleIdentifier</key>
 	<string>texmaker</string>
 	<key>CFBundleName</key>
 	<string>texmaker</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.2</string>
+	<string>3.2.1</string>
 	<key>CFBundleVersion</key>
 	<string>3.2</string>
 </dict>

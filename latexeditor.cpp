@@ -34,6 +34,10 @@
 #include <QFileInfo>
 #include <QInputContext>
 #include <QTextDocumentFragment>
+#include <QFuture>
+#include <QtCore>
+
+
 #include "blockdata.h"
 
 static void convertToPlainText(QString &txt)
@@ -58,8 +62,313 @@ static void convertToPlainText(QString &txt)
     }
 }
 
+extern struct updateStruct updateStructureList(QTextDocument *doc,int blockpos,QString text,int line,QList<StructItem> list)
+{
+bool haschanged=false;
+QList<StructItem> templist=list;
+int i=line;
+int j=0;
+StructItem oldItem=StructItem(i,"",-1,QTextCursor());
+for ( j=templist.count()-1;j>=0; --j ) 
+  {
+    if ( templist[j].cursor.block().blockNumber()==line)
+    {
+      oldItem=templist[j];
+      templist.removeAt(j);
+    }
+  }
+StructItem newItem=StructItem(i,"",-1,QTextCursor());
+bool found=false;
+int tagStart, tagEnd,offset;
+QString s;
+QString struct_level1="part";
+QString struct_level2="chapter";
+QString struct_level3="section";
+QString struct_level4="subsection";
+QString struct_level5="subsubsection";
+
+tagStart=tagEnd=offset=0;
+s=text; 
+ tagStart=s.indexOf(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+	if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level3, tagEnd);
+	s=s.mid(tagStart+struct_level3.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+	  newItem=StructItem(i,s,6,cursor);
+	  found=true;
+	  }
+	};
+if (!found)
+{
+//// subsection ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level4, tagEnd);
+	s=s.mid(tagStart+struct_level4.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+	  newItem=StructItem(i,s,7,cursor);
+	  found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// subsubsection ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level5, tagEnd);
+	s=s.mid(tagStart+struct_level5.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+		QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+	  newItem=StructItem(i,s,8,cursor);
+	  found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// block ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\begin\\{block\\}\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf("begin{block}", tagEnd);
+	s=s.mid(tagStart+12,s.length());
+	if (s.startsWith("{")) s=s.remove(0,1);
+	if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+	QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+	newItem=StructItem(i,s,0,cursor);
+	found=true;
+	};
+}
+if (!found)
+{
+//// label ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\label{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+7,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+		QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+		newItem=StructItem(i,s,1,cursor);
+		found=true;
+		}
+	};
+}
+if (!found)
+{
+//// include ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\include{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+8,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+			   	QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+		newItem=StructItem(i,s,2,cursor);
+		found=true;
+		}
+	};
+}
+if (!found)
+{
+//// input ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\input{", tagEnd);
+offset=tagStart;
+	if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+6,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+			   	QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+		newItem=StructItem(i,s,3,cursor);
+		found=true;
+		}
+	};
+}
+if (!found)
+{
+//// part ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level1, tagEnd);
+	s=s.mid(tagStart+struct_level1.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+		QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+	  newItem=StructItem(i,s,4,cursor);
+	  found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// chapter ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level2+"\\*?[\\{\\[]"), tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	tagStart=s.indexOf(struct_level2, tagEnd);
+	s=s.mid(tagStart+struct_level2.length(),s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+	  {
+	  if (s.startsWith("*")) s=s.remove(0,1);
+	  if (s.startsWith("{")) s=s.remove(0,1);
+	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+		QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+	  newItem=StructItem(i,s,5,cursor);
+	  found=true;
+	  }
+	};
+}
+if (!found)
+{
+//// bib files ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\bibliography{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+13,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+				      	QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+		newItem=StructItem(i,s,9,cursor);
+		found=true;
+		}
+	};
+}
+if (!found)
+{
+//// bib files ////
+tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\addbibresource{", tagEnd);
+offset=tagStart;
+if (tagStart!=-1)
+	{
+	s=s.mid(tagStart+15,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart+1);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+				      	QTextCursor	cursor(doc);
+	cursor.setPosition(blockpos + offset+1);
+		newItem=StructItem(i,s,9,cursor);
+		found=true;
+		}
+	};
+}
+
+j=0;
+if (newItem.type>=0)
+{
+while (j < templist.count()) 
+  {
+   if (templist[j].cursor.position() > newItem.cursor.position()) break;
+  ++j;
+  }
+templist.insert(j,newItem);
+}
+if (!(newItem==oldItem)) haschanged=true;
+struct updateStruct newstruct;
+newstruct.isdirty=haschanged;
+newstruct.list=templist;
+return newstruct;
+}
+
+
 LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces,int tabwidth,const QKeySequence viewfocus, QString name) : QPlainTextEdit(parent),c(0)
 {
+ 
 fname=name;
 vfocus=viewfocus;
 /***********************/
@@ -67,17 +376,19 @@ inBlockSelectionMode=false;
 blockSelection.tabSize=tabwidth;
 blockSelection.clear();
 setCursorWidth(2);
+connect(this, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 /***********************/
 colorBackground=edcolors.at(0);
 colorLine=edcolors.at(1);
 colorHighlight=edcolors.at(2);
-colorCursor=hicolors.at(0);
+colorCursor=edcolors.at(3);
 
 QPalette p = palette();
 p.setColor(QPalette::Active, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
 p.setColor(QPalette::Active, QPalette::Window, colorBackground);
+p.setColor(QPalette::Normal,QPalette::Text,colorCursor);
 //p.setColor( backgroundRole(), Qt::black );
 // p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
 // p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
@@ -139,6 +450,7 @@ highlightLine=false;
 highlightRemover.setSingleShot(true);
 connect(&highlightRemover, SIGNAL(timeout()), this, SLOT(clearHightLightLine()));
 emit poshaschanged(1,1);
+
 }
 LatexEditor::~LatexEditor(){
 //delete pChecker;
@@ -149,16 +461,19 @@ void LatexEditor::setColors(QList<QColor> colors)
 colorBackground=colors.at(0);
 colorLine=colors.at(1);
 colorHighlight=colors.at(2);
+colorCursor=colors.at(3);
 QPalette p = palette();
 p.setColor(QPalette::Active, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
 p.setColor(QPalette::Active, QPalette::Window, colorBackground);
+p.setColor(QPalette::Normal,QPalette::Text,colorCursor);
 //p.setColor( backgroundRole(), Qt::black );
 // p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
 // p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
 setPalette(p);
 setBackgroundVisible(true);
+highlighter->rehighlight();
 update();
 }
 
@@ -1163,6 +1478,26 @@ return (QStringList() << result << QString::number(index) << QString::number(sta
 
 void LatexEditor::keyPressEvent ( QKeyEvent * e ) 
 {
+   if (inBlockSelectionMode) {
+        if (e == QKeySequence::Cut) {
+            
+                cut();
+                e->accept();
+                return;
+      
+        } else if (e == QKeySequence::Delete || e->key() == Qt::Key_Backspace) {
+            
+                removeBlockSelection();
+                e->accept();
+                return;
+           
+        } else if (e == QKeySequence::Paste) {
+            
+                removeBlockSelection();
+                // continue
+          
+        }
+    }
 if (c && c->popup()->isVisible()) 
 	{
 	switch (e->key()) 
@@ -1529,7 +1864,9 @@ QList<QTextEdit::ExtraSelection> selections;
 setExtraSelections(selections);
 matchPar();
 matchLat();
+
 if (foldableLines.keys().contains(textCursor().block().blockNumber())) emit requestGotoStructure(textCursor().block().blockNumber());
+
 //emit poshaschanged(textCursor().blockNumber() + 1,textCursor().position() - document()->findBlock(textCursor().selectionStart()).position()+1);
 emit poshaschanged(textCursor().blockNumber() + 1,textCursor().position() - textCursor().block().position()+1);
 }
@@ -1802,70 +2139,16 @@ emit updatelineWidget();
 ensureCursorVisible();
 }
 
-void LatexEditor::setOldStructureItem()
+void LatexEditor::checkStructUpdate(QTextDocument *doc,int blockpos,QString text,int line)
 {
-OldStructItemsList=StructItemsList;
+QList<StructItem> temp=StructItemsList;
+QFuture< struct updateStruct > result=QtConcurrent::run(updateStructureList,doc,blockpos,text,line,temp);
+struct updateStruct newstruct=result;
+StructItemsList=newstruct.list;
+if (newstruct.isdirty) {emit requestUpdateStructure();}
 }
 
-bool LatexEditor::StructureHasChanged()
-{
-QList<StructItem> tempStructItemsList, tempOldStructItemsList;
-tempStructItemsList=StructItemsList;
-tempOldStructItemsList=OldStructItemsList;
-qSort(tempOldStructItemsList.begin(),tempOldStructItemsList.end());
-qSort(tempStructItemsList.begin(), tempStructItemsList.end());
-/*if (tempStructItemsList!=tempOldStructItemsList)
-{
-qDebug() << tempOldStructItemsList.count() << tempStructItemsList.count();
-for (int i=0;i<tempOldStructItemsList.count();i++)
-{
-qDebug() <<  tempOldStructItemsList[i].line << tempStructItemsList[i].line;
-qDebug() <<  tempOldStructItemsList[i].item << tempStructItemsList[i].item;
-qDebug() <<  tempOldStructItemsList[i].type << tempStructItemsList[i].type;
-}
-}*/
-return (tempStructItemsList!=tempOldStructItemsList);
-}
 
-void LatexEditor::removeStructureItem(int offset,int len, int line)
-{
-bool r=false;
-for ( int j=StructItemsList.count()-1;j>=0; --j ) 
-  {
-  //if (StructItemsList[j].cursor.selectionStart() < offset) break;
-  //if (StructItemsList[j].cursor.selectionStart() < offset+len)
-  //if (StructItemsList[j].cursor.position() < offset) break;
-  //if (StructItemsList[j].cursor.position() < offset+len)
-    if ( StructItemsList[j].cursor.block().blockNumber()==line)
-    {
-      //qDebug() << "remove" << StructItemsList[j].item << StructItemsList[j].cursor.selectionStart() << offset << len;
-      //qDebug() << "remove" << StructItemsList[j].item << StructItemsList[j].cursor.block().blockNumber() << line;
-      StructItemsList.removeAt(j);
-    r=true;
-    }
-  }
-
-//if (r && update) {qDebug() << "update remove" << line  ;emit requestUpdateStructure();}
-}
-
-void LatexEditor::appendStructureItem(int line,QString item,int type,const QTextCursor& cursor)
-{
-int j = 0;
-while (j < StructItemsList.count()) 
-  {
-  if (StructItemsList[j].cursor.position() > cursor.position()) break;
-  //if (StructItemsList[j].cursor.selectionStart() > cursor.selectionStart()) break;
-  ++j;
-  }
-StructItemsList.insert(j,StructItem(line,item,type,cursor));
-//qDebug() << "update append" << line ;
-//if (update) emit requestUpdateStructure();
-}
-
-void LatexEditor::setStructureDirty()
-{
-emit requestUpdateStructure();
-}
 
 void LatexEditor::ensureFinalNewLine()//Qt 4.7.1 bug
 {
@@ -1978,10 +2261,18 @@ if (e->modifiers() & Qt::AltModifier)
 
 	QTextCursor cursor = textCursor();
 	// get visual column
+#if (QT_VERSION >= 0x040700)
 	int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
 	if (cursor.positionInBlock() == cursor.block().length()-1) {
 	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
 	}
+#else
+	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
+	if (cursor.position() - cursor.block().position() == cursor.block().length()-1) {
+	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
+	}
+#endif
+
 	  blockSelection.moveAnchor(cursor.blockNumber(), column);
 	setTextCursor(blockSelection.selection());
 	viewport()->update();
@@ -2170,7 +2461,11 @@ void LatexEditor::insertFromMimeData(const QMimeData *source)
         QTextCursor cursor = textCursor();
         cursor.beginEditBlock();
         int initialCursorPosition = cursor.position();
+#if (QT_VERSION >= 0x040700)
         int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
+#else
+	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
+#endif
         cursor.insertText(lines.first());
         for (int i = 1; i < lines.count(); ++i) {
             QTextBlock next = cursor.block().next();
@@ -2247,6 +2542,27 @@ QString LatexEditor::copyBlockSelection() const
     }
     return selection;
 }
+
+void LatexEditor::setTextCursor(const QTextCursor &cursor)
+{
+    // workaround for QTextControl bug
+    bool selectionChange = cursor.hasSelection() || textCursor().hasSelection();
+    QTextCursor c = cursor;
+    QPlainTextEdit::setTextCursor(c);
+    if (selectionChange)
+        slotSelectionChanged();
+}
+
+void LatexEditor::slotSelectionChanged()
+{
+    if (inBlockSelectionMode && !textCursor().hasSelection()) {
+        inBlockSelectionMode = false;
+        blockSelection.clear();
+        viewport()->update();
+    }
+
+}
+
 /*const QRectF LatexEditor::blockGeometry(const QTextBlock & block) 
 {
 qDebug() << "ok1" << block.isValid() << block.isVisible();

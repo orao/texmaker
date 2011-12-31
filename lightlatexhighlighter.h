@@ -32,7 +32,7 @@ public:
     LightLatexHighlighter(QTextDocument *parent = 0);
     ~LightLatexHighlighter();
     QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword, ColorVerbatim, ColorTodo, ColorKeywordGraphic, ColorNumberGraphic;
-    QStringList KeyWords, KeyWordsGraphic;
+    QStringList KeyWords, KeyWordsGraphic, KeyWordsGraphicBis;
 public slots:
 void setColors(QList<QColor> colors);
 void SetEditor(LightLatexEditor *ed);

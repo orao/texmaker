@@ -33,7 +33,7 @@ public:
     LatexHighlighter(QTextDocument *parent = 0,bool spelling=false, QString ignoredWords="",Hunspell *spellChecker=0);
     ~LatexHighlighter();
     QColor ColorStandard, ColorComment, ColorMath, ColorCommand, ColorKeyword, ColorVerbatim, ColorTodo, ColorKeywordGraphic, ColorNumberGraphic;
-    QStringList KeyWords, KeyWordsGraphic;
+    QStringList KeyWords, KeyWordsGraphic, KeyWordsGraphicBis;
     QTextCharFormat spellingErrorFormat;
 QStringList alwaysignoredwordList;
 public slots:
