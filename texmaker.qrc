@@ -41,6 +41,7 @@
         <file>images/configeditor.png</file>
         <file>images/configquick.png</file>
         <file>images/configtools.png</file>
+	<file>images/configkeys.png</file>
         <file>images/splash.png</file>
         <file>images/acute.png</file>
         <file>images/appicon.png</file>
@@ -106,6 +107,7 @@
         <file>images/text_left.png</file>
         <file>images/text_right.png</file>
         <file>images/text_under.png</file>
+        <file>images/text_emphasis.png</file>
         <file>images/tilde.png</file>
         <file>images/undo.png</file>
         <file>images/vec.png</file>

@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.2.1
+TEXMAKERVERSION=3.2.2
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################

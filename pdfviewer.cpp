@@ -24,7 +24,6 @@
 #include <QSettings>
 #include <QTextStream>
 
-
 #include "poppler-qt4.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
@@ -354,6 +353,9 @@ if (doc!=0)
     if (showingListPages) ShowListPages();
     else ShowStructure();
     gotoPage(currentPage);
+    disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+    if (scrollArea->horizontalScrollBar()->isVisible())  scrollArea->horizontalScrollBar()->setValue(lastHpos);
+    connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
     } 
     else 
       {

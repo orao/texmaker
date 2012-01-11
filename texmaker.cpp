@@ -166,6 +166,7 @@ LeftPanelToolBar->setOrientation(Qt::Vertical);
 LeftPanelToolBar->setMovable(false);
 LeftPanelToolBar->setIconSize(QSize(16,16 ));
 
+
 LeftPanelStackedWidget=new QStackedWidget(LeftPanelFrame);
 
 
@@ -195,10 +196,13 @@ connect(OpenedFilesListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SL
 
 LeftPanelToolBar->addSeparator();
 
+
 RelationListWidget=new SymbolListWidget(LeftPanelStackedWidget,0);
 RelationListWidget->setFrameStyle(QFrame::NoFrame);
 connect(RelationListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/math1.png"),tr("Relation symbols")), SIGNAL(triggered()), this, SLOT(ShowRelation()));
+relationAct = new QAction(QIcon(":/images/math1.png"),tr("Relation symbols"), this);
+connect(relationAct, SIGNAL(triggered()), this, SLOT(ShowRelation()));
+LeftPanelToolBar->addAction(relationAct);
 connect(RelationListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
 LeftPanelStackedWidget->addWidget(RelationListWidget);
 
@@ -206,42 +210,54 @@ LeftPanelStackedWidget->addWidget(RelationListWidget);
 ArrowListWidget=new SymbolListWidget(LeftPanelStackedWidget,1);
 ArrowListWidget->setFrameStyle(QFrame::NoFrame);
 connect(ArrowListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/math2.png"),tr("Arrow symbols")), SIGNAL(triggered()), this, SLOT(ShowArrow()));
+arrowAct = new QAction(QIcon(":/images/math2.png"),tr("Arrow symbols"), this);
+connect(arrowAct, SIGNAL(triggered()), this, SLOT(ShowArrow()));
+LeftPanelToolBar->addAction(arrowAct);
 connect(ArrowListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
 LeftPanelStackedWidget->addWidget(ArrowListWidget);
 
 MiscellaneousListWidget=new SymbolListWidget(LeftPanelStackedWidget,2);
 MiscellaneousListWidget->setFrameStyle(QFrame::NoFrame);
 connect(MiscellaneousListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/math3.png"),tr("Miscellaneous symbols")), SIGNAL(triggered()), this, SLOT(ShowMisc()));
+miscAct = new QAction(QIcon(":/images/math3.png"),tr("Miscellaneous symbols"), this);
+connect(miscAct, SIGNAL(triggered()), this, SLOT(ShowMisc()));
+LeftPanelToolBar->addAction(miscAct);
 connect(MiscellaneousListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
 LeftPanelStackedWidget->addWidget(MiscellaneousListWidget);
 
 DelimitersListWidget=new SymbolListWidget(LeftPanelStackedWidget,3);
 DelimitersListWidget->setFrameStyle(QFrame::NoFrame);
 connect(DelimitersListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/math4.png"),tr("Delimiters")), SIGNAL(triggered()), this, SLOT(ShowDelim()));
+delimAct = new QAction(QIcon(":/images/math4.png"),tr("Delimiters"), this);
+connect(delimAct, SIGNAL(triggered()), this, SLOT(ShowDelim()));
+LeftPanelToolBar->addAction(delimAct);
 connect(DelimitersListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
 LeftPanelStackedWidget->addWidget(DelimitersListWidget);
 
 GreekListWidget=new SymbolListWidget(LeftPanelStackedWidget,4);
 GreekListWidget->setFrameStyle(QFrame::NoFrame);
 connect(GreekListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/math5.png"),tr("Greek letters")), SIGNAL(triggered()), this, SLOT(ShowGreek()));
+greekAct = new QAction(QIcon(":/images/math5.png"),tr("Greek letters"), this);
+connect(greekAct, SIGNAL(triggered()), this, SLOT(ShowGreek()));
+LeftPanelToolBar->addAction(greekAct);
 connect(GreekListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
 LeftPanelStackedWidget->addWidget(GreekListWidget);
 
 MostUsedListWidget=new SymbolListWidget(LeftPanelStackedWidget,5);
 MostUsedListWidget->setFrameStyle(QFrame::NoFrame);
 connect(MostUsedListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/math6.png"),tr("Most used symbols")), SIGNAL(triggered()), this, SLOT(ShowMostUsed()));
+usedAct = new QAction(QIcon(":/images/math6.png"),tr("Most used symbols"), this);
+connect(usedAct, SIGNAL(triggered()), this, SLOT(ShowMostUsed()));
+LeftPanelToolBar->addAction(usedAct);
 SetMostUsedSymbols();
 LeftPanelStackedWidget->addWidget(MostUsedListWidget);
 
 FavoriteListWidget=new SymbolListWidget(LeftPanelStackedWidget,6);
 FavoriteListWidget->setFrameStyle(QFrame::NoFrame);
 connect(FavoriteListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/math7.png"),tr("Favorites symbols")), SIGNAL(triggered()), this, SLOT(ShowFavorite()));
+favAct = new QAction(QIcon(":/images/math7.png"),tr("Favorites symbols"), this);
+connect(favAct, SIGNAL(triggered()), this, SLOT(ShowFavorite()));
+LeftPanelToolBar->addAction(favAct);
 FavoriteListWidget->SetFavoritePage(favoriteSymbolList);
 connect(FavoriteListWidget->remAct, SIGNAL(triggered()), this, SLOT(RemoveFavoriteSymbols()));
 LeftPanelStackedWidget->addWidget(FavoriteListWidget);
@@ -251,7 +267,9 @@ LeftPanelToolBar->addSeparator();
 leftrightWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/leftright_tags.xml");
 leftrightWidget->setFrameStyle(QFrame::NoFrame);
 connect(leftrightWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/leftright.png"),"left/right"), SIGNAL(triggered()), this, SLOT(ShowLeftRight()));
+leftrightAct = new QAction(QIcon(":/images/leftright.png"),"left/right", this);
+connect(leftrightAct, SIGNAL(triggered()), this, SLOT(ShowLeftRight()));
+LeftPanelToolBar->addAction(leftrightAct);
 LeftPanelStackedWidget->addWidget(leftrightWidget);
 
 LeftPanelToolBar->addSeparator();
@@ -259,27 +277,49 @@ LeftPanelToolBar->addSeparator();
 PsListWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/pstricks_tags.xml");
 PsListWidget->setFrameStyle(QFrame::NoFrame);
 connect(PsListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/pstricks.png"),tr("Pstricks Commands")), SIGNAL(triggered()), this, SLOT(ShowPstricks()));
+pstricksAct = new QAction(QIcon(":/images/pstricks.png"),tr("Pstricks Commands"), this);
+connect(pstricksAct, SIGNAL(triggered()), this, SLOT(ShowPstricks()));
+if (showPstricks) LeftPanelToolBar->addAction(pstricksAct);
 LeftPanelStackedWidget->addWidget(PsListWidget);
 
 MpListWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/metapost_tags.xml");
 MpListWidget->setFrameStyle(QFrame::NoFrame);
 connect(MpListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/metapost.png"),tr("MetaPost Commands")), SIGNAL(triggered()), this, SLOT(ShowMplist()));
+mpAct = new QAction(QIcon(":/images/metapost.png"),tr("MetaPost Commands"), this);
+connect(mpAct, SIGNAL(triggered()), this, SLOT(ShowMplist()));
+if (showMp) LeftPanelToolBar->addAction(mpAct);
 LeftPanelStackedWidget->addWidget(MpListWidget);
 
 tikzWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/tikz_tags.xml");
 tikzWidget->setFrameStyle(QFrame::NoFrame);
 connect(tikzWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/tikz.png"),tr("Tikz Commands")), SIGNAL(triggered()), this, SLOT(ShowTikz()));
+tikzAct = new QAction(QIcon(":/images/tikz.png"),tr("Tikz Commands"), this);
+connect(tikzAct, SIGNAL(triggered()), this, SLOT(ShowTikz()));
+if (showTikz) LeftPanelToolBar->addAction(tikzAct);
 LeftPanelStackedWidget->addWidget(tikzWidget);
 
 asyWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/asymptote_tags.xml");
 asyWidget->setFrameStyle(QFrame::NoFrame);
 connect(asyWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-connect(LeftPanelToolBar->addAction(QIcon(":/images/asymptote.png"),tr("Asymptote Commands")), SIGNAL(triggered()), this, SLOT(ShowAsy()));
+asyAct = new QAction(QIcon(":/images/asymptote.png"),tr("Asymptote Commands"), this);
+connect(asyAct, SIGNAL(triggered()), this, SLOT(ShowAsy()));
+if (showAsy) LeftPanelToolBar->addAction(asyAct);
 LeftPanelStackedWidget->addWidget(asyWidget);
 
+viewPstricksAct = new QAction(tr("Pstricks Commands"), this);
+viewPstricksAct->setCheckable(true);
+connect(viewPstricksAct, SIGNAL(triggered()), this, SLOT(TogglePstricks()));
+viewMpAct = new QAction(tr("MetaPost Commands"), this);
+viewMpAct->setCheckable(true);
+connect(viewMpAct, SIGNAL(triggered()), this, SLOT(ToggleMetapost()));
+viewTikzAct = new QAction(tr("Tikz Commands"), this);
+viewTikzAct->setCheckable(true);
+connect(viewTikzAct, SIGNAL(triggered()), this, SLOT(ToggleTikz()));
+viewAsyAct = new QAction(tr("Asymptote Commands"), this);
+viewAsyAct->setCheckable(true);
+connect(viewAsyAct, SIGNAL(triggered()), this, SLOT(ToggleAsymptote()));
+LeftPanelToolBar->setContextMenuPolicy(Qt::CustomContextMenu);
+connect(LeftPanelToolBar, SIGNAL( customContextMenuRequested( const QPoint & )), this, SLOT( customContentsMenuStructure( const QPoint & )));
 
 LeftPanelLayout->setSpacing(0);
 LeftPanelLayout->setMargin(0);
@@ -360,9 +400,9 @@ OutputTableWidget->setColumnWidth(4,20*fm.width("w"));
 connect(OutputTableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(ClickedOnLogLine(QTableWidgetItem*)));
 OutputTableWidget->horizontalHeader()->setStretchLastSection(true);
 OutputTableWidget->setMinimumHeight(4*(fm.lineSpacing()+4));
-OutputTableWidget->setMaximumHeight(5*(fm.lineSpacing()+4));
+//OutputTableWidget->setMaximumHeight(8*(fm.lineSpacing()+4));
 OutputTableWidget->verticalHeader()->hide();
-OutputTableWidget->horizontalHeader()->hide();
+//OutputTableWidget->horizontalHeader()->hide();
 
 
 
@@ -458,10 +498,10 @@ Act->setData("\\textit{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 centralToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/text_under.png"),tr("Underline"), this);
-Act->setData("\\underline{/}/11/0");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
-centralToolBar->addAction(Act);
+emphasisAct = new QAction(QIcon(":/images/text_emphasis.png"),"Emphasis", this);
+emphasisAct->setData("\\emph{/}/6/0");
+connect(emphasisAct, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+if (showEmphasis) centralToolBar->addAction(emphasisAct);
 
 Act = new QAction(QIcon(":/images/text_left.png"),tr("Left"), this);
 Act->setData("\\begin{flushleft}\n/\n\\end{flushleft}/0/1");
@@ -479,42 +519,69 @@ connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 centralToolBar->addAction(Act);
 centralToolBar->addSeparator();
 
-Act = new QAction(QIcon(":/images/newline.png"),tr("New line"), this);
-Act->setData("\\\\\n/0/1/The \\newline command breaks the line right where it is. It can only be used in paragraph mode.");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-centralToolBar->addAction(Act);
+newlineAct = new QAction(QIcon(":/images/newline.png"),tr("New line"), this);
+newlineAct->setData("\\\\\n/0/1/The \\newline command breaks the line right where it is. It can only be used in paragraph mode.");
+connect(newlineAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+if (showNewline) centralToolBar->addAction(newlineAct);
 
 centralToolBar->addSeparator();
 
-Act = new QAction(QIcon(":/images/mathmode.png"),"$...$", this);
-Act->setData("$  $/2/0/The math environment can be used in both paragraph and LR mode");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-centralToolBar->addAction(Act);
+mathmodeAct = new QAction(QIcon(":/images/mathmode.png"),"$...$", this);
+mathmodeAct->setData("$  $/2/0/The math environment can be used in both paragraph and LR mode");
+connect(mathmodeAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+if (showMathmode) centralToolBar->addAction(mathmodeAct);
 
-Act = new QAction(QIcon(":/images/indice.png"),"_{} - subscript", this);
-Act->setData("_{}/2/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-centralToolBar->addAction(Act);
+indiceAct = new QAction(QIcon(":/images/indice.png"),"_{} - subscript", this);
+indiceAct->setData("_{}/2/0/ ");
+connect(indiceAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+if (showIndice) centralToolBar->addAction(indiceAct);
 
-Act = new QAction(QIcon(":/images/puissance.png"),"^{} - superscript", this);
-Act->setData("^{}/2/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-centralToolBar->addAction(Act);
+puissanceAct = new QAction(QIcon(":/images/puissance.png"),"^{} - superscript", this);
+puissanceAct->setData("^{}/2/0/ ");
+connect(puissanceAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+if (showPuissance) centralToolBar->addAction(puissanceAct);
 
-Act = new QAction(QIcon(":/images/smallfrac.png"),"\\frac{}{}", this);
-Act->setData("\\frac{}{}/6/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-centralToolBar->addAction(Act);
+smallfracAct = new QAction(QIcon(":/images/smallfrac.png"),"\\frac{}{}", this);
+smallfracAct->setData("\\frac{}{}/6/0/ ");
+connect(smallfracAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+if (showSmallfrac) centralToolBar->addAction(smallfracAct);
 
-Act = new QAction(QIcon(":/images/dfrac.png"),"\\dfrac{}{}", this);
-Act->setData("\\dfrac{}{}/7/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-centralToolBar->addAction(Act);
+dfracAct = new QAction(QIcon(":/images/dfrac.png"),"\\dfrac{}{}", this);
+dfracAct->setData("\\dfrac{}{}/7/0/ ");
+connect(dfracAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+if (showDfrac) centralToolBar->addAction(dfracAct);
 
-Act = new QAction(QIcon(":/images/racine.png"),"\\sqrt{}", this);
-Act->setData("\\sqrt{}/6/0/ ");
-connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
-centralToolBar->addAction(Act);
+racineAct = new QAction(QIcon(":/images/racine.png"),"\\sqrt{}", this);
+racineAct->setData("\\sqrt{}/6/0/ ");
+connect(racineAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
+if (showRacine) centralToolBar->addAction(racineAct);
+
+showemphasisAct = new QAction("Emphasis", this);
+showemphasisAct->setCheckable(true);
+connect(showemphasisAct, SIGNAL(triggered()), this, SLOT(ToggleEmphasis()));
+shownewlineAct = new QAction(tr("New line"), this);
+shownewlineAct->setCheckable(true);
+connect(shownewlineAct, SIGNAL(triggered()), this, SLOT(ToggleNewline()));
+showmathmodeAct = new QAction("$...$", this);
+showmathmodeAct->setCheckable(true);
+connect(showmathmodeAct, SIGNAL(triggered()), this, SLOT(ToggleMathmode()));
+showindiceAct = new QAction("_{} - subscript", this);
+showindiceAct->setCheckable(true);
+connect(showindiceAct, SIGNAL(triggered()), this, SLOT(ToggleIndice()));
+showpuissanceAct = new QAction("^{} - superscript", this);
+showpuissanceAct->setCheckable(true);
+connect(showpuissanceAct, SIGNAL(triggered()), this, SLOT(TogglePuissance()));
+showsmallfracAct = new QAction("\\frac{}{}", this);
+showsmallfracAct->setCheckable(true);
+connect(showsmallfracAct, SIGNAL(triggered()), this, SLOT(ToggleSmallfrac()));
+showdfracAct = new QAction("\\dfrac{}{}", this);
+showdfracAct->setCheckable(true);
+connect(showdfracAct, SIGNAL(triggered()), this, SLOT(ToggleDfrac()));
+showracineAct = new QAction("\\sqrt{}", this);
+showracineAct->setCheckable(true);
+connect(showracineAct, SIGNAL(triggered()), this, SLOT(ToggleRacine()));
+centralToolBar->setContextMenuPolicy(Qt::CustomContextMenu);
+connect(centralToolBar, SIGNAL( customContextMenuRequested( const QPoint & )), this, SLOT( customContentsMenuMain( const QPoint & )));
 
 QFrame *centralFrameBis=new QFrame(this);
 centralFrameBis->setLineWidth(0);
@@ -595,6 +662,7 @@ CentralLayoutBis->addWidget(centralFrame);
 
 splitter2->addWidget(centralFrameBis);
 splitter2->addWidget(Outputframe);
+connect(splitter2,SIGNAL(splitterMoved(int,int)), this, SLOT(splitter2Changed()));
 //splitter1->addWidget(splitter3);
 splitter1->addWidget(splitter2);
 splitter1->addWidget(StackedViewers);
@@ -635,6 +703,7 @@ splitter1->restoreState(splitter1state);
 splitter2->restoreState(splitter2state);
 splitter3->restoreState(splitter3state);
 }
+
 ShowOutputView(false);
 ShowStructView(false);
 ShowFilesView(false);
@@ -669,6 +738,7 @@ MasterName=getName();
 
 show();
 
+splitter2Changed();
 
 
 
@@ -805,131 +875,160 @@ editMenu->addAction(Act);
 editMenu->addSeparator();
 
 Act = new QAction( tr("Comment"), this);
+Act->setData("Comment");
 Act->setShortcut(Qt::CTRL+Qt::Key_T);
 connect(Act, SIGNAL(triggered()), this, SLOT(editComment()));
 editMenu->addAction(Act);
 
 Act = new QAction( tr("Uncomment"), this);
+Act->setData("Uncomment");
 Act->setShortcut(Qt::CTRL+Qt::Key_U);
 connect(Act, SIGNAL(triggered()), this, SLOT(editUncomment()));
 editMenu->addAction(Act);
 
 Act = new QAction( tr("Indent"), this);
+Act->setData("Indent");
 Act->setShortcut(Qt::CTRL+Qt::Key_Greater);
 connect(Act, SIGNAL(triggered()), this, SLOT(editIndent()));
 editMenu->addAction(Act);
 
 Act = new QAction( tr("Unindent"), this);
+Act->setData("Unindent");
 Act->setShortcut(Qt::CTRL+Qt::Key_Less);
 connect(Act, SIGNAL(triggered()), this, SLOT(editUnindent()));
 editMenu->addAction(Act);
 editMenu->addSeparator();
 
 Act = new QAction( tr("Find"), this);
+Act->setData("Find");
 Act->setShortcut(Qt::CTRL+Qt::Key_F);
 connect(Act, SIGNAL(triggered()), this, SLOT(editFind()));
 editMenu->addAction(Act);
 
 Act = new QAction( tr("FindNext"), this);
+Act->setData("FindNext");
 Act->setShortcut(Qt::CTRL+Qt::Key_M);
 connect(Act, SIGNAL(triggered()), this, SLOT(editFindNext()));
 editMenu->addAction(Act);
 
 Act = new QAction( tr("Find In Directory"), this);
+Act->setData("Find In Directory");
 connect(Act, SIGNAL(triggered()), this, SLOT(editFindInDirectory()));
 editMenu->addAction(Act);
 
 Act = new QAction( tr("Replace"), this);
+Act->setData("Replace");
 Act->setShortcut(Qt::CTRL+Qt::Key_R);
 connect(Act, SIGNAL(triggered()), this, SLOT(editReplace()));
 editMenu->addAction(Act);
 
 Act = new QAction(QIcon(":/images/goto.png"), tr("Goto Line"), this);
+Act->setData("Goto Line");
 Act->setShortcut(Qt::CTRL+Qt::Key_G);
 connect(Act, SIGNAL(triggered()), this, SLOT(editGotoLine()));
 editMenu->addAction(Act);
 editMenu->addSeparator();
 
 Act = new QAction(tr("Check Spelling"), this);
+Act->setData("Check Spelling");
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_F7);
 connect(Act, SIGNAL(triggered()), this, SLOT(editSpell()));
 editMenu->addAction(Act);
 editMenu->addSeparator();
 
 Act = new QAction(tr("Refresh Structure"), this);
+Act->setData("Refresh Structure");
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_F1);
 connect(Act, SIGNAL(triggered()), this, SLOT(refreshAll()));
 editMenu->addAction(Act);
 
 Act = new QAction(tr("Refresh Bibliography"), this);
+Act->setData("Refresh Bibliography");
 connect(Act, SIGNAL(triggered()), this, SLOT(UpdateBibliography()));
 editMenu->addAction(Act);
 
 toolMenu = menuBar()->addMenu(tr("&Tools"));
 Act = new QAction(QIcon(":/images/quick.png"),tr("Quick Build"), this);
+Act->setData(Act->text());
 Act->setShortcut(Qt::Key_F1);
 connect(Act, SIGNAL(triggered()), this, SLOT(QuickBuild()));
 toolMenu->addAction(Act);
 toolMenu->addSeparator();
 Act = new QAction("LaTeX", this);
+Act->setData("LaTeX");
 Act->setShortcut(Qt::Key_F2);
 connect(Act, SIGNAL(triggered()), this, SLOT(Latex()));
 toolMenu->addAction(Act);
 Act = new QAction(tr("View Dvi"), this);
+Act->setData("View Dvi");
 Act->setShortcut(Qt::Key_F3);
 connect(Act, SIGNAL(triggered()), this, SLOT(ViewDvi()));
 toolMenu->addAction(Act);
 Act = new QAction("Dvi->PS", this);
+Act->setData("Dvi->PS");
 Act->setShortcut(Qt::Key_F4);
 connect(Act, SIGNAL(triggered()), this, SLOT(DviToPS()));
 toolMenu->addAction(Act);
 Act = new QAction(tr("View PS"), this);
+Act->setData("View PS");
 Act->setShortcut(Qt::Key_F5);
 connect(Act, SIGNAL(triggered()), this, SLOT(ViewPS()));
 toolMenu->addAction(Act);
 Act = new QAction("PDFLaTeX", this);
+Act->setData("PDFLaTeX");
 Act->setShortcut(Qt::Key_F6);
 connect(Act, SIGNAL(triggered()), this, SLOT(PDFLatex()));
 toolMenu->addAction(Act);
 Act = new QAction(tr("View PDF"), this);
+Act->setData("View PDF");
 Act->setShortcut(Qt::Key_F7);
 connect(Act, SIGNAL(triggered()), this, SLOT(ViewPDF()));
 toolMenu->addAction(Act);
 Act = new QAction("PS->PDF", this);
+Act->setData("PS->PDF");
 Act->setShortcut(Qt::Key_F8);
 connect(Act, SIGNAL(triggered()), this, SLOT(PStoPDF()));
 toolMenu->addAction(Act);
 Act = new QAction("DVI->PDF", this);
+Act->setData("DVI->PDF");
 Act->setShortcut(Qt::Key_F9);
 connect(Act, SIGNAL(triggered()), this, SLOT(DVItoPDF()));
 toolMenu->addAction(Act);
 Act = new QAction(tr("View Log"), this);
+Act->setData("View Log");
 Act->setShortcut(Qt::Key_F10);
 connect(Act, SIGNAL(triggered()), this, SLOT(ViewLog()));
 toolMenu->addAction(Act);
 Act = new QAction("BibTeX", this);
+Act->setData("BibTeX");
 Act->setShortcut(Qt::Key_F11);
 connect(Act, SIGNAL(triggered()), this, SLOT(MakeBib()));
 toolMenu->addAction(Act);
 Act = new QAction("MakeIndex", this);
+Act->setData("MakeIndex");
 Act->setShortcut(Qt::Key_F12);
 connect(Act, SIGNAL(triggered()), this, SLOT(MakeIndex()));
 toolMenu->addAction(Act);
 toolMenu->addSeparator();
 Act = new QAction("MPost", this);
+Act->setData("MPost");
 connect(Act, SIGNAL(triggered()), this, SLOT(MetaPost()));
 toolMenu->addAction(Act);
 Act = new QAction("Asymptote", this);
+Act->setData("Asymptote");
 connect(Act, SIGNAL(triggered()), this, SLOT(Asymptote()));
 toolMenu->addAction(Act);
 Act = new QAction("Latexmk", this);
+Act->setData("Latexmk");
 connect(Act, SIGNAL(triggered()), this, SLOT(LatexMk()));
 toolMenu->addAction(Act);
 Act = new QAction("R Sweave", this);
+Act->setData("R Sweave");
 connect(Act, SIGNAL(triggered()), this, SLOT(Sweave()));
 toolMenu->addAction(Act);
 toolMenu->addSeparator();
 Act = new QAction(tr("Clean"), this);
+Act->setData("Clean");
 connect(Act, SIGNAL(triggered()), this, SLOT(CleanAll()));
 toolMenu->addAction(Act);
 
@@ -1103,7 +1202,7 @@ Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_A);
 Act->setData("\\textsf{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex14Menu->addAction(Act);
-Act = new QAction("\\emph - Emphasis  [selection]", this);
+Act = new QAction(QIcon(":/images/text_emphasis.png"),"\\emph - Emphasis  [selection]", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_E);
 Act->setData("\\emph{/}/6/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
@@ -1800,10 +1899,14 @@ QList<QAction *> listaction;
 KeysMap::Iterator its;
 bool hasNextPrev=false;
 bool hasQuote=false;
+bool hasTools=false;
+bool hasEdit=false;
 
 if (shortcuts.isEmpty())
 	{
 	actionstext.clear();
+	listaction << toolMenu->actions();
+	listaction << editMenu->actions();
 	listaction << NextDocAct << PrevDocAct;
 	listaction << latex1Menu->actions();
 	listaction << latex11Menu->actions();
@@ -1836,7 +1939,9 @@ else
   for( its = shortcuts.begin(); its != shortcuts.end(); ++its )
       {
       if (its.key()=="Next") hasNextPrev=true;
-      if (its.key().contains("\\glqq / \\grrq")) hasQuote=true;
+      if (its.key().contains("\\glqq / \\grqq")) hasQuote=true;
+      if (its.key()=="LaTeX") hasTools=true;
+      if (its.key()=="Comment") hasEdit=true;
       }
   if (!hasNextPrev) 
       {
@@ -1851,6 +1956,37 @@ else
       actionstext.insert(latex18Menu->actions().at(0)->data().toString(),latex18Menu->actions().at(0)->text());
       shortcuts.insert(latex18Menu->actions().at(1)->data().toString(),latex18Menu->actions().at(1)->shortcut().toString(QKeySequence::PortableText));
       actionstext.insert(latex18Menu->actions().at(1)->data().toString(),latex18Menu->actions().at(1)->text());
+      }
+  if (!hasTools) 
+      {
+	listaction << toolMenu->actions();
+	QListIterator<QAction*> iterator(listaction);
+	while ( iterator.hasNext() )
+		{
+		QAction *action = iterator.next();
+		if (action && (!action->menu()) && (!action->data().toString().isEmpty())) 
+			{
+			if (action->shortcut().isEmpty()) shortcuts.insert(action->data().toString(),"none");
+			else shortcuts.insert(action->data().toString(),action->shortcut().toString(QKeySequence::PortableText));
+			actionstext.insert(action->data().toString(),action->text());
+			}
+		}
+      }
+  listaction.clear();
+  if (!hasEdit) 
+      {
+	listaction << editMenu->actions();
+	QListIterator<QAction*> iterator(listaction);
+	while ( iterator.hasNext() )
+		{
+		QAction *action = iterator.next();
+		if (action && (!action->menu()) && (!action->data().toString().isEmpty())) 
+			{
+			if (action->shortcut().isEmpty()) shortcuts.insert(action->data().toString(),"none");
+			else shortcuts.insert(action->data().toString(),action->shortcut().toString(QKeySequence::PortableText));
+			actionstext.insert(action->data().toString(),action->text());
+			}
+		}
       }
   ModifyShortcuts();
   }
@@ -2078,6 +2214,7 @@ if (singlemode)
 	{
 	OutputTextEdit->clear();
 	OutputTableWidget->hide();
+	if (splitter2->sizes().at(1)>0) OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 	separatorline->hide();
 	logpresent=false;
 	}
@@ -2346,9 +2483,9 @@ edit->editor->setFocus();
 void Texmaker::fileNewFromFile()
 {
 QString currentDir=QDir::homePath();
-if (!lastDocument.isEmpty())
+if (!lastTemplate.isEmpty())
 	{
-	QFileInfo fi(lastDocument);
+	QFileInfo fi(lastTemplate);
 	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
 	}
 QString fn = QFileDialog::getOpenFileName(this,tr("Open File"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp *.Rnw *.asy);;All files (*.*)");
@@ -2359,6 +2496,7 @@ if ( !file.open( QIODevice::ReadOnly ) )
 	QMessageBox::warning( this,tr("Error"), tr("You do not have read permission to this file."));
 	return;
 	}
+lastTemplate=fn;
 LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),fn);
 edit->editor->setReadOnly(false);
 edit->editor->setEncoding(input_encoding);
@@ -3490,6 +3628,19 @@ showpdfview=config->value( "Show/Pdfview",true).toBool();
 showsourceview=config->value( "Show/Sourceview",false).toBool();
 showfilesview=config->value( "Show/Filesview",false).toBool();
 
+showPstricks=config->value( "Show/Pstricks",true).toBool();
+showMp=config->value( "Show/Metapost",true).toBool();
+showTikz=config->value( "Show/Tikz",true).toBool();
+showAsy=config->value( "Show/Asymptote",true).toBool();
+showEmphasis=config->value( "Show/Emphasis",true).toBool();
+showNewline=config->value( "Show/Newline",true).toBool();
+showMathmode=config->value( "Show/Mathmode",true).toBool();
+showIndice=config->value( "Show/Indice",true).toBool();
+showPuissance=config->value( "Show/Puissance",true).toBool();
+showSmallfrac=config->value( "Show/Smallfrac",true).toBool();
+showDfrac=config->value( "Show/Dfrac",true).toBool();
+showRacine=config->value( "Show/Racine",true).toBool();
+
 quickmode=config->value( "Tools/Quick Mode",3).toInt();
 QString baseName = qApp->style()->objectName();
 builtinpdfview=config->value("Tools/IntegratedPdfViewer",true).toBool();
@@ -3739,6 +3890,7 @@ runIndex=config->value( "Tools/Run","0").toInt();
 viewIndex=config->value( "Tools/View","2").toInt();
 
 lastDocument=config->value("Files/Last Document","").toString();
+lastTemplate=config->value("Files/Last Template","").toString();
 recentFilesList=config->value("Files/Recent Files New").toStringList();
 sessionFilesList=config->value("Files/Session Files").toStringList();
 input_encoding=config->value("Files/Input Encoding","UTF-8").toString();
@@ -3783,7 +3935,7 @@ struct_level5=config->value("Structure/Structure Level 5","subsubsection").toStr
 document_class=config->value("Quick/Class","article").toString();
 typeface_size=config->value("Quick/Typeface","10pt").toString();
 paper_size=config->value("Quick/Papersize","a4paper").toString();
-document_encoding=config->value("Quick/Encoding","latin1").toString();
+document_encoding=config->value("Quick/Encoding","utf8").toString();
 ams_packages=config->value( "Quick/AMS",true).toBool();
 makeidx_package=config->value( "Quick/MakeIndex",false).toBool();
 babel_package=config->value( "Quick/Babel",false).toBool();
@@ -3807,6 +3959,10 @@ else babel_default=config->value("Quick/BabelDefault","").toString();
 
 geometry_package=config->value( "Quick/Geometry",false).toBool();
 graphicx_package=config->value( "Quick/Graphicx",false).toBool();
+lmodern_package=config->value( "Quick/Lmodern",false).toBool();
+kpfonts_package=config->value( "Quick/Kpfonts",false).toBool();
+fourier_package=config->value( "Quick/Fourier",false).toBool();
+
 author=config->value("Quick/Author","").toString();
 geometry_options=config->value("Quick/GeometryOptions","left=2cm,right=2cm,top=2cm,bottom=2cm").toString();
 
@@ -3928,6 +4084,20 @@ config.setValue( "Show/Pdfview",showpdfview);
 config.setValue( "Show/Sourceview",showsourceview);
 config.setValue( "Show/Filesview",showfilesview);
 
+config.setValue( "Show/Pstricks",showPstricks);
+config.setValue( "Show/Metapost",showMp);
+config.setValue( "Show/Tikz",showTikz);
+config.setValue( "Show/Asymptote",showAsy);
+
+config.setValue( "Show/Emphasis",showEmphasis);
+config.setValue( "Show/Newline",showNewline);
+config.setValue( "Show/Mathmode",showMathmode);
+config.setValue( "Show/Indice",showIndice);
+config.setValue( "Show/Puissance",showPuissance);
+config.setValue( "Show/Smallfrac",showSmallfrac);
+config.setValue( "Show/Dfrac",showDfrac);
+config.setValue( "Show/Racine",showRacine);
+
 config.setValue("Tools/Quick Mode",quickmode);
 config.setValue("Tools/Latex",latex_command);
 config.setValue("Tools/Dvi",viewdvi_command);
@@ -3959,6 +4129,7 @@ config.setValue("Tools/SingleViewerInstance",singleviewerinstance);
 
 
 config.setValue("Files/Last Document",lastDocument);
+config.setValue("Files/Last Template",lastTemplate);
 if (recentFilesList.count()>0) config.setValue("Files/Recent Files New",recentFilesList); 
 FilesMap::Iterator itf;
 sessionFilesList.clear();
@@ -4020,6 +4191,11 @@ config.setValue( "Quick/Babel",babel_package);
 config.setValue( "Quick/BabelDefault",babel_default);
 config.setValue( "Quick/Geometry",geometry_package);
 config.setValue( "Quick/Graphicx",graphicx_package);
+config.setValue( "Quick/Lmodern",lmodern_package);
+config.setValue( "Quick/Kpfonts",kpfonts_package);
+config.setValue( "Quick/Fourier",fourier_package);
+
+
 config.setValue( "Quick/Author",author);
 config.setValue( "Quick/GeometryOptions",geometry_options);
 
@@ -4694,6 +4870,7 @@ else
     }
 currentEditorView()->editor->setFocus();
 OutputTableWidget->hide();
+OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 separatorline->hide();
 logpresent=false;
 }
@@ -4826,6 +5003,7 @@ tag +=QString("}\n");
 InsertTag(tag,0,1);
 OutputTextEdit->clear();
 OutputTableWidget->hide();
+OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 separatorline->hide();
 OutputTextEdit->insertLine("The argument to \\bibliography refers to the bib file (without extension)");
 OutputTextEdit->insertLine("which should contain your database in BibTeX format.");
@@ -4898,6 +5076,7 @@ if (sfDlg->exec() )
 	  {
 	  tag = "\\begin{figure}["+sfDlg->ui.lineEditPlacement->text()+"]\n";
 	  if(sfDlg->ui.comboBoxCaption->currentIndex()==0) tag+="\\caption{"+sfDlg->ui.lineEditCaption->text()+"}\n";
+	  if (sfDlg->ui.checkBoxCentering->isChecked()) tag+="\\centering\n";
 	  tag+="\\includegraphics[scale=1]{"+fi.filePath()+"}\n";
 	  if(sfDlg->ui.comboBoxCaption->currentIndex()==1) tag+="\\caption{"+sfDlg->ui.lineEditCaption->text()+"}\n";
 	  tag+="\\end{figure}\n";
@@ -5193,6 +5372,9 @@ startDlg->ui.pushButtonBabel->setEnabled(babel_package);
 startDlg->ui.checkBoxGeometry->setChecked(geometry_package);
 startDlg->ui.lineEditGeometry->setEnabled(geometry_package);
 startDlg->ui.checkBoxGraphicx->setChecked(graphicx_package);
+startDlg->ui.checkBoxLmodern->setChecked(lmodern_package);
+startDlg->ui.checkBoxKpfonts->setChecked(kpfonts_package);
+startDlg->ui.checkBoxFourier->setChecked(fourier_package);
 startDlg->ui.lineEditAuthor->setText(author);
 startDlg->ui.lineEditGeometry->setText(geometry_options);
 if ( startDlg->exec() )
@@ -5263,6 +5445,21 @@ if ( startDlg->exec() )
 		tag+=QString("\\usepackage{graphicx}\n");
 		li=li+1;
 		}
+	if (startDlg->ui.checkBoxLmodern->isChecked())
+		{
+		tag+=QString("\\usepackage{lmodern}\n");
+		li=li+1;
+		}
+	if (startDlg->ui.checkBoxKpfonts->isChecked())
+		{
+		tag+=QString("\\usepackage{kpfonts}\n");
+		li=li+1;
+		}
+	if (startDlg->ui.checkBoxFourier->isChecked())
+		{
+		tag+=QString("\\usepackage{fourier}\n");
+		li=li+1;
+		}
 	if (startDlg->ui.checkBoxGeometry->isChecked())
 		{
 		tag+=QString("\\usepackage["+startDlg->ui.lineEditGeometry->text()+"]{geometry}\n");
@@ -5289,6 +5486,9 @@ if ( startDlg->exec() )
 	babel_package=startDlg->ui.checkBoxBabel->isChecked();
 	geometry_package=startDlg->ui.checkBoxGeometry->isChecked();
 	graphicx_package=startDlg->ui.checkBoxGraphicx->isChecked();
+	lmodern_package=startDlg->ui.checkBoxLmodern->isChecked();
+	kpfonts_package=startDlg->ui.checkBoxKpfonts->isChecked();
+	fourier_package=startDlg->ui.checkBoxFourier->isChecked();
 	author=startDlg->ui.lineEditAuthor->text();
 	geometry_options=startDlg->ui.lineEditGeometry->text();
 	userClassList=startDlg->otherClassList;
@@ -5595,6 +5795,7 @@ else
 currentEditorView()->editor->setFocus();
 OutputTextEdit->clear();
 OutputTableWidget->hide();
+OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 separatorline->hide();
 logpresent=false;
 }
@@ -6141,6 +6342,7 @@ else
 }
 OutputTextEdit->clear();
 OutputTableWidget->hide();
+OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 separatorline->hide();
 //OutputTextEdit->insertLine(commandline+"\n");
 proc->start(commandline);
@@ -6458,7 +6660,10 @@ if (NoLatexErrors() && showoutputview) ViewLog();
 void Texmaker::Latex()
 {
 //stat2->setText(QString(" %1 ").arg("Latex"));
-RunCommand(latex_command,false);
+RunCommand(latex_command,true);
+LoadLog();
+if (showoutputview) ViewLog();
+if (!NoLatexErrors()) NextError();
 }
 
 void Texmaker::ViewDvi()
@@ -6482,7 +6687,10 @@ RunCommand(viewps_command,false);
 void Texmaker::PDFLatex()
 {
 //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
-RunCommand(pdflatex_command,false);
+RunCommand(pdflatex_command,true);
+LoadLog();
+if (showoutputview) ViewLog();
+if (!NoLatexErrors()) NextError();
 }
 
 void Texmaker::ViewPDF()
@@ -6586,6 +6794,7 @@ connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
 connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndProcess(int)));
 OutputTextEdit->clear();
 OutputTableWidget->hide();
+OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 separatorline->hide();
 //OutputTextEdit->insertLine(commandline+"\n");
 proc->start(commandline);
@@ -6609,7 +6818,10 @@ QApplication::restoreOverrideCursor();
 void Texmaker::LatexMk()
 {
 //stat2->setText(QString(" %1 ").arg("LatexMk"));
-RunCommand(latexmk_command,false);
+RunCommand(latexmk_command,true);
+LoadLog();
+if (showoutputview) ViewLog();
+if (!NoLatexErrors()) NextError();
 }
 
 void Texmaker::Sweave()
@@ -6624,7 +6836,16 @@ QStringList commandList=UserToolCommand[0].split("|");
 ERRPROCESS=false;
 for (int i = 0; i < commandList.size(); ++i) 
 	{
-	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) RunCommand(commandList.at(i),true);
+	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
+	  {
+	  RunCommand(commandList.at(i),true);
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+		{
+		LoadLog();
+		if (showoutputview) ViewLog();
+		if (!NoLatexErrors()) NextError();
+		}
+	  }
         else return;
 	}
 }
@@ -6635,7 +6856,16 @@ QStringList commandList=UserToolCommand[1].split("|");
 ERRPROCESS=false;
 for (int i = 0; i < commandList.size(); ++i) 
 	{
-	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) RunCommand(commandList.at(i),true);
+	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
+	  {
+	  RunCommand(commandList.at(i),true);
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+		{
+		LoadLog();
+		if (showoutputview) ViewLog();
+		if (!NoLatexErrors()) NextError();
+		}
+	  }
         else return;
 	}
 }
@@ -6646,7 +6876,16 @@ QStringList commandList=UserToolCommand[2].split("|");
 ERRPROCESS=false;
 for (int i = 0; i < commandList.size(); ++i) 
 	{
-	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) RunCommand(commandList.at(i),true);
+	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
+	  {
+	  RunCommand(commandList.at(i),true);
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+		{
+		LoadLog();
+		if (showoutputview) ViewLog();
+		if (!NoLatexErrors()) NextError();
+		}
+	  }
         else return;
 	}
 }
@@ -6657,7 +6896,16 @@ QStringList commandList=UserToolCommand[3].split("|");
 ERRPROCESS=false;
 for (int i = 0; i < commandList.size(); ++i) 
 	{
-	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) RunCommand(commandList.at(i),true);
+	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
+	  {
+	  RunCommand(commandList.at(i),true);
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+		{
+		LoadLog();
+		if (showoutputview) ViewLog();
+		if (!NoLatexErrors()) NextError();
+		}
+	  }
         else return;
 	}
 }
@@ -6668,7 +6916,16 @@ QStringList commandList=UserToolCommand[4].split("|");
 ERRPROCESS=false;
 for (int i = 0; i < commandList.size(); ++i) 
 	{
-	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) RunCommand(commandList.at(i),true);
+	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
+	  {
+	  RunCommand(commandList.at(i),true);
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+		{
+		LoadLog();
+		if (showoutputview) ViewLog();
+		if (!NoLatexErrors()) NextError();
+		}
+	  }
         else return;
 	}
 }
@@ -7341,6 +7598,7 @@ else
 	OutputTableWidget->setRowHeight(0,rowheight);
 	OutputTableWidget->clearContents();
 	}
+OutputTextEdit->setMaximumHeight(5*(fm.lineSpacing()+4));
 OutputTableWidget->show();
 separatorline->show();
 OutputTextEdit->setCursorPosition(0 , 0);
@@ -7457,7 +7715,7 @@ else { QMessageBox::warning( this,tr("Error"),tr("File not found"));}
 void Texmaker::UserManualHelp()
 {
 QString locale = QString(QLocale::system().name()).left(2);
-if ( locale.length() < 2 || locale!="fr" || locale!="hu" || locale!="ru" ) locale = "en";
+if ( locale.length() < 2 || (locale!="fr" && locale!="hu" && locale!="ru") ) locale = "en";
 #if defined( Q_WS_X11 )
 
 #ifdef USB_VERSION
@@ -7895,6 +8153,7 @@ if (confDlg->exec())
 		UpdateBibliography();
 		OutputTextEdit->clear();
 		OutputTableWidget->hide();
+		OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 		separatorline->hide();
 		//OutputTextEdit->insertLine("Editor settings apply only to new loaded document.");
 		currentEditorView()->editor->setFocus();
@@ -7915,6 +8174,7 @@ if (!singlemode)
 	ToggleAct->setText(tr("Define Current Document as 'Master Document'"));
 	OutputTextEdit->clear();
 	OutputTableWidget->hide();
+	OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 	separatorline->hide();
 	logpresent=false;
 	singlemode=true;
@@ -7939,6 +8199,8 @@ if (singlemode && currentEditorView())
 	singlemode=false;
 	stat1->setText(QString(" %1 ").arg(tr("Master Document :")+shortName));
 	ToggleDocAct->setEnabled(true);
+	UpdateStructure();
+	UpdateBibliography();
 	return;
 	}
 }
@@ -8024,9 +8286,9 @@ if (event->mimeData()->hasFormat("text/uri-list")) event->acceptProposedAction()
 void Texmaker::dropEvent(QDropEvent *event)
 {
 #if defined(Q_WS_WIN)
-QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp|asy))");
+QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw))");
 #else
-QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp|asy))");
+QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw))");
 #endif
 QList<QUrl> uris=event->mimeData()->urls();
 QString uri;
@@ -8122,6 +8384,8 @@ void Texmaker::ModifyShortcuts()
 KeysMap::Iterator its;
 QString d,f,s;
 QList<QAction *> listaction;
+listaction << toolMenu->actions();
+listaction << editMenu->actions();
 listaction << NextDocAct << PrevDocAct;
 listaction << latex1Menu->actions();
 listaction << latex11Menu->actions();
@@ -8543,6 +8807,7 @@ if (change) showoutputview=!showoutputview;
 if (showoutputview)
     {
     Outputframe->show();
+    splitter2Changed();
     if (currentEditorView()) QTimer::singleShot(10,currentEditorView()->editor, SLOT(setCursorVisible()));
     }
 else
@@ -8762,3 +9027,179 @@ void Texmaker::keyPressEvent(QKeyEvent *event)
 else QMainWindow::keyPressEvent(event);
 }
 
+void Texmaker::customContentsMenuStructure( const QPoint &pos )
+{
+QMenu *menu = QMainWindow::createPopupMenu();
+menu->addSeparator();
+viewPstricksAct->setChecked(showPstricks);
+menu->addAction(viewPstricksAct);
+viewMpAct->setChecked(showMp);
+menu->addAction(viewMpAct);
+viewTikzAct->setChecked(showTikz);
+menu->addAction(viewTikzAct);
+viewAsyAct->setChecked(showAsy);
+menu->addAction(viewAsyAct);
+
+QPoint globalPos = LeftPanelToolBar->mapToGlobal(pos);
+menu->exec( globalPos );
+}
+
+void Texmaker::TogglePstricks()
+{
+if (showPstricks)
+  {
+  if (LeftPanelToolBar->actions().contains(pstricksAct)) LeftPanelToolBar->removeAction(pstricksAct);
+  }
+else if (!LeftPanelToolBar->actions().contains(pstricksAct)) LeftPanelToolBar->addAction(pstricksAct);
+showPstricks=!showPstricks;
+}
+void Texmaker::ToggleMetapost()
+{
+if (showMp)
+  {
+  if (LeftPanelToolBar->actions().contains(mpAct)) LeftPanelToolBar->removeAction(mpAct);
+  }
+else if (!LeftPanelToolBar->actions().contains(mpAct)) LeftPanelToolBar->addAction(mpAct);
+showMp=!showMp;
+}
+void Texmaker::ToggleTikz()
+{
+if (showTikz)
+  {
+  if (LeftPanelToolBar->actions().contains(tikzAct)) LeftPanelToolBar->removeAction(tikzAct);
+  }
+else if (!LeftPanelToolBar->actions().contains(tikzAct)) LeftPanelToolBar->addAction(tikzAct);
+showTikz=!showTikz;
+}
+void Texmaker::ToggleAsymptote()
+{
+if (showAsy)
+  {
+  if (LeftPanelToolBar->actions().contains(asyAct)) LeftPanelToolBar->removeAction(asyAct);
+  }
+else if (!LeftPanelToolBar->actions().contains(asyAct)) LeftPanelToolBar->addAction(asyAct);
+showAsy=!showAsy;
+}
+
+void Texmaker::customContentsMenuMain( const QPoint &pos )
+{
+QMenu *menu = QMainWindow::createPopupMenu();
+menu->addSeparator();
+showemphasisAct->setChecked(showEmphasis);
+menu->addAction(showemphasisAct);
+
+shownewlineAct->setChecked(showNewline);
+menu->addAction(shownewlineAct);
+
+showmathmodeAct->setChecked(showMathmode);
+menu->addAction(showmathmodeAct);
+
+showindiceAct->setChecked(showIndice);
+menu->addAction(showindiceAct);
+
+showpuissanceAct->setChecked(showPuissance);
+menu->addAction(showpuissanceAct);
+
+showsmallfracAct->setChecked(showSmallfrac);
+menu->addAction(showsmallfracAct);
+
+showdfracAct->setChecked(showDfrac);
+menu->addAction(showdfracAct);
+
+showracineAct->setChecked(showRacine);
+menu->addAction(showracineAct);
+
+QPoint globalPos = centralToolBar->mapToGlobal(pos);
+menu->exec( globalPos );
+}
+
+void Texmaker::ToggleEmphasis()
+{
+if (showEmphasis)
+  {
+  if (centralToolBar->actions().contains(emphasisAct)) centralToolBar->removeAction(emphasisAct);
+  }
+else if (!centralToolBar->actions().contains(emphasisAct)) centralToolBar->addAction(emphasisAct);
+showEmphasis=!showEmphasis;
+}
+
+void Texmaker::ToggleNewline()
+{
+if (showNewline)
+  {
+  if (centralToolBar->actions().contains(newlineAct)) centralToolBar->removeAction(newlineAct);
+  }
+else if (!centralToolBar->actions().contains(newlineAct)) centralToolBar->addAction(newlineAct);
+showNewline=!showNewline;
+}
+
+void Texmaker::ToggleMathmode()
+{
+if (showMathmode)
+  {
+  if (centralToolBar->actions().contains(mathmodeAct)) centralToolBar->removeAction(mathmodeAct);
+  }
+else if (!centralToolBar->actions().contains(mathmodeAct)) centralToolBar->addAction(mathmodeAct);
+showMathmode=!showMathmode;
+}
+
+void Texmaker::ToggleIndice()
+{
+if (showIndice)
+  {
+  if (centralToolBar->actions().contains(indiceAct)) centralToolBar->removeAction(indiceAct);
+  }
+else if (!centralToolBar->actions().contains(indiceAct)) centralToolBar->addAction(indiceAct);
+showIndice=!showIndice;
+}
+
+void Texmaker::TogglePuissance()
+{
+if (showPuissance)
+  {
+  if (centralToolBar->actions().contains(puissanceAct)) centralToolBar->removeAction(puissanceAct);
+  }
+else if (!centralToolBar->actions().contains(puissanceAct)) centralToolBar->addAction(puissanceAct);
+showPuissance=!showPuissance;
+}
+
+void Texmaker::ToggleSmallfrac()
+{
+if (showSmallfrac)
+  {
+  if (centralToolBar->actions().contains(smallfracAct)) centralToolBar->removeAction(smallfracAct);
+  }
+else if (!centralToolBar->actions().contains(smallfracAct)) centralToolBar->addAction(smallfracAct);
+showSmallfrac=!showSmallfrac;
+}
+
+void Texmaker::ToggleDfrac()
+{
+if (showDfrac)
+  {
+  if (centralToolBar->actions().contains(dfracAct)) centralToolBar->removeAction(dfracAct);
+  }
+else if (!centralToolBar->actions().contains(dfracAct)) centralToolBar->addAction(dfracAct);
+showDfrac=!showDfrac;
+}
+
+void Texmaker::ToggleRacine()
+{
+if (showRacine)
+  {
+  if (centralToolBar->actions().contains(racineAct)) centralToolBar->removeAction(racineAct);
+  }
+else if (!centralToolBar->actions().contains(racineAct)) centralToolBar->addAction(racineAct);
+showRacine=!showRacine;
+}
+
+void Texmaker::splitter2Changed()
+{
+QFontMetrics fm(qApp->font());
+if (OutputTableWidget->isVisible()) OutputTextEdit->setMaximumHeight(5*(fm.lineSpacing()+4));
+else 
+{
+  if (splitter2->sizes().at(1)>0) OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
+  else OutputTextEdit->setMaximumHeight(splitter2->sizes().at(0));
+}
+}

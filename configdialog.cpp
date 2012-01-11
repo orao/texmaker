@@ -40,8 +40,8 @@ foreach (int mib, QTextCodec::availableMibs())
 	}
 connect( ui.pushButtonAspell, SIGNAL(clicked()), this, SLOT(browseAspell()));
 
-ui.labelGetDic->setText( tr("Get dictionary at: %1").arg("<br><a href=\"http://wiki.services.openoffice.org/wiki/Dictionaries\">http://wiki.services.openoffice.org/wiki/Dictionaries</a>") );
-ui.labelGetDic->setOpenExternalLinks(true);
+//ui.labelGetDic->setText( tr("Get dictionary at: %1").arg("<br><a href=\"http://wiki.services.openoffice.org/wiki/Dictionaries\">http://wiki.services.openoffice.org/wiki/Dictionaries</a>") );
+//ui.labelGetDic->setOpenExternalLinks(true);
 
 
 QTableWidgetItem *colorItem = new QTableWidgetItem();
@@ -164,6 +164,12 @@ editorButton->setIcon(QIcon(":/images/configeditor.png"));
 editorButton->setText(tr("Editor"));
 editorButton->setTextAlignment(Qt::AlignHCenter);
 editorButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+QListWidgetItem *keysButton = new QListWidgetItem(ui.contentsWidget);
+keysButton->setIcon(QIcon(":/images/configkeys.png"));
+keysButton->setText(tr("Shortcuts"));
+keysButton->setTextAlignment(Qt::AlignHCenter);
+keysButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
 connect(ui.contentsWidget,
 	SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),

@@ -22,7 +22,20 @@
 <item txt="" tag="\\draw (,) -- (,) -- (,) -- cycle;" dx="0" dy="0" type="0"/>
 <item txt="" tag="rectangle (,)" dx="0" dy="0" type="0"/>
 <item txt="" tag="circle ()" dx="0" dy="0" type="0"/>
+<item txt="" tag="arc (::)" dx="0" dy="0" type="0"/>
 <item txt="" tag="plot [] function {}" dx="0" dy="0" type="0"/>
+</section>
+<section title="Nodes  (Tikz)">
+<item txt="" tag="\\node () {};" dx="0" dy="0" type="0"/>
+<item txt="" tag="child" dx="0" dy="0" type="0"/>
+<item txt="" tag="child {node {}} " dx="0" dy="0" type="0"/>
+<item txt="" tag="\\nodepart{};" dx="0" dy="0" type="0"/>
+<item txt="" tag="node distance=" dx="0" dy="0" type="0"/>
+<item txt="" tag="parent anchor=" dx="0" dy="0" type="0"/>
+<item txt="" tag="child anchor=" dx="0" dy="0" type="0"/>
+<item txt="" tag="grow=" dx="0" dy="0" type="0"/>
+<item txt="" tag="label={[]:}" dx="0" dy="0" type="0"/>
+<item txt="" tag="pin={[]:}" dx="0" dy="0" type="0"/>
 </section>
 <section title="Arrows  (Tikz)">
 <item txt="" tag="-&gt;" dx="0" dy="0" type="0"/>

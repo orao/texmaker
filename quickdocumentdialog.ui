@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
-    <height>418</height>
+    <width>494</width>
+    <height>504</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -235,6 +235,27 @@
       <widget class="QCheckBox" name="checkBoxGraphicx">
        <property name="text">
         <string>graphicx Package</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QCheckBox" name="checkBoxLmodern">
+       <property name="text">
+        <string>lmodern Package</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QCheckBox" name="checkBoxKpfonts">
+       <property name="text">
+        <string>Kpfonts Package</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="2">
+      <widget class="QCheckBox" name="checkBoxFourier">
+       <property name="text">
+        <string>Fourier Package</string>
        </property>
       </widget>
      </item>

@@ -261,7 +261,7 @@
     </message>
     <message>
         <source>Get dictionary at: %1</source>
-        <translation>Szótár letöltése innen: %1</translation>
+        <translation type="obsolete">Szótár letöltése innen: %1</translation>
     </message>
     <message>
         <source>Commands</source>
@@ -466,6 +466,10 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <source>Select a File</source>
         <translation>Válasszon egy fájlt</translation>
+    </message>
+    <message>
+        <source>Center</source>
+        <translation type="unfinished">Középre</translation>
     </message>
 </context>
 <context>
@@ -886,6 +890,18 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <source>graphicx Package</source>
         <translation>graphicx csomag</translation>
+    </message>
+    <message>
+        <source>lmodern Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kpfonts Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fourier Package</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1321,7 +1337,7 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>Underline</source>
-        <translation>Aláhúzott</translation>
+        <translation type="obsolete">Aláhúzott</translation>
     </message>
     <message>
         <source>Left</source>

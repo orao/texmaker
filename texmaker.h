@@ -73,6 +73,7 @@ public:
 QString getName();
 QFont EditorFont;
 QByteArray windowstate,splitter1state,splitter2state,splitter3state,fullscreenstate;
+//virtual QMenu* createPopupMenu();
 
 public slots:
 void load( const QString &f );
@@ -126,6 +127,16 @@ QMenu *helpMenu;
 
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar,*LeftPanelToolBarBis, *centralToolBar, *centralToolBarBis;
 QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct, *ViewStructurePanelAct, *ViewLogPanelAct, *ViewPdfPanelAct, *ViewSourcePanelAct, *FullScreenAct, *NextDocAct, *PrevDocAct, *ViewOpenedFilesPanelAct ;
+
+QAction *relationAct, *arrowAct, *miscAct, *delimAct, *greekAct, *usedAct, *favAct, *leftrightAct, *pstricksAct, *mpAct, *tikzAct, *asyAct;
+bool showPstricks, showMp, showTikz, showAsy;
+QAction *viewPstricksAct, *viewMpAct, *viewTikzAct, *viewAsyAct;
+
+QAction *emphasisAct, *newlineAct, *mathmodeAct, *indiceAct, *puissanceAct, *smallfracAct, *dfracAct, *racineAct;
+QAction *showemphasisAct, *shownewlineAct, *showmathmodeAct, *showindiceAct, *showpuissanceAct, *showsmallfracAct, *showdfracAct, *showracineAct;
+bool showEmphasis, showNewline, showMathmode, showIndice, showPuissance, showSmallfrac, showDfrac, showRacine;
+
+
 QComboBox *comboCompil, *comboView, *comboFiles;
 QLabel *stat1, *stat2, *stat3, *titleLeftPanel, *posLabel;
 QPushButton *pb1, *pb2, *pb3;
@@ -139,11 +150,12 @@ bool eraseSettings, replaceSettings;
 QString settingsFileName;
 int split1_right, split1_left, split2_top, split2_bottom, quickmode, tabwidth;
 bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, showpdfview, showsourceview, showfilesview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance, babel_package, geometry_package, graphicx_package, watchfiles, autosave, tabspaces ;
+bool lmodern_package, kpfonts_package, fourier_package;
 QString document_class, typeface_size, paper_size, document_encoding, author, geometry_options, babel_default;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize;
 QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command, sweave_command, texdoc_command;
 QString spell_dic, spell_ignored_words;
-QString lastDocument, input_encoding, lastChild;
+QString lastDocument, input_encoding, lastChild, lastTemplate;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
 QStringList userClassList, userPaperList, userEncodingList, userOptionsList, userCompletionList, userBabelList;
 QStringList labelitem, bibitem, listbibfiles, listchildfiles;
@@ -420,6 +432,22 @@ void addBibFiles(QString param);
 void addIncludeFiles(QString param);
 void loadIncludeFiles(QString param, QString extension);
 void showCursorPos(int li, int col);
+void customContentsMenuStructure( const QPoint &pos );
+void customContentsMenuMain( const QPoint &pos );
+void TogglePstricks();
+void ToggleMetapost();
+void ToggleTikz();
+void ToggleAsymptote();
+void ToggleEmphasis();
+void ToggleNewline();
+void ToggleMathmode();
+void ToggleIndice();
+void TogglePuissance();
+void ToggleSmallfrac();
+void ToggleDfrac();
+void ToggleRacine();
+void splitter2Changed();
+
 protected:
 void dragEnterEvent(QDragEnterEvent *event);
 void dropEvent(QDropEvent *event);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>469</width>
-    <height>192</height>
+    <height>220</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -226,6 +226,16 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="checkBoxCentering">
+        <property name="text">
+         <string>Center</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

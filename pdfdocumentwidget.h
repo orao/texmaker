@@ -21,6 +21,7 @@
 #include <QTimer>
 #include "poppler-qt4.h"
 
+
 class PdfDocumentWidget : public QLabel
 {
     Q_OBJECT

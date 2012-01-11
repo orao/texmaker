@@ -25,7 +25,6 @@
 #include <QTextStream>
 #include <QKeySequence>
 
-
 #include "poppler-qt4.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
@@ -326,7 +325,10 @@ if (doc!=0)
     lastFile=fn;
     setWindowTitle(QFileInfo(fn).fileName());
     clearHistory();
-    gotoPage(currentPage);   
+    gotoPage(currentPage);
+    disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+    if (scrollArea->horizontalScrollBar()->isVisible())  scrollArea->horizontalScrollBar()->setValue(lastHpos);
+    connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
     } 
     else 
       {

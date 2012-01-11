@@ -84,10 +84,8 @@ p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
 p.setColor(QPalette::Active, QPalette::Window, colorBackground);
 p.setColor(QPalette::Normal,QPalette::Text,colorCursor);
-
-// QPalette p = palette();
-// p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
-// p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
+p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
+p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
 setPalette(p);
 setBackgroundVisible(true);
 
@@ -133,9 +131,8 @@ p.setColor(QPalette::Inactive, QPalette::Base, colorBackground);
 p.setColor(QPalette::Inactive, QPalette::Window, colorBackground);
 p.setColor(QPalette::Active, QPalette::Window, colorBackground);
 p.setColor(QPalette::Normal,QPalette::Text,colorCursor);
-// QPalette p = palette();
-// p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
-// p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
+p.setColor(QPalette::Inactive, QPalette::Highlight,p.color(QPalette::Active, QPalette::Highlight));
+p.setColor(QPalette::Inactive, QPalette::HighlightedText,p.color(QPalette::Active, QPalette::HighlightedText));
 setPalette(p);
 setBackgroundVisible(true);
 update();
