@@ -27,7 +27,7 @@ ui.setupUi(this);
 ui.contentsWidget->setIconSize(QSize(96, 96));
 ui.contentsWidget->setViewMode(QListView::IconMode);
 ui.contentsWidget->setMovement(QListView::Static);
-
+ui.labelBibtex->setText("Bib(la)tex");
 //pageditor
 QFontDatabase fdb;
 ui.comboBoxFont->addItems( fdb.families() );
@@ -139,7 +139,6 @@ connect(ui.pushButtonToggleFocus, SIGNAL(clicked()), this, SLOT(configureKeyTogg
 createIcons();
 ui.contentsWidget->setCurrentRow(0);
 
-
 }
 
 ConfigDialog::~ConfigDialog(){
@@ -147,11 +146,16 @@ ConfigDialog::~ConfigDialog(){
 
 void ConfigDialog::createIcons()
 {
+int w=0;
+int h=0;
+ui.contentsWidget->setIconSize ( QSize(96,96 ));
+
 QListWidgetItem *commandButton = new QListWidgetItem(ui.contentsWidget);
 commandButton->setIcon(QIcon(":/images/configtools.png"));
 commandButton->setText(tr("Commands"));
 commandButton->setTextAlignment(Qt::AlignHCenter);
 commandButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
 
 QListWidgetItem *quickButton = new QListWidgetItem(ui.contentsWidget);
 quickButton->setIcon(QIcon(":/images/configquick.png"));
@@ -170,6 +174,19 @@ keysButton->setIcon(QIcon(":/images/configkeys.png"));
 keysButton->setText(tr("Shortcuts"));
 keysButton->setTextAlignment(Qt::AlignHCenter);
 keysButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+h=ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Commands")).height();
+w=ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Commands")).width();
+if (ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Quick Build")).width()>w) w=ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Quick Build")).width();
+if (ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Editor")).width()>w) w=ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Editor")).width();
+if (ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Shortcuts")).width()>w) w=ui.contentsWidget->fontMetrics().size(Qt::TextSingleLine,tr("Shortcuts")).width();
+if (w<96) w=96;
+ui.contentsWidget->setGridSize(QSize(w+24,96+2*h));
+
+w=w+ui.contentsWidget->contentsMargins().left()+ui.contentsWidget->contentsMargins().right();
+
+ui.contentsWidget->setMinimumWidth(w+24);
+ui.contentsWidget->setMaximumWidth(w+24);
 
 connect(ui.contentsWidget,
 	SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),

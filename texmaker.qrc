@@ -3,6 +3,8 @@
 	<file>fonts/DejaVuSansCondensed.ttf</file>
 	<file>fonts/DejaVuSansCondensed-Bold.ttf</file>
 	<file>fonts/DejaVuSansCondensed-Oblique.ttf</file>
+	<file>images/trigger.png</file>
+	<file>images/triggerbis.png</file>
 	<file>images/source_button_enabled.png</file>
 	<file>images/source_button_disabled.png</file>
 	<file>images/log_button_enabled.png</file>
@@ -11,6 +13,7 @@
 	<file>images/structure_button_disabled.png</file>
 	<file>images/pdf_button_enabled.png</file>
 	<file>images/pdf_button_disabled.png</file>
+	<file>images/pdfchecker.png</file>
 	<file>images/process.png</file>
 	<file>images/down.png</file>
 	<file>images/up.png</file>
@@ -106,7 +109,7 @@
         <file>images/text_italic.png</file>
         <file>images/text_left.png</file>
         <file>images/text_right.png</file>
-        <file>images/text_under.png</file>
+        <file>images/user.png</file>
         <file>images/text_emphasis.png</file>
         <file>images/tilde.png</file>
         <file>images/undo.png</file>

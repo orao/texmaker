@@ -24,15 +24,19 @@
 #include <QSettings>
 #include <QTextStream>
 #include <QKeySequence>
+#include <QDesktopServices>
+
 
 #include "poppler-qt4.h"
+#include "pdfchecker.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
-PdfViewerWidget::PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,QWidget* parent)
+PdfViewerWidget::PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,const QString SpellLang ,QWidget* parent)
     : QWidget( parent)
 {
+spell_lang=SpellLang;
 KeySequenceEditorFocus=edfocus;
 canDisplayPixmap=false;
 pdf_file=fileName;
@@ -80,6 +84,7 @@ palette.setBrush(QPalette::Disabled, QPalette::Text, brush2);
 QBrush brush3(QColor(244, 244, 244, 255));
 brush3.setStyle(Qt::SolidPattern);
 palette.setBrush(QPalette::Disabled, QPalette::Base, brush3);
+palette.setColor( listpagesWidget->backgroundRole(), QColor( "#DEE4EB" ) );
 listpagesWidget->setPalette(palette);
 listpagesWidget->setAutoFillBackground( true );
 /*QPalette p( listpagesWidget->palette() );
@@ -135,8 +140,10 @@ zoomoutAct = new QAction(QIcon(":/images/zoom-out.png"), tr("Zoom Out"), this);
 zoomoutAct->setShortcut(QKeySequence::ZoomOut);
 centralToolBarBis->addAction(zoomoutAct);
 
+
 scaleComboBox = new QComboBox(centralToolBarBis);
 zoomCustom = new QLineEdit();
+
 //QValidator *validatorZoom = new QIntValidator(25, 400, this);
 QValidator *validatorZoom = new QRegExpValidator(QRegExp("\\d{0,3}%?"), this);
 zoomCustom->setValidator(validatorZoom);
@@ -151,6 +158,8 @@ centralToolBarBis->addWidget(scaleComboBox);
 centralToolBarBis->addSeparator();
 
 searchLineEdit = new QLineEdit(centralToolBarBis);
+
+
 centralToolBarBis->addWidget(searchLineEdit);
 
 findButton=new QPushButton(tr("Find"),centralToolBarBis);
@@ -182,7 +191,8 @@ centralToolBarBis->addAction(printAct);
 externAct = new QAction(QIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
 centralToolBarBis->addAction(externAct);
 
-
+checkerAct = new QAction(QIcon(":/images/pdfchecker.png"), tr("Check Spelling and Grammar on this page"), this);
+centralToolBarBis->addAction(checkerAct);
 
 
 scrollArea=new PdfScrollArea(centralFrame);
@@ -245,6 +255,7 @@ connectActions();
 
 PdfViewerWidget::~PdfViewerWidget()
 {
+if (browserWindow) browserWindow->close();
 if (scanner != NULL) synctex_scanner_free(scanner);
 if (proc && proc->state()==QProcess::Running) 
 	{
@@ -545,6 +556,7 @@ connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 connect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
+connect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
 //connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -572,6 +584,7 @@ disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 disconnect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 disconnect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
+disconnect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
 //disconnect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //disconnect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -990,6 +1003,40 @@ if (fi.exists())
 	proc->setWorkingDirectory(fi.absolutePath());
 	proc->start(command);
 	}
+}
+
+void PdfViewerWidget::checkSpellGrammarPage()
+{
+QString tempDir=QDir::tempPath();
+QString prefixFile=QDir::homePath();
+prefixFile="texmaker_temp_"+prefixFile.section('/',-1);
+prefixFile=QString(QUrl::toPercentEncoding(prefixFile));
+prefixFile.remove("%");
+QString tempFile=tempDir+"/"+prefixFile;
+
+#if defined( Q_WS_X11 )
+#ifdef USB_VERSION
+QString atdloc=QCoreApplication::applicationDirPath()+"/";
+#else
+QString atdloc=PREFIX"/share/texmaker/";
+#endif
+#endif
+#if defined( Q_WS_MACX )
+QString atdloc=QCoreApplication::applicationDirPath() + "/../Resources/";
+#endif
+#if defined(Q_WS_WIN)
+QString atdloc=QCoreApplication::applicationDirPath() + "/";
+#endif
+
+PdfChecker *ch=new PdfChecker(pdf_file,tempFile,currentPage,atdloc,spell_lang);
+if (ch->createPage())
+    {
+    if (browserWindow) browserWindow->close();
+    browserWindow=new Browser("file:///"+tempFile+".html",false, 0);
+    browserWindow->raise();
+    browserWindow->show();
+    }
+
 }
 
 void PdfViewerWidget::printPdf()

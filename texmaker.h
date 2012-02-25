@@ -45,6 +45,7 @@
 #include "minisplitter.h"
 #include "playerbutton.h"
 #include "symbollistwidget.h"
+#include "usertagslistwidget.h"
 #include "xmltagslistwidget.h"
 #include "logeditor.h"
 #include "hunspell/hunspell.hxx"
@@ -108,6 +109,7 @@ LogEditor* OutputTextEdit;
 
 QStackedWidget *LeftPanelStackedWidget;
 QListWidget *OpenedFilesListWidget;
+UserTagsListWidget *usertagsListWidget;
 XmlTagsListWidget *MpListWidget, *PsListWidget, *leftrightWidget, *tikzWidget, *asyWidget;
 SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget, *FavoriteListWidget;
 QTreeWidget *StructureTreeWidget;
@@ -119,7 +121,7 @@ QMenu *fileMenu, *recentMenu, *editMenu, *toolMenu;
 QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu, *latex17Menu, *latex18Menu ;
 QMenu *math1Menu, *math11Menu, *math12Menu, *math13Menu, *math14Menu;
 QMenu *wizardMenu;
-QMenu *bibMenu;
+QMenu *bibMenu, *bibtexMenu, *biblatexMenu;
 QMenu *user1Menu, *user11Menu, *user12Menu;
 QMenu *viewMenu;
 QMenu *optionsMenu, *translationMenu, *appearanceMenu, *settingsMenu;
@@ -128,7 +130,7 @@ QMenu *helpMenu;
 QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar,*LeftPanelToolBarBis, *centralToolBar, *centralToolBarBis;
 QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct, *ViewStructurePanelAct, *ViewLogPanelAct, *ViewPdfPanelAct, *ViewSourcePanelAct, *FullScreenAct, *NextDocAct, *PrevDocAct, *ViewOpenedFilesPanelAct ;
 
-QAction *relationAct, *arrowAct, *miscAct, *delimAct, *greekAct, *usedAct, *favAct, *leftrightAct, *pstricksAct, *mpAct, *tikzAct, *asyAct;
+QAction *relationAct, *arrowAct, *miscAct, *delimAct, *greekAct, *usedAct, *favAct, *leftrightAct, *pstricksAct, *mpAct, *tikzAct, *asyAct, *userpanelAct;
 bool showPstricks, showMp, showTikz, showAsy;
 QAction *viewPstricksAct, *viewMpAct, *viewTikzAct, *viewAsyAct;
 
@@ -177,7 +179,7 @@ bool checkViewerInstance;
 QStringList errorFileList, errorTypeList, errorLineList, errorMessageList, errorLogList;
 QList<int> onlyErrorList;
 int errorIndex, runIndex, viewIndex;
-
+QString pdfCheckerLang;
 //X11
 #if defined( Q_WS_X11 )
 QString x11style;
@@ -187,6 +189,7 @@ int x11fontsize;
 SymbolList symbolScore;
 usercodelist symbolMostused;
 QList<int> favoriteSymbolList;
+QStringList userTagsList;
 
 QColor colorBackground, colorLine, colorHighlight, colorStandard, colorComment, colorMath, colorCommand, colorKeyword, colorVerbatim, colorTodo, colorKeywordGraphic, colorNumberGraphic;
 
@@ -276,16 +279,19 @@ void ShowLeftRight(); //leftrightWidget
 void ShowMplist(); //MpListWidget
 void ShowTikz(); //tikzWidget
 void ShowAsy(); //asyWidget
+void ShowUserPanel(); //userPanel
 void ClickedOnStructure(QTreeWidgetItem *item,int);
 
 void InsertTag(QString Entity, int dx, int dy);
 void InsertSymbol(QTableWidgetItem *item);
 void InsertXmlTag(QListWidgetItem *item);
+void InsertUserElement(QListWidgetItem *item);
 void InsertFromAction();
 void InsertWithSelectionFromAction();
 void InsertWithSelectionFromString(const QString& text);
 void InsertFromString(const QString& text);
 void InsertBib();
+void InsertBibLatex();
 void InsertStruct();
 void InsertStructFromString(const QString& text);
 void InsertImage();
@@ -305,6 +311,25 @@ void InsertBib10();
 void InsertBib11();
 void InsertBib12();
 void InsertBib13();
+
+void InsertBibLatex1(); //Article in Journal
+void InsertBibLatex2(); //Single-volume book
+void InsertBibLatex3(); //Multi-volume book
+void InsertBibLatex4(); //Part of a book
+void InsertBibLatex5(); //Booklet
+void InsertBibLatex6(); //Single-volume collection
+void InsertBibLatex7(); //Multi-volume collection
+void InsertBibLatex8(); //Part of a collection
+void InsertBibLatex9(); //Technical documentation
+void InsertBibLatex10(); //Miscellaneous
+void InsertBibLatex11(); //Online resource
+void InsertBibLatex12(); //Issue of a periodical
+void InsertBibLatex13(); //Single-volume conference proceedings
+void InsertBibLatex14(); //Multi-volume conference proceedings
+void InsertBibLatex15(); //Article in conference proceedings
+void InsertBibLatex16(); //Technical report
+void InsertBibLatex17(); //Thesis
+
 void CleanBib();
 
 void InsertUserTag(QString Entity);
@@ -398,6 +423,8 @@ void SetMostUsedSymbols();
 void InsertFavoriteSymbols();
 void RemoveFavoriteSymbols();
 
+void RemoveUserTag();
+void AddUserTag();
 
 void ModifyShortcuts();
 

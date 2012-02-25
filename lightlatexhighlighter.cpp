@@ -67,7 +67,11 @@ types << QLatin1String("article") << QLatin1String("book")
   << QLatin1String("misc") << QLatin1String("phdthesis")
   << QLatin1String("proceedings") << QLatin1String("techreport")
   << QLatin1String("unpublished") << QLatin1String("periodical")
-  << QLatin1String("conference");
+  << QLatin1String("conference") << QLatin1String("mvbook")
+  << QLatin1String("collection") << QLatin1String("mvcollection")
+  << QLatin1String("online") << QLatin1String("mvproceedings")
+  << QLatin1String("inproceedings") << QLatin1String("report")
+  << QLatin1String("thesis");
 QRegExp rxBib("@("+types.join("|")+")\\s*\\{\\s*(.*),", Qt::CaseInsensitive);
 rxBib.setMinimal(true);
 
@@ -138,6 +142,7 @@ asyFormat.setForeground(ColorCommand);
 if (!isGraphic)
 {
 i=0;
+int k;
 blockData->code.clear(); 
 blockData->misspelled.clear(); 
 for (int j=0; j < text.length(); j++) {blockData->code.append(0);blockData->misspelled.append(false);}
@@ -202,6 +207,11 @@ while (i < text.length())
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
+			int poslab=buffer.indexOf("label{");
+			if (poslab!=-1)
+			  {
+			  for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			  }
 			if(buffer.indexOf("begin{verbatim}") != -1) {state=StateVerbatim;}
 			else if(buffer.indexOf("begin{lstlisting}") != -1) {state=StateVerbatim;}
 			else if(buffer.indexOf("begin{gnuplot}") != -1) {state=StateVerbatim;}
@@ -225,7 +235,15 @@ while (i < text.length())
 			blockData->code[i]=1;
 			setFormat( i, 1,ColorStandard);
 			state=StateStandard;
-			if(buffer.indexOf(rxBib) != -1) {state=StateBib;buffer = QString::null;}
+			int posbib=buffer.indexOf(rxBib);
+			if( posbib!= -1) 
+			  {
+			  int posbib2=buffer.lastIndexOf("{");
+			  if ((posbib2 !=-1) && (posbib2>posbib)) setFormat(posbib,posbib2-posbib,structFormat);
+			  for (k=posbib; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			  state=StateBib;
+			  buffer = QString::null;
+			  }
 		} else
 		if (tmp== '=' ){
 			blockData->code[i]=1;
@@ -582,6 +600,15 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,10,ColorStandard);
+			    for (k=i-13; k <i-9 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{verbatim*}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,11,ColorStandard);
+			    for (k=i-14; k <i-10 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{lstlisting}");
 			if( pos!= -1) 
@@ -589,6 +616,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,12,ColorStandard);
+			    for (k=i-15; k <i-11 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{gnuplot}");
 			if( pos!= -1) 
@@ -596,6 +624,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,9,ColorStandard);
+			    for (k=i-12; k <i-8 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			buffer = QString::null;
 		} else
@@ -747,6 +776,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,5,ColorStandard);
+			    for (k=i-8; k <i-4 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{tikzpicture}");
 			if( pos!= -1) 
@@ -754,6 +784,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,13,ColorStandard);
+			    for (k=i-16; k <i-12 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{pspicture}");
 			if( pos!= -1) 
@@ -761,6 +792,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,11,ColorStandard);
+			    for (k=i-14; k <i-10 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{pspicture*}");
 			if( pos!= -1) 
@@ -768,6 +800,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,12,ColorStandard);
+			    for (k=i-15; k <i-11 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			buffer = QString::null;
 		} else
@@ -847,6 +880,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,5,ColorStandard);
+			    for (k=i-8; k <i-4 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{tikzpicture}");
 			if( pos!= -1) 
@@ -854,6 +888,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,13,ColorStandard);
+			    for (k=i-16; k <i-12 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{pspicture}");
 			if( pos!= -1) 
@@ -861,6 +896,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,11,ColorStandard);
+			    for (k=i-14; k <i-10 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			pos=buffer.indexOf("\\end{pspicture*}");
 			if( pos!= -1) 
@@ -868,6 +904,7 @@ while (i < text.length())
 			    state=StateStandard;
 			    setFormat(pos,4,ColorKeyword);
 			    setFormat(pos+4,12,ColorStandard);
+			    for (k=i-15; k <i-11 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			}
 			buffer = QString::null;
 		} else
@@ -1040,6 +1077,7 @@ while (i < text.length())
 			  }
 		} else
 		 {
+			blockData->code[i]=1;
 			setFormat( i, 1,ColorVerbatim);
 			state=StateBib;
 			//buffer = QString::null;

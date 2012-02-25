@@ -17,7 +17,7 @@
 //#include <QTextEdit>
 #include <QTextBlock>
 
-LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces, int tabwidth,const QKeySequence viewfocus,QString name) : QWidget(parent)
+LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces, int tabwidth,const QKeySequence viewfocus,QString name,QStringList ulist) : QWidget(parent)
 {
   
 splitter=new MiniSplitter(this);
@@ -42,7 +42,7 @@ frame->setFrameShadow(QFrame::Plain);
 frame->setFrameStyle(QFrame::NoFrame);
 mainlay->addWidget(frame);
 
-editor=new LatexEditor(frame,efont,edcolors,hicolors,inlinespelling,ignoredWords,spellChecker,tabspaces,tabwidth,viewfocus,name);
+editor=new LatexEditor(frame,efont,edcolors,hicolors,inlinespelling,ignoredWords,spellChecker,tabspaces,tabwidth,viewfocus,name,ulist);
 m_lineNumberWidget = new LineNumberWidget( editor, frame);
 m_lineNumberWidget->setFont(efont);
 QFontMetrics fm( efont );

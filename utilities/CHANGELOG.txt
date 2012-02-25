@@ -1,3 +1,17 @@
+version 3.2.2 -> 3.3 :
+----------------------
+Features :
+- users can now define an unlimited number of tags via a new panel in the "structure view" : all these tags can be inserted via keyboard triggers.
+- In the integrated pdf viewer, it's now possible to check spelling and grammar the text extracted from a pdf page.
+- the main biblatex entries can now be inserted via the bibliography menu
+- the structure of .Rnw files are now checked like the .tex documents 
+- \foo{} is now displayed before \foo*{} in the completion 
+- commented structure entries are no more used in the structure view
+- colors are now more hard coded (dark desktop themes can now be used)
+- overwrite mode can now be used in the editor
+Bugs fixed :
+- Bad highlight with \end{picture environment} has been fixed 
+
 version 3.2.1 -> 3.2.2 :
 ----------------------
 Bugs fixed :

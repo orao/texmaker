@@ -19,7 +19,15 @@
 SymbolListWidget :: SymbolListWidget(QWidget *parent, int page) : QTableWidget(parent)
 {
 hide();
-
+setAutoFillBackground( true );
+QPalette pal( palette() );
+pal.setColor( QPalette::Active, QPalette::HighlightedText, QColor("#FAFAFA") );
+pal.setColor( QPalette::Inactive, QPalette::HighlightedText, QColor("#FAFAFA") );
+pal.setColor( QPalette::Disabled, QPalette::HighlightedText, QColor("#FAFAFA") );
+pal.setColor( QPalette::Active, QPalette::Base, QColor("#FAFAFA") );
+pal.setColor( QPalette::Inactive, QPalette::Base, QColor("#FAFAFA") );
+pal.setColor( QPalette::Disabled, QPalette::Base, QColor("#FAFAFA") );
+setPalette( pal );
 setItemDelegate(new IconDelegate(this));
 QString icon_name;
 setShowGrid(true);

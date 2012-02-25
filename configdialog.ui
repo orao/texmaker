@@ -34,6 +34,9 @@
        <height>32000</height>
       </size>
      </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
      <property name="iconSize">
       <size>
        <width>96</width>

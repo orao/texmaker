@@ -15,7 +15,7 @@
 #include <QPrinter>
 
 
-Browser::Browser( const QString home, QWidget* parent, Qt::WFlags flags)
+Browser::Browser( const QString home, bool showToolBar, QWidget* parent, Qt::WFlags flags)
     : QMainWindow( parent, flags )
 {
 setWindowTitle("Texmaker");
@@ -35,26 +35,28 @@ QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
 fileMenu->addAction(tr("Print"), this, SLOT(Print()));
 fileMenu->addSeparator();
 fileMenu->addAction(tr("Exit"), this, SLOT(close()));
+if (showToolBar)
+    {
+    QToolBar *toolBar = addToolBar("Navigation");
+    toolBar->setIconSize(QSize(22,22 ));
+    QAction *Act;
+    Act = new QAction(QIcon(":/images/home.png"), tr("Index"), this);
+    connect(Act, SIGNAL(triggered()), this, SLOT(Index()));
+    toolBar->addAction(Act);
+    toolBar->addAction(view->pageAction(QWebPage::Back));
+    toolBar->addAction(view->pageAction(QWebPage::Forward));
 
-QToolBar *toolBar = addToolBar("Navigation");
-QAction *Act;
-Act = new QAction(QIcon(":/images/home.png"), tr("Index"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(Index()));
-toolBar->addAction(Act);
-toolBar->addAction(view->pageAction(QWebPage::Back));
-toolBar->addAction(view->pageAction(QWebPage::Forward));
+    QWidget* spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    toolBar->addWidget(spacer);
+    searchLineEdit = new QLineEdit(toolBar);
+    connect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(Find()));
+    toolBar->addWidget(searchLineEdit);
 
-QWidget* spacer = new QWidget();
-spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-toolBar->addWidget(spacer);
-searchLineEdit = new QLineEdit(toolBar);
-connect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(Find()));
-toolBar->addWidget(searchLineEdit);
-
-findButton=new QPushButton(tr("Find"),toolBar);
-connect(findButton, SIGNAL(clicked()), this, SLOT(Find()));
-toolBar->addWidget(findButton);
-
+    findButton=new QPushButton(tr("Find"),toolBar);
+    connect(findButton, SIGNAL(clicked()), this, SLOT(Find()));
+    toolBar->addWidget(findButton);
+    }
 setCentralWidget(view);
 setUnifiedTitleAndToolBarOnMac(true);
     

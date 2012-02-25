@@ -62,7 +62,7 @@ QList<StructItem> list;
 class LatexEditor : public QPlainTextEdit  {
    Q_OBJECT
 public:
-LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4,const QKeySequence viewfocus=QKeySequence("Ctrl+Space"), QString name="");
+LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4,const QKeySequence viewfocus=QKeySequence("Ctrl+Space"), QString name="",QStringList ulist=QStringList());
 ~LatexEditor();
 static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
@@ -134,8 +134,11 @@ virtual void paste();
 virtual void cut();
 void setCursorVisible() {ensureCursorVisible ();};
 void setColors(QList<QColor> colors);
+void setUserTagsList(QStringList utlist);
 
 private:
+bool overmode;
+QStringList userTagsList;
 bool inBlockSelectionMode;
 QKeySequence vfocus;
 QString fname;

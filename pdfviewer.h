@@ -42,6 +42,7 @@
 #include "pdfscrollarea.h"
 #include "synctex_parser.h"
 #include "paperdialog.h"
+#include "browser.h"
 
 
 
@@ -49,7 +50,7 @@ class PdfViewer : public QMainWindow
 {
     Q_OBJECT
 public:
-    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, QWidget* parent = 0, Qt::WFlags flags = 0);
+    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, const QString SpellLang, QWidget* parent = 0, Qt::WFlags flags = 0);
     ~PdfViewer();
     QString pdf_file;
 public slots:
@@ -67,7 +68,7 @@ QHBoxLayout *LeftPanelLayout,*CentralLayout;
 QByteArray windowstate;
 QList<PdfDocumentWidget*> listPdfWidgets, templist;
 Poppler::Document *doc;
-QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct,*printAct, *externAct;
+QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct,*printAct, *externAct,*checkerAct;
 QDockWidget *StructureView;
 QListWidget *listpagesWidget;
 #if defined(Q_WS_WIN)
@@ -79,7 +80,7 @@ QList<int> listPdfWidgetsStatus;
 QComboBox *scaleComboBox;
 QLineEdit *searchLineEdit;
 QPushButton *findButton;
-QString viewpdf_command, gswin32c_command, paper_size;
+QString viewpdf_command, gswin32c_command, paper_size, spell_lang;
 int currentPage;
 qreal currentScale, lastScale, previousScale;
 bool fileLoaded;
@@ -98,7 +99,7 @@ QStack<int> stack;
 QStack<int> forwardStack;
 bool showingListPages;
 int lastHpos;
-
+QPointer<Browser> browserWindow;
 
 private slots:
 void connectActions();
@@ -139,6 +140,7 @@ void historyForward();
 void clearHistory();
 void updateHistory(int pos);
 void setHpos(int pos);
+void checkSpellGrammarPage();
 
 protected:
 void keyPressEvent ( QKeyEvent * e );

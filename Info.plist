@@ -19,6 +19,7 @@
                     <string>MP</string>
 		    <string>asy</string>
 		    <string>ASY</string>
+		    <string>Rnw</string>
                 </array>
                 <key>CFBundleTypeIconFile</key>
                 <string>texmaker.icns</string>
@@ -45,8 +46,8 @@
 	<key>CFBundleName</key>
 	<string>texmaker</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.2.2</string>
+	<string>3.3</string>
 	<key>CFBundleVersion</key>
-	<string>3.2.2</string>
+	<string>3.3</string>
 </dict>
 </plist>

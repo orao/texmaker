@@ -16,6 +16,25 @@
     </message>
 </context>
 <context>
+    <name>AddTagDialog</name>
+    <message>
+        <source>Edit User Tags</source>
+        <translation type="unfinished">Felhasználói sablonok szerkesztése</translation>
+    </message>
+    <message>
+        <source>Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LaTeX Content</source>
+        <translation type="unfinished">LaTeX tartalom</translation>
+    </message>
+    <message>
+        <source>Keyboard Trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ArrayDialog</name>
     <message>
         <source>Num of Rows</source>
@@ -710,6 +729,10 @@ az alapértelmezett kódolási beállítással</translation>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
         <translation>Nem sikerült nyomtatni : a ghostscript parancs (gswin32c.exe) nem található a rendszerén.</translation>
     </message>
+    <message>
+        <source>Check Spelling and Grammar on this page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PdfViewerWidget</name>
@@ -772,6 +795,10 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
         <translation>Nem sikerült nyomtatni : a ghostscript parancs (gswin32c.exe) nem található a rendszerén.</translation>
+    </message>
+    <message>
+        <source>Check Spelling and Grammar on this page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1940,6 +1967,10 @@ az alapértelmezett kódolási beállítással</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre)</source>
         <translation></translation>
     </message>
+    <message>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>UserCompletionDialog</name>
@@ -2012,6 +2043,17 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <source>Delete</source>
         <translation>Törlés</translation>
+    </message>
+</context>
+<context>
+    <name>UserTagsListWidget</name>
+    <message>
+        <source>Add tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

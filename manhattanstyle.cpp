@@ -312,11 +312,16 @@ void ManhattanStyle::polish(QWidget *widget)
             widget->setMaximumHeight(StyleHelper::navigationWidgetHeight() - 2);
             widget->setAttribute(Qt::WA_Hover);
         }
-        else if (qobject_cast<QLineEdit*>(widget)) {
-            widget->setAttribute(Qt::WA_Hover);
-            widget->setMaximumHeight(StyleHelper::navigationWidgetHeight() - 2);
+        else */if (qobject_cast<QLineEdit*>(widget)) {
+QPalette pal;
+QBrush brushl(QColor("#000000"));
+brushl.setStyle(Qt::SolidPattern);
+pal.setBrush(QPalette::Active, QPalette::Text, brushl);
+widget->setPalette(pal);
+//             widget->setAttribute(Qt::WA_Hover);
+//             widget->setMaximumHeight(StyleHelper::navigationWidgetHeight() - 2);
         }
-        else*/ if (qobject_cast<QLabel*>(widget))
+        else if (qobject_cast<QLabel*>(widget))
             widget->setPalette(panelPalette(widget->palette()));
        /* else if (qobject_cast<QToolBar*>(widget))
             widget->setMinimumHeight(StyleHelper::navigationWidgetHeight());

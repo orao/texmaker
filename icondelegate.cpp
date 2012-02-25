@@ -60,7 +60,7 @@ void IconDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     if (option.showDecorationSelected && (option.state & QStyle::State_Selected)) {
         QPalette::ColorGroup cg = option.state & QStyle::State_Enabled
                                   ? QPalette::Normal : QPalette::Disabled;
-        //painter->fillRect(option.rect, option.palette.brush(cg, QPalette::Highlight));
+        painter->fillRect(option.rect, option.palette.brush(cg, QPalette::Highlight));
 //painter->fillRect(option.rect,QColor("#78A9dc"));
 painter->fillRect(option.rect,QColor("#cdd2d8"));
     } else {

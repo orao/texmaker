@@ -93,6 +93,7 @@
 #include "encodingdialog.h"
 #include "usercompletiondialog.h"
 #include "texdocdialog.h"
+#include "addtagdialog.h"
 
 
 
@@ -264,6 +265,7 @@ LeftPanelStackedWidget->addWidget(FavoriteListWidget);
 
 LeftPanelToolBar->addSeparator();
 
+
 leftrightWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/leftright_tags.xml");
 leftrightWidget->setFrameStyle(QFrame::NoFrame);
 connect(leftrightWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
@@ -271,6 +273,19 @@ leftrightAct = new QAction(QIcon(":/images/leftright.png"),"left/right", this);
 connect(leftrightAct, SIGNAL(triggered()), this, SLOT(ShowLeftRight()));
 LeftPanelToolBar->addAction(leftrightAct);
 LeftPanelStackedWidget->addWidget(leftrightWidget);
+
+LeftPanelToolBar->addSeparator();
+
+usertagsListWidget=new UserTagsListWidget(LeftPanelStackedWidget);
+usertagsListWidget->setFrameStyle(QFrame::NoFrame);
+connect(usertagsListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertUserElement(QListWidgetItem*)));
+userpanelAct = new QAction(QIcon(":/images/user.png"),tr("User"), this);
+connect(userpanelAct, SIGNAL(triggered()), this, SLOT(ShowUserPanel()));
+LeftPanelToolBar->addAction(userpanelAct);
+usertagsListWidget->updateList(userTagsList);
+connect(usertagsListWidget->remAct, SIGNAL(triggered()), this, SLOT(RemoveUserTag()));
+connect(usertagsListWidget->addAct, SIGNAL(triggered()), this, SLOT(AddUserTag()));
+LeftPanelStackedWidget->addWidget(usertagsListWidget);
 
 LeftPanelToolBar->addSeparator();
 
@@ -305,6 +320,10 @@ asyAct = new QAction(QIcon(":/images/asymptote.png"),tr("Asymptote Commands"), t
 connect(asyAct, SIGNAL(triggered()), this, SLOT(ShowAsy()));
 if (showAsy) LeftPanelToolBar->addAction(asyAct);
 LeftPanelStackedWidget->addWidget(asyWidget);
+
+
+
+
 
 viewPstricksAct = new QAction(tr("Pstricks Commands"), this);
 viewPstricksAct->setCheckable(true);
@@ -1344,6 +1363,10 @@ Act = new QAction("\\bibliography{}", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib()));
 latex1Menu->addAction(Act);
 
+Act = new QAction("\\addbibresource{}", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex()));
+latex1Menu->addAction(Act);
+
 math1Menu = menuBar()->addMenu(tr("&Math"));
 Act = new QAction(tr("Inline math mode $...$"), this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_M);
@@ -1647,49 +1670,104 @@ connect(Act, SIGNAL(triggered()), this, SLOT(QuickArray()));
 wizardMenu->addAction(Act);
 
 bibMenu = menuBar()->addMenu(tr("&Bibliography"));
+
+bibtexMenu=bibMenu->addMenu("Bibtex");
 Act = new QAction("Article in Journal", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib1()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Article in Conference Proceedings", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib2()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Article in a collection", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib3()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Chapter or Pages in a Book", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib4()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Conference Proceedings", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib5()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Book", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib6()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Booklet", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib7()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("PhD. Thesis", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib8()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Master's Thesis", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib9()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Technical Report", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib10()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Technical Manual", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib11()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Unpublished", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib12()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 Act = new QAction("Miscellaneous", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib13()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
 bibMenu->addSeparator();
 Act = new QAction(tr("Clean"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(CleanBib()));
-bibMenu->addAction(Act);
+bibtexMenu->addAction(Act);
+
+biblatexMenu=bibMenu->addMenu("Biblatex");
+Act = new QAction("Article in Journal", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex1()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Single-volume book", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex2()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Multi-volume book", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex3()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Part of a book", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex4()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Booklet", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex5()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Single-volume collection", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex6()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Multi-volume collection", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex7()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Part of a collection", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex8()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Technical documentation", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex9()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Miscellaneous", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex10()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Online resource", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex11()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Issue of a periodical", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex12()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Single-volume conference proceedings", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex13()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Multi-volume conference proceedings", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex14()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Article in conference proceedings", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex15()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Technical report", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex16()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Thesis", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex17()));
+biblatexMenu->addAction(Act);
 
 user1Menu = menuBar()->addMenu(tr("&User"));
 user11Menu=user1Menu->addMenu(tr("User &Tags"));
@@ -2379,7 +2457,7 @@ if (hasDecodingError)
 	  }
   else return;
   }
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),f);
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),f,userTagsList);
 EditorView->addWidget( edit);
 ComboFilesInsert(f);
 EditorView->setCurrentIndex(EditorView->indexOf(edit));
@@ -2447,7 +2525,7 @@ if (currentEditorView() && ok)
 
 void Texmaker::fileNew()
 {
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),"untitled"+QString::number(untitled_id));
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),"untitled"+QString::number(untitled_id),userTagsList);
 edit->editor->setReadOnly(false);
 edit->editor->setEncoding(input_encoding);
 initCompleter();
@@ -2497,7 +2575,7 @@ if ( !file.open( QIODevice::ReadOnly ) )
 	return;
 	}
 lastTemplate=fn;
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),fn);
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),fn,userTagsList);
 edit->editor->setReadOnly(false);
 edit->editor->setEncoding(input_encoding);
 initCompleter();
@@ -2573,7 +2651,7 @@ if ((filesNames.count()==1) && embedinternalpdf && builtinpdfview && showpdfview
       else
 	{
     //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),StackedViewers);
+	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -2628,7 +2706,7 @@ if (fItems.size()>0 )
       isblocks_expanded=fItems.at(0)->isExpanded();
       }
   }  
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName());
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 temp=currentEditorView();
 FilesMap::Iterator it;
 QString fn;
@@ -2937,7 +3015,7 @@ for (int i=0; i < sessionFilesList.count(); i++)
 
 void Texmaker::fileSaveAll()
 {
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName());
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 temp=currentEditorView();
 FilesMap::Iterator it;
 for( it = filenames.begin(); it != filenames.end(); ++it )
@@ -2953,7 +3031,7 @@ void Texmaker::fileBackupAll()
 {
 if (!currentEditorView() ) return;
 QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName());
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 temp=currentEditorView();
 QString fn;
 FilesMap::Iterator it;
@@ -3232,7 +3310,7 @@ if (action)
 	  else
 	    {
 	//    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	    pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),StackedViewers);
+	    pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
 	    pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	    pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	    connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -3832,7 +3910,7 @@ else
 QFont x11Font (x11fontfamily,x11fontsize);
 QApplication::setFont(x11Font);
 
-QPalette pal = QApplication::palette();
+/*QPalette pal = QApplication::palette();
 pal.setColor( QPalette::Active, QPalette::Highlight, QColor("#4490d8") );
 pal.setColor( QPalette::Inactive, QPalette::Highlight, QColor("#4490d8") );
 pal.setColor( QPalette::Disabled, QPalette::Highlight, QColor("#4490d8") );
@@ -3878,7 +3956,7 @@ else
 	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#f6f3eb") );
 	}
 
-QApplication::setPalette(pal);
+QApplication::setPalette(pal);*/
 #endif
 userquick_command=config->value("Tools/Userquick","latex -interaction=nonstopmode %.tex|bibtex %.aux|latex -interaction=nonstopmode %.tex|latex -interaction=nonstopmode %.tex|xdvi %.dvi").toString();
 userClassList=config->value("Tools/User Class").toStringList();
@@ -3924,6 +4002,8 @@ UserToolName[3]=config->value("User/ToolName4","").toString();
 UserToolCommand[3]=config->value("User/Tool4","").toString();
 UserToolName[4]=config->value("User/ToolName5","").toString();
 UserToolCommand[4]=config->value("User/Tool5","").toString();
+
+userTagsList=config->value("User/TagList").toStringList();
 
 struct_level1=config->value("Structure/Structure Level 1","part").toString();
 struct_level2=config->value("Structure/Structure Level 2","chapter").toString();
@@ -3989,6 +4069,9 @@ QString defaultDic=dicDir+QString(QLocale::system().name())+".dic";
 QFileInfo fi(defaultDic);
 if (!fi.exists() || !fi.isReadable()) defaultDic=dicDir+"en_GB.dic";
 spell_dic=config->value("Spell/Dic",defaultDic).toString();
+QFileInfo fispell(spell_dic);
+pdfCheckerLang=fispell.fileName().left(2);
+if (!pdfCheckerLang.contains(QRegExp("(de|en|es|fr|id|it|nl|pl|pt|ru)"))) pdfCheckerLang="en";
 
 spell_ignored_words=config->value("Spell/Words","").toString();
 inlinespellcheck=config->value( "Spell/Inline",true).toBool();
@@ -4002,6 +4085,9 @@ if( !favoriteSymbolSettings.isEmpty())
 	{
 	for( int i = 0; i < favoriteSymbolSettings.count( ); i++ ) favoriteSymbolList.append(favoriteSymbolSettings.at(i).toInt());
 	}
+	
+
+	
 colorBackground=config->value("Color/Background",QColor("#FFFFFF")).value<QColor>();
 colorLine=config->value("Color/Line",QColor("#ececec")).value<QColor>();
 colorHighlight=config->value("Color/Highlight",QColor("#FF0000")).value<QColor>();
@@ -4174,6 +4260,8 @@ config.setValue("User/ToolName4",UserToolName[3]);
 config.setValue("User/Tool4",UserToolCommand[3]);
 config.setValue("User/ToolName5",UserToolName[4]);
 config.setValue("User/Tool5",UserToolCommand[4]);
+
+config.setValue("User/TagList",userTagsList);
 
 config.setValue("Structure/Structure Level 1",struct_level1);
 config.setValue("Structure/Structure Level 2",struct_level2);
@@ -4392,6 +4480,12 @@ LeftPanelStackedWidget->setCurrentWidget(asyWidget);
 titleLeftPanel->setText(tr("Asymptote Commands"));
 }
 
+void Texmaker::ShowUserPanel()
+{
+LeftPanelStackedWidget->setCurrentWidget(usertagsListWidget);
+titleLeftPanel->setText(tr("User"));
+}
+
 void Texmaker::UpdateStructure()
 {
 QFont deft=QFont("DejaVu Sans Condensed",qApp->font().pointSize());
@@ -4403,7 +4497,7 @@ StructureTreeWidget->clear();
 if ( !currentEditorView() ) return;
 
 QString shortName = getName();
-if ((shortName.right(4)!=".tex") && (!shortName.startsWith("untitled")))  return;
+if ((shortName.right(4)!=".tex") && (shortName.right(4)!=".Rnw") && (!shortName.startsWith("untitled")))  return;
 
 int pos;
 while ( (pos = (int)shortName.indexOf('/')) != -1 )
@@ -4895,6 +4989,7 @@ if (item)
 
 void Texmaker::InsertXmlTag(QListWidgetItem *item)
 {
+if ( !currentEditorView() ) return;
 QString txt, code, role;
 QStringList tagList;
 int dx,dy;
@@ -4919,6 +5014,32 @@ if (item  && !item->font().bold())
 	}
 	InsertTag(code,dx,dy);
 	}
+}
+
+void Texmaker::InsertUserElement(QListWidgetItem *item)
+{
+if ( !currentEditorView() ) return;
+QString txt, code, role;
+QStringList tagList;
+int dx;
+if (item)
+    {
+    txt=item->text();
+    role=item->data(Qt::UserRole).toString();
+    tagList= role.split("#");
+    code=tagList.at(0);
+if (code.left(1)=="%")
+	{
+	QString t=code;
+	t=t.remove(0,1);
+	QString s="\\begin{"+t+"}\n"+QString(0x2022)+"\n\\end{"+t+"}\n";
+	InsertUserTag(s);
+	}
+else
+	{
+	InsertUserTag(code);
+	}
+    }
 }
 
 void Texmaker::InsertFromAction()
@@ -4998,6 +5119,25 @@ if ( !currentEditorView() )	return;
 QString tag;
 QFileInfo fi(getName());
 tag=QString("\\bibliography{");
+tag +=fi.completeBaseName();
+tag +=QString("}\n");
+InsertTag(tag,0,1);
+OutputTextEdit->clear();
+OutputTableWidget->hide();
+OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
+separatorline->hide();
+OutputTextEdit->insertLine("The argument to \\bibliography refers to the bib file (without extension)");
+OutputTextEdit->insertLine("which should contain your database in BibTeX format.");
+OutputTextEdit->insertLine("Texmaker inserts automatically the base name of the TeX file");
+}
+
+void Texmaker::InsertBibLatex()
+{
+if ( !currentEditorView() )	return;
+//currentEditorView()->editor->viewport()->setFocus();
+QString tag;
+QFileInfo fi(getName());
+tag=QString("\\addbibresource{");
 tag +=fi.completeBaseName();
 tag +=QString("}\n");
 InsertTag(tag,0,1);
@@ -5501,7 +5641,7 @@ if ( startDlg->exec() )
 
 void Texmaker::InsertBib1()
 {
-QString tag = QString("@Article{,\n");
+QString tag = QString("@Article{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="journal = {},\n";
@@ -5518,9 +5658,10 @@ InsertTag(tag,9,0);
 OutputTextEdit->insertLine("Bib fields - Article in Journal");
 OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
+
 void Texmaker::InsertBib2()
 {
-QString tag = QString("@InProceedings{,\n");
+QString tag = QString("@InProceedings{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="booktitle = {},\n";
@@ -5545,7 +5686,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib3()
 {
-QString tag = QString("@InCollection{,\n");
+QString tag = QString("@InCollection{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="booktitle = {},\n";
@@ -5572,7 +5713,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib4()
 {
-QString tag = QString("@InBook{,\n");
+QString tag = QString("@InBook{"+QString(0x2022)+",\n");
 tag+="ALTauthor = {},\n";
 tag+="ALTeditor = {},\n";
 tag+="title = {},\n";
@@ -5598,7 +5739,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib5()
 {
-QString tag = QString("@Proceedings{,\n");
+QString tag = QString("@Proceedings{"+QString(0x2022)+",\n");
 tag+="title = {},\n";
 tag+="year = {},\n";
 tag+="OPTkey = {},\n";
@@ -5619,7 +5760,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib6()
 {
-QString tag = QString("@Book{,\n");
+QString tag = QString("@Book{"+QString(0x2022)+",\n");
 tag+="ALTauthor = {},\n";
 tag+="ALTeditor = {},\n";
 tag+="title = {},\n";
@@ -5642,7 +5783,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib7()
 {
-QString tag = QString("@Booklet{,\n");
+QString tag = QString("@Booklet{"+QString(0x2022)+",\n");
 tag+="title = {},\n";
 tag+="OPTkey = {},\n";
 tag+="OPTauthor = {},\n";
@@ -5659,7 +5800,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib8()
 {
-QString tag = QString("@PhdThesis{,\n");
+QString tag = QString("@PhdThesis{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="school = {},\n";
@@ -5677,7 +5818,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib9()
 {
-QString tag = QString("@MastersThesis{,\n");
+QString tag = QString("@MastersThesis{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="school = {},\n";
@@ -5695,7 +5836,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib10()
 {
-QString tag = QString("@TechReport{,\n");
+QString tag = QString("@TechReport{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="institution = {},\n";
@@ -5714,7 +5855,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib11()
 {
-QString tag = QString("@Manual{,\n");
+QString tag = QString("@Manual{"+QString(0x2022)+",\n");
 tag+="title = {},\n";
 tag+="OPTkey = {},\n";
 tag+="OPTauthor = {},\n";
@@ -5732,7 +5873,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib12()
 {
-QString tag = QString("@Unpublished{,\n");
+QString tag = QString("@Unpublished{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="note = {},\n";
@@ -5747,7 +5888,7 @@ OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command 
 }
 void Texmaker::InsertBib13()
 {
-QString tag = QString("@Misc{,\n");
+QString tag = QString("@Misc{"+QString(0x2022)+",\n");
 tag+="OPTkey = {},\n";
 tag+="OPTauthor = {},\n";
 tag+="OPTtitle = {},\n";
@@ -5760,6 +5901,204 @@ tag+="}\n";
 InsertTag(tag,6,0);
 OutputTextEdit->insertLine("Bib fields - Miscellaneous");
 OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
+}
+
+void Texmaker::InsertBibLatex1()
+{
+QString tag = QString("@article{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="journaltitle = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,9,0);
+OutputTextEdit->insertLine("Bib fields - Article in Journal");
+}
+
+void Texmaker::InsertBibLatex2()
+{
+QString tag = QString("@book{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,6,0);
+OutputTextEdit->insertLine("Bib fields - Single-volume book");
+}
+
+void Texmaker::InsertBibLatex3()
+{
+QString tag = QString("@mvbook{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,8,0);
+OutputTextEdit->insertLine("Bib fields - Multi-volume book");
+}
+
+void Texmaker::InsertBibLatex4()
+{
+QString tag = QString("@inbook{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="booktitle = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,8,0);
+OutputTextEdit->insertLine("Bib fields - A part of a book");
+}
+
+void Texmaker::InsertBibLatex5()
+{
+QString tag = QString("@booklet{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,9,0);
+OutputTextEdit->insertLine("Bib fields - A book-like work without a formal publisher");
+}
+
+void Texmaker::InsertBibLatex6()
+{
+QString tag = QString("@collection{"+QString(0x2022)+",\n");
+tag+="editor = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,11,0);
+OutputTextEdit->insertLine("Bib fields - Single-volume collection");
+}
+
+void Texmaker::InsertBibLatex7()
+{
+QString tag = QString("@mvcollection{"+QString(0x2022)+",\n");
+tag+="editor = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,13,0);
+OutputTextEdit->insertLine("Bib fields - Multi-volume collection");
+}
+
+void Texmaker::InsertBibLatex8()
+{
+QString tag = QString("@incollection{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="editor = {},\n";
+tag+="title = {},\n";
+tag+="booktitle = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,13,0);
+OutputTextEdit->insertLine("Bib fields - A part of a collection");
+}
+
+void Texmaker::InsertBibLatex9()
+{
+QString tag = QString("@manual{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,8,0);
+OutputTextEdit->insertLine("Bib fields - Technical documentation");
+}
+
+void Texmaker::InsertBibLatex10()
+{
+QString tag = QString("@misc{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,6,0);
+OutputTextEdit->insertLine("Bib fields - Miscellaneous");
+}
+
+void Texmaker::InsertBibLatex11()
+{
+QString tag = QString("@online{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="url = {},\n";
+tag+="}\n";
+InsertTag(tag,8,0);
+OutputTextEdit->insertLine("Bib fields - Online resource");
+}
+
+void Texmaker::InsertBibLatex12()
+{
+QString tag = QString("@periodical{"+QString(0x2022)+",\n");
+tag+="editor = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,11,0);
+OutputTextEdit->insertLine("Bib fields - Issue of a periodical");
+}
+
+void Texmaker::InsertBibLatex13()
+{
+QString tag = QString("@proceedings{"+QString(0x2022)+",\n");
+tag+="editor = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,12,0);
+OutputTextEdit->insertLine("Bib fields - Single-volume conference proceedings");
+}
+
+void Texmaker::InsertBibLatex14()
+{
+QString tag = QString("@mvproceedings{"+QString(0x2022)+",\n");
+tag+="editor = {},\n";
+tag+="title = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,14,0);
+OutputTextEdit->insertLine("Bib fields - Multi-volume conference proceedings");
+}
+
+void Texmaker::InsertBibLatex15()
+{
+QString tag = QString("@inproceedings{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="editor = {},\n";
+tag+="title = {},\n";
+tag+="booktitle = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,14,0);
+OutputTextEdit->insertLine("Bib fields - Article in conference proceedings");
+}
+
+void Texmaker::InsertBibLatex16()
+{
+QString tag = QString("@report{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="type = {},\n";
+tag+="institution = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,7,0);
+OutputTextEdit->insertLine("Bib fields - Technical report");
+}
+
+void Texmaker::InsertBibLatex17()
+{
+QString tag = QString("@thesis{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="type = {},\n";
+tag+="institution = {},\n";
+tag+="year = {},\n";
+tag+="}\n";
+InsertTag(tag,8,0);
+OutputTextEdit->insertLine("Bib fields - Thesis");
 }
 
 void Texmaker::CleanBib()
@@ -6246,7 +6585,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       else
 	{
     //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),StackedViewers);
+	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -6273,7 +6612,7 @@ if (builtinpdfview && (comd==viewpdf_command))
     else
       {
   //    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),0);
+      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -7117,7 +7456,7 @@ if (embedinternalpdf)
     else
       {
   //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),StackedViewers);
+      pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
       pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
       pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
       connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -7144,7 +7483,7 @@ else
     else
       {
   //    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),0);
+      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -7704,7 +8043,7 @@ if (fic.exists() && fic.isReadable() )
           {
           browserWindow->close();
           }
-	browserWindow=new Browser("file:///"+docfile, 0);
+	browserWindow=new Browser("file:///"+docfile,true, 0);
 	browserWindow->raise();
 	browserWindow->show();
 //	QDesktopServices::openUrl("file:///"+docfile);
@@ -7738,7 +8077,7 @@ if (fic.exists() && fic.isReadable() )
           {
           browserWindow->close();
           }
-	browserWindow=new Browser("file:///"+docfile, 0);
+	browserWindow=new Browser("file:///"+docfile,true, 0);
 	browserWindow->raise();
 	browserWindow->show();
 //	QDesktopServices::openUrl("file:///"+docfile);
@@ -8021,6 +8360,9 @@ if (confDlg->exec())
 	      spellChecker = new Hunspell(dic.toLatin1()+".aff",dic.toLatin1()+".dic");
 	      }
 	else spellChecker=0;
+	QFileInfo fispell(spell_dic);
+	pdfCheckerLang=fispell.fileName().left(2);
+	if (!pdfCheckerLang.contains(QRegExp("(de|en|es|fr|id|it|nl|pl|pt|ru)"))) pdfCheckerLang="en";
 #if (QT_VERSION >= 0x040700)
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(0,1)->text())) colorBackground=QColor(confDlg->ui.colortableWidget->item(0,1)->text());
 	
@@ -8087,7 +8429,7 @@ if (confDlg->exec())
 
 	if (currentEditorView())
 		{
-		LatexEditorView *temp = new LatexEditorView( EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName());
+		LatexEditorView *temp = new LatexEditorView( EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 		temp=currentEditorView();
 		FilesMap::Iterator it;
 		initCompleter();
@@ -8377,7 +8719,57 @@ if (action)
 	}
 }
 
+void Texmaker::RemoveUserTag()
+{
+QString actData;
+QAction *action = qobject_cast<QAction *>(sender());
+if (action)
+	{
+	actData=action->data().toString();
+	userTagsList.removeOne(actData);
+	usertagsListWidget->updateList(userTagsList);
+	if (currentEditorView())
+		{
+		FilesMap::Iterator it;
+		for( it = filenames.begin(); it != filenames.end(); ++it )
+			{
+			it.key()->editor->setUserTagsList(userTagsList);
+			}
+		}
+	}
 
+}
+
+void Texmaker::AddUserTag()
+{
+AddTagDialog *atDlg = new AddTagDialog(this);
+QString item,code;
+QString trigger="";
+if ( atDlg->exec() )
+    {
+    item=atDlg->ui.itemEdit->text();
+    code=atDlg->ui.tagEdit->toPlainText();
+    trigger=atDlg->ui.triggerEdit->text();
+    if (!item.isEmpty() && !code.isEmpty())
+	{
+	item.remove("#");
+	code.remove("#");
+	trigger.remove("#");
+	trigger.remove(":");
+	userTagsList.append(item+"#"+code+"#"+trigger);
+	usertagsListWidget->updateList(userTagsList);
+	if (currentEditorView())
+	    {
+	    FilesMap::Iterator it;
+	    for( it = filenames.begin(); it != filenames.end(); ++it )
+		    {
+		    it.key()->editor->setUserTagsList(userTagsList);
+		    }
+	    }
+    
+	}
+    }
+}
 
 void Texmaker::ModifyShortcuts()
 {

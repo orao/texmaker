@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.2.2
+TEXMAKERVERSION=3.3
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -65,6 +65,9 @@ HEADERS	+= texmaker.h \
 	scandialog.h \
 	synctex_parser.h \
 	synctex_parser_utils.h \
+	pdfchecker.h \
+	usertagslistwidget.h \
+	addtagdialog.h \
 	hunspell/affentry.hxx \
 	hunspell/affixmgr.hxx \
 	hunspell/atypes.hxx \
@@ -167,6 +170,9 @@ SOURCES	+= main.cpp \
 	scandialog.cpp \
 	synctex_parser.c \
 	synctex_parser_utils.c \
+	pdfchecker.cpp \
+	usertagslistwidget.cpp \
+	addtagdialog.cpp \
 	hunspell/affentry.cxx \
 	hunspell/affixmgr.cxx \
 	hunspell/csutil.cxx \
@@ -236,7 +242,8 @@ FORMS   += findwidget.ui\
 	encodingdialog.ui \
 	usercompletiondialog.ui \
 	texdocdialog.ui \
-	scandialog.ui
+	scandialog.ui \
+	addtagdialog.ui
 TRANSLATIONS += texmaker_fr.ts \
 	texmaker_de.ts \
 	texmaker_es.ts \
@@ -271,7 +278,9 @@ isEmpty( ICONDIR ) {
     ICONDIR=/usr/share/pixmaps
 }
 
+INCLUDEPATH  += /usr/include/poppler
 INCLUDEPATH  += /usr/include/poppler/qt4
+LIBS         += -L/usr/lib -lpoppler
 LIBS         += -L/usr/lib -lpoppler-qt4
 LIBS         += -L/usr/lib -lz
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
@@ -337,6 +346,9 @@ utilities.files = doc/doc1.png \
 	doc/usermanual_fr.html \
 	doc/usermanual_ru.html \
 	doc/usermanual_hu.html \
+	atd/atd.css \
+	atd/csshttprequest.js \
+	atd/jquery.atd.textarea.js \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -390,6 +402,9 @@ utilities.files = doc/doc1.png \
 	dictionaries/hu_HU.aff \
 	dictionaries/hu_HU.dic \
 	dictionaries/README_hu_HU.txt \
+	dictionaries/cs_CZ.aff \
+	dictionaries/cs_CZ.dic \
+	dictionaries/README_cs_CZ.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \
 	dictionaries/README_es_ES.txt 
@@ -473,6 +488,9 @@ utilities.files =doc/doc1.png \
 	doc/usermanual_fr.html \
 	doc/usermanual_ru.html \
 	doc/usermanual_hu.html \
+	atd/atd.css \
+	atd/csshttprequest.js \
+	atd/jquery.atd.textarea.js \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -516,7 +534,9 @@ utilities.files =doc/doc1.png \
 	dictionaries/it_IT.aff \
 	dictionaries/it_IT.dic \
 	dictionaries/hu_HU.aff \
-	dictionaries/hu_HU.dic
+	dictionaries/hu_HU.dic \
+	dictionaries/cs_CZ.aff \
+	dictionaries/cs_CZ.dic
 INSTALLS += utilities
 
 others.path = texmakerwin32
@@ -609,6 +629,9 @@ utilities.files = utilities/qt_menu.nib \
 	doc/usermanual_fr.html \
 	doc/usermanual_ru.html \
 	doc/usermanual_hu.html \
+	atd/atd.css \
+	atd/csshttprequest.js \
+	atd/jquery.atd.textarea.js \
 	utilities/AUTHORS \
 	utilities/COPYING \
 	utilities/CHANGELOG.txt \
@@ -655,6 +678,9 @@ utilities.files = utilities/qt_menu.nib \
 	dictionaries/hu_HU.aff \
 	dictionaries/hu_HU.dic \
 	dictionaries/README_hu_HU.txt \
+	dictionaries/cs_CZ.aff \
+	dictionaries/cs_CZ.dic \
+	dictionaries/README_cs_CZ.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \
 	dictionaries/README_es_ES.txt 

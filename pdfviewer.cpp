@@ -23,13 +23,16 @@
 #include <QPrintDialog>
 #include <QSettings>
 #include <QTextStream>
+#include <QDesktopServices>
+
 
 #include "poppler-qt4.h"
+#include "pdfchecker.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
-PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,QWidget* parent, Qt::WFlags flags)
+PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,const QString SpellLang,QWidget* parent, Qt::WFlags flags)
     : QMainWindow( parent, flags )
 {
 setWindowTitle("Texmaker : pdf preview");
@@ -55,6 +58,7 @@ move(x,y);
 windowstate=config->value("MainWindowState").toByteArray();
 config->endGroup();
 
+spell_lang=SpellLang;
 KeySequenceEditorFocus=edfocus;
 setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
 canDisplayPixmap=false;
@@ -239,6 +243,9 @@ toolBar->addAction(printAct);
 
 externAct = new QAction(QIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
 toolBar->addAction(externAct);
+
+checkerAct = new QAction(QIcon(":/images/pdfchecker.png"), tr("Check Spelling and Grammar on this page"), this);
+toolBar->addAction(checkerAct);
 
 searchLineEdit->setEnabled(false);
 findButton->setEnabled(false);
@@ -567,6 +574,7 @@ connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 connect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
+connect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
 //connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -594,6 +602,7 @@ disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 disconnect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 disconnect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
+disconnect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
 //disconnect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //disconnect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -1011,6 +1020,40 @@ if (fi.exists())
 	proc->setWorkingDirectory(fi.absolutePath());
 	proc->start(command);
 	}
+}
+
+void PdfViewer::checkSpellGrammarPage()
+{
+QString tempDir=QDir::tempPath();
+QString prefixFile=QDir::homePath();
+prefixFile="texmaker_temp_"+prefixFile.section('/',-1);
+prefixFile=QString(QUrl::toPercentEncoding(prefixFile));
+prefixFile.remove("%");
+QString tempFile=tempDir+"/"+prefixFile;
+
+#if defined( Q_WS_X11 )
+#ifdef USB_VERSION
+QString atdloc=QCoreApplication::applicationDirPath()+"/";
+#else
+QString atdloc=PREFIX"/share/texmaker/";
+#endif
+#endif
+#if defined( Q_WS_MACX )
+QString atdloc=QCoreApplication::applicationDirPath() + "/../Resources/";
+#endif
+#if defined(Q_WS_WIN)
+QString atdloc=QCoreApplication::applicationDirPath() + "/";
+#endif
+
+PdfChecker *ch=new PdfChecker(pdf_file,tempFile,currentPage,atdloc,spell_lang);
+if (ch->createPage())
+    {
+    if (browserWindow) browserWindow->close();
+    browserWindow=new Browser("file:///"+tempFile+".html",false, 0);
+    browserWindow->raise();
+    browserWindow->show();
+    }
+
 }
 
 void PdfViewer::printPdf()

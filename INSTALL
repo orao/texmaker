@@ -7,4 +7,4 @@ sudo sh BUILD.sh
 Requirements : 
 Qt tool kit (www.trolltech.com)
 Poppler & Poppler-qt4
-
+Ghostscript for the LaTeX to html conversion command.
