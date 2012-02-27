@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.3
+TEXMAKERVERSION=3.3.1
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -65,7 +65,6 @@ HEADERS	+= texmaker.h \
 	scandialog.h \
 	synctex_parser.h \
 	synctex_parser_utils.h \
-	pdfchecker.h \
 	usertagslistwidget.h \
 	addtagdialog.h \
 	hunspell/affentry.hxx \
@@ -170,7 +169,6 @@ SOURCES	+= main.cpp \
 	scandialog.cpp \
 	synctex_parser.c \
 	synctex_parser_utils.c \
-	pdfchecker.cpp \
 	usertagslistwidget.cpp \
 	addtagdialog.cpp \
 	hunspell/affentry.cxx \
@@ -278,9 +276,7 @@ isEmpty( ICONDIR ) {
     ICONDIR=/usr/share/pixmaps
 }
 
-INCLUDEPATH  += /usr/include/poppler
 INCLUDEPATH  += /usr/include/poppler/qt4
-LIBS         += -L/usr/lib -lpoppler
 LIBS         += -L/usr/lib -lpoppler-qt4
 LIBS         += -L/usr/lib -lz
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"

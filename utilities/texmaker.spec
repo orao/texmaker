@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 3.3
+Version: 3.3.1
 Release: xm1
 License: GPL
 Group: Applications/Publishing

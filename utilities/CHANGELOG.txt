@@ -1,3 +1,7 @@
+version 3.3 -> 3.3.1 :
+----------------------
+A critical bug about the spelling and grammar checker of the integrated pdf viewer has been fixed.
+
 version 3.2.2 -> 3.3 :
 ----------------------
 Features :

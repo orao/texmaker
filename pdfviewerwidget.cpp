@@ -25,10 +25,10 @@
 #include <QTextStream>
 #include <QKeySequence>
 #include <QDesktopServices>
+#include <QTextCodec>
 
 
 #include "poppler-qt4.h"
-#include "pdfchecker.h"
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
@@ -1007,13 +1007,14 @@ if (fi.exists())
 
 void PdfViewerWidget::checkSpellGrammarPage()
 {
+if ((currentPage<1) || (currentPage>doc->numPages())) return;
 QString tempDir=QDir::tempPath();
 QString prefixFile=QDir::homePath();
 prefixFile="texmaker_temp_"+prefixFile.section('/',-1);
 prefixFile=QString(QUrl::toPercentEncoding(prefixFile));
 prefixFile.remove("%");
-QString tempFile=tempDir+"/"+prefixFile;
-
+QString tempFile=tempDir+"/"+prefixFile+".html";
+QTextCodec *codec = QTextCodec::codecForName("UTF-8");
 #if defined( Q_WS_X11 )
 #ifdef USB_VERSION
 QString atdloc=QCoreApplication::applicationDirPath()+"/";
@@ -1027,15 +1028,81 @@ QString atdloc=QCoreApplication::applicationDirPath() + "/../Resources/";
 #if defined(Q_WS_WIN)
 QString atdloc=QCoreApplication::applicationDirPath() + "/";
 #endif
+QString pdf_text=doc->page(currentPage-1)->text(QRectF(),Poppler::Page::PhysicalLayout);
+QFile fi_html(tempFile);
+if (!fi_html.open(QIODevice::WriteOnly)) return;
+QTextStream out (&fi_html);
+out.setCodec(codec);
+out << "<html>\n";
+out << "<head>\n";
+out << "<title>Texmaker</title>\n";
+out << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
+out << "<style>\n";
+out << ".input\n";
+out << "{\n";
+out << "width:90%;\n";
+out << "height:90%;\n";
+out << "border: 1px solid black;\n";
+out << "padding: 2px;\n";
+out << "margin: 2px;\n";
+out << "font-family: times;\n";
+out << "font-size: 80%;\n";
+out << "}\n";
+out << "</style>\n";
+out << "<script src=\"http://code.jquery.com/jquery-1.4.2.js\"></script>\n";
+out << "<script src=\"";
+out << atdloc;
+out << "/jquery.atd.textarea.js\"></script>\n";
+out << "<script src=\"";
+out << atdloc;
+out << "/csshttprequest.js\"></script>\n";
+out << "<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"";
+out << atdloc;
+out << "/atd.css\" />\n";
+out << "<script>\n";
+out << "function check() {\n";
+out << "AtD.rpc_css_lang = document.langform.langchoice.options[document.langform.langchoice.selectedIndex].text;\n";
+//out << atd_lang;
+//out << "';\n";
+out << "AtD.checkTextAreaCrossAJAX('textInput', 'checkLink', 'Click to reset');\n";
+out << " };\n";
+out << "</script>\n";
+out << "</head>\n";
+out << "<body BGCOLOR=\"#ffffff\">\n";
+out << "<textarea name=\"textInput\" id=\"textInput\" class=\"input\">\n";
+out << pdf_text;
+out << "</textarea>\n";
+out << "<form name=\"langform\">\n";
+out << "<p><a href=\"javascript:check()\" id=\"checkLink\">Click to check</a>&nbsp;&nbsp;\n";
+out << "<SELECT NAME=\"langchoice\">\n";
+bool done=false;
+if (spell_lang=="fr") {out << "<OPTION selected>fr</OPTION>\n"; done=true;}
+else out << "<OPTION>fr</OPTION>\n";
+if (spell_lang=="de") {out << "<OPTION selected>de</OPTION>\n"; done=true;}
+else out << "<OPTION>de</OPTION>\n";
+if (spell_lang=="nl") {out << "<OPTION selected>nl</OPTION>\n"; done=true;}
+else out << "<OPTION>nl</OPTION>\n";
+if (spell_lang=="pl") {out << "<OPTION selected>pl</OPTION>\n"; done=true;}
+else out << "<OPTION>pl</OPTION>\n";
+if (spell_lang=="pt") {out << "<OPTION selected>pt</OPTION>\n"; done=true;}
+else out << "<OPTION>pt</OPTION>\n";
+if (spell_lang=="ru") {out << "<OPTION selected>ru</OPTION>\n"; done=true;}
+else out << "<OPTION>ru</OPTION>\n";
+if (spell_lang=="it") {out << "<OPTION selected>it</OPTION>\n"; done=true;}
+else out << "<OPTION>it</OPTION>\n";
+if (spell_lang=="es") {out << "<OPTION selected>es</OPTION>\n"; done=true;}
+else out << "<OPTION>es</OPTION>\n";
+if ((spell_lang=="en") || (!done)) out << "<OPTION selected>en</OPTION>\n";
+else out << "<OPTION>en</OPTION>\n";
+out << "</SELECT></p></form>\n";
+out << "</body>\n";
+out << "</html>\n";
+fi_html.close();
+if (browserWindow) browserWindow->close();
+browserWindow=new Browser("file:///"+tempFile,false, 0);
+browserWindow->raise();
+browserWindow->show();
 
-PdfChecker *ch=new PdfChecker(pdf_file,tempFile,currentPage,atdloc,spell_lang);
-if (ch->createPage())
-    {
-    if (browserWindow) browserWindow->close();
-    browserWindow=new Browser("file:///"+tempFile+".html",false, 0);
-    browserWindow->raise();
-    browserWindow->show();
-    }
 
 }
 
