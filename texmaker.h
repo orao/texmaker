@@ -361,7 +361,7 @@ void QuickDocument();
 void RunCommand(QString comd,bool waitendprocess);
 void readFromStderr();
 void stopProcess();
-//void readFromStdoutput();
+void readFromStdoutput();
 void SlotEndProcess(int err);
 void SlotEndViewerProcess(int err);
 void QuickBuild();

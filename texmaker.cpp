@@ -6559,6 +6559,7 @@ if (!currentfileSaved())
 QFileInfo fi(finame);
 QString basename=fi.completeBaseName();
 commandline.replace("%","\""+basename+"\"");
+commandline.replace("!",fi.absolutePath());
 QFileInfo ficur(getName());
 commandline.replace("#","\""+ficur.completeBaseName()+"\"");
 int currentline=1;
@@ -6660,7 +6661,7 @@ if (figs.exists())
 #endif*/
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
-//connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
+connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
 if (checkViewerInstance && ((comd==viewdvi_command) || (comd==viewps_command) || (comd==viewpdf_command)))
   {
   connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndViewerProcess(int)));
@@ -6729,11 +6730,13 @@ void Texmaker::stopProcess()
 {
 STOPPROCESS=true;  
 }
-// void Texmaker::readFromStdoutput()
-// {
-// QByteArray result=proc->readAllStandardOutput ();
-// OutputTextEdit->insertLine(QString(result)+"\n");
-// }
+void Texmaker::readFromStdoutput()
+{
+QByteArray result=proc->readAllStandardOutput ();
+QString t=QString(result);
+t=t.simplified();
+if (!t.isEmpty()) OutputTextEdit->insertLine(t+"\n");
+}
 
 void Texmaker::SlotEndProcess(int err)
 {

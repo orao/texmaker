@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.3.1
+TEXMAKERVERSION=3.3.2
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -260,7 +260,8 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_da.ts \
 	texmaker_ca.ts \
 	texmaker_sr.ts \
-	texmaker_el.ts
+	texmaker_el.ts \
+	texmaker_se.ts
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -382,6 +383,7 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_hu.qm \
 	locale/texmaker_sr.qm \
 	locale/texmaker_el.qm \
+	locale/texmaker_se.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -517,6 +519,7 @@ utilities.files =doc/doc1.png \
 	locale/texmaker_hu.qm \
 	locale/texmaker_sr.qm \
 	locale/texmaker_el.qm \
+	locale/texmaker_se.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -658,6 +661,7 @@ utilities.files = utilities/qt_menu.nib \
 	locale/texmaker_hu.qm \
 	locale/texmaker_sr.qm \
 	locale/texmaker_el.qm \
+	locale/texmaker_se.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \

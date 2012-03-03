@@ -89,7 +89,7 @@ QString struct_level5="subsubsection";
 
 tagStart=tagEnd=offset=0;
 s=text; 
-tagStart=s.indexOf(QString("\\"+struct_level3), tagEnd);
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
 offset=tagStart;
 	if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
@@ -114,7 +114,7 @@ if (!found)
 //// subsection ////
 tagStart=tagEnd=offset=0;
 s=text;
-tagStart=s.indexOf(QString("\\"+struct_level4), tagEnd);
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
 offset=tagStart;
 if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
@@ -140,7 +140,7 @@ if (!found)
 //// subsubsection ////
 tagStart=tagEnd=offset=0;
 s=text;
-tagStart=s.indexOf(QString("\\"+struct_level5), tagEnd);
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
 offset=tagStart;
 if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
@@ -257,7 +257,7 @@ if (!found)
 //// part ////
 tagStart=tagEnd=offset=0;
 s=text;
-tagStart=s.indexOf(QString("\\"+struct_level1), tagEnd);
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
 offset=tagStart;
 if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{

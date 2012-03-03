@@ -803,119 +803,119 @@ with the default encoding setting</source>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="pdfviewer.cpp" line="83"/>
-        <location filename="pdfviewer.cpp" line="117"/>
-        <location filename="pdfviewer.cpp" line="1302"/>
+        <location filename="pdfviewer.cpp" line="84"/>
+        <location filename="pdfviewer.cpp" line="118"/>
+        <location filename="pdfviewer.cpp" line="1304"/>
         <source>Structure</source>
         <translation>Δομή</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="102"/>
-        <location filename="pdfviewer.cpp" line="1309"/>
+        <location filename="pdfviewer.cpp" line="103"/>
+        <location filename="pdfviewer.cpp" line="1311"/>
         <source>Pages</source>
         <translation>Σελίδες</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="153"/>
+        <location filename="pdfviewer.cpp" line="154"/>
         <source>&amp;File</source>
         <translation>&amp;Αρχείο</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="157"/>
+        <location filename="pdfviewer.cpp" line="158"/>
         <source>Exit</source>
         <translation>Έξοδος</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="159"/>
+        <location filename="pdfviewer.cpp" line="160"/>
         <source>&amp;Edit</source>
         <translation>&amp;Επεξεργασία</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="160"/>
-        <location filename="pdfviewer.cpp" line="231"/>
+        <location filename="pdfviewer.cpp" line="161"/>
+        <location filename="pdfviewer.cpp" line="232"/>
         <source>Find</source>
         <translation>Εύρεση</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="169"/>
+        <location filename="pdfviewer.cpp" line="170"/>
         <source>Previous</source>
         <translation>Προηγούμενο</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="173"/>
+        <location filename="pdfviewer.cpp" line="174"/>
         <source>Next</source>
         <translation>Επόμενο</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="179"/>
+        <location filename="pdfviewer.cpp" line="180"/>
         <source>&amp;View</source>
         <translation>&amp;Προβολή</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="180"/>
+        <location filename="pdfviewer.cpp" line="181"/>
         <source>Fit Width</source>
         <translation>Προσαρμογή Πλάτους</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="183"/>
+        <location filename="pdfviewer.cpp" line="184"/>
         <source>Fit Page</source>
         <translation>Προσαρμογή στη σελίδα</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="186"/>
+        <location filename="pdfviewer.cpp" line="187"/>
         <source>Zoom In</source>
         <translation>Μεγένθυση</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="191"/>
+        <location filename="pdfviewer.cpp" line="192"/>
         <source>Zoom Out</source>
         <translation>Σμίκρυνση</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="200"/>
+        <location filename="pdfviewer.cpp" line="201"/>
         <source>Previous Position</source>
         <translation>Προηγούμενη θέση</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="205"/>
+        <location filename="pdfviewer.cpp" line="206"/>
         <source>Next Position</source>
         <translation>Επόμενη θέση</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="240"/>
-        <location filename="pdfviewer.cpp" line="1191"/>
+        <location filename="pdfviewer.cpp" line="241"/>
+        <location filename="pdfviewer.cpp" line="1193"/>
         <source>Print</source>
         <translation>Εκτύπωση</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="243"/>
+        <location filename="pdfviewer.cpp" line="244"/>
         <source>External Viewer</source>
         <translation>Εξωτερικός Προβολέας</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="246"/>
+        <location filename="pdfviewer.cpp" line="247"/>
         <source>Check Spelling and Grammar on this page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="368"/>
-        <location filename="pdfviewer.cpp" line="1148"/>
+        <location filename="pdfviewer.cpp" line="369"/>
+        <location filename="pdfviewer.cpp" line="1150"/>
         <source>Error</source>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="368"/>
+        <location filename="pdfviewer.cpp" line="369"/>
         <source>File not found</source>
         <translation>Δεν βρέθηκε το αρχείο</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="407"/>
-        <location filename="pdfviewer.cpp" line="721"/>
+        <location filename="pdfviewer.cpp" line="408"/>
+        <location filename="pdfviewer.cpp" line="722"/>
         <source>Page</source>
         <translation>Σελίδα</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="1148"/>
+        <location filename="pdfviewer.cpp" line="1150"/>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
         <translation>Αδλυνατη η εκτύπωση : η εντολή ghostscript (gswin32c.exe) δε βρέθηκε στο σύστημα.</translation>
     </message>
@@ -923,84 +923,84 @@ with the default encoding setting</source>
 <context>
     <name>PdfViewerWidget</name>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="111"/>
+        <location filename="pdfviewerwidget.cpp" line="112"/>
         <source>Show/Hide Table of contents</source>
         <translation>Εμφάνιση/Απόκρυψη του Πίνακα περιεχομένων</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="117"/>
+        <location filename="pdfviewerwidget.cpp" line="118"/>
         <source>Previous</source>
         <translation>Προηγούμενο</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="121"/>
+        <location filename="pdfviewerwidget.cpp" line="122"/>
         <source>Next</source>
         <translation>Επόμενο</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="127"/>
+        <location filename="pdfviewerwidget.cpp" line="128"/>
         <source>Fit Width</source>
         <translation>Προσαρμογή Πλάτους</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="130"/>
+        <location filename="pdfviewerwidget.cpp" line="131"/>
         <source>Fit Page</source>
         <translation>Προσαρμογή στη σελίδα</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="133"/>
+        <location filename="pdfviewerwidget.cpp" line="134"/>
         <source>Zoom In</source>
         <translation>Μεγένθυση</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="138"/>
+        <location filename="pdfviewerwidget.cpp" line="139"/>
         <source>Zoom Out</source>
         <translation>Σμίκρυνση</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="164"/>
+        <location filename="pdfviewerwidget.cpp" line="165"/>
         <source>Find</source>
         <translation>Εύρεση</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="173"/>
+        <location filename="pdfviewerwidget.cpp" line="174"/>
         <source>Previous Position</source>
         <translation>Προηγούμενη θέση</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="178"/>
+        <location filename="pdfviewerwidget.cpp" line="179"/>
         <source>Next Position</source>
         <translation>Επόμενη θέση</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="187"/>
-        <location filename="pdfviewerwidget.cpp" line="1175"/>
+        <location filename="pdfviewerwidget.cpp" line="188"/>
+        <location filename="pdfviewerwidget.cpp" line="1177"/>
         <source>Print</source>
         <translation>Εκτύπωση</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="190"/>
+        <location filename="pdfviewerwidget.cpp" line="191"/>
         <source>External Viewer</source>
         <translation>Εξωτερικός Προβολέας</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="193"/>
+        <location filename="pdfviewerwidget.cpp" line="194"/>
         <source>Check Spelling and Grammar on this page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="346"/>
-        <location filename="pdfviewerwidget.cpp" line="1132"/>
+        <location filename="pdfviewerwidget.cpp" line="347"/>
+        <location filename="pdfviewerwidget.cpp" line="1134"/>
         <source>Error</source>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="346"/>
+        <location filename="pdfviewerwidget.cpp" line="347"/>
         <source>File not found</source>
         <translation>Δεν βρέθηκε το αρχείο</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="1132"/>
+        <location filename="pdfviewerwidget.cpp" line="1134"/>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
         <translation>Αδλυνατη η εκτύπωση : η εντολή ghostscript (gswin32c.exe) δε βρέθηκε στο σύστημα.</translation>
     </message>
@@ -1678,7 +1678,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="767"/>
-        <location filename="texmaker.cpp" line="8525"/>
+        <location filename="texmaker.cpp" line="8528"/>
         <source>Normal Mode</source>
         <translation>Κανονική Λειτουργία</translation>
     </message>
@@ -1852,7 +1852,7 @@ with the default encoding setting</source>
     <message>
         <location filename="texmaker.cpp" line="970"/>
         <location filename="texmaker.cpp" line="2175"/>
-        <location filename="texmaker.cpp" line="7318"/>
+        <location filename="texmaker.cpp" line="7321"/>
         <source>Quick Build</source>
         <translation>Γρήγορη Μεταγλώττιση</translation>
     </message>
@@ -2054,8 +2054,8 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1840"/>
-        <location filename="texmaker.cpp" line="7278"/>
-        <location filename="texmaker.cpp" line="7314"/>
+        <location filename="texmaker.cpp" line="7281"/>
+        <location filename="texmaker.cpp" line="7317"/>
         <source>Edit User &amp;Commands</source>
         <translation>Επεξεργασία &amp;Εντολών Χρήστη</translation>
     </message>
@@ -2076,7 +2076,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1872"/>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>Pdf Viewer</source>
         <translation>Προβολέας Pdf</translation>
     </message>
@@ -2102,7 +2102,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1909"/>
-        <location filename="texmaker.cpp" line="8516"/>
+        <location filename="texmaker.cpp" line="8519"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
         <translation>Ορισμός του Τρέχοντος Εγγράφου ως &apos;Κύριο Έγγραφο&apos;</translation>
     </message>
@@ -2183,24 +2183,24 @@ with the default encoding setting</source>
         <location filename="texmaker.cpp" line="2955"/>
         <location filename="texmaker.cpp" line="3613"/>
         <location filename="texmaker.cpp" line="6550"/>
-        <location filename="texmaker.cpp" line="6774"/>
-        <location filename="texmaker.cpp" line="6796"/>
-        <location filename="texmaker.cpp" line="6815"/>
-        <location filename="texmaker.cpp" line="6834"/>
-        <location filename="texmaker.cpp" line="6856"/>
-        <location filename="texmaker.cpp" line="6898"/>
-        <location filename="texmaker.cpp" line="6915"/>
-        <location filename="texmaker.cpp" line="6941"/>
-        <location filename="texmaker.cpp" line="6958"/>
-        <location filename="texmaker.cpp" line="6981"/>
-        <location filename="texmaker.cpp" line="7080"/>
-        <location filename="texmaker.cpp" line="7438"/>
-        <location filename="texmaker.cpp" line="7527"/>
-        <location filename="texmaker.cpp" line="7560"/>
-        <location filename="texmaker.cpp" line="8051"/>
-        <location filename="texmaker.cpp" line="8085"/>
-        <location filename="texmaker.cpp" line="8107"/>
-        <location filename="texmaker.cpp" line="8534"/>
+        <location filename="texmaker.cpp" line="6777"/>
+        <location filename="texmaker.cpp" line="6799"/>
+        <location filename="texmaker.cpp" line="6818"/>
+        <location filename="texmaker.cpp" line="6837"/>
+        <location filename="texmaker.cpp" line="6859"/>
+        <location filename="texmaker.cpp" line="6901"/>
+        <location filename="texmaker.cpp" line="6918"/>
+        <location filename="texmaker.cpp" line="6944"/>
+        <location filename="texmaker.cpp" line="6961"/>
+        <location filename="texmaker.cpp" line="6984"/>
+        <location filename="texmaker.cpp" line="7083"/>
+        <location filename="texmaker.cpp" line="7441"/>
+        <location filename="texmaker.cpp" line="7530"/>
+        <location filename="texmaker.cpp" line="7563"/>
+        <location filename="texmaker.cpp" line="8054"/>
+        <location filename="texmaker.cpp" line="8088"/>
+        <location filename="texmaker.cpp" line="8110"/>
+        <location filename="texmaker.cpp" line="8537"/>
         <source>Error</source>
         <translation>Σφάλμα</translation>
     </message>
@@ -2242,7 +2242,7 @@ with the default encoding setting</source>
         <location filename="texmaker.cpp" line="3416"/>
         <location filename="texmaker.cpp" line="4325"/>
         <location filename="texmaker.cpp" line="4368"/>
-        <location filename="texmaker.cpp" line="7089"/>
+        <location filename="texmaker.cpp" line="7092"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
     </message>
@@ -2327,25 +2327,25 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="6550"/>
-        <location filename="texmaker.cpp" line="7080"/>
-        <location filename="texmaker.cpp" line="7438"/>
+        <location filename="texmaker.cpp" line="7083"/>
+        <location filename="texmaker.cpp" line="7441"/>
         <source>Can&apos;t detect the file name</source>
         <translation>Αδύνατη η ανίχνευση του ονόματος του αρχείου</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6774"/>
-        <location filename="texmaker.cpp" line="6796"/>
-        <location filename="texmaker.cpp" line="6815"/>
-        <location filename="texmaker.cpp" line="6834"/>
-        <location filename="texmaker.cpp" line="6856"/>
-        <location filename="texmaker.cpp" line="6898"/>
-        <location filename="texmaker.cpp" line="6915"/>
-        <location filename="texmaker.cpp" line="6941"/>
-        <location filename="texmaker.cpp" line="6958"/>
-        <location filename="texmaker.cpp" line="6981"/>
-        <location filename="texmaker.cpp" line="7527"/>
-        <location filename="texmaker.cpp" line="8107"/>
-        <location filename="texmaker.cpp" line="8534"/>
+        <location filename="texmaker.cpp" line="6777"/>
+        <location filename="texmaker.cpp" line="6799"/>
+        <location filename="texmaker.cpp" line="6818"/>
+        <location filename="texmaker.cpp" line="6837"/>
+        <location filename="texmaker.cpp" line="6859"/>
+        <location filename="texmaker.cpp" line="6901"/>
+        <location filename="texmaker.cpp" line="6918"/>
+        <location filename="texmaker.cpp" line="6944"/>
+        <location filename="texmaker.cpp" line="6961"/>
+        <location filename="texmaker.cpp" line="6984"/>
+        <location filename="texmaker.cpp" line="7530"/>
+        <location filename="texmaker.cpp" line="8110"/>
+        <location filename="texmaker.cpp" line="8537"/>
         <source>Could not start the command.</source>
         <translation>Αποτυχία έναρξης της εντολής</translation>
     </message>
@@ -2356,126 +2356,126 @@ with the default encoding setting</source>
 (.log, .aux, .dvi, .lof, .lot, .bit, .idx, .glo, .bbl, .ilg, .toc, .ind, .out, .synctex.gz, .bl</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7089"/>
+        <location filename="texmaker.cpp" line="7092"/>
         <source>Delete Files</source>
         <translation>Διαγραφή Αρχείων</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7089"/>
+        <location filename="texmaker.cpp" line="7092"/>
         <source>Delete the output files generated by LaTeX ?
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>LaTeX</source>
         <translation>LaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>PdfLaTeX</source>
         <translation>PdfLaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>dvips</source>
         <translation>dvips</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>Dvi Viewer</source>
         <translation>Προβολέας Dvi</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>PS Viewer</source>
         <translation>Προβολέας PS</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>Dvipdfm</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>ps2pdf</source>
         <translation>ps2pdf</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>Bibtex</source>
         <translation>Bibtex</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>Makeindex</source>
         <translation>Makeindex</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>metapost</source>
         <translation>metapost</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>ghostscript</source>
         <translation>ghostscript</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>Asymptote</source>
         <translation>Asymptote</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>Latexmk</source>
         <translation>Latexmk</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7275"/>
+        <location filename="texmaker.cpp" line="7278"/>
         <source>R Sweave</source>
         <translation>R Sweave</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7560"/>
+        <location filename="texmaker.cpp" line="7563"/>
         <source>Log File not found !</source>
         <translation>Το Αρχείο Καταγραφής δε βρέθηκε !</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7879"/>
-        <location filename="texmaker.cpp" line="7911"/>
+        <location filename="texmaker.cpp" line="7882"/>
+        <location filename="texmaker.cpp" line="7914"/>
         <source>Click to jump to the line</source>
         <translation>Κάντε κλικ για να μεταπηδήσετε στη γραμμή</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7981"/>
-        <location filename="texmaker.cpp" line="8016"/>
+        <location filename="texmaker.cpp" line="7984"/>
+        <location filename="texmaker.cpp" line="8019"/>
         <source>No LaTeX errors detected !</source>
         <translation>Δεν ανιχνεύθηκε κανένα σφάλμα LaTeX !</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8051"/>
-        <location filename="texmaker.cpp" line="8085"/>
+        <location filename="texmaker.cpp" line="8054"/>
+        <location filename="texmaker.cpp" line="8088"/>
         <source>File not found</source>
         <translation>Δε βρέθηκε το αρχείο</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8540"/>
+        <location filename="texmaker.cpp" line="8543"/>
         <source>Normal Mode (current master document :</source>
         <translation>Κανονική Λειτουργία (τρέχων κύριο έγγραφο :</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8542"/>
+        <location filename="texmaker.cpp" line="8545"/>
         <source>Master Document :</source>
         <translation>Κύριο Έγγραφο :</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8979"/>
+        <location filename="texmaker.cpp" line="8982"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>Η ρύθμιση της γλώσσας θα λάβει μέρος μετά την επανεκκίνηση της εφαρμογής.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8987"/>
+        <location filename="texmaker.cpp" line="8990"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>Η ρύθμιση εμφάνισης θα λάβει μέρος μετά την επανεκκίνση της εφαρμογής.</translation>
     </message>
