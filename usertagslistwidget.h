@@ -21,12 +21,16 @@ class UserTagsListWidget : public QListWidget  {
   Q_OBJECT
 public:
 	UserTagsListWidget(QWidget *parent);
-	QAction *addAct, *remAct;
+	QAction *addAct, *remAct, *changeAct;
 void updateList(QStringList ulist);
 private slots:
 void customContentsMenu( const QPoint &pos );
 private:
 QMenu *menu;
+protected:
+    void dropEvent(QDropEvent *event);
+signals:
+  void posChanged();
 };
 
 #endif

@@ -50,13 +50,14 @@ class PdfViewer : public QMainWindow
 {
     Q_OBJECT
 public:
-    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, const QString SpellLang, QWidget* parent = 0, Qt::WFlags flags = 0);
+    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, const QString SpellLang, const qreal startScale, QWidget* parent = 0, Qt::WFlags flags = 0);
     ~PdfViewer();
     QString pdf_file;
 public slots:
 void openFile(QString fn, QString ec,QString pc);
 void jumpToPdfFromSource(QString sourceFile,int source_line);
 void setKeyEditorFocus(QKeySequence s);
+qreal getScale() {return currentScale;};
 private:
 void closeEvent(QCloseEvent *e);
 QKeySequence KeySequenceEditorFocus;
@@ -141,6 +142,7 @@ void clearHistory();
 void updateHistory(int pos);
 void setHpos(int pos);
 void checkSpellGrammarPage();
+void jumptoHpos();
 
 protected:
 void keyPressEvent ( QKeyEvent * e );

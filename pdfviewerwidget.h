@@ -50,7 +50,7 @@ class PdfViewerWidget : public QWidget
 {
     Q_OBJECT
 public:
-    PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, const QString SpellLang, QWidget* parent = 0);
+    PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, const QString SpellLang, const qreal startScale, QWidget* parent = 0);
     ~PdfViewerWidget();
     QString pdf_file;
     QToolBar *centralToolBarBis;
@@ -59,6 +59,7 @@ void openFile(QString fn, QString ec,QString pc);
 void jumpToPdfFromSource(QString sourceFile,int source_line);
 void getFocus();
 void setKeyEditorFocus(QKeySequence s);
+qreal getScale() {return currentScale;};
 private:
 QKeySequence KeySequenceEditorFocus;
 //void closeEvent(QCloseEvent *e);
@@ -142,6 +143,7 @@ void clearHistory();
 void updateHistory(int pos);
 void setHpos(int pos);
 void checkSpellGrammarPage();
+void jumptoHpos();
 
 protected:
 void keyPressEvent ( QKeyEvent * e );

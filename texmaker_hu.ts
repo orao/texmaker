@@ -1971,6 +1971,18 @@ az alapértelmezett kódolási beállítással</translation>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load session</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>UserCompletionDialog</name>
@@ -2053,6 +2065,10 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Modify</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

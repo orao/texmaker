@@ -1519,7 +1519,8 @@ if (c && c->popup()->isVisible())
 		break;
 		}
 	}
-if (e->key() == Qt::Key_Insert)
+const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+if (!ctrlOrShift && (e->key() == Qt::Key_Insert))
   {
   overmode=!overmode;
   setOverwriteMode(overmode);
@@ -1696,7 +1697,7 @@ if (c && !c->popup()->isVisible())
 		break;
 		}
 	}
-const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+
 if (!c || (ctrlOrShift && e->text().isEmpty())) {return;}
 
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));

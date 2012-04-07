@@ -54,6 +54,7 @@
 #include <QFrame>
 #include <QFontMetrics>
 #include <QDateTime>
+#include <QTemporaryFile>
 
 #ifdef Q_WS_MACX
 #if (QT_VERSION >= 0x0406)
@@ -108,6 +109,13 @@ eraseSettings=false;
 replaceSettings=false;
 ReadSettings();
 
+QString tempDir=QDir::tempPath();
+QString prefixFile=QDir::homePath();
+prefixFile="tks_temp_"+prefixFile.section('/',-1);
+prefixFile=QString(QUrl::toPercentEncoding(prefixFile));
+prefixFile.remove("%");
+sessionTempFile=tempDir+"/"+prefixFile+".tks";
+
  if (spelldicExist()) 
        {
        QString dic=spell_dic.left(spell_dic.length()-4);
@@ -124,6 +132,8 @@ setWindowIcon(QIcon(":/images/logo128.png"));
 #else
 setWindowIcon(QIcon(":/images/appicon.png"));
 #endif
+QApplication::setOrganizationName("Xm1");
+QApplication::setApplicationName("Texmaker"); 
 
 setIconSize(QSize(22,22 ));
  
@@ -285,6 +295,9 @@ LeftPanelToolBar->addAction(userpanelAct);
 usertagsListWidget->updateList(userTagsList);
 connect(usertagsListWidget->remAct, SIGNAL(triggered()), this, SLOT(RemoveUserTag()));
 connect(usertagsListWidget->addAct, SIGNAL(triggered()), this, SLOT(AddUserTag()));
+connect(usertagsListWidget->changeAct, SIGNAL(triggered()), this, SLOT(ChangeUserTag()));
+connect(usertagsListWidget, SIGNAL(posChanged()), this, SLOT(UpdateUserTag()));
+
 LeftPanelStackedWidget->addWidget(usertagsListWidget);
 
 LeftPanelToolBar->addSeparator();
@@ -428,7 +441,7 @@ OutputTableWidget->verticalHeader()->hide();
 
 OutputTextEdit = new LogEditor(Outputframebis);
 OutputTextEdit->setFrameStyle(QFrame::NoFrame);
-OutputTextEdit->setMinimumHeight(3*(fm.lineSpacing()+4));
+OutputTextEdit->setMinimumHeight(4*(fm.lineSpacing()+4));
 connect(OutputTextEdit, SIGNAL(clickonline(int )),this,SLOT(ClickedOnOutput(int )));
 
 separatorline = new QFrame(Outputframebis);
@@ -814,10 +827,17 @@ Act = new QAction(tr("Clean"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(CleanRecent()));
 recentMenu->addAction(Act);
 
+sessionMenu=fileMenu->addMenu(tr("Session"));
 Act = new QAction(tr("Restore previous session"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(fileRestoreSession()));
-fileMenu->addAction(Act);
-Act->setEnabled(!sessionFilesList.isEmpty());
+connect(Act, SIGNAL(triggered()), this, SLOT(LoadLastSession()));
+sessionMenu->addAction(Act);
+
+Act = new QAction(tr("Save session"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SaveSession()));
+sessionMenu->addAction(Act);
+Act = new QAction(tr("Load session"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(LoadSession()));
+sessionMenu->addAction(Act);
 
 SaveAct = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
 SaveAct->setShortcut(Qt::CTRL+Qt::Key_S);
@@ -1968,6 +1988,16 @@ helpMenu->addSeparator();
 Act = new QAction(QIcon(":/images/help.png"), "TexDoc [selection]", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(TexDocHelp()));
 helpMenu->addAction(Act);
+
+
+QString locale = QString(QLocale::system().name()).left(2);
+if (locale=="fr")
+{
+Act = new QAction(QIcon(":/images/help.png"), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(Docufrlatex()));
+helpMenu->addAction(Act);  
+}
+
 helpMenu->addSeparator();
 Act = new QAction(QIcon(":/images/appicon.png"), tr("About Texmaker"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(HelpAbout()));
@@ -2651,7 +2681,7 @@ if ((filesNames.count()==1) && embedinternalpdf && builtinpdfview && showpdfview
       else
 	{
     //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
+	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -2997,22 +3027,6 @@ if ( !fn.isEmpty() )
 UpdateCaption();
 }
 
-void Texmaker::fileRestoreSession()
-{
-QString finame;
-for (int i=0; i < sessionFilesList.count(); i++)
-	{
-	finame=sessionFilesList.at(i);
-	if (finame.left(15)=="texmakermaster#")
-		{
-		finame=finame.right(finame.length()-15);
-		load(finame);
-		ToggleMode();
-		}
-	else load(finame);
-	}
-}
-
 void Texmaker::fileSaveAll()
 {
 LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
@@ -3310,7 +3324,7 @@ if (action)
 	  else
 	    {
 	//    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	    pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
+	    pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	    pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	    pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	    connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -3664,6 +3678,7 @@ splitter1state=config->value("Splitter1State").toByteArray();
 splitter2state=config->value("Splitter2State").toByteArray();
 splitter3state=config->value("Splitter3State").toByteArray();
 psize=config->value( "Print/PaperSize","a4").toString();
+lastScale=config->value( "PdfView/Scale",10).toFloat()/100.0;
 #ifdef Q_WS_WIN
 if (xf.contains("Courier New",Qt::CaseInsensitive)) deft="Courier New";
 else deft=qApp->font().family();
@@ -3970,7 +3985,7 @@ viewIndex=config->value( "Tools/View","2").toInt();
 lastDocument=config->value("Files/Last Document","").toString();
 lastTemplate=config->value("Files/Last Template","").toString();
 recentFilesList=config->value("Files/Recent Files New").toStringList();
-sessionFilesList=config->value("Files/Session Files").toStringList();
+
 input_encoding=config->value("Files/Input Encoding","UTF-8").toString();
 UserMenuName[0]=config->value("User/Menu1","").toString();
 UserMenuTag[0]=config->value("User/Tag1","").toString();
@@ -4106,6 +4121,7 @@ config->endGroup();
 
 void Texmaker::SaveSettings()
 {
+SaveLastSession();
 #ifdef USB_VERSION
 QSettings config(QCoreApplication::applicationDirPath()+"/texmaker.ini",QSettings::IniFormat); //for USB-stick version 
 #else
@@ -4136,6 +4152,14 @@ config.setValue("Geometries/MainwindowX", x() );
 config.setValue("Geometries/MainwindowY", y() );
 
 config.setValue("Print/PaperSize",psize);
+int pscale=10;
+if (builtinpdfview)
+  {
+  if (pdfviewerWindow) pscale= (int) (pdfviewerWindow->getScale()*100);
+  if (embedinternalpdf && pdfviewerWidget) pscale= (int) (pdfviewerWidget->getScale()*100);
+  }
+
+config.setValue("PdfView/Scale",pscale);
 
 config.setValue("Editor/Font Family",EditorFont.family());
 config.setValue( "Editor/Font Size",EditorFont.pointSize());
@@ -4216,18 +4240,8 @@ config.setValue("Tools/SingleViewerInstance",singleviewerinstance);
 
 config.setValue("Files/Last Document",lastDocument);
 config.setValue("Files/Last Template",lastTemplate);
-if (recentFilesList.count()>0) config.setValue("Files/Recent Files New",recentFilesList); 
-FilesMap::Iterator itf;
-sessionFilesList.clear();
-for( itf = filenames.begin(); itf != filenames.end(); ++itf )
-	{
-	if (!filenames[itf.key()].startsWith("untitled"))
-	    {
-	    if ((!singlemode) && (MasterName==filenames[itf.key()])) sessionFilesList.append("texmakermaster#"+filenames[itf.key()]);
-	    else sessionFilesList.append(filenames[itf.key()]);
-	    }
-	}
-config.setValue("Files/Session Files",sessionFilesList); 
+/*if (recentFilesList.count()>0)*/ config.setValue("Files/Recent Files New",recentFilesList); 
+
 config.setValue("Files/Input Encoding", input_encoding);
 
 config.setValue("User/Menu1",UserMenuName[0]);
@@ -4720,14 +4734,18 @@ if (listbibfiles.count()>0)
   {
    QString fname;
      QStringList types;
-      types << QLatin1String("article") << QLatin1String("book")
-        << QLatin1String("booklet") << QLatin1String("inbook")
-        << QLatin1String("incollection") << QLatin1String("inproceedings")
-        << QLatin1String("manual") << QLatin1String("mastersthesis")
-        << QLatin1String("misc") << QLatin1String("phdthesis")
-        << QLatin1String("proceedings") << QLatin1String("techreport")
-        << QLatin1String("unpublished") << QLatin1String("periodical")
-        << QLatin1String("conference");
+types << QLatin1String("article") << QLatin1String("book")
+  << QLatin1String("booklet") << QLatin1String("inbook")
+  << QLatin1String("incollection") << QLatin1String("inproceedings")
+  << QLatin1String("manual") << QLatin1String("mastersthesis")
+  << QLatin1String("misc") << QLatin1String("phdthesis")
+  << QLatin1String("proceedings") << QLatin1String("techreport")
+  << QLatin1String("unpublished") << QLatin1String("periodical")
+  << QLatin1String("conference") << QLatin1String("mvbook")
+  << QLatin1String("collection") << QLatin1String("mvcollection")
+  << QLatin1String("online") << QLatin1String("mvproceedings")
+  << QLatin1String("inproceedings") << QLatin1String("report")
+  << QLatin1String("thesis") << QLatin1String("electronic");
    QRegExp macroName("@("+types.join("|")+")\\s*\\{\\s*(.*),", Qt::CaseInsensitive);
    macroName.setMinimal(true);
    QString line;
@@ -6561,7 +6579,7 @@ QString basename=fi.completeBaseName();
 commandline.replace("%","\""+basename+"\"");
 commandline.replace("!",fi.absolutePath());
 QFileInfo ficur(getName());
-commandline.replace("#","\""+ficur.completeBaseName()+"\"");
+if (!commandline.contains("okular")) commandline.replace("#","\""+ficur.completeBaseName()+"\"");
 int currentline=1;
 if (currentEditorView() )
   {
@@ -6586,7 +6604,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       else
 	{
     //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
+	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -6613,7 +6631,7 @@ if (builtinpdfview && (comd==viewpdf_command))
     else
       {
   //    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,0);
+      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -7459,7 +7477,7 @@ if (embedinternalpdf)
     else
       {
   //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,StackedViewers);
+      pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
       pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
       pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
       connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -7486,7 +7504,7 @@ else
     else
       {
   //    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,0);
+      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -7637,7 +7655,7 @@ if (ok)
 	else 
 	  {
 	  QFileInfo fi(file);
-	  if (fi.exists() && fi.isReadable() ) fileOpenAndGoto(file,l+1,true);
+	  if (fi.exists() && fi.isReadable() ) fileOpenAndGoto(fi.absoluteFilePath(),l+1,true);
 	  else 
 	    {
 	    QFileInfo fic(getName());
@@ -8116,6 +8134,12 @@ void Texmaker::HelpAbout()
 AboutDialog *abDlg = new AboutDialog(this);
 abDlg->exec();
 }
+
+void Texmaker::Docufrlatex()
+{
+QDesktopServices::openUrl(QUrl("http://www.xm1math.net/doculatex/index.html"));
+}
+
 ////////////// OPTIONS //////////////////////////////////////
 void Texmaker::GeneralOptions()
 {
@@ -8772,6 +8796,103 @@ if ( atDlg->exec() )
     
 	}
     }
+}
+
+void Texmaker::UpdateUserTag()
+{
+userTagsList.clear();
+QString data, item, code, trigger;
+QStringList tagList;
+for ( int i = 0; i <usertagsListWidget->count(); ++i ) 
+    {
+    tagList.clear();
+    data=usertagsListWidget->item(i)->text()+"#"+usertagsListWidget->item(i)->data(Qt::UserRole).toString();
+    tagList=data.split("#");
+    item="";
+    code="";
+    trigger="";
+    if (tagList.count()>=2)
+	    {
+	    item=tagList.at(0);
+	    code=tagList.at(1);
+	    if (tagList.count()==3) trigger=tagList.at(2);
+	    if (!item.isEmpty() && !code.isEmpty())
+		{
+		item.remove("#");
+		code.remove("#");
+		trigger.remove("#");
+		trigger.remove(":");
+		userTagsList.append(item+"#"+code+"#"+trigger);
+		}
+	    }
+    }
+usertagsListWidget->updateList(userTagsList);
+if (currentEditorView())
+    {
+    FilesMap::Iterator it;
+    for( it = filenames.begin(); it != filenames.end(); ++it )
+	    {
+	    it.key()->editor->setUserTagsList(userTagsList);
+	    }
+    }
+}
+
+
+void Texmaker::ChangeUserTag()
+{
+QString actData;
+QAction *action = qobject_cast<QAction *>(sender());
+int index=-1;
+QString item="";
+QString code="";
+QString trigger="";
+QString newitem,newcode;
+QString newtrigger="";
+QStringList tagList;
+if (action)
+	{
+	actData=action->data().toString();
+	index=userTagsList.indexOf(actData,0);
+	if (index>-1)
+	    {  
+	    tagList= userTagsList.at(index).split("#");
+	    if (tagList.count()>=2)
+		{
+		item=tagList.at(0);
+		code=tagList.at(1);
+		if (tagList.count()==3) trigger=tagList.at(2);
+		AddTagDialog *atDlg = new AddTagDialog(this);
+		atDlg->ui.itemEdit->setText(item);
+		atDlg->ui.tagEdit->setPlainText(code);
+		atDlg->ui.triggerEdit->setText(trigger);
+		if ( atDlg->exec() )
+		    {
+		    item=atDlg->ui.itemEdit->text();
+		    code=atDlg->ui.tagEdit->toPlainText();
+		    trigger=atDlg->ui.triggerEdit->text();
+		    if (!item.isEmpty() && !code.isEmpty())
+			{
+			item.remove("#");
+			code.remove("#");
+			trigger.remove("#");
+			trigger.remove(":");
+			userTagsList.replace(index,item+"#"+code+"#"+trigger);
+			usertagsListWidget->updateList(userTagsList);
+			if (currentEditorView())
+			    {
+			    FilesMap::Iterator it;
+			    for( it = filenames.begin(); it != filenames.end(); ++it )
+				    {
+				    it.key()->editor->setUserTagsList(userTagsList);
+				    }
+			    }
+		    
+			}
+		    }
+		}
+	    }
+	}
+
 }
 
 void Texmaker::ModifyShortcuts()
@@ -9597,4 +9718,263 @@ else
   if (splitter2->sizes().at(1)>0) OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
   else OutputTextEdit->setMaximumHeight(splitter2->sizes().at(0));
 }
+}
+
+void Texmaker::SaveSession()
+{
+if ( !currentEditorView() ) return;
+QString currentDir=QDir::homePath();
+if (!lastDocument.isEmpty())
+	{
+	QFileInfo fi(lastDocument);
+	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
+	}
+QString fn = QFileDialog::getSaveFileName(this,tr("Save"),currentDir,"Texmaker session (*.tks);;All files (*.*)");
+if ( !fn.isEmpty() )
+	{
+	if (!fn.contains('.')) fn += ".tks";
+	QFile fic(fn);
+	if (!fic.open(QIODevice::WriteOnly)) 
+	    {
+	    QMessageBox::warning( this,tr("Error"),tr("The file could not be saved. Please check if you have write permission."));  
+	     return;
+	    }
+	QDomDocument doc;
+	QDomProcessingInstruction instr =  doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
+	doc.appendChild(instr);
+	QDomElement root=doc.createElement("TexmakerSession");
+	root.setAttribute("quickmode",QString::number(quickmode));
+	doc.appendChild(root);
+	QDomElement element;
+	FilesMap::Iterator itf;
+	QString docname;
+	for( itf = filenames.begin(); itf != filenames.end(); ++itf )
+		{
+		docname=filenames[itf.key()];
+		if (!docname.startsWith("untitled"))
+		    {
+		    element=doc.createElement("document");
+		    element.setAttribute("file",docname);
+		    element.setAttribute("line",QString::number(itf.key()->editor->textCursor().blockNumber()));
+		    element.setAttribute("bookmark1",QString::number(itf.key()->editor->UserBookmark[0]));
+		    element.setAttribute("bookmark2",QString::number(itf.key()->editor->UserBookmark[1]));
+		    element.setAttribute("bookmark3",QString::number(itf.key()->editor->UserBookmark[2]));
+		    if ((!singlemode) && (MasterName==docname)) 		    element.setAttribute("master","true");
+		    else element.setAttribute("master","false");
+		    if (itf.key()==currentEditorView()) element.setAttribute("hasfocus","true");
+		    else element.setAttribute("hasfocus","false");
+		    root.appendChild(element);
+		    }
+		}
+
+	QTextStream out (&fic);
+	doc.save(out,4);
+	fic.close();
+	}  
+}
+
+void Texmaker::LoadSession()
+{
+QString currentDir=QDir::homePath();
+if (!lastDocument.isEmpty())
+	{
+	QFileInfo fi(lastDocument);
+	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
+	}
+QString fn = QFileDialog::getOpenFileName(this,tr("Open File"),currentDir,"Texmaker session (*.tks);;All files (*.*)");
+if (fn.isEmpty()) return;
+QFile fic( fn );
+if ( !fic.open( QIODevice::ReadOnly ) )
+	{
+	QMessageBox::warning( this,tr("Error"), tr("You do not have read permission to this file."));
+	return;
+	}
+QDomDocument doc;
+if (!doc.setContent(&fic)) 
+  	{
+	fic.close();
+	return;
+	}
+QDomElement root = doc.documentElement();
+if (root.tagName() != "TexmakerSession")
+	{
+	fic.close();
+	return;
+	}
+if (root.hasAttribute("quickmode")) quickmode=root.attribute("quickmode").toInt();
+QString file, ofile;
+int b1, b2, b3, l, ob1, ob2, ob3, ol;
+bool ma, oma;
+bool fo=false;
+QDomElement element = root.firstChildElement();
+while (!element.isNull()) 
+  {
+  b1=0;
+  b2=0;
+  b3=0;
+  l=0;
+  ma=false;
+  file="";
+  if (element.hasAttribute("file"))
+      {
+      file=element.attribute("file");
+      if (element.hasAttribute("line")) l=element.attribute("line").toInt();
+      if (element.hasAttribute("bookmark1")) b1=element.attribute("bookmark1").toInt();
+      if (element.hasAttribute("bookmark2")) b2=element.attribute("bookmark2").toInt();
+      if (element.hasAttribute("bookmark3")) b3=element.attribute("bookmark3").toInt();
+      if (element.hasAttribute("master")) ma=(element.attribute("master")=="true");
+      if (element.hasAttribute("hasfocus")) fo=(element.attribute("focus")=="true");
+      if (fo)
+	{
+	ofile=file;
+	ol=l;
+	ob1=b1;
+	ob2=b2;
+	ob3=b3;
+	oma=ma;
+	}
+      else
+	{
+	fileOpenAndGoto(file,l,false);
+	currentEditorView()->editor->UserBookmark[0]=b1;
+	currentEditorView()->editor->UserBookmark[1]=b2;
+	currentEditorView()->editor->UserBookmark[2]=b3;
+	currentEditorView()->update();
+	if (singlemode && ma) ToggleMode();
+	}
+	
+      }
+element=element.nextSiblingElement();
+  }
+fic.close();
+if (!ofile.isEmpty())
+    {
+    fileOpenAndGoto(ofile,l,true);
+    currentEditorView()->editor->UserBookmark[0]=ob1;
+    currentEditorView()->editor->UserBookmark[1]=ob2;
+    currentEditorView()->editor->UserBookmark[2]=ob3;
+    currentEditorView()->update();
+    if (singlemode && oma) ToggleMode();
+    }
+}
+
+void Texmaker::SaveLastSession()
+{
+if ( !currentEditorView() ) return;
+QFile fic(sessionTempFile);
+if (!fic.open(QIODevice::WriteOnly)) 
+    {
+      return;
+    }
+QDomDocument doc;
+QDomProcessingInstruction instr =  doc.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\"");
+doc.appendChild(instr);
+QDomElement root=doc.createElement("TexmakerSession");
+root.setAttribute("quickmode",QString::number(quickmode));
+doc.appendChild(root);
+QDomElement element;
+FilesMap::Iterator itf;
+QString docname;
+for( itf = filenames.begin(); itf != filenames.end(); ++itf )
+	{
+	docname=filenames[itf.key()];
+	if (!docname.startsWith("untitled"))
+	    {
+	    element=doc.createElement("document");
+	    element.setAttribute("file",docname);
+	    element.setAttribute("line",QString::number(itf.key()->editor->textCursor().blockNumber()));
+	    element.setAttribute("bookmark1",QString::number(itf.key()->editor->UserBookmark[0]));
+	    element.setAttribute("bookmark2",QString::number(itf.key()->editor->UserBookmark[1]));
+	    element.setAttribute("bookmark3",QString::number(itf.key()->editor->UserBookmark[2]));
+	    if ((!singlemode) && (MasterName==docname)) 		    element.setAttribute("master","true");
+	    else element.setAttribute("master","false");
+	    if (itf.key()==currentEditorView()) element.setAttribute("hasfocus","true");
+	    else element.setAttribute("hasfocus","false");
+	    root.appendChild(element);
+	    }
+	}
+
+QTextStream out (&fic);
+doc.save(out,4);
+fic.close();
+
+}
+
+void Texmaker::LoadLastSession()
+{
+QFileInfo fi(sessionTempFile);
+if (!fi.exists()) return;
+QFile fic( sessionTempFile );
+if ( !fic.open( QIODevice::ReadOnly ) )
+	{
+	QMessageBox::warning( this,tr("Error"), tr("You do not have read permission to this file."));
+	return;
+	}
+QDomDocument doc;
+if (!doc.setContent(&fic)) 
+  	{
+	fic.close();
+	return;
+	}
+QDomElement root = doc.documentElement();
+if (root.tagName() != "TexmakerSession")
+	{
+	fic.close();
+	return;
+	}
+if (root.hasAttribute("quickmode")) quickmode=root.attribute("quickmode").toInt();
+QString file, ofile;
+int b1, b2, b3, l, ob1, ob2, ob3, ol;
+bool ma, oma;
+bool fo=false;
+QDomElement element = root.firstChildElement();
+while (!element.isNull()) 
+  {
+  b1=0;
+  b2=0;
+  b3=0;
+  l=0;
+  ma=false;
+  file="";
+  if (element.hasAttribute("file"))
+      {
+      file=element.attribute("file");
+      if (element.hasAttribute("line")) l=element.attribute("line").toInt();
+      if (element.hasAttribute("bookmark1")) b1=element.attribute("bookmark1").toInt();
+      if (element.hasAttribute("bookmark2")) b2=element.attribute("bookmark2").toInt();
+      if (element.hasAttribute("bookmark3")) b3=element.attribute("bookmark3").toInt();
+      if (element.hasAttribute("master")) ma=(element.attribute("master")=="true");
+      if (element.hasAttribute("hasfocus")) fo=(element.attribute("focus")=="true");
+      if (fo)
+	{
+	ofile=file;
+	ol=l;
+	ob1=b1;
+	ob2=b2;
+	ob3=b3;
+	oma=ma;
+	}
+      else
+	{
+	fileOpenAndGoto(file,l,false);
+	currentEditorView()->editor->UserBookmark[0]=b1;
+	currentEditorView()->editor->UserBookmark[1]=b2;
+	currentEditorView()->editor->UserBookmark[2]=b3;
+	currentEditorView()->update();
+	if (singlemode && ma) ToggleMode();
+	}
+	
+      }
+element=element.nextSiblingElement();
+  }
+fic.close();
+if (!ofile.isEmpty())
+    {
+    fileOpenAndGoto(ofile,l,true);
+    currentEditorView()->editor->UserBookmark[0]=ob1;
+    currentEditorView()->editor->UserBookmark[1]=ob2;
+    currentEditorView()->editor->UserBookmark[2]=ob3;
+    currentEditorView()->update();
+    if (singlemode && oma) ToggleMode();
+    }
 }

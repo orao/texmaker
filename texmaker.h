@@ -117,7 +117,7 @@ QVBoxLayout *OutputLayoutV, *CentralLayoutBis,*LeftPanelLayoutBis,;
 QHBoxLayout *OutputLayoutH, *LeftPanelLayout, *CentralLayout;
 QTableWidget *OutputTableWidget;
 //menu-toolbar
-QMenu *fileMenu, *recentMenu, *editMenu, *toolMenu;
+QMenu *fileMenu, *recentMenu, *editMenu, *toolMenu, *sessionMenu;
 QMenu *latex1Menu, *latex11Menu, *latex12Menu, *latex13Menu, *latex14Menu, *latex15Menu, *latex16Menu, *latex17Menu, *latex18Menu ;
 QMenu *math1Menu, *math11Menu, *math12Menu, *math13Menu, *math14Menu;
 QMenu *wizardMenu;
@@ -144,8 +144,8 @@ QLabel *stat1, *stat2, *stat3, *titleLeftPanel, *posLabel;
 QPushButton *pb1, *pb2, *pb3;
 QString MasterName;
 bool logpresent;
-QStringList recentFilesList, sessionFilesList;
-
+QStringList recentFilesList;
+QString sessionTempFile;
 
 //settings
 bool eraseSettings, replaceSettings;
@@ -164,6 +164,7 @@ QStringList labelitem, bibitem, listbibfiles, listchildfiles;
 Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
 QString keyToggleFocus;
+qreal lastScale;
 //dialogs
 QPointer<ScanDialog> scanDialog;
 QPointer<Browser> browserWindow;
@@ -213,7 +214,6 @@ void fileSave();
 void fileSaveAll();
 void fileBackupAll();
 void fileSaveAs();
-void fileRestoreSession();
 void fileClose();
 void fileCloseRequested( int index);
 void fileCloseAll();
@@ -407,6 +407,7 @@ void LatexHelp();
 void UserManualHelp();
 void TexDocHelp();
 void HelpAbout();
+void Docufrlatex();
 
 void GeneralOptions();
 
@@ -425,6 +426,8 @@ void RemoveFavoriteSymbols();
 
 void RemoveUserTag();
 void AddUserTag();
+void ChangeUserTag();
+void UpdateUserTag();
 
 void ModifyShortcuts();
 
@@ -474,6 +477,11 @@ void ToggleSmallfrac();
 void ToggleDfrac();
 void ToggleRacine();
 void splitter2Changed();
+
+void SaveSession();
+void LoadSession();
+void SaveLastSession();
+void LoadLastSession();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);

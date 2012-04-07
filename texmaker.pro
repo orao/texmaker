@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.3.2
+TEXMAKERVERSION=3.3.3
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -390,6 +390,8 @@ utilities.files = doc/doc1.png \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \
 	dictionaries/en_GB.dic \
+	dictionaries/en_US.aff \
+	dictionaries/en_US.dic \
 	dictionaries/es_ES.aff \
 	dictionaries/es_ES.dic \
 	dictionaries/fr_FR.aff \
@@ -405,7 +407,8 @@ utilities.files = doc/doc1.png \
 	dictionaries/README_cs_CZ.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \
-	dictionaries/README_es_ES.txt 
+	dictionaries/README_es_ES.txt \
+	dictionaries/README_en_US.txt
 INSTALLS += utilities
 
 desktop.path = $${DESKTOPDIR}
@@ -526,6 +529,8 @@ utilities.files =doc/doc1.png \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \
 	dictionaries/en_GB.dic \
+	dictionaries/en_US.aff \
+	dictionaries/en_US.dic \
 	dictionaries/es_ES.aff \
 	dictionaries/es_ES.dic \
 	dictionaries/fr_FR.aff \
@@ -561,6 +566,9 @@ OBJECTS_DIR = .obj
 
 INCLUDEPATH  += /usr/local/include/poppler/qt4
 LIBS         += -L/usr/local/lib -lpoppler-qt4
+
+#QMAKE_CFLAGS += -gdwarf-2
+#QMAKE_CXXFLAGS += -gdwarf-2
 
 ##tiger 32
 CONFIG += link_prl x86
@@ -668,6 +676,8 @@ utilities.files = utilities/qt_menu.nib \
 	dictionaries/de_DE.dic \
 	dictionaries/en_GB.aff \
 	dictionaries/en_GB.dic \
+	dictionaries/en_US.aff \
+	dictionaries/en_US.dic \
 	dictionaries/es_ES.aff \
 	dictionaries/es_ES.dic \
 	dictionaries/fr_FR.aff \
@@ -683,7 +693,8 @@ utilities.files = utilities/qt_menu.nib \
 	dictionaries/README_cs_CZ.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \
-	dictionaries/README_es_ES.txt 
+	dictionaries/README_es_ES.txt \
+	dictionaries/README_en_US.txt
 QMAKE_BUNDLE_DATA += utilities
 INSTALLS += utilities
 ICON = texmaker.icns

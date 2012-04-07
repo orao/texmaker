@@ -1,3 +1,19 @@
+version 3.3.2 -> 3.3.3 :
+-----------------------
+Features :
+- a light session management has been added (files, line, bookmarks and "quick compilation" mode are stored and can be restored via the new "session" menu)
+- in the pdf viewer, the horizontal position is restored after a compilation (if the position is valid) and the zoom factor is restored after a restart of texmaker.
+- it's now possible to modify a "user tag" (from the "user tags" panel in the "structure view")
+- user tags (from the "user tags" panel in the "structure view") can now be reordered by dragging items
+- poppler-data files and fontconfig configuration has been added for the windows version
+- us english dictionary has been added
+- @electronic has been added to the bibliography items detection
+Bugs fixed :
+- a bug about the bad detection of the path of a file displayed in the log panel has been fixed
+- the # parameter is no more used if okular is used as pdf viewer
+- shift(ctrl)+Ins doesn't anymore set the editor to overwrite mode
+- the bug about the number of copies while printing a pdf has been fixed
+
 version 3.3.1 -> 3.3.2 :
 -----------------------
 - The bug about the bad detection of the \part{} structure has been fixed.

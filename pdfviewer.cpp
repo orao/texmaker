@@ -32,7 +32,7 @@
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
-PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,const QString SpellLang,QWidget* parent, Qt::WFlags flags)
+PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,const QString SpellLang, const qreal startScale, QWidget* parent, Qt::WFlags flags)
     : QMainWindow( parent, flags )
 {
 setWindowTitle("Texmaker : pdf preview");
@@ -69,7 +69,7 @@ paper_size=psize;
 lastFile=fileName;
 lastPage=1;
 lastHpos=0;
-lastScale=0.1;
+lastScale=startScale;
 fileLoaded=false;
 currentPage=1;
 doc = 0;
@@ -361,7 +361,7 @@ if (doc!=0)
     else ShowStructure();
     gotoPage(currentPage);
     disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
-    if (scrollArea->horizontalScrollBar()->isVisible())  scrollArea->horizontalScrollBar()->setValue(lastHpos);
+    if (scrollArea->horizontalScrollBar()->isVisible())  {QTimer::singleShot( 500,this, SLOT(jumptoHpos()) );}
     connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
     } 
     else 
@@ -540,7 +540,7 @@ listPdfWidgetsStatus.replace(page,1);
   scrollArea->update();
 pageMutex.unlock();
 disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
-if (scrollArea->horizontalScrollBar()->isVisible())  scrollArea->horizontalScrollBar()->setValue(lastHpos);
+if (scrollArea->horizontalScrollBar()->isVisible())  {QTimer::singleShot( 500,this, SLOT(jumptoHpos()) );}
 connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
 }
 
@@ -1208,7 +1208,7 @@ if(!printer.printerName().isEmpty())
   QStringList args;
   args << "lp";
   if (!printer.printerName().contains(" ")) args << QString("-d %1").arg(printer.printerName());//.replace(" ","_"));
-  args << QString("-n %1").arg(printer.numCopies());
+  args << QString("-n %1").arg(printer.copyCount());
 //  args << QString("-t \"%1\"").arg(printer.docName());
   args << QString("-P %1-%2").arg(firstPage).arg(lastPage);
   switch(printer.duplex()) 
@@ -1410,3 +1410,7 @@ void PdfViewer::setHpos(int pos)
 lastHpos=pos;
 }
 
+void PdfViewer::jumptoHpos()
+{
+scrollArea->horizontalScrollBar()->setValue(lastHpos);
+}

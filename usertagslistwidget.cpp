@@ -20,12 +20,15 @@
 
 UserTagsListWidget::UserTagsListWidget(QWidget *parent):QListWidget(parent)
 {
+setDragDropMode(QAbstractItemView::InternalMove);
 setContextMenuPolicy(Qt::CustomContextMenu);
 menu = new QMenu( this );
 addAct=new QAction(tr("Add tag"), this);
 menu->addAction(addAct);
 remAct=new QAction(tr("Remove"), this);
 menu->addAction(remAct);
+changeAct=new QAction(tr("Modify"), this);
+menu->addAction(changeAct);
 connect( this, SIGNAL( customContextMenuRequested( const QPoint & )), this, SLOT( customContentsMenu( const QPoint & )));
 }
 
@@ -58,8 +61,22 @@ if (item)
 	{
 	//addAct->setData(item->text());
 	remAct->setData(item->text()+"#"+item->data(Qt::UserRole).toString());
+	remAct->setEnabled(true);
+	changeAct->setData(item->text()+"#"+item->data(Qt::UserRole).toString());
+	changeAct->setEnabled(true);
+	}
+else
+	{
+	remAct->setEnabled(false);
+	changeAct->setEnabled(false);
 	}
 QPoint globalPos = this->mapToGlobal(pos);
 menu->exec( globalPos );
+}
+
+void UserTagsListWidget::dropEvent(QDropEvent *event)
+{
+    QListWidget::dropEvent(event);
+    emit posChanged();
 }
 
