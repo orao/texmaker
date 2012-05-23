@@ -1,0 +1,10 @@
+To compile and install Texmaker (Unix and MacosX) :
+
+sudo sh BUILD.sh
+
+(you must have root password)
+
+Requirements : 
+Qt tool kit (www.trolltech.com)
+Poppler & Poppler-qt4
+Ghostscript for the LaTeX to html conversion command.

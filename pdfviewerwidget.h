@@ -59,6 +59,7 @@ void openFile(QString fn, QString ec,QString pc);
 void jumpToPdfFromSource(QString sourceFile,int source_line);
 void getFocus();
 void setKeyEditorFocus(QKeySequence s);
+void setGSCommand(QString c);
 qreal getScale() {return currentScale;};
 private:
 QKeySequence KeySequenceEditorFocus;

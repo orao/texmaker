@@ -212,13 +212,38 @@ while (i < text.length())
 			  {
 			  for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			  }
-			if(buffer.indexOf("begin{verbatim}") != -1) {state=StateVerbatim;}
-			else if(buffer.indexOf("begin{lstlisting}") != -1) {state=StateVerbatim;}
-			else if(buffer.indexOf("begin{gnuplot}") != -1) {state=StateVerbatim;}
-			else if(buffer.indexOf("begin{asy}") != -1) {state=StateGraphicAsy;}
-			else if(buffer.indexOf("begin{tikzpicture}") != -1) {state=StateGraphic;}
-			else if(buffer.indexOf("begin{pspicture}") != -1) {state=StateGraphic;}
-			else if(buffer.indexOf("begin{pspicture*}") != -1) {state=StateGraphic;}
+			poslab=buffer.indexOf("begin{verbatim}");
+			if(poslab != -1) {state=StateVerbatim;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{verbatim*}");
+			if(poslab != -1) {state=StateVerbatim;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{lstlisting}");
+			if(poslab != -1) {state=StateVerbatim;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{gnuplot}");
+			if(poslab != -1) {state=StateVerbatim;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{asy}");
+			if(poslab != -1) {state=StateGraphicAsy;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{tikzpicture}");
+			if(poslab != -1) {state=StateGraphic;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{pspicture}");
+			if(poslab != -1) {state=StateGraphic;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{pspicture*}");
+			if(poslab != -1) {state=StateGraphic;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{equation}") ;
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{equation*}") ;
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{align}");
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{align*}");
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{multline}");
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{multline*}");
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{gather}") ;
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
+			poslab=buffer.indexOf("begin{gather*}") ;
+			if(poslab != -1) {state=StateMath;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
 			buffer = QString::null;
 		} else
 		if (tmp== '<' ){
@@ -297,6 +322,7 @@ while (i < text.length())
 					blockData->code[i]=1;
 					}
 				}
+		buffer = QString::null;
 		} else if (tmp== '\\') {
 			if (next==']')
 				{
@@ -309,6 +335,7 @@ while (i < text.length())
 					setFormat( i, 1,ColorMath);
 					blockData->code[i]=1;
 					}
+				buffer = QString::null;
 				}
 			else if (next=='$')
 				{
@@ -338,13 +365,79 @@ while (i < text.length())
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateMath;
+			int pos=buffer.indexOf("\\end{equation}");
+			if( pos!= -1) 
+			{
+			  
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,10,ColorStandard);
+			    for (k=i-13; k <i-9 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{equation*}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,11,ColorStandard);
+			    for (k=i-14; k <i-10 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{align}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,7,ColorStandard);
+			    for (k=i-10; k <i-6 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{align*}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,8,ColorStandard);
+			    for (k=i-11; k <i-7 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{multline}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,10,ColorStandard);
+			    for (k=i-13; k <i-9 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{multline*}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,11,ColorStandard);
+			    for (k=i-14; k <i-10 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{gather}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,8,ColorStandard);
+			    for (k=i-11; k <i-7 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+			pos=buffer.indexOf("\\end{gather*}");
+			if( pos!= -1) 
+			{
+			    state=StateStandard;
+			    setFormat(pos,4,ColorKeyword);
+			    setFormat(pos+4,9,ColorStandard);
+			    for (k=i-12; k <i-8 ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			}
+		buffer = QString::null;
 		} else
 		 {
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateMath;
 		}
-	buffer = QString::null;
+	
 	} break;
 	case StateGraphicMath: {
 		tmp=text.at( i );

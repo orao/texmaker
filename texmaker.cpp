@@ -2435,6 +2435,13 @@ OpenedFilesListWidget->item(index)->setIcon(QIcon(":/images/empty.png"));
 void Texmaker::load( const QString &f )
 {
 if (FileAlreadyOpen(f) || !QFile::exists( f )) return;
+QFileInfo fi(f);
+if  (fi.suffix()=="tks") 
+  {
+  LoadSessionFile(f);
+  return;
+  }
+  
 QFile file( f );
 if ( !file.open( QIODevice::ReadOnly ) )
 	{
@@ -3077,12 +3084,27 @@ void Texmaker::fileClose()
 if ( !currentEditorView() )	return;
 if (currentEditorView()->editor->document()->isModified())
 	{
-	switch(  QMessageBox::warning(this, "Texmaker",
+int query;
+QString locale = TexmakerApp::instance()->language.left(2);
+if (locale=="en")
+{
+query=QMessageBox::warning(this, "Texmaker",
+					"The document contains unsaved work. "
+					"Do you want to save it before closing?",
+					"Save and Close", "Close without saving", "Cancel",
+					0,
+					2 );
+}
+else
+{
+query=QMessageBox::warning(this, "Texmaker",
 					tr("The document contains unsaved work. "
 					"Do you want to save it before closing?"),
 					tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
 					0,
-					2 ) )
+					2 );
+}
+	switch( query )
 		{
 		case 0:
 		  fileSave();
@@ -3122,16 +3144,31 @@ fileClose();
 void Texmaker::fileCloseAll()
 {
 bool go=true;
+int query;
+QString locale = TexmakerApp::instance()->language.left(2);
 while (currentEditorView() && go)
 	{
 	if (currentEditorView()->editor->document()->isModified())
 		{
-		switch(  QMessageBox::warning(this, "Texmaker",
-						tr("The document contains unsaved work. "
-						"Do you want to save it before exiting?"),
-						tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
-						0,
-						2 ) )
+if (locale=="en")
+{
+query=QMessageBox::warning(this, "Texmaker",
+					"The document contains unsaved work. "
+					"Do you want to save it before closing?",
+					"Save and Close", "Close without saving", "Cancel",
+					0,
+					2 );
+}
+else
+{
+query=QMessageBox::warning(this, "Texmaker",
+					tr("The document contains unsaved work. "
+					"Do you want to save it before closing?"),
+					tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
+					0,
+					2 );
+}
+		switch(query)
 			{
 			case 0:
 			fileSave();
@@ -3171,16 +3208,31 @@ if (browserWindow) browserWindow->close();
 if (pdfviewerWidget) {StackedViewers->removeWidget(pdfviewerWidget);delete(pdfviewerWidget);} 
 if (pdfviewerWindow) pdfviewerWindow->close(); 
 bool accept=true;
+int query;
+QString locale = TexmakerApp::instance()->language.left(2);
 while (currentEditorView() && accept)
 	{
 	if (currentEditorView()->editor->document()->isModified())
 		{
-		switch(  QMessageBox::warning(this, "Texmaker",
-						tr("The document contains unsaved work. "
-						"Do you want to save it before exiting?"),
-						tr("Save and Close"), tr("Don't Save and Close"),tr( "Cancel"),
-						0,
-						2 ) )
+if (locale=="en")
+{
+query=QMessageBox::warning(this, "Texmaker",
+					"The document contains unsaved work. "
+					"Do you want to save it before closing?",
+					"Save and Close", "Close without saving", "Cancel",
+					0,
+					2 );
+}
+else
+{
+query=QMessageBox::warning(this, "Texmaker",
+					tr("The document contains unsaved work. "
+					"Do you want to save it before closing?"),
+					tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
+					0,
+					2 );
+}
+		switch(query)
 			{
 			case 0:
 			fileSave();
@@ -3255,16 +3307,32 @@ if (browserWindow) browserWindow->close();
 if (pdfviewerWidget) {StackedViewers->removeWidget(pdfviewerWidget);delete(pdfviewerWidget);} 
 if (pdfviewerWindow) pdfviewerWindow->close(); 
 bool accept=true;
+int query;
+QString locale = TexmakerApp::instance()->language.left(2);
+
 while (currentEditorView() && accept)
 	{
 	if (currentEditorView()->editor->document()->isModified())
 		{
-		switch(  QMessageBox::warning(this, "Texmaker",
-						tr("The document contains unsaved work. "
-						"Do you want to save it before exiting?"),
-						tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
-						0,
-						2 ) )
+if (locale=="en")
+{
+query=QMessageBox::warning(this, "Texmaker",
+					"The document contains unsaved work. "
+					"Do you want to save it before closing?",
+					"Save and Close", "Close without saving", "Cancel",
+					0,
+					2 );
+}
+else
+{
+query=QMessageBox::warning(this, "Texmaker",
+					tr("The document contains unsaved work. "
+					"Do you want to save it before closing?"),
+					tr("Save and Close"), tr("Don't Save and Close"), tr("Cancel"),
+					0,
+					2 );
+}
+		switch(query)
 			{
 			case 0:
 				fileSave();
@@ -3516,13 +3584,13 @@ if (!dest.isEmpty())
 void Texmaker::editUndo()
 {
 if ( !currentEditorView() ) return;
-currentEditorView()->editor->document()->undo();
+currentEditorView()->editor->undoText();
 }
 
 void Texmaker::editRedo()
 {
 if ( !currentEditorView() ) return;
-currentEditorView()->editor->document()->redo();
+currentEditorView()->editor->redoText();
 }
 
 void Texmaker::editCut()
@@ -3756,7 +3824,7 @@ viewdvi_command=config->value("Tools/Dvi","open %.dvi").toString();
 viewps_command=config->value("Tools/Ps","open %.ps").toString();
 viewpdf_command=config->value("Tools/Pdf","open %.pdf").toString();
 ghostscript_command=config->value("Tools/Ghostscript","/usr/local/bin/gs").toString();
-asymptote_command=config->value("Tools/Asymptote","/usr/bin/asy %.asy").toString();
+asymptote_command=config->value("Tools/Asymptote","/usr/texbin/asy %.asy").toString();
 latexmk_command=config->value("Tools/Latexmk","\"/usr/texbin/latexmk\" -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
 sweave_command=config->value("Tools/Sweave","R CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
@@ -3776,21 +3844,25 @@ metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode
 viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe\" %.dvi").toString();
 viewps_command=config->value("Tools/Ps","\"C:/Program Files/Ghostgum/gsview/gsview32.exe\" %.ps").toString();
 viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 10.0/Reader/AcroRd32.exe\" %.pdf").toString();
-ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs9.02/bin/gswin32c.exe\"").toString();
-asymptote_command=config->value("Tools/Asymptote","\"C:/Asymptote/asy.exe\" %.asy").toString();
+ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs9.05/bin/gswin32c.exe\"").toString();
+asymptote_command=config->value("Tools/Asymptote","\"C:/Program Files/Asymptote/asy.exe\" %.asy").toString();
 latexmk_command=config->value("Tools/Latexmk","latexmk -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
 sweave_command=config->value("Tools/Sweave","C:/Program Files/R/R-2.13.2/bin/R.exe CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
 QString yap="C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe";
 QString gsview="C:/Program Files/Ghostgum/gsview/gsview32.exe";
-QString gswin="C:/Program Files/gs/gs9.02/bin/gswin32c.exe";
+QString gswin="C:/Program Files/gs/gs9.05/bin/gswin32c.exe";
 QString acro="C:/Program Files/Adobe/Reader 10.0/Reader/AcroRd32.exe";
 
 if (new_user)
   {
   if (!QFileInfo(gswin).exists())
     {
-    if (QFileInfo("C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe";
+    if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs9.04/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.04/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs9.02/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.02/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe";
     else if (QFileInfo("C:/Program Files/gs/gs9.00/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.00/bin/gswin32c.exe";
     else if (QFileInfo("C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe";
     else if (QFileInfo("C:/Program Files/gs/gs8.71/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.71/bin/gswin32c.exe";
@@ -3806,6 +3878,8 @@ if (new_user)
   if (!QFileInfo(yap).exists())
     {
     if (QFileInfo("C:/Program Files (x86)/MiKTeX 2.9/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 2.9/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files/MiKTeX 3.0/miktex/bin/yap.exe").exists()) yap="C:/Program Files/MiKTeX 3.0/miktex/bin/yap.exe";
+    else if (QFileInfo("C:/Program Files (x86)/MiKTeX 3.0/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 3.0/miktex/bin/yap.exe";
     else if (QFileInfo("C:/Program Files/MiKTeX 2.8/miktex/bin/yap.exe").exists()) yap="C:/Program Files/MiKTeX 2.8/miktex/bin/yap.exe";
     else if (QFileInfo("C:/Program Files (x86)/MiKTeX 2.8/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 2.8/miktex/bin/yap.exe";
     else if (QFileInfo("C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe").exists()) yap="C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe";
@@ -3814,6 +3888,8 @@ if (new_user)
     else if (QFileInfo("C:/Program Files (x86)/MiKTeX 2.5/miktex/bin/yap.exe").exists()) yap="C:/Program Files (x86)/MiKTeX 2.5/miktex/bin/yap.exe";
     else if (QFileInfo("C:/texlive/2009/bin/win32/dviout.exe").exists()) yap="C:/texlive/2009/bin/win32/dviout.exe";
     else if (QFileInfo("C:/texlive/2010/bin/win32/dviout.exe").exists()) yap="C:/texlive/2010/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2011/bin/win32/dviout.exe").exists()) yap="C:/texlive/2011/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2012/bin/win32/dviout.exe").exists()) yap="C:/texlive/2012/bin/win32/dviout.exe";
     }
   viewdvi_command="\""+yap+"\" %.dvi";  
   if (!QFileInfo(gsview).exists())
@@ -3822,6 +3898,7 @@ if (new_user)
     else if (QFileInfo("C:/texlive/2009/bin/win32/psv.exe").exists()) gsview="C:/texlive/2009/bin/win32/psv.exe";
     else if (QFileInfo("C:/texlive/2010/bin/win32/psv.exe").exists()) gsview="C:/texlive/2010/bin/win32/psv.exe";
     else if (QFileInfo("C:/texlive/2011/bin/win32/psv.exe").exists()) gsview="C:/texlive/2011/bin/win32/psv.exe";
+    else if (QFileInfo("C:/texlive/2012/bin/win32/psv.exe").exists()) gsview="C:/texlive/2012/bin/win32/psv.exe";
     }
   viewps_command="\""+gsview+"\" %.ps";
   if (!QFileInfo(acro).exists())
@@ -4661,7 +4738,7 @@ if (!current.isEmpty())
 		}
 	}
 StructureTreeWidget->setItemExpanded (top,true);
-StructureTreeWidget->setItemExpanded (toplabel,true);
+StructureTreeWidget->setItemExpanded (toplabel,false);
 StructureTreeWidget->setItemExpanded (blocklabel,true);
 currentEditorView()->editor->foldableLines.clear();
 int endpreamble = currentEditorView()->editor->searchLine("\\begin{document}");
@@ -4966,7 +5043,7 @@ int pos=cur.position();
 if (!Entity.startsWith("\\og")) Entity.replace("{}","{"+QString(0x2022)+"}");
 Entity.replace("[]","["+QString(0x2022)+"]");
 Entity.replace("\n\n","\n"+QString(0x2022)+"\n");
-currentEditorView()->editor->insertPlainText(Entity);
+currentEditorView()->editor->insertWithMemoryIndent(Entity);
 cur.setPosition(pos,QTextCursor::MoveAnchor);
 if (Entity.contains(QString(0x2022))) 
     {
@@ -6135,7 +6212,7 @@ if (selection) currentEditorView()->editor->cut();
 int pos=cur.position();
 Entity.replace("@",QString(0x2022));
 if (Entity.contains("\n") && !pre.isEmpty()) Entity.replace("\n","\n"+pre);
-currentEditorView()->editor->insertPlainText(Entity);
+currentEditorView()->editor->insertWithMemoryIndent(Entity);
 cur.setPosition(pos,QTextCursor::MoveAnchor);
 int dx=Entity.length();
 if (Entity.contains(QString(0x2022))) 
@@ -7106,8 +7183,8 @@ QFileInfo fi(finame);
 QString name=fi.absoluteFilePath();
 QString ext=fi.suffix();
 QString basename=name.left(name.length()-ext.length()-1);
-QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre").split(",");
-int query =QMessageBox::warning(this, "Texmaker", tr("Delete the output files generated by LaTeX ?\n(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre)"),tr("Delete Files"), tr("Cancel") );
+QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls").split(",");
+int query =QMessageBox::warning(this, "Texmaker", tr("Delete the output files generated by LaTeX ?\n(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls)"),tr("Delete Files"), tr("Cancel") );
 if (query==0)
 	{
 	//stat2->setText(QString(" %1 ").arg(tr("Clean")));
@@ -8360,7 +8437,9 @@ if (confDlg->exec())
 	singleviewerinstance=confDlg->ui.checkBoxSingleInstanceViewer->isChecked();
 	
 	if ((pdfviewerWidget) && keyToggleFocus!="none") pdfviewerWidget->setKeyEditorFocus(QKeySequence(keyToggleFocus));
+	if (pdfviewerWidget)  pdfviewerWidget->setGSCommand(ghostscript_command);
 	if ((pdfviewerWindow) && keyToggleFocus!="none") pdfviewerWindow->setKeyEditorFocus(QKeySequence(keyToggleFocus));
+	if (pdfviewerWindow)  pdfviewerWindow->setGSCommand(ghostscript_command);
 	
 	QString fam=confDlg->ui.comboBoxFont->lineEdit()->text();
 	int si=confDlg->ui.spinBoxSize->value();
@@ -8655,9 +8734,9 @@ if (event->mimeData()->hasFormat("text/uri-list")) event->acceptProposedAction()
 void Texmaker::dropEvent(QDropEvent *event)
 {
 #if defined(Q_WS_WIN)
-QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw))");
+QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw|tks))");
 #else
-QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw))");
+QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw|tks))");
 #endif
 QList<QUrl> uris=event->mimeData()->urls();
 QString uri;
@@ -9783,6 +9862,11 @@ if (!lastDocument.isEmpty())
 	}
 QString fn = QFileDialog::getOpenFileName(this,tr("Open File"),currentDir,"Texmaker session (*.tks);;All files (*.*)");
 if (fn.isEmpty()) return;
+LoadSessionFile(fn);
+}
+
+void Texmaker::LoadSessionFile(const QString &fn)
+{
 QFile fic( fn );
 if ( !fic.open( QIODevice::ReadOnly ) )
 	{

@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.3.3
+TEXMAKERVERSION=3.3.4
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -251,6 +251,7 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_zh_CN.ts \
 	texmaker_zh_TW.ts \
 	texmaker_cs.ts \
+	texmaker_pt.ts \
 	texmaker_pt_BR.ts \
 	texmaker_nl.ts  \
 	texmaker_hu.ts  \
@@ -372,6 +373,7 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_fr.qm \
 	locale/texmaker_gl.qm \
 	locale/texmaker_it.qm \
+	locale/texmaker_pt.qm \
 	locale/texmaker_pt_BR.qm \
 	locale/texmaker_ru.qm \
 	locale/texmaker_zh_CN.qm \
@@ -404,6 +406,9 @@ utilities.files = doc/doc1.png \
 	dictionaries/README_hu_HU.txt \
 	dictionaries/cs_CZ.aff \
 	dictionaries/cs_CZ.dic \
+	dictionaries/pl_PL.aff \
+	dictionaries/pl_PL.dic \
+	dictionaries/README_pl.txt \
 	dictionaries/README_cs_CZ.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \
@@ -511,6 +516,7 @@ utilities.files =doc/doc1.png \
 	locale/texmaker_fr.qm \
 	locale/texmaker_gl.qm \
 	locale/texmaker_it.qm \
+	locale/texmaker_pt.qm \
 	locale/texmaker_pt_BR.qm \
 	locale/texmaker_ru.qm \
 	locale/texmaker_zh_CN.qm \
@@ -540,7 +546,9 @@ utilities.files =doc/doc1.png \
 	dictionaries/hu_HU.aff \
 	dictionaries/hu_HU.dic \
 	dictionaries/cs_CZ.aff \
-	dictionaries/cs_CZ.dic
+	dictionaries/cs_CZ.dic \
+	dictionaries/pl_PL.aff \
+	dictionaries/pl_PL.dic 
 INSTALLS += utilities
 
 others.path = texmakerwin32
@@ -658,6 +666,7 @@ utilities.files = utilities/qt_menu.nib \
 	locale/texmaker_fr.qm \
 	locale/texmaker_gl.qm \
 	locale/texmaker_it.qm \
+	locale/texmaker_pt.qm \
 	locale/texmaker_pt_BR.qm \
 	locale/texmaker_ru.qm \
 	locale/texmaker_zh_CN.qm \
@@ -690,6 +699,9 @@ utilities.files = utilities/qt_menu.nib \
 	dictionaries/README_hu_HU.txt \
 	dictionaries/cs_CZ.aff \
 	dictionaries/cs_CZ.dic \
+	dictionaries/pl_PL.aff \
+	dictionaries/pl_PL.dic \
+	dictionaries/README_pl.txt \
 	dictionaries/README_cs_CZ.txt \
 	dictionaries/README_de_DE_frami.txt \
 	dictionaries/README_DIC_fr_FR.txt \

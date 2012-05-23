@@ -479,6 +479,7 @@ void ToggleRacine();
 void splitter2Changed();
 
 void SaveSession();
+void LoadSessionFile(const QString &fn);
 void LoadSession();
 void SaveLastSession();
 void LoadLastSession();

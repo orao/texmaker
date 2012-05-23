@@ -34,7 +34,7 @@
     <message>
         <location filename="addtagdialog.ui" line="14"/>
         <source>Edit User Tags</source>
-        <translation type="unfinished">ویرایش تگ‌های کاربر</translation>
+        <translation>ویرایش تگ‌های کاربر</translation>
     </message>
     <message>
         <location filename="addtagdialog.ui" line="22"/>
@@ -44,7 +44,7 @@
     <message>
         <location filename="addtagdialog.ui" line="32"/>
         <source>LaTeX Content</source>
-        <translation type="unfinished">‫کد لاتک</translation>
+        <translation>‫کد لاتک</translation>
     </message>
     <message>
         <location filename="addtagdialog.ui" line="55"/>
@@ -228,7 +228,7 @@ Patch Date: %1</translation>
         <location filename="browser.cpp" line="35"/>
         <location filename="browser.cpp" line="100"/>
         <source>Print</source>
-        <translation type="unfinished">چاپ</translation>
+        <translation>چاپ</translation>
     </message>
     <message>
         <location filename="browser.cpp" line="37"/>
@@ -1123,7 +1123,7 @@ with the default encoding setting</source>
 <context>
     <name>PdfDocumentWidget</name>
     <message>
-        <location filename="pdfdocumentwidget.cpp" line="141"/>
+        <location filename="pdfdocumentwidget.cpp" line="150"/>
         <source>Click to jump to the line</source>
         <translation>برای پرش به‌خط متناظر کلیک کنید</translation>
     </message>
@@ -1133,13 +1133,13 @@ with the default encoding setting</source>
     <message>
         <location filename="pdfviewer.cpp" line="84"/>
         <location filename="pdfviewer.cpp" line="118"/>
-        <location filename="pdfviewer.cpp" line="1304"/>
+        <location filename="pdfviewer.cpp" line="1314"/>
         <source>Structure</source>
         <translation>ساختار</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="103"/>
-        <location filename="pdfviewer.cpp" line="1311"/>
+        <location filename="pdfviewer.cpp" line="1321"/>
         <source>Pages</source>
         <translation>صفحه‌ها</translation>
     </message>
@@ -1211,7 +1211,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="241"/>
-        <location filename="pdfviewer.cpp" line="1193"/>
+        <location filename="pdfviewer.cpp" line="1198"/>
         <source>Print</source>
         <translation>چاپ</translation>
     </message>
@@ -1226,24 +1226,24 @@ with the default encoding setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="369"/>
-        <location filename="pdfviewer.cpp" line="1150"/>
+        <location filename="pdfviewer.cpp" line="370"/>
+        <location filename="pdfviewer.cpp" line="1155"/>
         <source>Error</source>
         <translation>خطا</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="369"/>
+        <location filename="pdfviewer.cpp" line="370"/>
         <source>File not found</source>
         <translation>فایل پیدا نشد</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="408"/>
-        <location filename="pdfviewer.cpp" line="722"/>
+        <location filename="pdfviewer.cpp" line="409"/>
+        <location filename="pdfviewer.cpp" line="723"/>
         <source>Page</source>
         <translation>صفحه</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="1150"/>
+        <location filename="pdfviewer.cpp" line="1155"/>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
         <translation>قادر به چاپ نیست: فرمان ghostscript ‏(gswin32c.exe)‏ روی سیستم‌تان پیدا نشد.</translation>
     </message>
@@ -1302,7 +1302,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="188"/>
-        <location filename="pdfviewerwidget.cpp" line="1179"/>
+        <location filename="pdfviewerwidget.cpp" line="1184"/>
         <source>Print</source>
         <translation>چاپ</translation>
     </message>
@@ -1317,18 +1317,18 @@ with the default encoding setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="348"/>
-        <location filename="pdfviewerwidget.cpp" line="1136"/>
+        <location filename="pdfviewerwidget.cpp" line="349"/>
+        <location filename="pdfviewerwidget.cpp" line="1141"/>
         <source>Error</source>
         <translation>خطا</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="348"/>
+        <location filename="pdfviewerwidget.cpp" line="349"/>
         <source>File not found</source>
         <translation>فایل پیدا نشد</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="1136"/>
+        <location filename="pdfviewerwidget.cpp" line="1141"/>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
         <translation>قادر به چاپ نیست: فرمان ghostscript ‏(gswin32c.exe)‏ روی سیستم‌تان پیدا نشد.</translation>
     </message>
@@ -2008,76 +2008,70 @@ with the default encoding setting</source>
         <location filename="texmaker.cpp" line="197"/>
         <location filename="texmaker.cpp" line="365"/>
         <location filename="texmaker.cpp" line="1881"/>
-        <location filename="texmaker.cpp" line="4434"/>
+        <location filename="texmaker.cpp" line="4511"/>
         <source>Structure</source>
         <translation>ساختار</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7110"/>
-        <source>Delete the output files generated by LaTeX ?
-(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="texmaker.cpp" line="7900"/>
-        <location filename="texmaker.cpp" line="7932"/>
+        <location filename="texmaker.cpp" line="7977"/>
+        <location filename="texmaker.cpp" line="8009"/>
         <source>Click to jump to the line</source>
         <translation>برای رفتن به خط کلیک کن</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="214"/>
-        <location filename="texmaker.cpp" line="4439"/>
+        <location filename="texmaker.cpp" line="4516"/>
         <source>Relation symbols</source>
         <translation>نمادهای رابطه</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="224"/>
-        <location filename="texmaker.cpp" line="4444"/>
+        <location filename="texmaker.cpp" line="4521"/>
         <source>Arrow symbols</source>
         <translation>نمادهای پیکان</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="233"/>
-        <location filename="texmaker.cpp" line="4449"/>
+        <location filename="texmaker.cpp" line="4526"/>
         <source>Miscellaneous symbols</source>
         <translation>نمادهای متفرقه</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="242"/>
-        <location filename="texmaker.cpp" line="4454"/>
+        <location filename="texmaker.cpp" line="4531"/>
         <source>Delimiters</source>
         <translation>حائل‌ها</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="251"/>
-        <location filename="texmaker.cpp" line="4459"/>
+        <location filename="texmaker.cpp" line="4536"/>
         <source>Greek letters</source>
         <translation>حروف یونانی</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="269"/>
-        <location filename="texmaker.cpp" line="4469"/>
+        <location filename="texmaker.cpp" line="4546"/>
         <source>Favorites symbols</source>
         <translation>نمادهای برگزیده</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="316"/>
         <location filename="texmaker.cpp" line="344"/>
-        <location filename="texmaker.cpp" line="4484"/>
+        <location filename="texmaker.cpp" line="4561"/>
         <source>MetaPost Commands</source>
         <translation>‫فرمان‌های MetaPost</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="324"/>
         <location filename="texmaker.cpp" line="347"/>
-        <location filename="texmaker.cpp" line="4489"/>
+        <location filename="texmaker.cpp" line="4566"/>
         <source>Tikz Commands</source>
         <translation>‫فرمان‌های Tikz</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="332"/>
         <location filename="texmaker.cpp" line="350"/>
-        <location filename="texmaker.cpp" line="4494"/>
+        <location filename="texmaker.cpp" line="4571"/>
         <source>Asymptote Commands</source>
         <translation>‫فرمان‌های Asymptote</translation>
     </message>
@@ -2088,7 +2082,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="780"/>
-        <location filename="texmaker.cpp" line="8552"/>
+        <location filename="texmaker.cpp" line="8631"/>
         <source>Normal Mode</source>
         <translation>حالت عادی</translation>
     </message>
@@ -2137,17 +2131,17 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="842"/>
-        <location filename="texmaker.cpp" line="2756"/>
-        <location filename="texmaker.cpp" line="2899"/>
-        <location filename="texmaker.cpp" line="2956"/>
-        <location filename="texmaker.cpp" line="9732"/>
+        <location filename="texmaker.cpp" line="2763"/>
+        <location filename="texmaker.cpp" line="2906"/>
+        <location filename="texmaker.cpp" line="2963"/>
+        <location filename="texmaker.cpp" line="9811"/>
         <source>Save</source>
         <translation>ذخیره</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="849"/>
-        <location filename="texmaker.cpp" line="3013"/>
-        <location filename="texmaker.cpp" line="4360"/>
+        <location filename="texmaker.cpp" line="3020"/>
+        <location filename="texmaker.cpp" line="4437"/>
         <source>Save As</source>
         <translation>ذخیره به عنوان</translation>
     </message>
@@ -2307,7 +2301,7 @@ with the default encoding setting</source>
     <message>
         <location filename="texmaker.cpp" line="990"/>
         <location filename="texmaker.cpp" line="2205"/>
-        <location filename="texmaker.cpp" line="7339"/>
+        <location filename="texmaker.cpp" line="7416"/>
         <source>Quick Build</source>
         <translation>ساخت سریع</translation>
     </message>
@@ -2334,6 +2328,12 @@ with the default encoding setting</source>
         <location filename="texmaker.cpp" line="2241"/>
         <source>View Log</source>
         <translation>نمایش گزارش پردازش</translation>
+    </message>
+    <message>
+        <location filename="texmaker.cpp" line="7187"/>
+        <source>Delete the output files generated by LaTeX ?
+(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="826"/>
@@ -2513,7 +2513,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1929"/>
-        <location filename="texmaker.cpp" line="8543"/>
+        <location filename="texmaker.cpp" line="8622"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
         <translation>سند جاری را به عنوان &quot;سند اصلی&quot; در نظر بگیر</translation>
     </message>
@@ -2552,12 +2552,12 @@ with the default encoding setting</source>
         <translation type="obsolete">درباره پچ دوجهته</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9103"/>
+        <location filename="texmaker.cpp" line="9182"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>تنظیمات زبان در اجرای بعدی نرم‌افزار اثر خواهد کرد.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9111"/>
+        <location filename="texmaker.cpp" line="9190"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>تنظیمات ظاهر در اجرای بعدی نرم‌افزار اثر خواهد کرد.</translation>
     </message>
@@ -2660,7 +2660,7 @@ Patch Date: %1</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1892"/>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>Pdf Viewer</source>
         <translation>‫نمایشگر پی.دی.اف</translation>
     </message>
@@ -2718,165 +2718,165 @@ Patch Date: %1</translation>
         <translation type="obsolete">بازکردن محل حاوی فایل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2441"/>
-        <location filename="texmaker.cpp" line="2604"/>
-        <location filename="texmaker.cpp" line="2926"/>
-        <location filename="texmaker.cpp" line="2985"/>
-        <location filename="texmaker.cpp" line="3627"/>
-        <location filename="texmaker.cpp" line="6568"/>
-        <location filename="texmaker.cpp" line="6795"/>
-        <location filename="texmaker.cpp" line="6817"/>
-        <location filename="texmaker.cpp" line="6836"/>
-        <location filename="texmaker.cpp" line="6855"/>
-        <location filename="texmaker.cpp" line="6877"/>
-        <location filename="texmaker.cpp" line="6919"/>
-        <location filename="texmaker.cpp" line="6936"/>
-        <location filename="texmaker.cpp" line="6962"/>
-        <location filename="texmaker.cpp" line="6979"/>
-        <location filename="texmaker.cpp" line="7002"/>
-        <location filename="texmaker.cpp" line="7101"/>
-        <location filename="texmaker.cpp" line="7459"/>
-        <location filename="texmaker.cpp" line="7548"/>
-        <location filename="texmaker.cpp" line="7581"/>
-        <location filename="texmaker.cpp" line="8072"/>
-        <location filename="texmaker.cpp" line="8106"/>
-        <location filename="texmaker.cpp" line="8128"/>
-        <location filename="texmaker.cpp" line="8561"/>
-        <location filename="texmaker.cpp" line="9739"/>
-        <location filename="texmaker.cpp" line="9789"/>
-        <location filename="texmaker.cpp" line="9910"/>
+        <location filename="texmaker.cpp" line="2448"/>
+        <location filename="texmaker.cpp" line="2611"/>
+        <location filename="texmaker.cpp" line="2933"/>
+        <location filename="texmaker.cpp" line="2992"/>
+        <location filename="texmaker.cpp" line="3695"/>
+        <location filename="texmaker.cpp" line="6645"/>
+        <location filename="texmaker.cpp" line="6872"/>
+        <location filename="texmaker.cpp" line="6894"/>
+        <location filename="texmaker.cpp" line="6913"/>
+        <location filename="texmaker.cpp" line="6932"/>
+        <location filename="texmaker.cpp" line="6954"/>
+        <location filename="texmaker.cpp" line="6996"/>
+        <location filename="texmaker.cpp" line="7013"/>
+        <location filename="texmaker.cpp" line="7039"/>
+        <location filename="texmaker.cpp" line="7056"/>
+        <location filename="texmaker.cpp" line="7079"/>
+        <location filename="texmaker.cpp" line="7178"/>
+        <location filename="texmaker.cpp" line="7536"/>
+        <location filename="texmaker.cpp" line="7625"/>
+        <location filename="texmaker.cpp" line="7658"/>
+        <location filename="texmaker.cpp" line="8149"/>
+        <location filename="texmaker.cpp" line="8183"/>
+        <location filename="texmaker.cpp" line="8205"/>
+        <location filename="texmaker.cpp" line="8640"/>
+        <location filename="texmaker.cpp" line="9818"/>
+        <location filename="texmaker.cpp" line="9873"/>
+        <location filename="texmaker.cpp" line="9994"/>
         <source>Error</source>
         <translation>خطا</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2441"/>
-        <location filename="texmaker.cpp" line="2604"/>
-        <location filename="texmaker.cpp" line="9789"/>
-        <location filename="texmaker.cpp" line="9910"/>
+        <location filename="texmaker.cpp" line="2448"/>
+        <location filename="texmaker.cpp" line="2611"/>
+        <location filename="texmaker.cpp" line="9873"/>
+        <location filename="texmaker.cpp" line="9994"/>
         <source>You do not have read permission to this file.</source>
         <translation>‫مجوز خواندن این فایل را ندارید.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2599"/>
-        <location filename="texmaker.cpp" line="2658"/>
-        <location filename="texmaker.cpp" line="9784"/>
+        <location filename="texmaker.cpp" line="2606"/>
+        <location filename="texmaker.cpp" line="2665"/>
+        <location filename="texmaker.cpp" line="9863"/>
         <source>Open File</source>
         <translation>بازکردن فایل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2754"/>
-        <location filename="texmaker.cpp" line="2897"/>
-        <location filename="texmaker.cpp" line="2954"/>
+        <location filename="texmaker.cpp" line="2761"/>
+        <location filename="texmaker.cpp" line="2904"/>
+        <location filename="texmaker.cpp" line="2961"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
         <translation>این سند خارج از تک‌میکر تغییر کرده است. آیا می‌خواهید آن را بارگذاری مجدد کنید(و تغییرات ایجاد شده توسط خودتان را نادیده بگیرید) یا می‌خواهید سند را ذخیره کنید(و بر روی فایل دوباره نویسی کنید)؟</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2756"/>
-        <location filename="texmaker.cpp" line="2899"/>
-        <location filename="texmaker.cpp" line="2956"/>
-        <location filename="texmaker.cpp" line="3430"/>
+        <location filename="texmaker.cpp" line="2763"/>
+        <location filename="texmaker.cpp" line="2906"/>
+        <location filename="texmaker.cpp" line="2963"/>
+        <location filename="texmaker.cpp" line="3498"/>
         <source>Reload the file</source>
         <translation>بارگذاری مجدد فایل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2926"/>
-        <location filename="texmaker.cpp" line="2985"/>
-        <location filename="texmaker.cpp" line="9739"/>
+        <location filename="texmaker.cpp" line="2933"/>
+        <location filename="texmaker.cpp" line="2992"/>
+        <location filename="texmaker.cpp" line="9818"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>‫قادر به ذخیره فایل نیست. لطفا رسیدگی کنید که آیا مجوز نوشتن دارید.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2756"/>
-        <location filename="texmaker.cpp" line="2899"/>
-        <location filename="texmaker.cpp" line="2956"/>
-        <location filename="texmaker.cpp" line="3083"/>
-        <location filename="texmaker.cpp" line="3132"/>
-        <location filename="texmaker.cpp" line="3181"/>
-        <location filename="texmaker.cpp" line="3265"/>
-        <location filename="texmaker.cpp" line="3430"/>
-        <location filename="texmaker.cpp" line="4339"/>
-        <location filename="texmaker.cpp" line="4382"/>
-        <location filename="texmaker.cpp" line="7110"/>
+        <location filename="texmaker.cpp" line="2763"/>
+        <location filename="texmaker.cpp" line="2906"/>
+        <location filename="texmaker.cpp" line="2963"/>
+        <location filename="texmaker.cpp" line="3103"/>
+        <location filename="texmaker.cpp" line="3167"/>
+        <location filename="texmaker.cpp" line="3231"/>
+        <location filename="texmaker.cpp" line="3331"/>
+        <location filename="texmaker.cpp" line="3498"/>
+        <location filename="texmaker.cpp" line="4416"/>
+        <location filename="texmaker.cpp" line="4459"/>
+        <location filename="texmaker.cpp" line="7187"/>
         <source>Cancel</source>
         <translation>رد</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3081"/>
+        <location filename="texmaker.cpp" line="3101"/>
+        <location filename="texmaker.cpp" line="3165"/>
+        <location filename="texmaker.cpp" line="3229"/>
+        <location filename="texmaker.cpp" line="3329"/>
         <source>The document contains unsaved work. Do you want to save it before closing?</source>
         <translation>سند دارای تغییرات ذخیره نشده است. قصد دارید قبل از بستن تغییرات را ذخیره کنید؟</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3083"/>
-        <location filename="texmaker.cpp" line="3132"/>
-        <location filename="texmaker.cpp" line="3181"/>
-        <location filename="texmaker.cpp" line="3265"/>
+        <location filename="texmaker.cpp" line="3103"/>
+        <location filename="texmaker.cpp" line="3167"/>
+        <location filename="texmaker.cpp" line="3231"/>
+        <location filename="texmaker.cpp" line="3331"/>
         <source>Save and Close</source>
         <translation>ذخیره کن و خارج شو</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3083"/>
-        <location filename="texmaker.cpp" line="3132"/>
-        <location filename="texmaker.cpp" line="3181"/>
-        <location filename="texmaker.cpp" line="3265"/>
+        <location filename="texmaker.cpp" line="3103"/>
+        <location filename="texmaker.cpp" line="3167"/>
+        <location filename="texmaker.cpp" line="3231"/>
+        <location filename="texmaker.cpp" line="3331"/>
         <source>Don&apos;t Save and Close</source>
         <translation>ذخیره نکن و خارج شو</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3130"/>
-        <location filename="texmaker.cpp" line="3179"/>
-        <location filename="texmaker.cpp" line="3263"/>
         <source>The document contains unsaved work. Do you want to save it before exiting?</source>
-        <translation>سند دارای تغییرات ذخیره نشده است. قصد دارید قبل از خروج تغییرات را ذخیره کنید؟</translation>
+        <translation type="obsolete">سند دارای تغییرات ذخیره نشده است. قصد دارید قبل از خروج تغییرات را ذخیره کنید؟</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3428"/>
+        <location filename="texmaker.cpp" line="3496"/>
         <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
         <translation>سند دارای تغییرات ذخیره نشده است. بارگذاری مجدد سند تغییرات ایجادشده را از بین می‌برد.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3627"/>
+        <location filename="texmaker.cpp" line="3695"/>
         <source>Error : Can&apos;t open the dictionary</source>
         <translation>خطا: فرهنگ لغت باز نمی‌شود</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4338"/>
+        <location filename="texmaker.cpp" line="4415"/>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4339"/>
-        <location filename="texmaker.cpp" line="4382"/>
+        <location filename="texmaker.cpp" line="4416"/>
+        <location filename="texmaker.cpp" line="4459"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4381"/>
+        <location filename="texmaker.cpp" line="4458"/>
         <source>Replace settings file by a new one?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4406"/>
+        <location filename="texmaker.cpp" line="4483"/>
         <source>Opened Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="5225"/>
+        <location filename="texmaker.cpp" line="5302"/>
         <source>Select an image File</source>
         <translation>انتخاب فایل تصویر</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3224"/>
-        <location filename="texmaker.cpp" line="5256"/>
-        <location filename="texmaker.cpp" line="5281"/>
+        <location filename="texmaker.cpp" line="3276"/>
+        <location filename="texmaker.cpp" line="5333"/>
+        <location filename="texmaker.cpp" line="5358"/>
         <source>Select a File</source>
         <translation>انتخاب فایل</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6568"/>
-        <location filename="texmaker.cpp" line="7101"/>
-        <location filename="texmaker.cpp" line="7459"/>
+        <location filename="texmaker.cpp" line="6645"/>
+        <location filename="texmaker.cpp" line="7178"/>
+        <location filename="texmaker.cpp" line="7536"/>
         <source>Can&apos;t detect the file name</source>
         <translation>‫قادر به تشخیص نام فایل نیست</translation>
     </message>
@@ -2899,24 +2899,24 @@ Patch Date: %1</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7110"/>
+        <location filename="texmaker.cpp" line="7187"/>
         <source>Delete Files</source>
         <translation>پاک کردن فایل‌ها</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6795"/>
-        <location filename="texmaker.cpp" line="6817"/>
-        <location filename="texmaker.cpp" line="6836"/>
-        <location filename="texmaker.cpp" line="6855"/>
-        <location filename="texmaker.cpp" line="6877"/>
-        <location filename="texmaker.cpp" line="6919"/>
-        <location filename="texmaker.cpp" line="6936"/>
-        <location filename="texmaker.cpp" line="6962"/>
-        <location filename="texmaker.cpp" line="6979"/>
-        <location filename="texmaker.cpp" line="7002"/>
-        <location filename="texmaker.cpp" line="7548"/>
-        <location filename="texmaker.cpp" line="8128"/>
-        <location filename="texmaker.cpp" line="8561"/>
+        <location filename="texmaker.cpp" line="6872"/>
+        <location filename="texmaker.cpp" line="6894"/>
+        <location filename="texmaker.cpp" line="6913"/>
+        <location filename="texmaker.cpp" line="6932"/>
+        <location filename="texmaker.cpp" line="6954"/>
+        <location filename="texmaker.cpp" line="6996"/>
+        <location filename="texmaker.cpp" line="7013"/>
+        <location filename="texmaker.cpp" line="7039"/>
+        <location filename="texmaker.cpp" line="7056"/>
+        <location filename="texmaker.cpp" line="7079"/>
+        <location filename="texmaker.cpp" line="7625"/>
+        <location filename="texmaker.cpp" line="8205"/>
+        <location filename="texmaker.cpp" line="8640"/>
         <source>Could not start the command.</source>
         <translation>‫قادر به اجرای فرمان نیست.</translation>
     </message>
@@ -2927,89 +2927,89 @@ Patch Date: %1</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>LaTeX</source>
         <translation type="unfinished">LaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>PdfLaTeX</source>
         <translation type="unfinished">PdfLaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>dvips</source>
         <translation type="unfinished">dvips</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>Dvi Viewer</source>
         <translation type="unfinished">‫نمایش‌گر دی.وی.آی</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>PS Viewer</source>
         <translation type="unfinished">‫نمایش‌گر پی.اس</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>Dvipdfm</source>
         <translation type="unfinished">Dvipdfm</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>ps2pdf</source>
         <translation type="unfinished">ps2pdf</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>Bibtex</source>
         <translation type="unfinished">Bibtex</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>Makeindex</source>
         <translation type="unfinished">Makeindex</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>metapost</source>
         <translation type="unfinished">metapost</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>ghostscript</source>
         <translation type="unfinished">ghostscript</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>Asymptote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>Latexmk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7296"/>
+        <location filename="texmaker.cpp" line="7373"/>
         <source>R Sweave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7581"/>
+        <location filename="texmaker.cpp" line="7658"/>
         <source>Log File not found !</source>
         <translation>‫فایل گزارش پیدا نشد!</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8002"/>
-        <location filename="texmaker.cpp" line="8037"/>
+        <location filename="texmaker.cpp" line="8079"/>
+        <location filename="texmaker.cpp" line="8114"/>
         <source>No LaTeX errors detected !</source>
         <translation>‫هیچ خطای لاتکی یافت نشد!</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8072"/>
-        <location filename="texmaker.cpp" line="8106"/>
+        <location filename="texmaker.cpp" line="8149"/>
+        <location filename="texmaker.cpp" line="8183"/>
         <source>File not found</source>
         <translation>فایل پیدا نشد</translation>
     </message>
@@ -3018,12 +3018,12 @@ Patch Date: %1</translation>
         <translation type="obsolete">راهنمای کاربر:Texmaker</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8567"/>
+        <location filename="texmaker.cpp" line="8646"/>
         <source>Normal Mode (current master document :</source>
         <translation>حالت‌عادی (current master document :</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8569"/>
+        <location filename="texmaker.cpp" line="8648"/>
         <source>Master Document :</source>
         <translation>سند اصلی :</translation>
     </message>
@@ -3042,7 +3042,7 @@ Patch Date: %1</translation>
     <message>
         <location filename="texmaker.cpp" line="308"/>
         <location filename="texmaker.cpp" line="341"/>
-        <location filename="texmaker.cpp" line="4474"/>
+        <location filename="texmaker.cpp" line="4551"/>
         <source>Pstricks Commands</source>
         <translation>‫فرمان‌های Pstricks</translation>
     </message>
@@ -3053,13 +3053,13 @@ Patch Date: %1</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="260"/>
-        <location filename="texmaker.cpp" line="4464"/>
+        <location filename="texmaker.cpp" line="4541"/>
         <source>Most used symbols</source>
         <translation>نمادهای پرکاربردتر</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="292"/>
-        <location filename="texmaker.cpp" line="4500"/>
+        <location filename="texmaker.cpp" line="4577"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3120,15 +3120,15 @@ Patch Date: %1</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1835"/>
-        <location filename="texmaker.cpp" line="6313"/>
-        <location filename="texmaker.cpp" line="6369"/>
+        <location filename="texmaker.cpp" line="6390"/>
+        <location filename="texmaker.cpp" line="6446"/>
         <source>Edit User &amp;Tags</source>
         <translation>&amp;ویرایش تگ‌های کاربر</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1860"/>
-        <location filename="texmaker.cpp" line="7299"/>
-        <location filename="texmaker.cpp" line="7335"/>
+        <location filename="texmaker.cpp" line="7376"/>
+        <location filename="texmaker.cpp" line="7412"/>
         <source>Edit User &amp;Commands</source>
         <translation>&amp;ویرایش فرمان‌های کاربر</translation>
     </message>

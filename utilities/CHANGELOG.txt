@@ -1,3 +1,19 @@
+version 3.3.3 -> 3.3.4 :
+-----------------------
+Bugs fixed :
+- a critical bug about "undo" operations in particular circumstances has been fixed
+- the path to asymptote has been fixed for MacTeX
+Enhancements :
+- equation, align, multline and gather environments are now highlighted as mathematicals environments
+- the ambiguous english translation of the "save and close" dialog has been modified
+- insertion of multiline tags will now respect the indentation
+- session file can now be opened by drag and drop and with the command line
+- URL links can now be opened in the integrated pdf viewer
+- editor keeps now the focus by default after launching the "View Pdf" action
+- the paths to texlive 2012, miktex 3.0 and ghostscript 9.04 & 9.05 has been added
+- polish dictionary has been added
+- polish, hungarian, swedish and portuguese translations have been updated
+
 version 3.3.2 -> 3.3.3 :
 -----------------------
 Features :

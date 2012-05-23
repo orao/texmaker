@@ -794,10 +794,10 @@ if (inlinecheckSpelling && pChecker)
 	}
       }
 /*******************************************/
-a = menu->addAction(tr("Undo"), this, SLOT(undo()));
+a = menu->addAction(tr("Undo"), this, SLOT(undoText()));
 a->setShortcut(Qt::CTRL+Qt::Key_Z);
 a->setEnabled(document()->isUndoAvailable());
-a = menu->addAction(tr("Redo") , this, SLOT(redo()));
+a = menu->addAction(tr("Redo") , this, SLOT(redoText()));
 a->setShortcut(Qt::CTRL+Qt::Key_Y);
 a->setEnabled(document()->isRedoAvailable());
 menu->addSeparator();
@@ -1484,6 +1484,8 @@ return (QStringList() << result << QString::number(index) << QString::number(sta
 
 void LatexEditor::keyPressEvent ( QKeyEvent * e ) 
 {
+if (e == QKeySequence::Undo) {undoText(); return;}
+if (e == QKeySequence::Redo) {redoText(); return;}
    if (inBlockSelectionMode) {
         if (e == QKeySequence::Cut) {
             
@@ -2643,6 +2645,48 @@ void LatexEditor::setUserTagsList(QStringList utlist)
 userTagsList=utlist;  
 }
 
+void LatexEditor::undoText() // workaround for QT bug
+{
+blockSignals(true); 
+undo();
+blockSignals(false);
+matchAll();
+emit updatelineWidget();
+emit requestUpdateStructure();
+}
+
+void LatexEditor::redoText() // workaround for QT bug
+{
+blockSignals(true); 
+redo();
+blockSignals(false);
+matchAll();
+emit updatelineWidget();
+emit requestUpdateStructure();
+}
+
+int LatexEditor::insertWithMemoryIndent(QString t) // workaround for QT bug
+{
+QString Entity=t;
+int offset=0;
+QString pream="";
+QTextCursor cursor=textCursor();
+QTextBlock block=cursor.block();
+if (block.isValid()) 
+	{
+	QString txt=block.text();
+	int j=0;
+	while ( (j<txt.count()) && ((txt[j]==' ') || txt[j]=='\t') ) 
+		{
+		pream+=QString(txt[j]);
+		j++;
+		}
+	}
+offset=pream.length();
+Entity.replace("\n","\n"+pream);
+insertPlainText(Entity);
+return offset;
+}
 
 /*const QRectF LatexEditor::blockGeometry(const QTextBlock & block) 
 {

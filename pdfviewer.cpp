@@ -363,6 +363,7 @@ if (doc!=0)
     disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
     if (scrollArea->horizontalScrollBar()->isVisible())  {QTimer::singleShot( 500,this, SLOT(jumptoHpos()) );}
     connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+    emit sendFocusToEditor();
     } 
     else 
       {
@@ -1133,6 +1134,10 @@ QString gs="none";
 QString gstemp=gswin32c_command;
 gstemp.remove("\"");
 if (QFileInfo(gstemp).exists()) gs=gstemp;
+else if (QFileInfo("C:/Program Files/gs/gs9.05/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.05/bin/gswin32c.exe";
+else if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe";
+else if (QFileInfo("C:/Program Files/gs/gs9.04/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.04/bin/gswin32c.exe";
+else if (QFileInfo("C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe";
 else if (QFileInfo("C:/Program Files/gs/gs9.02/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.02/bin/gswin32c.exe";
 else if (QFileInfo("C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe";
 else if (QFileInfo("C:/Program Files/gs/gs9.00/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.00/bin/gswin32c.exe";
@@ -1260,6 +1265,11 @@ if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0)
 void PdfViewer::setKeyEditorFocus(QKeySequence s)
 {
 KeySequenceEditorFocus=s;
+}
+
+void PdfViewer::setGSCommand(QString c)
+{
+gswin32c_command=c;
 }
 
 void PdfViewer::keyPressEvent ( QKeyEvent * e ) 

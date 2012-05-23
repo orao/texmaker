@@ -118,6 +118,15 @@ if (currentLink)
 	emit gotoDest(destPage,destLeft,destTop);
 	} 
       }
+    else if ((currentLink->linkArea().contains(scaledPos)) && (currentLink->linkType()==Poppler::Link::Browse))
+      {
+      const Poppler::LinkBrowse *browseLink = dynamic_cast<const Poppler::LinkBrowse*>(currentLink);
+      if (browseLink)
+	{
+	QUrl url = QUrl::fromEncoded(browseLink->url().toAscii());
+	QDesktopServices::openUrl(url);
+	} 
+      }
   }
 currentLink=0;
 handmode=false;

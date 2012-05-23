@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 3.3.3
+Version: 3.3.4
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -112,6 +112,7 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/texmaker_fr.qm
 /usr/share/texmaker/texmaker_gl.qm
 /usr/share/texmaker/texmaker_it.qm
+/usr/share/texmaker/texmaker_pt.qm
 /usr/share/texmaker/texmaker_pt_BR.qm
 /usr/share/texmaker/texmaker_ru.qm
 /usr/share/texmaker/texmaker_zh_CN.qm
@@ -141,6 +142,9 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/README_hu_HU.txt
 /usr/share/texmaker/cs_CZ.aff
 /usr/share/texmaker/cs_CZ.dic
+/usr/share/texmaker/pl_PL.aff
+/usr/share/texmaker/pl_PL.dic
+/usr/share/texmaker/README_pl.txt
 /usr/share/texmaker/README_cs_CZ.txt
 /usr/share/texmaker/README_de_DE_frami.txt
 /usr/share/texmaker/README_DIC_fr_FR.txt

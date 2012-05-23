@@ -126,6 +126,7 @@ QString beginningLine();
 void setTextCursor(const QTextCursor &cursor);
 
 TextBlockSelection blockSelection;
+int insertWithMemoryIndent(QString t);
 public slots:
 void matchAll();
 void setHightLightLine();
@@ -135,6 +136,8 @@ virtual void cut();
 void setCursorVisible() {ensureCursorVisible ();};
 void setColors(QList<QColor> colors);
 void setUserTagsList(QStringList utlist);
+void undoText();
+void redoText();
 
 private:
 bool overmode;
