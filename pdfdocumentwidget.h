@@ -54,8 +54,12 @@ signals:
     void updateDone(int);
     void pressOnPoint(QPoint p);
     void moveOnPoint(QPoint p);
+    void wantNumWords();
+    void wantPngExport(int);
 private slots:
     void jumpToSourceFromPdf();
+    void requestNumWords();
+    void requestPngExport();
 private:
     Poppler::Link *currentLink;
     int currentPage;

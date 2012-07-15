@@ -92,6 +92,11 @@ int LevelItem(const QTreeWidgetItem *item);
 int LineItem(const QTreeWidgetItem *item);
 bool currentfileSaved();
 bool isCurrentModifiedOutside();
+bool copyFile(QString origin,QString destination);
+//void removeDir(QDir thedir);
+void createBuildSubdirectory(QString fn);
+QString outputName(QString finame,QString extension);
+QString outputBaseName(QString finame);
 
 int untitled_id;
 
@@ -126,8 +131,9 @@ QMenu *user1Menu, *user11Menu, *user12Menu;
 QMenu *viewMenu;
 QMenu *optionsMenu, *translationMenu, *appearanceMenu, *settingsMenu;
 QMenu *helpMenu;
+QMenu *sectionMenu, *sizeMenu, *refMenu;
 
-QToolBar *fileToolBar, *editToolBar, *runToolBar, *formatToolBar, *logToolBar, *LeftPanelToolBar,*LeftPanelToolBarBis, *centralToolBar, *centralToolBarBis;
+QToolBar *fileToolBar, *editToolBar, *runToolBar, /* *formatToolBar ,*/ *logToolBar, *LeftPanelToolBar,*LeftPanelToolBarBis, *centralToolBar, *centralToolBarBis;
 QAction *recentFileActs[10], *ToggleAct, *StopAct, *UndoAct, *RedoAct, *SaveAct, *CutAct, *CopyAct,*PasteAct, *ToggleDocAct, *ViewStructurePanelAct, *ViewLogPanelAct, *ViewPdfPanelAct, *ViewSourcePanelAct, *FullScreenAct, *NextDocAct, *PrevDocAct, *ViewOpenedFilesPanelAct ;
 
 QAction *relationAct, *arrowAct, *miscAct, *delimAct, *greekAct, *usedAct, *favAct, *leftrightAct, *pstricksAct, *mpAct, *tikzAct, *asyAct, *userpanelAct;
@@ -151,7 +157,7 @@ QString sessionTempFile;
 bool eraseSettings, replaceSettings;
 QString settingsFileName;
 int split1_right, split1_left, split2_top, split2_bottom, quickmode, tabwidth;
-bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, showpdfview, showsourceview, showfilesview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance, babel_package, geometry_package, graphicx_package, watchfiles, autosave, tabspaces ;
+bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, showpdfview, showsourceview, showfilesview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance, babel_package, geometry_package, graphicx_package, watchfiles, autosave, tabspaces, useoutputdir ;
 bool lmodern_package, kpfonts_package, fourier_package;
 QString document_class, typeface_size, paper_size, document_encoding, author, geometry_options, babel_default;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize;
@@ -214,6 +220,7 @@ void fileSave();
 void fileSaveAll();
 void fileBackupAll();
 void fileSaveAs();
+void fileSaveACopy();
 void fileClose();
 void fileCloseRequested( int index);
 void fileCloseAll();
@@ -345,12 +352,16 @@ void InsertUserTag9();
 void InsertUserTag10();
 void EditUserMenu();
 
-void SectionCommand(const QString& text);
-void OtherCommand(const QString& text);
+void SectionCommand();
+void OtherCommand();
 void InsertCite();
 void InsertRef();
 void InsertPageRef();
-void SizeCommand(const QString& text);
+void SizeCommand();
+
+void ShowSectionMenu();
+void ShowRefMenu();
+void ShowSizeMenu();
 
 void QuickTabular();
 void QuickArray();
@@ -390,6 +401,7 @@ void EditUserTool();
 void doCompile();
 void doView();
 void jumpToPdfline(int line);
+void OpenTerminal();
 
 void LoadLog();
 void ViewLog();

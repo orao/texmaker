@@ -874,10 +874,11 @@ void ManhattanStyle::drawControl(ControlElement element, const QStyleOption *opt
                     p->setPen(lighter);
                     p->drawLine(rect.topLeft(), rect.topRight());
                 }
-            } else {
-                p->drawLine(rect.topLeft(), rect.bottomLeft());
-                p->drawLine(rect.topRight(), rect.bottomRight());
-            }
+             } 
+//else {
+//                 p->drawLine(rect.topLeft(), rect.bottomLeft());
+//                 p->drawLine(rect.topRight(), rect.bottomRight());
+//             }
 
             if (StyleHelper::usePixmapCache() && !QPixmapCache::find(key, pixmap)) {
                 painter->drawPixmap(rect.topLeft(), pixmap);

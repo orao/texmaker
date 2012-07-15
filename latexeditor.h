@@ -66,7 +66,7 @@ LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor>
 ~LatexEditor();
 static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
-bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor );
+bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor, bool isRegExp );
 void replace( const QString &r);
 void commentSelection();
 void uncommentSelection();

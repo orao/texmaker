@@ -22,6 +22,9 @@ TexmakerApp app("TexMaker", argc, argv ); // This is a dummy constructor so that
 
 QStringList args = QCoreApplication::arguments();//add by S. R. Alavizadeh
 //for ( int i=0; i < argc; i++) args += QString::fromLocal8Bit(argv[i]);
+app.setApplicationName("TexMaker");
+app.setApplicationVersion(TEXMAKERVERSION);
+app.setOrganizationName("xm1");
 
 if ( app.isRunning() ) 
     {

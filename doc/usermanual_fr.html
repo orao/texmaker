@@ -62,6 +62,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION39">4.10 Raccourcis clavier</a></li>
 	<li><a href="#SECTION40">4.11 Le panneau "Source Viewer"</a></li>
 	<li><a href="#SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>
+	<li><a href="#SECTION42">4.13 L'option "Utiliser un sous-répertoire 'build'..." pour la commande (pdf)latex</a></li>
 	</ul>
 </ul>
 <hr>
@@ -323,5 +324,19 @@ Pour faciliter le copier/coller entre deux documents, les utilisateurs peuvent o
 <li>D'abord, il faut s'assurer que le programme ghostscript est bien installé sur le système et que le chemin vers "gswin32c.exe" est correctement réglé dans le dialogue de configuration de Texmaker.</li>
 <li>Après avoir cliqué sur le bouton "Imprimer", sélectionner le format du papier et la plage de pages à imprimer.</li>
 <li>Il faut utiliser ensuite le bouton "Propriétés" de la boite de dialogue d'impression standard de windows qui apparaît pour fixer le format et l'orientation que l'on souhaite utiliser.</li>
+</ul>
+<h2><a name="SECTION42">4.13 L'option "Utiliser un sous-répertoire 'build'..." pour la commande (pdf)latex</a></h2>
+Lors de l'utilisation de cette option (configure Texmaker -> Commandes), le paramètre "--output-directory=build" est automatiquement ajouté à la commande (pdf)latex et Texmaker cherchera les fichiers log et pdf dans ce sous-répertoire (qui est automatiquement créé par Texmaker, puisque latex ne le fait pas).
+<br>
+<b>Remarques :</b>
+<ul>
+<li>Pour les autres commandes, l'utilisateur devra probablement remplacer "%" par "build/%", sans quoi ces commandes ont toutes les chances d'échouer. Exemples (sur un système linux) :
+<ul>
+<li>dvips -o build/%.ps build/%.dvi</li>
+<li>ps2pdf build/%.ps build/%.pdf</li>
+<li>bibtex build/%.aux</li>
+</ul>
+</li>
+<li>Avec cette option, la commande "Nettoyer" créera une copie des fichiers ps/pdf du sous-répertoire "build" vers le répertoire courant et effacera tous les autres fichiers du sous-répertoire (le pdf n'est pas effacé car Texmaker l'utilise dans l'afficheur intégré).</li>
 </ul>
 </body></html>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>513</width>
-    <height>60</height>
+    <height>94</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout">
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
    <item row="0" column="0" colspan="2">
     <widget class="QComboBox" name="comboFind">
      <property name="sizePolicy">
@@ -33,7 +36,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2" colspan="2">
+   <item row="0" column="2">
     <widget class="QPushButton" name="findButton">
      <property name="text">
       <string>Find</string>
@@ -43,7 +46,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="4">
+   <item row="0" column="3">
     <widget class="QRadioButton" name="radioForward">
      <property name="text">
       <string>Forward</string>
@@ -53,14 +56,28 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="5">
+   <item row="0" column="4">
     <widget class="QRadioButton" name="radioBackward">
      <property name="text">
       <string>Backward</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="6" rowspan="2">
+   <item row="0" column="5">
+    <widget class="QPushButton" name="closeButton">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="texmaker.qrc">
+       <normaloff>:/images/fileclose.png</normaloff>:/images/fileclose.png</iconset>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="6" rowspan="3">
     <spacer>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -95,21 +112,60 @@
     </widget>
    </item>
    <item row="1" column="5">
-    <widget class="QPushButton" name="closeButton">
+    <widget class="QPushButton" name="moreButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
-      <string>Close</string>
+      <string>+</string>
      </property>
-     <property name="icon">
-      <iconset resource="texmaker.qrc">
-       <normaloff>:/images/fileclose.png</normaloff>:/images/fileclose.png</iconset>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="6">
+    <widget class="QFrame" name="extension">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
      </property>
-     <property name="autoDefault">
-      <bool>true</bool>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
      </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="checkRegExp">
+        <property name="text">
+         <string>RegularExpression</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboFind</tabstop>
+  <tabstop>findButton</tabstop>
+  <tabstop>radioForward</tabstop>
+  <tabstop>radioBackward</tabstop>
+  <tabstop>checkWords</tabstop>
+  <tabstop>checkCase</tabstop>
+  <tabstop>checkBegin</tabstop>
+  <tabstop>closeButton</tabstop>
+  <tabstop>moreButton</tabstop>
+  <tabstop>checkRegExp</tabstop>
+ </tabstops>
  <resources>
   <include location="texmaker.qrc"/>
  </resources>

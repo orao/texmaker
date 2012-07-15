@@ -145,6 +145,8 @@ void updateHistory(int pos);
 void setHpos(int pos);
 void checkSpellGrammarPage();
 void jumptoHpos();
+void countWords();
+void pngExport(int page);
 
 protected:
 void keyPressEvent ( QKeyEvent * e );

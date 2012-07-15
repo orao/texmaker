@@ -27,11 +27,13 @@ public slots:
     virtual void doFind();
     void SetEditor(LatexEditor *ed);
     void doHide();
-
+private slots:
+    void expand(bool e);
 protected:
     LatexEditor *editor;
 signals:
 void requestHide();
+void requestExtension();
 };
 
 #endif

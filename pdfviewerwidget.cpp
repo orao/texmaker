@@ -26,6 +26,7 @@
 #include <QKeySequence>
 #include <QDesktopServices>
 #include <QTextCodec>
+#include <QProgressDialog>
 
 
 #include "poppler-qt4.h"
@@ -67,6 +68,11 @@ centralFrame->setLineWidth(0);
 centralFrame->setFrameShape(QFrame::NoFrame);
 centralFrame->setFrameShadow(QFrame::Plain);
 centralFrame->setFrameStyle(QFrame::NoFrame);
+centralFrame->setAutoFillBackground( true );
+// QPalette p( palette() );
+// p.setColor( backgroundRole(), QColor( "#181E1F" ) );
+// centralFrame->setPalette( p );
+
 
 listpagesWidget=new QListWidget(centralFrame);
 QPalette palette;
@@ -275,7 +281,7 @@ StructureTreeWidget->hide();
 path= QPainterPath();
 altern=1;
 currentScale=1;
-show();
+
 pdf_file=fn;
 viewpdf_command=ec;
 gswin32c_command=pc;
@@ -397,6 +403,8 @@ QFont deft=QFont("DejaVu Sans Condensed",qApp->font().pointSize());
   connect(pdfWidget, SIGNAL(gotoDest(int,int,int)), this, SLOT(jumpToDest(int,int,int)));
   connect(pdfWidget, SIGNAL(pressOnPoint(QPoint)), scrollArea, SLOT(pressHere(QPoint)));
   connect(pdfWidget, SIGNAL(moveOnPoint(QPoint)), scrollArea, SLOT(moveHere(QPoint)));
+  connect(pdfWidget, SIGNAL(wantNumWords()), this, SLOT(countWords()));
+  connect(pdfWidget, SIGNAL(wantPngExport(int)), this, SLOT(pngExport(int)));
   pdfWidget->createblankPixmap(1,heightpix);
   listPdfWidgets.append(pdfWidget);
   listPdfWidgetsPos.append(pos);
@@ -1010,6 +1018,7 @@ if (fi.exists())
 
 void PdfViewerWidget::checkSpellGrammarPage()
 {
+if (!fileLoaded) return;
 if ((currentPage<1) || (currentPage>doc->numPages())) return;
 QString tempDir=QDir::tempPath();
 QString prefixFile=QDir::homePath();
@@ -1107,6 +1116,31 @@ browserWindow->raise();
 browserWindow->show();
 
 
+}
+
+void PdfViewerWidget::countWords()
+{
+if (!fileLoaded) return;
+QString pdf_text="";
+int numwords=0;
+int pagewords=0;
+QProgressDialog progress("",tr("Cancel"), 0, doc->numPages(), this);
+progress.setWindowTitle("Texmaker");
+progress.setWindowModality(Qt::WindowModal);
+for (int i = 0; i < doc->numPages(); ++i)
+  {
+  progress.setValue(i);
+  qApp->processEvents();
+  if (progress.wasCanceled()) return;
+  pagewords=0;
+  pdf_text=doc->page(i)->text(QRectF(),Poppler::Page::PhysicalLayout);
+  pdf_text=pdf_text.simplified();
+  pagewords=pdf_text.count(" ");
+  if (!pdf_text.isEmpty()) pagewords++;
+  numwords+=pagewords;
+  }
+progress.setValue(doc->numPages());
+QMessageBox::information( this,"Texmaker",tr("Number of words in the document")+QString(" : ")+QString::number(numwords));
 }
 
 void PdfViewerWidget::printPdf()
@@ -1403,4 +1437,19 @@ lastHpos=pos;
 void PdfViewerWidget::jumptoHpos()
 {
 scrollArea->horizontalScrollBar()->setValue(lastHpos);
+}
+
+void PdfViewerWidget::pngExport(int page)
+{
+if (!fileLoaded) return;
+QImage image = doc->page(page)->renderToImage(currentScale * physicalDpiX(), currentScale * physicalDpiY());
+if (image.isNull()) return;
+QString currentDir=QDir::homePath();
+QFileInfo fi(pdf_file);
+if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
+QString fn = QFileDialog::getSaveFileName(this,tr("Save As"),currentDir,"Png Image (*.png)");
+if ( !fn.isEmpty() )
+  {
+  image.save(fn,"PNG");  
+  }
 }

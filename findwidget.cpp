@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2012 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,6 +10,7 @@
  ***************************************************************************/
 
 #include "findwidget.h"
+#include <QMessageBox>
 
 FindWidget::FindWidget(QWidget* parent)
     : QWidget( parent)
@@ -21,6 +22,12 @@ ui.findButton->setShortcut(Qt::Key_Return);
 ui.findButton->setToolTip("Return");
 ui.closeButton->setShortcut(Qt::Key_Escape);
 ui.closeButton->setToolTip("Escape");
+ui.moreButton->setCheckable(true);
+ui.moreButton->setAutoDefault(false);
+connect(ui.moreButton, SIGNAL(toggled(bool)), this, SLOT(expand(bool)));
+ui.checkRegExp->setChecked( FALSE );
+ui.extension->hide();
+updateGeometry();
  }
 
 FindWidget::~FindWidget()
@@ -31,7 +38,16 @@ FindWidget::~FindWidget()
 void FindWidget::doFind()
 {
 if ( !editor ) return;
-if ( !editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),	ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked() ) )
+if (ui.checkRegExp->isChecked())
+  {
+  QRegExp regex(ui.comboFind->currentText());
+  if (!regex.isValid()) 
+    {
+    QMessageBox::warning( this,tr("Error"), tr("Invalid regular expression."));
+    return;
+    }
+  }
+if ( !editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),	ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked(), ui.checkRegExp->isChecked()) )
    {
    ui.checkBegin->setChecked( TRUE );
    }
@@ -54,3 +70,11 @@ void FindWidget::SetEditor(LatexEditor *ed)
 editor=ed;
 }
 
+void FindWidget::expand(bool e)
+{
+ ui.extension->setVisible(e);
+ if (!e) ui.checkRegExp->setChecked( FALSE );
+ updateGeometry();
+ emit requestExtension();
+ editor->viewport()->repaint();
+}

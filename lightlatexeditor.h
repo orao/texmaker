@@ -36,7 +36,7 @@ LightLatexEditor(QWidget *parent,QFont & efont,QList<QColor> edcolors, QList<QCo
 ~LightLatexEditor();
 static void clearMarkerFormat(const QTextBlock &block, int markerId);
 void gotoLine( int line );
-bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor );
+bool search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor, bool isRegExp );
 void changeFont(QFont & new_font);
 QString getEncoding();
 void setEncoding(QString enc);

@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.3.4
+TEXMAKERVERSION=3.4
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -592,9 +592,12 @@ target.path = TexmakerMacosx32
 
 #target.path = /Applications
 INSTALLS = target
+HEADERS	+= macsupport.h
+OBJECTIVE_SOURCES += macsupport.mm
 SOURCES	+= singleapp/qtlockedfile_unix.cpp
 utilities.path = Contents/Resources
 utilities.files = utilities/qt_menu.nib \
+	utilities/openTerminal.command \
 	doc/doc1.png \
 	doc/doc10.png \
 	doc/doc11.png \

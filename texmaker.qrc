@@ -3,6 +3,9 @@
 	<file>fonts/DejaVuSansCondensed.ttf</file>
 	<file>fonts/DejaVuSansCondensed-Bold.ttf</file>
 	<file>fonts/DejaVuSansCondensed-Oblique.ttf</file>
+	<file>images/sectioning.png</file>
+	<file>images/ref.png</file>
+	<file>images/size.png</file>
 	<file>images/trigger.png</file>
 	<file>images/triggerbis.png</file>
 	<file>images/source_button_enabled.png</file>

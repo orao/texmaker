@@ -62,6 +62,7 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION39">4.10 Keyboard shortcuts</a></li>
 	<li><a href="#SECTION40">4.11 The "Source Viewer" panel</a></li>
 	<li><a href="#SECTION41">4.12 Printing a pdf document with the built-in pdf viewer on windows</a></li>
+	<li><a href="#SECTION42">4.13 "Use a 'build' subdirectory..." option for (pdf)latex command</a></li>
 	</ul>
 </ul>
 <hr>
@@ -319,5 +320,18 @@ To make easy copy/paste operations between two documents, users can open a docum
 <li>Be sure that the ghostscript program is installed and that the path to the "gswin32c.exe" file in the Texmaker configuration dialog is good.</li>
 <li>After clicking on the "print" button, fix the paper size and the print range.</li>
 <li>Use the "properties" button in the standard windows printing dialog wich appears to fix the paper size and orientation.</li>
+</ul>
+<h2><a name="SECTION42">4.13 "Use a 'build' subdirectory..." option for (pdf)latex command</a></h2>
+By using this option (configure Texmaker -> Commands), the "--output-directory=build" parameter will be automatically added to the (pdf)latex command and texmaker will search the log and pdf files into this subdirectory (the "build" subdirectory is automatically created by Texmaker).<br>
+<b>Remarks :</b>
+<ul>
+<li>For the others commands, user will probably have to replace "%" by "build/%". Otherwise, these commands will probably fail. Examples (on linux system) :
+<ul>
+<li>dvips -o build/%.ps build/%.dvi</li>
+<li>ps2pdf build/%.ps build/%.pdf</li>
+<li>bibtex build/%.aux</li>
+</ul>
+</li>
+<li>If this option is checked, the "clean" command will make a copy of the ps/pdf files from the "build" subdirectory to the current directory and will delete all the others files in the "build" subdirectory (the pdf file is not deleted because Texmaker uses it for the pdf viewer).</li>
 </ul>
 </body></html>

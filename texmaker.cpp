@@ -57,6 +57,7 @@
 #include <QTemporaryFile>
 
 #ifdef Q_WS_MACX
+#include "macsupport.h"
 #if (QT_VERSION >= 0x0406)
 #include <QProcessEnvironment>
 #endif
@@ -129,6 +130,7 @@ untitled_id=1;
 
 #ifdef Q_WS_MACX
 setWindowIcon(QIcon(":/images/logo128.png"));
+//MacSupport::addFullscreen(this);
 #else
 setWindowIcon(QIcon(":/images/appicon.png"));
 #endif
@@ -520,6 +522,94 @@ centralToolBar->setOrientation(Qt::Vertical);
 centralToolBar->setMovable(false);
 centralToolBar->setIconSize(QSize(16,16 ));
 
+
+sectionMenu=new QMenu(this);
+Act = new QAction("part", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SectionCommand()));
+sectionMenu->addAction(Act);
+Act = new QAction("chapter", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SectionCommand()));
+sectionMenu->addAction(Act);
+Act = new QAction("section", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SectionCommand()));
+sectionMenu->addAction(Act);
+Act = new QAction("subsection", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SectionCommand()));
+sectionMenu->addAction(Act);
+Act = new QAction("subsubsection", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SectionCommand()));
+sectionMenu->addAction(Act);
+Act = new QAction("paragraph", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SectionCommand()));
+sectionMenu->addAction(Act);
+Act = new QAction("subparagraph", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SectionCommand()));
+sectionMenu->addAction(Act);
+
+refMenu=new QMenu(this);
+Act = new QAction("label", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(OtherCommand()));
+refMenu->addAction(Act);
+Act = new QAction("ref", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(OtherCommand()));
+refMenu->addAction(Act);
+Act = new QAction("pageref", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(OtherCommand()));
+refMenu->addAction(Act);
+Act = new QAction("index", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(OtherCommand()));
+refMenu->addAction(Act);
+Act = new QAction("cite", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(OtherCommand()));
+refMenu->addAction(Act);
+Act = new QAction("footnote", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(OtherCommand()));
+refMenu->addAction(Act);
+
+sizeMenu=new QMenu(this);
+Act = new QAction("tiny", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("scriptsize", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("footnotesize", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("small", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("normalsize", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("large", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("Large", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("LARGE", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("huge", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+Act = new QAction("Huge", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
+sizeMenu->addAction(Act);
+
+Act = new QAction(QIcon(":/images/sectioning.png"),"part/chapter/section...", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(ShowSectionMenu()));
+centralToolBar->addAction(Act);
+Act = new QAction(QIcon(":/images/ref.png"),"Label/ref/cite...", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(ShowRefMenu()));
+centralToolBar->addAction(Act);
+Act = new QAction(QIcon(":/images/size.png"),"tiny/small/large...", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(ShowSizeMenu()));
+centralToolBar->addAction(Act);
+
+centralToolBar->addSeparator();
+
 Act = new QAction(QIcon(":/images/text_bold.png"),tr("Bold"), this);
 Act->setData("\\textbf{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
@@ -769,7 +859,9 @@ ToggleDocAct->setEnabled(false);
 MasterName=getName();
 
 show();
-
+#ifdef Q_WS_MACX
+MacSupport::addFullscreen(this);
+#endif
 splitter2Changed();
 
 
@@ -852,6 +944,10 @@ fileMenu->addAction(Act);
 
 Act = new QAction(tr("Save All"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileSaveAll()));
+fileMenu->addAction(Act);
+
+Act = new QAction(tr("Save A Copy"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(fileSaveACopy()));
 fileMenu->addAction(Act);
 
 Act = new QAction(QIcon(":/images/fileclose.png"), tr("Close"), this);
@@ -1069,6 +1165,11 @@ toolMenu->addSeparator();
 Act = new QAction(tr("Clean"), this);
 Act->setData("Clean");
 connect(Act, SIGNAL(triggered()), this, SLOT(CleanAll()));
+toolMenu->addAction(Act);
+toolMenu->addSeparator();
+Act = new QAction(tr("Open Terminal"), this);
+Act->setData("Open Terminal");
+connect(Act, SIGNAL(triggered()), this, SLOT(OpenTerminal()));
 toolMenu->addAction(Act);
 
 Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
@@ -1731,10 +1832,7 @@ bibtexMenu->addAction(Act);
 Act = new QAction("Miscellaneous", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBib13()));
 bibtexMenu->addAction(Act);
-bibMenu->addSeparator();
-Act = new QAction(tr("Clean"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(CleanBib()));
-bibtexMenu->addAction(Act);
+
 
 biblatexMenu=bibMenu->addMenu("Biblatex");
 Act = new QAction("Article in Journal", this);
@@ -1788,6 +1886,12 @@ biblatexMenu->addAction(Act);
 Act = new QAction("Thesis", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex17()));
 biblatexMenu->addAction(Act);
+
+bibMenu->addSeparator();
+Act = new QAction(tr("Clean"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(CleanBib()));
+bibMenu->addAction(Act);
+
 
 user1Menu = menuBar()->addMenu(tr("&User"));
 user11Menu=user1Menu->addMenu(tr("User &Tags"));
@@ -2003,6 +2107,7 @@ Act = new QAction(QIcon(":/images/appicon.png"), tr("About Texmaker"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(HelpAbout()));
 helpMenu->addAction(Act);
 
+
 QList<QAction *> listaction;
 KeysMap::Iterator its;
 bool hasNextPrev=false;
@@ -2149,53 +2254,10 @@ editToolBar->addAction(CutAct);
 editToolBar->addAction(PasteAct);
 
 //format
-formatToolBar = addToolBar("Format ToolBar");
-formatToolBar->setObjectName("Format");
+//formatToolBar = addToolBar("Format ToolBar");
+//formatToolBar->setObjectName("Format");
 //insertToolBarBreak(formatToolBar);
 
-list.clear();
-list.append("part");
-list.append("chapter");
-list.append("section");
-list.append("subsection");
-list.append("subsubsection");
-list.append("paragraph");
-list.append("subparagraph");
-QComboBox* combo1 = new QComboBox(formatToolBar);
-combo1->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-combo1->addItems(list);
-connect(combo1, SIGNAL(activated(const QString&)),this,SLOT(SectionCommand(const QString&)));
-formatToolBar->addWidget(combo1);
-
-list.clear();
-list.append("label");
-list.append("ref");
-list.append("pageref");
-list.append("index");
-list.append("cite");
-list.append("footnote");
-QComboBox* combo2 = new QComboBox(formatToolBar);
-combo2->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-combo2->addItems(list);
-connect(combo2, SIGNAL(activated(const QString&)),this,SLOT(OtherCommand(const QString&)));
-formatToolBar->addWidget(combo2);
-
-list.clear();
-list.append("tiny");
-list.append("scriptsize");
-list.append("footnotesize");
-list.append("small");
-list.append("normalsize");
-list.append("large");
-list.append("Large");
-list.append("LARGE");
-list.append("huge");
-list.append("Huge");
-QComboBox* combo3 = new QComboBox(formatToolBar);
-combo3->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-combo3->addItems(list);
-connect(combo3, SIGNAL(activated(const QString&)),this,SLOT(SizeCommand(const QString&)));
-formatToolBar->addWidget(combo3);
 
 //tools
 runToolBar = addToolBar("Tools Toolbar");
@@ -2262,7 +2324,7 @@ StopAct->setEnabled(false);
 viewMenu->addSeparator();
 viewMenu->addAction(fileToolBar->toggleViewAction());
 viewMenu->addAction(editToolBar->toggleViewAction());
-viewMenu->addAction(formatToolBar->toggleViewAction());
+//viewMenu->addAction(formatToolBar->toggleViewAction());
 viewMenu->addAction(runToolBar->toggleViewAction());
 }
 
@@ -2673,13 +2735,13 @@ if ((filesNames.count()==1) && embedinternalpdf && builtinpdfview && showpdfview
   QString finame=getName();
   QFileInfo fi(finame);
   QString basename=fi.completeBaseName();
-  QString pdfname=fi.absolutePath()+"/"+basename+".pdf";
+  QString pdfname=outputName(finame,".pdf");
   QFileInfo pdfi(pdfname);
   if (pdfi.exists() && pdfi.isReadable()) 
     {
       if (pdfviewerWidget)
 	{
-	pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+	pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
 	StackedViewers->setCurrentWidget(pdfviewerWidget);
 	
 	//pdfviewerWidget->raise();
@@ -2687,8 +2749,8 @@ if ((filesNames.count()==1) && embedinternalpdf && builtinpdfview && showpdfview
 	}
       else
 	{
-    //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+    //    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
+	pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -2698,7 +2760,7 @@ if ((filesNames.count()==1) && embedinternalpdf && builtinpdfview && showpdfview
 	StackedViewers->setCurrentWidget(pdfviewerWidget);
 	//pdfviewerWidget->raise();
 	pdfviewerWidget->show();
-	pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+	pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
 	}
     }
   }
@@ -2724,7 +2786,7 @@ disconnect(this, SIGNAL(windowActivated()),this, SLOT(mainWindowActivated()));
 
 
 QList<QTreeWidgetItem *> fItems;
-bool islabels_expanded=true;
+bool islabels_expanded=false;
 bool isblocks_expanded=true;
 fItems=StructureTreeWidget->findItems ("LABELS",Qt::MatchRecursive,0);
 if (fItems.size()>0 ) 
@@ -3079,6 +3141,30 @@ UpdateCaption();
 QApplication::restoreOverrideCursor();
 }
 
+void Texmaker::fileSaveACopy()
+{
+if (!currentEditorView() ) return;
+QString currentDir=QDir::homePath();
+if (!lastDocument.isEmpty())
+	{
+	QFileInfo fi(lastDocument);
+	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
+	}
+QString fn = QFileDialog::getSaveFileName(this,tr("Save As"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp *.Rnw *.asy);;All files (*.*)");
+if ( !fn.isEmpty() )
+	{
+	QFile file(fn);
+	if ( file.open( QIODevice::WriteOnly ) )
+	    {
+	    QTextStream ts( &file );
+	    QTextCodec* codec = QTextCodec::codecForName(currentEditorView()->editor->getEncoding().toLatin1());
+	    ts.setCodec(codec ? codec : QTextCodec::codecForLocale());
+	    ts << currentEditorView()->editor->toPlainText();
+	    file.close();
+	    }	  
+	}
+}
+
 void Texmaker::fileClose()
 {
 if ( !currentEditorView() )	return;
@@ -3378,21 +3464,21 @@ if (action)
       QString finame=getName();
       QFileInfo fi(finame);
       QString basename=fi.completeBaseName();
-      QString pdfname=fi.absolutePath()+"/"+basename+".pdf";
+      QString pdfname=outputName(finame,".pdf");
       QFileInfo pdfi(pdfname);
       if (pdfi.exists() && pdfi.isReadable()) 
 	{
 	  if (pdfviewerWidget)
 	    {
-	    pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+	    pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
 	    StackedViewers->setCurrentWidget(pdfviewerWidget);
 	    //pdfviewerWidget->raise();
 	    pdfviewerWidget->show();
 	    }
 	  else
 	    {
-	//    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	    pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+	//    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
+	    pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	    pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	    pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	    connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -3402,7 +3488,7 @@ if (action)
 	    StackedViewers->setCurrentWidget(pdfviewerWidget);
 	    //pdfviewerWidget->raise();
 	    pdfviewerWidget->show();
-	    pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+	    pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
 	    }
 	}
       }
@@ -3802,6 +3888,7 @@ showSmallfrac=config->value( "Show/Smallfrac",true).toBool();
 showDfrac=config->value( "Show/Dfrac",true).toBool();
 showRacine=config->value( "Show/Racine",true).toBool();
 
+useoutputdir=config->value( "Tools/OutputDir",false).toBool();
 quickmode=config->value( "Tools/Quick Mode",3).toInt();
 QString baseName = qApp->style()->objectName();
 builtinpdfview=config->value("Tools/IntegratedPdfViewer",true).toBool();
@@ -4219,7 +4306,7 @@ config.setValue( "X11/Font Size",x11fontsize);
 #endif
 
 config.setValue("MainWindowState",saveState(0));
-config.setValue("MainWindowMaximized",(windowState()==Qt::WindowMaximized)); 
+config.setValue("MainWindowMaximized",windowState().testFlag(Qt::WindowMaximized)); 
 config.setValue("Splitter1State",splitter1->saveState());
 config.setValue("Splitter2State",splitter2->saveState());
 config.setValue("Splitter3State",splitter3->saveState());
@@ -4285,6 +4372,7 @@ config.setValue( "Show/Smallfrac",showSmallfrac);
 config.setValue( "Show/Dfrac",showDfrac);
 config.setValue( "Show/Racine",showRacine);
 
+config.setValue("Tools/OutputDir",useoutputdir);
 config.setValue("Tools/Quick Mode",quickmode);
 config.setValue("Tools/Latex",latex_command);
 config.setValue("Tools/Dvi",viewdvi_command);
@@ -4584,12 +4672,35 @@ QFont deft=QFont("DejaVu Sans Condensed",qApp->font().pointSize());
 QTreeWidgetItem *Child,*parent_level[5], *theitem;
 QString current;
 if (StructureTreeWidget->currentItem()) current=StructureTreeWidget->currentItem()->text(0);
-StructureTreeWidget->clear();
+
 if ( !currentEditorView() ) return;
 
 QString shortName = getName();
 if ((shortName.right(4)!=".tex") && (shortName.right(4)!=".Rnw") && (!shortName.startsWith("untitled")))  return;
 
+/*************************************/
+QList<QTreeWidgetItem *> fItems;
+bool islabels_expanded=false;
+bool isblocks_expanded=true;
+fItems=StructureTreeWidget->findItems ("LABELS",Qt::MatchRecursive,0);
+if (fItems.size()>0 ) 
+  {
+  if (fItems.at(0)) 
+      {
+      islabels_expanded=fItems.at(0)->isExpanded();
+      }
+  }
+fItems.clear();
+fItems=StructureTreeWidget->findItems ("BLOCKS",Qt::MatchRecursive,0);
+if (fItems.size()>0 ) 
+  {
+  if (fItems.at(0)) 
+      {
+      isblocks_expanded=fItems.at(0)->isExpanded();
+      }
+  }  
+/*************************************/
+StructureTreeWidget->clear();
 int pos;
 while ( (pos = (int)shortName.indexOf('/')) != -1 )
 shortName.remove(0,pos+1);
@@ -4738,8 +4849,30 @@ if (!current.isEmpty())
 		}
 	}
 StructureTreeWidget->setItemExpanded (top,true);
-StructureTreeWidget->setItemExpanded (toplabel,false);
-StructureTreeWidget->setItemExpanded (blocklabel,true);
+//StructureTreeWidget->setItemExpanded (toplabel,false);
+//StructureTreeWidget->setItemExpanded (blocklabel,true);
+/*************************************************/
+fItems.clear();
+fItems=StructureTreeWidget->findItems ("LABELS",Qt::MatchRecursive,0);
+if (fItems.size()>0 ) 
+  {
+  if (fItems.at(0)) 
+      {
+      StructureTreeWidget->setItemExpanded(fItems.at(0),islabels_expanded);
+      }
+  }
+fItems.clear();
+fItems=StructureTreeWidget->findItems ("BLOCKS",Qt::MatchRecursive,0);
+if (fItems.size()>0 ) 
+  {
+  if (fItems.at(0)) 
+      {
+      StructureTreeWidget->setItemExpanded (fItems.at(0),isblocks_expanded);
+      }
+  }  
+
+/************************************************/
+
 currentEditorView()->editor->foldableLines.clear();
 int endpreamble = currentEditorView()->editor->searchLine("\\begin{document}");
 if (endpreamble>1) currentEditorView()->editor->foldableLines.insert(0,endpreamble-1);
@@ -5048,7 +5181,7 @@ cur.setPosition(pos,QTextCursor::MoveAnchor);
 if (Entity.contains(QString(0x2022))) 
     {
     currentEditorView()->editor->setTextCursor(cur);
-    currentEditorView()->editor->search(QString(0x2022) ,true,false,true,true);
+    currentEditorView()->editor->search(QString(0x2022) ,true,false,true,true,false);
     OutputTextEdit->insertLine("Use the Tab key to reach the next "+QString(0x2022)+" field");
     }
 else
@@ -6005,9 +6138,17 @@ tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="journaltitle = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "translator" << "annotator" << "commentator" << "subtitle" << "titleaddon" << "editor" << "editora" << "editorb" << "editorc" << "journalsubtitle" << "issuetitle" << "issuesubtitle" << "language" << "origlanguage" << "series" << "volume" << "number" << "eid" << "issue" << "month" << "pages" << "version" << "note" << "issn" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
+
 InsertTag(tag,9,0);
 OutputTextEdit->insertLine("Bib fields - Article in Journal");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex2()
@@ -6016,9 +6157,16 @@ QString tag = QString("@book{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,6,0);
 OutputTextEdit->insertLine("Bib fields - Single-volume book");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex3()
@@ -6027,9 +6175,16 @@ QString tag = QString("@mvbook{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "language" << "origlanguage" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,8,0);
 OutputTextEdit->insertLine("Bib fields - Multi-volume book");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex4()
@@ -6039,9 +6194,16 @@ tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="booktitle = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "bookauthor" << "editor" << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,8,0);
 OutputTextEdit->insertLine("Bib fields - A part of a book");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex5()
@@ -6050,9 +6212,16 @@ QString tag = QString("@booklet{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "language" << "howpublished" << "type" << "note" << "location" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,9,0);
 OutputTextEdit->insertLine("Bib fields - A book-like work without a formal publisher");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex6()
@@ -6061,9 +6230,16 @@ QString tag = QString("@collection{"+QString(0x2022)+",\n");
 tag+="editor = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,11,0);
 OutputTextEdit->insertLine("Bib fields - Single-volume collection");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex7()
@@ -6072,9 +6248,16 @@ QString tag = QString("@mvcollection{"+QString(0x2022)+",\n");
 tag+="editor = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "language" << "origlanguage" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,13,0);
 OutputTextEdit->insertLine("Bib fields - Multi-volume collection");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex8()
@@ -6085,9 +6268,16 @@ tag+="editor = {},\n";
 tag+="title = {},\n";
 tag+="booktitle = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "editora" << "editorb" << "editorc" << "translator" << "annotator" << "commentator" << "introduction" << "foreword" << "afterword" << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "language" << "origlanguage" << "volume" << "part" << "edition" << "volumes" << "series" << "number" << "note" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,13,0);
 OutputTextEdit->insertLine("Bib fields - A part of a collection");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex9()
@@ -6096,9 +6286,16 @@ QString tag = QString("@manual{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "language" << "edition" << "type" << "series" << "number" << "version" << "note" << "organization" << "publisher" << "location" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,8,0);
 OutputTextEdit->insertLine("Bib fields - Technical documentation");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex10()
@@ -6107,9 +6304,16 @@ QString tag = QString("@misc{"+QString(0x2022)+",\n");
 tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields  << "subtitle" << "titleaddon" << "language" << "howpublished" << "type" << "version" << "note" << "organization" << "location" << "date" << "month" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,6,0);
 OutputTextEdit->insertLine("Bib fields - Miscellaneous");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex11()
@@ -6119,9 +6323,16 @@ tag+="author = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
 tag+="url = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "language" << "version" << "note" << "organization" << "date" << "month" << "addendum" << "pubstate" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,8,0);
 OutputTextEdit->insertLine("Bib fields - Online resource");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex12()
@@ -6130,9 +6341,16 @@ QString tag = QString("@periodical{"+QString(0x2022)+",\n");
 tag+="editor = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "editora" << "editorb" << "editorc" << "subtitle" << "issuetitle" << "issuesubtitle" << "language" << "series" << "volume" << "number" << "issue" << "date" << "month" <<  "note" << "issn" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,11,0);
 OutputTextEdit->insertLine("Bib fields - Issue of a periodical");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex13()
@@ -6141,9 +6359,16 @@ QString tag = QString("@proceedings{"+QString(0x2022)+",\n");
 tag+="editor = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "eventtitle" << "eventdate" << "venue" << "language" << "volume" << "part" << "volumes" << "series" << "number" << "note" << "organization" << "publisher" << "location" << "month" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,12,0);
 OutputTextEdit->insertLine("Bib fields - Single-volume conference proceedings");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex14()
@@ -6152,9 +6377,16 @@ QString tag = QString("@mvproceedings{"+QString(0x2022)+",\n");
 tag+="editor = {},\n";
 tag+="title = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "eventtitle" << "eventdate" << "venue" << "language" << "volumes" << "series" << "number" << "note" << "organization" << "publisher" << "location" << "month" << "isbn" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,14,0);
 OutputTextEdit->insertLine("Bib fields - Multi-volume conference proceedings");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex15()
@@ -6165,9 +6397,16 @@ tag+="editor = {},\n";
 tag+="title = {},\n";
 tag+="booktitle = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "maintitle" << "mainsubtitle" << "maintitleaddon" << "booksubtitle" << "booktitleaddon" << "eventtitle" << "eventdate" << "venue" << "language" << "volume" << "part" << "volumes" << "series" << "number" << "note" << "organization" << "publisher" << "location" << "month" << "isbn" << "chapter" << "pages" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,14,0);
 OutputTextEdit->insertLine("Bib fields - Article in conference proceedings");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex16()
@@ -6178,9 +6417,16 @@ tag+="title = {},\n";
 tag+="type = {},\n";
 tag+="institution = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "language" << "number" << "version" << "note" << "location" << "month" << "isrn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,7,0);
 OutputTextEdit->insertLine("Bib fields - Technical report");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::InsertBibLatex17()
@@ -6191,9 +6437,16 @@ tag+="title = {},\n";
 tag+="type = {},\n";
 tag+="institution = {},\n";
 tag+="year = {},\n";
+QStringList optfields;
+optfields << "subtitle" << "titleaddon" << "language" << "note" << "location" << "month" << "isbn" << "chapter" << "pages" << "pagetotal" << "addendum" << "pubstate" << "doi" << "eprint" << "eprintclass" << "eprinttype" << "url" << "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
 tag+="}\n";
 InsertTag(tag,8,0);
 OutputTextEdit->insertLine("Bib fields - Thesis");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
 void Texmaker::CleanBib()
@@ -6211,14 +6464,14 @@ bool selection=cur.hasSelection();
 if (selection) currentEditorView()->editor->cut();
 int pos=cur.position();
 Entity.replace("@",QString(0x2022));
-if (Entity.contains("\n") && !pre.isEmpty()) Entity.replace("\n","\n"+pre);
+//if (Entity.contains("\n") && !pre.isEmpty()) Entity.replace("\n","\n"+pre);
 currentEditorView()->editor->insertWithMemoryIndent(Entity);
 cur.setPosition(pos,QTextCursor::MoveAnchor);
 int dx=Entity.length();
 if (Entity.contains(QString(0x2022))) 
     {
     currentEditorView()->editor->setTextCursor(cur);
-    currentEditorView()->editor->search(QString(0x2022) ,true,false,true,true);
+    currentEditorView()->editor->search(QString(0x2022) ,true,false,true,true,false);
     if (selection) currentEditorView()->editor->paste();
     }
 else
@@ -6449,15 +6702,19 @@ if ( umDlg->exec() )
 	}
 }
 
-void Texmaker::SectionCommand(const QString& text)
+void Texmaker::SectionCommand()
 {
 if ( !currentEditorView() ) return;
+QAction *action = qobject_cast<QAction *>(sender());
+QString text=action->text();
 InsertStructFromString("\\"+text);
 }
 
-void Texmaker::OtherCommand(const QString& text)
+void Texmaker::OtherCommand()
 {
 if ( !currentEditorView() ) return;
+QAction *action = qobject_cast<QAction *>(sender());
+QString text=action->text();
 if (text=="label") 
 	{
 	InsertFromString("\\label{} /7/0");
@@ -6537,9 +6794,11 @@ else InsertTag("\\pageref{}",9,0);
 OutputTextEdit->insertLine( "\\pageref{key}");
 }
 
-void Texmaker::SizeCommand(const QString& text)
+void Texmaker::SizeCommand()
 {
 if ( !currentEditorView() ) return;
+QAction *action = qobject_cast<QAction *>(sender());
+QString text=action->text();
 if (text=="tiny")
 	{
 	if (currentEditorView()->editor->textCursor().hasSelection() && !currentEditorView()->editor->textCursor().selectedText().contains(QString(0x2029)))
@@ -6631,6 +6890,21 @@ if (text=="Huge")
 	return;
 	}
 }
+void Texmaker::ShowSectionMenu()
+{
+QAction *action = qobject_cast<QAction *>(sender());
+sectionMenu->exec(centralToolBar->widgetForAction(action)->mapToGlobal(QPoint(centralToolBar->width(),0)));  
+}
+void Texmaker::ShowRefMenu()
+{
+QAction *action = qobject_cast<QAction *>(sender());
+refMenu->exec(centralToolBar->widgetForAction(action)->mapToGlobal(QPoint(centralToolBar->width(),0)));    
+}
+void Texmaker::ShowSizeMenu()
+{
+QAction *action = qobject_cast<QAction *>(sender());
+sizeMenu->exec(centralToolBar->widgetForAction(action)->mapToGlobal(QPoint(centralToolBar->width(),0)));      
+}
 
 ///////////////TOOLS////////////////////
 void Texmaker::RunCommand(QString comd,bool waitendprocess)
@@ -6650,7 +6924,21 @@ if (!currentfileSaved())
   ERRPROCESS=true;
   return;
   }
-
+// QFileInfo texfi(finame);
+// QString suf="."+texfi.suffix();
+// QString realname;
+if ((comd.startsWith("latex") || comd.startsWith("pdflatex")) &&  useoutputdir)
+  {
+  commandline.replace("latex","latex --output-directory=build");
+  createBuildSubdirectory(finame);
+//  realname=finame;
+  }
+// else
+//   {
+//   realname=outputName(finame,suf);
+//   }
+// 
+// qDebug() << realname;
 QFileInfo fi(finame);
 QString basename=fi.completeBaseName();
 commandline.replace("%","\""+basename+"\"");
@@ -6664,13 +6952,15 @@ if (currentEditorView() )
   }
 commandline.replace("@",QString::number(currentline));
 
+
+
 if (builtinpdfview && (comd==viewpdf_command))
   {
     if (embedinternalpdf)
       {
       if (pdfviewerWidget)
 	{
-	pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+	pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
 	StackedViewers->setCurrentWidget(pdfviewerWidget);
 	//pdfviewerWidget->raise();
       	showpdfview=true;
@@ -6680,8 +6970,8 @@ if (builtinpdfview && (comd==viewpdf_command))
 	}
       else
 	{
-    //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+    //    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
+	pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -6691,7 +6981,7 @@ if (builtinpdfview && (comd==viewpdf_command))
 	StackedViewers->setCurrentWidget(pdfviewerWidget);
 	//pdfviewerWidget->raise();
 	pdfviewerWidget->show();
-	pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+	pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
 	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline);
 	}
       return;
@@ -6700,15 +6990,15 @@ if (builtinpdfview && (comd==viewpdf_command))
     {
     if (pdfviewerWindow)
       {
-      pdfviewerWindow->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+      pdfviewerWindow->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
       if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline);
       }
     else
       {
-  //    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
+  //    pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
+      pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -6756,7 +7046,7 @@ if (figs.exists())
 #endif*/
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
-connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
+if (comd==asymptote_command) connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
 if (checkViewerInstance && ((comd==viewdvi_command) || (comd==viewps_command) || (comd==viewpdf_command)))
   {
   connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndViewerProcess(int)));
@@ -7179,27 +7469,60 @@ if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || fin
 	return;
 	}
 fileSave();
-QFileInfo fi(finame);
-QString name=fi.absoluteFilePath();
-QString ext=fi.suffix();
-QString basename=name.left(name.length()-ext.length()-1);
 QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls").split(",");
-int query =QMessageBox::warning(this, "Texmaker", tr("Delete the output files generated by LaTeX ?\n(.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls)"),tr("Delete Files"), tr("Cancel") );
-if (query==0)
+if (useoutputdir)
+{
+QFileInfo fi(outputName(finame,".pdf"));
+  if(QMessageBox::warning(this, "Texmaker", tr("Make a copy of the %1.pdf/ps document in the \"build\" subdirectory and delete all the others %1.* files?").arg(fi.baseName()),tr("Ok"), tr("Cancel") )==0)
+  {
+  QDirIterator iterator(QDir(fi.absolutePath()),QDirIterator::NoIteratorFlags);
+  while(iterator.hasNext())
+    {
+    QString entry(iterator.next());
+    if (QFileInfo(entry).suffix().toLower()=="pdf" && QFileInfo(entry).baseName()==fi.baseName())
+      {
+      copyFile(entry,QFileInfo(finame).absolutePath()+"/"+QFileInfo(entry).completeBaseName()+".pdf");
+      }
+    else if (QFileInfo(entry).suffix().toLower()=="ps" && QFileInfo(entry).baseName()==fi.baseName())
+      {
+      copyFile(entry,QFileInfo(finame).absolutePath()+"/"+QFileInfo(entry).completeBaseName()+".ps");
+      }
+    else if(!QFileInfo(entry).isDir() && QFileInfo(entry).baseName()==fi.baseName())
+      {
+      if (QFile::exists(entry))
+	      {
+	      QFile file(entry);
+	      file.open( QIODevice::ReadOnly );
+	      file.remove();
+	      }    
+      }
+    }
+  }
+}
+else
+{
+QFileInfo fi(finame);
+if (QMessageBox::warning(this, "Texmaker", tr("Delete the output files generated by LaTeX ?"),tr("Delete Files"), tr("Cancel") )==0)
+  {
+  QDirIterator iterator(QDir(fi.absolutePath()),QDirIterator::NoIteratorFlags);
+  while(iterator.hasNext())
+    {
+    QString entry(iterator.next());
+    if(!QFileInfo(entry).isDir())
+      {
+      if(extension.contains("."+QFileInfo(entry).completeSuffix().toLower()) && QFileInfo(entry).baseName()==fi.baseName())
 	{
-	//stat2->setText(QString(" %1 ").arg(tr("Clean")));
-	for ( QStringList::Iterator it = extension.begin(); it != extension.end(); ++it ) 
+	if (QFile::exists(entry))
 		{
-		f=basename+*it;
-		if (QFile::exists(f))
-			{
-			QFile file(f);
-			file.open( QIODevice::ReadOnly );
-			file.remove();
-			}
+		QFile file(entry);
+		file.open( QIODevice::ReadOnly );
+		file.remove();
 		}
-	
 	}
+      }
+    }
+  }
+}
 }
 
 void Texmaker::Asymptote()
@@ -7365,6 +7688,40 @@ for (int i = 0; i < commandList.size(); ++i)
 	  }
         else return;
 	}
+}
+
+void Texmaker::OpenTerminal()
+{
+QProcess process;
+
+QString finame;
+if (singlemode) {finame=getName();}
+else {finame=MasterName;}
+if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || finame=="")
+	{
+	finame=QDir::homePath();
+	}
+QFileInfo fi(finame); 
+
+
+const QString pwd = QDir::toNativeSeparators(fi.isDir() ?
+                                                 fi.absoluteFilePath() :
+                                                 fi.absolutePath());
+process.setWorkingDirectory(pwd);
+#ifdef Q_OS_WIN
+const QString terminalEmulator = QString::fromLocal8Bit(qgetenv("COMSPEC"));
+process.startDetached(terminalEmulator,QStringList()<< "/k" << "cd" << pwd);
+#elif defined(Q_OS_MAC)
+const QString terminalEmulator = QCoreApplication::applicationDirPath() + "/../Resources/openTerminal.command";
+process.startDetached(terminalEmulator,QStringList()<< pwd);
+#else
+const QString shell = QString::fromLocal8Bit(qgetenv("SHELL"));
+if (!process.startDetached("konsole --workdir \""+pwd+"\""))
+  {
+  if (!process.startDetached("gnome-terminal --working-directory=\""+pwd+"\"")) process.startDetached("xterm -lc -u8 -e \"cd \'"+pwd+"\' && "+shell+"\"");
+  }
+#endif
+
 }
 
 void Texmaker::EditUserTool()
@@ -7544,7 +7901,7 @@ if (embedinternalpdf)
     {
     if (pdfviewerWidget)
       {
-      if (pdfviewerWidget->pdf_file!=fi.absolutePath()+"/"+basename+".pdf") pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+      if (pdfviewerWidget->pdf_file!=outputName(finame,".pdf")) pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
       StackedViewers->setCurrentWidget(pdfviewerWidget);
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
@@ -7553,8 +7910,8 @@ if (embedinternalpdf)
       }
     else
       {
-  //    pdfviewerWidget=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWidget=new PdfViewerWidget(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+  //    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
+      pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
       pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
       pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
       connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -7564,7 +7921,7 @@ if (embedinternalpdf)
       StackedViewers->setCurrentWidget(pdfviewerWidget);
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
-      pdfviewerWidget->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+      pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
       if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
       pdfviewerWidget->getFocus();
       }
@@ -7573,15 +7930,17 @@ else
     {
     if (pdfviewerWindow)
       {
-      if (pdfviewerWindow->pdf_file!=fi.absolutePath()+"/"+basename+".pdf") pdfviewerWindow->openFile(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
+      if (pdfviewerWindow->pdf_file!=outputName(finame,".pdf")) pdfviewerWindow->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
+      qApp->setActiveWindow(pdfviewerWindow);
+      pdfviewerWindow->setFocus();
       if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
       }
     else
       {
-  //    pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(fi.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
+  //    pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
+      pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -7603,11 +7962,12 @@ if ((singlemode && !currentEditorView()) ||finame.startsWith("untitled") || fina
 	{
 	return false;
 	}
-QFileInfo fi(finame);
-QString name=fi.absoluteFilePath();
-QString ext=fi.suffix();
-QString basename=name.left(name.length()-ext.length()-1);
-QString logname=basename+".log";
+QString logname=outputName(finame,".log");
+// QFileInfo fi(finame);
+// QString name=fi.absoluteFilePath();
+// QString ext=fi.suffix();
+// QString basename=name.left(name.length()-ext.length()-1);
+// QString logname=basename+".log";
 QFileInfo fic(logname);
 if (fic.exists() && fic.isReadable()) return true;
 else return false;
@@ -7626,11 +7986,12 @@ if ((singlemode && !currentEditorView()) ||finame.startsWith("untitled") || fina
 	ERRPROCESS=true;
 	return;
 	}
-QFileInfo fi(finame);
-QString name=fi.absoluteFilePath();
-QString ext=fi.suffix();
-QString basename=name.left(name.length()-ext.length()-1);
-QString logname=basename+".log";
+QString logname=outputName(finame,".log");
+// QFileInfo fi(finame);
+// QString name=fi.absoluteFilePath();
+// QString ext=fi.suffix();
+// QString basename=name.left(name.length()-ext.length()-1);
+// QString logname=basename+".log";
 QString line;
 QFileInfo fic(logname);
 QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
@@ -8241,6 +8602,7 @@ confDlg->ui.lineEditAsymptote->setText(asymptote_command);
 confDlg->ui.lineEditLatexmk->setText(latexmk_command);
 confDlg->ui.lineEditSweave->setText(sweave_command);
 if (singleviewerinstance) confDlg->ui.checkBoxSingleInstanceViewer->setChecked(true);
+confDlg->ui.checkBoxTempBuild->setChecked(useoutputdir);
 
 confDlg->ui.comboBoxFont->lineEdit()->setText(EditorFont.family() );
 confDlg->ui.comboBoxEncoding->setCurrentIndex(confDlg->ui.comboBoxEncoding->findText(input_encoding, Qt::MatchExactly));
@@ -8435,6 +8797,7 @@ if (confDlg->exec())
 	  else StackedViewers->hide();
 	  }
 	singleviewerinstance=confDlg->ui.checkBoxSingleInstanceViewer->isChecked();
+	useoutputdir=confDlg->ui.checkBoxTempBuild->isChecked();
 	
 	if ((pdfviewerWidget) && keyToggleFocus!="none") pdfviewerWidget->setKeyEditorFocus(QKeySequence(keyToggleFocus));
 	if (pdfviewerWidget)  pdfviewerWidget->setGSCommand(ghostscript_command);
@@ -9919,12 +10282,15 @@ while (!element.isNull())
 	}
       else
 	{
-	fileOpenAndGoto(file,l,false);
-	currentEditorView()->editor->UserBookmark[0]=b1;
-	currentEditorView()->editor->UserBookmark[1]=b2;
-	currentEditorView()->editor->UserBookmark[2]=b3;
-	currentEditorView()->update();
-	if (singlemode && ma) ToggleMode();
+	fileOpenAndGoto(file,l+1,false);
+	if (currentEditorView() && getName()==file)
+	  {
+	  currentEditorView()->editor->UserBookmark[0]=b1;
+	  currentEditorView()->editor->UserBookmark[1]=b2;
+	  currentEditorView()->editor->UserBookmark[2]=b3;
+	  currentEditorView()->update();
+	  if (singlemode && ma) ToggleMode();
+	  }
 	}
 	
       }
@@ -9933,12 +10299,15 @@ element=element.nextSiblingElement();
 fic.close();
 if (!ofile.isEmpty())
     {
-    fileOpenAndGoto(ofile,l,true);
-    currentEditorView()->editor->UserBookmark[0]=ob1;
-    currentEditorView()->editor->UserBookmark[1]=ob2;
-    currentEditorView()->editor->UserBookmark[2]=ob3;
-    currentEditorView()->update();
-    if (singlemode && oma) ToggleMode();
+    fileOpenAndGoto(ofile,l+1,true);
+    if (currentEditorView() && getName()==ofile)
+      {
+      currentEditorView()->editor->UserBookmark[0]=ob1;
+      currentEditorView()->editor->UserBookmark[1]=ob2;
+      currentEditorView()->editor->UserBookmark[2]=ob3;
+      currentEditorView()->update();
+      if (singlemode && oma) ToggleMode();
+      }
     }
 }
 
@@ -10040,12 +10409,15 @@ while (!element.isNull())
 	}
       else
 	{
-	fileOpenAndGoto(file,l,false);
-	currentEditorView()->editor->UserBookmark[0]=b1;
-	currentEditorView()->editor->UserBookmark[1]=b2;
-	currentEditorView()->editor->UserBookmark[2]=b3;
-	currentEditorView()->update();
-	if (singlemode && ma) ToggleMode();
+	fileOpenAndGoto(file,l+1,false);
+      	if (currentEditorView() && getName()==file)
+	  {
+	  currentEditorView()->editor->UserBookmark[0]=b1;
+	  currentEditorView()->editor->UserBookmark[1]=b2;
+	  currentEditorView()->editor->UserBookmark[2]=b3;
+	  currentEditorView()->update();
+	  if (singlemode && ma) ToggleMode();
+	  }
 	}
 	
       }
@@ -10054,11 +10426,86 @@ element=element.nextSiblingElement();
 fic.close();
 if (!ofile.isEmpty())
     {
-    fileOpenAndGoto(ofile,l,true);
-    currentEditorView()->editor->UserBookmark[0]=ob1;
-    currentEditorView()->editor->UserBookmark[1]=ob2;
-    currentEditorView()->editor->UserBookmark[2]=ob3;
-    currentEditorView()->update();
-    if (singlemode && oma) ToggleMode();
+    fileOpenAndGoto(ofile,l+1,true);
+	if (currentEditorView() && getName()==ofile)
+	  {
+	  currentEditorView()->editor->UserBookmark[0]=ob1;
+	  currentEditorView()->editor->UserBookmark[1]=ob2;
+	  currentEditorView()->editor->UserBookmark[2]=ob3;
+	  currentEditorView()->update();
+	  if (singlemode && oma) ToggleMode();
+	  }
     }
 }
+
+bool Texmaker::copyFile(QString origin,QString destination)
+{
+if (destination.isEmpty() || origin.isEmpty()) return false;
+QFileInfo fi_or(origin);
+if (!fi_or.exists()) return false;
+QFile file_or(origin);
+QFileInfo fi_dest(destination);
+if (fi_dest.exists())
+	{
+	QFile file_dest(destination);
+	file_dest.remove();
+	file_or.copy(destination);
+	}
+else
+	{
+	file_or.copy(destination);
+	}
+return true;
+}
+
+// void Texmaker::removeDir(QDir thedir)
+// {
+// QString name=thedir.dirName();
+// QDirIterator iterator(thedir,QDirIterator::NoIteratorFlags);
+// while(iterator.hasNext())
+//   {
+//   QString entry(iterator.next());
+//   if(!QFileInfo(entry).isDir())
+//     {
+//     if (QFile::exists(entry))
+// 	    {
+// 	    QFile file(entry);
+// 	    file.open( QIODevice::ReadOnly );
+// 	    file.remove();
+// 	    }    
+//     }
+//   }
+// thedir.cdUp();
+// thedir.rmdir(name);
+// }
+
+
+void Texmaker::createBuildSubdirectory(QString fn)
+{
+if (fn.isEmpty() || fn.startsWith("untitled")) return;
+QFileInfo fi(fn);
+if (!fi.exists()) return;
+QDir basedir(fi.absolutePath());
+QDir outputdir(fi.absolutePath()+"/build");
+if (outputdir.exists()) return;
+basedir.mkdir("build");
+}
+
+QString Texmaker::outputName(QString finame,QString extension)
+{
+return outputBaseName(finame)+extension;
+}
+
+QString Texmaker::outputBaseName(QString finame)
+{
+QString name="";
+QFileInfo fi(finame);
+QString path=fi.absolutePath();
+QString fn=fi.fileName();
+if (useoutputdir) name=path+"/build/"+fn;
+else name=fi.absoluteFilePath();
+QString ext=fi.suffix();
+QString basename=name.left(name.length()-ext.length()-1);
+return basename;
+}
+

@@ -81,6 +81,7 @@ findwidget=new LightFindWidget(Stack);
 Stack->addWidget(findwidget);
 findwidget->SetEditor(editor);
 connect(findwidget, SIGNAL( requestHide() ), Stack, SLOT( hide() ) );
+connect(findwidget, SIGNAL( requestExtension() ), this, SLOT( showFind() ) );
 
 gotolinewidget=new LightGotoLineWidget(Stack);
 Stack->addWidget(gotolinewidget);

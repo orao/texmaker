@@ -872,7 +872,7 @@ if (action)
 	}
 }
 
-bool LatexEditor::search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor )
+bool LatexEditor::search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor, bool isRegExp )
 {
 QTextDocument::FindFlags flags = 0;
 if (cs) flags |= QTextDocument::FindCaseSensitively;
@@ -892,7 +892,7 @@ if (! startAtCursor)
 	setTextCursor(c);
 	}
 if (forward == false) flags |= QTextDocument::FindBackward;
-QTextCursor found = document()->find(expr, c, flags);
+QTextCursor found = isRegExp?document()->find(QRegExp(expr), c, flags) : document()->find(expr, c, flags);
 
 if (found.isNull()) return false;
 else 
@@ -1537,7 +1537,7 @@ else if ( e->key()==Qt::Key_Tab)
 	if (txt.contains(QString(0x2022)))
 	    {
 	    //e->ignore();
-	    search(QString(0x2022) ,true,false,true,true);
+	    search(QString(0x2022) ,true,false,true,true,false);
 	    return;		
 	    }
 	}
@@ -1548,7 +1548,7 @@ else if ( e->key()==Qt::Key_Tab)
 	if (txtnext.contains(QString(0x2022)))
 	    {
 	    //e->ignore();
-	    search(QString(0x2022) ,true,false,true,true);
+	    search(QString(0x2022) ,true,false,true,true,false);
 	    return;		
 	    }
 	}
@@ -1565,7 +1565,7 @@ else if ( e->key()==Qt::Key_Backtab)
 	if (txt.contains(QString(0x2022)))
 	    {
 	    //e->ignore();
-	    search(QString(0x2022) ,true,false,false,true);
+	    search(QString(0x2022) ,true,false,false,true,false);
 	    return;		
 	    }
 	}
@@ -1660,14 +1660,14 @@ else
 			code=code.remove(0,1);
 			code="\\begin{"+code+"}\n"+QString(0x2022)+"\n\\end{"+code+"}\n";
 			}
-		      search(trigger, true, false,false,true);
+		      search(trigger, true, false,false,true,false);
 		      replace(code);
 		      int pos=cursor.position();
 		      if (code.contains(QString(0x2022))) 
 			{
 			cursor.setPosition(pos,QTextCursor::MoveAnchor);
 			setTextCursor(cursor);
-			search(QString(0x2022) ,true,false,false,true);
+			search(QString(0x2022) ,true,false,false,true,false);
 			}
 		      else 
 			{
@@ -1822,7 +1822,7 @@ if (completion.contains(rbb))
 	    {
 	    tc.movePosition(QTextCursor::Up,QTextCursor::MoveAnchor,1);
 	    setTextCursor(tc);
-	    search(QString(0x2022) ,true,false,true,true);
+	    search(QString(0x2022) ,true,false,true,true,false);
 	    emit tooltiptab();
 	    }
 
@@ -1832,7 +1832,7 @@ else
 	tc.insertText(insert_word);
 	tc.setPosition(pos,QTextCursor::MoveAnchor);
 	setTextCursor(tc);
-	if (!search(QString(0x2022) ,true,false,true,true))
+	if (!search(QString(0x2022) ,true,false,true,true,false))
 	  {
 	  tc.setPosition(pos+completion.length(),QTextCursor::MoveAnchor);
 	  setTextCursor(tc);

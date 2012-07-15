@@ -25,6 +25,7 @@ connect(horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sChanged(in
 connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollChanged(int)));
 connect(verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(rChanged(int,int)));
 handmode=false;
+setBackgroundRole(QPalette::Dark);
 }
 
 PdfScrollArea::~PdfScrollArea()

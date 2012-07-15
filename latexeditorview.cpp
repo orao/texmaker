@@ -64,11 +64,13 @@ findwidget=new FindWidget(Stack);
 Stack->addWidget(findwidget);
 findwidget->SetEditor(editor);
 connect(findwidget, SIGNAL( requestHide() ), Stack, SLOT( hide() ) );
+connect(findwidget, SIGNAL( requestExtension() ), this, SLOT( updateFind() ) );
 
 replacewidget=new ReplaceWidget(Stack);
 Stack->addWidget(replacewidget);
 replacewidget->SetEditor(editor);
 connect(replacewidget, SIGNAL( requestHide() ), Stack, SLOT( hide() ) );
+connect(replacewidget, SIGNAL( requestExtension() ), this, SLOT( updateReplace() ) );
 
 gotolinewidget=new GotoLineWidget(Stack);
 Stack->addWidget(gotolinewidget);
@@ -121,6 +123,20 @@ findwidget->ui.comboFind->setFocus();
 findwidget->ui.comboFind->lineEdit()->selectAll();
 }
 
+void LatexEditorView::updateFind()
+{
+QList<int> sizes;
+sizes  << height()-findwidget->height() << findwidget->height();
+splitter->setSizes( sizes );
+Stack->setCurrentWidget(findwidget);
+Stack->setMaximumHeight(findwidget->minimumSizeHint().height());
+Stack->show();
+QTextCursor c =editor->textCursor();
+if (c.hasSelection()) findwidget->ui.comboFind->lineEdit()->setText(c.selectedText());
+findwidget->ui.comboFind->setFocus();
+findwidget->ui.comboFind->lineEdit()->selectAll();
+}
+
 void LatexEditorView::showFindNext()
 {
 QList<int> sizes;
@@ -133,6 +149,20 @@ if (findwidget->ui.comboFind->lineEdit()->text()!="") findwidget->doFind();
 }
 
 void LatexEditorView::showReplace()
+{
+QList<int> sizes;
+sizes  << height()-replacewidget->height() << replacewidget->height();
+splitter->setSizes( sizes );
+Stack->setCurrentWidget(replacewidget);
+Stack->setMaximumHeight(replacewidget->minimumSizeHint().height());
+Stack->show();
+QTextCursor c =editor->textCursor();
+if (c.hasSelection()) replacewidget->ui.comboFind->lineEdit()->setText(c.selectedText());
+replacewidget->ui.comboFind->setFocus();
+replacewidget->ui.comboFind->lineEdit()->selectAll();
+}
+
+void LatexEditorView::updateReplace()
 {
 QList<int> sizes;
 sizes  << height()-replacewidget->height() << replacewidget->height();
@@ -159,4 +189,5 @@ gotolinewidget->ui.spinLine->setMinimum( 1 );
 gotolinewidget->ui.spinLine->setMaximum(editor->numoflines() );
 gotolinewidget->ui.spinLine->selectAll();
 }
+
 

@@ -35,6 +35,9 @@ public:
   void showFindNext();
   void showGoto();
   void showReplace();
+private slots:
+void updateFind();
+void updateReplace();
 private:
   MiniSplitter *splitter;
   LineNumberWidget* m_lineNumberWidget;

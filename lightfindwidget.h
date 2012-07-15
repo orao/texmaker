@@ -27,11 +27,13 @@ public slots:
     virtual void doFind();
     void SetEditor(LightLatexEditor *ed);
     void doHide();
-
+private slots:
+    void expand(bool e);
 protected:
     LightLatexEditor *editor;
 signals:
 void requestHide();
+void requestExtension();
 };
 
 #endif

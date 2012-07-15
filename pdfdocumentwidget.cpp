@@ -152,6 +152,14 @@ QAction *act = new QAction(tr("Click to jump to the line")+" (ctrl+click)", menu
 act->setData(QVariant(event->pos()));
 connect(act, SIGNAL(triggered()), this, SLOT(jumpToSourceFromPdf()));
 menu->addAction(act);
+act = new QAction(tr("Number of words in the document"), menu);
+act->setData(QVariant(event->pos()));
+connect(act, SIGNAL(triggered()), this, SLOT(requestNumWords()));
+menu->addAction(act);
+act = new QAction(tr("Convert page to png image"), menu);
+act->setData(QVariant(event->pos()));
+connect(act, SIGNAL(triggered()), this, SLOT(requestPngExport()));
+menu->addAction(act);
 menu->exec(mapToGlobal(event->pos()));
 delete menu;
 }
@@ -163,11 +171,21 @@ qreal PdfDocumentWidget::scale() const
 
 void PdfDocumentWidget::updatePixmap()
 {
+    if (!doc_page) 
+      {
+      createblankPixmap(1,100);
+      return;
+      }
 //    QColor selBlendColor=QColor("#43ACE8");
     QColor selBlendColor=QColor("#FF0000");
     QColor blCol = selBlendColor.dark( 140 );
     blCol.setAlphaF( 0.2 );
     QImage image = doc_page->renderToImage(scaleFactor * physicalDpiX(), scaleFactor * physicalDpiY());
+    if (image.isNull()) 
+      {
+      createblankPixmap(1,doc_page->pageSizeF().height());
+      return;
+      }
     QPainter painter;
     if (!searchPath.isEmpty()) 
       {
@@ -258,5 +276,15 @@ void PdfDocumentWidget::clearPaths()
 {
 searchPath = QPainterPath();
 highlightPath = QPainterPath();
+}
+
+void PdfDocumentWidget::requestNumWords()
+{
+emit wantNumWords();
+}
+
+void PdfDocumentWidget::requestPngExport()
+{
+emit wantPngExport(numPage);
 }
 

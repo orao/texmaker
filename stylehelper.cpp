@@ -73,6 +73,7 @@ QColor StyleHelper::panelTextColor()
     return Qt::white;
 }
 
+//QColor StyleHelper::m_baseColor(0x657686);
 QColor StyleHelper::m_baseColor(0x556676);
 
 QColor StyleHelper::baseColor()
@@ -155,8 +156,8 @@ void StyleHelper::verticalGradient(QPainter *painter, const QRect &spanRect, con
 
     QColor light(255, 255, 255, 80);
     p->fillRect(rect,base);
-    p->setPen(light);
-    p->drawLine(rect.topRight() - QPoint(1, 0), rect.bottomRight() - QPoint(1, 0));
+    //p->setPen(light);
+    //p->drawLine(rect.topRight() - QPoint(1, 0), rect.bottomRight() - QPoint(1, 0));
 
     if (StyleHelper::usePixmapCache() && !QPixmapCache::find(key, pixmap)) {
         painter->drawPixmap(clipRect.topLeft(), pixmap);

@@ -1,3 +1,21 @@
+version 3.3.4 -> 3.4 :
+-----------------------
+Bugs fixed :
+- a critical bug while restoring a session with a file which has been deleted has been fixed
+- the bug about double-indentation of user tags has been fixed
+Enhancements :
+- the option "Use a 'build' subdirectory for output files" has been added for the (pdf)latex command (the "--output-directory=build" parameter will be automatically added to the (pdf)latex command and texmaker will search the log and pdf files into this subdirectory - see the user manual for more details)
+- a words counter has been added to the internal pdf viewer (contextual menu)
+- an "Open Terminal" command has been added to the "Tool" menu
+- regular expression support has been added in the "find/replace" dialogs
+- a pdf page can now be exported to a png image in the internal pdf viewer (contextual menu)
+- a "Save a copy" command has been added to the "File" menu
+- the optionnals fields for the biblatex entries has been added ("Bibliography" menu)
+- the labels list in the structure view stays opened or closed as the user sets it while saving the document or adding a new label item
+- standard output is displayed only for the asymptote command
+- the "sectioning", "size", "references" combo boxes (main toolbar) has been replaced by icons in the editor vertical toolbar. 
+- support for macosx lion fullscreen mode has been added
+
 version 3.3.3 -> 3.3.4 :
 -----------------------
 Bugs fixed :

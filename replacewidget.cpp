@@ -23,6 +23,12 @@ ui.findButton->setShortcut(Qt::Key_Return);
 ui.findButton->setToolTip("Return");
 ui.closeButton->setShortcut(Qt::Key_Escape);
 ui.closeButton->setToolTip("Escape");
+ui.moreButton->setCheckable(true);
+ui.moreButton->setAutoDefault(false);
+connect(ui.moreButton, SIGNAL(toggled(bool)), this, SLOT(expand(bool)));
+ui.checkRegExp->setChecked( FALSE );
+ui.extension->hide();
+updateGeometry();
 }
 
 
@@ -34,9 +40,18 @@ void ReplaceWidget::doReplace()
 {
 doHide();
 if ( !editor ) return;
+if (ui.checkRegExp->isChecked())
+  {
+  QRegExp regex(ui.comboFind->currentText());
+  if (!regex.isValid()) 
+    {
+    QMessageBox::warning( this,tr("Error"), tr("Invalid regular expression."));
+    return;
+    }
+  }
 bool go=true;
 while (go && editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),
-	ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked()) )
+	ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked(),ui.checkRegExp->isChecked()) )
        {
        switch(  QMessageBox::warning(this, "Texmaker",tr("Replace this occurence ? "),tr("Yes"), tr("No"), tr("Cancel"), 0,2 ) )
          {
@@ -58,8 +73,17 @@ if (go) ui.checkBegin->setChecked( TRUE );
 void ReplaceWidget::doReplaceAll()
 {
 if ( !editor ) return;
+if (ui.checkRegExp->isChecked())
+  {
+  QRegExp regex(ui.comboFind->currentText());
+  if (!regex.isValid()) 
+    {
+    QMessageBox::warning( this,tr("Error"), tr("Invalid regular expression."));
+    return;
+    }
+  }
 while ( editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),
-ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked()) )
+ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked(),ui.checkRegExp->isChecked()) )
     {
     editor->replace(ui.comboReplace->currentText() );
     ui.checkBegin->setChecked( FALSE );
@@ -82,4 +106,12 @@ if ( editor )
 	}
 }
 
+void ReplaceWidget::expand(bool e)
+{
+ ui.extension->setVisible(e);
+ if (!e) ui.checkRegExp->setChecked( FALSE );
+ updateGeometry();
+ emit requestExtension();
+ editor->viewport()->repaint();
+}
 
