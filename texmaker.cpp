@@ -890,9 +890,11 @@ if (spellChecker) delete spellChecker;
 void Texmaker::setupMenus()
 {
 QAction *Act;
+bool gtkEnv=gtkSession();
 //file
 fileMenu = menuBar()->addMenu(tr("&File"));
-Act = new QAction(QIcon(":/images/filenew.png"), tr("New"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/filenew.png")), tr("New"), this);
+else Act = new QAction(QIcon(":/images/filenew.png"), tr("New"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_N);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileNew()));
 fileMenu->addAction(Act);
@@ -901,7 +903,8 @@ Act = new QAction(tr("New by copying an existing file"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileNewFromFile()));
 fileMenu->addAction(Act);
 
-Act = new QAction(QIcon(":/images/fileopen.png"), tr("Open"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-open", QIcon(":/images/fileopen.png")), tr("Open"), this);
+else Act = new QAction(QIcon(":/images/fileopen.png"), tr("Open"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_O);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 fileMenu->addAction(Act);
@@ -931,7 +934,8 @@ Act = new QAction(tr("Load session"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(LoadSession()));
 sessionMenu->addAction(Act);
 
-SaveAct = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
+if (gtkEnv) SaveAct = new QAction(QIcon::fromTheme("document-save", QIcon(":/images/filesave.png")), tr("Save"), this);
+else SaveAct = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
 SaveAct->setShortcut(Qt::CTRL+Qt::Key_S);
 connect(SaveAct, SIGNAL(triggered()), this, SLOT(fileSave()));
 fileMenu->addAction(SaveAct);
@@ -970,35 +974,41 @@ connect(Act, SIGNAL(triggered()), this, SLOT(filePrint()));
 fileMenu->addSeparator();
 fileMenu->addAction(Act);
 
-Act = new QAction(QIcon(":/images/exit.png"), tr("Exit"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("application-exit", QIcon(":/images/exit.png")), tr("Exit"), this);
+else Act = new QAction(QIcon(":/images/exit.png"), tr("Exit"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_Q);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileExit()));
 fileMenu->addSeparator();
 fileMenu->addAction(Act);
 
 editMenu = menuBar()->addMenu(tr("&Edit"));
-UndoAct = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
+if (gtkEnv) UndoAct = new QAction(QIcon::fromTheme("edit-undo", QIcon(":/images/undo.png")), tr("Undo"), this);
+else UndoAct = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
 UndoAct->setShortcut(Qt::CTRL+Qt::Key_Z);
 connect(UndoAct, SIGNAL(triggered()), this, SLOT(editUndo()));
 editMenu->addAction(UndoAct);
 
-RedoAct = new QAction(QIcon(":/images/redo.png"), tr("Redo"), this);
+if (gtkEnv) RedoAct = new QAction(QIcon::fromTheme("edit-redo", QIcon(":/images/redo.png")), tr("Redo"), this);
+else RedoAct = new QAction(QIcon(":/images/redo.png"), tr("Redo"), this);
 RedoAct->setShortcut(Qt::CTRL+Qt::Key_Y);
 connect(RedoAct, SIGNAL(triggered()), this, SLOT(editRedo()));
 editMenu->addAction(RedoAct);
 editMenu->addSeparator();
 
-CopyAct = new QAction(QIcon(":/images/editcopy.png"), tr("Copy"), this);
+if (gtkEnv) CopyAct = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/images/editcopy.png")), tr("Copy"), this);
+else CopyAct = new QAction(QIcon(":/images/editcopy.png"), tr("Copy"), this);
 CopyAct->setShortcut(Qt::CTRL+Qt::Key_C);
 connect(CopyAct, SIGNAL(triggered()), this, SLOT(editCopy()));
 editMenu->addAction(CopyAct);
 
-CutAct = new QAction(QIcon(":/images/editcut.png"), tr("Cut"), this);
+if (gtkEnv) CutAct = new QAction(QIcon::fromTheme("edit-cut", QIcon(":/images/editcut.png")), tr("Cut"), this);
+else CutAct = new QAction(QIcon(":/images/editcut.png"), tr("Cut"), this);
 CutAct->setShortcut(Qt::CTRL+Qt::Key_X);
 connect(CutAct, SIGNAL(triggered()), this, SLOT(editCut()));
 editMenu->addAction(CutAct);
 
-PasteAct = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
+if (gtkEnv) PasteAct = new QAction(QIcon::fromTheme("edit-paste", QIcon(":/images/editpaste.png")), tr("Paste"), this);
+else PasteAct = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
 PasteAct->setShortcut(Qt::CTRL+Qt::Key_V);
 connect(PasteAct, SIGNAL(triggered()), this, SLOT(editPaste()));
 editMenu->addAction(PasteAct);
@@ -2082,14 +2092,17 @@ connect(Act, SIGNAL(triggered()), this, SLOT(ReplaceSettings()));
 settingsMenu->addAction(Act);
 	
 helpMenu = menuBar()->addMenu(tr("&Help"));
-Act = new QAction(QIcon(":/images/help.png"), tr("LaTeX Reference"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), tr("LaTeX Reference"), this);
+else Act = new QAction(QIcon(":/images/help.png"), tr("LaTeX Reference"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(LatexHelp()));
 helpMenu->addAction(Act);
-Act = new QAction(QIcon(":/images/help.png"), tr("User Manual"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), tr("User Manual"), this);
+else Act = new QAction(QIcon(":/images/help.png"), tr("User Manual"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(UserManualHelp()));
 helpMenu->addAction(Act);
 helpMenu->addSeparator();
-Act = new QAction(QIcon(":/images/help.png"), "TexDoc [selection]", this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), "TexDoc [selection]", this);
+else Act = new QAction(QIcon(":/images/help.png"), "TexDoc [selection]", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(TexDocHelp()));
 helpMenu->addAction(Act);
 
@@ -2097,7 +2110,8 @@ helpMenu->addAction(Act);
 QString locale = QString(QLocale::system().name()).left(2);
 if (locale=="fr")
 {
-Act = new QAction(QIcon(":/images/help.png"), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this); 
+else Act = new QAction(QIcon(":/images/help.png"), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(Docufrlatex()));
 helpMenu->addAction(Act);  
 }
@@ -2209,15 +2223,18 @@ void Texmaker::setupToolBars()
 {
 QAction *Act;
 QStringList list;
+bool gtkEnv=gtkSession();
 //file
 fileToolBar = addToolBar("File ToolBar");
 fileToolBar->setObjectName("File");
 
-Act = new QAction(QIcon(":/images/filenew.png"), tr("New"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/filenew.png")), tr("New"), this);
+else Act = new QAction(QIcon(":/images/filenew.png"), tr("New"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileNew()));
 fileToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/fileopen.png"), tr("Open"), this);
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-open", QIcon(":/images/fileopen.png")), tr("Open"), this);
+else Act = new QAction(QIcon(":/images/fileopen.png"), tr("Open"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 fileToolBar->addAction(Act);
 
@@ -10509,3 +10526,15 @@ QString basename=name.left(name.length()-ext.length()-1);
 return basename;
 }
 
+bool Texmaker::gtkSession()
+{
+bool result=false;
+#ifdef Q_WS_X11
+result=true;// 1 : no kde ; 2: kde ; 3 : kde4 ; 
+QString kdesession= ::getenv("KDE_FULL_SESSION");
+QString kdeversion= ::getenv("KDE_SESSION_VERSION");
+if (!kdesession.isEmpty()) result=false;
+if (!kdeversion.isEmpty()) result=false;
+#endif
+return result;
+}

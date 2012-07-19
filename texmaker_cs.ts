@@ -284,12 +284,12 @@
     <message>
         <location filename="configdialog.ui" line="173"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &amp;quot;--output-directory=build&amp;quot; option will be automatically added to the (pdf)latex command while the compilation.&lt;/p&gt;&lt;p&gt;For the others commands like dvips, ps2pdf, bibtex,... you will have to manually replaced &amp;quot;%&amp;quot; by &amp;quot;build/%&amp;quot; .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volba &amp;quot;--output-directory=build&amp;quot; bude při překladu automaticky přidána do příkazu (pdf)latex.&lt;/p&gt;&lt;p&gt;U dalších příkazů jako dvips, ps2pdf, bibtex,... budete muset ručně nahradit &amp;quot;%&amp;quot; &amp;quot;build/%&amp;quot; .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="176"/>
         <source>Use a &quot;build&quot; subdirectory for output files</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít pro výstupní soubory podadresář &quot;build&quot;</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="683"/>
@@ -579,12 +579,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="findwidget.ui" line="123"/>
         <source>+</source>
-        <translation type="unfinished">+</translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="findwidget.ui" line="148"/>
         <source>RegularExpression</source>
-        <translation type="unfinished"></translation>
+        <translation>Regulární výraz</translation>
     </message>
     <message>
         <source>Close</source>
@@ -593,12 +593,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="findwidget.cpp" line="46"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="findwidget.cpp" line="46"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný regulární výraz.</translation>
     </message>
 </context>
 <context>
@@ -825,12 +825,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="lightfindwidget.cpp" line="46"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="lightfindwidget.cpp" line="46"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný regulární výraz.</translation>
     </message>
 </context>
 <context>
@@ -930,12 +930,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="pdfdocumentwidget.cpp" line="155"/>
         <source>Number of words in the document</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet slov v dokumentu</translation>
     </message>
     <message>
         <location filename="pdfdocumentwidget.cpp" line="159"/>
         <source>Convert page to png image</source>
-        <translation type="unfinished"></translation>
+        <translation>Převést stranu na obrázek PNG</translation>
     </message>
 </context>
 <context>
@@ -1021,12 +1021,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="pdfviewer.cpp" line="1135"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="1151"/>
         <source>Number of words in the document</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet slov v dokumentu</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="1183"/>
@@ -1036,7 +1036,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="pdfviewer.cpp" line="1464"/>
         <source>Save As</source>
-        <translation type="unfinished">Uložit jako</translation>
+        <translation>Uložit jako</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="162"/>
@@ -1155,12 +1155,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="pdfviewerwidget.cpp" line="1127"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="1143"/>
         <source>Number of words in the document</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet slov v dokumentu</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="1175"/>
@@ -1170,7 +1170,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="pdfviewerwidget.cpp" line="1450"/>
         <source>Save As</source>
-        <translation type="unfinished">Uložit jako</translation>
+        <translation>Uložit jako</translation>
     </message>
 </context>
 <context>
@@ -1451,12 +1451,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="replacewidget.ui" line="162"/>
         <source>+</source>
-        <translation type="unfinished">+</translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="replacewidget.ui" line="187"/>
         <source>RegularExpression</source>
-        <translation type="unfinished"></translation>
+        <translation>Regulární výraz</translation>
     </message>
     <message>
         <location filename="replacewidget.ui" line="197"/>
@@ -1496,13 +1496,13 @@ zakódování správně rozšifrovat</translation>
         <location filename="replacewidget.cpp" line="48"/>
         <location filename="replacewidget.cpp" line="81"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="replacewidget.cpp" line="48"/>
         <location filename="replacewidget.cpp" line="81"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neplatný regulární výraz.</translation>
     </message>
     <message>
         <location filename="replacewidget.cpp" line="56"/>
@@ -2062,7 +2062,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="texmaker.cpp" line="947"/>
         <source>Save A Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit kopii</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="957"/>
@@ -2218,12 +2218,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="texmaker.cpp" line="7474"/>
         <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
-        <translation type="unfinished"></translation>
+        <translation>Udělat kopii dokumentu %1.pdf/ps v podadresáři &quot;build&quot; a smazat všechny ostatní soubory %1.*?</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="7503"/>
         <source>Delete the output files generated by LaTeX ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat výstupní soubory vytvořené LaTeXem?</translation>
     </message>
     <message>
         <source>Delete the output files generated by LaTeX ?
@@ -2434,7 +2434,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="texmaker.cpp" line="1168"/>
         <source>Open Terminal</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít terminál</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1994"/>

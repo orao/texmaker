@@ -1,3 +1,10 @@
+version 3.4 -> 3.4.1 :
+-----------------------
+Bugs fixed :
+- a bad layout of the buttons for the configuration of the commands has been fixed
+Enhancements :
+- on gnome desktop, themed icons are used for the standard actions
+
 version 3.3.4 -> 3.4 :
 -----------------------
 Bugs fixed :

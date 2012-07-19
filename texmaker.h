@@ -1,7 +1,7 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2012 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
- *   addons by Luis Silvestre ; Tom Hoffmann                               *
+ *   addons by Luis Silvestre                           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -97,6 +97,7 @@ bool copyFile(QString origin,QString destination);
 void createBuildSubdirectory(QString fn);
 QString outputName(QString finame,QString extension);
 QString outputBaseName(QString finame);
+bool gtkSession();
 
 int untitled_id;
 
