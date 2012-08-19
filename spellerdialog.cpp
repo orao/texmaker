@@ -173,7 +173,7 @@ QString newword=ui.lineEditNew->text();
 if (!newword.isEmpty()) 
 	{
 	deltacol=deltacol+newword.length()-selectedword.length();
-	editor->replace(newword);
+	editor->replace(newword,false,"");
 	}
 ui.listWidget->setEnabled(false);
 ui.lineEditNew->setEnabled(false);

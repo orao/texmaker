@@ -5,11 +5,14 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.4.1
+TEXMAKERVERSION=3.5
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
 HEADERS	+= texmaker.h \
+	documentview.h \
+	pageitem.h \
+	presentationview.h \
 	texmakerapp.h \
 	minisplitter.h \
 	playerbutton.h \
@@ -51,12 +54,9 @@ HEADERS	+= texmaker.h \
 	stylehelper.h \
 	styleanimator.h \
 	keysequencedialog.h \
-	paperdialog.h \
 	browser.h \
 	pdfviewerwidget.h \
 	pdfviewer.h \
-	pdfdocumentwidget.h \
-	pdfscrollarea.h \
 	userquickdialog.h \
 	encodingdialog.h \
 	usercompletiondialog.h \
@@ -116,6 +116,9 @@ HEADERS	+= texmaker.h \
 SOURCES	+= main.cpp \
 	texmakerapp.cpp \
 	texmaker.cpp \
+	documentview.cpp \
+	pageitem.cpp \
+	presentationview.cpp \
 	minisplitter.cpp \
 	playerbutton.cpp \
 	symbollistwidget.cpp \
@@ -156,12 +159,9 @@ SOURCES	+= main.cpp \
 	stylehelper.cpp \
 	styleanimator.cpp \
 	keysequencedialog.cpp \
-	paperdialog.cpp \
 	browser.cpp \
 	pdfviewerwidget.cpp \
 	pdfviewer.cpp \
-	pdfdocumentwidget.cpp \
-	pdfscrollarea.cpp \
 	userquickdialog.cpp \
 	encodingdialog.cpp \
 	usercompletiondialog.cpp \
@@ -235,7 +235,6 @@ FORMS   += findwidget.ui\
 	configdialog.ui \
 	spellerdialog.ui \
 	keysequencedialog.ui \
-	paperdialog.ui \
 	userquickdialog.ui \
 	encodingdialog.ui \
 	usercompletiondialog.ui \

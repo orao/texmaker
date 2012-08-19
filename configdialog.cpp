@@ -369,7 +369,8 @@ QString location=QFileDialog::getOpenFileName(this,tr("Browse program"),QDir::ro
 if ( !location.isEmpty() ) 
 	{
 	location.replace(QString("\\"),QString("/"));
-	location="\""+location+"\" %.aux";
+	if (location.contains("bibtex") && !location.contains("MiKTeX")) location="\""+location+"\" %.aux";
+	else location="\""+location+"\" %";
 	ui.lineEditBibtex->setText( location );
 	}
 }

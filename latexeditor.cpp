@@ -68,17 +68,20 @@ QList<StructItem> templist=list;
 int i=line;
 int j=0;
 StructItem oldItem=StructItem(i,"",-1,QTextCursor());
+StructItem oldLabelItem=StructItem(i,"",-1,QTextCursor());
 for ( j=templist.count()-1;j>=0; --j ) 
   {
     if ( templist[j].cursor.block().blockNumber()==line)
     {
-      oldItem=templist[j];
+      if (templist[j].type==1) oldLabelItem=templist[j];
+      else oldItem=templist[j];
       templist.removeAt(j);
     }
   }
 StructItem newItem=StructItem(i,"",-1,QTextCursor());
+StructItem newLabelItem=StructItem(i,"",-1,QTextCursor());
 bool found=false;
-int tagStart, tagEnd,offset;
+int tagStart, tagEnd,offset,numLeftPar;
 int tagComment=text.indexOf("%");
 QString s;
 QString struct_level1="part";
@@ -87,22 +90,59 @@ QString struct_level3="section";
 QString struct_level4="subsection";
 QString struct_level5="subsubsection";
 
+
+//// label ////
 tagStart=tagEnd=offset=0;
+s=text;
+tagStart=s.indexOf("\\label{", tagEnd);
+offset=tagStart;
+if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
+	{
+	s=s.mid(tagStart+7,s.length());
+	s=s.trimmed();
+	tagStart=s.indexOf("}", tagEnd);
+	if (tagStart!=-1)
+		{
+		s=s.mid(0,tagStart);
+		if (s.startsWith("{")) s=s.remove(0,1);
+		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
+		QTextCursor	cursor(doc);
+		cursor.setPosition(blockpos + offset+1);
+		newLabelItem=StructItem(i,s,1,cursor);
+		//found=true;
+		}
+	};
+
+//section
+tagStart=tagEnd=offset=0;
+numLeftPar=0;
 s=text; 
 tagStart=s.indexOf(QRegExp("\\\\"+struct_level3+"\\*?[\\{\\[]"), tagEnd);
+tagEnd=-1;
 offset=tagStart;
 	if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
-	tagStart++;
-	s=s.mid(tagStart+struct_level3.length(),s.length());
 	s=s.trimmed();
 	tagStart=s.indexOf("{");
-	tagEnd=s.lastIndexOf("}");
+	s=s.mid(tagStart+1,s.length());
+	tagStart=0;
+	for (int index=0;index<s.length();++index)
+	  {
+	  if (s.mid(index,1)=="{")   
+	      {
+	      ++numLeftPar;
+	      continue;
+	      }
+	  if (s.mid(index,1)=="}" && numLeftPar == 0 ) 
+	    {
+	    tagEnd=index;
+	    break;
+	    }
+	  if (s.mid(index,1)=="}" && numLeftPar != 0 ) --numLeftPar;
+	  }
 	if ((tagEnd!=-1) && (tagStart!=-1) )
 	  {
 	  s=s.mid(tagStart,tagEnd);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
 	  QTextCursor	cursor(doc);
 	  cursor.setPosition(blockpos + offset+1);
 	  newItem=StructItem(i,s,6,cursor);
@@ -113,21 +153,34 @@ if (!found)
 {
 //// subsection ////
 tagStart=tagEnd=offset=0;
+numLeftPar=0;
 s=text;
 tagStart=s.indexOf(QRegExp("\\\\"+struct_level4+"\\*?[\\{\\[]"), tagEnd);
+tagEnd=-1;
 offset=tagStart;
 if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
-	tagStart++;
-	s=s.mid(tagStart+struct_level4.length(),s.length());
 	s=s.trimmed();
 	tagStart=s.indexOf("{");
-	tagEnd=s.lastIndexOf("}");
+	s=s.mid(tagStart+1,s.length());
+	tagStart=0;
+	for (int index=0;index<s.length();++index)
+	  {
+	  if (s.mid(index,1)=="{")   
+	      {
+	      ++numLeftPar;
+	      continue;
+	      }
+	  if (s.mid(index,1)=="}" && numLeftPar == 0 ) 
+	    {
+	    tagEnd=index;
+	    break;
+	    }
+	  if (s.mid(index,1)=="}" && numLeftPar != 0 ) --numLeftPar;
+	  }
 	if ((tagEnd!=-1) && (tagStart!=-1) )
 	  {
 	  s=s.mid(tagStart,tagEnd);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
 	  QTextCursor	cursor(doc);
 	  cursor.setPosition(blockpos + offset+1);
 	  newItem=StructItem(i,s,7,cursor);
@@ -139,21 +192,34 @@ if (!found)
 {
 //// subsubsection ////
 tagStart=tagEnd=offset=0;
+numLeftPar=0;
 s=text;
 tagStart=s.indexOf(QRegExp("\\\\"+struct_level5+"\\*?[\\{\\[]"), tagEnd);
+tagEnd=-1;
 offset=tagStart;
 if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
-	tagStart++;
-	s=s.mid(tagStart+struct_level5.length(),s.length());
 	s=s.trimmed();
 	tagStart=s.indexOf("{");
-	tagEnd=s.lastIndexOf("}");
+	s=s.mid(tagStart+1,s.length());
+	tagStart=0;
+	for (int index=0;index<s.length();++index)
+	  {
+	  if (s.mid(index,1)=="{")   
+	      {
+	      ++numLeftPar;
+	      continue;
+	      }
+	  if (s.mid(index,1)=="}" && numLeftPar == 0 ) 
+	    {
+	    tagEnd=index;
+	    break;
+	    }
+	  if (s.mid(index,1)=="}" && numLeftPar != 0 ) --numLeftPar;
+	  }
 	if ((tagEnd!=-1) && (tagStart!=-1) )
 	  {
 	  s=s.mid(tagStart,tagEnd);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
 	  QTextCursor	cursor(doc);
 	  cursor.setPosition(blockpos + offset+1);
 	  newItem=StructItem(i,s,8,cursor);
@@ -180,30 +246,7 @@ if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagCo
 	found=true;
 	};
 }
-if (!found)
-{
-//// label ////
-tagStart=tagEnd=offset=0;
-s=text;
-tagStart=s.indexOf("\\label{", tagEnd);
-offset=tagStart;
-if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
-	{
-	s=s.mid(tagStart+7,s.length());
-	s=s.trimmed();
-	tagStart=s.indexOf("}", tagEnd);
-	if (tagStart!=-1)
-		{
-		s=s.mid(0,tagStart);
-		if (s.startsWith("{")) s=s.remove(0,1);
-		if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-		QTextCursor	cursor(doc);
-		cursor.setPosition(blockpos + offset+1);
-		newItem=StructItem(i,s,1,cursor);
-		found=true;
-		}
-	};
-}
+
 if (!found)
 {
 //// include ////
@@ -256,21 +299,34 @@ if (!found)
 {
 //// part ////
 tagStart=tagEnd=offset=0;
+numLeftPar=0;
 s=text;
 tagStart=s.indexOf(QRegExp("\\\\"+struct_level1+"\\*?[\\{\\[]"), tagEnd);
+tagEnd=-1;
 offset=tagStart;
 if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
-	tagStart++;
-	s=s.mid(tagStart+struct_level1.length(),s.length());
 	s=s.trimmed();
 	tagStart=s.indexOf("{");
-	tagEnd=s.lastIndexOf("}");
+	s=s.mid(tagStart+1,s.length());
+	tagStart=0;
+	for (int index=0;index<s.length();++index)
+	  {
+	  if (s.mid(index,1)=="{")   
+	      {
+	      ++numLeftPar;
+	      continue;
+	      }
+	  if (s.mid(index,1)=="}" && numLeftPar == 0 ) 
+	    {
+	    tagEnd=index;
+	    break;
+	    }
+	  if (s.mid(index,1)=="}" && numLeftPar != 0 ) --numLeftPar;
+	  }
 	if ((tagEnd!=-1) && (tagStart!=-1) )
 	  {
 	  s=s.mid(tagStart,tagEnd);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
 	  QTextCursor	cursor(doc);
 	  cursor.setPosition(blockpos + offset+1);
 	  newItem=StructItem(i,s,4,cursor);
@@ -282,21 +338,34 @@ if (!found)
 {
 //// chapter ////
 tagStart=tagEnd=offset=0;
+numLeftPar=0;
 s=text;
-tagStart=s.indexOf(QString("\\"+struct_level2), tagEnd);
+tagStart=s.indexOf(QRegExp("\\\\"+struct_level2+"\\*?[\\{\\[]"), tagEnd);
+tagEnd=-1;
 offset=tagStart;
 if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagComment))))
 	{
-	tagStart++;
-	s=s.mid(tagStart+struct_level2.length(),s.length());
 	s=s.trimmed();
 	tagStart=s.indexOf("{");
-	tagEnd=s.lastIndexOf("}");
+	s=s.mid(tagStart+1,s.length());
+	tagStart=0;
+	for (int index=0;index<s.length();++index)
+	  {
+	  if (s.mid(index,1)=="{")   
+	      {
+	      ++numLeftPar;
+	      continue;
+	      }
+	  if (s.mid(index,1)=="}" && numLeftPar == 0 ) 
+	    {
+	    tagEnd=index;
+	    break;
+	    }
+	  if (s.mid(index,1)=="}" && numLeftPar != 0 ) --numLeftPar;
+	  }
 	if ((tagEnd!=-1) && (tagStart!=-1) )
 	  {
 	  s=s.mid(tagStart,tagEnd);
-	  if (s.startsWith("{")) s=s.remove(0,1);
-	  if (s.endsWith("}")) s=s.remove(s.length()-1,1);
 	  QTextCursor	cursor(doc);
 	  cursor.setPosition(blockpos + offset+1);
 	  newItem=StructItem(i,s,5,cursor);
@@ -363,7 +432,18 @@ while (j < templist.count())
   }
 templist.insert(j,newItem);
 }
+j=0;
+if (newLabelItem.type>=0)
+{
+while (j < templist.count()) 
+  {
+   if (templist[j].cursor.position() > newLabelItem.cursor.position()) break;
+  ++j;
+  }
+templist.insert(j,newLabelItem);
+}
 if (!(newItem==oldItem)) haschanged=true;
+if (!(newLabelItem==oldLabelItem)) haschanged=true;
 struct updateStruct newstruct;
 newstruct.isdirty=haschanged;
 newstruct.list=templist;
@@ -868,7 +948,7 @@ QAction *action = qobject_cast<QAction *>(sender());
 if (action)
 	{
 	QString newword = action->text();
-	replace(newword);
+	replace(newword,false,"");
 	}
 }
 
@@ -915,19 +995,45 @@ if (p.blockNumber()>=0) result=p.blockNumber();
 return result;
 }
 
-void LatexEditor::replace( const QString &r)
+void LatexEditor::replace( const QString &r,bool isRegExp, const QString &o)
 {
 int start;
 QTextCursor c = textCursor();
 if (c.hasSelection()) 
 	{
-	start=c.selectionStart();
-	c.removeSelectedText();
-	c.insertText(r);
-	c.setPosition(start,QTextCursor::MoveAnchor);
-	c.setPosition(start+r.length(),QTextCursor::KeepAnchor);
-//	c.movePosition(QTextCursor::NextWord,QTextCursor::KeepAnchor);
-	setTextCursor(c);
+	if (isRegExp)
+	  {
+	  QRegExp expr1(o);
+	  QStringList texts;
+	  QString rtext1=r;
+	  int pos = 0;
+	  while ((pos = expr1.indexIn(c.selectedText(), pos)) != -1) 
+	    {
+	    texts << expr1.cap(1);
+	    pos += expr1.matchedLength();
+	    }
+	  for(int i = 0; i < 10 && i < texts.count(); i++)
+	    {
+	    rtext1.replace("$"+QString::number(i+1), texts[i]);
+	    }
+	  start=c.selectionStart();
+	  c.removeSelectedText();
+	  c.insertText(rtext1);
+	  c.setPosition(start,QTextCursor::MoveAnchor);
+	  c.setPosition(start+rtext1.length(),QTextCursor::KeepAnchor);
+  //	c.movePosition(QTextCursor::NextWord,QTextCursor::KeepAnchor);
+	  setTextCursor(c);
+	  }
+	else
+	  {
+	  start=c.selectionStart();
+	  c.removeSelectedText();
+	  c.insertText(r);
+	  c.setPosition(start,QTextCursor::MoveAnchor);
+	  c.setPosition(start+r.length(),QTextCursor::KeepAnchor);
+  //	c.movePosition(QTextCursor::NextWord,QTextCursor::KeepAnchor);
+	  setTextCursor(c);
+	  }
 	}
 }
 
@@ -1192,11 +1298,18 @@ QString LatexEditor::commandUnderCursor() const
 QString result="";
 QTextCursor tc = textCursor();
 const QTextBlock block = document()->findBlock(tc.position());
+
 int index=tc.position()-block.position()-1;
 if (index<0) return "";
 const QString text = block.text();
 if (text.length() < 1) return "";
 if (index >= text.length()) return "";
+
+// 	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,.=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
+// 	completionStartRegExp.setMinimal(true);
+// 	QString leftSubstring = text.left(index);
+// 	int start = completionStartRegExp.lastIndexIn(leftSubstring);
+// 	int end=index;
 int start=index;
 int end=index;
 QChar	ch = text.at(index);
@@ -1661,7 +1774,7 @@ else
 			code="\\begin{"+code+"}\n"+QString(0x2022)+"\n\\end{"+code+"}\n";
 			}
 		      search(trigger, true, false,false,true,false);
-		      replace(code);
+		      replace(code,false,"");
 		      int pos=cursor.position();
 		      if (code.contains(QString(0x2022))) 
 			{
@@ -1704,6 +1817,7 @@ if (!c || (ctrlOrShift && e->text().isEmpty())) {return;}
 
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
 QString completionPrefix = commandUnderCursor();
+//qDebug() << "notfull" << completionPrefix;
 if ( completionPrefix.length() < 3)
 	{
 	c->popup()->hide();
@@ -1802,7 +1916,7 @@ tc.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,w-t-1+r);
 QString aft=tc.selectedText();
 //qDebug() << bef << aft;
 //tc.removeSelectedText();
-if (bef.contains("{") || !aft.contains("}")) tc.removeSelectedText();
+if (bef.contains("{") || (!aft.contains("}") && !aft.contains("]"))) tc.removeSelectedText();
 else tc.setPosition(pos,QTextCursor::MoveAnchor);
 
 QString env;
@@ -1893,13 +2007,13 @@ if (act != NULL)
 bool LatexEditor::isWordSeparator(QChar c) const
 {
     switch (c.toLatin1()) {
-    case '.':
-    case ',':
+//    case '.':
+//    case ',':
     case '?':
     case '!':
 //    case ':':
-    case ';':
-    case '-':
+//    case ';':
+//    case '-':
     case '<':
     case '>':
 //    case '[':

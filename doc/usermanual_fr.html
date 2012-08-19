@@ -61,8 +61,10 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION38">4.9 Synopsis de la commande texmaker</a></li>
 	<li><a href="#SECTION39">4.10 Raccourcis clavier</a></li>
 	<li><a href="#SECTION40">4.11 Le panneau "Source Viewer"</a></li>
-	<li><a href="#SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>
-	<li><a href="#SECTION42">4.13 L'option "Utiliser un sous-répertoire 'build'..." pour la commande (pdf)latex</a></li>
+<!--	<li><a href="#SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></li>-->
+	<li><a href="#SECTION42">4.12 L'option "Utiliser un sous-répertoire 'build'..." pour la commande (pdf)latex</a></li>
+	<li><a href="#SECTION43">4.13 Remplacer du texte avec une expression régulière</a></li>
+	<li><a href="#SECTION44">4.14 Utlisation de texmaker comme éditeur Asymptote</a></li>
 	</ul>
 </ul>
 <hr>
@@ -249,6 +251,7 @@ Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 	<li>Enregistrer : Ctrl+S</li>
 	<li>Fermer : Ctrl+W</li>
 	<li>Quitter : Ctrl+Q</li>
+	<li>Restaurer session précédente : Ctrl+Shift+F8</li>
 	</ul>
 </li>
 <li> Menu "Editer" :
@@ -319,13 +322,8 @@ Raccourcis par défaut (*:modifiable - "Configurer Texmaker" -> "Editeur") :
 </p>
 <h2><a name="SECTION40">4.11 Le panneau "Source Viewer"</a></h2>
 Pour faciliter le copier/coller entre deux documents, les utilisateurs peuvent ouvrir un document (en lecture seule) à côté de l'éditeur grâce au panneau "Source Viewer".
-<h2><a name="SECTION41">4.12 Imprimer un document pdf à partir de l'afficheur pdf intégré sous windows</a></h2>
-<ul>
-<li>D'abord, il faut s'assurer que le programme ghostscript est bien installé sur le système et que le chemin vers "gswin32c.exe" est correctement réglé dans le dialogue de configuration de Texmaker.</li>
-<li>Après avoir cliqué sur le bouton "Imprimer", sélectionner le format du papier et la plage de pages à imprimer.</li>
-<li>Il faut utiliser ensuite le bouton "Propriétés" de la boite de dialogue d'impression standard de windows qui apparaît pour fixer le format et l'orientation que l'on souhaite utiliser.</li>
-</ul>
-<h2><a name="SECTION42">4.13 L'option "Utiliser un sous-répertoire 'build'..." pour la commande (pdf)latex</a></h2>
+
+<h2><a name="SECTION42">4.12 L'option "Utiliser un sous-répertoire 'build'..." pour la commande (pdf)latex</a></h2>
 Lors de l'utilisation de cette option (configure Texmaker -> Commandes), le paramètre "--output-directory=build" est automatiquement ajouté à la commande (pdf)latex et Texmaker cherchera les fichiers log et pdf dans ce sous-répertoire (qui est automatiquement créé par Texmaker, puisque latex ne le fait pas).
 <br>
 <b>Remarques :</b>
@@ -338,5 +336,25 @@ Lors de l'utilisation de cette option (configure Texmaker -> Commandes), le para
 </ul>
 </li>
 <li>Avec cette option, la commande "Nettoyer" créera une copie des fichiers ps/pdf du sous-répertoire "build" vers le répertoire courant et effacera tous les autres fichiers du sous-répertoire (le pdf n'est pas effacé car Texmaker l'utilise dans l'afficheur intégré).</li>
+</ul>
+<h2><a name="SECTION43">4.13 Remplacer du texte avec une expression régulière</a></h2>
+Les paramètres $1, $2... doivent être utilisés pour le texte capturé et l'option "Expression régulière" doit être cochée (clic sur le bouton "+")<br>
+Exemple (pour remplacer tous les \textit{foo} par \textbf{foo}) :
+<ul>
+<li>champ "Chercher" : <tt>\\textit\{([^}]*)\}</tt></li>
+<li>champ "Remplacer" : <tt>\textbf{$1}</tt></li>
+</ul>
+<h2><a name="SECTION44">4.14 Utlisation de texmaker comme éditeur Asymptote</a></h2>
+<ul>
+<li>Pour le code asymptote intégré dans un document LaTeX, il suffit d'utiliser le mode "PdfLaTex+Asymptote+PdfLaTeX+Voir Pdf" pour la compilation rapide.</li>
+<li>Texmaker peut aussi éditer et compiler du code asymptote "autonome" (non inclus dans un document LaTeX). Pour se servir de Texmaker comme éditeur Asymptote :
+<ol>
+<li>menu "Utilisateur" -> "Commande utilisateur" -> "Editer commande utilisateur"</li>
+<li>Donner un nom à la commande et cliquer sur le bouton "Assistant".</li>
+<li>Ajouter avec l'assistant les commandes "Asymptote" et "Voir Pdf".</li>
+<li>Dans la ligne de commande, insérer ensuite les paramètres <tt> -f pdf -noView </tt> juste avant <tt>%.asy</tt>.</li>
+<li>Il n'y a plus qu'à sélectionner cette commande utilisateur dans la barre d'outils et compiler le fichier .asy avec la barre d'outils (ou utiliser directement le raccourci alt+shift+F1). Le pdf du graphique s'affiche alors automatiquement.</li>
+</ol>
+</li>
 </ul>
 </body></html>

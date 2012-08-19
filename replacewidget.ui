@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>460</width>
+    <width>470</width>
     <height>122</height>
    </rect>
   </property>
@@ -183,8 +183,11 @@
       </property>
       <item>
        <widget class="QCheckBox" name="checkRegExp">
+        <property name="toolTip">
+         <string notr="true">Captured text for the &quot;Replace&quot; field : $1 $2..</string>
+        </property>
         <property name="text">
-         <string>RegularExpression</string>
+         <string>Regular Expression</string>
         </property>
        </widget>
       </item>

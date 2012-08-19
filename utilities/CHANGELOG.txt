@@ -1,3 +1,19 @@
+version 3.4.1 -> 3.5 :
+-----------------------
+Enhancements :
+- New pdf viewer (based on qpdfview from Adam Reichold ): "two pages", "discontinuous" and "presentation" modes have been added. Pages can also be rotated. Printing pdf on windows doesn't use anymore ghostscript.
+- A new option (-insert foo) has been added to the command line. With this option, a latex command can be inserted by an external program to the current document while texmaker is running.
+- Polish quotes mode has been added to the "LaTeX/International quotes" menu (requested by users)
+- The structure items detection has been improved
+- Captured text can be used in the "Replace" dialog while using regular expression ($1, $2...). Example : \\textit\{([^}]*)\} for the "find" field and \textbf{$1} for the "replace" field.
+- The CTRL+SHIFT+F8 shortcut has been added to the "Restore previous session" action (requested by users)
+- Support for high resolution screen on macosx has been added
+Bugs fixed :
+- the tooltip about the "jump to the line" shortcut has been modified for macosx version ("cmd+click" instead of "ctrl+click")
+- .aux is not added after browsing the bib(la)tex command in the configuration dialog if this command is not bibtex
+- structure view is reset after closing all documents
+- the trouble about completion between brackets has been fixed
+
 version 3.4 -> 3.4.1 :
 -----------------------
 Bugs fixed :

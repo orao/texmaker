@@ -1,14 +1,9 @@
 /****************************************************************************
 **
-**   copyright       : (C) 2003-2011 by Pascal Brachet                     
+**   copyright       : (C) 2003-2012 by Pascal Brachet                     
 **   http://www.xm1math.net/texmaker/                                      
 **
 ** Parts of this file come from Texworks (GPL) Copyright (C) 2007-2010  Jonathan Kew
-
-** Parts of this file come from the documentation of Qt. It was originally
-** published as part of Qt Quarterly.
-** Copyright (C) 2008 Nokia Corporation and/or its subsidiary(-ies).
-** Contact: Qt Software Information (qt-info@nokia.com)
 **
 **
 ****************************************************************************/
@@ -62,7 +57,7 @@ config->endGroup();
 spell_lang=SpellLang;
 KeySequenceEditorFocus=edfocus;
 setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
-canDisplayPixmap=false;
+//canDisplayPixmap=false;
 pdf_file=fileName;
 viewpdf_command=externalCommand;
 gswin32c_command=ghostscriptCommand;
@@ -73,10 +68,10 @@ lastHpos=0;
 lastScale=startScale;
 fileLoaded=false;
 currentPage=1;
+
 doc = 0;
 scanner=NULL;
 path= QPainterPath();
-deltaMax=10;
 
 StructureView = new QDockWidget(this);
 StructureView->setObjectName("StructureView");
@@ -106,18 +101,18 @@ LeftPanelStackedWidget->addWidget(listpagesWidget);
 
 LeftPanelToolBar->addSeparator();
 
-StructureTreeWidget=new QTreeWidget(LeftPanelStackedWidget);
-StructureTreeWidget->setColumnCount(1);
-StructureTreeWidget->header()->hide();
-StructureTreeWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-StructureTreeWidget->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-StructureTreeWidget->header()->setResizeMode(0, QHeaderView::ResizeToContents);
-StructureTreeWidget->header()->setStretchLastSection(false);
-StructureTreeWidget->setIndentation(15);
+StructureTreeView=new QTreeView(LeftPanelStackedWidget);
+StructureTreeView->header()->hide();
+StructureTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+StructureTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+StructureTreeView->header()->setResizeMode(QHeaderView::ResizeToContents);
+StructureTreeView->header()->setStretchLastSection(false);
+StructureTreeView->setIndentation(15);
+StructureTreeView->setModel(0);
 
 
 connect(LeftPanelToolBar->addAction(QIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
-LeftPanelStackedWidget->addWidget(StructureTreeWidget);
+LeftPanelStackedWidget->addWidget(StructureTreeView);
 
 showingListPages=true;
 ShowListPages();
@@ -136,18 +131,13 @@ centralFrame->setFrameShape(QFrame::StyledPanel);
 centralFrame->setFrameShadow(QFrame::Plain);
 centralFrame->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
-scrollArea=new PdfScrollArea(centralFrame);
-scrollArea->setWidgetResizable(false);
-scrollArea->verticalLayout->setSizeConstraint(QLayout::SetFixedSize);
-scrollArea->verticalLayout->setSpacing(10);
-scrollArea->verticalLayout->setMargin(0);
-scrollArea->setAlignment(Qt::AlignCenter);
+pdfview=new DocumentView(centralFrame);
 
 
 CentralLayout= new QHBoxLayout(centralFrame);
 CentralLayout->setSpacing(0);
 CentralLayout->setMargin(0);
-CentralLayout->addWidget(scrollArea);
+CentralLayout->addWidget(pdfview);
 
 setCentralWidget(centralFrame);
 
@@ -195,6 +185,27 @@ zoomoutAct->setShortcut(QKeySequence::ZoomOut);
 toolBar->addAction(zoomoutAct);
 viewMenu->addAction(zoomoutAct);
 
+continuousModeAction = new QAction(tr("Continuous"), this);
+continuousModeAction->setCheckable(true);
+continuousModeAction->setChecked(true);
+viewMenu->addAction(continuousModeAction);
+  
+twoPagesModeAction = new QAction(tr("Two pages"), this);
+twoPagesModeAction->setCheckable(true);
+twoPagesModeAction->setChecked(false);
+viewMenu->addAction(twoPagesModeAction);
+  
+rotateLeftAction = new QAction(tr("Rotate left"), this);
+rotateLeftAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Left));
+viewMenu->addAction(rotateLeftAction);
+  
+rotateRightAction = new QAction(tr("Rotate right"), this);
+rotateRightAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Right));
+viewMenu->addAction(rotateRightAction);
+
+presentationAction = new QAction(tr("Presentation..."), this);
+viewMenu->addAction(presentationAction);
+  
 viewMenu->addSeparator();
 viewMenu->addAction(StructureView->toggleViewAction());
 
@@ -257,7 +268,12 @@ fitWithAct->setEnabled(false);
 fitPageAct->setEnabled(false);
 zoominAct->setEnabled(false);
 zoomoutAct->setEnabled(false);
-connectActions();
+continuousModeAction->setEnabled(false);
+twoPagesModeAction->setEnabled(false);
+rotateLeftAction->setEnabled(false);
+rotateRightAction->setEnabled(false);
+presentationAction->setEnabled(false);
+
 restoreState(windowstate, 0);
 openFile(pdf_file,viewpdf_command,gswin32c_command);
 }
@@ -290,11 +306,11 @@ config.endGroup();
 
 void PdfViewer::openFile(QString fn,QString ec,QString pc)
 {
+disconnectActions();
 show();
 if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
 qApp->setActiveWindow(this);
 activateWindow();
-
 path= QPainterPath();
 altern=1;
 currentScale=1;
@@ -304,255 +320,108 @@ gswin32c_command=pc;
 int lpage=lastPage;
 qreal lscale=lastScale;
 if (scanner != NULL) 
+{
+synctex_scanner_free(scanner);
+scanner = NULL;
+}
+if (pdfview->open(fn)) 
   {
-  synctex_scanner_free(scanner);
-  scanner = NULL;
-  }
-Poppler::Document *oldDocument = doc;
-doc = Poppler::Document::load(fn);
-if (doc) 
-  {
-  delete oldDocument;
+  listpagesWidget->clear();
+  doc=pdfview->doc();
   doc->setRenderHint(Poppler::Document::Antialiasing);
   doc->setRenderHint(Poppler::Document::TextAntialiasing);
   searchLocation = QRectF();
-  }
-if (doc!=0) 
+  searchLineEdit->setEnabled(true);
+  findButton->setEnabled(true);
+  scaleComboBox->setEnabled(true);
+  upAct->setEnabled(false);
+  downAct->setEnabled(true);
+  fitWithAct->setEnabled(true);
+  fitPageAct->setEnabled(true);
+  zoominAct->setEnabled(true);
+  zoomoutAct->setEnabled(true);
+  continuousModeAction->setEnabled(true);
+  twoPagesModeAction->setEnabled(true);
+  rotateLeftAction->setEnabled(true);
+  rotateRightAction->setEnabled(true);
+  presentationAction->setEnabled(true);
+  
+  pdfview->setContinousMode(true);
+  pdfview->setTwoPagesMode(false);
+  pdfview->show();
+  
+  StructureTreeView->setModel(pdfview->outlineModel());
+  QString syncFile = QFileInfo(fn).canonicalFilePath();
+  scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
+  if ((fn==lastFile) && (lpage <= doc->numPages()) && (lpage>0))
     {
-    searchLineEdit->setEnabled(true);
-    findButton->setEnabled(true);
-    scaleComboBox->setEnabled(true);
-    upAct->setEnabled(false);
-    downAct->setEnabled(true);
-    fitWithAct->setEnabled(true);
-    fitPageAct->setEnabled(true);
-    zoominAct->setEnabled(true);
-    zoomoutAct->setEnabled(true);
-    StructureTreeWidget->clear();
-    const QDomDocument *toc = doc->toc();
-    if (toc) 
+    currentPage=lpage;
+    currentScale=lscale;
+    if ((currentScale < 0.25) || (currentScale > 4)) 
       {
-      ParseToc(*toc, StructureTreeWidget, 0);
-      delete toc;
-      } 
-    QString syncFile = QFileInfo(fn).canonicalFilePath();
-    scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
+      pdfview->setScaleMode(DocumentView::FitToPageWidth);
+      currentScale=pdfview->realScale();
+      zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
 
-    if ((fn==lastFile) && (lpage <= doc->numPages()) && (lpage>0))
-      {
-      currentPage=lpage;
-      currentScale=lscale;
-      if ((currentScale < 0.25) || (currentScale > 4)) initPages(true);
-      else initPages(false);
       }
     else 
       {
-      currentPage=1;
-      lastPage=1;
-      initPages(true);
-      lastScale=currentScale;
+      zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+      pdfview->setScaleFactor(currentScale);
       }
-    previousScale=currentScale;
-    fileLoaded=true;
-    lastFile=fn;
-    setWindowTitle(QFileInfo(fn).fileName());
-    clearHistory();
-    if (showingListPages) ShowListPages();
-    else ShowStructure();
-    gotoPage(currentPage);
-    disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
-    if (scrollArea->horizontalScrollBar()->isVisible())  {QTimer::singleShot( 500,this, SLOT(jumptoHpos()) );}
-    connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
-    emit sendFocusToEditor();
-    } 
-    else 
-      {
-      QMessageBox::warning( this,tr("Error"),tr("File not found"));
-      fileLoaded=false;
-      }
-}
-
-void PdfViewer::initPages(bool checkScale)
-{
-canDisplayPixmap=false;
-disconnectActions();
-qDeleteAll(listPdfWidgets);
-disconnect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
-disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
-listpagesWidget->clear();
-listPdfWidgets.clear();
-listPdfWidgetsPos.clear();
-listPdfWidgetsStatus.clear();
-PdfDocumentWidget *pdfWidget;
-int pos=0;
-pdfWidget = new PdfDocumentWidget(0,0,doc->page(0));
-if (checkScale)
-    {
-    pdfWidget->updatePixmap();
-    qreal portWidth = scrollArea->viewport()->width();
-    QSizeF pageSize = doc->page(0)->pageSizeF();
-    if (pageSize.width()!=0) currentScale = (portWidth-30) / pageSize.width()*72.0/pdfWidget->physicalDpiX();
-    //(portWidth-50) /  pdfWidget->pixmap()->width();
-    if (currentScale < 0.25) currentScale = 0.25;
-    else if (currentScale > 4) currentScale = 4;
-    lastScale=currentScale;
     }
-pdfWidget->setScale(currentScale);
-pdfWidget->updatePixmap();
-zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
-int widthpix=(int) pdfWidget->pixmap()->width();
-int heightpix=(int) pdfWidget->pixmap()->height();
-if (pdfWidget) delete pdfWidget;
+  else 
+    {
+    currentPage=1;
+    lastPage=1;
+    pdfview->setScaleMode(DocumentView::FitToPageWidth);
+    currentScale=pdfview->realScale();
+    zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+    }
   for (int i = 0; i < doc->numPages(); ++i)
-  {
-  listPdfWidgetsStatus.append(0);
-  listpagesWidget->addItem(tr("Page")+" "+QString::number(i+1)); 
-  pdfWidget = new PdfDocumentWidget(scrollArea,i,doc->page(i));
-  pdfWidget->setScale(currentScale);
-  connect(pdfWidget, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(jumpToEditor(int, const QPointF&)));
-  connect(pdfWidget, SIGNAL(updateDone(int)), this, SLOT(updatePageStatus(int)));
-  connect(pdfWidget, SIGNAL(gotoDest(int,int,int)), this, SLOT(jumpToDest(int,int,int)));
-  connect(pdfWidget, SIGNAL(pressOnPoint(QPoint)), scrollArea, SLOT(pressHere(QPoint)));
-  connect(pdfWidget, SIGNAL(moveOnPoint(QPoint)), scrollArea, SLOT(moveHere(QPoint)));
-  connect(pdfWidget, SIGNAL(wantNumWords()), this, SLOT(countWords()));
-  connect(pdfWidget, SIGNAL(wantPngExport(int)), this, SLOT(pngExport(int)));
-  pdfWidget->createblankPixmap(1,heightpix);
-  listPdfWidgets.append(pdfWidget);
-  listPdfWidgetsPos.append(pos);
-  pos+=(int) pdfWidget->pixmap()->height()+scrollArea->verticalLayout->spacing();
-  scrollArea->verticalLayout->addWidget(pdfWidget);
-  }
-//scrollArea->verticalScrollBar()->setPageStep(heightpix);
-scrollArea->viewport()->update();
-if (scrollArea->verticalScrollBar()->pageStep()<pos) scrollMax=pos-scrollArea->verticalScrollBar()->pageStep()+scrollArea->verticalLayout->spacing();
-else scrollMax=pos;
-if (scrollArea->viewport()->height()>pos) scrollMax=0;
-scrollArea->verticalScrollBar()->setMaximum(scrollMax);
-scrollArea->horizontalScrollBar()->setMaximum(widthpix);
-connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
-connect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
-connectActions();
-deltaMax=10;
-if (heightpix!=0) deltaMax=(int) (scrollArea->viewport()->height()/heightpix)+2;
-canDisplayPixmap=true;
-scrollArea->setFocus();
-}
-
-void PdfViewer::initPagesWithNewScale()
-{
-canDisplayPixmap=false;
-for (int i = 0; i < doc->numPages(); ++i) listPdfWidgetsStatus.replace(i,0);
-PdfDocumentWidget *pdfWidget;
-pdfWidget = new PdfDocumentWidget(0,0,doc->page(0));
-pdfWidget->setScale(currentScale);
-pdfWidget->updatePixmap();
-int widthpix=(int) pdfWidget->pixmap()->width();
-int heightpix=(int) pdfWidget->pixmap()->height();
-if (pdfWidget) delete pdfWidget;
-disconnectActions();
-int pos=0;
-int w=0;
-for (int i = 0; i < doc->numPages(); ++i)
-  {
-  listPdfWidgetsStatus.replace(i,0);
-  listPdfWidgets.at(i)->clearPaths();
-  listPdfWidgets.at(i)->setScale(currentScale);
-  listPdfWidgets.at(i)->createblankPixmap(1,heightpix);
-  listPdfWidgetsPos.replace(i,pos);
-  pos+=(int) (listPdfWidgets.at(i)->pixmap()->height()+scrollArea->verticalLayout->spacing());
-  }
-//scrollArea->verticalScrollBar()->setPageStep(heightpix);
-scrollArea->viewport()->update();
-if (scrollArea->verticalScrollBar()->pageStep()<pos) scrollMax=pos-scrollArea->verticalScrollBar()->pageStep()+scrollArea->verticalLayout->spacing();
-else scrollMax=pos;
-if (scrollArea->viewport()->height()>pos) scrollMax=0;
-scrollArea->verticalScrollBar()->setMaximum(scrollMax);
-scrollArea->horizontalScrollBar()->setMaximum(widthpix);
-connectActions();
-deltaMax=10;
-if (heightpix!=0) deltaMax=(int) (scrollArea->viewport()->height()/heightpix)+2;
-canDisplayPixmap=true;
-scrollArea->setFocus();
-}
-
-void PdfViewer::displayPage(int page)
-{
-if ((page>=0) && (page < doc->numPages()))
-  {
-  listPdfWidgets.at(page)->setScale(currentScale);
-  listPdfWidgets.at(page)->updatePixmap();
-  }
-}
-
-void PdfViewer::displayNewPage()
-{
-int newpage=-1;
-pageMutex.lock();
-if (listPdfWidgetsStatus.at(currentPage-1)==0) newpage=currentPage-1;
-else
-  {
-  int delta=1;
-  int max=doc->numPages()-currentPage;
-  if (currentPage-1>max) max=currentPage-1;
-  while (delta<=max) 
-      {
-      newpage=currentPage-1+delta*altern;
-      if ((newpage<doc->numPages()) && (newpage>=0))
-	  {
-	  if (listPdfWidgetsStatus.at(newpage)==0) 
-	    {
-	    break;
-	    }
-	  }
-      newpage=currentPage-1-delta*altern;
-      if ((newpage<doc->numPages()) && (newpage>=0))
-	      {
-	      if (listPdfWidgetsStatus.at(newpage)==0) 
-		{
-		break;
-		}
-	      }
-      delta+=1;
-      }
-  }
-if ((newpage>=0) && (newpage < doc->numPages()) && (abs(newpage-currentPage+1)<=deltaMax) && canDisplayPixmap)
-  {
-  if (listPdfWidgetsStatus.at(newpage)==0)
     {
-    listPdfWidgets.at(newpage)->setScale(currentScale);
-    listPdfWidgets.at(newpage)->updatePixmap();
+    listpagesWidget->addItem(tr("Page")+" "+QString::number(i+1)); 
     }
-  pageMutex.unlock();
-  QTimer::singleShot( 30,this, SLOT(displayNewPage()) );
-  }
-else {
-    pageMutex.unlock();
-    }
-altern=-altern;
-}
-
-void PdfViewer::updatePageStatus(int page)
-{
-int pos=0;
-/*for (int i = 0; i < doc->numPages(); ++i)
+  fileLoaded=true;
+  lastFile=fn;
+  setWindowTitle(QFileInfo(fn).fileName());
+  clearHistory();
+  if (showingListPages) ShowListPages();
+  else ShowStructure();
+  lastScale=currentScale;
+  previousScale=currentScale;
+  connectActions();
+  gotoPage(currentPage);
+  disconnect(pdfview,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+  if (pdfview->horizontalScrollBar()->isVisible())  {QTimer::singleShot( 500,this, SLOT(jumptoHpos()) );}
+  connect(pdfview,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+  emit sendFocusToEditor();
+  } 
+else 
   {
-  listPdfWidgetsPos.replace(i,pos);
-  pos+=(int) listPdfWidgets.at(i)->pixmap()->height()+scrollArea->verticalLayout->contentsMargins().bottom();
-  }*/
-listPdfWidgetsStatus.replace(page,1);
-  scrollArea->update();
-pageMutex.unlock();
-disconnect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
-if (scrollArea->horizontalScrollBar()->isVisible())  {QTimer::singleShot( 500,this, SLOT(jumptoHpos()) );}
-connect(scrollArea,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+  QMessageBox::warning( this,tr("Error"),tr("File not found"));
+  fileLoaded=false;
+  searchLineEdit->setEnabled(false);
+  findButton->setEnabled(false);
+  scaleComboBox->setEnabled(false);
+  upAct->setEnabled(false);
+  downAct->setEnabled(false);
+  fitWithAct->setEnabled(false);
+  fitPageAct->setEnabled(false);
+  zoominAct->setEnabled(false);
+  zoomoutAct->setEnabled(false);
+  continuousModeAction->setEnabled(false);
+  twoPagesModeAction->setEnabled(false);
+  rotateLeftAction->setEnabled(false);
+  rotateRightAction->setEnabled(false);
+  presentationAction->setEnabled(false);
+  disconnectActions();
+  StructureTreeView->setModel(0);
+  listpagesWidget->clear();
+  pdfview->clearAll();
+  }
 }
 
-void PdfViewer::setScrollMax()
-{
-disconnect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
-if (scrollArea->verticalScrollBar()->maximum()<scrollMax) scrollArea->verticalScrollBar()->setMaximum(scrollMax);
-connect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
-}
 
 void PdfViewer::connectActions()
 {
@@ -561,8 +430,7 @@ connect(upAct, SIGNAL(triggered()), this, SLOT(pageUp()));
 connect(downAct, SIGNAL(triggered()), this, SLOT(pageDown()));
 connect(listpagesWidget, SIGNAL(itemActivated ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 connect(listpagesWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
-connect(StructureTreeWidget, SIGNAL(itemActivated (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
-connect(StructureTreeWidget, SIGNAL(itemClicked (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
+connect(StructureTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(ClickedOnStructure(QModelIndex)));
 connect(fitWithAct, SIGNAL(triggered()), this, SLOT(fitWidth()));
 connect(fitPageAct, SIGNAL(triggered()), this, SLOT(fitPage()));
 connect(zoominAct, SIGNAL(triggered()), this, SLOT(zoomIn()));
@@ -571,13 +439,25 @@ connect(zoomCustom, SIGNAL(returnPressed()),this, SLOT(userZoom()));
 connect(scaleComboBox, SIGNAL(currentIndexChanged(QString)),this, SLOT(scaleDocumentZoom(QString)));
 connect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(searchDocument()));
 connect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
-if (scrollArea) connect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut()));
-if (scrollArea) connect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
 connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 connect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
 connect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
+connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
+connect(pdfview, SIGNAL(gotoDest(int,qreal,qreal)), this, SLOT(jumpToDest(int,qreal,qreal)));
+connect(pdfview, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(jumpToEditor(int, const QPointF&)));
+connect(pdfview, SIGNAL(requestZoomIn()), this, SLOT(zoomIn()));
+connect(pdfview, SIGNAL(requestZoomOut()), this, SLOT(zoomOut()));
+connect(pdfview, SIGNAL(continousModeChanged(bool)), this,SLOT(on_currentTab_continuousModeChanged(bool)));
+connect(pdfview, SIGNAL(twoPagesModeChanged(bool)), this,SLOT(on_currentTab_twoPagesModeChanged(bool)));
+connect(pdfview,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+connect(continuousModeAction, SIGNAL(triggered(bool)),this, SLOT(on_continuousMode_triggered(bool)));
+connect(twoPagesModeAction, SIGNAL(triggered(bool)),this, SLOT(on_twoPagesMode_triggered(bool)));
+connect(rotateLeftAction, SIGNAL(triggered()), this,SLOT(on_rotateLeft_triggered()));
+connect(rotateRightAction, SIGNAL(triggered()), this,SLOT(on_rotateRight_triggered()));
+connect(presentationAction, SIGNAL(triggered()),this, SLOT(on_presentation_triggered()));
+
 //connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -589,8 +469,7 @@ disconnect(upAct, SIGNAL(triggered()), this, SLOT(pageUp()));
 disconnect(downAct, SIGNAL(triggered()), this, SLOT(pageDown()));
 disconnect(listpagesWidget, SIGNAL(itemActivated ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 disconnect(listpagesWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
-disconnect(StructureTreeWidget, SIGNAL(itemActivated (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
-disconnect(StructureTreeWidget, SIGNAL(itemClicked (QTreeWidgetItem*,int)), this, SLOT(ClickedOnStructure(QTreeWidgetItem*,int)));
+disconnect(StructureTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(ClickedOnStructure(QModelIndex)));
 disconnect(fitWithAct, SIGNAL(triggered()), this, SLOT(fitWidth()));
 disconnect(fitPageAct, SIGNAL(triggered()), this, SLOT(fitPage()));
 disconnect(zoominAct, SIGNAL(triggered()), this, SLOT(zoomIn()));
@@ -599,13 +478,24 @@ disconnect(zoomCustom, SIGNAL(returnPressed()),this, SLOT(userZoom()));
 disconnect(scaleComboBox, SIGNAL(currentIndexChanged(QString)),this, SLOT(scaleDocumentZoom(QString)));
 disconnect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(searchDocument()));
 disconnect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
-if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomOut()), this, SLOT(zoomOut()));
-if (scrollArea) disconnect(scrollArea, SIGNAL(pagezoomIn()), this, SLOT(zoomIn()));
 disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 disconnect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 disconnect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
 disconnect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
+disconnect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
+disconnect(pdfview, SIGNAL(gotoDest(int,qreal,qreal)), this, SLOT(jumpToDest(int,qreal,qreal)));
+disconnect(pdfview, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(jumpToEditor(int, const QPointF&)));
+disconnect(pdfview, SIGNAL(requestZoomIn()), this, SLOT(zoomIn()));
+disconnect(pdfview, SIGNAL(requestZoomOut()), this, SLOT(zoomOut()));
+disconnect(pdfview, SIGNAL(continousModeChanged(bool)), this,SLOT(on_currentTab_continuousModeChanged(bool)));
+disconnect(pdfview, SIGNAL(twoPagesModeChanged(bool)), this,SLOT(on_currentTab_twoPagesModeChanged(bool)));
+disconnect(pdfview,SIGNAL(doHScroll(int)), this, SLOT(setHpos(int)));
+disconnect(continuousModeAction, SIGNAL(triggered(bool)), this,SLOT(on_continuousMode_triggered(bool)));
+disconnect(twoPagesModeAction, SIGNAL(triggered(bool)), this,SLOT(on_twoPagesMode_triggered(bool)));
+disconnect(rotateLeftAction, SIGNAL(triggered()), this,SLOT(on_rotateLeft_triggered()));
+disconnect(rotateRightAction, SIGNAL(triggered()), this,SLOT(on_rotateRight_triggered()));
+disconnect(presentationAction, SIGNAL(triggered()),this, SLOT(on_presentation_triggered()));
 //disconnect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEnabled( bool ) ) );
 //disconnect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
@@ -659,18 +549,15 @@ if (synctex_display_query(scanner, name.toUtf8().data(), source_line, 0) > 0)
     }
   if (page > 0) 
     {
-     disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
+     disconnect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
     QRectF r = path.boundingRect();
     currentPage=page;
     lastPage=currentPage;
-    int vpos=(int) (listPdfWidgetsPos.at(currentPage-1)-10+(r.top()) * listPdfWidgets.at(currentPage-1)->physicalDpiY() / 72 * currentScale);
-    int hpos=(int) (r.left()  * listPdfWidgets.at(currentPage-1)->physicalDpiX() / 72 * currentScale-10);
-    scrollArea->setVisible(hpos,vpos,20,scrollMax);
-    listPdfWidgets.at(currentPage-1)->clearPaths();
+    pdfview->showRect(currentPage-1,r);
     path.setFillRule(Qt::WindingFill);
     QTimer::singleShot(500,this, SLOT(slotHighlight()) );
     updateCurrentPage();
-    connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
+    connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
     }
   }
   else 
@@ -681,7 +568,7 @@ if (synctex_display_query(scanner, name.toUtf8().data(), source_line, 0) > 0)
 
 void PdfViewer::slotHighlight()
 {
-listPdfWidgets.at(currentPage-1)->setHighlightPath(path); 
+pdfview->setHighlightPath(currentPage-1,path);
 }
 
 void PdfViewer::gotoPage(int page)
@@ -691,26 +578,18 @@ if ((page <= doc->numPages()) && (page>=1))
   {
   currentPage=page;
   lastPage=currentPage;
-  disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
-  scrollArea->verticalScrollBar()->setValue(listPdfWidgetsPos.at(currentPage-1));
-//  scrollArea->setVisible(0,listPdfWidgetsPos.at(currentPage-1),0,scrollMax);
-  updateHistory(listPdfWidgetsPos.at(currentPage-1));
+  pdfview->jumpToPage(currentPage,0.0, 0.0, false);
+  disconnect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
+  updateHistory(pdfview->verticalScrollBar()->value());
   updateCurrentPage();
-  connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
+  connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
   }
 }
 
 void PdfViewer::checkPage(int value)
 {
 if (!fileLoaded) return;
-int old=currentPage;
-int i=0;
-while (i < doc->numPages()) 
-	{
-	if ((int) (listPdfWidgetsPos.at(i)-scrollArea->viewport()->height()/2)>value) break;
-	i++;
-	}
-currentPage=i;
+currentPage=value;
 lastPage=currentPage;
 updateCurrentPage();
 }
@@ -724,23 +603,20 @@ if (currentPage==doc->numPages()) downAct->setEnabled(false);
 else downAct->setEnabled(true);
 QList<QListWidgetItem *> fItems=listpagesWidget->findItems (tr("Page")+" "+QString::number(currentPage),Qt::MatchRecursive);
 if ((fItems.size()>0 ) && (fItems.at(0))) listpagesWidget->setCurrentItem(fItems.at(0));
-displayNewPage();
 }
 
-void PdfViewer::jumpToDest(int page,int left, int top)
+void PdfViewer::jumpToDest(int page,qreal left, qreal top)
 {
 if (!fileLoaded) return;
 if ((page <= doc->numPages()) && (page>=1))
   {
   currentPage=page;
   lastPage=currentPage;
-  disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
-    int vpos=listPdfWidgetsPos.at(currentPage-1)-10+top;
-    int hpos=left-10;
-    scrollArea->setVisible(hpos,vpos,20,scrollMax);
-    updateCurrentPage();
-    updateHistory(vpos);
-  connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
+  pdfview->jumpToPage(currentPage,left,top, false);
+  disconnect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
+  updateHistory(pdfview->verticalScrollBar()->value());
+  updateCurrentPage();
+  connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
   }
 }
 
@@ -761,20 +637,16 @@ if (zoom.toInt() > 0 && zoom.toInt() <= 400)
   if (currentScale < 0.25) currentScale = 0.25;
   else if (currentScale > 4) currentScale = 4;
   if (previousScale!=0)  s=currentScale/previousScale;
-  int newhpos=(int) (s*(scrollArea->horizontalScrollBar()->value()+scrollArea->viewport()->width()/2)-scrollArea->viewport()->width()/2);
-  int newvpos=(int) (s*(scrollArea->verticalScrollBar()->value()+scrollArea->viewport()->height()/2)-scrollArea->viewport()->height()/2);
+//   int newhpos=(int) (s*(pdfview->horizontalScrollBar()->value()+pdfview->viewport()->width()/2)-pdfview->viewport()->width()/2);
+//   int newvpos=(int) (s*(pdfview->verticalScrollBar()->value()+pdfview->viewport()->height()/2)-pdfview->viewport()->height()/2);
+
+  pdfview->setScaleMode(DocumentView::ScaleFactor);
+  pdfview->setScaleFactor(s*pdfview->scaleFactor());
+  currentScale=pdfview->realScale();
   lastScale=currentScale;
   previousScale=currentScale;
-  //zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
-  disconnect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
-  disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
-  initPagesWithNewScale();
-  connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
-  connect(scrollArea, SIGNAL(doRange()), this, SLOT(setScrollMax()));
-  //gotoPage(currentPage);
-  updateCurrentPage();
-  scrollArea->horizontalScrollBar()->setValue(newhpos);
-  scrollArea->verticalScrollBar()->setValue(newvpos);
+//   pdfview->horizontalScrollBar()->setValue(newhpos);
+//   pdfview->verticalScrollBar()->setValue(newvpos);
    clearHistory();
   }
 }
@@ -784,10 +656,10 @@ void PdfViewer::searchDocument()
 if (!fileLoaded) return;
 //QRectF location;
 if (searchLineEdit->text().isEmpty()) return;
-disconnect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
+disconnect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
 //QMetaObject::invokeMethod(this, "searchForwards", Qt::QueuedConnection,Q_ARG(QString,searchLineEdit->text()));
 searchForwards(searchLineEdit->text());
-connect(scrollArea, SIGNAL(doScroll(int)), this, SLOT(checkPage(int)));
+connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
 //else location = searchBackwards(searchLineEdit->text());
 //QPoint target = pdfWidget->matrix().mapRect(location).center().toPoint();
 //scrollArea->ensureVisible(target.x(), target.y());
@@ -868,8 +740,7 @@ while (page < doc->numPages())
 
   if (currentPage>=1) 
     {
-    listPdfWidgets.at(currentPage-1)->clearPaths();
-    displayPage(currentPage-1);
+    pdfview->clearPaths(currentPage-1);  
     }
   if (doc->page(page)->search(text, searchLocation,Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
     {
@@ -880,11 +751,9 @@ while (page < doc->numPages())
       QRectF r = path.boundingRect();
       currentPage=page+1;
       lastPage=currentPage;
-      int vpos=(int) (listPdfWidgetsPos.at(currentPage-1)-10+(r.top() + r.bottom()) / 2 * listPdfWidgets.at(currentPage-1)->physicalDpiY() / 72 * currentScale);
-      int hpos=(int) ((r.left()+r.right())/2  * listPdfWidgets.at(currentPage-1)->physicalDpiX() / 72 * currentScale-10);
-      scrollArea->setVisible(hpos,vpos,20,scrollMax);
+      pdfview->showRect(currentPage-1,r);
       path.setFillRule(Qt::WindingFill);
-      listPdfWidgets.at(currentPage-1)->setSearchPath(path);
+      pdfview->setSearchPath(currentPage-1,path);
       updateCurrentPage();
       return;
       }
@@ -897,8 +766,7 @@ while (page < currentPage-1)
   {
   if (currentPage>=1) 
     {
-    listPdfWidgets.at(currentPage-1)->clearPaths();
-  displayPage(currentPage-1);
+    pdfview->clearPaths(currentPage-1);    
     }
   searchLocation = QRectF();
   if (doc->page(page)->search(text, searchLocation,Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
@@ -910,12 +778,9 @@ while (page < currentPage-1)
       QRectF r = path.boundingRect();
       currentPage=page+1;
       lastPage=currentPage;
-      int vpos=(int) (listPdfWidgetsPos.at(currentPage-1)-10+(r.top() + r.bottom()) / 2 * listPdfWidgets.at(currentPage-1)->physicalDpiY() / 72 * currentScale);
-      int hpos=(int) ((r.left()+r.right())/2  * listPdfWidgets.at(currentPage-1)->physicalDpiX() / 72 * currentScale-10);
-      scrollArea->setVisible(hpos,vpos,20,scrollMax);
+      pdfview->showRect(currentPage-1,r);
       path.setFillRule(Qt::WindingFill);
-      listPdfWidgets.at(currentPage-1)->setSearchPath(path);
-      //if (!path.isEmpty()) displayPage(currentPage-1);
+      pdfview->setSearchPath(currentPage-1,path);
       updateCurrentPage();
       return;
       }
@@ -955,12 +820,21 @@ void PdfViewer::fitWidth()
 {
 if (!fileLoaded) return;
 previousScale=currentScale;
-qreal portWidth = scrollArea->viewport()->width();
-QSizeF	pageSize = doc->page(currentPage-1)->pageSizeF();
-if (pageSize.width()!=0) currentScale = (portWidth-10) / pageSize.width()*72.0/listPdfWidgets.at(currentPage-1)->physicalDpiX();
-else return;
-if (currentScale < 0.25) currentScale = 0.25;
-else if (currentScale > 4) currentScale = 4;
+pdfview->setScaleMode(DocumentView::FitToPageWidth);
+currentScale=pdfview->realScale();
+zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+if (currentScale < 0.25) 
+  {
+  currentScale = 0.25;
+  zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+  scaleDocumentZoom(zoomCustom->text());
+  }
+else if (currentScale > 4) 
+  {
+  currentScale = 4;
+  zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+  scaleDocumentZoom(zoomCustom->text());
+  }
 lastScale=currentScale;
 zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
 scaleDocumentZoom(zoomCustom->text());
@@ -970,20 +844,21 @@ void PdfViewer::fitPage()
 {
 if (!fileLoaded) return;
 previousScale=currentScale;
-qreal portWidth = scrollArea->viewport()->width();
-qreal portHeight = scrollArea->viewport()->height();
-if (scrollArea->horizontalScrollBar()->isVisible()) portHeight+=scrollArea->horizontalScrollBar()->height();
-QSizeF	pageSize = doc->page(currentPage-1)->pageSizeF();
-qreal scaleW;
-qreal scaleH;
-if (pageSize.width()!=0) scaleW = (portWidth-20-scrollArea->verticalScrollBar()->width()) / pageSize.width()*72.0/listPdfWidgets.at(currentPage-1)->physicalDpiX();
-else return;
-if (pageSize.height()!=0) scaleH = (portHeight-scrollArea->verticalLayout->spacing() )/ pageSize.height()*72.0/listPdfWidgets.at(currentPage-1)->physicalDpiY();
-else return;
-if (scaleH < scaleW) currentScale=scaleH;
-else currentScale=scaleW ;
-if (currentScale < 0.25) currentScale = 0.25;
-else if (currentScale > 4) currentScale = 4;
+pdfview->setScaleMode(DocumentView::FitToPageSize);
+currentScale=pdfview->realScale();
+zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+if (currentScale < 0.25) 
+  {
+  currentScale = 0.25;
+  zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+  scaleDocumentZoom(zoomCustom->text());
+  }
+else if (currentScale > 4) 
+  {
+  currentScale = 4;
+  zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
+  scaleDocumentZoom(zoomCustom->text());
+  }
 lastScale=currentScale;
 zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
 scaleDocumentZoom(zoomCustom->text());
@@ -1126,30 +1001,7 @@ browserWindow->show();
 
 }
 
-void PdfViewer::countWords()
-{
-if (!fileLoaded) return;
-QString pdf_text="";
-int numwords=0;
-int pagewords=0;
-QProgressDialog progress("",tr("Cancel"), 0, doc->numPages(), this);
-progress.setWindowTitle("Texmaker");
-progress.setWindowModality(Qt::WindowModal);
-for (int i = 0; i < doc->numPages(); ++i)
-  {
-  progress.setValue(i);
-  qApp->processEvents();
-  if (progress.wasCanceled()) return;
-  pagewords=0;
-  pdf_text=doc->page(i)->text(QRectF(),Poppler::Page::PhysicalLayout);
-  pdf_text=pdf_text.simplified();
-  pagewords=pdf_text.count(" ");
-  if (!pdf_text.isEmpty()) pagewords++;
-  numwords+=pagewords;
-  }
-progress.setValue(doc->numPages());
-QMessageBox::information( this,"Texmaker",tr("Number of words in the document")+QString(" : ")+QString::number(numwords));
-}
+
 
 void PdfViewer::printPdf()
 {
@@ -1157,61 +1009,7 @@ if (!fileLoaded) return;
 QFileInfo fi(pdf_file);
 if (!fi.exists()) return; 
 QString command;
-#ifdef Q_WS_WIN
-QString gs="none";
-QString gstemp=gswin32c_command;
-gstemp.remove("\"");
-if (QFileInfo(gstemp).exists()) gs=gstemp;
-else if (QFileInfo("C:/Program Files/gs/gs9.05/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.05/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files/gs/gs9.04/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.04/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files/gs/gs9.02/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.02/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files/gs/gs9.00/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs9.00/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files/gs/gs8.71/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs8.71/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs8.71/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs8.71/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files/gs/gs8.64/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs8.64/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs8.64/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs8.65/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files/gs/gs8.63/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs8.63/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs8.63/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs8.63/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files/gs/gs8.62/bin/gswin32c.exe").exists()) gs="C:/Program Files/gs/gs8.62/bin/gswin32c.exe";
-else if (QFileInfo("C:/Program Files (x86)/gs/gs8.62/bin/gswin32c.exe").exists()) gs="C:/Program Files (x86)/gs/gs8.62/bin/gswin32c.exe";
-if (gs=="none") 
-  {
-  QMessageBox::warning( this,tr("Error"), tr("Can't print : the ghostscript command (gswin32c.exe) was not found on your system."));
-  return;
-  }
-dlg = new PaperDialog(this,"New");
-dlg->ui.comboBoxPaper->setCurrentIndex(dlg->ui.comboBoxPaper->findText(paper_size, Qt::MatchExactly));
-int firstp=1;
-int lastp=doc->numPages();
-dlg->ui.from->setValue(firstp);
-dlg->ui.to->setValue(lastp);
-if ( dlg->exec() )
-  {
-  paper_size=dlg->ui.comboBoxPaper->currentText();
-  if (dlg->ui.printAll->isChecked()) 
-    {
-    firstp=1;
-    lastp=doc->numPages();
-    } 
-  else if (dlg->ui.printRange->isChecked()) 
-    {
-    firstp=dlg->ui.from->value();
-    lastp=qMax(dlg->ui.from->value(), dlg->ui.to->value());
-    }
-  delete (dlg);
-  emit sendPaperSize(paper_size);
-  }
-else
-  {
-  delete (dlg);
-  return;  
-  }
-command = "\""+gs+"\" -dBATCH -dNOPAUSE -dQUIET -dNoCancel -sPAPERSIZE="+paper_size+" -dFirstPage="+QString::number(firstp)+" -dLastPage="+QString::number(lastp)+" -sDEVICE=mswinpr2 \""+pdf_file+"\"";
-#else
+
 unsigned int firstPage, lastPage;
 QPrinter printer(QPrinter::HighResolution);
 QPrintDialog printDlg(&printer, this);
@@ -1238,6 +1036,9 @@ switch(printDlg.printRange())
 
 if(!printer.printerName().isEmpty()) 
   {
+#ifdef Q_WS_WIN
+pdfview->print(&printer);
+#else
   QStringList args;
   args << "lp";
   if (!printer.printerName().contains(" ")) args << QString("-d %1").arg(printer.printerName());//.replace(" ","_"));
@@ -1261,10 +1062,13 @@ if(!printer.printerName().isEmpty())
   args << "--";
   args << QString("\"%1\"").arg(pdf_file);
   command=args.join(" ");
+  if(QProcess::execute(command) == 0) return;
+  else pdfview->print(&printer);
+#endif
   }
 else return;
-#endif
-if(QProcess::execute(command) == 0) return;
+
+
 }
 
 void PdfViewer::slotItemClicked(QListWidgetItem* item)
@@ -1316,29 +1120,14 @@ if(e->modifiers() & Qt::MetaModifier) {
 	qtKeyCode += Qt::META;
 }
 QKeySequence s1 = QKeySequence(qtKeyCode);
-//QKeySequence s1 = new QKeySequence(e->key() | e->modifiers());
-//QKeySequence s2 = QKeySequence("Ctrl+Space");
 if (s1.matches(KeySequenceEditorFocus)==QKeySequence::ExactMatch) emit sendFocusToEditor();
 else QMainWindow::keyPressEvent(e);
-// #ifdef Q_WS_MACX
-// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Dollar)
-//     {
-//     emit sendFocusToEditor();
-//     }
-// else QMainWindow::keyPressEvent(e);
-// #else
-// if (((e->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier) && e->key()==Qt::Key_Space)
-//     {
-//     emit sendFocusToEditor();
-//     }
-// else QMainWindow::keyPressEvent(e);
-// #endif
 }
 
 void PdfViewer::ShowStructure()
 {
 showingListPages=false;
-LeftPanelStackedWidget->setCurrentWidget(StructureTreeWidget);
+LeftPanelStackedWidget->setCurrentWidget(StructureTreeView);
 StructureView->setWindowTitle(tr("Structure"));
 }
 
@@ -1349,49 +1138,21 @@ LeftPanelStackedWidget->setCurrentWidget(listpagesWidget);
 StructureView->setWindowTitle(tr("Pages"));
 }
 
-void PdfViewer::ParseToc(const QDomNode &parent, QTreeWidget *tree, QTreeWidgetItem *parentItem)
-{
-QTreeWidgetItem *newitem = 0;
-for (QDomNode node = parent.firstChild(); !node.isNull(); node = node.nextSibling()) 
-  {
-  QDomElement e = node.toElement();
-  if (!parentItem) newitem = new QTreeWidgetItem(tree, newitem);
-  else newitem = new QTreeWidgetItem(parentItem, newitem);
-  newitem->setText(0, e.tagName());
-  newitem->setFont(0,QFont("DejaVu Sans Condensed",qApp->font().pointSize()));
-  bool isOpen = false;
-  if (e.hasAttribute("Open")) isOpen = QVariant(e.attribute("Open")).toBool();
-  if (isOpen) tree->expandItem(newitem);
-  if (e.hasAttribute("DestinationName")) newitem->setText(1, e.attribute("DestinationName"));
-  if (e.hasChildNodes()) ParseToc(node, tree, newitem);
-  }
-}
 
-void PdfViewer::ClickedOnStructure(QTreeWidgetItem* item,int c)
+void PdfViewer::ClickedOnStructure(const QModelIndex& index)
 {
-if (item) 
+if (!fileLoaded) return;
+bool ok = false;
+int page = StructureTreeView->model()->data(index, Qt::UserRole + 1).toInt(&ok);
+qreal left = StructureTreeView->model()->data(index, Qt::UserRole + 2).toReal();
+qreal top = StructureTreeView->model()->data(index, Qt::UserRole + 3).toReal();
+qreal destLeft=StructureTreeView->model()->data(index, Qt::UserRole + 4).toReal();
+qreal destTop=StructureTreeView->model()->data(index, Qt::UserRole + 5).toReal();
+if(ok) 
   {
-  QString destname = item->text(1);
-  if (!destname.isEmpty()) 
-    {
-    const Poppler::LinkDestination *dest = doc->linkDestination(destname);
-    if (dest) 
-      {
-      int destPage=0;
-      int destLeft=0;
-      int destTop=0;
-      if ((dest->pageNumber() > 0) && (dest->pageNumber() <= doc->numPages())) destPage=dest->pageNumber();
-      else return;
+  jumpToDest(page, left, top);
 
-      if (dest->isChangeLeft()) destLeft = (int)floor(dest->left() * listPdfWidgets.at(destPage-1)->scale() * listPdfWidgets.at(destPage-1)->physicalDpiX() / 72.0 * doc->page(destPage-1)->pageSizeF().width());
-      if (dest->isChangeTop()) destTop = (int)floor(dest->top() * listPdfWidgets.at(destPage-1)->scale() * listPdfWidgets.at(destPage-1)->physicalDpiY() / 72.0 * doc->page(destPage-1)->pageSizeF().height());
-      jumpToDest(destPage,destLeft,destTop);
-  QPointF pagePos((destLeft+10- (listPdfWidgets.at(destPage-1)->width() - listPdfWidgets.at(destPage-1)->pixmap()->width()) / 2.0) / listPdfWidgets.at(destPage-1)->scale() / listPdfWidgets.at(destPage-1)->physicalDpiX() * 72.0,(destTop- (listPdfWidgets.at(destPage-1)->height() - listPdfWidgets.at(destPage-1)->pixmap()->height()) / 2.0) / listPdfWidgets.at(destPage-1)->scale() / listPdfWidgets.at(destPage-1)->physicalDpiY() * 72.0 );
-  jumpToEditor(destPage-1,pagePos);
-  raise();
-  scrollArea->setFocus();
-      }
-    }
+  jumpToEditor(page-1,QPointF(destLeft,destTop));
   }
 }
 
@@ -1399,10 +1160,9 @@ void PdfViewer::historyBack()
 {
 if (stack.count() <= 1) return;
 // Update the history entry
-forwardStack.push(scrollArea->verticalScrollBar()->value());
+forwardStack.push(pdfview->verticalScrollBar()->value());
 stack.pop(); // throw away the old version of the current entry
-scrollArea->verticalScrollBar()->setValue(stack.top()); // previous entry
-updateCurrentPage();
+pdfview->verticalScrollBar()->setValue(stack.top()); // previous entry
 emit backwardAvailable(stack.count() > 1);
 emit forwardAvailable(true);
 }
@@ -1413,11 +1173,10 @@ if (forwardStack.isEmpty()) return;
 if (!stack.isEmpty()) 
   {
     // Update the history entry
-    stack.top() =scrollArea->verticalScrollBar()->value();
+    stack.top() =pdfview->verticalScrollBar()->value();
   }
 stack.push(forwardStack.pop());
-scrollArea->verticalScrollBar()->setValue(stack.top()); // previous entry
-updateCurrentPage();
+pdfview->verticalScrollBar()->setValue(stack.top()); // previous entry
 emit backwardAvailable(true);
 emit forwardAvailable(!forwardStack.isEmpty());
 }
@@ -1450,20 +1209,45 @@ lastHpos=pos;
 
 void PdfViewer::jumptoHpos()
 {
-scrollArea->horizontalScrollBar()->setValue(lastHpos);
+pdfview->horizontalScrollBar()->setValue(lastHpos);
 }
 
-void PdfViewer::pngExport(int page)
+void PdfViewer::on_continuousMode_triggered(bool checked)
 {
 if (!fileLoaded) return;
-QImage image = doc->page(page)->renderToImage(currentScale * physicalDpiX(), currentScale * physicalDpiY());
-if (image.isNull()) return;
-QString currentDir=QDir::homePath();
-QFileInfo fi(pdf_file);
-if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
-QString fn = QFileDialog::getSaveFileName(this,tr("Save As"),currentDir,"Png Image (*.png)");
-if ( !fn.isEmpty() )
-  {
-  image.save(fn,"PNG");  
-  }  
+pdfview->setContinousMode(checked);
+}
+
+void PdfViewer::on_twoPagesMode_triggered(bool checked)
+{
+if (!fileLoaded) return;
+pdfview->setTwoPagesMode(checked);
+}
+
+void PdfViewer::on_rotateLeft_triggered()
+{
+if (!fileLoaded) return;
+pdfview->rotateLeft();
+}
+
+void PdfViewer::on_rotateRight_triggered()
+{
+if (!fileLoaded) return;
+pdfview->rotateRight();
+}
+
+void PdfViewer::on_presentation_triggered()
+{
+if (!fileLoaded) return;
+pdfview->presentation();
+}
+
+void PdfViewer::on_currentTab_continuousModeChanged(bool continuousMode)
+{
+continuousModeAction->setChecked(continuousMode);
+}
+
+void PdfViewer::on_currentTab_twoPagesModeChanged(bool twoPagesMode)
+{
+twoPagesModeAction->setChecked(twoPagesMode);
 }

@@ -545,19 +545,23 @@ while (i < text.length())
 	} break;
 	case StateGraphicAsyMath: {
 		tmp=text.at( i );
-		if (tmp== '$') {
+		if (tmp== '"') {
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicAsy;
-			if (next=='$')
-				{
-				i++;
-				if ( i < text.length())
-					{
-					setFormat( i, 1,ColorMath);
-					blockData->code[i]=1;
-					}
-				}
+// 		if (tmp== '$') {
+// 			setFormat( i, 1,ColorMath);
+// 			blockData->code[i]=1;
+// 			state=StateGraphicAsy;
+// 			if (next=='$')
+// 				{
+// 				i++;
+// 				if ( i < text.length())
+// 					{
+// 					setFormat( i, 1,ColorMath);
+// 					blockData->code[i]=1;
+// 					}
+// 				}
 		} else if (tmp== '\\') {
 			if (next==']')
 				{
@@ -991,20 +995,25 @@ while (i < text.length())
 			state=StateGraphicAsyCommand;
 			}
  		} else
-		if (tmp=='$') {
+		if (tmp=='"') {
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicAsyMath;
-			if (next=='$')
-				{
-				i++;
-				if ( i < text.length())
-					{
-					setFormat( i, 1,ColorMath);
-					blockData->code[i]=1;
-					}
-				}
 			buffer = QString::null;
+// 		if (tmp=='$') {
+// 			setFormat( i, 1,ColorMath);
+// 			blockData->code[i]=1;
+// 			state=StateGraphicAsyMath;
+// 			if (next=='$')
+// 				{
+// 				i++;
+// 				if ( i < text.length())
+// 					{
+// 					setFormat( i, 1,ColorMath);
+// 					blockData->code[i]=1;
+// 					}
+// 				}
+// 			buffer = QString::null;
 		} else
 		if (tmp== '/' && next=='/'){
 			setFormat( i, 1,ColorComment);
@@ -1632,19 +1641,23 @@ while (i < text.length())
 
 	case StateGraphicMath: {
 		tmp=text.at( i );
-		if (tmp== '$') {
+		if (tmp== '"') {
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphic;
-			if (next=='$')
-				{
-				i++;
-				if ( i < text.length())
-					{
-					setFormat( i, 1,ColorMath);
-					blockData->code[i]=1;
-					}
-				}
+// 		if (tmp== '$') {
+// 			setFormat( i, 1,ColorMath);
+// 			blockData->code[i]=1;
+// 			state=StateGraphic;
+// 			if (next=='$')
+// 				{
+// 				i++;
+// 				if ( i < text.length())
+// 					{
+// 					setFormat( i, 1,ColorMath);
+// 					blockData->code[i]=1;
+// 					}
+// 				}
 		} else if (tmp== '\\') {
 			if (next==']')
 				{
@@ -1704,20 +1717,25 @@ while (i < text.length())
 			state=StateGraphicCommand;
 			}
 		} else
-		if (tmp=='$') {
+		if (tmp=='"') {
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicMath;
-			if (next=='$')
-				{
-				i++;
-				if ( i < text.length())
-					{
-					setFormat( i, 1,ColorMath);
-					blockData->code[i]=1;
-					}
-				}
 			buffer = QString::null;
+// 		if (tmp=='$') {
+// 			setFormat( i, 1,ColorMath);
+// 			blockData->code[i]=1;
+// 			state=StateGraphicMath;
+// 			if (next=='$')
+// 				{
+// 				i++;
+// 				if ( i < text.length())
+// 					{
+// 					setFormat( i, 1,ColorMath);
+// 					blockData->code[i]=1;
+// 					}
+// 				}
+// 			buffer = QString::null;
 		} else
 		if (tmp== '/' && next=='/'){
 			setFormat( i, 1,ColorComment);

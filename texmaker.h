@@ -80,6 +80,7 @@ public slots:
 void load( const QString &f );
 void setLine( const QString &line );
 void ToggleMode();
+void insertFromCommandLine(const QString &entity);
 void onOtherInstanceMessage(const QString &);  // For messages for the single instance
 
 private:
@@ -98,6 +99,7 @@ void createBuildSubdirectory(QString fn);
 QString outputName(QString finame,QString extension);
 QString outputBaseName(QString finame);
 bool gtkSession();
+void setMasterDocument(const QString &fn);
 
 int untitled_id;
 

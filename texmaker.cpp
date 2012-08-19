@@ -924,6 +924,7 @@ recentMenu->addAction(Act);
 
 sessionMenu=fileMenu->addMenu(tr("Session"));
 Act = new QAction(tr("Restore previous session"), this);
+Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_F8);
 connect(Act, SIGNAL(triggered()), this, SLOT(LoadLastSession()));
 sessionMenu->addAction(Act);
 
@@ -1460,6 +1461,10 @@ connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex18Menu->addAction(Act);
 Act = new QAction("German Quotes  [selection]", this);
 Act->setData("\\glqq /\\grqq/6/0/ ");
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
+latex18Menu->addAction(Act);
+Act = new QAction("Polish Quotes  [selection]", this);
+Act->setData("\\quotedblbase /\\textquotedblright/14/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex18Menu->addAction(Act);
 
@@ -2428,7 +2433,8 @@ else
    UndoAct->setEnabled(false);
    RedoAct->setEnabled(false);
    CopyAct->setEnabled(false);
-   CutAct->setEnabled(false);    
+   CutAct->setEnabled(false);
+   stat3->setText(QString(" %1 ").arg(input_encoding));
   }
 if (currentEditorView()) 
   {
@@ -2603,12 +2609,31 @@ connect(edit->editor, SIGNAL(poshaschanged(int,int)),this, SLOT(showCursorPos(in
 
 if (wordwrap) {edit->editor->setWordWrapMode(QTextOption::WordWrap);}
 else {edit->editor->setWordWrapMode(QTextOption::NoWrap);}
+
+
+
 UpdateCaption();
 NewDocumentStatus(false);
 AddRecentFile(f);
 ShowStructure();
 UpdateStructure();
 UpdateBibliography();
+
+QString rootName,rootFilePath;
+QTextCursor curs(edit->editor->document());
+curs.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor,1024);
+QString peekStr = curs.selectedText();
+QRegExp re("% *!TEX +root *= *([^\\x2029]+)\\x2029", Qt::CaseInsensitive);
+int pos = re.indexIn(peekStr);
+if (pos > -1) 
+  {
+  rootName = re.cap(1).trimmed();
+  QFileInfo rootFileInfo(fi.canonicalPath() + "/" + rootName);
+  if (rootFileInfo.exists()) rootFilePath = rootFileInfo.canonicalFilePath();
+  else rootFilePath = rootFileInfo.filePath();
+  setMasterDocument(rootFilePath);
+  }
+
 #ifndef Q_WS_MACX 
 show();
 if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
@@ -2638,6 +2663,22 @@ if (currentEditorView() && ok)
 	}
 }
 
+void Texmaker::insertFromCommandLine(const QString &entity)
+{
+if (currentEditorView())
+	{
+	currentEditorView()->editor->insertPlainText(entity);
+	#ifndef Q_WS_MACX 
+	show();
+	if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+	qApp->setActiveWindow(this);
+	activateWindow();
+	setFocus();
+	#endif
+	if (winmaximized) setWindowState(windowState() & Qt::WindowMaximized | Qt::WindowActive);
+	currentEditorView()->editor->setFocus();
+	}
+}
 
 void Texmaker::fileNew()
 {
@@ -4690,7 +4731,11 @@ QTreeWidgetItem *Child,*parent_level[5], *theitem;
 QString current;
 if (StructureTreeWidget->currentItem()) current=StructureTreeWidget->currentItem()->text(0);
 
-if ( !currentEditorView() ) return;
+if ( !currentEditorView() ) 
+  {
+  StructureTreeWidget->clear();
+  return;
+  }
 
 QString shortName = getName();
 if ((shortName.right(4)!=".tex") && (shortName.right(4)!=".Rnw") && (!shortName.startsWith("untitled")))  return;
@@ -9043,6 +9088,7 @@ for ( int i = 1; i < argc; ++i )
 	if ( arg[0] != '-' )    load( arg );
 	if ( arg == "-master" ) ToggleMode();
 	if (( arg == "-line" ) && (i<argc-1))  setLine( argv[ ++i ] );
+	if ( arg == "-insert" ) insertFromCommandLine( argv[ ++i ] );
 	}
 //A bad (but applicable) trick for activating Texmaker MainWindow //add by S. R. Alavizadeh
 //setWindowState(Qt::WindowMinimized);
@@ -9895,6 +9941,12 @@ if ( ucDlg->exec() )
 	userCompletionList=ucDlg->userlist;
 	initCompleter();
 	updateCompleter();
+	if (currentEditorView())
+	  {
+	  if (completion) currentEditorView()->editor->setCompleter(completer);
+	  else currentEditorView()->editor->setCompleter(0);
+	  currentEditorView()->editor->matchAll();
+	  }
 	}
 }
 
@@ -10537,4 +10589,30 @@ if (!kdesession.isEmpty()) result=false;
 if (!kdeversion.isEmpty()) result=false;
 #endif
 return result;
+}
+
+void Texmaker::setMasterDocument(const QString &fn)
+{
+if (singlemode && currentEditorView())  
+	{
+	MasterName=fn;
+	if (MasterName.startsWith("untitled") || MasterName=="")
+		{
+		QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		return;
+		}
+	QFileInfo fi(MasterName);
+	if (fi.exists() && fi.isReadable())
+	    {
+	    QString shortName = MasterName;
+	    int pos;
+	    while ( (pos = (int)shortName.indexOf('/')) != -1 ) shortName.remove(0,pos+1);
+	    ToggleAct->setText(tr("Normal Mode (current master document :")+shortName+")");
+	    singlemode=false;
+	    stat1->setText(QString(" %1 ").arg(tr("Master Document :")+shortName));
+	    ToggleDocAct->setEnabled(true);
+	    UpdateStructure();
+	    UpdateBibliography();
+	    }
+	}
 }

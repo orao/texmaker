@@ -22,6 +22,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QToolButton>
 #include <QAction>
 #include <QListWidgetItem>
 #include <QProcess>
@@ -32,15 +33,13 @@
 #include <QHBoxLayout>
 #include <QMutex>
 #include <QStackedWidget>
-#include <QTreeWidget>
+#include <QTreeView>
 #include <QToolBar>
 #include <QStack>
 #include <QKeySequence>
 
-#include "pdfdocumentwidget.h"
-#include "pdfscrollarea.h"
+#include "documentview.h"
 #include "synctex_parser.h"
-#include "paperdialog.h"
 #include "minisplitter.h"
 #include "browser.h"
 
@@ -64,22 +63,18 @@ qreal getScale() {return currentScale;};
 private:
 QKeySequence KeySequenceEditorFocus;
 //void closeEvent(QCloseEvent *e);
-PaperDialog *dlg;
 MiniSplitter *splitter;
-QTreeWidget *StructureTreeWidget;
-QList<PdfDocumentWidget*> listPdfWidgets, templist;
+QTreeView *StructureTreeView;
+
+DocumentView* pdfview;
 Poppler::Document *doc;
 QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *printAct, *externAct, *historyForwardAct, *toggleStructAct, *checkerAct;
+QAction *continuousModeAction, *twoPagesModeAction, *rotateLeftAction, *rotateRightAction, *presentationAction;
 QHBoxLayout *CentralLayout;
 QVBoxLayout *CentralLayoutBis;
 
 QListWidget *listpagesWidget;
-#if defined(Q_WS_WIN)
-QComboBox *comboBoxPaper;
-#endif
-PdfScrollArea  *scrollArea;
-QList<int> listPdfWidgetsPos;
-QList<int> listPdfWidgetsStatus;
+QToolButton *optionsButton;
 QComboBox *scaleComboBox;
 QLineEdit *searchLineEdit;
 QPushButton *findButton;
@@ -94,9 +89,6 @@ synctex_scanner_t scanner;
 QStringList scalePercents;
 QLineEdit *zoomCustom;
 QRectF searchLocation;
-QMutex pageMutex;
-bool canDisplayPixmap;
-int scrollMax, deltaMax;
 QPainterPath path;
 QStack<int> stack;
 QStack<int> forwardStack;
@@ -107,17 +99,12 @@ QPointer<Browser> browserWindow;
 private slots:
 void connectActions();
 void disconnectActions();
-void setScrollMax();
-void initPages(bool checkScale);
-void initPagesWithNewScale();
-void displayPage(int page);
-void displayNewPage();
-void updatePageStatus(int page);
+
 void slotHighlight();
 void gotoPage(int page);
 void checkPage(int value);
 void updateCurrentPage();
-void jumpToDest(int page,int left, int top);
+void jumpToDest(int page,qreal left, qreal top);
 void userZoom();
 void scaleDocumentZoom(QString zoom);
 void searchDocument();
@@ -132,12 +119,10 @@ void runExternalViewer();
 void printPdf();
 void slotItemClicked(QListWidgetItem* item);
 void jumpToEditor(int page, const QPointF& pos);
-//QRectF searchBackwards(const QString &text);
 void searchForwards(const QString &text);
 void ToggleStructure();
-//void ShowListPages();
-void ParseToc(const QDomNode &parent, QTreeWidget *tree, QTreeWidgetItem *parentItem);
-void ClickedOnStructure(QTreeWidgetItem* item,int c);
+
+void ClickedOnStructure(const QModelIndex& index);
 void historyBack();
 void historyForward();
 void clearHistory();
@@ -145,8 +130,15 @@ void updateHistory(int pos);
 void setHpos(int pos);
 void checkSpellGrammarPage();
 void jumptoHpos();
-void countWords();
-void pngExport(int page);
+
+void on_continuousMode_triggered(bool checked);
+void on_twoPagesMode_triggered(bool checked);
+void on_rotateLeft_triggered();
+void on_rotateRight_triggered();
+void on_presentation_triggered();
+
+void on_currentTab_continuousModeChanged(bool continuousMode);
+void on_currentTab_twoPagesModeChanged(bool twoPagesMode);
 
 protected:
 void keyPressEvent ( QKeyEvent * e );

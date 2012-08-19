@@ -56,7 +56,7 @@ while (go && editor->search( ui.comboFind->currentText(), ui.checkCase->isChecke
        switch(  QMessageBox::warning(this, "Texmaker",tr("Replace this occurence ? "),tr("Yes"), tr("No"), tr("Cancel"), 0,2 ) )
          {
          case 0:
-         editor->replace(ui.comboReplace->currentText() );
+         editor->replace(ui.comboReplace->currentText(),ui.checkRegExp->isChecked(),ui.comboFind->currentText() );
          ui.checkBegin->setChecked( FALSE );
     	   break;
          case 1:
@@ -85,7 +85,7 @@ if (ui.checkRegExp->isChecked())
 while ( editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),
 ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked(),ui.checkRegExp->isChecked()) )
     {
-    editor->replace(ui.comboReplace->currentText() );
+    editor->replace(ui.comboReplace->currentText(),ui.checkRegExp->isChecked(),ui.comboFind->currentText() );
     ui.checkBegin->setChecked( FALSE );
     }
 ui.checkBegin->setChecked( TRUE );

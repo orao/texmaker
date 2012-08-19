@@ -156,17 +156,17 @@
         <location filename="configdialog.cpp" line="346"/>
         <location filename="configdialog.cpp" line="357"/>
         <location filename="configdialog.cpp" line="368"/>
-        <location filename="configdialog.cpp" line="379"/>
-        <location filename="configdialog.cpp" line="390"/>
-        <location filename="configdialog.cpp" line="401"/>
-        <location filename="configdialog.cpp" line="412"/>
-        <location filename="configdialog.cpp" line="423"/>
-        <location filename="configdialog.cpp" line="434"/>
-        <location filename="configdialog.cpp" line="445"/>
-        <location filename="configdialog.cpp" line="456"/>
-        <location filename="configdialog.cpp" line="467"/>
-        <location filename="configdialog.cpp" line="478"/>
-        <location filename="configdialog.cpp" line="489"/>
+        <location filename="configdialog.cpp" line="380"/>
+        <location filename="configdialog.cpp" line="391"/>
+        <location filename="configdialog.cpp" line="402"/>
+        <location filename="configdialog.cpp" line="413"/>
+        <location filename="configdialog.cpp" line="424"/>
+        <location filename="configdialog.cpp" line="435"/>
+        <location filename="configdialog.cpp" line="446"/>
+        <location filename="configdialog.cpp" line="457"/>
+        <location filename="configdialog.cpp" line="468"/>
+        <location filename="configdialog.cpp" line="479"/>
+        <location filename="configdialog.cpp" line="490"/>
         <source>Browse program</source>
         <translation>Chercher programme</translation>
     </message>
@@ -177,73 +177,73 @@
     </message>
     <message>
         <location filename="configdialog.ui" line="137"/>
-        <location filename="configdialog.cpp" line="562"/>
+        <location filename="configdialog.cpp" line="563"/>
         <source>Dvi Viewer</source>
         <translation>Afficheur Dvi</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="196"/>
-        <location filename="configdialog.cpp" line="565"/>
+        <location filename="configdialog.cpp" line="566"/>
         <source>PS Viewer</source>
         <translation>Afficheur Ps</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="596"/>
-        <location filename="configdialog.cpp" line="586"/>
+        <location filename="configdialog.cpp" line="587"/>
         <source>ghostscript</source>
         <translation>ghostscript</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="458"/>
-        <location filename="configdialog.cpp" line="574"/>
+        <location filename="configdialog.cpp" line="575"/>
         <source>Bibtex</source>
         <translation>Bibtex</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="488"/>
-        <location filename="configdialog.cpp" line="568"/>
+        <location filename="configdialog.cpp" line="569"/>
         <source>Dvipdfm</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="364"/>
-        <location filename="configdialog.cpp" line="556"/>
+        <location filename="configdialog.cpp" line="557"/>
         <source>PdfLaTeX</source>
         <translation>PdfLaTeX</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="468"/>
-        <location filename="configdialog.cpp" line="577"/>
+        <location filename="configdialog.cpp" line="578"/>
         <source>Makeindex</source>
         <translation>Makeindex</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="515"/>
-        <location filename="configdialog.cpp" line="571"/>
+        <location filename="configdialog.cpp" line="572"/>
         <source>ps2pdf</source>
         <translation>ps2pdf</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="269"/>
-        <location filename="configdialog.cpp" line="580"/>
+        <location filename="configdialog.cpp" line="581"/>
         <source>Pdf Viewer</source>
         <translation>Afficheur Pdf</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="542"/>
-        <location filename="configdialog.cpp" line="583"/>
+        <location filename="configdialog.cpp" line="584"/>
         <source>metapost</source>
         <translation>metapost</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="390"/>
-        <location filename="configdialog.cpp" line="553"/>
+        <location filename="configdialog.cpp" line="554"/>
         <source>LaTeX</source>
         <translation>LaTeX</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="478"/>
-        <location filename="configdialog.cpp" line="559"/>
+        <location filename="configdialog.cpp" line="560"/>
         <source>dvips</source>
         <translation>dvips</translation>
     </message>
@@ -259,13 +259,13 @@
     </message>
     <message>
         <location filename="configdialog.ui" line="569"/>
-        <location filename="configdialog.cpp" line="589"/>
+        <location filename="configdialog.cpp" line="590"/>
         <source>Asymptote</source>
         <translation>Asymptote</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="431"/>
-        <location filename="configdialog.cpp" line="592"/>
+        <location filename="configdialog.cpp" line="593"/>
         <source>Latexmk</source>
         <translation>Latexmk</translation>
     </message>
@@ -276,7 +276,7 @@
     </message>
     <message>
         <location filename="configdialog.ui" line="623"/>
-        <location filename="configdialog.cpp" line="595"/>
+        <location filename="configdialog.cpp" line="596"/>
         <source>R Sweave</source>
         <translation>R.Sweave</translation>
     </message>
@@ -509,6 +509,46 @@
         <location filename="configdialog.ui" line="1172"/>
         <source>Inline</source>
         <translation>A la volée</translation>
+    </message>
+</context>
+<context>
+    <name>DocumentView</name>
+    <message>
+        <location filename="documentview.cpp" line="483"/>
+        <location filename="documentview.cpp" line="514"/>
+        <source>Unlock %1</source>
+        <translation>Déverouiller %1</translation>
+    </message>
+    <message>
+        <location filename="documentview.cpp" line="483"/>
+        <location filename="documentview.cpp" line="514"/>
+        <source>Password:</source>
+        <translation>Mot de passe:</translation>
+    </message>
+    <message>
+        <location filename="documentview.cpp" line="566"/>
+        <source>Printing &apos;%1&apos;...</source>
+        <translation>Impression de &apos;%1&apos;...</translation>
+    </message>
+    <message>
+        <location filename="documentview.cpp" line="1091"/>
+        <source>Loading pdf...</source>
+        <translation>Chargement du pdf...</translation>
+    </message>
+    <message>
+        <location filename="documentview.cpp" line="1460"/>
+        <source>Cancel</source>
+        <translation>Abandon</translation>
+    </message>
+    <message>
+        <location filename="documentview.cpp" line="1476"/>
+        <source>Number of words in the document</source>
+        <translation>Nombre de mots dans le document</translation>
+    </message>
+    <message>
+        <location filename="documentview.cpp" line="1486"/>
+        <source>Save As</source>
+        <translation>Enregistrer sous</translation>
     </message>
 </context>
 <context>
@@ -800,57 +840,57 @@ avec l&apos;encodage défini par défaut</translation>
 <context>
     <name>LatexEditor</name>
     <message>
-        <location filename="latexeditor.cpp" line="797"/>
+        <location filename="latexeditor.cpp" line="877"/>
         <source>Undo</source>
         <translation>Défaire</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="800"/>
+        <location filename="latexeditor.cpp" line="880"/>
         <source>Redo</source>
         <translation>Refaire</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="804"/>
+        <location filename="latexeditor.cpp" line="884"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="807"/>
+        <location filename="latexeditor.cpp" line="887"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="810"/>
+        <location filename="latexeditor.cpp" line="890"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="815"/>
+        <location filename="latexeditor.cpp" line="895"/>
         <source>Select All</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="821"/>
+        <location filename="latexeditor.cpp" line="901"/>
         <source>Check Spelling Word</source>
         <translation>Vérifier l&apos;orthographe du mot</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="826"/>
+        <location filename="latexeditor.cpp" line="906"/>
         <source>Check Spelling Selection</source>
         <translation>Vérifier l&apos;orthographe de la sélection</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="829"/>
+        <location filename="latexeditor.cpp" line="909"/>
         <source>Check Spelling Document</source>
         <translation>Vérifier l&apos;orthographe du document</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="836"/>
+        <location filename="latexeditor.cpp" line="916"/>
         <source>Jump to the end of this block</source>
         <translation>Aller à la fin du bloc</translation>
     </message>
     <message>
-        <location filename="latexeditor.cpp" line="842"/>
+        <location filename="latexeditor.cpp" line="922"/>
         <source>Jump to pdf</source>
         <translation>Aller au document Pdf</translation>
     </message>
@@ -966,36 +1006,59 @@ avec l&apos;encodage défini par défaut</translation>
     </message>
 </context>
 <context>
+    <name>PageItem</name>
+    <message>
+        <location filename="pageitem.cpp" line="152"/>
+        <location filename="pageitem.cpp" line="154"/>
+        <source>Click to jump to the line</source>
+        <translation>Cliquer pour aller à la ligne correspondante</translation>
+    </message>
+    <message>
+        <location filename="pageitem.cpp" line="161"/>
+        <source>Number of words in the document</source>
+        <translation>Nombre de mots dans le document</translation>
+    </message>
+    <message>
+        <location filename="pageitem.cpp" line="164"/>
+        <source>Convert page to png image</source>
+        <translation>Convertir page en image png</translation>
+    </message>
+    <message>
+        <location filename="pageitem.cpp" line="573"/>
+        <source>Copy text</source>
+        <translation>Copier texte</translation>
+    </message>
+    <message>
+        <location filename="pageitem.cpp" line="574"/>
+        <source>Copy image</source>
+        <translation>Copier image</translation>
+    </message>
+</context>
+<context>
     <name>PaperDialog</name>
     <message>
-        <location filename="paperdialog.ui" line="14"/>
         <source>Print</source>
-        <translation>Imprimer</translation>
+        <translation type="obsolete">Imprimer</translation>
     </message>
     <message>
-        <location filename="paperdialog.ui" line="28"/>
         <source>Paper Size</source>
-        <translation>Format papier</translation>
+        <translation type="obsolete">Format papier</translation>
     </message>
     <message>
-        <location filename="paperdialog.ui" line="46"/>
         <source>Print range</source>
-        <translation>Plage d&apos;impression</translation>
+        <translation type="obsolete">Plage d&apos;impression</translation>
     </message>
     <message>
-        <location filename="paperdialog.ui" line="58"/>
         <source>Print all</source>
-        <translation>Tout imprimer</translation>
+        <translation type="obsolete">Tout imprimer</translation>
     </message>
     <message>
-        <location filename="paperdialog.ui" line="76"/>
         <source>Pages from</source>
-        <translation>Pages de</translation>
+        <translation type="obsolete">Pages de</translation>
     </message>
     <message>
-        <location filename="paperdialog.ui" line="96"/>
         <source>to</source>
-        <translation>à</translation>
+        <translation type="obsolete">à</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1009,152 +1072,169 @@ avec l&apos;encodage défini par défaut</translation>
 <context>
     <name>PdfDocumentWidget</name>
     <message>
-        <location filename="pdfdocumentwidget.cpp" line="150"/>
         <source>Click to jump to the line</source>
-        <translation>Cliquer pour aller à la ligne correspondante</translation>
+        <translation type="obsolete">Cliquer pour aller à la ligne correspondante</translation>
     </message>
     <message>
-        <location filename="pdfdocumentwidget.cpp" line="155"/>
         <source>Number of words in the document</source>
-        <translation>Nombre de mots dans le document</translation>
+        <translation type="obsolete">Nombre de mots dans le document</translation>
     </message>
     <message>
-        <location filename="pdfdocumentwidget.cpp" line="159"/>
         <source>Convert page to png image</source>
-        <translation>Convertir page en image png</translation>
+        <translation type="obsolete">Convertir page en image png</translation>
     </message>
 </context>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="pdfviewer.cpp" line="104"/>
-        <location filename="pdfviewer.cpp" line="1349"/>
+        <location filename="pdfviewer.cpp" line="99"/>
+        <location filename="pdfviewer.cpp" line="1138"/>
         <source>Pages</source>
         <translation>Pages</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="155"/>
+        <location filename="pdfviewer.cpp" line="145"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="85"/>
-        <location filename="pdfviewer.cpp" line="119"/>
-        <location filename="pdfviewer.cpp" line="1342"/>
+        <location filename="pdfviewer.cpp" line="80"/>
+        <location filename="pdfviewer.cpp" line="114"/>
+        <location filename="pdfviewer.cpp" line="1131"/>
         <source>Structure</source>
         <translation>Structure</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="159"/>
+        <location filename="pdfviewer.cpp" line="149"/>
         <source>Exit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="161"/>
+        <location filename="pdfviewer.cpp" line="151"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editer</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="171"/>
+        <location filename="pdfviewer.cpp" line="161"/>
         <source>Previous</source>
         <translation>Page précédente</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="175"/>
+        <location filename="pdfviewer.cpp" line="165"/>
         <source>Next</source>
         <translation>Page suivante</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="181"/>
+        <location filename="pdfviewer.cpp" line="171"/>
         <source>&amp;View</source>
         <translation>Afficha&amp;ge</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="182"/>
+        <location filename="pdfviewer.cpp" line="172"/>
         <source>Fit Width</source>
         <translation>Adapter à la largeur</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="185"/>
+        <location filename="pdfviewer.cpp" line="175"/>
         <source>Fit Page</source>
         <translation>Adapter à la page</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="188"/>
+        <location filename="pdfviewer.cpp" line="178"/>
         <source>Zoom In</source>
         <translation>Zoom avant</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="193"/>
+        <location filename="pdfviewer.cpp" line="183"/>
         <source>Zoom Out</source>
         <translation>Zoom arrière</translation>
     </message>
     <message>
+        <location filename="pdfviewer.cpp" line="188"/>
+        <source>Continuous</source>
+        <translation>Mode continu</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="193"/>
+        <source>Two pages</source>
+        <translation>Deux pages</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="198"/>
+        <source>Rotate left</source>
+        <translation>Rotation gauche</translation>
+    </message>
+    <message>
         <location filename="pdfviewer.cpp" line="202"/>
+        <source>Rotate right</source>
+        <translation>Rotation droite</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="206"/>
+        <source>Presentation...</source>
+        <translation>Mode présentation...</translation>
+    </message>
+    <message>
+        <location filename="pdfviewer.cpp" line="213"/>
         <source>Previous Position</source>
         <translation>Position Précédente</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="207"/>
+        <location filename="pdfviewer.cpp" line="218"/>
         <source>Next Position</source>
         <translation>Position Suivante</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="248"/>
+        <location filename="pdfviewer.cpp" line="259"/>
         <source>Check Spelling and Grammar on this page</source>
         <translation>Analyser orthographe/grammaire de cette page</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="1135"/>
         <source>Cancel</source>
-        <translation>Abandon</translation>
+        <translation type="obsolete">Abandon</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="1151"/>
         <source>Number of words in the document</source>
-        <translation>Nombre de mots dans le document</translation>
+        <translation type="obsolete">Nombre de mots dans le document</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="1183"/>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
-        <translation>Impossible d&apos;imprimer : ghostscript n&apos;a pas été trouvé.</translation>
+        <translation type="obsolete">Impossible d&apos;imprimer : ghostscript n&apos;a pas été trouvé.</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="1464"/>
         <source>Save As</source>
-        <translation>Enregistrer sous</translation>
+        <translation type="obsolete">Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="162"/>
-        <location filename="pdfviewer.cpp" line="233"/>
+        <location filename="pdfviewer.cpp" line="152"/>
+        <location filename="pdfviewer.cpp" line="244"/>
         <source>Find</source>
         <translation>Chercher</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="242"/>
-        <location filename="pdfviewer.cpp" line="1226"/>
+        <location filename="pdfviewer.cpp" line="253"/>
+        <location filename="pdfviewer.cpp" line="1024"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="245"/>
+        <location filename="pdfviewer.cpp" line="256"/>
         <source>External Viewer</source>
         <translation>Afficheur externe</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="409"/>
-        <location filename="pdfviewer.cpp" line="725"/>
+        <location filename="pdfviewer.cpp" line="383"/>
+        <location filename="pdfviewer.cpp" line="604"/>
         <source>Page</source>
         <translation>Page</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="370"/>
-        <location filename="pdfviewer.cpp" line="1183"/>
+        <location filename="pdfviewer.cpp" line="402"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="pdfviewer.cpp" line="370"/>
+        <location filename="pdfviewer.cpp" line="402"/>
         <source>File not found</source>
         <translation>Fichier non trouvé</translation>
     </message>
@@ -1162,101 +1242,126 @@ avec l&apos;encodage défini par défaut</translation>
 <context>
     <name>PdfViewerWidget</name>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="118"/>
+        <location filename="pdfviewerwidget.cpp" line="116"/>
         <source>Show/Hide Table of contents</source>
         <translation>Montrer/Cacher la table des matières</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="124"/>
+        <location filename="pdfviewerwidget.cpp" line="122"/>
         <source>Previous</source>
         <translation>Page précédente</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="128"/>
+        <location filename="pdfviewerwidget.cpp" line="126"/>
         <source>Next</source>
         <translation>Page suivante</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="134"/>
+        <location filename="pdfviewerwidget.cpp" line="132"/>
         <source>Fit Width</source>
         <translation>Adapter à la largeur</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="137"/>
+        <location filename="pdfviewerwidget.cpp" line="135"/>
         <source>Fit Page</source>
         <translation>Adapter à la page</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="140"/>
+        <location filename="pdfviewerwidget.cpp" line="138"/>
         <source>Zoom In</source>
         <translation>Zoom avant</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="145"/>
+        <location filename="pdfviewerwidget.cpp" line="143"/>
         <source>Zoom Out</source>
         <translation>Zoom arrière</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="171"/>
+        <location filename="pdfviewerwidget.cpp" line="151"/>
+        <source>Continuous</source>
+        <translation>Mode continu</translation>
+    </message>
+    <message>
+        <location filename="pdfviewerwidget.cpp" line="156"/>
+        <source>Two pages</source>
+        <translation>Deux pages</translation>
+    </message>
+    <message>
+        <location filename="pdfviewerwidget.cpp" line="161"/>
+        <source>Rotate left</source>
+        <translation>Rotation gauche</translation>
+    </message>
+    <message>
+        <location filename="pdfviewerwidget.cpp" line="165"/>
+        <source>Rotate right</source>
+        <translation>Rotation droite</translation>
+    </message>
+    <message>
+        <location filename="pdfviewerwidget.cpp" line="169"/>
+        <source>Presentation...</source>
+        <translation>Mode présentation...</translation>
+    </message>
+    <message>
+        <location filename="pdfviewerwidget.cpp" line="198"/>
         <source>Find</source>
         <translation>Chercher</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="180"/>
+        <location filename="pdfviewerwidget.cpp" line="207"/>
         <source>Previous Position</source>
         <translation>Position Précédente</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="185"/>
+        <location filename="pdfviewerwidget.cpp" line="212"/>
         <source>Next Position</source>
         <translation>Position Suivante</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="194"/>
-        <location filename="pdfviewerwidget.cpp" line="1218"/>
+        <location filename="pdfviewerwidget.cpp" line="221"/>
+        <location filename="pdfviewerwidget.cpp" line="1014"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="197"/>
+        <location filename="pdfviewerwidget.cpp" line="224"/>
         <source>External Viewer</source>
         <translation>Afficheur externe</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="200"/>
+        <location filename="pdfviewerwidget.cpp" line="227"/>
         <source>Check Spelling and Grammar on this page</source>
         <translation>Analyser orthographe/grammaire de cette page</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="355"/>
-        <location filename="pdfviewerwidget.cpp" line="1175"/>
+        <location filename="pdfviewerwidget.cpp" line="397"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="355"/>
+        <location filename="pdfviewerwidget.cpp" line="397"/>
         <source>File not found</source>
         <translation>Fichier non trouvé</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="1127"/>
+        <location filename="pdfviewerwidget.cpp" line="594"/>
+        <source>Page</source>
+        <translation>Page</translation>
+    </message>
+    <message>
         <source>Cancel</source>
-        <translation>Abandon</translation>
+        <translation type="obsolete">Abandon</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="1143"/>
         <source>Number of words in the document</source>
-        <translation>Nombre de mots dans le document</translation>
+        <translation type="obsolete">Nombre de mots dans le document</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="1175"/>
         <source>Can&apos;t print : the ghostscript command (gswin32c.exe) was not found on your system.</source>
-        <translation>Impossible d&apos;imprimer : ghostscript n&apos;a pas été trouvé.</translation>
+        <translation type="obsolete">Impossible d&apos;imprimer : ghostscript n&apos;a pas été trouvé.</translation>
     </message>
     <message>
-        <location filename="pdfviewerwidget.cpp" line="1450"/>
         <source>Save As</source>
-        <translation>Enregistrer sous</translation>
+        <translation type="obsolete">Enregistrer sous</translation>
     </message>
 </context>
 <context>
@@ -1540,12 +1645,11 @@ avec l&apos;encodage défini par défaut</translation>
         <translation>+</translation>
     </message>
     <message>
-        <location filename="replacewidget.ui" line="187"/>
         <source>RegularExpression</source>
-        <translation>Expression régulière</translation>
+        <translation type="obsolete">Expression régulière</translation>
     </message>
     <message>
-        <location filename="replacewidget.ui" line="197"/>
+        <location filename="replacewidget.ui" line="200"/>
         <source>Backward</source>
         <translation>En arrière</translation>
     </message>
@@ -1573,6 +1677,11 @@ avec l&apos;encodage défini par défaut</translation>
         <location filename="replacewidget.ui" line="149"/>
         <source>Start at Beginning</source>
         <translation>Commencer au début</translation>
+    </message>
+    <message>
+        <location filename="replacewidget.ui" line="190"/>
+        <source>Regular Expression</source>
+        <translation>Expression régulière</translation>
     </message>
     <message>
         <source>Close</source>
@@ -1954,86 +2063,86 @@ avec l&apos;encodage défini par défaut</translation>
     <message>
         <location filename="texmaker.cpp" line="199"/>
         <location filename="texmaker.cpp" line="367"/>
-        <location filename="texmaker.cpp" line="1995"/>
-        <location filename="texmaker.cpp" line="4616"/>
+        <location filename="texmaker.cpp" line="2000"/>
+        <location filename="texmaker.cpp" line="4657"/>
         <source>Structure</source>
         <translation>Structure</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7493"/>
+        <location filename="texmaker.cpp" line="7538"/>
         <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
         <translation>Effectuer une copie du document %1.pdf/ps dans le sous-répertoire &quot;build&quot; et effacer tous les autres fichiers %1.* ?</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7522"/>
+        <location filename="texmaker.cpp" line="7567"/>
         <source>Delete the output files generated by LaTeX ?</source>
         <translation>Effacer les fichiers auxiliaires générés par LaTeX ?</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8355"/>
-        <location filename="texmaker.cpp" line="8387"/>
+        <location filename="texmaker.cpp" line="8400"/>
+        <location filename="texmaker.cpp" line="8432"/>
         <source>Click to jump to the line</source>
         <translation>Cliquer pour aller à la ligne correspondante</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="216"/>
-        <location filename="texmaker.cpp" line="4621"/>
+        <location filename="texmaker.cpp" line="4662"/>
         <source>Relation symbols</source>
         <translation>Symboles et opérateurs</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="226"/>
-        <location filename="texmaker.cpp" line="4626"/>
+        <location filename="texmaker.cpp" line="4667"/>
         <source>Arrow symbols</source>
         <translation>Flèches</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="235"/>
-        <location filename="texmaker.cpp" line="4631"/>
+        <location filename="texmaker.cpp" line="4672"/>
         <source>Miscellaneous symbols</source>
         <translation>Divers</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="244"/>
-        <location filename="texmaker.cpp" line="4636"/>
+        <location filename="texmaker.cpp" line="4677"/>
         <source>Delimiters</source>
         <translation>Délimiteurs</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="253"/>
-        <location filename="texmaker.cpp" line="4641"/>
+        <location filename="texmaker.cpp" line="4682"/>
         <source>Greek letters</source>
         <translation>Lettres grecques</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="271"/>
-        <location filename="texmaker.cpp" line="4651"/>
+        <location filename="texmaker.cpp" line="4692"/>
         <source>Favorites symbols</source>
         <translation>Symboles favoris</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="318"/>
         <location filename="texmaker.cpp" line="346"/>
-        <location filename="texmaker.cpp" line="4666"/>
+        <location filename="texmaker.cpp" line="4707"/>
         <source>MetaPost Commands</source>
         <translation>Commandes metapost</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="326"/>
         <location filename="texmaker.cpp" line="349"/>
-        <location filename="texmaker.cpp" line="4671"/>
+        <location filename="texmaker.cpp" line="4712"/>
         <source>Tikz Commands</source>
         <translation>Commandes Tikz</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="334"/>
         <location filename="texmaker.cpp" line="352"/>
-        <location filename="texmaker.cpp" line="4676"/>
+        <location filename="texmaker.cpp" line="4717"/>
         <source>Asymptote Commands</source>
         <translation>Commandes Asymptote</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2000"/>
+        <location filename="texmaker.cpp" line="2005"/>
         <source>Messages / Log File</source>
         <translation>Messages / Fichier log</translation>
     </message>
@@ -2044,7 +2153,7 @@ avec l&apos;encodage défini par défaut</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="872"/>
-        <location filename="texmaker.cpp" line="9011"/>
+        <location filename="texmaker.cpp" line="9056"/>
         <source>Normal Mode</source>
         <translation>Mode normal</translation>
     </message>
@@ -2060,8 +2169,8 @@ avec l&apos;encodage défini par défaut</translation>
     <message>
         <location filename="texmaker.cpp" line="896"/>
         <location filename="texmaker.cpp" line="897"/>
-        <location filename="texmaker.cpp" line="2231"/>
-        <location filename="texmaker.cpp" line="2232"/>
+        <location filename="texmaker.cpp" line="2236"/>
+        <location filename="texmaker.cpp" line="2237"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
@@ -2073,8 +2182,8 @@ avec l&apos;encodage défini par défaut</translation>
     <message>
         <location filename="texmaker.cpp" line="906"/>
         <location filename="texmaker.cpp" line="907"/>
-        <location filename="texmaker.cpp" line="2236"/>
-        <location filename="texmaker.cpp" line="2237"/>
+        <location filename="texmaker.cpp" line="2241"/>
+        <location filename="texmaker.cpp" line="2242"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
@@ -2089,185 +2198,185 @@ avec l&apos;encodage défini par défaut</translation>
         <translation>Restaurer la session précédente</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="937"/>
         <location filename="texmaker.cpp" line="938"/>
-        <location filename="texmaker.cpp" line="2842"/>
-        <location filename="texmaker.cpp" line="2985"/>
-        <location filename="texmaker.cpp" line="3042"/>
-        <location filename="texmaker.cpp" line="10191"/>
+        <location filename="texmaker.cpp" line="939"/>
+        <location filename="texmaker.cpp" line="2883"/>
+        <location filename="texmaker.cpp" line="3026"/>
+        <location filename="texmaker.cpp" line="3083"/>
+        <location filename="texmaker.cpp" line="10243"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="945"/>
-        <location filename="texmaker.cpp" line="3099"/>
-        <location filename="texmaker.cpp" line="3170"/>
-        <location filename="texmaker.cpp" line="4542"/>
+        <location filename="texmaker.cpp" line="946"/>
+        <location filename="texmaker.cpp" line="3140"/>
+        <location filename="texmaker.cpp" line="3211"/>
+        <location filename="texmaker.cpp" line="4583"/>
         <source>Save As</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="949"/>
+        <location filename="texmaker.cpp" line="950"/>
         <source>Save All</source>
         <translation>Enregistrer tout</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="749"/>
-        <location filename="texmaker.cpp" line="957"/>
+        <location filename="texmaker.cpp" line="958"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="953"/>
+        <location filename="texmaker.cpp" line="954"/>
         <source>Save A Copy</source>
         <translation>Enregistrer une copie</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="963"/>
+        <location filename="texmaker.cpp" line="964"/>
         <source>Close All</source>
         <translation>Fermer tout</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="967"/>
+        <location filename="texmaker.cpp" line="968"/>
         <source>Reload document from file</source>
         <translation>Recharger le document depuis le fichier</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="977"/>
         <location filename="texmaker.cpp" line="978"/>
+        <location filename="texmaker.cpp" line="979"/>
         <source>Exit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="984"/>
+        <location filename="texmaker.cpp" line="985"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editer</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="985"/>
         <location filename="texmaker.cpp" line="986"/>
+        <location filename="texmaker.cpp" line="987"/>
         <source>Undo</source>
         <translation>Défaire</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="991"/>
         <location filename="texmaker.cpp" line="992"/>
+        <location filename="texmaker.cpp" line="993"/>
         <source>Redo</source>
         <translation>Refaire</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="998"/>
         <location filename="texmaker.cpp" line="999"/>
+        <location filename="texmaker.cpp" line="1000"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1004"/>
         <location filename="texmaker.cpp" line="1005"/>
+        <location filename="texmaker.cpp" line="1006"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1010"/>
         <location filename="texmaker.cpp" line="1011"/>
+        <location filename="texmaker.cpp" line="1012"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1016"/>
+        <location filename="texmaker.cpp" line="1017"/>
         <source>Select All</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1022"/>
+        <location filename="texmaker.cpp" line="1023"/>
         <source>Comment</source>
         <translation>Commenter</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1028"/>
+        <location filename="texmaker.cpp" line="1029"/>
         <source>Uncomment</source>
         <translation>Décommenter</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1034"/>
+        <location filename="texmaker.cpp" line="1035"/>
         <source>Indent</source>
         <translation>Indenter</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1047"/>
+        <location filename="texmaker.cpp" line="1048"/>
         <source>Find</source>
         <translation>Chercher</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1053"/>
+        <location filename="texmaker.cpp" line="1054"/>
         <source>FindNext</source>
         <translation>Chercher à nouveau</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1059"/>
+        <location filename="texmaker.cpp" line="1060"/>
         <source>Find In Directory</source>
         <translation>Chercher dans dossiers</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1064"/>
+        <location filename="texmaker.cpp" line="1065"/>
         <source>Replace</source>
         <translation>Remplacer</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1070"/>
+        <location filename="texmaker.cpp" line="1071"/>
         <source>Goto Line</source>
         <translation>Aller à la ligne</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1084"/>
+        <location filename="texmaker.cpp" line="1085"/>
         <source>Refresh Structure</source>
         <translation>Rafraîchir structure</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1090"/>
+        <location filename="texmaker.cpp" line="1091"/>
         <source>Refresh Bibliography</source>
         <translation>Rafraîchir la bibliographie</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1095"/>
+        <location filename="texmaker.cpp" line="1096"/>
         <source>&amp;Tools</source>
         <translation>&amp;Outils</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1096"/>
-        <location filename="texmaker.cpp" line="2284"/>
-        <location filename="texmaker.cpp" line="7790"/>
+        <location filename="texmaker.cpp" line="1097"/>
+        <location filename="texmaker.cpp" line="2289"/>
+        <location filename="texmaker.cpp" line="7835"/>
         <source>Quick Build</source>
         <translation>Compilation rapide</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1107"/>
-        <location filename="texmaker.cpp" line="2307"/>
+        <location filename="texmaker.cpp" line="1108"/>
+        <location filename="texmaker.cpp" line="2312"/>
         <source>View Dvi</source>
         <translation>Voir Dvi</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1117"/>
-        <location filename="texmaker.cpp" line="2308"/>
+        <location filename="texmaker.cpp" line="1118"/>
+        <location filename="texmaker.cpp" line="2313"/>
         <source>View PS</source>
         <translation>Voir PS</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1127"/>
-        <location filename="texmaker.cpp" line="2309"/>
+        <location filename="texmaker.cpp" line="1128"/>
+        <location filename="texmaker.cpp" line="2314"/>
         <source>View PDF</source>
         <translation>Voir PDF</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1142"/>
-        <location filename="texmaker.cpp" line="2320"/>
+        <location filename="texmaker.cpp" line="1143"/>
+        <location filename="texmaker.cpp" line="2325"/>
         <source>View Log</source>
         <translation>Voir Log</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="921"/>
-        <location filename="texmaker.cpp" line="1175"/>
-        <location filename="texmaker.cpp" line="1901"/>
+        <location filename="texmaker.cpp" line="1176"/>
+        <location filename="texmaker.cpp" line="1906"/>
         <source>Clean</source>
         <translation>Nettoyer</translation>
     </message>
@@ -2276,181 +2385,181 @@ avec l&apos;encodage défini par défaut</translation>
         <translation type="obsolete">Exporter vers Html</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1185"/>
-        <location filename="texmaker.cpp" line="2330"/>
+        <location filename="texmaker.cpp" line="1186"/>
+        <location filename="texmaker.cpp" line="2335"/>
         <source>Previous LaTeX Error</source>
         <translation>Erreur LaTeX précédente</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1187"/>
-        <location filename="texmaker.cpp" line="2324"/>
+        <location filename="texmaker.cpp" line="1188"/>
+        <location filename="texmaker.cpp" line="2329"/>
         <source>Next LaTeX Error</source>
         <translation>Erreur LaTeX suivante</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1190"/>
+        <location filename="texmaker.cpp" line="1191"/>
         <source>&amp;LaTeX</source>
         <translation>&amp;LaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1501"/>
+        <location filename="texmaker.cpp" line="1506"/>
         <source>&amp;Math</source>
         <translation>&amp;Math</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1785"/>
+        <location filename="texmaker.cpp" line="1790"/>
         <source>&amp;Wizard</source>
         <translation>&amp;Assistants</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1786"/>
+        <location filename="texmaker.cpp" line="1791"/>
         <source>Quick Start</source>
         <translation>Assistant nouveau document</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1789"/>
+        <location filename="texmaker.cpp" line="1794"/>
         <source>Quick Letter</source>
         <translation>Assistant lettre</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1793"/>
+        <location filename="texmaker.cpp" line="1798"/>
         <source>Quick Tabular</source>
         <translation>Assistant tableau</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1796"/>
+        <location filename="texmaker.cpp" line="1801"/>
         <source>Quick Tabbing</source>
         <translation>Assistant tabulation</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1799"/>
+        <location filename="texmaker.cpp" line="1804"/>
         <source>Quick Array</source>
         <translation>Assistant matrice</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1803"/>
+        <location filename="texmaker.cpp" line="1808"/>
         <source>&amp;Bibliography</source>
         <translation>&amp;Bibliographie</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1906"/>
+        <location filename="texmaker.cpp" line="1911"/>
         <source>&amp;User</source>
         <translation>&amp;Utilisateur</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1907"/>
+        <location filename="texmaker.cpp" line="1912"/>
         <source>User &amp;Tags</source>
         <translation>&amp;Balises Utilisateur</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1952"/>
+        <location filename="texmaker.cpp" line="1957"/>
         <source>User &amp;Commands</source>
         <translation>&amp;Commandes Utilisateur</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1978"/>
+        <location filename="texmaker.cpp" line="1983"/>
         <source>Customize Completion</source>
         <translation>Personnaliser Completion</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1982"/>
+        <location filename="texmaker.cpp" line="1987"/>
         <source>&amp;View</source>
         <translation>Afficha&amp;ge</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="732"/>
-        <location filename="texmaker.cpp" line="1983"/>
+        <location filename="texmaker.cpp" line="1988"/>
         <source>Next Document</source>
         <translation>Document suivant</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="728"/>
-        <location filename="texmaker.cpp" line="1988"/>
+        <location filename="texmaker.cpp" line="1993"/>
         <source>Previous Document</source>
         <translation>Document précédent</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1180"/>
+        <location filename="texmaker.cpp" line="1181"/>
         <source>Open Terminal</source>
         <translation>Ouvrir un terminal</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2006"/>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="2011"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>Pdf Viewer</source>
         <translation>Afficheur Pdf</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2030"/>
+        <location filename="texmaker.cpp" line="2035"/>
         <source>Full Screen</source>
         <translation>Plein écran</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2038"/>
+        <location filename="texmaker.cpp" line="2043"/>
         <source>&amp;Options</source>
         <translation>O&amp;ptions</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2039"/>
+        <location filename="texmaker.cpp" line="2044"/>
         <source>Configure Texmaker</source>
         <translation>Configurer Texmaker</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2043"/>
-        <location filename="texmaker.cpp" line="9002"/>
+        <location filename="texmaker.cpp" line="2048"/>
+        <location filename="texmaker.cpp" line="9047"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
         <translation>Définir le document courant comme document &apos;maître&apos;</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2047"/>
+        <location filename="texmaker.cpp" line="2052"/>
         <source>Interface Appearance</source>
         <translation>Apparence Interface</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2094"/>
+        <location filename="texmaker.cpp" line="2099"/>
         <source>&amp;Help</source>
         <translation>A&amp;ide</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2095"/>
-        <location filename="texmaker.cpp" line="2096"/>
+        <location filename="texmaker.cpp" line="2100"/>
+        <location filename="texmaker.cpp" line="2101"/>
         <source>LaTeX Reference</source>
         <translation>Référence LaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2099"/>
-        <location filename="texmaker.cpp" line="2100"/>
+        <location filename="texmaker.cpp" line="2104"/>
+        <location filename="texmaker.cpp" line="2105"/>
         <source>User Manual</source>
         <translation>Manuel de Texmaker</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2120"/>
+        <location filename="texmaker.cpp" line="2125"/>
         <source>About Texmaker</source>
         <translation>A propos de Texmaker</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2336"/>
+        <location filename="texmaker.cpp" line="2341"/>
         <source>Stop Process</source>
         <translation>Stopper le processus</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2840"/>
-        <location filename="texmaker.cpp" line="2983"/>
-        <location filename="texmaker.cpp" line="3040"/>
+        <location filename="texmaker.cpp" line="2881"/>
+        <location filename="texmaker.cpp" line="3024"/>
+        <location filename="texmaker.cpp" line="3081"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
         <translation>Le document a été modifié en dehors de Texmaker. Voulez-vous le recharger (et perdre les modifications effectuées par vous) ou l&apos;enregistrer (et écraser le fichier sur le disque)?</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3599"/>
+        <location filename="texmaker.cpp" line="3640"/>
         <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
         <oldsource>The document contains unsaved work. you will lose changes by reloading the file</oldsource>
         <translation>Le document.a subi des modifications non sauvegardées. Ces modifications seront perdues en rechargeant le document.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2842"/>
-        <location filename="texmaker.cpp" line="2985"/>
-        <location filename="texmaker.cpp" line="3042"/>
-        <location filename="texmaker.cpp" line="3601"/>
+        <location filename="texmaker.cpp" line="2883"/>
+        <location filename="texmaker.cpp" line="3026"/>
+        <location filename="texmaker.cpp" line="3083"/>
+        <location filename="texmaker.cpp" line="3642"/>
         <source>Reload the file</source>
         <translation>Recharger le document</translation>
     </message>
@@ -2461,7 +2570,7 @@ avec l&apos;encodage défini par défaut</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9570"/>
+        <location filename="texmaker.cpp" line="9616"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>Le changement d&apos;apparence prendra effet au prochain démarrage du programme.</translation>
     </message>
@@ -2501,95 +2610,96 @@ avec l&apos;encodage défini par défaut</translation>
         <translation>Nouvelle ligne</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2527"/>
-        <location filename="texmaker.cpp" line="2690"/>
-        <location filename="texmaker.cpp" line="3012"/>
-        <location filename="texmaker.cpp" line="3071"/>
-        <location filename="texmaker.cpp" line="3798"/>
-        <location filename="texmaker.cpp" line="6936"/>
-        <location filename="texmaker.cpp" line="7179"/>
-        <location filename="texmaker.cpp" line="7201"/>
-        <location filename="texmaker.cpp" line="7220"/>
-        <location filename="texmaker.cpp" line="7239"/>
-        <location filename="texmaker.cpp" line="7261"/>
-        <location filename="texmaker.cpp" line="7303"/>
-        <location filename="texmaker.cpp" line="7320"/>
-        <location filename="texmaker.cpp" line="7346"/>
-        <location filename="texmaker.cpp" line="7363"/>
-        <location filename="texmaker.cpp" line="7386"/>
-        <location filename="texmaker.cpp" line="7485"/>
-        <location filename="texmaker.cpp" line="7910"/>
-        <location filename="texmaker.cpp" line="8002"/>
-        <location filename="texmaker.cpp" line="8036"/>
-        <location filename="texmaker.cpp" line="8527"/>
-        <location filename="texmaker.cpp" line="8561"/>
-        <location filename="texmaker.cpp" line="8583"/>
-        <location filename="texmaker.cpp" line="9020"/>
-        <location filename="texmaker.cpp" line="10198"/>
-        <location filename="texmaker.cpp" line="10253"/>
-        <location filename="texmaker.cpp" line="10380"/>
+        <location filename="texmaker.cpp" line="2533"/>
+        <location filename="texmaker.cpp" line="2731"/>
+        <location filename="texmaker.cpp" line="3053"/>
+        <location filename="texmaker.cpp" line="3112"/>
+        <location filename="texmaker.cpp" line="3839"/>
+        <location filename="texmaker.cpp" line="6981"/>
+        <location filename="texmaker.cpp" line="7224"/>
+        <location filename="texmaker.cpp" line="7246"/>
+        <location filename="texmaker.cpp" line="7265"/>
+        <location filename="texmaker.cpp" line="7284"/>
+        <location filename="texmaker.cpp" line="7306"/>
+        <location filename="texmaker.cpp" line="7348"/>
+        <location filename="texmaker.cpp" line="7365"/>
+        <location filename="texmaker.cpp" line="7391"/>
+        <location filename="texmaker.cpp" line="7408"/>
+        <location filename="texmaker.cpp" line="7431"/>
+        <location filename="texmaker.cpp" line="7530"/>
+        <location filename="texmaker.cpp" line="7955"/>
+        <location filename="texmaker.cpp" line="8047"/>
+        <location filename="texmaker.cpp" line="8081"/>
+        <location filename="texmaker.cpp" line="8572"/>
+        <location filename="texmaker.cpp" line="8606"/>
+        <location filename="texmaker.cpp" line="8628"/>
+        <location filename="texmaker.cpp" line="9065"/>
+        <location filename="texmaker.cpp" line="10250"/>
+        <location filename="texmaker.cpp" line="10305"/>
+        <location filename="texmaker.cpp" line="10432"/>
+        <location filename="texmaker.cpp" line="10601"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2527"/>
-        <location filename="texmaker.cpp" line="2690"/>
-        <location filename="texmaker.cpp" line="10253"/>
-        <location filename="texmaker.cpp" line="10380"/>
+        <location filename="texmaker.cpp" line="2533"/>
+        <location filename="texmaker.cpp" line="2731"/>
+        <location filename="texmaker.cpp" line="10305"/>
+        <location filename="texmaker.cpp" line="10432"/>
         <source>You do not have read permission to this file.</source>
         <translation>Vous n&apos;avez pas les droits nécessaires pour lire ce fichier.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2685"/>
-        <location filename="texmaker.cpp" line="2744"/>
-        <location filename="texmaker.cpp" line="10243"/>
+        <location filename="texmaker.cpp" line="2726"/>
+        <location filename="texmaker.cpp" line="2785"/>
+        <location filename="texmaker.cpp" line="10295"/>
         <source>Open File</source>
         <translation>Ouvrir fichier</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3012"/>
-        <location filename="texmaker.cpp" line="3071"/>
-        <location filename="texmaker.cpp" line="10198"/>
+        <location filename="texmaker.cpp" line="3053"/>
+        <location filename="texmaker.cpp" line="3112"/>
+        <location filename="texmaker.cpp" line="10250"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>Impossible d&apos;enregistrer le fichier. Droits insuffisants ?</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2842"/>
-        <location filename="texmaker.cpp" line="2985"/>
-        <location filename="texmaker.cpp" line="3042"/>
-        <location filename="texmaker.cpp" line="3206"/>
-        <location filename="texmaker.cpp" line="3270"/>
-        <location filename="texmaker.cpp" line="3334"/>
-        <location filename="texmaker.cpp" line="3434"/>
-        <location filename="texmaker.cpp" line="3601"/>
-        <location filename="texmaker.cpp" line="4521"/>
-        <location filename="texmaker.cpp" line="4564"/>
-        <location filename="texmaker.cpp" line="7493"/>
-        <location filename="texmaker.cpp" line="7522"/>
+        <location filename="texmaker.cpp" line="2883"/>
+        <location filename="texmaker.cpp" line="3026"/>
+        <location filename="texmaker.cpp" line="3083"/>
+        <location filename="texmaker.cpp" line="3247"/>
+        <location filename="texmaker.cpp" line="3311"/>
+        <location filename="texmaker.cpp" line="3375"/>
+        <location filename="texmaker.cpp" line="3475"/>
+        <location filename="texmaker.cpp" line="3642"/>
+        <location filename="texmaker.cpp" line="4562"/>
+        <location filename="texmaker.cpp" line="4605"/>
+        <location filename="texmaker.cpp" line="7538"/>
+        <location filename="texmaker.cpp" line="7567"/>
         <source>Cancel</source>
         <translation>Abandon</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3204"/>
-        <location filename="texmaker.cpp" line="3268"/>
-        <location filename="texmaker.cpp" line="3332"/>
-        <location filename="texmaker.cpp" line="3432"/>
+        <location filename="texmaker.cpp" line="3245"/>
+        <location filename="texmaker.cpp" line="3309"/>
+        <location filename="texmaker.cpp" line="3373"/>
+        <location filename="texmaker.cpp" line="3473"/>
         <source>The document contains unsaved work. Do you want to save it before closing?</source>
         <translation>Le document a été modifié. Voulez-vous l&apos;enregistrer avant de fermer ?</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3206"/>
-        <location filename="texmaker.cpp" line="3270"/>
-        <location filename="texmaker.cpp" line="3334"/>
-        <location filename="texmaker.cpp" line="3434"/>
+        <location filename="texmaker.cpp" line="3247"/>
+        <location filename="texmaker.cpp" line="3311"/>
+        <location filename="texmaker.cpp" line="3375"/>
+        <location filename="texmaker.cpp" line="3475"/>
         <source>Save and Close</source>
         <translation>Enregistrer et Fermer</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3206"/>
-        <location filename="texmaker.cpp" line="3270"/>
-        <location filename="texmaker.cpp" line="3334"/>
-        <location filename="texmaker.cpp" line="3434"/>
+        <location filename="texmaker.cpp" line="3247"/>
+        <location filename="texmaker.cpp" line="3311"/>
+        <location filename="texmaker.cpp" line="3375"/>
+        <location filename="texmaker.cpp" line="3475"/>
         <source>Don&apos;t Save and Close</source>
         <translation>Fermer sans enregistrer</translation>
     </message>
@@ -2598,21 +2708,21 @@ avec l&apos;encodage défini par défaut</translation>
         <translation type="obsolete">Le document a été modifié. Voulez-vous l&apos;enregistrer avant de fermer ?</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="5452"/>
+        <location filename="texmaker.cpp" line="5497"/>
         <source>Select an image File</source>
         <translation>Sélectionner un fichier image</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3379"/>
-        <location filename="texmaker.cpp" line="5483"/>
-        <location filename="texmaker.cpp" line="5508"/>
+        <location filename="texmaker.cpp" line="3420"/>
+        <location filename="texmaker.cpp" line="5528"/>
+        <location filename="texmaker.cpp" line="5553"/>
         <source>Select a File</source>
         <translation>Sélectionner un fichier</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="6936"/>
-        <location filename="texmaker.cpp" line="7485"/>
-        <location filename="texmaker.cpp" line="7910"/>
+        <location filename="texmaker.cpp" line="6981"/>
+        <location filename="texmaker.cpp" line="7530"/>
+        <location filename="texmaker.cpp" line="7955"/>
         <source>Can&apos;t detect the file name</source>
         <translation>Nom de fichier inconnu</translation>
     </message>
@@ -2635,30 +2745,31 @@ avec l&apos;encodage défini par défaut</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7522"/>
+        <location filename="texmaker.cpp" line="7567"/>
         <source>Delete Files</source>
         <translation>Effacer Fichiers</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7179"/>
-        <location filename="texmaker.cpp" line="7201"/>
-        <location filename="texmaker.cpp" line="7220"/>
-        <location filename="texmaker.cpp" line="7239"/>
-        <location filename="texmaker.cpp" line="7261"/>
-        <location filename="texmaker.cpp" line="7303"/>
-        <location filename="texmaker.cpp" line="7320"/>
-        <location filename="texmaker.cpp" line="7346"/>
-        <location filename="texmaker.cpp" line="7363"/>
-        <location filename="texmaker.cpp" line="7386"/>
-        <location filename="texmaker.cpp" line="8002"/>
-        <location filename="texmaker.cpp" line="8583"/>
-        <location filename="texmaker.cpp" line="9020"/>
+        <location filename="texmaker.cpp" line="7224"/>
+        <location filename="texmaker.cpp" line="7246"/>
+        <location filename="texmaker.cpp" line="7265"/>
+        <location filename="texmaker.cpp" line="7284"/>
+        <location filename="texmaker.cpp" line="7306"/>
+        <location filename="texmaker.cpp" line="7348"/>
+        <location filename="texmaker.cpp" line="7365"/>
+        <location filename="texmaker.cpp" line="7391"/>
+        <location filename="texmaker.cpp" line="7408"/>
+        <location filename="texmaker.cpp" line="7431"/>
+        <location filename="texmaker.cpp" line="8047"/>
+        <location filename="texmaker.cpp" line="8628"/>
+        <location filename="texmaker.cpp" line="9065"/>
+        <location filename="texmaker.cpp" line="10601"/>
         <source>Could not start the command.</source>
         <translation>Impossible de lancer la commande.</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="294"/>
-        <location filename="texmaker.cpp" line="4682"/>
+        <location filename="texmaker.cpp" line="4723"/>
         <source>User</source>
         <translation>Utilisateur</translation>
     </message>
@@ -2668,68 +2779,68 @@ avec l&apos;encodage défini par défaut</translation>
         <translation>Session</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="930"/>
+        <location filename="texmaker.cpp" line="931"/>
         <source>Save session</source>
         <translation>Enregistrer session</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="933"/>
+        <location filename="texmaker.cpp" line="934"/>
         <source>Load session</source>
         <translation>Charger session</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1456"/>
+        <location filename="texmaker.cpp" line="1457"/>
         <source>International &amp;Quotes</source>
         <translation>&amp;Guillemets internationaux</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2023"/>
+        <location filename="texmaker.cpp" line="2028"/>
         <source>List of opened files</source>
         <translation>Liste des fichiers ouverts</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2083"/>
+        <location filename="texmaker.cpp" line="2088"/>
         <source>Settings File</source>
         <translation>Fichier de configuration</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2084"/>
+        <location filename="texmaker.cpp" line="2089"/>
         <source>Reset Settings</source>
         <translation>Réinitialiser la configuration</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2087"/>
+        <location filename="texmaker.cpp" line="2092"/>
         <source>Save a copy of the settings file</source>
         <translation>Enregistrer une copie du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2090"/>
+        <location filename="texmaker.cpp" line="2095"/>
         <source>Replace the settings file by a new one</source>
         <translation>Remplacer le fichier de configuration par un nouveau</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4520"/>
+        <location filename="texmaker.cpp" line="4561"/>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation>Effacer le fichier de configuration?
 (Texmaker sera fermé et vous devrez le réouvrir)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4521"/>
-        <location filename="texmaker.cpp" line="4564"/>
-        <location filename="texmaker.cpp" line="7493"/>
+        <location filename="texmaker.cpp" line="4562"/>
+        <location filename="texmaker.cpp" line="4605"/>
+        <location filename="texmaker.cpp" line="7538"/>
         <source>Ok</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4563"/>
+        <location filename="texmaker.cpp" line="4604"/>
         <source>Replace settings file by a new one?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation>Remplacer le fichier de configuration par autre?
 (Texmaker sera fermé et vous devrez le réouvrir)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="4588"/>
+        <location filename="texmaker.cpp" line="4629"/>
         <source>Opened Files</source>
         <translation>Fichiers ouverts</translation>
     </message>
@@ -2740,89 +2851,89 @@ avec l&apos;encodage défini par défaut</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>LaTeX</source>
         <translation>LaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>PdfLaTeX</source>
         <translation>PdfLaTeX</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>dvips</source>
         <translation>dvips</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>Dvi Viewer</source>
         <translation>Afficheur Dvi</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>PS Viewer</source>
         <translation>Afficheur Ps</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>Dvipdfm</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>ps2pdf</source>
         <translation>ps2pdf</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>Bibtex</source>
         <translation>Bibtex</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>Makeindex</source>
         <translation>Makeindex</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>metapost</source>
         <translation>metapost</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>ghostscript</source>
         <translation>ghostscript</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>Asymptote</source>
         <translation>Asymptote</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>Latexmk</source>
         <translation>Latexmk</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="7747"/>
+        <location filename="texmaker.cpp" line="7792"/>
         <source>R Sweave</source>
         <translation>R Sweave</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8036"/>
+        <location filename="texmaker.cpp" line="8081"/>
         <source>Log File not found !</source>
         <translation>Fichier log non trouvé !</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8457"/>
-        <location filename="texmaker.cpp" line="8492"/>
+        <location filename="texmaker.cpp" line="8502"/>
+        <location filename="texmaker.cpp" line="8537"/>
         <source>No LaTeX errors detected !</source>
         <translation>Aucune erreur LaTeX détectée !</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="8527"/>
-        <location filename="texmaker.cpp" line="8561"/>
+        <location filename="texmaker.cpp" line="8572"/>
+        <location filename="texmaker.cpp" line="8606"/>
         <source>File not found</source>
         <translation>Fichier non trouvé</translation>
     </message>
@@ -2831,17 +2942,19 @@ avec l&apos;encodage défini par défaut</translation>
         <translation type="obsolete">Manuel de Texmaker</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9026"/>
+        <location filename="texmaker.cpp" line="9071"/>
+        <location filename="texmaker.cpp" line="10610"/>
         <source>Normal Mode (current master document :</source>
         <translation>Mode normal (document maître actuel :</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9028"/>
+        <location filename="texmaker.cpp" line="9073"/>
+        <location filename="texmaker.cpp" line="10612"/>
         <source>Master Document :</source>
         <translation>Document maître :</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2062"/>
+        <location filename="texmaker.cpp" line="2067"/>
         <source>Change Interface Font</source>
         <translation>Changer Police Interface</translation>
     </message>
@@ -2855,112 +2968,112 @@ avec l&apos;encodage défini par défaut</translation>
     <message>
         <location filename="texmaker.cpp" line="310"/>
         <location filename="texmaker.cpp" line="343"/>
-        <location filename="texmaker.cpp" line="4656"/>
+        <location filename="texmaker.cpp" line="4697"/>
         <source>Pstricks Commands</source>
         <translation>Commandes Pstricks</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1077"/>
+        <location filename="texmaker.cpp" line="1078"/>
         <source>Check Spelling</source>
         <translation>Vérifier orthographe</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="262"/>
-        <location filename="texmaker.cpp" line="4646"/>
+        <location filename="texmaker.cpp" line="4687"/>
         <source>Most used symbols</source>
         <translation>Symboles fréquents</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1224"/>
+        <location filename="texmaker.cpp" line="1225"/>
         <source>&amp;Sectioning</source>
         <translation>&amp;Structure</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1254"/>
+        <location filename="texmaker.cpp" line="1255"/>
         <source>&amp;Environment</source>
         <translation>&amp;Environnement</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1300"/>
+        <location filename="texmaker.cpp" line="1301"/>
         <source>&amp;List Environment</source>
         <translation>&amp;Listes</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1324"/>
+        <location filename="texmaker.cpp" line="1325"/>
         <source>Font St&amp;yles</source>
         <translation>St&amp;yles de caractères</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1361"/>
+        <location filename="texmaker.cpp" line="1362"/>
         <source>&amp;Tabular Environment</source>
         <translation>&amp;Tableaux</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1387"/>
+        <location filename="texmaker.cpp" line="1388"/>
         <source>S&amp;pacing</source>
         <translation>Es&amp;pacement</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1414"/>
+        <location filename="texmaker.cpp" line="1415"/>
         <source>International &amp;Accents</source>
         <translation>&amp;Accents internationaux</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1565"/>
+        <location filename="texmaker.cpp" line="1570"/>
         <source>Math &amp;Functions</source>
         <translation>&amp;Fonctions math</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1687"/>
+        <location filename="texmaker.cpp" line="1692"/>
         <source>Math Font St&amp;yles</source>
         <translation>St&amp;yles de caractères math</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1721"/>
+        <location filename="texmaker.cpp" line="1726"/>
         <source>Math &amp;Accents</source>
         <translation>&amp;Accents math</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1763"/>
+        <location filename="texmaker.cpp" line="1768"/>
         <source>Math S&amp;paces</source>
         <translation>Es&amp;pacement math</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1949"/>
-        <location filename="texmaker.cpp" line="6660"/>
-        <location filename="texmaker.cpp" line="6716"/>
+        <location filename="texmaker.cpp" line="1954"/>
+        <location filename="texmaker.cpp" line="6705"/>
+        <location filename="texmaker.cpp" line="6761"/>
         <source>Edit User &amp;Tags</source>
         <translation>Editer &amp;Balises Utilisateur</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1974"/>
-        <location filename="texmaker.cpp" line="7750"/>
-        <location filename="texmaker.cpp" line="7786"/>
+        <location filename="texmaker.cpp" line="1979"/>
+        <location filename="texmaker.cpp" line="7795"/>
+        <location filename="texmaker.cpp" line="7831"/>
         <source>Edit User &amp;Commands</source>
         <translation>Editer &amp;Commandes Utilisateur</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1502"/>
+        <location filename="texmaker.cpp" line="1507"/>
         <source>Inline math mode $...$</source>
         <translation>Math en ligne $...$</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1507"/>
+        <location filename="texmaker.cpp" line="1512"/>
         <source>Display math mode \[...\]</source>
         <translation>Math hors ligne \[...\]</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1512"/>
+        <location filename="texmaker.cpp" line="1517"/>
         <source>Numbered equations \begin{equation}</source>
         <translation>Equations numérotées \begin{equation}</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="971"/>
+        <location filename="texmaker.cpp" line="972"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="1040"/>
+        <location filename="texmaker.cpp" line="1041"/>
         <source>Unindent</source>
         <translation>Désindenter</translation>
     </message>
@@ -2985,7 +3098,7 @@ avec l&apos;encodage défini par défaut</translation>
         <translation type="obsolete">Direction du texte de Gauche à Droite</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2067"/>
+        <location filename="texmaker.cpp" line="2072"/>
         <source>Interface Language</source>
         <translation>Langue de l&apos;interface</translation>
     </message>
@@ -2994,12 +3107,12 @@ avec l&apos;encodage défini par défaut</translation>
         <translation type="obsolete">Exécuter</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2315"/>
+        <location filename="texmaker.cpp" line="2320"/>
         <source>View</source>
         <translation>Voir</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="3798"/>
+        <location filename="texmaker.cpp" line="3839"/>
         <source>Error : Can&apos;t open the dictionary</source>
         <translation>Erreur : impossible d&apos;ouvrir le dictionnaire</translation>
     </message>
@@ -3010,12 +3123,12 @@ avec l&apos;encodage défini par défaut</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9562"/>
+        <location filename="texmaker.cpp" line="9608"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>Le changement de langue prendra effet au prochain démarrage du programme.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="2303"/>
+        <location filename="texmaker.cpp" line="2308"/>
         <source>Run</source>
         <translation>Exécuter</translation>
     </message>
