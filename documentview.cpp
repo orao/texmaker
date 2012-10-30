@@ -886,8 +886,24 @@ if (m_pages.count()<1) return;
             }
         }
     }
+int qtKeyCode = event->key();
 
-    QGraphicsView::keyPressEvent(event);
+if(event->modifiers() & Qt::ShiftModifier) {
+	qtKeyCode += Qt::SHIFT;
+}
+if(event->modifiers() & Qt::ControlModifier) {
+	qtKeyCode += Qt::CTRL;
+}
+if(event->modifiers() & Qt::AltModifier) {
+	qtKeyCode += Qt::ALT;
+}
+if(event->modifiers() & Qt::MetaModifier) {
+	qtKeyCode += Qt::META;
+}
+QKeySequence s1 = QKeySequence(qtKeyCode);
+if (hasFocus() && (s1.matches(QKeySequence(Qt::CTRL + Qt::Key_Left))==QKeySequence::ExactMatch)) rotateLeft();
+else if (hasFocus() && (s1.matches(QKeySequence(Qt::CTRL + Qt::Key_Right))==QKeySequence::ExactMatch)) rotateRight();
+else QGraphicsView::keyPressEvent(event);
 }
 
 
@@ -1257,11 +1273,11 @@ void DocumentView::prepareScene()
 
             if(m_twoPagesMode)
             {
-                visibleWidth = 0.5 * (viewport()->width() - 6 - 3.0 * s_pageSpacing);
+                visibleWidth = 0.5 * (viewport()->width() - 6.0 - 3.0 * s_pageSpacing);
             }
             else
             {
-                visibleWidth = viewport()->width() - 6 - 2.0 * s_pageSpacing;
+                visibleWidth = viewport()->width() - 6.0 - 2.0 * s_pageSpacing;
             }
             visibleHeight = viewport()->height() - 2.0 * s_pageSpacing;
 

@@ -56,18 +56,14 @@
 #include <QDateTime>
 #include <QTemporaryFile>
 
-#ifdef Q_WS_MACX
-#include "macsupport.h"
 #if (QT_VERSION >= 0x0406)
 #include <QProcessEnvironment>
-#endif
 #endif
 
-#ifdef Q_WS_WIN
-#if (QT_VERSION >= 0x0406)
-#include <QProcessEnvironment>
+#ifdef Q_WS_MACX
+#include "macsupport.h"
 #endif
-#endif
+
 
 //#ifdef Q_WS_WIN
 //#include <windows.h>
@@ -96,6 +92,7 @@
 #include "usercompletiondialog.h"
 #include "texdocdialog.h"
 #include "addtagdialog.h"
+#include "exportdialog.h"
 
 
 
@@ -1172,6 +1169,10 @@ Act = new QAction("R Sweave", this);
 Act->setData("R Sweave");
 connect(Act, SIGNAL(triggered()), this, SLOT(Sweave()));
 toolMenu->addAction(Act);
+Act = new QAction("XeLaTeX", this);
+Act->setData("XeLaTeX");
+connect(Act, SIGNAL(triggered()), this, SLOT(Xelatex()));
+toolMenu->addAction(Act);
 toolMenu->addSeparator();
 Act = new QAction(tr("Clean"), this);
 Act->setData("Clean");
@@ -1181,6 +1182,10 @@ toolMenu->addSeparator();
 Act = new QAction(tr("Open Terminal"), this);
 Act->setData("Open Terminal");
 connect(Act, SIGNAL(triggered()), this, SLOT(OpenTerminal()));
+toolMenu->addAction(Act);
+Act = new QAction(tr("Export via TeX4ht"), this);
+Act->setData("Export via TeX4ht");
+connect(Act, SIGNAL(triggered()), this, SLOT(Export()));
 toolMenu->addAction(Act);
 
 Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
@@ -2298,6 +2303,7 @@ list.append("DVI->PDF");
 list.append("Asymptote");
 list.append("LatexMk");
 list.append("R Sweave");
+list.append("XeLaTeX");
 
 for ( int i = 0; i <= 4; i++ ) list.append(QString::number(i+1)+": "+UserToolName[i]);
 
@@ -2486,7 +2492,8 @@ bool Texmaker::FileAlreadyOpen(QString f)
 {
 bool rep=false;
 FilesMap::Iterator it;
-QString fw32,funix,forig;
+QString fw32,funix,forig, canorig, can;
+canorig=QFileInfo(f).canonicalFilePath();
 for( it = filenames.begin(); it != filenames.end(); ++it )
 	{
 	forig=filenames[it.key()];
@@ -2494,7 +2501,8 @@ for( it = filenames.begin(); it != filenames.end(); ++it )
 	funix=filenames[it.key()];
 	fw32.replace(QString("\\"),QString("/"));
 	funix.replace(QString("/"),QString("\\"));
-	if ( (forig==f) || (fw32==f) || (funix==f)) 
+	can=QFileInfo(filenames[it.key()]).canonicalFilePath();
+	if ( (forig==f) || (fw32==f) || (funix==f) || (canorig==can)) 
 		{
 		EditorView->setCurrentIndex(EditorView->indexOf(it.key()));
 		rep=true;
@@ -3946,23 +3954,23 @@ showSmallfrac=config->value( "Show/Smallfrac",true).toBool();
 showDfrac=config->value( "Show/Dfrac",true).toBool();
 showRacine=config->value( "Show/Racine",true).toBool();
 
+extra_path=config->value("Tools/ExtraPath","").toString();
 useoutputdir=config->value( "Tools/OutputDir",false).toBool();
 quickmode=config->value( "Tools/Quick Mode",3).toInt();
 QString baseName = qApp->style()->objectName();
 builtinpdfview=config->value("Tools/IntegratedPdfViewer",true).toBool();
 embedinternalpdf=config->value("Tools/PdfInternalViewEmbed", screen.width() > 1400).toBool();
 singleviewerinstance=config->value("Tools/SingleViewerInstance",false).toBool();
+htlatex_options=config->value("Tools/HtOptions","\"\" \"\" \"\" -interaction=nonstopmode").toString();
 #ifdef Q_WS_MACX 
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+$").toString();
-// /usr/local/teTeX/bin/i386-apple-darwin-current
-// /usr/local/teTeX/bin/powerpc-apple-darwin-current
-// /usr/texbin MACTEX/TEXLIVE2007
 latex_command=config->value("Tools/Latex","\"/usr/texbin/latex\" -interaction=nonstopmode %.tex").toString();
 dvips_command=config->value("Tools/Dvips","\"/usr/texbin/dvips\" -o %.ps %.dvi").toString();
 ps2pdf_command=config->value("Tools/Ps2pdf","\"/usr/local/bin/ps2pdf\" %.ps").toString();
 makeindex_command=config->value("Tools/Makeindex","\"/usr/texbin/makeindex\" %.idx").toString();
 bibtex_command=config->value("Tools/Bibtex","\"/usr/texbin/bibtex\" %.aux").toString();
 pdflatex_command=config->value("Tools/Pdflatex","\"/usr/texbin/pdflatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
+xelatex_command=config->value("Tools/Xelatex","\"/usr/texbin/xelatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","\"/usr/texbin/dvipdfm\" %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","\"/usr/texbin/mpost\" --interaction nonstopmode ").toString();
 viewdvi_command=config->value("Tools/Dvi","open %.dvi").toString();
@@ -3973,6 +3981,7 @@ asymptote_command=config->value("Tools/Asymptote","/usr/texbin/asy %.asy").toStr
 latexmk_command=config->value("Tools/Latexmk","\"/usr/texbin/latexmk\" -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
 sweave_command=config->value("Tools/Sweave","R CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
+htlatex_command=config->value("Tools/Htlatex","/usr/texbin/htlatex").toString();
 if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
 #endif
 #ifdef Q_WS_WIN
@@ -3984,6 +3993,7 @@ makeindex_command=config->value("Tools/Makeindex","makeindex %.idx").toString();
 bibtex_command=config->value("Tools/Bibtex","bibtex %").toString();
 //bibtex %.aux
 pdflatex_command=config->value("Tools/Pdflatex","pdflatex -synctex=1 -interaction=nonstopmode %.tex").toString();
+xelatex_command=config->value("Tools/Xelatex","xelatex -synctex=1 -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","dvipdfm %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode ").toString();
 viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe\" %.dvi").toString();
@@ -3994,6 +4004,7 @@ asymptote_command=config->value("Tools/Asymptote","\"C:/Program Files/Asymptote/
 latexmk_command=config->value("Tools/Latexmk","latexmk -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
 sweave_command=config->value("Tools/Sweave","C:/Program Files/R/R-2.13.2/bin/R.exe CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
+htlatex_command=config->value("Tools/Htlatex","htlatex").toString();
 QString yap="C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe";
 QString gsview="C:/Program Files/Ghostgum/gsview/gsview32.exe";
 QString gswin="C:/Program Files/gs/gs9.05/bin/gswin32c.exe";
@@ -4075,6 +4086,7 @@ ps2pdf_command=config->value("Tools/Ps2pdf","ps2pdf %.ps").toString();
 makeindex_command=config->value("Tools/Makeindex","makeindex %.idx").toString();
 bibtex_command=config->value("Tools/Bibtex","bibtex %.aux").toString();
 pdflatex_command=config->value("Tools/Pdflatex","pdflatex -synctex=1 -interaction=nonstopmode %.tex").toString();
+xelatex_command=config->value("Tools/Xelatex","xelatex -synctex=1 -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","dvipdfm %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode ").toString();
 // xdvi %.dvi  -sourceposition @:%.tex
@@ -4108,6 +4120,7 @@ asymptote_command=config->value("Tools/Asymptote","asy %.asy").toString();
 latexmk_command=config->value("Tools/Latexmk","latexmk -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
 sweave_command=config->value("Tools/Sweave","R CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
+htlatex_command=config->value("Tools/Htlatex","htlatex").toString();
 
 x11style=config->value( "X11/Style","Plastique").toString();
 if (xf.contains("DejaVu Sans",Qt::CaseInsensitive)) deft="DejaVu Sans";
@@ -4430,6 +4443,7 @@ config.setValue( "Show/Smallfrac",showSmallfrac);
 config.setValue( "Show/Dfrac",showDfrac);
 config.setValue( "Show/Racine",showRacine);
 
+config.setValue("Tools/ExtraPath",extra_path);
 config.setValue("Tools/OutputDir",useoutputdir);
 config.setValue("Tools/Quick Mode",quickmode);
 config.setValue("Tools/Latex",latex_command);
@@ -4440,6 +4454,7 @@ config.setValue("Tools/Ps2pdf",ps2pdf_command);
 config.setValue("Tools/Makeindex",makeindex_command);
 config.setValue("Tools/Bibtex",bibtex_command);
 config.setValue("Tools/Pdflatex",pdflatex_command);
+config.setValue("Tools/Xelatex",xelatex_command);
 config.setValue("Tools/Pdf",viewpdf_command);
 config.setValue("Tools/Dvipdf",dvipdf_command);
 config.setValue("Tools/Metapost",metapost_command);
@@ -4447,7 +4462,9 @@ config.setValue("Tools/Ghostscript",ghostscript_command);
 config.setValue("Tools/Asymptote",asymptote_command);
 config.setValue("Tools/Latexmk",latexmk_command);
 config.setValue("Tools/Sweave",sweave_command);
-config.setValue("Tools/Texdoc",texdoc_command); 
+config.setValue("Tools/Texdoc",texdoc_command);
+config.setValue("Tools/HtOptions",htlatex_options); 
+config.setValue("Tools/Htlatex",htlatex_command); 
 config.setValue("Tools/Userquick",userquick_command);
 if (userClassList.count()>0) config.setValue("Tools/User Class",userClassList); 
 if (userPaperList.count()>0) config.setValue("Tools/User Paper",userPaperList); 
@@ -5219,7 +5236,7 @@ if (item)
 		if (pdfviewerWidget->pdf_file!=fic.absolutePath()+"/"+basename+".pdf") pdfviewerWidget->openFile(fic.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
 		StackedViewers->setCurrentWidget(pdfviewerWidget);
 		pdfviewerWidget->show();
-		if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),structure.at(index).cursor.block().blockNumber()+1);
+		if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),structure.at(index).cursor.block().blockNumber()+1);
 		}
 	      }
 	  }
@@ -7003,18 +7020,44 @@ if ((comd.startsWith("latex") || comd.startsWith("pdflatex")) &&  useoutputdir)
 // qDebug() << realname;
 QFileInfo fi(finame);
 QString basename=fi.completeBaseName();
-commandline.replace("%","\""+basename+"\"");
-commandline.replace("!",fi.absolutePath());
+
+
+
+//commandline.replace("%","\""+basename+"\"");
+//commandline.replace("!",fi.absolutePath());
 QFileInfo ficur(getName());
-if (!commandline.contains("okular")) commandline.replace("#","\""+ficur.completeBaseName()+"\"");
+//if (!commandline.contains("okular")) commandline.replace("#","\""+ficur.completeBaseName()+"\"");
 int currentline=1;
 if (currentEditorView() )
   {
   currentline=currentEditorView()->editor->linefromblock(currentEditorView()->editor->textCursor().block());
   }
-commandline.replace("@",QString::number(currentline));
+//commandline.replace("@",QString::number(currentline));
 
 
+QRegExp rx1("(#+)");
+QString capt="";
+if (rx1.indexIn(commandline) != -1) capt=rx1.cap(1);
+if (capt=="#") commandline.replace("#","\""+ficur.completeBaseName()+"\"");
+else if (capt=="##") commandline.replace("##","#");
+
+QRegExp rx2("(%+)");
+capt="";
+if (rx2.indexIn(commandline) != -1) capt=rx2.cap(1);
+if (capt=="%") commandline.replace("%","\""+basename+"\"");
+else if (capt=="%%") commandline.replace("%%","%");
+
+QRegExp rx3("(!+)");
+capt="";
+if (rx3.indexIn(commandline) != -1) capt=rx3.cap(1);
+if (capt=="!") commandline.replace("!",fi.absolutePath());
+else if (capt=="!!") commandline.replace("!!","!");
+
+QRegExp rx4("(@+)");
+capt="";
+if (rx4.indexIn(commandline) != -1) capt=rx4.cap(1);
+if (capt=="@") commandline.replace("@",QString::number(currentline));
+else if (capt=="@@") commandline.replace("@@","@");
 
 if (builtinpdfview && (comd==viewpdf_command))
   {
@@ -7028,7 +7071,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       	showpdfview=true;
 	ShowPdfView(false);
 	pdfviewerWidget->show();
-	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline);
+	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline);
 	}
       else
 	{
@@ -7044,7 +7087,7 @@ if (builtinpdfview && (comd==viewpdf_command))
 	//pdfviewerWidget->raise();
 	pdfviewerWidget->show();
 	pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
-	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline);
+	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline);
 	}
       return;
       }
@@ -7055,7 +7098,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       pdfviewerWindow->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline);
       }
     else
       {
@@ -7066,7 +7109,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline);
       }
     return;     
     }
@@ -7086,29 +7129,34 @@ proc->setWorkingDirectory(fi.absolutePath());
 proc->setProperty("command",commandline);
 
 //****
-#ifdef Q_WS_MACX
 #if (QT_VERSION >= 0x0406)
+#ifdef Q_WS_MACX
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+else
+ env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
 #endif
-#endif
-/*#ifdef Q_WS_WIN
-#if (QT_VERSION >= 0x0406)
+#ifdef Q_WS_WIN
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-QString gstemp=ghostscript_command;
-gstemp.remove("\"");
-QFileInfo figs(gstemp);
-if (figs.exists()) 
+if (!extra_path.isEmpty()) 
   {
-  env.insert("PATH", env.value("PATH") + ";"+figs.absolutePath());
+  env.insert("PATH", env.value("PATH") + ";"+extra_path);
   proc->setProcessEnvironment(env);
   }
 #endif
-#endif*/
+#ifdef Q_WS_X11
+QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+if (!extra_path.isEmpty()) 
+  {
+  env.insert("PATH", env.value("PATH") + ":"+extra_path);
+  proc->setProcessEnvironment(env);
+  }
+#endif
+#endif
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
-if (comd==asymptote_command) connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
+if ((comd==asymptote_command) || (comd==bibtex_command) ) connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
 if (checkViewerInstance && ((comd==viewdvi_command) || (comd==viewps_command) || (comd==viewpdf_command)))
   {
   connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndViewerProcess(int)));
@@ -7329,7 +7377,7 @@ switch (quickmode)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
 	      {
 	      LoadLog();
 	      if (showoutputview) ViewLog();
@@ -7426,6 +7474,25 @@ switch (quickmode)
     {
     //stat2->setText(QString(" %1 ").arg("LatexMk"));
     RunCommand(latexmk_command,true);
+    if (ERRPROCESS && !LogExists()) 
+        {
+	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	checkViewerInstance=false;
+	return;
+	}
+    LoadLog();
+    if (showoutputview) ViewLog();
+    if (NoLatexErrors()) 
+    	{
+	if (!ERRPROCESS) ViewPDF();
+        else {checkViewerInstance=false;return;}
+	}
+    else {NextError();}
+    }break;
+ case 10:
+    {
+    //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+    RunCommand(xelatex_command,true);
     if (ERRPROCESS && !LogExists()) 
         {
 	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
@@ -7603,11 +7670,29 @@ proc->setWorkingDirectory(fi.absolutePath());
 proc->setProperty("command",commandline);
 
 //****
-#ifdef Q_WS_MACX
 #if (QT_VERSION >= 0x0406)
+#ifdef Q_WS_MACX
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+else
+ env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
+#endif
+#ifdef Q_WS_WIN
+QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+if (!extra_path.isEmpty()) 
+  {
+  env.insert("PATH", env.value("PATH") + ";"+extra_path);
+  proc->setProcessEnvironment(env);
+  }
+#endif
+#ifdef Q_WS_X11
+QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+if (!extra_path.isEmpty()) 
+  {
+  env.insert("PATH", env.value("PATH") + ":"+extra_path);
+  proc->setProcessEnvironment(env);
+  }
 #endif
 #endif
 //****
@@ -7652,6 +7737,15 @@ void Texmaker::Sweave()
 RunCommand(sweave_command,false);
 }
 
+void Texmaker::Xelatex()
+{
+//stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+RunCommand(xelatex_command,true);
+LoadLog();
+if (showoutputview) ViewLog();
+if (!NoLatexErrors()) NextError();
+}
+
 void Texmaker::UserTool1()
 {
 QStringList commandList=UserToolCommand[0].split("|");
@@ -7661,7 +7755,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7681,7 +7775,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7701,7 +7795,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7721,7 +7815,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7741,7 +7835,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7786,11 +7880,33 @@ if (!process.startDetached("konsole --workdir \""+pwd+"\""))
 
 }
 
+void Texmaker::Export()
+{
+if ( !currentEditorView() ) return;
+QString finame;
+if (singlemode) {finame=getName();}
+else {finame=MasterName;}
+if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || finame=="")
+	{
+	QMessageBox::warning( this,tr("Error"),tr("Can't detect the file name"));
+	return;
+	}
+ExportDialog *exportDlg = new ExportDialog(this,finame);
+exportDlg->ui.lineEditPath->setText(htlatex_command);
+exportDlg->ui.lineEditOptions->setText(htlatex_options);
+
+if (exportDlg->exec())
+	{
+	htlatex_command=exportDlg->ui.lineEditPath->text();
+	htlatex_options=exportDlg->ui.lineEditOptions->text();
+	}
+}
+
 void Texmaker::EditUserTool()
 {
 QStringList usualNames, usualCommands;
-usualNames << tr("LaTeX") << tr("PdfLaTeX") << tr("dvips") << tr("Dvi Viewer") << tr("PS Viewer") << tr("Dvipdfm") << tr("ps2pdf") << tr("Bibtex") << tr("Makeindex") << tr("Pdf Viewer") << tr("metapost") << tr("ghostscript") << tr("Asymptote") << tr("Latexmk") << tr("R Sweave");
-usualCommands << latex_command << pdflatex_command << dvips_command << viewdvi_command << viewps_command << dvipdf_command << ps2pdf_command << bibtex_command << makeindex_command<< viewpdf_command << metapost_command << ghostscript_command << asymptote_command << latexmk_command << sweave_command;
+usualNames << tr("LaTeX") << tr("PdfLaTeX") << tr("dvips") << tr("Dvi Viewer") << tr("PS Viewer") << tr("Dvipdfm") << tr("ps2pdf") << tr("Bibtex") << tr("Makeindex") << tr("Pdf Viewer") << tr("metapost") << tr("ghostscript") << tr("Asymptote") << tr("Latexmk") << tr("R Sweave") << tr("XeLaTex");
+usualCommands << latex_command << pdflatex_command << dvips_command << viewdvi_command << viewps_command << dvipdf_command << ps2pdf_command << bibtex_command << makeindex_command<< viewpdf_command << metapost_command << ghostscript_command << asymptote_command << latexmk_command << sweave_command << xelatex_command;
 QAction *Act;
 UserToolDialog *utDlg = new UserToolDialog(this,tr("Edit User &Commands"),usualNames, usualCommands);
 for ( int i = 0; i <= 4; i++ )
@@ -7844,8 +7960,9 @@ if ( utDlg->exec() )
 	list.append("Asymptote");
 	list.append("LatexMk");
 	list.append("R Sweave");
+	list.append("XeLaTeX");
 	int runIndex=comboCompil->currentIndex();
-	for ( int i = 0; i <= 4; i++ ) comboCompil->setItemText(12+i,QString::number(i+1)+": "+UserToolName[i]);
+	for ( int i = 0; i <= 4; i++ ) comboCompil->setItemText(13+i,QString::number(i+1)+": "+UserToolName[i]);
 	comboCompil->setCurrentIndex(runIndex);
 	}
 }
@@ -7904,21 +8021,25 @@ Sweave();
 		}break;
 	case 12:
 		{
-UserTool1();
+Xelatex();
 		}break;
 	case 13:
 		{
-UserTool2();
+UserTool1();
 		}break;
 	case 14:
 		{
-UserTool3();
+UserTool2();
 		}break;
 	case 15:
 		{
-UserTool4();
+UserTool3();
 		}break;
 	case 16:
+		{
+UserTool4();
+		}break;
+	case 17:
 		{
 UserTool5();
 		}break;
@@ -7967,7 +8088,7 @@ if (embedinternalpdf)
       StackedViewers->setCurrentWidget(pdfviewerWidget);
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
       pdfviewerWidget->getFocus();
       }
     else
@@ -7984,7 +8105,7 @@ if (embedinternalpdf)
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
       pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
       pdfviewerWidget->getFocus();
       }
     }
@@ -7997,7 +8118,7 @@ else
       pdfviewerWindow->show();
       qApp->setActiveWindow(pdfviewerWindow);
       pdfviewerWindow->setFocus();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
       }
     else
       {
@@ -8008,7 +8129,7 @@ else
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
       }  
     }
 }
@@ -8645,6 +8766,8 @@ void Texmaker::GeneralOptions()
 {
 ConfigDialog *confDlg = new ConfigDialog(this);
 
+confDlg->ui.lineEditXelatex->setText(xelatex_command);
+confDlg->ui.lineEditPath->setText(extra_path);
 confDlg->ui.lineEditLatex->setText(latex_command);
 confDlg->ui.lineEditPdflatex->setText(pdflatex_command);
 confDlg->ui.lineEditDvips->setText(dvips_command);
@@ -8697,6 +8820,7 @@ if (quickmode==6)  {confDlg->ui.radioButton6->setChecked(true); confDlg->ui.line
 if (quickmode==7)  {confDlg->ui.radioButton7->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 if (quickmode==8)  {confDlg->ui.radioButton8->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 if (quickmode==9)  {confDlg->ui.radioButton9->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
+if (quickmode==10)  {confDlg->ui.radioButton10->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 confDlg->ui.lineEditUserquick->setText(userquick_command);
 
 int row=0;
@@ -8805,8 +8929,11 @@ if (confDlg->exec())
 	if (confDlg->ui.radioButton7->isChecked()) quickmode=7;
 	if (confDlg->ui.radioButton8->isChecked()) quickmode=8;
 	if (confDlg->ui.radioButton9->isChecked()) quickmode=9;
+	if (confDlg->ui.radioButton10->isChecked()) quickmode=10;
 	userquick_command=confDlg->ui.lineEditUserquick->text();
 	
+	xelatex_command=confDlg->ui.lineEditXelatex->text();
+	extra_path=confDlg->ui.lineEditPath->text();
 	latex_command=confDlg->ui.lineEditLatex->text();
 	pdflatex_command=confDlg->ui.lineEditPdflatex->text();
 	dvips_command=confDlg->ui.lineEditDvips->text();
@@ -9431,11 +9558,13 @@ while ( iterator.hasNext() )
 		{
 		actionstext.insert(action->data().toString(),action->text());
 		d=action->data().toString().section("/",0,0);
+		action->setShortcut(QKeySequence(""));
 		for( its = shortcuts.begin(); its != shortcuts.end(); ++its )
 			{
 			f=its.key().section("/",0,0);
 			s=its.value();
-			if (f==d && s!="none" && !s.isEmpty()) action->setShortcut(QKeySequence(s));
+			if (f==d && s!="none" && !s.isEmpty()) 
+			{ action->setShortcut(QKeySequence(s));}
 			}
 // 		its=shortcuts.find(action->data().toString());
 // 		if (its!=shortcuts.end()) 
@@ -10323,6 +10452,7 @@ int b1, b2, b3, l, ob1, ob2, ob3, ol;
 bool ma, oma;
 bool fo=false;
 QDomElement element = root.firstChildElement();
+if (!singlemode) ToggleMode();
 while (!element.isNull()) 
   {
   b1=0;
@@ -10450,6 +10580,7 @@ int b1, b2, b3, l, ob1, ob2, ob3, ol;
 bool ma, oma;
 bool fo=false;
 QDomElement element = root.firstChildElement();
+if (!singlemode) ToggleMode();
 while (!element.isNull()) 
   {
   b1=0;

@@ -162,11 +162,11 @@ twoPagesModeAction->setChecked(false);
 viewMenu->addAction(twoPagesModeAction);
   
 rotateLeftAction = new QAction(tr("Rotate left"), this);
-rotateLeftAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Left));
+//rotateLeftAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Left));
 viewMenu->addAction(rotateLeftAction);
   
 rotateRightAction = new QAction(tr("Rotate right"), this);
-rotateRightAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Right));
+//rotateRightAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Right));
 viewMenu->addAction(rotateRightAction);
 
 presentationAction = new QAction(tr("Presentation..."), this);
@@ -1038,6 +1038,7 @@ pdfview->print(&printer);
   args << QString("-n %1").arg(printer.copyCount());
 //  args << QString("-t \"%1\"").arg(printer.docName());
   args << QString("-P %1-%2").arg(firstPage).arg(lastPage);
+  args << "-o fitplot";
   switch(printer.duplex()) 
       {
       case QPrinter::DuplexNone:
@@ -1052,9 +1053,18 @@ pdfview->print(&printer);
       default:
 	      break;
       }
+  switch(printer.orientation()) 
+      {
+      case QPrinter::Landscape:
+	      args << "-o landscape";
+	      break;
+      default:
+	      break;
+      }
   args << "--";
   args << QString("\"%1\"").arg(pdf_file);
   command=args.join(" ");
+  qDebug() << command;
   if(QProcess::execute(command) == 0) return;
   else pdfview->print(&printer);
 #endif
@@ -1214,6 +1224,7 @@ twoPagesModeAction->setChecked(twoPagesMode);
 void PdfViewerWidget::keyPressEvent ( QKeyEvent * e ) 
 {
 int qtKeyCode = e->key();
+
 if(e->modifiers() & Qt::ShiftModifier) {
 	qtKeyCode += Qt::SHIFT;
 }

@@ -1045,6 +1045,7 @@ pdfview->print(&printer);
   args << QString("-n %1").arg(printer.copyCount());
 //  args << QString("-t \"%1\"").arg(printer.docName());
   args << QString("-P %1-%2").arg(firstPage).arg(lastPage);
+  args << "-o fitplot";
   switch(printer.duplex()) 
       {
       case QPrinter::DuplexNone:
@@ -1055,6 +1056,14 @@ pdfview->print(&printer);
 	      break;
       case QPrinter::DuplexLongSide:
 	      args << "-o sides=two-sided-long-edge";
+	      break;
+      default:
+	      break;
+      }
+  switch(printer.orientation()) 
+      {
+      case QPrinter::Landscape:
+	      args << "-o landscape";
 	      break;
       default:
 	      break;

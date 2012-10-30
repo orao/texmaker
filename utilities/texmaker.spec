@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 3.5
+Version: 3.5.1
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -17,11 +17,7 @@ documents with LaTeX, in just one application.
 %setup 
 
 %build
-export QTDIR=/usr/lib/qt4
-PATH=$QTDIR/bin:$PATH
-LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
-export QTDIR PATH LD_LIBRARY_PATH
-qmake -unix texmaker.pro
+qmake texmaker.pro
 make INSTALL_ROOT=$RPM_BUILD_ROOT
 
 %install

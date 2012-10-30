@@ -341,6 +341,20 @@
           </item>
           <item row="0" column="0" colspan="3">
            <layout class="QGridLayout" name="gridLayout_13">
+            <item row="4" column="2">
+             <widget class="QPushButton" name="pushButtonXelatex">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="texmaker.qrc">
+                <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="lineEditXelatex"/>
+            </item>
             <item row="0" column="2">
              <widget class="QPushButton" name="pushButtonLatex">
               <property name="text">
@@ -411,6 +425,20 @@
               </property>
              </widget>
             </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>XeLaTeX</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="Line" name="line_11">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item row="1" column="0" rowspan="2" colspan="3">
@@ -419,6 +447,26 @@
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="Line" name="line_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0" colspan="3">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>308</width>
+              <height>156</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item row="3" column="0">
            <layout class="QGridLayout" name="gridLayout_14">
@@ -689,27 +737,24 @@
               </property>
              </widget>
             </item>
+            <item row="11" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>Add to PATH</string>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="1">
+             <widget class="QLineEdit" name="lineEditPath"/>
+            </item>
+            <item row="10" column="0" colspan="3">
+             <widget class="Line" name="line_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
            </layout>
-          </item>
-          <item row="3" column="1">
-           <widget class="Line" name="line_7">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" colspan="3">
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>308</width>
-              <height>156</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -791,6 +836,13 @@
              <widget class="QRadioButton" name="radioButton9">
               <property name="text">
                <string>LatexMk + View PDF</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton10">
+              <property name="text">
+               <string>XeLaTeX + View PDF</string>
               </property>
              </widget>
             </item>
@@ -1258,11 +1310,18 @@
   <tabstop>lineEditLatex</tabstop>
   <tabstop>pushButtonLatex</tabstop>
   <tabstop>lineEditPdflatex</tabstop>
+  <tabstop>pushButtonPdflatex</tabstop>
+  <tabstop>checkBoxTempBuild</tabstop>
+  <tabstop>lineEditXelatex</tabstop>
+  <tabstop>pushButtonXelatex</tabstop>
   <tabstop>lineEditLatexmk</tabstop>
   <tabstop>pushButtonLatexmk</tabstop>
   <tabstop>lineEditBibtex</tabstop>
+  <tabstop>pushButtonBibtex</tabstop>
   <tabstop>lineEditMakeindex</tabstop>
+  <tabstop>pushButtonMakeindex</tabstop>
   <tabstop>lineEditDvips</tabstop>
+  <tabstop>pushButtonDvips</tabstop>
   <tabstop>lineEditDvipdfm</tabstop>
   <tabstop>pushButtonDvipdfm</tabstop>
   <tabstop>lineEditPs2pdf</tabstop>
@@ -1275,9 +1334,17 @@
   <tabstop>pushButtonGhostscript</tabstop>
   <tabstop>lineEditSweave</tabstop>
   <tabstop>pushButtonSweave</tabstop>
+  <tabstop>lineEditPath</tabstop>
   <tabstop>lineEditDviviewer</tabstop>
+  <tabstop>pushButtonDviviewer</tabstop>
   <tabstop>lineEditPsviewer</tabstop>
+  <tabstop>pushButtonPsviewer</tabstop>
   <tabstop>radioButtonInternalPdfViewer</tabstop>
+  <tabstop>checkBoxInternalPdfViewEmbed</tabstop>
+  <tabstop>radioButtonExternalPdfViewer</tabstop>
+  <tabstop>lineEditPdfviewer</tabstop>
+  <tabstop>pushButtonPdfviewer</tabstop>
+  <tabstop>buttonBox</tabstop>
   <tabstop>radioButton1</tabstop>
   <tabstop>radioButton2</tabstop>
   <tabstop>radioButton3</tabstop>
@@ -1306,10 +1373,9 @@
   <tabstop>colortableWidget</tabstop>
   <tabstop>pushButtonDark</tabstop>
   <tabstop>pushButtonDefault</tabstop>
-  <tabstop>shorttableWidget</tabstop>
   <tabstop>pushButtonToggleFocus</tabstop>
-  <tabstop>buttonBox</tabstop>
   <tabstop>contentsWidget</tabstop>
+  <tabstop>shorttableWidget</tabstop>
  </tabstops>
  <resources>
   <include location="texmaker.qrc"/>

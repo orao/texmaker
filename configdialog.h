@@ -41,6 +41,7 @@ void browseMakeindex();
 void browseDviviewer();
 void browsePsviewer();
 void browsePdflatex();
+void browseXelatex();
 void browseDvipdfm();
 void browsePs2pdf();
 void browsePdfviewer();

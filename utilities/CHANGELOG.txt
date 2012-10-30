@@ -1,3 +1,18 @@
+version 3.5 -> 3.5.1 :
+-----------------------
+Bugs fixed :
+- The trouble with the cmd+right/left shortcut on macosx has been fixed (issue 759)
+- The bug about the customization of the keyboard shorcuts has been fixed (issue 783)
+- The master mode is deactivated before loading a session file (issue 793)
+- an empty beamer block is no more displayed in the structure view (issue 434)
+- the detection of an already opened file has been improved (issue 750)
+Features :
+- a wizard to export the current document to html, open document or mathml via TeX4ht has been added
+- in a command ## are now replaced by #, !! by !, %% by % and @@ by @. So the characters #, !, % and @ can now be used in a command (required, for example, by okular)
+- standard ouptut messages are now displayed for the bib(la)tex command
+- xelatex has been added to the standard commands (with a new "quick compilation" mode : xelatex + view pdf)
+- with a new option in the configuration dialog, a directory can be added to the system PATH (Qt>=4.6 is required)
+
 version 3.4.1 -> 3.5 :
 -----------------------
 Enhancements :

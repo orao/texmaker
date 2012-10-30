@@ -240,10 +240,13 @@ if ((tagStart!=-1) && ((tagComment==-1) || ((tagComment!=-1) && (tagStart<=tagCo
 	s=s.mid(tagStart+12,s.length());
 	if (s.startsWith("{")) s=s.remove(0,1);
 	if (s.endsWith("}")) s=s.remove(s.length()-1,1);
-	QTextCursor	cursor(doc);
-	cursor.setPosition(blockpos + offset+1);
-	newItem=StructItem(i,s,0,cursor);
-	found=true;
+	if (!s.isEmpty())
+	  {
+	  QTextCursor	cursor(doc);
+	  cursor.setPosition(blockpos + offset+1);
+	  newItem=StructItem(i,s,0,cursor);
+	  found=true;
+	  }
 	};
 }
 

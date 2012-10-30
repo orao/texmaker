@@ -5,7 +5,7 @@ QT += network \
       xml \
       webkit
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.5
+TEXMAKERVERSION=3.5.1
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -63,6 +63,7 @@ HEADERS	+= texmaker.h \
 	texdocdialog.h \
 	textblockselection.h \
 	scandialog.h \
+	exportdialog.h \
 	synctex_parser.h \
 	synctex_parser_utils.h \
 	usertagslistwidget.h \
@@ -167,6 +168,7 @@ SOURCES	+= main.cpp \
 	usercompletiondialog.cpp \
 	texdocdialog.cpp \
 	scandialog.cpp \
+	exportdialog.cpp \
 	synctex_parser.c \
 	synctex_parser_utils.c \
 	usertagslistwidget.cpp \
@@ -239,6 +241,7 @@ FORMS   += findwidget.ui\
 	encodingdialog.ui \
 	usercompletiondialog.ui \
 	texdocdialog.ui \
+	exportdialog.ui \
 	scandialog.ui \
 	addtagdialog.ui
 TRANSLATIONS += texmaker_fr.ts \
