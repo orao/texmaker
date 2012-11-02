@@ -9558,11 +9558,12 @@ while ( iterator.hasNext() )
 		{
 		actionstext.insert(action->data().toString(),action->text());
 		d=action->data().toString().section("/",0,0);
-		action->setShortcut(QKeySequence(""));
+		//action->setShortcut(QKeySequence(""));
 		for( its = shortcuts.begin(); its != shortcuts.end(); ++its )
 			{
 			f=its.key().section("/",0,0);
 			s=its.value();
+			if (f==d) action->setShortcut(QKeySequence(""));
 			if (f==d && s!="none" && !s.isEmpty()) 
 			{ action->setShortcut(QKeySequence(s));}
 			}

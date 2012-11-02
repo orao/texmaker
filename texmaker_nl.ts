@@ -292,6 +292,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="configdialog.ui" line="431"/>
+        <location filename="configdialog.cpp" line="611"/>
+        <source>XeLaTeX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="configdialog.ui" line="743"/>
         <source>Add to PATH</source>
         <translation type="unfinished"></translation>
@@ -2246,7 +2252,7 @@ worden met de standaard encoding instellingen</translation>
         <location filename="texmaker.cpp" line="2891"/>
         <location filename="texmaker.cpp" line="3034"/>
         <location filename="texmaker.cpp" line="3091"/>
-        <location filename="texmaker.cpp" line="10372"/>
+        <location filename="texmaker.cpp" line="10373"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
@@ -2601,7 +2607,7 @@ worden met de standaard encoding instellingen</translation>
         <translation type="obsolete">De door LaTeX aangemaakte output-bestanden verwijderen? (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9745"/>
+        <location filename="texmaker.cpp" line="9746"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>De instellingen voor het uiterlijk treden in werking na het herstarten van de Texmaker.</translation>
     </message>
@@ -2667,32 +2673,32 @@ worden met de standaard encoding instellingen</translation>
         <location filename="texmaker.cpp" line="8727"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10379"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10380"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Error</source>
         <translation>Fout</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2541"/>
         <location filename="texmaker.cpp" line="2739"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
         <source>You do not have read permission to this file.</source>
         <translation>U hebt geen leesrechten op dit bestand.</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2734"/>
         <location filename="texmaker.cpp" line="2793"/>
-        <location filename="texmaker.cpp" line="10424"/>
+        <location filename="texmaker.cpp" line="10425"/>
         <source>Open File</source>
         <translation>Bestand Openen</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="3061"/>
         <location filename="texmaker.cpp" line="3120"/>
-        <location filename="texmaker.cpp" line="10379"/>
+        <location filename="texmaker.cpp" line="10380"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>Onmogelijk om het bestand op te slaan. Controleer of u schrijfrechten hebt. </translation>
     </message>
@@ -2798,7 +2804,7 @@ worden met de standaard encoding instellingen</translation>
         <location filename="texmaker.cpp" line="8168"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Could not start the command.</source>
         <translation>Het commando kan niet uitgevoerd worden.</translation>
     </message>
@@ -2995,13 +3001,13 @@ worden met de standaard encoding instellingen</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9198"/>
-        <location filename="texmaker.cpp" line="10741"/>
+        <location filename="texmaker.cpp" line="10742"/>
         <source>Normal Mode (current master document :</source>
         <translation>Normale modus (huidig hoofddocument :</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9200"/>
-        <location filename="texmaker.cpp" line="10743"/>
+        <location filename="texmaker.cpp" line="10744"/>
         <source>Master Document :</source>
         <translation>Hoofddocument :</translation>
     </message>
@@ -3175,7 +3181,7 @@ worden met de standaard encoding instellingen</translation>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls)</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9737"/>
+        <location filename="texmaker.cpp" line="9738"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>Taalinstellingen worden toegepast na het herstarten van Texmaker.</translation>
     </message>

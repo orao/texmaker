@@ -293,9 +293,15 @@
         <translation>Použít pro výstupní soubory podadresář &quot;build&quot;</translation>
     </message>
     <message>
+        <location filename="configdialog.ui" line="431"/>
+        <location filename="configdialog.cpp" line="611"/>
+        <source>XeLaTeX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="configdialog.ui" line="743"/>
         <source>Add to PATH</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat do CESTY</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="781"/>
@@ -345,7 +351,7 @@
     <message>
         <location filename="configdialog.ui" line="845"/>
         <source>XeLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX + Zobrazit PDF</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="859"/>
@@ -574,57 +580,57 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="exportdialog.ui" line="14"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést přes TeX4ht</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="22"/>
         <source>Path to htlatex</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta k htlatex</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="45"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="51"/>
         <source>export to Html</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést do HTML</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="61"/>
         <source>export to Html (new page for each section)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést do HTML (nová strana pro každý oddíl)</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="68"/>
         <source>export to OpenDocumentFormat</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést do OpenDocumentFormat</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="75"/>
         <source>export to MathML</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést do MathML</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="82"/>
         <source>User</source>
-        <translation type="unfinished">Uživatel</translation>
+        <translation>Uživatel</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="91"/>
         <source>Options</source>
-        <translation type="unfinished">Volby</translation>
+        <translation>Volby</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="125"/>
         <source>Run</source>
-        <translation type="unfinished">Spustit</translation>
+        <translation>Spustit</translation>
     </message>
     <message>
         <location filename="exportdialog.cpp" line="48"/>
         <source>Browse program</source>
-        <translation type="unfinished"></translation>
+        <translation>Procházet kvůli programu</translation>
     </message>
 </context>
 <context>
@@ -1351,67 +1357,67 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="77"/>
         <source>unknown</source>
-        <translation type="unfinished">Neznámý</translation>
+        <translation>Neznámý</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="79"/>
         <source>Type 1</source>
-        <translation type="unfinished">Typ 1</translation>
+        <translation>Typ 1</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="81"/>
         <source>Type 1C</source>
-        <translation type="unfinished">Typ 1C</translation>
+        <translation>Typ 1C</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="83"/>
         <source>Type 3</source>
-        <translation type="unfinished">Typ 3</translation>
+        <translation>Typ 3</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="85"/>
         <source>TrueType</source>
-        <translation type="unfinished">TrueType</translation>
+        <translation>TrueType</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="87"/>
         <source>CID Type 0</source>
-        <translation type="unfinished">CID Typ 0</translation>
+        <translation>CID Typ 0</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="89"/>
         <source>CID Type 0C</source>
-        <translation type="unfinished">CID Typ 0C</translation>
+        <translation>CID Typ 0C</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="91"/>
         <source>CID TrueType</source>
-        <translation type="unfinished">CID TrueType</translation>
+        <translation>CID TrueType</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="93"/>
         <source>Type 1C (OpenType)</source>
-        <translation type="unfinished">Typ 1C (OpenType)</translation>
+        <translation>Typ 1C (OpenType)</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="95"/>
         <source>TrueType (OpenType)</source>
-        <translation type="unfinished">TrueType (OpenType)</translation>
+        <translation>TrueType (OpenType)</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="97"/>
         <source>CID Type 0C (OpenType)</source>
-        <translation type="unfinished">CID Typ 0C (OpenType)</translation>
+        <translation>CID Typ 0C (OpenType)</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="99"/>
         <source>CID TrueType (OpenType)</source>
-        <translation type="unfinished">CID TrueType (OpenType)</translation>
+        <translation>CID TrueType (OpenType)</translation>
     </message>
     <message>
         <location filename="texmaker_popplerqt4/poppler-fontinfo.cc" line="101"/>
         <source>Bug: unexpected font type. Notify poppler mailing list!</source>
-        <translation type="unfinished">Chyba: neočekávaný typ písma. Uvědomte poštovní seznam poppler!</translation>
+        <translation>Chyba: neočekávaný typ písma. Uvědomte poštovní seznam poppler!</translation>
     </message>
 </context>
 <context>
@@ -2197,7 +2203,7 @@ zakódování správně rozšifrovat</translation>
         <location filename="texmaker.cpp" line="2891"/>
         <location filename="texmaker.cpp" line="3034"/>
         <location filename="texmaker.cpp" line="3091"/>
-        <location filename="texmaker.cpp" line="10372"/>
+        <location filename="texmaker.cpp" line="10373"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
@@ -2406,7 +2412,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="texmaker.cpp" line="1186"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést přes TeX4ht</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="7605"/>
@@ -2767,25 +2773,25 @@ zakódování správně rozšifrovat</translation>
         <location filename="texmaker.cpp" line="8727"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10379"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10380"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2541"/>
         <location filename="texmaker.cpp" line="2739"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
         <source>You do not have read permission to this file.</source>
         <translation>Nemáte dostatečná oprávnění pro čtení tohoto souboru.</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2734"/>
         <location filename="texmaker.cpp" line="2793"/>
-        <location filename="texmaker.cpp" line="10424"/>
+        <location filename="texmaker.cpp" line="10425"/>
         <source>Open File</source>
         <translation>Otevřít soubor</translation>
     </message>
@@ -2799,7 +2805,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="texmaker.cpp" line="3061"/>
         <location filename="texmaker.cpp" line="3120"/>
-        <location filename="texmaker.cpp" line="10379"/>
+        <location filename="texmaker.cpp" line="10380"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>Soubor se nepodařilo uložit. Ověřte, prosím, zda máte oprávnění pro zápis.</translation>
     </message>
@@ -2927,7 +2933,7 @@ zakódování správně rozšifrovat</translation>
         <location filename="texmaker.cpp" line="8168"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Could not start the command.</source>
         <translation>Nepodařilo se spustit příkaz.</translation>
     </message>
@@ -3033,7 +3039,7 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="texmaker.cpp" line="7908"/>
         <source>XeLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTex</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="8202"/>
@@ -3060,23 +3066,23 @@ zakódování správně rozšifrovat</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9198"/>
-        <location filename="texmaker.cpp" line="10741"/>
+        <location filename="texmaker.cpp" line="10742"/>
         <source>Normal Mode (current master document :</source>
         <translation>Obvyklý režim (nynější hlavní soubor:</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9200"/>
-        <location filename="texmaker.cpp" line="10743"/>
+        <location filename="texmaker.cpp" line="10744"/>
         <source>Master Document :</source>
         <translation>Hlavní dokument:</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9737"/>
+        <location filename="texmaker.cpp" line="9738"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>Změna jazyka se projeví po restartu aplikace.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9745"/>
+        <location filename="texmaker.cpp" line="9746"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>Změna vzhledu se projeví po restartu aplikace.</translation>
     </message>

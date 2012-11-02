@@ -225,6 +225,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="configdialog.ui" line="431"/>
+        <location filename="configdialog.cpp" line="611"/>
+        <source>XeLaTeX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="configdialog.ui" line="743"/>
         <source>Add to PATH</source>
         <translation type="unfinished"></translation>
@@ -1939,7 +1945,7 @@ az alapértelmezett kódolási beállítással</translation>
         <location filename="texmaker.cpp" line="2891"/>
         <location filename="texmaker.cpp" line="3034"/>
         <location filename="texmaker.cpp" line="3091"/>
-        <location filename="texmaker.cpp" line="10372"/>
+        <location filename="texmaker.cpp" line="10373"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
@@ -2499,25 +2505,25 @@ az alapértelmezett kódolási beállítással</translation>
         <location filename="texmaker.cpp" line="8727"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10379"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10380"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Error</source>
         <translation>Hiba</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2541"/>
         <location filename="texmaker.cpp" line="2739"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
         <source>You do not have read permission to this file.</source>
         <translation>Nincs olvasási jogosultsága a fájlhoz.</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2734"/>
         <location filename="texmaker.cpp" line="2793"/>
-        <location filename="texmaker.cpp" line="10424"/>
+        <location filename="texmaker.cpp" line="10425"/>
         <source>Open File</source>
         <translation>Fájl megnyitása</translation>
     </message>
@@ -2555,7 +2561,7 @@ az alapértelmezett kódolási beállítással</translation>
     <message>
         <location filename="texmaker.cpp" line="3061"/>
         <location filename="texmaker.cpp" line="3120"/>
-        <location filename="texmaker.cpp" line="10379"/>
+        <location filename="texmaker.cpp" line="10380"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>A fájl nem menthető. Ellenőrizze, hogy rendelkezik-e írási jogosultsággal.</translation>
     </message>
@@ -2658,7 +2664,7 @@ az alapértelmezett kódolási beállítással</translation>
         <location filename="texmaker.cpp" line="8168"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Could not start the command.</source>
         <translation>A parancs nem futtatható.</translation>
     </message>
@@ -2773,23 +2779,23 @@ az alapértelmezett kódolási beállítással</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9198"/>
-        <location filename="texmaker.cpp" line="10741"/>
+        <location filename="texmaker.cpp" line="10742"/>
         <source>Normal Mode (current master document :</source>
         <translation>Normál mód (jelenlegi fődokumentum):</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9200"/>
-        <location filename="texmaker.cpp" line="10743"/>
+        <location filename="texmaker.cpp" line="10744"/>
         <source>Master Document :</source>
         <translation>Fődokumentum:</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9737"/>
+        <location filename="texmaker.cpp" line="9738"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>Az új nyelvi beállítás az alkalmazás újraindítása után lép életbe.</translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9745"/>
+        <location filename="texmaker.cpp" line="9746"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>Az új megjelenés az alkalmazás újraindítása után lép életbe.</translation>
     </message>

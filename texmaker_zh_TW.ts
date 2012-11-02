@@ -302,6 +302,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="configdialog.ui" line="431"/>
+        <location filename="configdialog.cpp" line="611"/>
+        <source>XeLaTeX</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="configdialog.ui" line="743"/>
         <source>Add to PATH</source>
         <translation type="unfinished"></translation>
@@ -2324,7 +2330,7 @@ with the default encoding setting</source>
         <location filename="texmaker.cpp" line="2891"/>
         <location filename="texmaker.cpp" line="3034"/>
         <location filename="texmaker.cpp" line="3091"/>
-        <location filename="texmaker.cpp" line="10372"/>
+        <location filename="texmaker.cpp" line="10373"/>
         <source>Save</source>
         <translation>儲存</translation>
     </message>
@@ -2660,12 +2666,12 @@ with the default encoding setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9737"/>
+        <location filename="texmaker.cpp" line="9738"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="texmaker.cpp" line="9745"/>
+        <location filename="texmaker.cpp" line="9746"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation></translation>
     </message>
@@ -2889,32 +2895,32 @@ with the default encoding setting</source>
         <location filename="texmaker.cpp" line="8727"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10379"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10380"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Error</source>
         <translation>錯誤</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2541"/>
         <location filename="texmaker.cpp" line="2739"/>
-        <location filename="texmaker.cpp" line="10434"/>
-        <location filename="texmaker.cpp" line="10562"/>
+        <location filename="texmaker.cpp" line="10435"/>
+        <location filename="texmaker.cpp" line="10563"/>
         <source>You do not have read permission to this file.</source>
         <translation>您沒有這個文件的讀取權限。</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="2734"/>
         <location filename="texmaker.cpp" line="2793"/>
-        <location filename="texmaker.cpp" line="10424"/>
+        <location filename="texmaker.cpp" line="10425"/>
         <source>Open File</source>
         <translation>開啟文件</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="3061"/>
         <location filename="texmaker.cpp" line="3120"/>
-        <location filename="texmaker.cpp" line="10379"/>
+        <location filename="texmaker.cpp" line="10380"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>這個文件不能夠被儲存。請檢查您是否有寫入權限。</translation>
     </message>
@@ -3123,7 +3129,7 @@ Do you want to overwrite it? </source>
         <location filename="texmaker.cpp" line="8168"/>
         <location filename="texmaker.cpp" line="8749"/>
         <location filename="texmaker.cpp" line="9192"/>
-        <location filename="texmaker.cpp" line="10732"/>
+        <location filename="texmaker.cpp" line="10733"/>
         <source>Could not start the command.</source>
         <translation>不能夠啟動命令。</translation>
     </message>
@@ -3155,13 +3161,13 @@ Do you want to overwrite it? </source>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9198"/>
-        <location filename="texmaker.cpp" line="10741"/>
+        <location filename="texmaker.cpp" line="10742"/>
         <source>Normal Mode (current master document :</source>
         <translation>正常模式(當前主文件)：</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9200"/>
-        <location filename="texmaker.cpp" line="10743"/>
+        <location filename="texmaker.cpp" line="10744"/>
         <source>Master Document :</source>
         <translation>主文件：</translation>
     </message>
