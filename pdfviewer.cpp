@@ -21,6 +21,13 @@
 #include <QDesktopServices>
 #include <QTextCodec>
 #include <QProgressDialog>
+#include <QHeaderView>
+#include <QScrollBar>
+#include <QMessageBox>
+#include <QApplication>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QDesktopWidget>
 
 
 #include "poppler-qt4.h"
@@ -28,11 +35,11 @@
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
 
-PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus,const QString SpellLang, const qreal startScale, QWidget* parent, Qt::WFlags flags)
-    : QMainWindow( parent, flags )
+PdfViewer::PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString lpopt,const QKeySequence edfocus,const QString SpellLang, const qreal startScale, QWidget* parent)
+    : QMainWindow( parent)
 {
 setWindowTitle("Texmaker : pdf preview");
-#ifdef Q_WS_MACX
+#if defined(Q_OS_MAC)
 setWindowIcon(QIcon(":/images/logo128.png"));
 #else
 setWindowIcon(QIcon(":/images/appicon.png"));
@@ -61,10 +68,11 @@ setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
 pdf_file=fileName;
 viewpdf_command=externalCommand;
 gswin32c_command=ghostscriptCommand;
-paper_size=psize;
+lp_options=lpopt;
 lastFile=fileName;
 lastPage=1;
 lastHpos=0;
+islastContinuous=true;
 lastScale=startScale;
 fileLoaded=false;
 currentPage=1;
@@ -105,7 +113,11 @@ StructureTreeView=new QTreeView(LeftPanelStackedWidget);
 StructureTreeView->header()->hide();
 StructureTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 StructureTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-StructureTreeView->header()->setResizeMode(QHeaderView::ResizeToContents);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+StructureTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#else
+StructureTreeView->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+#endif
 StructureTreeView->header()->setStretchLastSection(false);
 StructureTreeView->setIndentation(15);
 StructureTreeView->setModel(0);
@@ -241,8 +253,10 @@ toolBar->addSeparator();
 searchLineEdit = new QLineEdit(toolBar);
 toolBar->addWidget(searchLineEdit);
 
-findButton=new QPushButton(tr("Find"),toolBar);
-toolBar->addWidget(findButton);
+searchAct=new QAction(QIcon(":/images/pdffind.png"), tr("Find"), this);
+toolBar->addAction(searchAct);
+//findButton=new QPushButton(tr("Find"),toolBar);
+//toolBar->addWidget(findButton);
 
 
 toolBar->addSeparator();
@@ -260,7 +274,8 @@ checkerAct = new QAction(QIcon(":/images/pdfchecker.png"), tr("Check Spelling an
 toolBar->addAction(checkerAct);
 
 searchLineEdit->setEnabled(false);
-findButton->setEnabled(false);
+searchAct->setEnabled(false);
+//findButton->setEnabled(false);
 scaleComboBox->setEnabled(false);
 upAct->setEnabled(false);
 downAct->setEnabled(false);
@@ -332,7 +347,8 @@ if (pdfview->open(fn))
   doc->setRenderHint(Poppler::Document::TextAntialiasing);
   searchLocation = QRectF();
   searchLineEdit->setEnabled(true);
-  findButton->setEnabled(true);
+  searchAct->setEnabled(true);
+  //findButton->setEnabled(true);
   scaleComboBox->setEnabled(true);
   upAct->setEnabled(false);
   downAct->setEnabled(true);
@@ -340,13 +356,13 @@ if (pdfview->open(fn))
   fitPageAct->setEnabled(true);
   zoominAct->setEnabled(true);
   zoomoutAct->setEnabled(true);
-  continuousModeAction->setEnabled(true);
+  continuousModeAction->setEnabled(true);//
   twoPagesModeAction->setEnabled(true);
   rotateLeftAction->setEnabled(true);
   rotateRightAction->setEnabled(true);
   presentationAction->setEnabled(true);
-  
-  pdfview->setContinousMode(true);
+  continuousModeAction->setChecked(islastContinuous);//
+  pdfview->setContinousMode(islastContinuous);
   pdfview->setTwoPagesMode(false);
   pdfview->show();
   
@@ -402,7 +418,8 @@ else
   QMessageBox::warning( this,tr("Error"),tr("File not found"));
   fileLoaded=false;
   searchLineEdit->setEnabled(false);
-  findButton->setEnabled(false);
+  searchAct->setEnabled(false);
+  //findButton->setEnabled(false);
   scaleComboBox->setEnabled(false);
   upAct->setEnabled(false);
   downAct->setEnabled(false);
@@ -438,7 +455,8 @@ connect(zoomoutAct, SIGNAL(triggered()), this, SLOT(zoomOut()));
 connect(zoomCustom, SIGNAL(returnPressed()),this, SLOT(userZoom()));
 connect(scaleComboBox, SIGNAL(currentIndexChanged(QString)),this, SLOT(scaleDocumentZoom(QString)));
 connect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(searchDocument()));
-connect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
+connect(searchAct, SIGNAL(triggered()), this, SLOT(searchDocument()));
+//connect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
 connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
@@ -477,7 +495,8 @@ disconnect(zoomoutAct, SIGNAL(triggered()), this, SLOT(zoomOut()));
 disconnect(zoomCustom, SIGNAL(returnPressed()),this, SLOT(userZoom()));
 disconnect(scaleComboBox, SIGNAL(currentIndexChanged(QString)),this, SLOT(scaleDocumentZoom(QString)));
 disconnect(searchLineEdit, SIGNAL(returnPressed()), this, SLOT(searchDocument()));
-disconnect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
+disconnect(searchAct, SIGNAL(triggered()), this, SLOT(searchDocument()));
+//disconnect(findButton, SIGNAL(clicked()), this, SLOT(searchDocument()));
 disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 disconnect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
@@ -911,17 +930,17 @@ prefixFile=QString(QUrl::toPercentEncoding(prefixFile));
 prefixFile.remove("%");
 QString tempFile=tempDir+"/"+prefixFile+".html";
 QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #ifdef USB_VERSION
 QString atdloc=QCoreApplication::applicationDirPath()+"/";
 #else
 QString atdloc=PREFIX"/share/texmaker/";
 #endif
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QString atdloc=QCoreApplication::applicationDirPath() + "/../Resources/";
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QString atdloc=QCoreApplication::applicationDirPath() + "/";
 #endif
 QString pdf_text=doc->page(currentPage-1)->text(QRectF(),Poppler::Page::PhysicalLayout);
@@ -1034,18 +1053,22 @@ switch(printDlg.printRange())
 	  lastPage = doc->numPages();
   }
 
-if(!printer.printerName().isEmpty()) 
-  {
-#ifdef Q_WS_WIN
+//if(!printer.printerName().isEmpty()) 
+//  {
+#if defined(Q_OS_WIN32)
 pdfview->print(&printer);
 #else
   QStringList args;
   args << "lp";
+  if(!printer.printerName().isEmpty()) 
+  {
   if (!printer.printerName().contains(" ")) args << QString("-d %1").arg(printer.printerName());//.replace(" ","_"));
+  }
   args << QString("-n %1").arg(printer.copyCount());
 //  args << QString("-t \"%1\"").arg(printer.docName());
   args << QString("-P %1-%2").arg(firstPage).arg(lastPage);
-  args << "-o fitplot";
+  args << lp_options;
+//  args << "-o fitplot";
   switch(printer.duplex()) 
       {
       case QPrinter::DuplexNone:
@@ -1074,10 +1097,8 @@ pdfview->print(&printer);
   if(QProcess::execute(command) == 0) return;
   else pdfview->print(&printer);
 #endif
-  }
-else return;
-
-
+//  }
+//else return;
 }
 
 void PdfViewer::slotItemClicked(QListWidgetItem* item)
@@ -1254,6 +1275,7 @@ pdfview->presentation();
 void PdfViewer::on_currentTab_continuousModeChanged(bool continuousMode)
 {
 continuousModeAction->setChecked(continuousMode);
+islastContinuous=continuousMode;
 }
 
 void PdfViewer::on_currentTab_twoPagesModeChanged(bool twoPagesMode)

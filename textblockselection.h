@@ -129,18 +129,10 @@ public:
       {
       firstBlock = selection;
       firstBlock.setPosition(selection.selectionStart());
-#if (QT_VERSION >= 0x040700)
-firstVisualColumn = columnAt(firstBlock.block().text(), firstBlock.positionInBlock());
-#else
-firstVisualColumn = columnAt(firstBlock.block().text(),firstBlock.position() - firstBlock.block().position());
-#endif
+      firstVisualColumn = columnAt(firstBlock.block().text(), firstBlock.positionInBlock());
       lastBlock = selection;
       lastBlock.setPosition(selection.selectionEnd());
-#if (QT_VERSION >= 0x040700)
-lastVisualColumn = columnAt(lastBlock.block().text(), lastBlock.positionInBlock());
-#else
-lastVisualColumn = columnAt(lastBlock.block().text(), lastBlock.position() - lastBlock.block().position());
-#endif
+      lastVisualColumn = columnAt(lastBlock.block().text(), lastBlock.positionInBlock());
       if (selection.anchor() > selection.position())
 	  anchor = TopLeft;
       else

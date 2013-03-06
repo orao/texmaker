@@ -9,6 +9,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QtGui>
+#include <QFileDialog>
 #include "scandialog.h"
 
 

@@ -48,7 +48,7 @@ ui.comboBoxEncoding->insertItem(16, "cp1252" );
 ui.comboBoxEncoding->insertItem(17, "cp1250" );
 ui.comboBoxEncoding->insertItem(18, "NONE" );
 
-ui.checkBox->setChecked( TRUE );
+ui.checkBox->setChecked( true );
 setWindowTitle(tr("Quick Letter"));
 }
 

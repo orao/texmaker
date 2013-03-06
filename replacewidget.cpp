@@ -26,7 +26,7 @@ ui.closeButton->setToolTip("Escape");
 ui.moreButton->setCheckable(true);
 ui.moreButton->setAutoDefault(false);
 connect(ui.moreButton, SIGNAL(toggled(bool)), this, SLOT(expand(bool)));
-ui.checkRegExp->setChecked( FALSE );
+ui.checkRegExp->setChecked( true );
 ui.extension->hide();
 updateGeometry();
 }
@@ -57,17 +57,17 @@ while (go && editor->search( ui.comboFind->currentText(), ui.checkCase->isChecke
          {
          case 0:
          editor->replace(ui.comboReplace->currentText(),ui.checkRegExp->isChecked(),ui.comboFind->currentText() );
-         ui.checkBegin->setChecked( FALSE );
+         ui.checkBegin->setChecked( false );
     	   break;
          case 1:
-         ui.checkBegin->setChecked( FALSE );
+         ui.checkBegin->setChecked( false );
     	   break;
          case 2:
          go=false;
     	   break;
          }
        }
-if (go) ui.checkBegin->setChecked( TRUE );
+if (go) ui.checkBegin->setChecked( true );
 }
 
 void ReplaceWidget::doReplaceAll()
@@ -86,9 +86,9 @@ while ( editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),
 ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked(),ui.checkRegExp->isChecked()) )
     {
     editor->replace(ui.comboReplace->currentText(),ui.checkRegExp->isChecked(),ui.comboFind->currentText() );
-    ui.checkBegin->setChecked( FALSE );
+    ui.checkBegin->setChecked( false );
     }
-ui.checkBegin->setChecked( TRUE );
+ui.checkBegin->setChecked( true );
 }
 
 void ReplaceWidget::SetEditor(LatexEditor *ed)
@@ -109,7 +109,7 @@ if ( editor )
 void ReplaceWidget::expand(bool e)
 {
  ui.extension->setVisible(e);
- if (!e) ui.checkRegExp->setChecked( FALSE );
+ if (!e) ui.checkRegExp->setChecked( false );
  updateGeometry();
  emit requestExtension();
  editor->viewport()->repaint();

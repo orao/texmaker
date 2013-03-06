@@ -18,6 +18,7 @@
 #include <QStackedWidget>
 #include <QToolBar>
 #include <QLabel>
+#include <QSplitter>
 #include "lightlatexeditor.h"
 #include "lightlinenumberwidget.h"
 #include "lightfindwidget.h"

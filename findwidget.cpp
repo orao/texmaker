@@ -25,7 +25,7 @@ ui.closeButton->setToolTip("Escape");
 ui.moreButton->setCheckable(true);
 ui.moreButton->setAutoDefault(false);
 connect(ui.moreButton, SIGNAL(toggled(bool)), this, SLOT(expand(bool)));
-ui.checkRegExp->setChecked( FALSE );
+ui.checkRegExp->setChecked( false );
 ui.extension->hide();
 updateGeometry();
  }
@@ -49,9 +49,9 @@ if (ui.checkRegExp->isChecked())
   }
 if ( !editor->search( ui.comboFind->currentText(), ui.checkCase->isChecked(),	ui.checkWords->isChecked(), ui.radioForward->isChecked(), !ui.checkBegin->isChecked(), ui.checkRegExp->isChecked()) )
    {
-   ui.checkBegin->setChecked( TRUE );
+   ui.checkBegin->setChecked( true );
    }
-else ui.checkBegin->setChecked( FALSE );
+else ui.checkBegin->setChecked( false );
 editor->viewport()->repaint();
 }
 
@@ -73,7 +73,7 @@ editor=ed;
 void FindWidget::expand(bool e)
 {
  ui.extension->setVisible(e);
- if (!e) ui.checkRegExp->setChecked( FALSE );
+ if (!e) ui.checkRegExp->setChecked( true );
  updateGeometry();
  emit requestExtension();
  editor->viewport()->repaint();

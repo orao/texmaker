@@ -16,6 +16,7 @@
 #include <qfont.h>
 #include <qcolor.h>
 #include <QStackedWidget>
+#include <QSplitter>
 #include "latexeditor.h"
 #include "linenumberwidget.h"
 #include "findwidget.h"

@@ -12,6 +12,9 @@
 #include <QtGui>
 #include <QAbstractItemModel>
 #include <QPainter>
+#include <QApplication>
+#include <QPixmap>
+#include <QByteArray>
 #include "icondelegate.h"
 
 static const int textMargin = 2;
@@ -286,10 +289,26 @@ QPixmap IconDelegate::decoration(const QStyleOptionViewItem &option, const QVari
   \internal
 */
 
+static QString qPixmapSerial(quint64 i, bool enabled)
+{
+    ushort arr[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '-', ushort('0' + enabled) };
+    ushort *ptr = &arr[16];
+
+    while (i > 0) {
+        // hey - it's our internal representation, so use the ascii character after '9'
+        // instead of 'a' for hex
+        *(--ptr) = '0' + i % 16;
+        i >>= 4;
+    }
+
+    return QString((const QChar *)ptr, int(&arr[sizeof(arr) / sizeof(ushort)] - ptr));
+}
+
 QPixmap *IconDelegate::selected(const QPixmap &pixmap, const QPalette &palette, bool enabled) const
 {
-    QString key;
-    key.sprintf("%d-%d", pixmap.serialNumber(), enabled);
+    //QString key;
+    //key.sprintf("%d-%d", pixmap.serialNumber(), enabled);
+    QString key = qPixmapSerial(pixmap.cacheKey(), enabled);
     QPixmap *pm = QPixmapCache::find(key);
     if (!pm) {
         QImage img = pixmap.toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);

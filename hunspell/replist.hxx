@@ -2,7 +2,7 @@
 #ifndef _REPLIST_HXX_
 #define _REPLIST_HXX_
 #include "w_char.hxx"
-
+#undef near
 class RepList
 {
 protected:

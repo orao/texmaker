@@ -37,6 +37,7 @@
 #include <QToolBar>
 #include <QStack>
 #include <QKeySequence>
+#include <QSplitter>
 
 #include "documentview.h"
 #include "synctex_parser.h"
@@ -49,7 +50,7 @@ class PdfViewerWidget : public QWidget
 {
     Q_OBJECT
 public:
-    PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, const QString SpellLang, const qreal startScale, QWidget* parent = 0);
+    PdfViewerWidget( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString lpopt,const QKeySequence edfocus, const QString SpellLang, const qreal startScale, QWidget* parent = 0);
     ~PdfViewerWidget();
     QString pdf_file;
     QToolBar *centralToolBarBis;
@@ -68,7 +69,7 @@ QTreeView *StructureTreeView;
 
 DocumentView* pdfview;
 Poppler::Document *doc;
-QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *printAct, *externAct, *historyForwardAct, *toggleStructAct, *checkerAct;
+QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *printAct, *externAct, *historyForwardAct, *toggleStructAct, *checkerAct, *searchAct;
 QAction *continuousModeAction, *twoPagesModeAction, *rotateLeftAction, *rotateRightAction, *presentationAction;
 QHBoxLayout *CentralLayout;
 QVBoxLayout *CentralLayoutBis;
@@ -77,8 +78,8 @@ QListWidget *listpagesWidget;
 QToolButton *optionsButton;
 QComboBox *scaleComboBox;
 QLineEdit *searchLineEdit;
-QPushButton *findButton;
-QString viewpdf_command, gswin32c_command, paper_size, spell_lang;
+//QPushButton *findButton;
+QString viewpdf_command, gswin32c_command, lp_options, spell_lang;
 int currentPage;
 qreal currentScale, lastScale, previousScale;
 bool fileLoaded;
@@ -94,6 +95,7 @@ QStack<int> stack;
 QStack<int> forwardStack;
 bool showingStructure;
 int lastHpos;
+bool islastContinuous;
 QPointer<Browser> browserWindow;
 
 private slots:

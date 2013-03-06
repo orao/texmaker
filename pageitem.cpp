@@ -22,7 +22,13 @@ modified by Pascal Brachet
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <QAction>
-
+#include <QGraphicsSceneContextMenuEvent>
+#include <QGraphicsSceneHoverEvent>
+#include <QApplication>
+#include <QToolTip>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtConcurrent>
+#endif
 #include "pageitem.h"
 
 QCache< PageItem*, QImage > PageItem::s_cache(32 * 1024 * 1024);
@@ -148,7 +154,7 @@ void PageItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
 if (m_page == 0) return;
 QMenu menu;
-#ifdef Q_WS_MACX
+#if defined(Q_OS_MAC)
 QAction *act = menu.addAction(tr("Click to jump to the line")+" (cmd+click)");
 #else
 QAction *act = menu.addAction(tr("Click to jump to the line")+" (ctrl+click)");

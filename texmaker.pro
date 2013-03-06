@@ -1,11 +1,13 @@
 TEMPLATE	= app
 LANGUAGE	= C++
 TARGET	 = texmaker
-QT += network \
-      xml \
-      webkit
+## QT4
+QT += xml webkit network
+## QT5
+#QT += xml webkitwidgets network widgets printsupport concurrent
+
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=3.5.2
+TEXMAKERVERSION=4.0
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################

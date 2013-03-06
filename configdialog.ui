@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>950</width>
-    <height>670</height>
+    <width>991</width>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,30 +54,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <layout class="QHBoxLayout">
-     <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>407</width>
-         <height>31</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="0" column="1">
     <widget class="QStackedWidget" name="pagesWidget">
      <property name="sizePolicy">
@@ -96,7 +72,7 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="pt">
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="gridLayout_17">
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
@@ -108,236 +84,212 @@
          <property name="title">
           <string>Commands (% : filename without extension - @ : line number)</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_18">
+         <layout class="QGridLayout" name="gridLayout_16">
           <item row="3" column="2">
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
+           <widget class="QFrame" name="frame_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <item>
-             <widget class="QFrame" name="frame">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_15">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_11">
-                 <item row="0" column="0" colspan="2">
-                  <widget class="QLabel" name="labelDviview">
-                   <property name="font">
-                    <font>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Dvi Viewer</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLineEdit" name="lineEditDviviewer">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QPushButton" name="pushButtonDviviewer">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="texmaker.qrc">
-                     <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>16</width>
-                     <height>16</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_12">
+               <item row="0" column="0" colspan="2">
+                <widget class="QLabel" name="labelPsview">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>PS Viewer</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLineEdit" name="lineEditPsviewer">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QPushButton" name="pushButtonPsviewer">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="texmaker.qrc">
+                   <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                </widget>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_2">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_16">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_12">
-                 <item row="0" column="0" colspan="2">
-                  <widget class="QLabel" name="labelPsview">
-                   <property name="font">
-                    <font>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>PS Viewer</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLineEdit" name="lineEditPsviewer">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QPushButton" name="pushButtonPsviewer">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="texmaker.qrc">
-                     <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>16</width>
-                     <height>16</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QFrame" name="frame_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_15">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_2">
+               <item row="0" column="0" colspan="3">
+                <widget class="QLabel" name="labelPdfview">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Pdf Viewer</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="2">
+                <widget class="QRadioButton" name="radioButtonInternalPdfViewer">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Built-in Viewer</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" colspan="3">
+                <widget class="Line" name="line_12">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0" colspan="2">
+                <widget class="QRadioButton" name="radioButtonExternalPdfViewer">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>External Viewer</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0" colspan="2">
+                <widget class="QLineEdit" name="lineEditPdfviewer">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2">
+                <widget class="QPushButton" name="pushButtonPdfviewer">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="texmaker.qrc">
+                   <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>lp options for the printer</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="1">
+                <widget class="QLineEdit" name="lineEditPrinter">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1" colspan="2">
+                <widget class="Line" name="line_14">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" colspan="2">
+                <widget class="QCheckBox" name="checkBoxInternalPdfViewEmbed">
+                 <property name="text">
+                  <string>Embed</string>
+                 </property>
+                </widget>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_3">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_17">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_2">
-                 <item row="3" column="0">
-                  <widget class="Line" name="line_12">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0" colspan="3">
-                  <widget class="QCheckBox" name="checkBoxInternalPdfViewEmbed">
-                   <property name="text">
-                    <string>Embed</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0" colspan="3">
-                  <widget class="QLabel" name="labelPdfview">
-                   <property name="font">
-                    <font>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Pdf Viewer</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QRadioButton" name="radioButtonExternalPdfViewer">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>External Viewer</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLineEdit" name="lineEditPdfviewer">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0" colspan="3">
-                  <widget class="QRadioButton" name="radioButtonInternalPdfViewer">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>Built-in Viewer</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="2">
-                  <widget class="QPushButton" name="pushButtonPdfviewer">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="texmaker.qrc">
-                     <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>16</width>
-                     <height>16</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
+             </item>
+            </layout>
+           </widget>
           </item>
           <item row="0" column="0" colspan="3">
            <layout class="QGridLayout" name="gridLayout_13">
@@ -441,38 +393,45 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="0" rowspan="2" colspan="3">
+          <item row="1" column="0" colspan="3">
            <widget class="Line" name="line_4">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="Line" name="line_7">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" colspan="3">
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>308</width>
-              <height>156</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="3" column="0">
+          <item row="2" column="0" rowspan="3">
            <layout class="QGridLayout" name="gridLayout_14">
             <property name="sizeConstraint">
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
+            <item row="5" column="2">
+             <widget class="QPushButton" name="pushButtonPs2pdf">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="texmaker.qrc">
+                <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="labelMetapost">
+              <property name="text">
+               <string>metapost</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="lineEditGhostscript"/>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="labelLatexmk">
               <property name="text">
@@ -481,7 +440,14 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEditLatexmk"/>
+             <widget class="QLineEdit" name="lineEditLatexmk">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="0" column="2">
              <widget class="QPushButton" name="pushButtonLatexmk">
@@ -499,6 +465,9 @@
                </size>
               </property>
              </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="lineEditSweave"/>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="labelBibtex">
@@ -557,37 +526,13 @@
               </property>
              </widget>
             </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="lineEditPs2pdf"/>
+            </item>
             <item row="5" column="0">
              <widget class="QLabel" name="labelPs2pdf">
               <property name="text">
                <string>ps2pdf</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="lineEditPs2pdf"/>
-            </item>
-            <item row="5" column="2">
-             <widget class="QPushButton" name="pushButtonPs2pdf">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="texmaker.qrc">
-                <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>16</width>
-                <height>16</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="labelMetapost">
-              <property name="text">
-               <string>metapost</string>
               </property>
              </widget>
             </item>
@@ -621,23 +566,6 @@
             <item row="7" column="1">
              <widget class="QLineEdit" name="lineEditAsymptote"/>
             </item>
-            <item row="7" column="2">
-             <widget class="QPushButton" name="pushButtonAsymptote">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="texmaker.qrc">
-                <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>16</width>
-                <height>16</height>
-               </size>
-              </property>
-             </widget>
-            </item>
             <item row="8" column="0">
              <widget class="QLabel" name="labelGhostscript">
               <property name="text">
@@ -645,11 +573,8 @@
               </property>
              </widget>
             </item>
-            <item row="8" column="1">
-             <widget class="QLineEdit" name="lineEditGhostscript"/>
-            </item>
-            <item row="8" column="2">
-             <widget class="QPushButton" name="pushButtonGhostscript">
+            <item row="7" column="2">
+             <widget class="QPushButton" name="pushButtonAsymptote">
               <property name="text">
                <string/>
               </property>
@@ -672,8 +597,22 @@
               </property>
              </widget>
             </item>
-            <item row="9" column="1">
-             <widget class="QLineEdit" name="lineEditSweave"/>
+            <item row="8" column="2">
+             <widget class="QPushButton" name="pushButtonGhostscript">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="texmaker.qrc">
+                <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="9" column="2">
              <widget class="QPushButton" name="pushButtonSweave">
@@ -737,15 +676,15 @@
               </property>
              </widget>
             </item>
+            <item row="11" column="1">
+             <widget class="QLineEdit" name="lineEditPath"/>
+            </item>
             <item row="11" column="0">
              <widget class="QLabel" name="label_4">
               <property name="text">
                <string>Add to PATH</string>
               </property>
              </widget>
-            </item>
-            <item row="11" column="1">
-             <widget class="QLineEdit" name="lineEditPath"/>
             </item>
             <item row="10" column="0" colspan="3">
              <widget class="Line" name="line_8">
@@ -756,13 +695,98 @@
             </item>
            </layout>
           </item>
+          <item row="2" column="1" rowspan="3">
+           <widget class="Line" name="line_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QFrame" name="frame">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_11">
+               <item row="0" column="0" colspan="2">
+                <widget class="QLabel" name="labelDviview">
+                 <property name="font">
+                  <font>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Dvi Viewer</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLineEdit" name="lineEditDviviewer">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QPushButton" name="pushButtonDviviewer">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="texmaker.qrc">
+                   <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="5" column="0" colspan="3">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="pq">
-      <layout class="QGridLayout" name="gridLayout_4">
+      <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="sizePolicy">
@@ -780,8 +804,8 @@
          <property name="title">
           <string>Quick Build Command</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
              <widget class="QRadioButton" name="radioButton1">
@@ -862,39 +886,7 @@
             </item>
            </layout>
           </item>
-          <item row="4" column="0">
-           <widget class="QCheckBox" name="checkBoxSingleInstanceViewer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>570</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="baseSize">
-             <size>
-              <width>600</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Don't launch a new instance of the viewer if the dvi/ps/pdf file is already opened</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>(the commands must be separated by '|')</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <widget class="QLineEdit" name="lineEditUserquick">
@@ -919,10 +911,74 @@
             </item>
            </layout>
           </item>
-          <item row="3" column="0">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>(the commands must be separated by '|')</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="Line" name="line_10">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>For .asy files</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditAsyQuick"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonAsyWizard">
+              <property name="text">
+               <string>wizard</string>
+              </property>
+              <property name="icon">
+               <iconset resource="texmaker.qrc">
+                <normaloff>:/images/help.png</normaloff>:/images/help.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line_13">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxSingleInstanceViewer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>570</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>600</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Don't launch a new instance of the viewer if the dvi/ps/pdf file is already opened</string>
             </property>
            </widget>
           </item>
@@ -1304,6 +1360,30 @@
      </widget>
     </widget>
    </item>
+   <item row="1" column="1">
+    <layout class="QHBoxLayout">
+     <item>
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>407</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <tabstops>
@@ -1344,10 +1424,8 @@
   <tabstop>radioButtonExternalPdfViewer</tabstop>
   <tabstop>lineEditPdfviewer</tabstop>
   <tabstop>pushButtonPdfviewer</tabstop>
+  <tabstop>lineEditPrinter</tabstop>
   <tabstop>buttonBox</tabstop>
-  <tabstop>radioButton1</tabstop>
-  <tabstop>radioButton2</tabstop>
-  <tabstop>radioButton3</tabstop>
   <tabstop>radioButton4</tabstop>
   <tabstop>radioButton5</tabstop>
   <tabstop>radioButton7</tabstop>
@@ -1376,6 +1454,12 @@
   <tabstop>pushButtonToggleFocus</tabstop>
   <tabstop>contentsWidget</tabstop>
   <tabstop>shorttableWidget</tabstop>
+  <tabstop>radioButton1</tabstop>
+  <tabstop>radioButton3</tabstop>
+  <tabstop>radioButton2</tabstop>
+  <tabstop>radioButton10</tabstop>
+  <tabstop>lineEditAsyQuick</tabstop>
+  <tabstop>pushButtonAsyWizard</tabstop>
  </tabstops>
  <resources>
   <include location="texmaker.qrc"/>

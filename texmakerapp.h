@@ -12,9 +12,10 @@
 #ifndef TEXMAKERAPP_H
 #define TEXMAKERAPP_H
 
-#include "singleapp/qtsingleapplication.h"
+
 #include <QTranslator>
 #include "texmaker.h"
+#include "singleapp/qtsingleapplication.h"
 
 class TexmakerApp : public QtSingleApplication
 {
@@ -31,7 +32,7 @@ public:
     QString language;
 private:
     static TexmakerApp *theAppInstance;
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
     QString MacFile;
 protected:
     bool event(QEvent *event);

@@ -52,6 +52,7 @@ void browseLatexmk();
 void configureShortCut(QTableWidgetItem *item);
 void configureKeyToggle();
 void userQuickWizard();
+void asyQuickWizard();
 void restoreColors();
 void darkColors();
 private :

@@ -133,12 +133,17 @@ connect( ui.pushButtonAsymptote, SIGNAL(clicked()), this, SLOT(browseAsymptote()
 connect( ui.pushButtonLatexmk, SIGNAL(clicked()), this, SLOT(browseLatexmk()));
 
 connect( ui.pushButtonWizard, SIGNAL(clicked()), this, SLOT(userQuickWizard()));
+connect( ui.pushButtonAsyWizard, SIGNAL(clicked()), this, SLOT(asyQuickWizard()));
 
 connect(ui.shorttableWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(configureShortCut(QTableWidgetItem*)));
 connect(ui.pushButtonToggleFocus, SIGNAL(clicked()), this, SLOT(configureKeyToggle()));
 
 createIcons();
 ui.contentsWidget->setCurrentRow(0);
+
+#if defined(Q_OS_WIN32)
+ui.lineEditPrinter->setEnabled(false);
+#endif
 
 }
 
@@ -205,7 +210,7 @@ void ConfigDialog::changePage(QListWidgetItem *current, QListWidgetItem *previou
 //pageditor
 void ConfigDialog::browseAspell()
 {
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 
 #ifdef USB_VERSION
 QDir spelldir(QCoreApplication::applicationDirPath());
@@ -218,10 +223,10 @@ QDir spelldir(PREFIX"/share/texmaker");
 #endif
 
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QDir spelldir(QCoreApplication::applicationDirPath() + "/../Resources");
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QDir spelldir(QCoreApplication::applicationDirPath());
 #endif
 QString location=QFileDialog::getOpenFileName(this,tr("Browse dictionary"),spelldir.absolutePath(),"Dictionary (*.dic)",0,QFileDialog::DontResolveSymlinks);
@@ -615,6 +620,66 @@ userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
 if ( userquickdlg->exec() )
    {
    ui.lineEditUserquick->setText(userquickdlg->userQuickCommand);
+   }
+delete (userquickdlg);
+}
+
+void ConfigDialog::asyQuickWizard()
+{
+QStringList usualNames, usualCommands;
+
+usualNames.append(tr("LaTeX"));
+usualCommands.append(ui.lineEditLatex->text());
+
+usualNames.append(tr("PdfLaTeX"));
+usualCommands.append(ui.lineEditPdflatex->text());
+
+usualNames.append(tr("dvips"));
+usualCommands.append(ui.lineEditDvips->text());
+
+usualNames.append(tr("Dvi Viewer"));
+usualCommands.append(ui.lineEditDviviewer->text());
+
+usualNames.append(tr("PS Viewer"));
+usualCommands.append(ui.lineEditPsviewer->text());
+
+usualNames.append(tr("Dvipdfm"));
+usualCommands.append(ui.lineEditDvipdfm->text());
+
+usualNames.append(tr("ps2pdf"));
+usualCommands.append(ui.lineEditPs2pdf->text());
+
+usualNames.append(tr("Bibtex"));
+usualCommands.append(ui.lineEditBibtex->text());
+
+usualNames.append(tr("Makeindex"));
+usualCommands.append(ui.lineEditMakeindex->text());
+
+usualNames.append(tr("Pdf Viewer"));
+usualCommands.append(ui.lineEditPdfviewer->text());
+
+usualNames.append(tr("metapost"));
+usualCommands.append(ui.lineEditMetapost->text());
+
+usualNames.append(tr("ghostscript"));
+usualCommands.append(ui.lineEditGhostscript->text());
+
+usualNames.append(tr("Asymptote"));
+usualCommands.append(ui.lineEditAsymptote->text());
+
+usualNames.append(tr("Latexmk"));
+usualCommands.append(ui.lineEditLatexmk->text());
+
+usualNames.append(tr("R Sweave"));
+usualCommands.append(ui.lineEditSweave->text());
+
+usualNames.append(tr("XeLaTeX"));
+usualCommands.append(ui.lineEditXelatex->text());
+
+userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
+if ( userquickdlg->exec() )
+   {
+   ui.lineEditAsyQuick->setText(userquickdlg->userQuickCommand);
    }
 delete (userquickdlg);
 }

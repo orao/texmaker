@@ -1,6 +1,6 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
- *   addons by Luis Silvestre ; S. Razi Alavizadeh          *
+ *   copyright       : (C) 2003-2013 by Pascal Brachet                     *
+ *   addons by Luis Silvestre ; S. Razi Alavizadeh                         *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,13 +55,14 @@
 #include <QFontMetrics>
 #include <QDateTime>
 #include <QTemporaryFile>
-
-#if (QT_VERSION >= 0x0406)
+#include <QPrintDialog>
+#include <QPrinter>
 #include <QProcessEnvironment>
-#endif
 
-#ifdef Q_WS_MACX
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+#if defined(Q_OS_MAC)
 #include "macsupport.h"
+#endif
 #endif
 
 
@@ -96,16 +97,18 @@
 
 
 
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #include "x11fontdialog.h"
 #endif
 
-Texmaker::Texmaker(QWidget *parent, Qt::WFlags flags)
-    : QMainWindow(parent, flags)
+Texmaker::Texmaker(QWidget *parent)
+    : QMainWindow(parent)
 {
 eraseSettings=false;
 replaceSettings=false;
+
 ReadSettings();
+
 
 QString tempDir=QDir::tempPath();
 QString prefixFile=QDir::homePath();
@@ -125,7 +128,7 @@ sessionTempFile=tempDir+"/"+prefixFile+".tks";
 untitled_id=1;
 
 
-#ifdef Q_WS_MACX
+#if defined(Q_OS_MAC)
 setWindowIcon(QIcon(":/images/logo128.png"));
 //MacSupport::addFullscreen(this);
 #else
@@ -141,7 +144,7 @@ initCompleter();
 
 
 QAction *Act;
-splitter1=new MiniSplitter;
+splitter1=new MiniSplitter(this);
 splitter1->setOrientation(Qt::Horizontal);
 splitter2=new MiniSplitter(splitter1);
 splitter2->setOrientation(Qt::Vertical);
@@ -187,7 +190,11 @@ StructureTreeWidget->setColumnCount(1);
 StructureTreeWidget->header()->hide();
 StructureTreeWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 StructureTreeWidget->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+StructureTreeWidget->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+#else
 StructureTreeWidget->header()->setResizeMode(0, QHeaderView::ResizeToContents);
+#endif
 StructureTreeWidget->header()->setStretchLastSection(false);
 //StructureTreeWidget->setIndentation(10);
 
@@ -476,8 +483,8 @@ errorIndex=-1;
 
 translationList.clear();
 translationList.append(QString("en"));
-#if defined( Q_WS_X11 )
 
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #ifdef USB_VERSION
 QDir transdir(QCoreApplication::applicationDirPath());
 #else
@@ -485,10 +492,10 @@ QDir transdir(PREFIX"/share/texmaker");
 #endif
 
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QDir transdir(QCoreApplication::applicationDirPath() + "/../Resources");
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QDir transdir(QCoreApplication::applicationDirPath());
 #endif
 foreach (QFileInfo qmFileInfo, transdir.entryInfoList(QStringList("texmaker_*.qm"),QDir::Files | QDir::Readable, QDir::Name | QDir::IgnoreCase)) 
@@ -718,7 +725,8 @@ LeftPanelToolBarBis->setMinimumHeight(centralToolBarBis->height());
 LeftPanelToolBarBis->setMaximumHeight(centralToolBarBis->height());
 //centralToolBarBis->setStyle(QStyleFactory::create("Plastique"));
 
-ToggleDocAct=new QAction(QIcon(":/images/toggle.png"),tr("Toggle between the master document and the current document"), this);
+ToggleDocAct=new QAction(QIcon(":/images/toggle.png"),tr("Toggle between the master document and the current document")+" (CTRL+SHIFT+F2)", this);
+ToggleDocAct->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_F2);
 connect(ToggleDocAct, SIGNAL(triggered()), this, SLOT(ToggleMasterCurrent()));
 centralToolBarBis->addAction(ToggleDocAct);
 
@@ -809,6 +817,9 @@ splitter3->setSizes( sizes );
 createStatusBar();
 setupMenus();
 setupToolBars();
+
+
+
 connect(QApplication::clipboard(), SIGNAL(dataChanged()), this, SLOT(clipboardDataChanged()));
 
 QPalette pal = QApplication::palette();
@@ -822,6 +833,8 @@ splitter1->restoreState(splitter1state);
 splitter2->restoreState(splitter2state);
 splitter3->restoreState(splitter3state);
 }
+
+
 
 ShowOutputView(false);
 ShowStructView(false);
@@ -856,8 +869,10 @@ ToggleDocAct->setEnabled(false);
 MasterName=getName();
 
 show();
-#ifdef Q_WS_MACX
+#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+#if defined(Q_OS_MAC)
 MacSupport::addFullscreen(this);
+#endif
 #endif
 splitter2Changed();
 
@@ -878,6 +893,7 @@ if (autosave)
     connect(autosaveTimer, SIGNAL(timeout()), this, SLOT(fileBackupAll()));
     autosaveTimer->start(600000);
     }
+
 }
 
 Texmaker::~Texmaker(){
@@ -2068,7 +2084,7 @@ connect(Act, SIGNAL(triggered()), this, SLOT(updateAppearance()));
 appearanceGroup->addAction(Act);
 if (!modern_style) Act->setChecked(true);
 appearanceMenu->addAction(Act);
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 Act = new QAction(tr("Change Interface Font"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(SetInterfaceFont()));
 optionsMenu->addAction(Act);
@@ -2445,7 +2461,8 @@ else
 if (currentEditorView()) 
   {
   currentEditorView()->editor->setFocus();
-  showCursorPos(currentEditorView()->editor->textCursor().blockNumber() + 1,currentEditorView()->editor->textCursor().position() - currentEditorView()->editor->document()->findBlock(currentEditorView()->editor->textCursor().selectionStart()).position());
+  showCursorPos(currentEditorView()->editor->textCursor().blockNumber() + 1,currentEditorView()->editor->textCursor().position() - currentEditorView()->editor->textCursor().block().position()+1);
+//  showCursorPos(currentEditorView()->editor->textCursor().blockNumber() + 1,currentEditorView()->editor->textCursor().position() - currentEditorView()->editor->document()->findBlock(currentEditorView()->editor->textCursor().selectionStart()).position());
   }
 else posLabel->setText("L: C: ");
 }
@@ -2642,7 +2659,7 @@ if (pos > -1)
   setMasterDocument(rootFilePath);
   }
 
-#ifndef Q_WS_MACX 
+#if !defined(Q_OS_MAC)
 show();
 if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
 qApp->setActiveWindow(this);
@@ -2676,7 +2693,7 @@ void Texmaker::insertFromCommandLine(const QString &entity)
 if (currentEditorView())
 	{
 	currentEditorView()->editor->insertPlainText(entity);
-	#ifndef Q_WS_MACX 
+	#if !defined(Q_OS_MAC)
 	show();
 	if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
 	qApp->setActiveWindow(this);
@@ -2816,7 +2833,7 @@ if ((filesNames.count()==1) && embedinternalpdf && builtinpdfview && showpdfview
       else
 	{
     //    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+	pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,lp_options,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -3544,7 +3561,7 @@ if (action)
 	  else
 	    {
 	//    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
-	    pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+	    pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,lp_options,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	    pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	    pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	    connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -3625,7 +3642,7 @@ if (focus) getFocusToEditor();
 
 void Texmaker::getFocusToEditor()
 {
-#ifndef Q_WS_MACX 
+#if !defined(Q_OS_MAC)
 show();
 if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
 #endif
@@ -3899,7 +3916,7 @@ splitter2state=config->value("Splitter2State").toByteArray();
 splitter3state=config->value("Splitter3State").toByteArray();
 psize=config->value( "Print/PaperSize","a4").toString();
 lastScale=config->value( "PdfView/Scale",10).toFloat()/100.0;
-#ifdef Q_WS_WIN
+#if defined(Q_OS_WIN32)
 if (xf.contains("Courier New",Qt::CaseInsensitive)) deft="Courier New";
 else deft=qApp->font().family();
 QString fam=config->value("Editor/Font Family",deft).toString();
@@ -3962,7 +3979,7 @@ builtinpdfview=config->value("Tools/IntegratedPdfViewer",true).toBool();
 embedinternalpdf=config->value("Tools/PdfInternalViewEmbed", screen.width() > 1400).toBool();
 singleviewerinstance=config->value("Tools/SingleViewerInstance",false).toBool();
 htlatex_options=config->value("Tools/HtOptions","\"\" \"\" \"\" -interaction=nonstopmode").toString();
-#ifdef Q_WS_MACX 
+#if defined(Q_OS_MAC)
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+$").toString();
 latex_command=config->value("Tools/Latex","\"/usr/texbin/latex\" -interaction=nonstopmode %.tex").toString();
 dvips_command=config->value("Tools/Dvips","\"/usr/texbin/dvips\" -o %.ps %.dvi").toString();
@@ -3983,8 +4000,10 @@ sweave_command=config->value("Tools/Sweave","R CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
 htlatex_command=config->value("Tools/Htlatex","/usr/texbin/htlatex").toString();
 if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
+quick_asy_command=config->value("Tools/QuickAsy","/usr/texbin/asy -f pdf -noView %.asy|open %.pdf").toString();
+lp_options=config->value("Tools/LP","-o fitplot").toString();
 #endif
-#ifdef Q_WS_WIN
+#if defined(Q_OS_WIN32)
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+Space").toString();
 latex_command=config->value("Tools/Latex","latex -interaction=nonstopmode %.tex").toString();
 dvips_command=config->value("Tools/Dvips","dvips -o %.ps %.dvi").toString();
@@ -4068,10 +4087,11 @@ if (new_user)
   viewpdf_command="\""+acro+"\" %.pdf"; 
   }
 //\"C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi
-
+quick_asy_command=config->value("Tools/QuickAsy","\"C:/Program Files/Asymptote/asy.exe\" -f pdf -noView %.asy|"+viewpdf_command).toString();
+lp_options=config->value("Tools/LP","").toString();
 if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
 #endif
-#ifdef Q_WS_X11
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+Space").toString();
 int desktop_env=1; // 1 : no kde ; 2: kde ; 3 : kde4 ; 
 QStringList styles = QStyleFactory::keys();
@@ -4131,6 +4151,9 @@ else deft=qApp->font().family();
 x11fontfamily=config->value("X11/Font Family",deft).toString();
 x11fontsize=config->value( "X11/Font Size","10").toInt();
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+qApp->setStyle(new ManhattanStyle(QLatin1String("fusion")));
+#else
 if (modern_style)
     {
     if (desktop_env ==1) //no-kde
@@ -4155,7 +4178,8 @@ else
     QString baseStyleName = qApp->style()->objectName(); //fallback
     if (baseStyleName == QLatin1String("Windows")) QApplication::setStyle(QStyleFactory::create("Plastique")); //fallback
     }
-   
+#endif
+
 // QApplication::setPalette(QApplication::style()->standardPalette());
 QFont x11Font (x11fontfamily,x11fontsize);
 QApplication::setFont(x11Font);
@@ -4207,6 +4231,8 @@ else
 	}
 
 QApplication::setPalette(pal);*/
+quick_asy_command=config->value("Tools/QuickAsy","asy -f pdf -noView %.asy|"+viewpdf_command).toString();
+lp_options=config->value("Tools/LP","-o fitplot").toString();
 #endif
 userquick_command=config->value("Tools/Userquick","latex -interaction=nonstopmode %.tex|bibtex %.aux|latex -interaction=nonstopmode %.tex|latex -interaction=nonstopmode %.tex|xdvi %.dvi").toString();
 userClassList=config->value("Tools/User Class").toStringList();
@@ -4296,7 +4322,7 @@ fourier_package=config->value( "Quick/Fourier",false).toBool();
 author=config->value("Quick/Author","").toString();
 geometry_options=config->value("Quick/GeometryOptions","left=2cm,right=2cm,top=2cm,bottom=2cm").toString();
 
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 
 #ifdef USB_VERSION
 QString dicDir=QCoreApplication::applicationDirPath() + "/";
@@ -4309,10 +4335,10 @@ QString dicDir=PREFIX"/share/texmaker/";
 #endif
 
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QString dicDir=QCoreApplication::applicationDirPath() + "/../Resources/";
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QString dicDir=QCoreApplication::applicationDirPath() + "/";
 #endif
 QString defaultDic=dicDir+QString(QLocale::system().name())+".dic";
@@ -4370,7 +4396,7 @@ QList<int>::Iterator it;
 
 config.setValue( "GUI/Style",modern_style);
 config.setValue( "GUI/New Version",true);
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 config.setValue( "X11/Style",x11style);
 config.setValue("X11/Font Family",x11fontfamily);
 config.setValue( "X11/Font Size",x11fontsize);
@@ -4466,6 +4492,9 @@ config.setValue("Tools/Texdoc",texdoc_command);
 config.setValue("Tools/HtOptions",htlatex_options); 
 config.setValue("Tools/Htlatex",htlatex_command); 
 config.setValue("Tools/Userquick",userquick_command);
+config.setValue("Tools/QuickAsy",quick_asy_command);
+config.setValue("Tools/LP",lp_options);
+
 if (userClassList.count()>0) config.setValue("Tools/User Class",userClassList); 
 if (userPaperList.count()>0) config.setValue("Tools/User Paper",userPaperList); 
 if (userEncodingList.count()>0) config.setValue("Tools/User Encoding",userEncodingList); 
@@ -6542,7 +6571,17 @@ QTextCursor cur=currentEditorView()->editor->textCursor();
 bool selection=cur.hasSelection();
 if (selection) currentEditorView()->editor->cut();
 int pos=cur.position();
-Entity.replace("@",QString(0x2022));
+
+QRegExp rx("(@+)");
+int index=0;
+while ((index = rx.indexIn(Entity,index)) != -1) 
+{
+if (rx.cap(1)=="@") Entity.replace(rx.pos(1),1,QString(0x2022));
+else if (rx.cap(1)=="@@") Entity.replace(rx.pos(1),2,"@");
+index += rx.matchedLength();
+}
+
+//Entity.replace("@",QString(0x2022));
 //if (Entity.contains("\n") && !pre.isEmpty()) Entity.replace("\n","\n"+pre);
 currentEditorView()->editor->insertWithMemoryIndent(Entity);
 cur.setPosition(pos,QTextCursor::MoveAnchor);
@@ -7076,7 +7115,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       else
 	{
     //    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
-	pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+	pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,lp_options,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
 	pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
 	pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
 	connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -7103,7 +7142,7 @@ if (builtinpdfview && (comd==viewpdf_command))
     else
       {
   //    pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
+      pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,lp_options,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -7129,15 +7168,14 @@ proc->setWorkingDirectory(fi.absolutePath());
 proc->setProperty("command",commandline);
 
 //****
-#if (QT_VERSION >= 0x0406)
-#ifdef Q_WS_MACX
+#if defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
 else
  env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
 #endif
-#ifdef Q_WS_WIN
+#if defined(Q_OS_WIN32)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (!extra_path.isEmpty()) 
   {
@@ -7145,14 +7183,13 @@ if (!extra_path.isEmpty())
   proc->setProcessEnvironment(env);
   }
 #endif
-#ifdef Q_WS_X11
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (!extra_path.isEmpty()) 
   {
   env.insert("PATH", env.value("PATH") + ":"+extra_path);
   proc->setProcessEnvironment(env);
   }
-#endif
 #endif
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
@@ -7261,123 +7298,17 @@ void Texmaker::QuickBuild()
 //stat2->setText(QString(" %1 ").arg(tr("Quick Build")));
 ERRPROCESS=false;
 checkViewerInstance=true;
-switch (quickmode)
- {
-  case 1:
-    {
-    //stat2->setText(QString(" %1 ").arg("Latex"));
-    RunCommand(latex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	//stat2->setText(QString(" %1 ").arg("Dvips"));
-    	if (!ERRPROCESS) RunCommand(dvips_command,true);
-        else {checkViewerInstance=false;return;}
-	if (!ERRPROCESS) ViewPS();
-        else {checkViewerInstance=false;return;}
-	}
-    else {NextError();}
-    }break;
-  case 2:
-    {
-    //stat2->setText(QString(" %1 ").arg("Latex"));
-    RunCommand(latex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	if (!ERRPROCESS) ViewDvi();
-        else {checkViewerInstance=false;return;}
-	}
-    else {NextError();}
-    }break;
- case 3:
-    {
-    //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
-    RunCommand(pdflatex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	if (!ERRPROCESS) ViewPDF();
-        else {checkViewerInstance=false;return;}
-	}
-    else {NextError();}
-    }break;
- case 4:
-    {
-    //stat2->setText(QString(" %1 ").arg("Latex"));
-    RunCommand(latex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	//stat2->setText(QString(" %1 ").arg("Dvi to Pdf"));
-	if (!ERRPROCESS) RunCommand(dvipdf_command,true);
-        else {checkViewerInstance=false;return;}
-	if (!ERRPROCESS) ViewPDF();
-        else {checkViewerInstance=false;return;}
-	}
-    else {NextError();}
-    }break;
- case 5:
-    {
-    //stat2->setText(QString(" %1 ").arg("Latex"));
-    RunCommand(latex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	//stat2->setText(QString(" %1 ").arg("Dvips"));
-	if (!ERRPROCESS) RunCommand(dvips_command,true);
-        else {checkViewerInstance=false;return;}
-	//stat2->setText(QString(" %1 ").arg("Ps to Pdf"));
-	if (!ERRPROCESS) RunCommand(ps2pdf_command,true);
-        else {checkViewerInstance=false;return;}
-	if (!ERRPROCESS) ViewPDF();
-	}
-    else {NextError();}
-    }break;
- case 6:
-    {
-    QStringList commandList=userquick_command.split("|");
-    for (int i = 0; i < commandList.size(); ++i) 
+QString finame=getName();
+QFileInfo fi(finame);
+if (!finame.startsWith("untitled") && finame!="" && fi.suffix()=="asy")
+   {
+    QStringList asyCommandList=quick_asy_command.split("|");
+    for (int i = 0; i < asyCommandList.size(); ++i) 
 	{
-	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
+	if ((!ERRPROCESS)&&(!asyCommandList.at(i).isEmpty())) 
 	  {
-	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
+	  RunCommand(asyCommandList.at(i),true);
+	  if ((asyCommandList.at(i)==latex_command) || (asyCommandList.at(i)==pdflatex_command) || (asyCommandList.at(i)==xelatex_command))
 	      {
 	      LoadLog();
 	      if (showoutputview) ViewLog();
@@ -7386,131 +7317,260 @@ switch (quickmode)
 	  }
         else {checkViewerInstance=false;return;}
 	}
-    }break;
-  case 7:
-    {
-    //stat2->setText(QString(" %1 ").arg("Latex"));
-    RunCommand(latex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	//stat2->setText(QString(" %1 ").arg("Asymptote"));
-    	if (!ERRPROCESS) RunCommand(asymptote_command,true);
-        else {checkViewerInstance=false;return;}
-	if (!ERRPROCESS) 
+    }
+else
+  {
+  switch (quickmode)
+  {
+    case 1:
+      {
+      //stat2->setText(QString(" %1 ").arg("Latex"));
+      RunCommand(latex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  //stat2->setText(QString(" %1 ").arg("Dvips"));
+	  if (!ERRPROCESS) RunCommand(dvips_command,true);
+	  else {checkViewerInstance=false;return;}
+	  if (!ERRPROCESS) ViewPS();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
+    case 2:
+      {
+      //stat2->setText(QString(" %1 ").arg("Latex"));
+      RunCommand(latex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  if (!ERRPROCESS) ViewDvi();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
+  case 3:
+      {
+      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+      RunCommand(pdflatex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  if (!ERRPROCESS) ViewPDF();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
+  case 4:
+      {
+      //stat2->setText(QString(" %1 ").arg("Latex"));
+      RunCommand(latex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  //stat2->setText(QString(" %1 ").arg("Dvi to Pdf"));
+	  if (!ERRPROCESS) RunCommand(dvipdf_command,true);
+	  else {checkViewerInstance=false;return;}
+	  if (!ERRPROCESS) ViewPDF();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
+  case 5:
+      {
+      //stat2->setText(QString(" %1 ").arg("Latex"));
+      RunCommand(latex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  //stat2->setText(QString(" %1 ").arg("Dvips"));
+	  if (!ERRPROCESS) RunCommand(dvips_command,true);
+	  else {checkViewerInstance=false;return;}
+	  //stat2->setText(QString(" %1 ").arg("Ps to Pdf"));
+	  if (!ERRPROCESS) RunCommand(ps2pdf_command,true);
+	  else {checkViewerInstance=false;return;}
+	  if (!ERRPROCESS) ViewPDF();
+	  }
+      else {NextError();}
+      }break;
+  case 6:
+      {
+      QStringList commandList=userquick_command.split("|");
+      for (int i = 0; i < commandList.size(); ++i) 
+	  {
+	  if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	    {
-	    //stat2->setText(QString(" %1 ").arg("Latex"));
-	    RunCommand(latex_command,true);
-	    if (ERRPROCESS && !LogExists()) 
+	    RunCommand(commandList.at(i),true);
+	    if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
 		{
-		QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-		checkViewerInstance=false;
-		return;
+		LoadLog();
+		if (showoutputview) ViewLog();
+		if (!NoLatexErrors()) NextError();
 		}
-	    LoadLog();
-	    if (showoutputview) ViewLog();
-	    if (NoLatexErrors()) 
-		{
-		//stat2->setText(QString(" %1 ").arg("Dvips"));
-		if (!ERRPROCESS) RunCommand(dvips_command,true);
-		else {checkViewerInstance=false;return;}
-		if (!ERRPROCESS) ViewPS();
-		else {checkViewerInstance=false;return;}
-		}
-	    else {NextError();}
 	    }
-        else return;
-	}
-    else {NextError();}
-    }break;
-  case 8:
-    {
-    //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
-    RunCommand(pdflatex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	//stat2->setText(QString(" %1 ").arg("Asymptote"));
-    	if (!ERRPROCESS) RunCommand(asymptote_command,true);
-        else {checkViewerInstance=false;return;}
-	if (!ERRPROCESS) 
-	    {
-	    //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
-	    RunCommand(pdflatex_command,true);
-	    if (ERRPROCESS && !LogExists()) 
-		{
-		QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-		checkViewerInstance=false;
-		return;
-		}
-	    LoadLog();
-	    if (showoutputview) ViewLog();
-	    if (NoLatexErrors()) 
-		{
-		if (!ERRPROCESS) ViewPDF();
-		else {checkViewerInstance=false;return;}
-		}
-	    else {NextError();}
-	    }
-        else return;
-	}
-    else {NextError();}
-    }break;
- case 9:
-    {
-    //stat2->setText(QString(" %1 ").arg("LatexMk"));
-    RunCommand(latexmk_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	if (!ERRPROCESS) ViewPDF();
-        else {checkViewerInstance=false;return;}
-	}
-    else {NextError();}
-    }break;
- case 10:
-    {
-    //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
-    RunCommand(xelatex_command,true);
-    if (ERRPROCESS && !LogExists()) 
-        {
-	QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
-	checkViewerInstance=false;
-	return;
-	}
-    LoadLog();
-    if (showoutputview) ViewLog();
-    if (NoLatexErrors()) 
-    	{
-	if (!ERRPROCESS) ViewPDF();
-        else {checkViewerInstance=false;return;}
-	}
-    else {NextError();}
-    }break;
- }
+	  else {checkViewerInstance=false;return;}
+	  }
+      }break;
+    case 7:
+      {
+      //stat2->setText(QString(" %1 ").arg("Latex"));
+      RunCommand(latex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  //stat2->setText(QString(" %1 ").arg("Asymptote"));
+	  if (!ERRPROCESS) RunCommand(asymptote_command,true);
+	  else {checkViewerInstance=false;return;}
+	  if (!ERRPROCESS) 
+	      {
+	      //stat2->setText(QString(" %1 ").arg("Latex"));
+	      RunCommand(latex_command,true);
+	      if (ERRPROCESS && !LogExists()) 
+		  {
+		  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		  checkViewerInstance=false;
+		  return;
+		  }
+	      LoadLog();
+	      if (showoutputview) ViewLog();
+	      if (NoLatexErrors()) 
+		  {
+		  //stat2->setText(QString(" %1 ").arg("Dvips"));
+		  if (!ERRPROCESS) RunCommand(dvips_command,true);
+		  else {checkViewerInstance=false;return;}
+		  if (!ERRPROCESS) ViewPS();
+		  else {checkViewerInstance=false;return;}
+		  }
+	      else {NextError();}
+	      }
+	  else return;
+	  }
+      else {NextError();}
+      }break;
+    case 8:
+      {
+      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+      RunCommand(pdflatex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  //stat2->setText(QString(" %1 ").arg("Asymptote"));
+	  if (!ERRPROCESS) RunCommand(asymptote_command,true);
+	  else {checkViewerInstance=false;return;}
+	  if (!ERRPROCESS) 
+	      {
+	      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+	      RunCommand(pdflatex_command,true);
+	      if (ERRPROCESS && !LogExists()) 
+		  {
+		  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		  checkViewerInstance=false;
+		  return;
+		  }
+	      LoadLog();
+	      if (showoutputview) ViewLog();
+	      if (NoLatexErrors()) 
+		  {
+		  if (!ERRPROCESS) ViewPDF();
+		  else {checkViewerInstance=false;return;}
+		  }
+	      else {NextError();}
+	      }
+	  else return;
+	  }
+      else {NextError();}
+      }break;
+  case 9:
+      {
+      //stat2->setText(QString(" %1 ").arg("LatexMk"));
+      RunCommand(latexmk_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  if (!ERRPROCESS) ViewPDF();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
+  case 10:
+      {
+      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+      RunCommand(xelatex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  if (!ERRPROCESS) ViewPDF();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
+  }
+  if (NoLatexErrors() && showoutputview) ViewLog();
+  }
 checkViewerInstance=false;
-if (NoLatexErrors() && showoutputview) ViewLog();
 }
 
 void Texmaker::Latex()
@@ -7670,15 +7730,14 @@ proc->setWorkingDirectory(fi.absolutePath());
 proc->setProperty("command",commandline);
 
 //****
-#if (QT_VERSION >= 0x0406)
-#ifdef Q_WS_MACX
+#if defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
 else
  env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
 #endif
-#ifdef Q_WS_WIN
+#if defined(Q_OS_WIN32)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (!extra_path.isEmpty()) 
   {
@@ -7686,14 +7745,13 @@ if (!extra_path.isEmpty())
   proc->setProcessEnvironment(env);
   }
 #endif
-#ifdef Q_WS_X11
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (!extra_path.isEmpty()) 
   {
   env.insert("PATH", env.value("PATH") + ":"+extra_path);
   proc->setProcessEnvironment(env);
   }
-#endif
 #endif
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
@@ -7864,7 +7922,7 @@ const QString pwd = QDir::toNativeSeparators(fi.isDir() ?
                                                  fi.absoluteFilePath() :
                                                  fi.absolutePath());
 process.setWorkingDirectory(pwd);
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN32)
 const QString terminalEmulator = QString::fromLocal8Bit(qgetenv("COMSPEC"));
 process.startDetached(terminalEmulator,QStringList()<< "/k" << "cd" << pwd);
 #elif defined(Q_OS_MAC)
@@ -8094,7 +8152,7 @@ if (embedinternalpdf)
     else
       {
   //    pdfviewerWidget=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
-      pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
+      pdfviewerWidget=new PdfViewerWidget(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,lp_options,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,StackedViewers);
       pdfviewerWidget->centralToolBarBis->setMinimumHeight(centralToolBarBis->height());
       pdfviewerWidget->centralToolBarBis->setMaximumHeight(centralToolBarBis->height());
       connect(pdfviewerWidget, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
@@ -8123,7 +8181,7 @@ else
     else
       {
   //    pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command, this);
-      pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,psize,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
+      pdfviewerWindow=new PdfViewer(outputName(finame,".pdf"),viewpdf_command,ghostscript_command,lp_options,QKeySequence(keyToggleFocus),pdfCheckerLang,lastScale,0);
       connect(pdfviewerWindow, SIGNAL(openDocAtLine(const QString&, int, bool)), this, SLOT(fileOpenAndGoto(const QString&, int, bool)));
       connect(pdfviewerWindow, SIGNAL(sendFocusToEditor()), this, SLOT(getFocusToEditor()));
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
@@ -8663,7 +8721,7 @@ if (logpresent && onlyErrorList.isEmpty())
 //////////////// HELP /////////////////
 void Texmaker::LatexHelp()
 {
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 
 #ifdef USB_VERSION
 QString docfile=QCoreApplication::applicationDirPath() + "/latexhelp.html";
@@ -8672,10 +8730,10 @@ QString docfile=PREFIX"/share/texmaker/latexhelp.html";
 #endif
 
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QString docfile=QCoreApplication::applicationDirPath() + "/../Resources/latexhelp.html";
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QString docfile=QCoreApplication::applicationDirPath() + "/latexhelp.html";
 #endif
 QFileInfo fic(docfile);
@@ -8697,7 +8755,7 @@ void Texmaker::UserManualHelp()
 {
 QString locale = QString(QLocale::system().name()).left(2);
 if ( locale.length() < 2 || (locale!="fr" && locale!="hu" && locale!="ru") ) locale = "en";
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 
 #ifdef USB_VERSION
 QString docfile=QCoreApplication::applicationDirPath() + "/usermanual_"+locale+".html";
@@ -8706,10 +8764,10 @@ QString docfile=PREFIX"/share/texmaker/usermanual_"+locale+".html";
 #endif
 
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QString docfile=QCoreApplication::applicationDirPath() + "/../Resources/usermanual_"+locale+".html";
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QString docfile=QCoreApplication::applicationDirPath() + "/usermanual_"+locale+".html";
 #endif
 QFileInfo fic(docfile);
@@ -8752,8 +8810,9 @@ if (!text.isEmpty())
 
 void Texmaker::HelpAbout()
 {
-AboutDialog *abDlg = new AboutDialog(this);
-abDlg->exec();
+//QApplication::aboutQt();
+ AboutDialog *abDlg = new AboutDialog(this);
+ abDlg->exec();
 }
 
 void Texmaker::Docufrlatex()
@@ -8822,6 +8881,8 @@ if (quickmode==8)  {confDlg->ui.radioButton8->setChecked(true); confDlg->ui.line
 if (quickmode==9)  {confDlg->ui.radioButton9->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 if (quickmode==10)  {confDlg->ui.radioButton10->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 confDlg->ui.lineEditUserquick->setText(userquick_command);
+confDlg->ui.lineEditAsyQuick->setText(quick_asy_command);
+confDlg->ui.lineEditPrinter->setText(lp_options);
 
 int row=0;
 KeysMap::Iterator its, iter;
@@ -8931,6 +8992,8 @@ if (confDlg->exec())
 	if (confDlg->ui.radioButton9->isChecked()) quickmode=9;
 	if (confDlg->ui.radioButton10->isChecked()) quickmode=10;
 	userquick_command=confDlg->ui.lineEditUserquick->text();
+	quick_asy_command=confDlg->ui.lineEditAsyQuick->text();
+	lp_options=confDlg->ui.lineEditPrinter->text();
 	
 	xelatex_command=confDlg->ui.lineEditXelatex->text();
 	extra_path=confDlg->ui.lineEditPath->text();
@@ -9021,7 +9084,7 @@ if (confDlg->exec())
 	QFileInfo fispell(spell_dic);
 	pdfCheckerLang=fispell.fileName().left(2);
 	if (!pdfCheckerLang.contains(QRegExp("(de|en|es|fr|id|it|nl|pl|pt|ru)"))) pdfCheckerLang="en";
-#if (QT_VERSION >= 0x040700)
+
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(0,1)->text())) colorBackground=QColor(confDlg->ui.colortableWidget->item(0,1)->text());
 	
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(1,1)->text())) colorLine=QColor(confDlg->ui.colortableWidget->item(1,1)->text());
@@ -9045,31 +9108,7 @@ if (confDlg->exec())
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(10,1)->text())) colorKeywordGraphic=QColor(confDlg->ui.colortableWidget->item(10,1)->text());
 	
 	if (QColor::isValidColor(confDlg->ui.colortableWidget->item(11,1)->text())) colorNumberGraphic=QColor(confDlg->ui.colortableWidget->item(11,1)->text());
-#else
-	if (QColor(confDlg->ui.colortableWidget->item(0,1)->text()).isValid()) colorBackground=QColor(confDlg->ui.colortableWidget->item(0,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(1,1)->text()).isValid()) colorLine=QColor(confDlg->ui.colortableWidget->item(1,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(2,1)->text()).isValid()) colorHighlight=QColor(confDlg->ui.colortableWidget->item(2,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(3,1)->text()).isValid()) colorStandard=QColor(confDlg->ui.colortableWidget->item(3,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(4,1)->text()).isValid()) colorComment=QColor(confDlg->ui.colortableWidget->item(4,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(5,1)->text()).isValid()) colorMath=QColor(confDlg->ui.colortableWidget->item(5,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(6,1)->text()).isValid()) colorCommand=QColor(confDlg->ui.colortableWidget->item(6,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(7,1)->text()).isValid()) colorKeyword=QColor(confDlg->ui.colortableWidget->item(7,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(8,1)->text()).isValid()) colorVerbatim=QColor(confDlg->ui.colortableWidget->item(8,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(9,1)->text()).isValid()) colorTodo=QColor(confDlg->ui.colortableWidget->item(9,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(10,1)->text()).isValid()) colorKeywordGraphic=QColor(confDlg->ui.colortableWidget->item(10,1)->text());
-	
-	if (QColor(confDlg->ui.colortableWidget->item(11,1)->text()).isValid()) colorNumberGraphic=QColor(confDlg->ui.colortableWidget->item(11,1)->text());	
-#endif
+
 	QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
 	if(!codec) codec = QTextCodec::codecForLocale();
 	
@@ -9128,8 +9167,8 @@ if (confDlg->exec())
 			ts.setCodec(codec);
 			currentEditorView()->editor->setPlainText( ts.readAll() );
 			currentEditorView()->editor->setLastSavedTime(QDateTime::currentDateTime());
-			if( MODIFIED ) currentEditorView()->editor->document()->setModified(TRUE );
-			else currentEditorView()->editor->document()->setModified( FALSE );
+			if( MODIFIED ) currentEditorView()->editor->document()->setModified(true );
+			else currentEditorView()->editor->document()->setModified( false );
 			connect(currentEditorView()->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 			connect(currentEditorView()->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
 			connect(currentEditorView()->editor, SIGNAL(tooltiptab()), this, SLOT(editTipTab()));
@@ -9242,7 +9281,7 @@ else EditorView->setCurrentIndex( cPage );
 
 void Texmaker::SetInterfaceFont()
 {
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 X11FontDialog *xfdlg = new X11FontDialog(this);
 int ft=xfdlg->ui.comboBoxFont->findText (x11fontfamily , Qt::MatchExactly);
 xfdlg->ui.comboBoxFont->setCurrentIndex(ft);
@@ -9286,7 +9325,7 @@ if (event->mimeData()->hasFormat("text/uri-list")) event->acceptProposedAction()
 
 void Texmaker::dropEvent(QDropEvent *event)
 {
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QRegExp rx("file:(/+)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw|tks))");
 #else
 QRegExp rx("file:(//)(.*\\.(?:tex|bib|sty|cls|mp|asy|Rnw|tks))");
@@ -9585,7 +9624,7 @@ QTextCodec *codec = QTextCodec::codecForName("UTF-8");
 QAbstractItemModel *model;
 QFile tagsfile(":/completion/completion.txt");
 
-#if defined( Q_WS_X11 )//add by S. R. Alavizadeh
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 
 #ifdef USB_VERSION
 QFile userTagsfile(QCoreApplication::applicationDirPath()+"/completion.txt");
@@ -9594,10 +9633,10 @@ QFile userTagsfile(PREFIX"/share/texmaker/completion.txt");
 #endif
 
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QFile userTagsfile(QCoreApplication::applicationDirPath() + "/../Resources/completion.txt");
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QFile userTagsfile(QCoreApplication::applicationDirPath()+"/completion.txt");
 #endif
 if (!tagsfile.open(QFile::ReadOnly)) model=new QStringListModel(completer);
@@ -10713,7 +10752,7 @@ return basename;
 bool Texmaker::gtkSession()
 {
 bool result=false;
-#ifdef Q_WS_X11
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 result=true;// 1 : no kde ; 2: kde ; 3 : kde4 ; 
 QString kdesession= ::getenv("KDE_FULL_SESSION");
 QString kdeversion= ::getenv("KDE_SESSION_VERSION");

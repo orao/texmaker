@@ -26,6 +26,10 @@ modified by Pascal Brachet
 #include <QMessageBox>
 #include <QDebug>
 #include <QProgressBar>
+#include <QScrollBar>
+#include <QApplication>
+#include <QInputDialog>
+#include <QLineEdit>
 
 bool DocumentView::s_openUrl = false;
 
@@ -825,7 +829,7 @@ if (m_pages.count()<1) return;
 
 void DocumentView::on_pages_linkClicked(const QString& url)
 {
-	QUrl theurl = QUrl::fromEncoded(url.toAscii());
+	QUrl theurl = QUrl::fromEncoded(url.toLatin1());
 	QDesktopServices::openUrl(theurl);
 //     if(s_openUrl)
 //     {

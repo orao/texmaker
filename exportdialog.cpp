@@ -18,9 +18,8 @@
 #include <QDirIterator>
 #include <QDebug>
 
-#if (QT_VERSION >= 0x0406)
 #include <QProcessEnvironment>
-#endif
+
 
 ExportDialog::ExportDialog(QWidget* parent,QString f, QString ep): QDialog( parent)
 {
@@ -85,15 +84,15 @@ connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
 //connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
 connect(proc, SIGNAL(finished(int)),this, SLOT(SlotEndProcess(int)));
 ui.plainTextEditResult->clear();
-#if (QT_VERSION >= 0x0406)
-#ifdef Q_WS_MACX
+
+#if defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
 else
  env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
 #endif
-#ifdef Q_WS_WIN
+#if defined(Q_OS_WIN32)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (!extra_path.isEmpty()) 
   {
@@ -101,7 +100,7 @@ if (!extra_path.isEmpty())
   proc->setProcessEnvironment(env);
   }
 #endif
-#ifdef Q_WS_X11
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 if (!extra_path.isEmpty()) 
   {
@@ -109,7 +108,7 @@ if (!extra_path.isEmpty())
   proc->setProcessEnvironment(env);
   }
 #endif
-#endif
+
 ui.plainTextEditResult->insertPlainText(commandline+"\n");
 proc->start(commandline);
 }

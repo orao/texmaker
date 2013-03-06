@@ -1,3 +1,17 @@
+version 3.5.2 -> 4.0 :
+---------------------
+Features :
+- the code has been modified to support Qt5 (this version can also be compiled on Qt>=4.7.2). This version  is the first release of the new branch of Texmaker based on Qt5.
+- the ctrl+shift+F2 keyboard shortcut has been added to the "Toggle between the master document and the current document" action" (user request)
+- the continuous mode in the internal pdf viewer is no more enabled automatically after a new compilation (user request)
+- unix/macosx users can now add an option in the configuration dialog to the lp command (for printing documents in the internal pdf viewer)
+- a special "quick build command" has been added for the .asy files : if the current document has an .asy extension, this "asymptote quick build command" will be used with the F1 shortcut instead of the standard "quick build command" for the .tex documents (user request)
+- while using the "user tags", @@ will now be replaced by @ (a single @ is always used to set a place holder - user request)
+Bugs fixed :
+- a compilation trouble with gcc 4.8 has been fixed
+- a trouble with the insertion of an user tag by using a keyboard trigger has been fixed 
+- a bad column count in the editor has been fixed
+
 version 3.5.1 -> 3.5.2 :
 -----------------------
 The bug about the shortcut of the "quick build" command has been fixed

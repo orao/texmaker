@@ -13,13 +13,19 @@
 
 #include <QtGui>
 #include <QPrinter>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QPushButton>
+#include <QMenu>
+#include <QWebFrame>
+#include <QPrintDialog>
 
 
-Browser::Browser( const QString home, bool showToolBar, QWidget* parent, Qt::WFlags flags)
-    : QMainWindow( parent, flags )
+Browser::Browser( const QString home, bool showToolBar, QWidget* parent)
+    : QMainWindow( parent)
 {
 setWindowTitle("Texmaker");
-#ifdef Q_WS_MACX
+#if defined(Q_OS_MAC)
 setWindowIcon(QIcon(":/images/logo128.png"));
 #else
 setWindowIcon(QIcon(":/images/appicon.png"));

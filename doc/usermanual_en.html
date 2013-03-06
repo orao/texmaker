@@ -197,7 +197,8 @@ and the cursor will jump directly to the "•" field.<br><IMG src="doc17.png" bo
 <li>You can also define an <b>unlimited number of tags</b> via the "User" panel in the "structure view" : just right-click on this panel to add or remove an item.<br>
 All theses tags can be included in the document by clicking on an item in the panel or directly with the keyboard trigger ":foo" + key right.
 </li>
-<li>All the "@" characters in the code are automatically replaced by "•" place holders in the editor and the cursor will jump directly to the first "•" field (if some text has been selected in the editor before, the first "•" field will be replaced automatically by the selected text).
+<li>All the "@" characters in the code are automatically replaced by "•" place holders in the editor and the cursor will jump directly to the first "•" field (if some text has been selected in the editor before, the first "•" field will be replaced automatically by the selected text).<br>
+Note : @@ will be replaced by the @ character in the editor (and not by a double placeholder)
 </li>
 </ul>
 </p>
@@ -315,12 +316,6 @@ Defaults keyboard shorscuts (*:can be modified - "Configure Texmaker" -> "Editor
 </p>
 <h2><a name="SECTION40">4.11 The "Source Viewer" panel</a></h2>
 To make easy copy/paste operations between two documents, users can open a document (in read-only mode) beside the editor with the "Source Viewer" panel.
-<!--<h2><a name="SECTION41">4.12 Printing a pdf document with the built-in pdf viewer on windows</a></h2>
-<ul>
-<li>Be sure that the ghostscript program is installed and that the path to the "gswin32c.exe" file in the Texmaker configuration dialog is good.</li>
-<li>After clicking on the "print" button, fix the paper size and the print range.</li>
-<li>Use the "properties" button in the standard windows printing dialog wich appears to fix the paper size and orientation.</li>
-</ul>-->
 <h2><a name="SECTION42">4.12 "Use a 'build' subdirectory..." option for (pdf)latex command</a></h2>
 By using this option (configure Texmaker -> Commands), the "--output-directory=build" parameter will be automatically added to the (pdf)latex command and texmaker will search the log and pdf files into this subdirectory (the "build" subdirectory is automatically created by Texmaker).<br>
 <b>Remarks :</b>
@@ -335,7 +330,7 @@ By using this option (configure Texmaker -> Commands), the "--output-directory=b
 <li>If this option is checked, the "clean" command will make a copy of the ps/pdf files from the "build" subdirectory to the current directory and will delete all the others files in the "build" subdirectory (the pdf file is not deleted because Texmaker uses it for the pdf viewer).</li>
 </ul>
 <h2><a name="SECTION43">4.13 Replacing text with a regular expression</a></h2>
-The parameters $1, $2... must be used for the captured text and the "Regular Expression" option must be checked (click on the "+" button)<br>
+The parameter $1 must be used for the captured text and the "Regular Expression" option must be checked (click on the "+" button)<br>
 For example (to replace all the \textit{foo} by \textbf{foo}) :
 <ul>
 <li>"Find" field : <tt>\\textit\{([^}]*)\}</tt></li>
@@ -344,14 +339,7 @@ For example (to replace all the \textit{foo} by \textbf{foo}) :
 <h2><a name="SECTION44">4.14 Using Texmaker as an Asymptote editor</a></h2>
 <ul>
 <li>For asymptote code embedded in a latex document, just use the "PdfLaTex+Asymptote+PdfLaTeX+View Pdf" mode for the quick build command.</li>
-<li>Texmaker can also be used to edit and compile directly asymptote figure not embedded in a latex document. To use Texmaker as an asymptote editor :
-<ol>
-<li>"User" menu -> "User commands" -> "Edit User Commands"</li>
-<li>Give a name to the command and click on the "wizard" button"</li>
-<li>Add "Asymptote"+"Pdf viewer"</li>
-<li>In the command line, insert the parameters <tt> -f pdf -noView </tt> just before <tt>%.asy</tt></li>
-<li>Then you can edit yours .asy figures and compile them directly with this "user command" (you can select it in the toolbar) : the pdf will be autmatically displayed in the internal Pdf viewer.</li>
-</ol>
+<li>Texmaker can also be used to edit and compile directly asymptote figure not embedded in a latex document. If the current document is an .asy file, the "Quick build" command (F1) will launch automatically the special "quick build" command for .asy files set in the configuration dialog.
 </li>
 </ul>
 </body></html>

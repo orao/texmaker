@@ -24,6 +24,7 @@ modified by Pascal Brachet
 
 #include <QtCore>
 #include <QtGui>
+#include <QGraphicsObject>
 
 #include "poppler-qt4.h"
 

@@ -20,6 +20,12 @@ along with qpdfview.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "presentationview.h"
+#include <QApplication>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtConcurrent>
+#endif
+#include <QToolTip>
+
 
 PresentationView::PresentationView(QMutex* mutex, Poppler::Document* document) : QWidget(),
     m_mutex(0),

@@ -16,6 +16,7 @@
 #include <QTextCursor>
 #include <QFileDialog>
 #include <QTextBlock>
+#include <QLineEdit>
 
 SourceView::SourceView(QWidget *parent,QFont & efont,bool line, QList<QColor> edcolors, QList<QColor> hicolors ) : QWidget(parent)
 {

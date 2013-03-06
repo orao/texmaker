@@ -14,6 +14,8 @@
 #include <QTextCursor>
 #include <QPlainTextEdit>
 #include <QTextBlock>
+#include <QToolTip>
+#include <QScrollBar>
 #include <QDebug>
 #include "blockdata.h"
 

@@ -48,7 +48,7 @@ class PdfViewer : public QMainWindow
 {
     Q_OBJECT
 public:
-    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString psize,const QKeySequence edfocus, const QString SpellLang, const qreal startScale, QWidget* parent = 0, Qt::WFlags flags = 0);
+    PdfViewer( const QString fileName, const QString externalCommand, const QString ghostscriptCommand, const QString lpopt,const QKeySequence edfocus, const QString SpellLang, const qreal startScale, QWidget* parent = 0);
     ~PdfViewer();
     QString pdf_file;
 public slots:
@@ -68,7 +68,7 @@ QByteArray windowstate;
 
 DocumentView* pdfview;
 Poppler::Document *doc;
-QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct,*printAct, *externAct,*checkerAct;
+QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct,*printAct, *externAct,*checkerAct, *searchAct;
 
 QAction *continuousModeAction, *twoPagesModeAction, *rotateLeftAction, *rotateRightAction, *presentationAction;
 QDockWidget *StructureView;
@@ -77,8 +77,8 @@ QListWidget *listpagesWidget;
 
 QComboBox *scaleComboBox;
 QLineEdit *searchLineEdit;
-QPushButton *findButton;
-QString viewpdf_command, gswin32c_command, paper_size, spell_lang;
+//QPushButton *findButton;
+QString viewpdf_command, gswin32c_command, lp_options, spell_lang;
 int currentPage;
 qreal currentScale, lastScale, previousScale;
 bool fileLoaded;
@@ -94,6 +94,7 @@ QStack<int> stack;
 QStack<int> forwardStack;
 bool showingListPages;
 int lastHpos;
+bool islastContinuous;
 QPointer<Browser> browserWindow;
 
 private slots:

@@ -14,7 +14,7 @@
 #include <QFrame>
 #include <QTextDocument>
 #include <QTextCursor>
-//#include <QTextEdit>
+#include <QLineEdit>
 #include <QTextBlock>
 
 LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces, int tabwidth,const QKeySequence viewfocus,QString name,QStringList ulist) : QWidget(parent)

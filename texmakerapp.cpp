@@ -46,17 +46,17 @@ foreach (QTranslator* tr, translatorsList)
 translatorsList.clear();
 QTranslator* appTranslator=new QTranslator(this);
 QTranslator* basicTranslator=new QTranslator(this);
-#if defined( Q_WS_X11 )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #ifdef USB_VERSION
 QString transdir=QCoreApplication::applicationDirPath();
 #else
 QString transdir=PREFIX"/share/texmaker";
 #endif
 #endif
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 QString transdir=QCoreApplication::applicationDirPath() + "/../Resources";
 #endif
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN32)
 QString transdir=QCoreApplication::applicationDirPath();
 #endif
 if ( locale.length() < 2 ) locale = "en";
@@ -81,11 +81,13 @@ makeTranslation(language);
 QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/fonts/DejaVuSansCondensed.ttf"));
 QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/fonts/DejaVuSansCondensed-Bold.ttf"));
 QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/fonts/DejaVuSansCondensed-Oblique.ttf"));
+
 mw = new Texmaker();
+
 connect( this, SIGNAL( lastWindowClosed() ), this, SLOT( quit() ) );
 splash->finish(mw);
 delete splash;
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 if (!MacFile.isEmpty()) mw->load(MacFile);
 #endif
 for (QStringList::Iterator it = ++(args.begin()); it != args.end(); it++)
@@ -97,7 +99,7 @@ for (QStringList::Iterator it = ++(args.begin()); it != args.end(); it++)
 }
 
 
-#if defined( Q_WS_MACX )
+#if defined(Q_OS_MAC)
 bool TexmakerApp::event ( QEvent * event )
 {
 if (event->type() == QEvent::FileOpen) 

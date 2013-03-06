@@ -25,6 +25,8 @@ modified by Pascal Brachet
 #include <QtCore>
 #include <QtXml>
 #include <QtGui>
+#include <QGraphicsView>
+#include <QPrinter>
 
 #include "poppler-qt4.h"
 

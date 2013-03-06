@@ -14,6 +14,8 @@
 #include <QTextCursor>
 #include <QPlainTextEdit>
 #include <QTextBlock>
+#include <QScrollBar>
+#include <QToolTip>
 #include "blockdata.h"
 
 LightLineNumberWidget::LightLineNumberWidget(LightLatexEditor* editor, QWidget* parent)

@@ -206,7 +206,8 @@ Remarques :
 et le curseur se positionnera automatiquement sur le champ "•".<br><IMG src="doc17.png" border="1"></li>
 <li>Il est aussi possible de définir autant de balises que l'on veut à l'aide du panneau "utilisateur" de la vue "structure" : il suffit d'un clic-droit sur ce panneau pour ajouter ou supprimer une balise.<br>
 Ces balises peuvent être insérées dans le document en cliquant sur un item ou directement au clavier grâce au déclencheur clavier ":truc + touche flèche droite". </li>
-<li>Tous les caractères "@" utilisés dans le code de la balise seront automatiquement remplacés par des marques "•" dans l'éditeur et le curseur se positionnera automatiquement sur le premier champ "•" (si du texte a été sélectionné avant dans l'éditeur, le premier champ "•" sera automatiquement remplacé par le texte sélectionné).</li>
+<li>Tous les caractères "@" utilisés dans le code de la balise seront automatiquement remplacés par des marques "•" dans l'éditeur et le curseur se positionnera automatiquement sur le premier champ "•" (si du texte a été sélectionné avant dans l'éditeur, le premier champ "•" sera automatiquement remplacé par le texte sélectionné).<br>
+Note : @@ dans une balise sera remplacé par la caractère @ dans l'éditeur. </li>
 </ul>
 <p>Il est aussi possible de définir des commandes personnelles via le menu "Utilisateur - Commandes utilisateurs". Un % représente le nom du fichier à traiter sans extension. Les commandes, une fois définies, peuvent-être lancées par les raccourcis-claviers Alt+Shift+F1...Alt+Shift+F5 . Elles peuvent être aussi lancées à partir de la barre d'outils (il suffit de sélectionner cette commande avant de cliquer sur le bouton "Exécuter").</p>
 <h2><a name="SECTION34">4.5 Support Pstricks/Metapost/Tikz/Asymptote</a></h2>
@@ -335,7 +336,7 @@ Lors de l'utilisation de cette option (configure Texmaker -> Commandes), le para
 <li>Avec cette option, la commande "Nettoyer" créera une copie des fichiers ps/pdf du sous-répertoire "build" vers le répertoire courant et effacera tous les autres fichiers du sous-répertoire (le pdf n'est pas effacé car Texmaker l'utilise dans l'afficheur intégré).</li>
 </ul>
 <h2><a name="SECTION43">4.13 Remplacer du texte avec une expression régulière</a></h2>
-Les paramètres $1, $2... doivent être utilisés pour le texte capturé et l'option "Expression régulière" doit être cochée (clic sur le bouton "+")<br>
+Les paramètres $1 doivent être utilisés pour le texte capturé et l'option "Expression régulière" doit être cochée (clic sur le bouton "+")<br>
 Exemple (pour remplacer tous les \textit{foo} par \textbf{foo}) :
 <ul>
 <li>champ "Chercher" : <tt>\\textit\{([^}]*)\}</tt></li>
@@ -344,14 +345,7 @@ Exemple (pour remplacer tous les \textit{foo} par \textbf{foo}) :
 <h2><a name="SECTION44">4.14 Utlisation de texmaker comme éditeur Asymptote</a></h2>
 <ul>
 <li>Pour le code asymptote intégré dans un document LaTeX, il suffit d'utiliser le mode "PdfLaTex+Asymptote+PdfLaTeX+Voir Pdf" pour la compilation rapide.</li>
-<li>Texmaker peut aussi éditer et compiler du code asymptote "autonome" (non inclus dans un document LaTeX). Pour se servir de Texmaker comme éditeur Asymptote :
-<ol>
-<li>menu "Utilisateur" -> "Commande utilisateur" -> "Editer commande utilisateur"</li>
-<li>Donner un nom à la commande et cliquer sur le bouton "Assistant".</li>
-<li>Ajouter avec l'assistant les commandes "Asymptote" et "Voir Pdf".</li>
-<li>Dans la ligne de commande, insérer ensuite les paramètres <tt> -f pdf -noView </tt> juste avant <tt>%.asy</tt>.</li>
-<li>Il n'y a plus qu'à sélectionner cette commande utilisateur dans la barre d'outils et compiler le fichier .asy avec la barre d'outils (ou utiliser directement le raccourci alt+shift+F1). Le pdf du graphique s'affiche alors automatiquement.</li>
-</ol>
+<li>Texmaker peut aussi éditer et compiler du code asymptote "autonome" (non inclus dans un document LaTeX). Si le document courant est un fichier .asy, la commande "Compil rapide" (F1) lancera automatiquement la commande "compil rapide" spécialement dédiée aux fichiers .asy (qui est définie dans la boîte de dialogue de configuration de Texmaker).
 </li>
 </ul>
 </body></html>

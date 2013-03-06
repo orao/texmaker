@@ -32,10 +32,13 @@
 #include <QTextCodec>
 #include <QFile>
 #include <QFileInfo>
-#include <QInputContext>
 #include <QTextDocumentFragment>
 #include <QFuture>
 #include <QtCore>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtConcurrent>
+#endif
+//#include <QPlatformInputContext>
 
 
 #include "blockdata.h"
@@ -760,7 +763,7 @@ layout->draw(&painter, offset, selections, er);
                 cursor_cpos = cpos;
                 cursor_pen = painter.pen();
             }
-#ifndef Q_WS_MAC // no visible cursor on mac
+#if !defined(Q_OS_MAC) // no visible cursor on mac
             if (blockSelectionCursorRect.isValid())
                 painter.fillRect(blockSelectionCursorRect, palette().text());
 #endif
@@ -933,13 +936,13 @@ a->setData(QVariant(cursorForPosition(e->pos()).blockNumber() + 1));
 connect(a, SIGNAL(triggered()), this, SLOT(jumpToPdf()));
 menu->addAction(a);
 
-QInputContext *qic = inputContext();
-if (qic) 
-    {
-    QList<QAction *> imActions = qic->actions();
-    for (int i = 0; i < imActions.size(); ++i)
-    menu->addAction(imActions.at(i));
-    }
+// QInputContext *qic = inputContext();
+// if (qic) 
+//     {
+//     QList<QAction *> imActions = qic->actions();
+//     for (int i = 0; i < imActions.size(); ++i)
+//     menu->addAction(imActions.at(i));
+//     }
 
 menu->exec(e->globalPos());
 delete menu;
@@ -1770,20 +1773,32 @@ else
 		    trigger=":"+tagList.at(2);
 		    if (trigger!=":" && txt.contains(trigger))
 		      {
-		      code.replace("@",QString(0x2022));
+			QRegExp rx("(@+)");
+			int index=0;
+			while ((index = rx.indexIn(code,index)) != -1) 
+			{
+			if (rx.cap(1)=="@") code.replace(rx.pos(1),1,QString(0x2022));
+			else if (rx.cap(1)=="@@") code.replace(rx.pos(1),2,"@");
+			index += rx.matchedLength();
+			}
+		      //code.replace("@",QString(0x2022));
 		      if (code.left(1)=="%")
 			{
 			code=code.remove(0,1);
 			code="\\begin{"+code+"}\n"+QString(0x2022)+"\n\\end{"+code+"}\n";
 			}
 		      search(trigger, true, false,false,true,false);
-		      replace(code,false,"");
 		      int pos=cursor.position();
+		      cursor.removeSelectedText();
+		      insertWithMemoryIndent(code);
+		      //replace(code,false,"");
+		      //int pos=cursor.position();
 		      if (code.contains(QString(0x2022))) 
 			{
 			cursor.setPosition(pos,QTextCursor::MoveAnchor);
 			setTextCursor(cursor);
-			search(QString(0x2022) ,true,false,false,true,false);
+			//search(QString(0x2022) ,true,false,false,true,false);
+			search(QString(0x2022) ,true,false,true,true,false);
 			}
 		      else 
 			{
@@ -2455,18 +2470,10 @@ if (e->modifiers() & Qt::AltModifier)
 
 	QTextCursor cursor = textCursor();
 	// get visual column
-#if (QT_VERSION >= 0x040700)
 	int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
 	if (cursor.positionInBlock() == cursor.block().length()-1) {
 	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
 	}
-#else
-	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
-	if (cursor.position() - cursor.block().position() == cursor.block().length()-1) {
-	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
-	}
-#endif
-
 	  blockSelection.moveAnchor(cursor.blockNumber(), column);
 	setTextCursor(blockSelection.selection());
 	viewport()->update();
@@ -2655,11 +2662,9 @@ void LatexEditor::insertFromMimeData(const QMimeData *source)
         QTextCursor cursor = textCursor();
         cursor.beginEditBlock();
         int initialCursorPosition = cursor.position();
-#if (QT_VERSION >= 0x040700)
+
         int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
-#else
-	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
-#endif
+
         cursor.insertText(lines.first());
         for (int i = 1; i < lines.count(); ++i) {
             QTextBlock next = cursor.block().next();

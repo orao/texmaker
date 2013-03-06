@@ -24,6 +24,7 @@ along with qpdfview.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtCore>
 #include <QtGui>
+#include <QWidget>
 
 #include "poppler-qt4.h"
 

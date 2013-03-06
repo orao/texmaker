@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2012 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2013 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   addons by Luis Silvestre                           *
  *                                                                         *
@@ -69,7 +69,7 @@ class Texmaker : public QMainWindow
     Q_OBJECT
 
 public:
-    Texmaker(QWidget *parent = 0, Qt::WFlags flags = 0);
+    Texmaker(QWidget *parent = 0);
     ~Texmaker();
 QString getName();
 QFont EditorFont;
@@ -107,7 +107,9 @@ FilesMap filenames;
 KeysMap shortcuts, actionstext;
 //gui
 QFrame *LeftPanelFrameBis, *Outputframe, *separatorline;
+
 MiniSplitter *splitter1, *splitter2, *splitter3 ;
+
 PlayerButton *toggleStructureButton, *toggleLogButton, *togglePdfButton, *toggleSourceButton; 
 bool embedinternalpdf,winmaximized;
 
@@ -121,7 +123,7 @@ UserTagsListWidget *usertagsListWidget;
 XmlTagsListWidget *MpListWidget, *PsListWidget, *leftrightWidget, *tikzWidget, *asyWidget;
 SymbolListWidget *RelationListWidget, *ArrowListWidget, *MiscellaneousListWidget, *DelimitersListWidget, *GreekListWidget, *MostUsedListWidget, *FavoriteListWidget;
 QTreeWidget *StructureTreeWidget;
-QVBoxLayout *OutputLayoutV, *CentralLayoutBis,*LeftPanelLayoutBis,;
+QVBoxLayout *OutputLayoutV, *CentralLayoutBis,*LeftPanelLayoutBis;
 QHBoxLayout *OutputLayoutH, *LeftPanelLayout, *CentralLayout;
 QTableWidget *OutputTableWidget;
 //menu-toolbar
@@ -164,7 +166,7 @@ bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview,
 bool lmodern_package, kpfonts_package, fourier_package;
 QString document_class, typeface_size, paper_size, document_encoding, author, geometry_options, babel_default;
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize, xelatex_command, htlatex_command, htlatex_options;
-QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command, sweave_command, texdoc_command;
+QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command, sweave_command, texdoc_command, quick_asy_command, lp_options;
 QString spell_dic, spell_ignored_words;
 QString lastDocument, input_encoding, lastChild, lastTemplate;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
@@ -192,7 +194,7 @@ QList<int> onlyErrorList;
 int errorIndex, runIndex, viewIndex;
 QString pdfCheckerLang;
 //X11
-#if defined( Q_WS_X11 )
+#if defined( unix )
 QString x11style;
 QString x11fontfamily;
 int x11fontsize;

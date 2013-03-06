@@ -15,7 +15,7 @@
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QtWebKit>
+//#include <QtWebKit>
 #include <QWebView>
 
 
@@ -23,7 +23,7 @@ class Browser : public QMainWindow
 {
     Q_OBJECT
 public:
-    Browser( const QString home, bool showToolBar=true, QWidget* parent = 0, Qt::WFlags flags = 0);
+    Browser( const QString home, bool showToolBar=true, QWidget* parent = 0);
     ~Browser();
 
 protected slots:

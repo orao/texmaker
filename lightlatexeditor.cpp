@@ -35,7 +35,7 @@
 #include <QTextCodec>
 #include <QFileInfo>
 #include <QMessageBox>
-#include <QInputContext>
+#include <QLineEdit>
 #include <QTextDocumentFragment>
 
 #include "blockdata.h"
@@ -696,7 +696,7 @@ layout->draw(&painter, offset, selections, er);
                 cursor_cpos = cpos;
                 cursor_pen = painter.pen();
             }
-#ifndef Q_WS_MAC // no visible cursor on mac
+#if !defined(Q_OS_MAC)
             if (blockSelectionCursorRect.isValid())
                 painter.fillRect(blockSelectionCursorRect, palette().text());
 #endif
@@ -807,18 +807,10 @@ if (e->modifiers() & Qt::AltModifier)
 
 	QTextCursor cursor = textCursor();
 	// get visual column
-#if (QT_VERSION >= 0x040700)
 	int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
 	if (cursor.positionInBlock() == cursor.block().length()-1) {
 	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
 	}
-#else
-	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
-if (cursor.position() - cursor.block().position() == cursor.block().length()-1) {
-	    column += (e->pos().x() - cursorRect().center().x())/QFontMetricsF(font()).width(QLatin1Char(' '));
-	}
-#endif
-
 	  blockSelection.moveAnchor(cursor.blockNumber(), column);
 	setTextCursor(blockSelection.selection());
 	viewport()->update();
@@ -989,11 +981,8 @@ void LightLatexEditor::insertFromMimeData(const QMimeData *source)
         QTextCursor cursor = textCursor();
         cursor.beginEditBlock();
         int initialCursorPosition = cursor.position();
-#if (QT_VERSION >= 0x040700)
         int column = blockSelection.columnAt(cursor.block().text(), cursor.positionInBlock());
-#else
-	int column = blockSelection.columnAt(cursor.block().text(), cursor.position() - cursor.block().position());
-#endif
+
         cursor.insertText(lines.first());
         for (int i = 1; i < lines.count(); ++i) {
             QTextBlock next = cursor.block().next();
