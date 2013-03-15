@@ -1,3 +1,11 @@
+version 4.0 -> 4.0.1 :
+---------------------
+Bugs fixed :
+- a potentiel crash when synctex send a bad page number has been fixed
+Features :
+- a s character is no more inserted while using ctrl+S shortcut with an unmodified document (work around about the new behavior of Qt5 with the disabled shortcut)
+- the -Pdownload35 option has been added to the default dvips command for miktex
+
 version 3.5.2 -> 4.0 :
 ---------------------
 Features :

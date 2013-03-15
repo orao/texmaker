@@ -1813,7 +1813,7 @@ else
 	      }
 	  if (!found) QPlainTextEdit::keyPressEvent(e);
 	  }
-	else QPlainTextEdit::keyPressEvent(e);
+	else if (s1.matches(QKeySequence(Qt::CTRL + Qt::Key_S))!=QKeySequence::ExactMatch && s1.matches(QKeySequence(Qt::CTRL + Qt::Key_Y))!=QKeySequence::ExactMatch) QPlainTextEdit::keyPressEvent(e);
 	}
 if (c && !c->popup()->isVisible()) 
 	{

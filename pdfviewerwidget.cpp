@@ -336,6 +336,7 @@ if (scanner != NULL)
 doc = Poppler::Document::load(fn);
 if (pdfview->open(fn)) 
   {
+
   listpagesWidget->clear();
   doc=pdfview->doc();
   doc->setRenderHint(Poppler::Document::Antialiasing);
@@ -360,6 +361,7 @@ if (pdfview->open(fn))
   StructureTreeView->setModel(pdfview->outlineModel());
   QString syncFile = QFileInfo(fn).canonicalFilePath();
   scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
+
   if ((fn==lastFile) && (lpage <= doc->numPages()) && (lpage>0))
     {
     currentPage=lpage;
@@ -508,6 +510,7 @@ disconnect(presentationAction, SIGNAL(triggered()),this, SLOT(on_presentation_tr
 
 void PdfViewerWidget::jumpToPdfFromSource(QString sourceFile, int source_line)
 {
+
 show();
 if (windowState()==Qt::WindowMinimized) setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
 qApp->setActiveWindow(this);
@@ -539,6 +542,7 @@ if (!found)
   gotoPage(currentPage);
   return;
   }
+
 if (synctex_display_query(scanner, name.toUtf8().data(), source_line, 0) > 0) 
   {
   int page = -1;
@@ -556,9 +560,9 @@ if (synctex_display_query(scanner, name.toUtf8().data(), source_line, 0) > 0)
   if (page > 0) 
     {
      disconnect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
-    QRectF r = path.boundingRect();
-    currentPage=page;
-    lastPage=currentPage;
+     QRectF r = path.boundingRect();
+     currentPage=page;
+     lastPage=currentPage;
     pdfview->showRect(currentPage-1,r);
     path.setFillRule(Qt::WindingFill);
     QTimer::singleShot(500,this, SLOT(slotHighlight()) );
@@ -1081,7 +1085,6 @@ pdfview->print(&printer);
   args << "--";
   args << QString("\"%1\"").arg(pdf_file);
   command=args.join(" ");
-  qDebug() << command;
   if(QProcess::execute(command) == 0) return;
   else pdfview->print(&printer);
 #endif

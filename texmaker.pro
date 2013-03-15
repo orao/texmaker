@@ -7,7 +7,7 @@ QT += xml webkit network
 #QT += xml webkitwidgets network widgets printsupport concurrent
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.0
+TEXMAKERVERSION=4.0.1
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
@@ -281,7 +281,8 @@ isEmpty( DESKTOPDIR ) {
 isEmpty( ICONDIR ) {
     ICONDIR=/usr/share/pixmaps
 }
-
+## QT5
+#INCLUDEPATH +=$${QTDIR}/include/
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4
 LIBS         += -L/usr/lib -lz

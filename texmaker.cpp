@@ -4006,7 +4006,7 @@ lp_options=config->value("Tools/LP","-o fitplot").toString();
 #if defined(Q_OS_WIN32)
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+Space").toString();
 latex_command=config->value("Tools/Latex","latex -interaction=nonstopmode %.tex").toString();
-dvips_command=config->value("Tools/Dvips","dvips -o %.ps %.dvi").toString();
+dvips_command=config->value("Tools/Dvips","dvips -Pdownload35 -o %.ps %.dvi").toString();
 ps2pdf_command=config->value("Tools/Ps2pdf","ps2pdf %.ps").toString();
 makeindex_command=config->value("Tools/Makeindex","makeindex %.idx").toString();
 bibtex_command=config->value("Tools/Bibtex","bibtex %").toString();

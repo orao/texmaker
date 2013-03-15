@@ -1456,6 +1456,7 @@ void DocumentView::showRect(int index, const QRectF &r)
 {
 QGraphicsRectItem* h=new QGraphicsRectItem();
 jumpToPage(index+1);
+if (index >= m_pages.count()) return;
 PageItem* page = m_pages.at(index);
 h->setPos(page->pos());
 h->setTransform(page->transform());
@@ -1464,6 +1465,7 @@ h->setVisible(true);
 disconnect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(on_verticalScrollBar_valueChanged(int)));
 centerOn(h);
 connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(on_verticalScrollBar_valueChanged(int)));
+
 }
 
 void DocumentView::on_syncpage(int index, const QPointF& pagePos)
