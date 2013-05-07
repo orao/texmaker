@@ -19,6 +19,8 @@
 #include <QTableWidgetItem>
 #include <QDebug>
 
+#include "geticon.h"
+
 ConfigDialog::ConfigDialog(QWidget* parent): QDialog( parent)
 {
 setModal(true);
@@ -144,7 +146,9 @@ ui.contentsWidget->setCurrentRow(0);
 #if defined(Q_OS_WIN32)
 ui.lineEditPrinter->setEnabled(false);
 #endif
-
+#if defined(Q_OS_MAC)
+resize(995,754);
+#endif
 }
 
 ConfigDialog::~ConfigDialog(){
@@ -157,26 +161,26 @@ int h=0;
 ui.contentsWidget->setIconSize ( QSize(96,96 ));
 
 QListWidgetItem *commandButton = new QListWidgetItem(ui.contentsWidget);
-commandButton->setIcon(QIcon(":/images/configtools.png"));
+commandButton->setIcon(getIcon(":/images/configtools.png"));
 commandButton->setText(tr("Commands"));
 commandButton->setTextAlignment(Qt::AlignHCenter);
 commandButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
 
 QListWidgetItem *quickButton = new QListWidgetItem(ui.contentsWidget);
-quickButton->setIcon(QIcon(":/images/configquick.png"));
+quickButton->setIcon(getIcon(":/images/configquick.png"));
 quickButton->setText(tr("Quick Build"));
 quickButton->setTextAlignment(Qt::AlignHCenter);
 quickButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
 QListWidgetItem *editorButton = new QListWidgetItem(ui.contentsWidget);
-editorButton->setIcon(QIcon(":/images/configeditor.png"));
+editorButton->setIcon(getIcon(":/images/configeditor.png"));
 editorButton->setText(tr("Editor"));
 editorButton->setTextAlignment(Qt::AlignHCenter);
 editorButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
 QListWidgetItem *keysButton = new QListWidgetItem(ui.contentsWidget);
-keysButton->setIcon(QIcon(":/images/configkeys.png"));
+keysButton->setIcon(getIcon(":/images/configkeys.png"));
 keysButton->setText(tr("Shortcuts"));
 keysButton->setTextAlignment(Qt::AlignHCenter);
 keysButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);

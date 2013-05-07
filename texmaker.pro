@@ -7,11 +7,12 @@ QT += xml webkit network
 #QT += xml webkitwidgets network widgets printsupport concurrent
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.0.1
+TEXMAKERVERSION=4.0.2
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 ###############################
 HEADERS	+= texmaker.h \
+	geticon.h \
 	documentview.h \
 	pageitem.h \
 	presentationview.h \
@@ -117,6 +118,7 @@ HEADERS	+= texmaker.h \
 	encodingprober/qencodingprober.h \
 	encodingprober/UnicodeGroupProber.h
 SOURCES	+= main.cpp \
+	geticon.cpp \
 	texmakerapp.cpp \
 	texmaker.cpp \
 	documentview.cpp \
@@ -266,7 +268,9 @@ TRANSLATIONS += texmaker_fr.ts \
 	texmaker_ca.ts \
 	texmaker_sr.ts \
 	texmaker_el.ts \
-	texmaker_se.ts
+	texmaker_se.ts \
+	texmaker_ar.ts \
+	texmaker_lv.ts
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -391,6 +395,8 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_sr.qm \
 	locale/texmaker_el.qm \
 	locale/texmaker_se.qm \
+	locale/texmaker_ar.qm \
+	locale/texmaker_lv.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -534,6 +540,8 @@ utilities.files =doc/doc1.png \
 	locale/texmaker_sr.qm \
 	locale/texmaker_el.qm \
 	locale/texmaker_se.qm \
+	locale/texmaker_ar.qm \
+	locale/texmaker_lv.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -687,6 +695,8 @@ utilities.files = utilities/qt_menu.nib \
 	locale/texmaker_sr.qm \
 	locale/texmaker_el.qm \
 	locale/texmaker_se.qm \
+	locale/texmaker_ar.qm \
+	locale/texmaker_lv.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \

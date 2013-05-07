@@ -194,7 +194,7 @@ QList<int> onlyErrorList;
 int errorIndex, runIndex, viewIndex;
 QString pdfCheckerLang;
 //X11
-#if defined( unix )
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 QString x11style;
 QString x11fontfamily;
 int x11fontsize;

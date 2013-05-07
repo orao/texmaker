@@ -8,6 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QApplication>
 #include "playerbutton.h"
 
 
@@ -20,9 +21,27 @@ state = true;
 
 void PlayerButton::setImages( QString name )
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (qApp->devicePixelRatio()==2)
+  {
+  this->pixEnabled.load(":/images/"+name+"_enabled@2x.png");
+  this->pixEnabled.setDevicePixelRatio(qApp->devicePixelRatio());
+  this->pixHover.load(":/images/"+name+"_enabled@2x.png");
+  this->pixHover.setDevicePixelRatio(qApp->devicePixelRatio());
+  this->pixDisabled.load(":/images/"+name+"_disabled@2x.png");
+  this->pixDisabled.setDevicePixelRatio(qApp->devicePixelRatio());
+  }
+else 
+  {
+  this->pixEnabled.load(":/images/"+name+"_enabled.png");
+  this->pixHover.load(":/images/"+name+"_enabled.png");
+  this->pixDisabled.load(":/images/"+name+"_disabled.png");
+  }
+#else
 this->pixEnabled.load(":/images/"+name+"_enabled.png");
 this->pixHover.load(":/images/"+name+"_enabled.png");
 this->pixDisabled.load(":/images/"+name+"_disabled.png");
+#endif
 this->setPixmap(this->pixEnabled);
 }
 

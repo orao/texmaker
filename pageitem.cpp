@@ -203,7 +203,9 @@ void PageItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget
     }
 
     // page
-
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (qApp->devicePixelRatio()==2) image.setDevicePixelRatio(2);
+#endif
     if(s_decoratePages)
     {
         painter->fillRect(m_boundingRect, QBrush(s_invertColors ? Qt::black : Qt::white));
@@ -649,18 +651,21 @@ void PageItem::prepareGeometry()
         m_normalizedTransform.rotate(270.0);
         break;
     }
-
+qreal extra=1.0;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (qApp->devicePixelRatio()==2) extra=2.0;
+#endif
     switch(m_rotation)
     {
     case Poppler::Page::Rotate0:
     case Poppler::Page::Rotate90:
-        m_transform.scale(m_scaleFactor * m_physicalDpiX / 72.0, m_scaleFactor * m_physicalDpiY / 72.0);
-        m_normalizedTransform.scale(m_scaleFactor * m_physicalDpiX / 72.0 * m_size.width(), m_scaleFactor * m_physicalDpiY / 72.0 * m_size.height());
+        m_transform.scale(m_scaleFactor * m_physicalDpiX / 72.0/extra, m_scaleFactor * m_physicalDpiY / 72.0/extra);
+        m_normalizedTransform.scale(m_scaleFactor * m_physicalDpiX / 72.0/extra * m_size.width(), m_scaleFactor * m_physicalDpiY / 72.0/extra * m_size.height());
         break;
     case Poppler::Page::Rotate180:
     case Poppler::Page::Rotate270:
-        m_transform.scale(m_scaleFactor * m_physicalDpiY / 72.0, m_scaleFactor * m_physicalDpiX / 72.0);
-        m_normalizedTransform.scale(m_scaleFactor * m_physicalDpiY / 72.0 * m_size.width(), m_scaleFactor * m_physicalDpiX / 72.0 * m_size.height());
+        m_transform.scale(m_scaleFactor * m_physicalDpiY / 72.0/extra, m_scaleFactor * m_physicalDpiX / 72.0/extra);
+        m_normalizedTransform.scale(m_scaleFactor * m_physicalDpiY / 72.0/extra * m_size.width(), m_scaleFactor * m_physicalDpiX / 72.0/extra * m_size.height());
         break;
     }
 

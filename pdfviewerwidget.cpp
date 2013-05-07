@@ -28,6 +28,7 @@
 #include <QMessageBox>
 #include <QApplication>
 
+#include "geticon.h"
 
 #include "poppler-qt4.h"
 
@@ -117,40 +118,40 @@ centralToolBarBis->setMovable(false);
 centralToolBarBis->setIconSize(QSize(16,16 ));
 centralToolBarBis->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-toggleStructAct=new QAction(QIcon(":/images/structure.png"),tr("Show/Hide Table of contents"),this);
+toggleStructAct=new QAction(getIcon(":/images/structure.png"),tr("Show/Hide Table of contents"),this);
 connect(toggleStructAct, SIGNAL(triggered()), this, SLOT(ToggleStructure()));
 centralToolBarBis->addAction(toggleStructAct);
 
 centralToolBarBis->addSeparator();
 
-upAct = new QAction(QIcon(":/images/up.png"), tr("Previous"), this);
+upAct = new QAction(getIcon(":/images/up.png"), tr("Previous"), this);
 //upAct->setShortcut(QKeySequence::MoveToPreviousPage);
 centralToolBarBis->addAction(upAct);
 
-downAct = new QAction(QIcon(":/images/down.png"), tr("Next"), this);
+downAct = new QAction(getIcon(":/images/down.png"), tr("Next"), this);
 //downAct->setShortcut(QKeySequence::MoveToNextPage);
 centralToolBarBis->addAction(downAct);
 
 centralToolBarBis->addSeparator();
 
-fitWithAct = new QAction(QIcon(":/images/zoom-fit-width.png"), tr("Fit Width"), this);
+fitWithAct = new QAction(getIcon(":/images/zoom-fit-width.png"), tr("Fit Width"), this);
 centralToolBarBis->addAction(fitWithAct);
 
-fitPageAct = new QAction(QIcon(":/images/zoom-fit-best.png"), tr("Fit Page"), this);
+fitPageAct = new QAction(getIcon(":/images/zoom-fit-best.png"), tr("Fit Page"), this);
 centralToolBarBis->addAction(fitPageAct);
 
-zoominAct = new QAction(QIcon(":/images/zoom-in.png"), tr("Zoom In"), this);
+zoominAct = new QAction(getIcon(":/images/zoom-in.png"), tr("Zoom In"), this);
 zoominAct->setShortcut(QKeySequence::ZoomIn);
 centralToolBarBis->addAction(zoominAct);
 
 
-zoomoutAct = new QAction(QIcon(":/images/zoom-out.png"), tr("Zoom Out"), this);
+zoomoutAct = new QAction(getIcon(":/images/zoom-out.png"), tr("Zoom Out"), this);
 zoomoutAct->setShortcut(QKeySequence::ZoomOut);
 centralToolBarBis->addAction(zoomoutAct);
 
 
 optionsButton = new QToolButton(centralToolBarBis);
-optionsButton->setIcon(QIcon(":/images/viewoptions.png"));
+optionsButton->setIcon(getIcon(":/images/viewoptions.png"));
 optionsButton->setText("");
 optionsButton->setPopupMode(QToolButton::InstantPopup);
 QMenu *viewMenu = new QMenu(optionsButton);
@@ -202,7 +203,7 @@ searchLineEdit = new QLineEdit(centralToolBarBis);
 
 centralToolBarBis->addWidget(searchLineEdit);
 
-searchAct=new QAction(QIcon(":/images/pdffind.png"), tr("Find"), this);
+searchAct=new QAction(getIcon(":/images/pdffind.png"), tr("Find"), this);
 centralToolBarBis->addAction(searchAct);
 // findButton=new QPushButton(tr("Find"),centralToolBarBis);
 // centralToolBarBis->addWidget(findButton);
@@ -213,12 +214,12 @@ QWidget* spacer = new QWidget();
 spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 centralToolBarBis->addWidget(spacer);
 
-historyBackAct = new QAction(QIcon(":/images/errorprev.png"), tr("Previous Position"), this);
+historyBackAct = new QAction(getIcon(":/images/errorprev.png"), tr("Previous Position"), this);
 //historyBackAct->setShortcut(QKeySequence::Back);
 //connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 //centralToolBarBis->addAction(historyBackAct);
 
-historyForwardAct = new QAction(QIcon(":/images/errornext.png"), tr("Next Position"), this);
+historyForwardAct = new QAction(getIcon(":/images/errornext.png"), tr("Next Position"), this);
 //historyForwardAct->setShortcut(QKeySequence::Forward);
 //connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 //centralToolBarBis->addAction(historyForwardAct);
@@ -227,13 +228,13 @@ connect( this, SIGNAL( backwardAvailable( bool ) ), historyBackAct, SLOT( setEna
 connect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 //centralToolBarBis->addSeparator();
 
-printAct = new QAction(QIcon(":/images/print.png"), tr("Print"), this);
+printAct = new QAction(getIcon(":/images/print.png"), tr("Print"), this);
 centralToolBarBis->addAction(printAct);
 
-externAct = new QAction(QIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
+externAct = new QAction(getIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
 centralToolBarBis->addAction(externAct);
 
-checkerAct = new QAction(QIcon(":/images/pdfchecker.png"), tr("Check Spelling and Grammar on this page"), this);
+checkerAct = new QAction(getIcon(":/images/pdfchecker.png"), tr("Check Spelling and Grammar on this page"), this);
 centralToolBarBis->addAction(checkerAct);
 
 

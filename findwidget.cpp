@@ -11,6 +11,7 @@
 
 #include "findwidget.h"
 #include <QMessageBox>
+#include "geticon.h"
 
 FindWidget::FindWidget(QWidget* parent)
     : QWidget( parent)
@@ -22,6 +23,7 @@ ui.findButton->setShortcut(Qt::Key_Return);
 ui.findButton->setToolTip("Return");
 ui.closeButton->setShortcut(Qt::Key_Escape);
 ui.closeButton->setToolTip("Escape");
+//ui.closeButton->setIcon(getIcon(":/images/fileclose.png"));
 ui.moreButton->setCheckable(true);
 ui.moreButton->setAutoDefault(false);
 connect(ui.moreButton, SIGNAL(toggled(bool)), this, SLOT(expand(bool)));

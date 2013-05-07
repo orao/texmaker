@@ -14,6 +14,7 @@
 #include <QFont>
 #include <QStandardItemModel>
 #include <QHeaderView>
+#include <QApplication>
 #include <QDebug>
 
 SymbolListWidget :: SymbolListWidget(QWidget *parent, int page) : QTableWidget(parent)
@@ -33,13 +34,24 @@ QString icon_name;
 setShowGrid(true);
 verticalHeader()->hide();
 horizontalHeader()->hide();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+		  if (qApp->devicePixelRatio()==2)
+		  {
+		  setIconSize ( QSize(64,64 ));
+		  }
+else setIconSize ( QSize(32,32 ));
+#else
 setIconSize ( QSize(32,32 ));
+#endif
+//setIconSize ( QSize(32,32 ));
 setSelectionMode (QAbstractItemView::SingleSelection);
 setContextMenuPolicy(Qt::CustomContextMenu);
 menu = new QMenu( this );
 addAct=new QAction(tr("Add to favorites"), this);
 remAct=new QAction(tr("Remove from favorites"), this);
 connect( this, SIGNAL( customContextMenuRequested( const QPoint & )), this, SLOT( customContentsMenu( const QPoint & )));
+
+
 switch (page)
 {
 	case 0:
@@ -195,8 +207,7 @@ for ( uint i = 0; i <=11; ++i )
 			{
 			icon_name=":/symbols/img"+QString::number(ulist[i]+1)+".png";
 			}
-		item->setText(code[ulist[i]]+";"+QString::number(ulist[i]));
-		item->setIcon(QIcon(icon_name));
+        item->setIcon(QIcon(icon_name));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		item->setToolTip(code[ulist[i]]);
 		setItem(i/4,i%4,item);

@@ -73,8 +73,19 @@ if (basicTranslator->load(QString("qt_")+locale,transdir))
 }
 void TexmakerApp::init( QStringList args )
 {
-QPixmap pixmap(":/images/splash.png");
+QPixmap pixmap(400,166);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (qApp->devicePixelRatio()==2)
+{
+pixmap.load(":/images/splash@2x.png");
+pixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+}
+else pixmap.load(":/images/splash.png");
+#else
+pixmap.load(":/images/splash.png");
+#endif
 QSplashScreen *splash = new QSplashScreen(pixmap);
+splash->resize(400,166);
 splash->show();
 ReadSettings();
 makeTranslation(language);

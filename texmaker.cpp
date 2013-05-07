@@ -70,7 +70,7 @@
 //#include <windows.h>
 //#endif
 
-
+#include "geticon.h"
 #include "texmaker.h"
 #include "texmakerapp.h"
 #include "latexeditorview.h"
@@ -95,8 +95,6 @@
 #include "addtagdialog.h"
 #include "exportdialog.h"
 
-
-
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #include "x11fontdialog.h"
 #endif
@@ -111,6 +109,15 @@ ReadSettings();
 
 
 QString tempDir=QDir::tempPath();
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+QString path=QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+if (QDir().mkpath(path)) tempDir=path;
+#else
+QString path=QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
+if (QDir().mkpath(path)) tempDir=path;
+#endif
+#endif
 QString prefixFile=QDir::homePath();
 prefixFile="tks_temp_"+prefixFile.section('/',-1);
 prefixFile=QString(QUrl::toPercentEncoding(prefixFile));
@@ -132,7 +139,7 @@ untitled_id=1;
 setWindowIcon(QIcon(":/images/logo128.png"));
 //MacSupport::addFullscreen(this);
 #else
-setWindowIcon(QIcon(":/images/appicon.png"));
+setWindowIcon(getIcon(":/images/appicon.png"));
 #endif
 QApplication::setOrganizationName("Xm1");
 QApplication::setApplicationName("Texmaker"); 
@@ -200,7 +207,7 @@ StructureTreeWidget->header()->setStretchLastSection(false);
 
 connect( StructureTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *,int )), SLOT(ClickedOnStructure(QTreeWidgetItem *,int)));
 
-connect(LeftPanelToolBar->addAction(QIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
+connect(LeftPanelToolBar->addAction(getIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
 LeftPanelStackedWidget->addWidget(StructureTreeWidget);
 
 OpenedFilesListWidget=new QListWidget(LeftPanelFrame);
@@ -217,7 +224,7 @@ LeftPanelToolBar->addSeparator();
 RelationListWidget=new SymbolListWidget(LeftPanelStackedWidget,0);
 RelationListWidget->setFrameStyle(QFrame::NoFrame);
 connect(RelationListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-relationAct = new QAction(QIcon(":/images/math1.png"),tr("Relation symbols"), this);
+relationAct = new QAction(getIcon(":/images/math1.png"),tr("Relation symbols"), this);
 connect(relationAct, SIGNAL(triggered()), this, SLOT(ShowRelation()));
 LeftPanelToolBar->addAction(relationAct);
 connect(RelationListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
@@ -227,7 +234,7 @@ LeftPanelStackedWidget->addWidget(RelationListWidget);
 ArrowListWidget=new SymbolListWidget(LeftPanelStackedWidget,1);
 ArrowListWidget->setFrameStyle(QFrame::NoFrame);
 connect(ArrowListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-arrowAct = new QAction(QIcon(":/images/math2.png"),tr("Arrow symbols"), this);
+arrowAct = new QAction(getIcon(":/images/math2.png"),tr("Arrow symbols"), this);
 connect(arrowAct, SIGNAL(triggered()), this, SLOT(ShowArrow()));
 LeftPanelToolBar->addAction(arrowAct);
 connect(ArrowListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
@@ -236,7 +243,7 @@ LeftPanelStackedWidget->addWidget(ArrowListWidget);
 MiscellaneousListWidget=new SymbolListWidget(LeftPanelStackedWidget,2);
 MiscellaneousListWidget->setFrameStyle(QFrame::NoFrame);
 connect(MiscellaneousListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-miscAct = new QAction(QIcon(":/images/math3.png"),tr("Miscellaneous symbols"), this);
+miscAct = new QAction(getIcon(":/images/math3.png"),tr("Miscellaneous symbols"), this);
 connect(miscAct, SIGNAL(triggered()), this, SLOT(ShowMisc()));
 LeftPanelToolBar->addAction(miscAct);
 connect(MiscellaneousListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
@@ -245,7 +252,7 @@ LeftPanelStackedWidget->addWidget(MiscellaneousListWidget);
 DelimitersListWidget=new SymbolListWidget(LeftPanelStackedWidget,3);
 DelimitersListWidget->setFrameStyle(QFrame::NoFrame);
 connect(DelimitersListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-delimAct = new QAction(QIcon(":/images/math4.png"),tr("Delimiters"), this);
+delimAct = new QAction(getIcon(":/images/math4.png"),tr("Delimiters"), this);
 connect(delimAct, SIGNAL(triggered()), this, SLOT(ShowDelim()));
 LeftPanelToolBar->addAction(delimAct);
 connect(DelimitersListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
@@ -254,7 +261,7 @@ LeftPanelStackedWidget->addWidget(DelimitersListWidget);
 GreekListWidget=new SymbolListWidget(LeftPanelStackedWidget,4);
 GreekListWidget->setFrameStyle(QFrame::NoFrame);
 connect(GreekListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-greekAct = new QAction(QIcon(":/images/math5.png"),tr("Greek letters"), this);
+greekAct = new QAction(getIcon(":/images/math5.png"),tr("Greek letters"), this);
 connect(greekAct, SIGNAL(triggered()), this, SLOT(ShowGreek()));
 LeftPanelToolBar->addAction(greekAct);
 connect(GreekListWidget->addAct, SIGNAL(triggered()), this, SLOT(InsertFavoriteSymbols()));
@@ -263,7 +270,7 @@ LeftPanelStackedWidget->addWidget(GreekListWidget);
 MostUsedListWidget=new SymbolListWidget(LeftPanelStackedWidget,5);
 MostUsedListWidget->setFrameStyle(QFrame::NoFrame);
 connect(MostUsedListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-usedAct = new QAction(QIcon(":/images/math6.png"),tr("Most used symbols"), this);
+usedAct = new QAction(getIcon(":/images/math6.png"),tr("Most used symbols"), this);
 connect(usedAct, SIGNAL(triggered()), this, SLOT(ShowMostUsed()));
 LeftPanelToolBar->addAction(usedAct);
 SetMostUsedSymbols();
@@ -272,7 +279,7 @@ LeftPanelStackedWidget->addWidget(MostUsedListWidget);
 FavoriteListWidget=new SymbolListWidget(LeftPanelStackedWidget,6);
 FavoriteListWidget->setFrameStyle(QFrame::NoFrame);
 connect(FavoriteListWidget, SIGNAL(itemClicked ( QTableWidgetItem*)), this, SLOT(InsertSymbol(QTableWidgetItem*)));
-favAct = new QAction(QIcon(":/images/math7.png"),tr("Favorites symbols"), this);
+favAct = new QAction(getIcon(":/images/math7.png"),tr("Favorites symbols"), this);
 connect(favAct, SIGNAL(triggered()), this, SLOT(ShowFavorite()));
 LeftPanelToolBar->addAction(favAct);
 FavoriteListWidget->SetFavoritePage(favoriteSymbolList);
@@ -285,7 +292,7 @@ LeftPanelToolBar->addSeparator();
 leftrightWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/leftright_tags.xml");
 leftrightWidget->setFrameStyle(QFrame::NoFrame);
 connect(leftrightWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-leftrightAct = new QAction(QIcon(":/images/leftright.png"),"left/right", this);
+leftrightAct = new QAction(getIcon(":/images/leftright.png"),"left/right", this);
 connect(leftrightAct, SIGNAL(triggered()), this, SLOT(ShowLeftRight()));
 LeftPanelToolBar->addAction(leftrightAct);
 LeftPanelStackedWidget->addWidget(leftrightWidget);
@@ -295,7 +302,7 @@ LeftPanelToolBar->addSeparator();
 usertagsListWidget=new UserTagsListWidget(LeftPanelStackedWidget);
 usertagsListWidget->setFrameStyle(QFrame::NoFrame);
 connect(usertagsListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertUserElement(QListWidgetItem*)));
-userpanelAct = new QAction(QIcon(":/images/user.png"),tr("User"), this);
+userpanelAct = new QAction(getIcon(":/images/user.png"),tr("User"), this);
 connect(userpanelAct, SIGNAL(triggered()), this, SLOT(ShowUserPanel()));
 LeftPanelToolBar->addAction(userpanelAct);
 usertagsListWidget->updateList(userTagsList);
@@ -311,7 +318,7 @@ LeftPanelToolBar->addSeparator();
 PsListWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/pstricks_tags.xml");
 PsListWidget->setFrameStyle(QFrame::NoFrame);
 connect(PsListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-pstricksAct = new QAction(QIcon(":/images/pstricks.png"),tr("Pstricks Commands"), this);
+pstricksAct = new QAction(getIcon(":/images/pstricks.png"),tr("Pstricks Commands"), this);
 connect(pstricksAct, SIGNAL(triggered()), this, SLOT(ShowPstricks()));
 if (showPstricks) LeftPanelToolBar->addAction(pstricksAct);
 LeftPanelStackedWidget->addWidget(PsListWidget);
@@ -319,7 +326,7 @@ LeftPanelStackedWidget->addWidget(PsListWidget);
 MpListWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/metapost_tags.xml");
 MpListWidget->setFrameStyle(QFrame::NoFrame);
 connect(MpListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-mpAct = new QAction(QIcon(":/images/metapost.png"),tr("MetaPost Commands"), this);
+mpAct = new QAction(getIcon(":/images/metapost.png"),tr("MetaPost Commands"), this);
 connect(mpAct, SIGNAL(triggered()), this, SLOT(ShowMplist()));
 if (showMp) LeftPanelToolBar->addAction(mpAct);
 LeftPanelStackedWidget->addWidget(MpListWidget);
@@ -327,7 +334,7 @@ LeftPanelStackedWidget->addWidget(MpListWidget);
 tikzWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/tikz_tags.xml");
 tikzWidget->setFrameStyle(QFrame::NoFrame);
 connect(tikzWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-tikzAct = new QAction(QIcon(":/images/tikz.png"),tr("Tikz Commands"), this);
+tikzAct = new QAction(getIcon(":/images/tikz.png"),tr("Tikz Commands"), this);
 connect(tikzAct, SIGNAL(triggered()), this, SLOT(ShowTikz()));
 if (showTikz) LeftPanelToolBar->addAction(tikzAct);
 LeftPanelStackedWidget->addWidget(tikzWidget);
@@ -335,7 +342,7 @@ LeftPanelStackedWidget->addWidget(tikzWidget);
 asyWidget=new XmlTagsListWidget(LeftPanelStackedWidget,":/tags/asymptote_tags.xml");
 asyWidget->setFrameStyle(QFrame::NoFrame);
 connect(asyWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(InsertXmlTag(QListWidgetItem*)));
-asyAct = new QAction(QIcon(":/images/asymptote.png"),tr("Asymptote Commands"), this);
+asyAct = new QAction(getIcon(":/images/asymptote.png"),tr("Asymptote Commands"), this);
 connect(asyAct, SIGNAL(triggered()), this, SLOT(ShowAsy()));
 if (showAsy) LeftPanelToolBar->addAction(asyAct);
 LeftPanelStackedWidget->addWidget(asyWidget);
@@ -602,82 +609,82 @@ Act = new QAction("Huge", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(SizeCommand()));
 sizeMenu->addAction(Act);
 
-Act = new QAction(QIcon(":/images/sectioning.png"),"part/chapter/section...", this);
+Act = new QAction(getIcon(":/images/sectioning.png"),"part/chapter/section...", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(ShowSectionMenu()));
 centralToolBar->addAction(Act);
-Act = new QAction(QIcon(":/images/ref.png"),"Label/ref/cite...", this);
+Act = new QAction(getIcon(":/images/ref.png"),"Label/ref/cite...", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(ShowRefMenu()));
 centralToolBar->addAction(Act);
-Act = new QAction(QIcon(":/images/size.png"),"tiny/small/large...", this);
+Act = new QAction(getIcon(":/images/size.png"),"tiny/small/large...", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(ShowSizeMenu()));
 centralToolBar->addAction(Act);
 
 centralToolBar->addSeparator();
 
-Act = new QAction(QIcon(":/images/text_bold.png"),tr("Bold"), this);
+Act = new QAction(getIcon(":/images/text_bold.png"),tr("Bold"), this);
 Act->setData("\\textbf{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 centralToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/text_italic.png"),tr("Italic"), this);
+Act = new QAction(getIcon(":/images/text_italic.png"),tr("Italic"), this);
 Act->setData("\\textit{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 centralToolBar->addAction(Act);
 
-emphasisAct = new QAction(QIcon(":/images/text_emphasis.png"),"Emphasis", this);
+emphasisAct = new QAction(getIcon(":/images/text_emphasis.png"),"Emphasis", this);
 emphasisAct->setData("\\emph{/}/6/0");
 connect(emphasisAct, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 if (showEmphasis) centralToolBar->addAction(emphasisAct);
 
-Act = new QAction(QIcon(":/images/text_left.png"),tr("Left"), this);
+Act = new QAction(getIcon(":/images/text_left.png"),tr("Left"), this);
 Act->setData("\\begin{flushleft}\n/\n\\end{flushleft}/0/1");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 centralToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/text_center.png"),tr("Center"), this);
+Act = new QAction(getIcon(":/images/text_center.png"),tr("Center"), this);
 Act->setData("\\begin{center}\n/\n\\end{center}/0/1");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 centralToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/text_right.png"),tr("Right"), this);
+Act = new QAction(getIcon(":/images/text_right.png"),tr("Right"), this);
 Act->setData("\\begin{flushright}\n/\n\\end{flushright}/0/1");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 centralToolBar->addAction(Act);
 centralToolBar->addSeparator();
 
-newlineAct = new QAction(QIcon(":/images/newline.png"),tr("New line"), this);
+newlineAct = new QAction(getIcon(":/images/newline.png"),tr("New line"), this);
 newlineAct->setData("\\\\\n/0/1/The \\newline command breaks the line right where it is. It can only be used in paragraph mode.");
 connect(newlineAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 if (showNewline) centralToolBar->addAction(newlineAct);
 
 centralToolBar->addSeparator();
 
-mathmodeAct = new QAction(QIcon(":/images/mathmode.png"),"$...$", this);
+mathmodeAct = new QAction(getIcon(":/images/mathmode.png"),"$...$", this);
 mathmodeAct->setData("$  $/2/0/The math environment can be used in both paragraph and LR mode");
 connect(mathmodeAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 if (showMathmode) centralToolBar->addAction(mathmodeAct);
 
-indiceAct = new QAction(QIcon(":/images/indice.png"),"_{} - subscript", this);
+indiceAct = new QAction(getIcon(":/images/indice.png"),"_{} - subscript", this);
 indiceAct->setData("_{}/2/0/ ");
 connect(indiceAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 if (showIndice) centralToolBar->addAction(indiceAct);
 
-puissanceAct = new QAction(QIcon(":/images/puissance.png"),"^{} - superscript", this);
+puissanceAct = new QAction(getIcon(":/images/puissance.png"),"^{} - superscript", this);
 puissanceAct->setData("^{}/2/0/ ");
 connect(puissanceAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 if (showPuissance) centralToolBar->addAction(puissanceAct);
 
-smallfracAct = new QAction(QIcon(":/images/smallfrac.png"),"\\frac{}{}", this);
+smallfracAct = new QAction(getIcon(":/images/smallfrac.png"),"\\frac{}{}", this);
 smallfracAct->setData("\\frac{}{}/6/0/ ");
 connect(smallfracAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 if (showSmallfrac) centralToolBar->addAction(smallfracAct);
 
-dfracAct = new QAction(QIcon(":/images/dfrac.png"),"\\dfrac{}{}", this);
+dfracAct = new QAction(getIcon(":/images/dfrac.png"),"\\dfrac{}{}", this);
 dfracAct->setData("\\dfrac{}{}/7/0/ ");
 connect(dfracAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 if (showDfrac) centralToolBar->addAction(dfracAct);
 
-racineAct = new QAction(QIcon(":/images/racine.png"),"\\sqrt{}", this);
+racineAct = new QAction(getIcon(":/images/racine.png"),"\\sqrt{}", this);
 racineAct->setData("\\sqrt{}/6/0/ ");
 connect(racineAct, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 if (showRacine) centralToolBar->addAction(racineAct);
@@ -725,16 +732,16 @@ LeftPanelToolBarBis->setMinimumHeight(centralToolBarBis->height());
 LeftPanelToolBarBis->setMaximumHeight(centralToolBarBis->height());
 //centralToolBarBis->setStyle(QStyleFactory::create("Plastique"));
 
-ToggleDocAct=new QAction(QIcon(":/images/toggle.png"),tr("Toggle between the master document and the current document")+" (CTRL+SHIFT+F2)", this);
+ToggleDocAct=new QAction(getIcon(":/images/toggle.png"),tr("Toggle between the master document and the current document")+" (CTRL+SHIFT+F2)", this);
 ToggleDocAct->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_F2);
 connect(ToggleDocAct, SIGNAL(triggered()), this, SLOT(ToggleMasterCurrent()));
 centralToolBarBis->addAction(ToggleDocAct);
 
-Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous Document"), this);
+Act = new QAction(getIcon(":/images/errorprev.png"),tr("Previous Document"), this);
 //Act->setShortcut(Qt::ALT+Qt::Key_PageUp);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoPrevDocument()));
 centralToolBarBis->addAction(Act);
-Act = new QAction(QIcon(":/images/errornext.png"),tr("Next Document"), this);
+Act = new QAction(getIcon(":/images/errornext.png"),tr("Next Document"), this);
 //Act->setShortcut(Qt::ALT+Qt::Key_PageDown);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoNextDocument()));
 centralToolBarBis->addAction(Act);
@@ -751,7 +758,7 @@ centralToolBarBis->addWidget(comboFiles);
 QWidget* spacer = new QWidget();
 spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 centralToolBarBis->addWidget(spacer);
-Act = new QAction(QIcon(":/images/fileclose.png"), tr("Close"), this);
+Act = new QAction(getIcon(":/images/fileclose.png"), tr("Close"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileClose()));
 centralToolBarBis->addAction(Act);
 centralToolBarBis->addSeparator();
@@ -759,13 +766,13 @@ posLabel=new QLabel("L: C: ",centralToolBarBis);
 posLabel->setFixedWidth(fm.width("L:99999 C:99999"));
 centralToolBarBis->addWidget(posLabel);
 centralToolBarBis->addSeparator();
-Act = new QAction(QIcon(":/images/bookmark1.png"),tr("Click to jump to the bookmark"), this);
+Act = new QAction(getIcon(":/images/bookmark1.png"),tr("Click to jump to the bookmark"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoBookmark1()));
 centralToolBarBis->addAction(Act);
-Act = new QAction(QIcon(":/images/bookmark2.png"),tr("Click to jump to the bookmark"), this);
+Act = new QAction(getIcon(":/images/bookmark2.png"),tr("Click to jump to the bookmark"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoBookmark2()));
 centralToolBarBis->addAction(Act);
-Act = new QAction(QIcon(":/images/bookmark3.png"),tr("Click to jump to the bookmark"), this);
+Act = new QAction(getIcon(":/images/bookmark3.png"),tr("Click to jump to the bookmark"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(gotoBookmark3()));
 centralToolBarBis->addAction(Act);
 
@@ -907,7 +914,7 @@ bool gtkEnv=gtkSession();
 //file
 fileMenu = menuBar()->addMenu(tr("&File"));
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/filenew.png")), tr("New"), this);
-else Act = new QAction(QIcon(":/images/filenew.png"), tr("New"), this);
+else Act = new QAction(getIcon(":/images/filenew.png"), tr("New"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_N);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileNew()));
 fileMenu->addAction(Act);
@@ -917,7 +924,7 @@ connect(Act, SIGNAL(triggered()), this, SLOT(fileNewFromFile()));
 fileMenu->addAction(Act);
 
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-open", QIcon(":/images/fileopen.png")), tr("Open"), this);
-else Act = new QAction(QIcon(":/images/fileopen.png"), tr("Open"), this);
+else Act = new QAction(getIcon(":/images/fileopen.png"), tr("Open"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_O);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 fileMenu->addAction(Act);
@@ -949,7 +956,7 @@ connect(Act, SIGNAL(triggered()), this, SLOT(LoadSession()));
 sessionMenu->addAction(Act);
 
 if (gtkEnv) SaveAct = new QAction(QIcon::fromTheme("document-save", QIcon(":/images/filesave.png")), tr("Save"), this);
-else SaveAct = new QAction(QIcon(":/images/filesave.png"), tr("Save"), this);
+else SaveAct = new QAction(getIcon(":/images/filesave.png"), tr("Save"), this);
 SaveAct->setShortcut(Qt::CTRL+Qt::Key_S);
 connect(SaveAct, SIGNAL(triggered()), this, SLOT(fileSave()));
 fileMenu->addAction(SaveAct);
@@ -968,7 +975,7 @@ Act = new QAction(tr("Save A Copy"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileSaveACopy()));
 fileMenu->addAction(Act);
 
-Act = new QAction(QIcon(":/images/fileclose.png"), tr("Close"), this);
+Act = new QAction(getIcon(":/images/fileclose.png"), tr("Close"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_W);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileClose()));
 fileMenu->addSeparator();
@@ -989,7 +996,7 @@ fileMenu->addSeparator();
 fileMenu->addAction(Act);
 
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("application-exit", QIcon(":/images/exit.png")), tr("Exit"), this);
-else Act = new QAction(QIcon(":/images/exit.png"), tr("Exit"), this);
+else Act = new QAction(getIcon(":/images/exit.png"), tr("Exit"), this);
 Act->setShortcut(Qt::CTRL+Qt::Key_Q);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileExit()));
 fileMenu->addSeparator();
@@ -997,32 +1004,32 @@ fileMenu->addAction(Act);
 
 editMenu = menuBar()->addMenu(tr("&Edit"));
 if (gtkEnv) UndoAct = new QAction(QIcon::fromTheme("edit-undo", QIcon(":/images/undo.png")), tr("Undo"), this);
-else UndoAct = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
+else UndoAct = new QAction(getIcon(":/images/undo.png"), tr("Undo"), this);
 UndoAct->setShortcut(Qt::CTRL+Qt::Key_Z);
 connect(UndoAct, SIGNAL(triggered()), this, SLOT(editUndo()));
 editMenu->addAction(UndoAct);
 
 if (gtkEnv) RedoAct = new QAction(QIcon::fromTheme("edit-redo", QIcon(":/images/redo.png")), tr("Redo"), this);
-else RedoAct = new QAction(QIcon(":/images/redo.png"), tr("Redo"), this);
+else RedoAct = new QAction(getIcon(":/images/redo.png"), tr("Redo"), this);
 RedoAct->setShortcut(Qt::CTRL+Qt::Key_Y);
 connect(RedoAct, SIGNAL(triggered()), this, SLOT(editRedo()));
 editMenu->addAction(RedoAct);
 editMenu->addSeparator();
 
 if (gtkEnv) CopyAct = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/images/editcopy.png")), tr("Copy"), this);
-else CopyAct = new QAction(QIcon(":/images/editcopy.png"), tr("Copy"), this);
+else CopyAct = new QAction(getIcon(":/images/editcopy.png"), tr("Copy"), this);
 CopyAct->setShortcut(Qt::CTRL+Qt::Key_C);
 connect(CopyAct, SIGNAL(triggered()), this, SLOT(editCopy()));
 editMenu->addAction(CopyAct);
 
 if (gtkEnv) CutAct = new QAction(QIcon::fromTheme("edit-cut", QIcon(":/images/editcut.png")), tr("Cut"), this);
-else CutAct = new QAction(QIcon(":/images/editcut.png"), tr("Cut"), this);
+else CutAct = new QAction(getIcon(":/images/editcut.png"), tr("Cut"), this);
 CutAct->setShortcut(Qt::CTRL+Qt::Key_X);
 connect(CutAct, SIGNAL(triggered()), this, SLOT(editCut()));
 editMenu->addAction(CutAct);
 
 if (gtkEnv) PasteAct = new QAction(QIcon::fromTheme("edit-paste", QIcon(":/images/editpaste.png")), tr("Paste"), this);
-else PasteAct = new QAction(QIcon(":/images/editpaste.png"), tr("Paste"), this);
+else PasteAct = new QAction(getIcon(":/images/editpaste.png"), tr("Paste"), this);
 PasteAct->setShortcut(Qt::CTRL+Qt::Key_V);
 connect(PasteAct, SIGNAL(triggered()), this, SLOT(editPaste()));
 editMenu->addAction(PasteAct);
@@ -1081,7 +1088,7 @@ Act->setShortcut(Qt::CTRL+Qt::Key_R);
 connect(Act, SIGNAL(triggered()), this, SLOT(editReplace()));
 editMenu->addAction(Act);
 
-Act = new QAction(QIcon(":/images/goto.png"), tr("Goto Line"), this);
+Act = new QAction(getIcon(":/images/goto.png"), tr("Goto Line"), this);
 Act->setData("Goto Line");
 Act->setShortcut(Qt::CTRL+Qt::Key_G);
 connect(Act, SIGNAL(triggered()), this, SLOT(editGotoLine()));
@@ -1107,7 +1114,7 @@ connect(Act, SIGNAL(triggered()), this, SLOT(UpdateBibliography()));
 editMenu->addAction(Act);
 
 toolMenu = menuBar()->addMenu(tr("&Tools"));
-Act = new QAction(QIcon(":/images/quick.png"),tr("Quick Build"), this);
+Act = new QAction(getIcon(":/images/quick.png"),tr("Quick Build"), this);
 Act->setData(Act->text());
 Act->setShortcut(Qt::Key_F1);
 connect(Act, SIGNAL(triggered()), this, SLOT(QuickBuild()));
@@ -1204,9 +1211,9 @@ Act->setData("Export via TeX4ht");
 connect(Act, SIGNAL(triggered()), this, SLOT(Export()));
 toolMenu->addAction(Act);
 
-Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
+Act = new QAction(getIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
-Act = new QAction(QIcon(":/images/errornext.png"),tr("Next LaTeX Error"), this);
+Act = new QAction(getIcon(":/images/errornext.png"),tr("Next LaTeX Error"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(NextError()));
 
 latex1Menu = menuBar()->addMenu(tr("&LaTeX"));
@@ -1274,15 +1281,15 @@ connect(Act, SIGNAL(triggered()), this, SLOT(InsertStruct()));
 latex11Menu->addAction(Act);
 
 latex12Menu=latex1Menu->addMenu(tr("&Environment"));
-Act = new QAction(QIcon(":/images/text_center.png"),"\\begin{center} [selection]", this);
+Act = new QAction(getIcon(":/images/text_center.png"),"\\begin{center} [selection]", this);
 Act->setData("\\begin{center}\n/\n\\end{center}/0/1");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/text_left.png"),"\\begin{flushleft} [selection]", this);
+Act = new QAction(getIcon(":/images/text_left.png"),"\\begin{flushleft} [selection]", this);
 Act->setData("\\begin{flushleft}\n/\n\\end{flushleft}/0/1");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/text_right.png"),"\\begin{flushright}  [selection]", this);
+Act = new QAction(getIcon(":/images/text_right.png"),"\\begin{flushright}  [selection]", this);
 Act->setData("\\begin{flushright}\n/\n\\end{flushright}/0/1");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex12Menu->addAction(Act);
@@ -1320,11 +1327,11 @@ connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex12Menu->addAction(Act);
 
 latex13Menu=latex1Menu->addMenu(tr("&List Environment"));
-Act = new QAction(QIcon(":/images/itemize.png"),"\\begin{itemize}", this);
+Act = new QAction(getIcon(":/images/itemize.png"),"\\begin{itemize}", this);
 Act->setData("\\begin{itemize}\n\\item \n\\end{itemize}/6/1/The itemize environment produces a 'bulleted' list.\nEach item of an itemized list begins with an \\item command.");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex13Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/enumerate.png"),"\\begin{enumerate}", this);
+Act = new QAction(getIcon(":/images/enumerate.png"),"\\begin{enumerate}", this);
 Act->setData("\\begin{enumerate}\n\\item \n\\end{enumerate}/6/1/The enumerate environment produces a numbered list.\nEach item of an enumerated list begins with an \\item command.");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex13Menu->addAction(Act);
@@ -1337,14 +1344,14 @@ Act->setData("\\begin{list}{}{}\n\\item \n\\end{list}/13/0/\\begin{list}{label}{
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex13Menu->addAction(Act);
 
-Act = new QAction(QIcon(":/images/item.png"),"\\item", this);
+Act = new QAction(getIcon(":/images/item.png"),"\\item", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_I);
 Act->setData("\\item/5/0/\\item[label] Hello");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex13Menu->addAction(Act);
 
 latex14Menu=latex1Menu->addMenu(tr("Font St&yles"));
-Act = new QAction(QIcon(":/images/text_italic.png"),"\\textit - Italics  [selection]", this);
+Act = new QAction(getIcon(":/images/text_italic.png"),"\\textit - Italics  [selection]", this);
 Act->setShortcut(Qt::CTRL+Qt::Key_I);
 Act->setData("\\textit{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
@@ -1354,7 +1361,7 @@ Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_S);
 Act->setData("\\textsl{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex14Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/text_bold.png"),"\\textbf - Boldface  [selection]", this);
+Act = new QAction(getIcon(":/images/text_bold.png"),"\\textbf - Boldface  [selection]", this);
 Act->setShortcut(Qt::CTRL+Qt::Key_B);
 Act->setData("\\textbf{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
@@ -1374,7 +1381,7 @@ Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_A);
 Act->setData("\\textsf{/}/8/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 latex14Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/text_emphasis.png"),"\\emph - Emphasis  [selection]", this);
+Act = new QAction(getIcon(":/images/text_emphasis.png"),"\\emph - Emphasis  [selection]", this);
 Act->setShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_E);
 Act->setData("\\emph{/}/6/0");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
@@ -1427,50 +1434,50 @@ Act = new QAction("\\medskip", this);
 Act->setData("\\medskip /9/0/The \\medskip command adds a 'medium' vertical space.");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex16Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/newline.png"),"New line", this);
+Act = new QAction(getIcon(":/images/newline.png"),"New line", this);
 Act->setData("\\\\\n/0/1/The \\newline command breaks the line right where it is.");
 Act->setShortcut(Qt::CTRL+Qt::Key_Return);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex16Menu->addAction(Act);
 
 latex17Menu=latex1Menu->addMenu(tr("International &Accents"));
-Act = new QAction(QIcon(":/images/accent1.png"),"\\'{}", this);
+Act = new QAction(getIcon(":/images/accent1.png"),"\\'{}", this);
 Act->setData("\\'{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent2.png"),"\\`{}", this);
+Act = new QAction(getIcon(":/images/accent2.png"),"\\`{}", this);
 Act->setData("\\`{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent3.png"),"\\^{}", this);
+Act = new QAction(getIcon(":/images/accent3.png"),"\\^{}", this);
 Act->setData("\\^{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent4.png"),"\\\"{}", this);
+Act = new QAction(getIcon(":/images/accent4.png"),"\\\"{}", this);
 Act->setData("\\\"{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent5.png"),"\\~{}", this);
+Act = new QAction(getIcon(":/images/accent5.png"),"\\~{}", this);
 Act->setData("\\~{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent6.png"),"\\={}", this);
+Act = new QAction(getIcon(":/images/accent6.png"),"\\={}", this);
 Act->setData("\\={}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent7.png"),"\\.{}", this);
+Act = new QAction(getIcon(":/images/accent7.png"),"\\.{}", this);
 Act->setData("\\.{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent8.png"),"\\v{}", this);
+Act = new QAction(getIcon(":/images/accent8.png"),"\\v{}", this);
 Act->setData("\\v{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent9.png"),"\\u{}", this);
+Act = new QAction(getIcon(":/images/accent9.png"),"\\u{}", this);
 Act->setData("\\u{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/accent10.png"),"\\H{}", this);
+Act = new QAction(getIcon(":/images/accent10.png"),"\\H{}", this);
 Act->setData("\\H{}/3/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 latex17Menu->addAction(Act);
@@ -1745,43 +1752,43 @@ connect(Act, SIGNAL(triggered()), this, SLOT(InsertWithSelectionFromAction()));
 math11Menu->addAction(Act);
 
 math12Menu=math1Menu->addMenu(tr("Math &Accents"));
-Act = new QAction(QIcon(":/images/acute.png"),"\\acute{}", this);
+Act = new QAction(getIcon(":/images/acute.png"),"\\acute{}", this);
 Act->setData("\\acute{}/7/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/grave.png"),"\\grave{}", this);
+Act = new QAction(getIcon(":/images/grave.png"),"\\grave{}", this);
 Act->setData("\\grave{}/7/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/tilde.png"),"\\tilde{}", this);
+Act = new QAction(getIcon(":/images/tilde.png"),"\\tilde{}", this);
 Act->setData("\\tilde{}/7/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/bar.png"),"\\bar{}", this);
+Act = new QAction(getIcon(":/images/bar.png"),"\\bar{}", this);
 Act->setData("\\bar{}/5/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/vec.png"),"\\vec{}", this);
+Act = new QAction(getIcon(":/images/vec.png"),"\\vec{}", this);
 Act->setData("\\vec{}/5/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/hat.png"),"\\hat{}", this);
+Act = new QAction(getIcon(":/images/hat.png"),"\\hat{}", this);
 Act->setData("\\hat{}/5/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/check.png"),"\\check{}", this);
+Act = new QAction(getIcon(":/images/check.png"),"\\check{}", this);
 Act->setData("\\check{}/7/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/breve.png"),"\\breve{}", this);
+Act = new QAction(getIcon(":/images/breve.png"),"\\breve{}", this);
 Act->setData("\\breve{}/7/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/dot.png"),"\\dot{}", this);
+Act = new QAction(getIcon(":/images/dot.png"),"\\dot{}", this);
 Act->setData("\\dot{}/5/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
-Act = new QAction(QIcon(":/images/ddtot.png"),"\\ddot{}", this);
+Act = new QAction(getIcon(":/images/ddot.png"),"\\ddot{}", this);
 Act->setData("\\ddot{}/6/0/ ");
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertFromAction()));
 math12Menu->addAction(Act);
@@ -2062,7 +2069,7 @@ viewMenu->addAction(FullScreenAct);
 
 
 optionsMenu = menuBar()->addMenu(tr("&Options"));
-Act = new QAction(QIcon(":/images/configure.png"), tr("Configure Texmaker"), this);
+Act = new QAction(getIcon(":/images/configure.png"), tr("Configure Texmaker"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(GeneralOptions()));
 optionsMenu->addAction(Act);
 optionsMenu->addSeparator();
@@ -2119,16 +2126,16 @@ settingsMenu->addAction(Act);
 	
 helpMenu = menuBar()->addMenu(tr("&Help"));
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), tr("LaTeX Reference"), this);
-else Act = new QAction(QIcon(":/images/help.png"), tr("LaTeX Reference"), this);
+else Act = new QAction(getIcon(":/images/help.png"), tr("LaTeX Reference"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(LatexHelp()));
 helpMenu->addAction(Act);
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), tr("User Manual"), this);
-else Act = new QAction(QIcon(":/images/help.png"), tr("User Manual"), this);
+else Act = new QAction(getIcon(":/images/help.png"), tr("User Manual"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(UserManualHelp()));
 helpMenu->addAction(Act);
 helpMenu->addSeparator();
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), "TexDoc [selection]", this);
-else Act = new QAction(QIcon(":/images/help.png"), "TexDoc [selection]", this);
+else Act = new QAction(getIcon(":/images/help.png"), "TexDoc [selection]", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(TexDocHelp()));
 helpMenu->addAction(Act);
 
@@ -2137,13 +2144,13 @@ QString locale = QString(QLocale::system().name()).left(2);
 if (locale=="fr")
 {
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this); 
-else Act = new QAction(QIcon(":/images/help.png"), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this);
+else Act = new QAction(getIcon(":/images/help.png"), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(Docufrlatex()));
 helpMenu->addAction(Act);  
 }
 
 helpMenu->addSeparator();
-Act = new QAction(QIcon(":/images/appicon.png"), tr("About Texmaker"), this);
+Act = new QAction(getIcon(":/images/appicon.png"), tr("About Texmaker"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(HelpAbout()));
 helpMenu->addAction(Act);
 
@@ -2255,12 +2262,12 @@ fileToolBar = addToolBar("File ToolBar");
 fileToolBar->setObjectName("File");
 
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/filenew.png")), tr("New"), this);
-else Act = new QAction(QIcon(":/images/filenew.png"), tr("New"), this);
+else Act = new QAction(getIcon(":/images/filenew.png"), tr("New"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileNew()));
 fileToolBar->addAction(Act);
 
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-open", QIcon(":/images/fileopen.png")), tr("Open"), this);
-else Act = new QAction(QIcon(":/images/fileopen.png"), tr("Open"), this);
+else Act = new QAction(getIcon(":/images/fileopen.png"), tr("Open"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 fileToolBar->addAction(Act);
 
@@ -2327,7 +2334,7 @@ comboCompil = new QComboBox(runToolBar);
 comboCompil->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 comboCompil->addItems(list);
 comboCompil->setCurrentIndex(runIndex);
-connect(runToolBar->addAction(QIcon(":/images/run.png"),tr("Run")), SIGNAL(triggered()), this, SLOT(doCompile()));
+connect(runToolBar->addAction(getIcon(":/images/run.png"),tr("Run")), SIGNAL(triggered()), this, SLOT(doCompile()));
 runToolBar->addWidget(comboCompil);
 
 list.clear();
@@ -2339,28 +2346,28 @@ comboView = new QComboBox(runToolBar);
 comboView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 comboView->addItems(list);
 comboView->setCurrentIndex(viewIndex);
-connect(runToolBar->addAction(QIcon(":/images/run.png"),tr("View")), SIGNAL(triggered()), this, SLOT(doView()));
+connect(runToolBar->addAction(getIcon(":/images/run.png"),tr("View")), SIGNAL(triggered()), this, SLOT(doView()));
 runToolBar->addWidget(comboView);
 
 
 
-Act = new QAction(QIcon(":/images/viewlog.png"),tr("View Log"), this);
+Act = new QAction(getIcon(":/images/viewlog.png"),tr("View Log"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(ViewLog()));
 logToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/errornext.png"),tr("Next LaTeX Error"), this);
+Act = new QAction(getIcon(":/images/errornext.png"),tr("Next LaTeX Error"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(NextError()));
 Act->setShortcut(Qt::ALT+Qt::Key_Down);
 Act->setToolTip("Alt+Down");
 logToolBar->addAction(Act);
 
-Act = new QAction(QIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
+Act = new QAction(getIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
 Act->setShortcut(Qt::ALT+Qt::Key_Up);
 Act->setToolTip("Alt+Up");
 connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
 logToolBar->addAction(Act);
 
-StopAct = new QAction(QIcon(":/images/process-stop.png"),tr("Stop Process"), this);
+StopAct = new QAction(getIcon(":/images/process-stop.png"),tr("Stop Process"), this);
 connect(StopAct, SIGNAL(triggered()), this, SLOT(stopProcess()));
 logToolBar->addAction(StopAct);
 StopAct->setEnabled(false);
@@ -2475,15 +2482,15 @@ int check=comboFiles->findData(finame,Qt::UserRole,Qt::MatchExactly | Qt::MatchC
 if ((check>-1) && (check<OpenedFilesListWidget->count())) OpenedFilesListWidget->setCurrentRow(check);
 if (m)
 	{
-	//EditorView->setTabIcon(EditorView->indexOf(currentEditorView()),QIcon(":/images/modified.png"));
+	//EditorView->setTabIcon(EditorView->indexOf(currentEditorView()),getIcon(":/images/modified.png"));
 	//EditorView->setTabText(EditorView->indexOf(currentEditorView()),QFileInfo( getName() ).fileName());
-	comboFiles->setItemIcon(comboFiles->findData(finame,Qt::UserRole,Qt::MatchExactly | Qt::MatchCaseSensitive),QIcon(":/images/modified.png"));
-	if ((check>-1) && (check<OpenedFilesListWidget->count())) OpenedFilesListWidget->item(check)->setIcon(QIcon(":/images/modified.png"));
+	comboFiles->setItemIcon(comboFiles->findData(finame,Qt::UserRole,Qt::MatchExactly | Qt::MatchCaseSensitive),getIcon(":/images/modified.png"));
+	if ((check>-1) && (check<OpenedFilesListWidget->count())) OpenedFilesListWidget->item(check)->setIcon(getIcon(":/images/modified.png"));
 	SaveAct->setEnabled(true);
 	}
 else
 	{
-	//EditorView->setTabIcon(EditorView->indexOf(currentEditorView()),QIcon(":/images/empty.png"));
+	//EditorView->setTabIcon(EditorView->indexOf(currentEditorView()),getIcon(":/images/empty.png"));
 	//EditorView->setTabText(EditorView->indexOf(currentEditorView()),QFileInfo( getName() ).fileName());
 	comboFiles->setItemIcon(comboFiles->findData(finame,Qt::UserRole,Qt::MatchExactly | Qt::MatchCaseSensitive),QIcon(":/images/empty.png"));
 	if ((check>-1) && (check<OpenedFilesListWidget->count())) OpenedFilesListWidget->item(check)->setIcon(QIcon(":/images/empty.png"));
@@ -2577,6 +2584,7 @@ int minSize = qMin(verifyBuf.size(), buf.size());
 hasDecodingError = (minSize < buf.size()- 4 || memcmp(verifyBuf.constData() + verifyBuf.size() - minSize,buf.constData() + buf.size() - minSize, minSize));
 #endif
 QString new_encoding;
+
 QEncodingProber prober (QEncodingProber::Universal);
 if (hasDecodingError)
   {
@@ -4017,8 +4025,8 @@ dvipdf_command=config->value("Tools/Dvipdf","dvipdfm %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode ").toString();
 viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe\" %.dvi").toString();
 viewps_command=config->value("Tools/Ps","\"C:/Program Files/Ghostgum/gsview/gsview32.exe\" %.ps").toString();
-viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 10.0/Reader/AcroRd32.exe\" %.pdf").toString();
-ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs9.05/bin/gswin32c.exe\"").toString();
+viewpdf_command=config->value("Tools/Pdf","\"C:/Program Files/Adobe/Reader 11.0/Reader/AcroRd32.exe\" %.pdf").toString();
+ghostscript_command=config->value("Tools/Ghostscript","\"C:/Program Files/gs/gs9.07/bin/gswin32c.exe\"").toString();
 asymptote_command=config->value("Tools/Asymptote","\"C:/Program Files/Asymptote/asy.exe\" %.asy").toString();
 latexmk_command=config->value("Tools/Latexmk","latexmk -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
 sweave_command=config->value("Tools/Sweave","C:/Program Files/R/R-2.13.2/bin/R.exe CMD Sweave %.Rnw").toString();
@@ -4026,14 +4034,16 @@ texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
 htlatex_command=config->value("Tools/Htlatex","htlatex").toString();
 QString yap="C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe";
 QString gsview="C:/Program Files/Ghostgum/gsview/gsview32.exe";
-QString gswin="C:/Program Files/gs/gs9.05/bin/gswin32c.exe";
-QString acro="C:/Program Files/Adobe/Reader 10.0/Reader/AcroRd32.exe";
+QString gswin="C:/Program Files/gs/gs9.07/bin/gswin32c.exe";
+QString acro="C:/Program Files/Adobe/Reader 11.0/Reader/AcroRd32.exe";
 
 if (new_user)
   {
   if (!QFileInfo(gswin).exists())
     {
-    if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe";
+    if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.07/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.05/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe";
     else if (QFileInfo("C:/Program Files/gs/gs9.04/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.04/bin/gswin32c.exe";
     else if (QFileInfo("C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe";
     else if (QFileInfo("C:/Program Files/gs/gs9.02/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.02/bin/gswin32c.exe";
@@ -4065,6 +4075,7 @@ if (new_user)
     else if (QFileInfo("C:/texlive/2010/bin/win32/dviout.exe").exists()) yap="C:/texlive/2010/bin/win32/dviout.exe";
     else if (QFileInfo("C:/texlive/2011/bin/win32/dviout.exe").exists()) yap="C:/texlive/2011/bin/win32/dviout.exe";
     else if (QFileInfo("C:/texlive/2012/bin/win32/dviout.exe").exists()) yap="C:/texlive/2012/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2013/bin/win32/dviout.exe").exists()) yap="C:/texlive/2013/bin/win32/dviout.exe";
     }
   viewdvi_command="\""+yap+"\" %.dvi";  
   if (!QFileInfo(gsview).exists())
@@ -4074,11 +4085,14 @@ if (new_user)
     else if (QFileInfo("C:/texlive/2010/bin/win32/psv.exe").exists()) gsview="C:/texlive/2010/bin/win32/psv.exe";
     else if (QFileInfo("C:/texlive/2011/bin/win32/psv.exe").exists()) gsview="C:/texlive/2011/bin/win32/psv.exe";
     else if (QFileInfo("C:/texlive/2012/bin/win32/psv.exe").exists()) gsview="C:/texlive/2012/bin/win32/psv.exe";
+    else if (QFileInfo("C:/texlive/2013/bin/win32/psv.exe").exists()) gsview="C:/texlive/2012/bin/win32/psv.exe";
     }
   viewps_command="\""+gsview+"\" %.ps";
   if (!QFileInfo(acro).exists())
     {
-    if (QFileInfo("C:/Program Files (x86)/Adobe/Reader 10.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files (x86)/Adobe/Reader 10.0/Reader/AcroRd32.exe";
+    if (QFileInfo("C:/Program Files (x86)/Adobe/Reader 11.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files (x86)/Adobe/Reader 11.0/Reader/AcroRd32.exe";
+    else if (QFileInfo("C:/Program Files/Adobe/Reader 10.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files/Adobe/Reader 10.0/Reader/AcroRd32.exe";
+    else if (QFileInfo("C:/Program Files (x86)/Adobe/Reader 10.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files (x86)/Adobe/Reader 10.0/Reader/AcroRd32.exe";
     else if (QFileInfo("C:/Program Files/Adobe/Reader 9.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files/Adobe/Reader 9.0/Reader/AcroRd32.exe";
     else if (QFileInfo("C:/Program Files (x86)/Adobe/Reader 9.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files (x86)/Adobe/Reader 9.0/Reader/AcroRd32.exe";
     else if (QFileInfo("C:/Program Files/Adobe/Reader 8.0/Reader/AcroRd32.exe").exists()) acro="C:/Program Files/Adobe/Reader 8.0/Reader/AcroRd32.exe";
@@ -4152,7 +4166,14 @@ x11fontfamily=config->value("X11/Font Family",deft).toString();
 x11fontsize=config->value( "X11/Font Size","10").toInt();
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (modern_style)
+    {
 qApp->setStyle(new ManhattanStyle(QLatin1String("fusion")));
+    }
+// else
+// {
+// QApplication::setStyle(QStyleFactory::create("fusion"));
+// }
 #else
 if (modern_style)
     {
@@ -4813,7 +4834,7 @@ int pos;
 while ( (pos = (int)shortName.indexOf('/')) != -1 )
 shortName.remove(0,pos+1);
 QTreeWidgetItem *top = new QTreeWidgetItem(StructureTreeWidget);
-top->setIcon(0,QIcon(":/images/doc.png"));
+top->setIcon(0,getIcon(":/images/doc.png"));
 top->setText(0,shortName);
 top->setFont(0,deft);
 Child=parent_level[0]=parent_level[1]=parent_level[2]=parent_level[3]=parent_level[4]=top;
@@ -4864,7 +4885,7 @@ for (int j = 0; j < structure.count(); j++)
 		Child->setText(0,s);
 		Child->setFont(0,deft);
 		Child->setText(1,QString::number(j));
-		Child->setIcon(0,QIcon(":/images/include.png"));
+		Child->setIcon(0,getIcon(":/images/include.png"));
 		if (listchildfiles.indexOf(s)<0) addIncludeFiles(s);
 		}break;
 	case 3:
@@ -4874,7 +4895,7 @@ for (int j = 0; j < structure.count(); j++)
 		Child->setText(0,s);
 		Child->setFont(0,deft);
 		Child->setText(1,QString::number(j));
-		Child->setIcon(0,QIcon(":/images/include.png"));
+		Child->setIcon(0,getIcon(":/images/include.png"));
 		if (listchildfiles.indexOf(s)<0) addIncludeFiles(s);
 		}break;
 	case 4:
@@ -4884,7 +4905,7 @@ for (int j = 0; j < structure.count(); j++)
 		parent_level[0]->setText(0,s);
 		parent_level[0]->setFont(0,deft);
 		parent_level[0]->setText(1,QString::number(j));
-		parent_level[0]->setIcon(0,QIcon(":/images/part.png"));
+		parent_level[0]->setIcon(0,getIcon(":/images/part.png"));
 		StructureTreeWidget->expandItem(parent_level[0]);
 		parent_level[1]=parent_level[2]=parent_level[3]=parent_level[4]=parent_level[0];
 		}break;
@@ -4895,7 +4916,7 @@ for (int j = 0; j < structure.count(); j++)
 		parent_level[1]->setText(0,s);
 		parent_level[1]->setFont(0,deft);
 		parent_level[1]->setText(1,QString::number(j));
-		parent_level[1]->setIcon(0,QIcon(":/images/chapter.png"));
+		parent_level[1]->setIcon(0,getIcon(":/images/chapter.png"));
 		StructureTreeWidget->expandItem(parent_level[1]);
 		parent_level[2]=parent_level[3]=parent_level[4]=parent_level[1];
 		}break;
@@ -4906,7 +4927,7 @@ for (int j = 0; j < structure.count(); j++)
 		parent_level[2]->setText(0,s);
 		parent_level[2]->setFont(0,deft);
 		parent_level[2]->setText(1,QString::number(j));
-		parent_level[2]->setIcon(0,QIcon(":/images/section.png"));
+		parent_level[2]->setIcon(0,getIcon(":/images/section.png"));
 		StructureTreeWidget->expandItem(parent_level[2]);
 		parent_level[3]=parent_level[4]=parent_level[2];
 		}break;
@@ -4917,7 +4938,7 @@ for (int j = 0; j < structure.count(); j++)
 		parent_level[3]->setText(0,s);
 		parent_level[3]->setFont(0,deft);
 		parent_level[3]->setText(1,QString::number(j));
-		//parent_level[3]->setIcon(0,QIcon(":/images/subsection.png"));
+		//parent_level[3]->setIcon(0,getIcon(":/images/subsection.png"));
 		parent_level[4]=parent_level[3];
 		}break;
 	case 8:
@@ -4927,7 +4948,7 @@ for (int j = 0; j < structure.count(); j++)
 		parent_level[4]->setText(0,s);
 		parent_level[4]->setFont(0,deft);
 		parent_level[4]->setText(1,QString::number(j));
-		//parent_level[4]->setIcon(0,QIcon(":/images/subsubsection.png"));
+		//parent_level[4]->setIcon(0,getIcon(":/images/subsubsection.png"));
 		}break;
 	case 9:
 		{
@@ -4936,7 +4957,7 @@ for (int j = 0; j < structure.count(); j++)
 		Child->setText(0,s);
 		Child->setFont(0,deft);
 		Child->setText(1,QString::number(j));
-		Child->setIcon(0,QIcon(":/images/include.png"));
+		Child->setIcon(0,getIcon(":/images/include.png"));
 		if (listbibfiles.indexOf(s)<0) addBibFiles(s);
 		}break;
 	}

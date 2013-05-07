@@ -26,7 +26,7 @@ ui.closeButton->setToolTip("Escape");
 ui.moreButton->setCheckable(true);
 ui.moreButton->setAutoDefault(false);
 connect(ui.moreButton, SIGNAL(toggled(bool)), this, SLOT(expand(bool)));
-ui.checkRegExp->setChecked( true );
+ui.checkRegExp->setChecked( false );
 ui.extension->hide();
 updateGeometry();
 }

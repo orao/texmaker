@@ -18,6 +18,8 @@
 #include <QTextBlock>
 #include <QLineEdit>
 
+#include "geticon.h"
+
 SourceView::SourceView(QWidget *parent,QFont & efont,bool line, QList<QColor> edcolors, QList<QColor> hicolors ) : QWidget(parent)
 {
   
@@ -42,7 +44,7 @@ centralToolBar->setMovable(false);
 centralToolBar->setIconSize(QSize(16,16 ));
 centralToolBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 mainlay->addWidget(centralToolBar);
-QAction *Act = new QAction(QIcon(":/images/fileopen16.png"), tr("Open"), this);
+QAction *Act = new QAction(getIcon(":/images/fileopen16.png"), tr("Open"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 centralToolBar->addAction(Act);
 centralToolBar->addSeparator();

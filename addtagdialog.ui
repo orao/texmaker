@@ -63,9 +63,6 @@
          <property name="text">
           <string/>
          </property>
-         <property name="pixmap">
-          <pixmap resource="texmaker.qrc">:/images/trigger.png</pixmap>
-         </property>
         </widget>
        </item>
        <item>
@@ -75,9 +72,6 @@
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="texmaker.qrc">:/images/triggerbis.png</pixmap>
          </property>
         </widget>
        </item>

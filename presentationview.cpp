@@ -315,8 +315,15 @@ void PresentationView::render(int index, qreal scaleFactor)
     }
 
     Poppler::Page* page = m_document->page(index);
-
-    QImage image = page->renderToImage(scaleFactor * 72.0, scaleFactor * 72.0);
+    
+qreal extra=1.0;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (qApp->devicePixelRatio()==2) extra=2.0;
+#endif
+    QImage image = page->renderToImage(scaleFactor * 72.0 * extra, scaleFactor * 72.0 * extra);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (qApp->devicePixelRatio()==2) image.setDevicePixelRatio(2);
+#endif
 
     delete page;
 

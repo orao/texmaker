@@ -17,9 +17,13 @@
 #include <QToolBar>
 #include <QPushButton>
 #include <QMenu>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include "QtWebKitWidgets/qwebframe.h"
+#else
 #include <QWebFrame>
+#endif
 #include <QPrintDialog>
-
+#include "geticon.h"
 
 Browser::Browser( const QString home, bool showToolBar, QWidget* parent)
     : QMainWindow( parent)
@@ -28,7 +32,7 @@ setWindowTitle("Texmaker");
 #if defined(Q_OS_MAC)
 setWindowIcon(QIcon(":/images/logo128.png"));
 #else
-setWindowIcon(QIcon(":/images/appicon.png"));
+setWindowIcon(getIcon(":/images/appicon.png"));
 #endif
 progress = 0;
 view = new QWebView(this);
@@ -46,7 +50,7 @@ if (showToolBar)
     QToolBar *toolBar = addToolBar("Navigation");
     toolBar->setIconSize(QSize(22,22 ));
     QAction *Act;
-    Act = new QAction(QIcon(":/images/home.png"), tr("Index"), this);
+    Act = new QAction(getIcon(":/images/home.png"), tr("Index"), this);
     connect(Act, SIGNAL(triggered()), this, SLOT(Index()));
     toolBar->addAction(Act);
     toolBar->addAction(view->pageAction(QWebPage::Back));

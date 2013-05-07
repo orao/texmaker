@@ -15,6 +15,7 @@
 #include <QApplication>
 #include <QPixmap>
 #include <QByteArray>
+#include <QDebug>
 #include "icondelegate.h"
 
 static const int textMargin = 2;
@@ -46,7 +47,8 @@ void IconDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     // do layout
     value = model->data(index, Qt::DecorationRole);
     QPixmap pixmap = decoration(opt, value);
-    QRect pixmapRect = pixmap.rect();
+    QRect pixmapRect(0,0,32,32);//=pixmap.rect();
+    
 
     QFontMetrics fontMetrics(opt.font);
     QString text = model->data(index, Qt::DisplayRole).toString();
@@ -74,6 +76,7 @@ painter->fillRect(option.rect,QColor("#cdd2d8"));
 
     // draw the item
 //    drawCheck(painter, opt, checkRect, checkState);
+
     drawDecoration(painter, opt, pixmapRect, pixmap);
 //    drawDisplay(painter, opt, textRect, text);
 //    drawFocus(painter, opt, textRect);
@@ -112,13 +115,30 @@ QSize IconDelegate::sizeHint(const QStyleOptionViewItem &option,
 void IconDelegate::drawDecoration(QPainter *painter, const QStyleOptionViewItem &option,
                                    const QRect &rect, const QPixmap &pixmap) const
 {
+    QPoint p=rect.topLeft();
+    
     if (!pixmap.isNull() && !rect.isEmpty()) {
         if (option.state & QStyle::State_Selected) {
             bool enabled = option.state & QStyle::State_Enabled;
             QPixmap *pm = selected(pixmap, option.palette, enabled);
-            painter->drawPixmap(rect.topLeft(), *pm);
+	    #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+            if (qApp->devicePixelRatio()==2)
+            {
+	    pm->setDevicePixelRatio(qApp->devicePixelRatio());
+        p-=QPoint(16,0);
+          }      
+	    #endif
+            painter->drawPixmap(p, *pm);
         } else {
-            painter->drawPixmap(rect.topLeft(), pixmap);
+QPixmap *pm=selected(pixmap, option.palette, true);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+            if (qApp->devicePixelRatio()==2)
+            {
+                pm->setDevicePixelRatio(qApp->devicePixelRatio());
+                p-=QPoint(16,0);
+            }      
+#endif
+            painter->drawPixmap(p, *pm);
         }
     }
 }
@@ -191,6 +211,7 @@ void IconDelegate::doLayout(const QStyleOptionViewItem &option,
     QSize pm(0, 0);
     if (pixmapRect->isValid())
         pm = option.decorationSize;
+    
     if (hint) {
         w = qMax(textRect->width(), pm.width());
         h = qMax(textRect->height(), pm.height());
@@ -217,6 +238,7 @@ void IconDelegate::doLayout(const QStyleOptionViewItem &option,
         else if (position == QStyleOptionViewItem::Left)
             position = QStyleOptionViewItem::Right;
     }
+
     switch (position) {
     case QStyleOptionViewItem::Top: {
         if (!pm.isEmpty())
@@ -253,7 +275,7 @@ void IconDelegate::doLayout(const QStyleOptionViewItem &option,
         decoration = *pixmapRect;
         break;
     }
-
+    
     if (!hint) { // we only need to do the internal layout if we are going to paint
         *checkRect = QStyle::alignedRect(option.direction, Qt::AlignCenter,
                                          checkRect->size(), check);

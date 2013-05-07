@@ -28,7 +28,9 @@ modified by Pascal Brachet
 #include <QGraphicsView>
 #include <QPrinter>
 
+
 #include "poppler-qt4.h"
+
 
 #include "pageitem.h"
 #include "presentationview.h"

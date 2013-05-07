@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 4.0.1
+Version: 4.0.2
 Release: xm1
 License: GPL
 Group: Applications/Publishing
@@ -118,6 +118,8 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/texmaker_sr.qm
 /usr/share/texmaker/texmaker_el.qm
 /usr/share/texmaker/texmaker_se.qm
+/usr/share/texmaker/texmaker_ar.qm
+/usr/share/texmaker/texmaker_lv.qm
 /usr/share/texmaker/nl_NL.aff
 /usr/share/texmaker/nl_NL.dic
 /usr/share/texmaker/de_DE.aff

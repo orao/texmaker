@@ -380,6 +380,9 @@ if (m_pages.count()<1) return;
 
             prepareScene();
             prepareView(left, top);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	    viewport()->update();
+#endif
         }
 
         emit scaleFactorChanged(m_scaleFactor);
@@ -1120,9 +1123,12 @@ void DocumentView::preparePages()
       progressDialog->setValue(index);
        //QApplication::processEvents();
         PageItem* page = new PageItem(&m_mutex, m_document->page(index), index);
-
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+if (qApp->devicePixelRatio()==2) page->setPhysicalDpi(physicalDpiX()*2, physicalDpiY()*2);
+else page->setPhysicalDpi(physicalDpiX(), physicalDpiY());
+#else
         page->setPhysicalDpi(physicalDpiX(), physicalDpiY());
-
+#endif
         m_pagesScene->addItem(page);
         m_pages.append(page);
 

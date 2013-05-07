@@ -18,14 +18,15 @@
 
 int main( int argc, char ** argv )
 {
-TexmakerApp app("TexMaker", argc, argv ); // This is a dummy constructor so that the programs loads fast.
+TexmakerApp app("TexMaker", argc, argv );
 
-QStringList args = QCoreApplication::arguments();//add by S. R. Alavizadeh
-//for ( int i=0; i < argc; i++) args += QString::fromLocal8Bit(argv[i]);
+QStringList args = QCoreApplication::arguments();
 app.setApplicationName("TexMaker");
 app.setApplicationVersion(TEXMAKERVERSION);
 app.setOrganizationName("xm1");
-
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+app.setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 if ( app.isRunning() ) 
     {
     QString msg;

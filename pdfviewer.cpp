@@ -29,6 +29,7 @@
 #include <QToolBar>
 #include <QDesktopWidget>
 
+#include "geticon.h"
 
 #include "poppler-qt4.h"
 
@@ -42,7 +43,7 @@ setWindowTitle("Texmaker : pdf preview");
 #if defined(Q_OS_MAC)
 setWindowIcon(QIcon(":/images/logo128.png"));
 #else
-setWindowIcon(QIcon(":/images/appicon.png"));
+setWindowIcon(getIcon(":/images/appicon.png"));
 #endif
 
 #ifdef USB_VERSION
@@ -104,7 +105,7 @@ LeftPanelStackedWidget=new QStackedWidget(StructureView);
 
 listpagesWidget=new QListWidget(LeftPanelStackedWidget);
 
-connect(LeftPanelToolBar->addAction(QIcon(":/images/pages.png"),tr("Pages")), SIGNAL(triggered()), this, SLOT(ShowListPages()));
+connect(LeftPanelToolBar->addAction(getIcon(":/images/pages.png"),tr("Pages")), SIGNAL(triggered()), this, SLOT(ShowListPages()));
 LeftPanelStackedWidget->addWidget(listpagesWidget);
 
 LeftPanelToolBar->addSeparator();
@@ -123,7 +124,7 @@ StructureTreeView->setIndentation(15);
 StructureTreeView->setModel(0);
 
 
-connect(LeftPanelToolBar->addAction(QIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
+connect(LeftPanelToolBar->addAction(getIcon(":/images/structure.png"),tr("Structure")), SIGNAL(triggered()), this, SLOT(ShowStructure()));
 LeftPanelStackedWidget->addWidget(StructureTreeView);
 
 showingListPages=true;
@@ -155,7 +156,7 @@ setCentralWidget(centralFrame);
 
 
 QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
-//printAct = new QAction(QIcon(":/images/print.png"), tr("Print"), this);
+//printAct = new QAction(getIcon(":/images/print.png"), tr("Print"), this);
 //connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 //fileMenu->addAction(printAct);
 fileMenu->addAction(tr("Exit"), this, SLOT(close()),Qt::CTRL+Qt::Key_Q);
@@ -170,29 +171,29 @@ editMenu->addAction(findAct);
 QToolBar *toolBar = addToolBar("Pdf controls");
 toolBar->setObjectName("Pdf controls");
 
-upAct = new QAction(QIcon(":/images/up.png"), tr("Previous"), this);
+upAct = new QAction(getIcon(":/images/up.png"), tr("Previous"), this);
 upAct->setShortcut(QKeySequence::MoveToPreviousPage);
 toolBar->addAction(upAct);
 
-downAct = new QAction(QIcon(":/images/down.png"), tr("Next"), this);
+downAct = new QAction(getIcon(":/images/down.png"), tr("Next"), this);
 downAct->setShortcut(QKeySequence::MoveToNextPage);
 toolBar->addAction(downAct);
 
 toolBar->addSeparator();
 
 QMenu *viewMenu = menuBar()->addMenu(tr("&View"));
-fitWithAct = new QAction(QIcon(":/images/zoom-fit-width.png"), tr("Fit Width"), this);
+fitWithAct = new QAction(getIcon(":/images/zoom-fit-width.png"), tr("Fit Width"), this);
 toolBar->addAction(fitWithAct);
 
-fitPageAct = new QAction(QIcon(":/images/zoom-fit-best.png"), tr("Fit Page"), this);
+fitPageAct = new QAction(getIcon(":/images/zoom-fit-best.png"), tr("Fit Page"), this);
 toolBar->addAction(fitPageAct);
 
-zoominAct = new QAction(QIcon(":/images/zoom-in.png"), tr("Zoom In"), this);
+zoominAct = new QAction(getIcon(":/images/zoom-in.png"), tr("Zoom In"), this);
 zoominAct->setShortcut(QKeySequence::ZoomIn);
 toolBar->addAction(zoominAct);
 viewMenu->addAction(zoominAct);
 
-zoomoutAct = new QAction(QIcon(":/images/zoom-out.png"), tr("Zoom Out"), this);
+zoomoutAct = new QAction(getIcon(":/images/zoom-out.png"), tr("Zoom Out"), this);
 zoomoutAct->setShortcut(QKeySequence::ZoomOut);
 toolBar->addAction(zoomoutAct);
 viewMenu->addAction(zoomoutAct);
@@ -222,12 +223,12 @@ viewMenu->addSeparator();
 viewMenu->addAction(StructureView->toggleViewAction());
 
 
-historyBackAct = new QAction(QIcon(":/images/errorprev.png"), tr("Previous Position"), this);
+historyBackAct = new QAction(getIcon(":/images/errorprev.png"), tr("Previous Position"), this);
 historyBackAct->setShortcut(QKeySequence::Back);
 //connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 LeftPanelToolBar->addAction(historyBackAct);
 
-historyForwardAct = new QAction(QIcon(":/images/errornext.png"), tr("Next Position"), this);
+historyForwardAct = new QAction(getIcon(":/images/errornext.png"), tr("Next Position"), this);
 historyForwardAct->setShortcut(QKeySequence::Forward);
 //connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 LeftPanelToolBar->addAction(historyForwardAct);
@@ -253,7 +254,7 @@ toolBar->addSeparator();
 searchLineEdit = new QLineEdit(toolBar);
 toolBar->addWidget(searchLineEdit);
 
-searchAct=new QAction(QIcon(":/images/pdffind.png"), tr("Find"), this);
+searchAct=new QAction(getIcon(":/images/pdffind.png"), tr("Find"), this);
 toolBar->addAction(searchAct);
 //findButton=new QPushButton(tr("Find"),toolBar);
 //toolBar->addWidget(findButton);
@@ -264,13 +265,13 @@ QWidget* spacer = new QWidget();
 spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 toolBar->addWidget(spacer);
 
-printAct = new QAction(QIcon(":/images/print.png"), tr("Print"), this);
+printAct = new QAction(getIcon(":/images/print.png"), tr("Print"), this);
 toolBar->addAction(printAct);
 
-externAct = new QAction(QIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
+externAct = new QAction(getIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
 toolBar->addAction(externAct);
 
-checkerAct = new QAction(QIcon(":/images/pdfchecker.png"), tr("Check Spelling and Grammar on this page"), this);
+checkerAct = new QAction(getIcon(":/images/pdfchecker.png"), tr("Check Spelling and Grammar on this page"), this);
 toolBar->addAction(checkerAct);
 
 searchLineEdit->setEnabled(false);

@@ -312,17 +312,17 @@
         <location filename="configdialog.cpp" line="616"/>
         <location filename="configdialog.cpp" line="676"/>
         <source>XeLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="462"/>
         <source>Add to PATH</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj do ścieżki</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="697"/>
         <source>lp options for the printer</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje lp dla drukarki</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="774"/>
@@ -368,12 +368,12 @@
     <message>
         <location filename="configdialog.ui" line="831"/>
         <source>LatexMk + View PDF</source>
-        <translation>LatexMk + View PDF</translation>
+        <translation>LatexMk + podgląd PDF</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="838"/>
         <source>XeLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX + podgląd PDF</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="852"/>
@@ -394,7 +394,7 @@
     <message>
         <location filename="configdialog.ui" line="902"/>
         <source>For .asy files</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompilacja plików .asy</translation>
     </message>
     <message>
         <location filename="configdialog.ui" line="1191"/>
@@ -620,42 +620,42 @@ with the default encoding setting</source>
     <message>
         <location filename="exportdialog.ui" line="14"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport poprzez TeX4ht</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="22"/>
         <source>Path to htlatex</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka do htlatex</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="45"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="51"/>
         <source>export to Html</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport do HTML</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="61"/>
         <source>export to Html (new page for each section)</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport do HTML (każdy rozdział w osobnym pliku)</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="68"/>
         <source>export to OpenDocumentFormat</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport do formatu OpenDocument</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="75"/>
         <source>export to MathML</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport do MathML</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="82"/>
         <source>User</source>
-        <translation>Polecenia użytkownika</translation>
+        <translation>Własne polecenie</translation>
     </message>
     <message>
         <location filename="exportdialog.ui" line="91"/>
@@ -796,7 +796,7 @@ with the default encoding setting</source>
     <message>
         <location filename="findwidget.cpp" line="46"/>
         <source>Invalid regular expression.</source>
-        <translation>Błędne wyrażenie regularne</translation>
+        <translation>Błędne wyrażenie regularne.</translation>
     </message>
 </context>
 <context>
@@ -1043,7 +1043,7 @@ with the default encoding setting</source>
     <message>
         <location filename="lightfindwidget.cpp" line="46"/>
         <source>Invalid regular expression.</source>
-        <translation>Błędne wyrażenie regularne</translation>
+        <translation>Błędne wyrażenie regularne.</translation>
     </message>
 </context>
 <context>
@@ -1266,7 +1266,7 @@ with the default encoding setting</source>
     <message>
         <location filename="pdfviewer.cpp" line="218"/>
         <source>Presentation...</source>
-        <translation>Widok pełnoekranowy</translation>
+        <translation>Widok pełnoekranowy...</translation>
     </message>
     <message>
         <location filename="pdfviewer.cpp" line="225"/>
@@ -1393,7 +1393,7 @@ with the default encoding setting</source>
     <message>
         <location filename="pdfviewerwidget.cpp" line="176"/>
         <source>Presentation...</source>
-        <translation>Widok pełnoekranowy</translation>
+        <translation>Widok pełnoekranowy...</translation>
     </message>
     <message>
         <location filename="pdfviewerwidget.cpp" line="205"/>
@@ -1790,7 +1790,7 @@ with the default encoding setting</source>
         <location filename="replacewidget.cpp" line="48"/>
         <location filename="replacewidget.cpp" line="81"/>
         <source>Invalid regular expression.</source>
-        <translation>Błędne wyrażenie regularne</translation>
+        <translation>Błędne wyrażenie regularne.</translation>
     </message>
     <message>
         <location filename="replacewidget.cpp" line="56"/>
@@ -2486,7 +2486,7 @@ with the default encoding setting</source>
     <message>
         <location filename="texmaker.cpp" line="1199"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport poprzez TeX4ht</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="7662"/>
@@ -2549,22 +2549,22 @@ with the default encoding setting</source>
     <message>
         <location filename="texmaker.cpp" line="1812"/>
         <source>Quick Letter</source>
-        <translation>Asystent klasy letter</translation>
+        <translation>Klasa letter</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1816"/>
         <source>Quick Tabular</source>
-        <translation>Asystent otoczenia tabular</translation>
+        <translation>Otoczenie tabular</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1819"/>
         <source>Quick Tabbing</source>
-        <translation>Asystent otoczenia tabbing</translation>
+        <translation>Otoczenie tabbing</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1822"/>
         <source>Quick Array</source>
-        <translation>Asystent otoczenia array</translation>
+        <translation>Otoczenie array</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="1826"/>
@@ -2802,7 +2802,7 @@ with the default encoding setting</source>
     <message>
         <location filename="texmaker.cpp" line="7963"/>
         <source>XeLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX</translation>
     </message>
     <message>
         <location filename="texmaker.cpp" line="9774"/>

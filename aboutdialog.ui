@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>469</height>
+    <width>563</width>
+    <height>413</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,11 +31,17 @@
      </item>
      <item>
       <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string/>
        </property>
-       <property name="pixmap">
-        <pixmap resource="texmaker.qrc">:/images/splash.png</pixmap>
+       <property name="scaledContents">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

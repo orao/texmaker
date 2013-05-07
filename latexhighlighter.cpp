@@ -32,7 +32,7 @@ ColorNumberGraphic=QColor("#660066");
 KeyWords= QString("section{,subsection{,subsubsection{,chapter{,part{,paragraph{,subparagraph{,section*{,subsection*{,subsubsection*{,chapter*{,part*{,paragraph*{,subparagraph*{,label{,includegraphics{,includegraphics[,includegraphics*{,includegraphics*[,include{,input{,begin{,end{").split(",");
 KeyWordsGraphic=QString("void bool bool3 int real pair triple string").split(" ");
 KeyWordsGraphicBis=QString("and controls tension atleast curl if else while for do return break continue struct typedef new access import unravel from include quote static public private restricted this explicit true false null cycle newframe operator").split(" ");
-//spellingErrorFormat.setFontUnderline(true);
+spellingErrorFormat.setFontUnderline(true);
 spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
 spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
 checkSpelling=spelling;
@@ -203,7 +203,6 @@ while (i < text.length())
         ch = text.at( i );
 	buffer += ch;
 	if ( i < text.length()-1 ) next = text.at( i+1 );
-
         switch (state) {
 	
 	case StateStandard: {
@@ -1473,12 +1472,58 @@ else
 //{
 i=currentBlock().blockNumber();
 editor->checkStructUpdate(document(),currentBlock().position(),text,i);
+const QList<StructItem>& structure = editor->getStructItems();
+for (int j = 0; j < structure.count(); j++)
+{
+if (structure.at(j).cursor.block().blockNumber()==currentBlock().blockNumber()) 
+{
+int offwidth=0;
+switch (structure.at(j).type)
+  {
+  case 1:
+	  {
+	  offwidth=7;
+	  }break;
+  case 2:
+	  {
+	  offwidth=9;
+	  }break;
+  case 3:
+	  {
+	  offwidth=7;
+	  }break;
+  case 4:
+	  {
+	  offwidth=6;
+	  }break;
+  case 5:
+	  {
+	  offwidth=9;
+	  }break;
+  case 6:
+	  {
+	  offwidth=9;
+	  }break;
+  case 7:
+	  {
+	  offwidth=12;
+	  }break;
+  case 8:
+	  {
+	  offwidth=15;
+	  }break;
+  }
+  
+  if (offwidth>0) setFormat(structure.at(j).cursor.position()-currentBlock().position(),structure.at(j).item.length()+offwidth,structFormat);
+}
+}
 //}
 ////////////////////
 
 if (text.isEmpty()) return;
 QBrush brushstandard(ColorStandard);
 QBrush brushverbatim(ColorVerbatim);
+QBrush brushkeyword(ColorKeyword);
 QBrush brushmath(ColorMath);
 QBrush brushcomment(ColorComment);
 QTextCharFormat todoFormat;
@@ -1608,7 +1653,10 @@ if (pChecker && state!=StateGraphic && state!=StateGraphicCommand && state!=Stat
 		if ( (buffer.length() > 1) && (!ignoredwordList.contains(buffer)) && (!hardignoredwordList.contains(buffer)))
 		      {
 		      if (format(i - buffer.length()-offset).foreground()==brushverbatim) spellingErrorFormat.setForeground(brushverbatim);
+		      else if (format(i - buffer.length()-offset).foreground()==brushkeyword) spellingErrorFormat.setForeground(brushkeyword);
 		      else spellingErrorFormat.setForeground(brushstandard);
+		      if (format(i - buffer.length()-offset).fontWeight()==QFont::Bold) {spellingErrorFormat.setFontWeight(QFont::Bold);spellingErrorFormat.setFontUnderline(true);}
+		      else spellingErrorFormat.setFontWeight(QFont::Normal);
 		      encodedString = codec->fromUnicode(buffer);
 		      check = pChecker->spell(encodedString.data());
 		      if (!check) 
@@ -1620,6 +1668,7 @@ if (pChecker && state!=StateGraphic && state!=StateGraphicCommand && state!=Stat
 		i++;
 		}
 	}
+
 	
 }
 //****************************************************************
