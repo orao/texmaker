@@ -1,15 +1,28 @@
 TEMPLATE	= app
 LANGUAGE	= C++
 TARGET	 = texmaker
+
 ## QT4
 QT += xml webkit network
 ## QT5
 #QT += xml webkitwidgets network widgets printsupport concurrent
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.0.2
+TEXMAKERVERSION=4.0.3
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
+
+
+
+unix:!macx {
+CONFIG		+= link_pkgconfig
+PKGCONFIG 	= poppler-qt4
+DETECTEDPOPPLER=$$system(pkg-config --modversion poppler)
+contains( DETECTEDPOPPLER, "^0.18.*" ){
+DEFINES += OLDPOPPLER
+} 
+}
+
 ###############################
 HEADERS	+= texmaker.h \
 	geticon.h \
@@ -71,6 +84,9 @@ HEADERS	+= texmaker.h \
 	synctex_parser_utils.h \
 	usertagslistwidget.h \
 	addtagdialog.h \
+	versiondialog.h \
+	unicodedialog.h \
+	unicodeview.h \
 	hunspell/affentry.hxx \
 	hunspell/affixmgr.hxx \
 	hunspell/atypes.hxx \
@@ -116,7 +132,7 @@ HEADERS	+= texmaker.h \
 	encodingprober/nsSJISProber.h \
 	encodingprober/nsUniversalDetector.h \
 	encodingprober/qencodingprober.h \
-	encodingprober/UnicodeGroupProber.h
+	encodingprober/UnicodeGroupProber.h 
 SOURCES	+= main.cpp \
 	geticon.cpp \
 	texmakerapp.cpp \
@@ -177,6 +193,9 @@ SOURCES	+= main.cpp \
 	synctex_parser_utils.c \
 	usertagslistwidget.cpp \
 	addtagdialog.cpp \
+	versiondialog.cpp \
+	unicodedialog.cpp \
+	unicodeview.cpp \
 	hunspell/affentry.cxx \
 	hunspell/affixmgr.cxx \
 	hunspell/csutil.cxx \
@@ -220,7 +239,7 @@ SOURCES	+= main.cpp \
 	encodingprober/nsSJISProber.cpp \
 	encodingprober/nsUniversalDetector.cpp \
 	encodingprober/qencodingprober.cpp \
-	encodingprober/UnicodeGroupProber.cpp 
+	encodingprober/UnicodeGroupProber.cpp
 RESOURCES += texmaker.qrc
 FORMS   += findwidget.ui\
 	gotolinewidget.ui \
@@ -245,32 +264,35 @@ FORMS   += findwidget.ui\
 	encodingdialog.ui \
 	usercompletiondialog.ui \
 	texdocdialog.ui \
-	exportdialog.ui \
 	scandialog.ui \
-	addtagdialog.ui
-TRANSLATIONS += texmaker_fr.ts \
-	texmaker_de.ts \
-	texmaker_es.ts \
-	texmaker_gl.ts \
-	texmaker_it.ts \
-	texmaker_ru.ts \
-	texmaker_zh_CN.ts \
-	texmaker_zh_TW.ts \
-	texmaker_cs.ts \
-	texmaker_pt.ts \
-	texmaker_pt_BR.ts \
-	texmaker_nl.ts  \
-	texmaker_hu.ts  \
-	texmaker_fa.ts  \
-	texmaker_pl.ts  \
-	texmaker_vi_VN.ts \
-	texmaker_da.ts \
-	texmaker_ca.ts \
-	texmaker_sr.ts \
-	texmaker_el.ts \
-	texmaker_se.ts \
-	texmaker_ar.ts \
-	texmaker_lv.ts
+	exportdialog.ui \
+	addtagdialog.ui \
+	versiondialog.ui \
+	unicodedialog.ui
+TRANSLATIONS += trans/texmaker_fr.ts \
+	trans/texmaker_de.ts \
+	trans/texmaker_es.ts \
+	trans/texmaker_gl.ts \
+	trans/texmaker_it.ts \
+	trans/texmaker_ru.ts \
+	trans/texmaker_zh_CN.ts \
+	trans/texmaker_zh_TW.ts \
+	trans/texmaker_cs.ts \
+	trans/texmaker_pt.ts \
+	trans/texmaker_pt_BR.ts \
+	trans/texmaker_nl.ts  \
+	trans/texmaker_hu.ts  \
+	trans/texmaker_fa.ts  \
+	trans/texmaker_pl.ts  \
+	trans/texmaker_vi_VN.ts \
+	trans/texmaker_da.ts \
+	trans/texmaker_ca.ts \
+	trans/texmaker_sr.ts \
+	trans/texmaker_el.ts \
+	trans/texmaker_se.ts \
+	trans/texmaker_ar.ts \
+	trans/texmaker_lv.ts \
+	trans/texmaker_uk.ts
 ################################
 unix:!macx {
 UI_DIR = .ui
@@ -285,24 +307,22 @@ isEmpty( DESKTOPDIR ) {
 isEmpty( ICONDIR ) {
     ICONDIR=/usr/share/pixmaps
 }
-## QT5
-#INCLUDEPATH +=$${QTDIR}/include/
-INCLUDEPATH  += /usr/include/poppler/qt4
-LIBS         += -L/usr/lib -lpoppler-qt4
-LIBS         += -L/usr/lib -lz
+
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
+
+LIBS         += -lz
+
+
 target.path = $${PREFIX}/bin
-
-#DEFINES += DEBIAN_SPELLDIR
-
+utilities.path = $${PREFIX}/share/texmaker
+desktop.path = $${DESKTOPDIR}
+icon.path = $${ICONDIR}
 
 INSTALLS = target
 HEADERS	+= x11fontdialog.h 
 SOURCES	+= x11fontdialog.cpp \
 	  singleapp/qtlockedfile_unix.cpp
 FORMS += x11fontdialog.ui
-
-utilities.path = $${PREFIX}/share/texmaker
 
 utilities.files = doc/doc1.png \
 	doc/doc10.png \
@@ -397,6 +417,7 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_se.qm \
 	locale/texmaker_ar.qm \
 	locale/texmaker_lv.qm \
+	locale/texmaker_uk.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \
@@ -426,307 +447,10 @@ utilities.files = doc/doc1.png \
 	dictionaries/README_es_ES.txt \
 	dictionaries/README_en_US.txt
 INSTALLS += utilities
-
-desktop.path = $${DESKTOPDIR}
 
 desktop.files = utilities/texmaker.desktop
 INSTALLS += desktop
 
-icon.path = $${ICONDIR}
-
 icon.files = utilities/texmaker.png
 INSTALLS += icon
-}
-################################
-win32 {
-INCLUDEPATH += C:\QtSDK\mingw\include
-INCLUDEPATH += C:\poppler
-LIBS         += -LC:\poppler -lpoppler-qt4
-RC_FILE = win.rc
-
-#DEFINES += USB_VERSION
-
-SOURCES	+= singleapp/qtlockedfile_win.cpp
-
-target.path = texmakerwin32
-#target.path = texmakerwin32usb
-
-INSTALLS = target
-
-utilities.path = texmakerwin32
-#utilities.path = texmakerwin32usb
-
-utilities.files =doc/doc1.png \
-	doc/doc10.png \
-	doc/doc11.png \
-	doc/doc12.png \
-	doc/doc13.png \
-	doc/doc14.png \
-	doc/doc15.png \
-	doc/doc16.png \
-	doc/doc17.png \
-	doc/doc18.png \
-	doc/doc19.png \
-	doc/doc2.png \
-	doc/doc3.png \
-	doc/doc4.png \
-	doc/doc5.png \
-	doc/doc6.png \
-	doc/doc7.png \
-	doc/doc8.png \
-	doc/doc9.png \
-	doc/doc6bis.png \
-	doc/doc20.png \
-	doc/doc21.png \
-	doc/doc22.png \
-	doc/doc10hu.png \
-	doc/doc11hu.png \
-	doc/doc12hu.png \
-	doc/doc13hu.png \
-	doc/doc14hu.png \
-	doc/doc15hu.png \
-	doc/doc16hu.png \
-	doc/doc17hu.png \
-	doc/doc1hu.png \
-	doc/doc20hu.png \
-	doc/doc21hu.png \
-	doc/doc22hu.png \
-	doc/doc2hu.png \
-	doc/doc3hu.png \
-	doc/doc4hu.png \
-	doc/doc5hu.png \
-	doc/doc6ahu.png \
-	doc/doc6hu.png \
-	doc/doc7hu.png \
-	doc/doc8hu.png \
-	doc/doc9hu.png \
-	doc/latexhelp.html \
-	doc/usermanual_en.html \
-	doc/usermanual_fr.html \
-	doc/usermanual_ru.html \
-	doc/usermanual_hu.html \
-	atd/atd.css \
-	atd/csshttprequest.js \
-	atd/jquery.atd.textarea.js \
-	utilities/AUTHORS \
-	utilities/COPYING \
-	utilities/CHANGELOG.txt \
-	locale/qt_cs.qm \
-	locale/qt_de.qm \
-	locale/qt_es.qm \
-	locale/qt_fr.qm \
-	locale/qt_pt.qm \
-	locale/qt_ru.qm \
-	locale/qt_zh_CN.qm \
-	locale/qt_zh_TW.qm \
-	locale/qt_fa.qm \
-	locale/qt_pl.qm \
-	locale/qt_nl.qm \
-	locale/texmaker_de.qm \
-	locale/texmaker_es.qm \
-	locale/texmaker_fr.qm \
-	locale/texmaker_gl.qm \
-	locale/texmaker_it.qm \
-	locale/texmaker_pt.qm \
-	locale/texmaker_pt_BR.qm \
-	locale/texmaker_ru.qm \
-	locale/texmaker_zh_CN.qm \
-	locale/texmaker_zh_TW.qm \
-	locale/texmaker_cs.qm \
-	locale/texmaker_nl.qm \
-	locale/texmaker_fa.qm \
-	locale/texmaker_pl.qm \
-	locale/texmaker_hu.qm \
-	locale/texmaker_sr.qm \
-	locale/texmaker_el.qm \
-	locale/texmaker_se.qm \
-	locale/texmaker_ar.qm \
-	locale/texmaker_lv.qm \
-	dictionaries/nl_NL.aff \
-	dictionaries/nl_NL.dic \
-	dictionaries/de_DE.aff \
-	dictionaries/de_DE.dic \
-	dictionaries/en_GB.aff \
-	dictionaries/en_GB.dic \
-	dictionaries/en_US.aff \
-	dictionaries/en_US.dic \
-	dictionaries/es_ES.aff \
-	dictionaries/es_ES.dic \
-	dictionaries/fr_FR.aff \
-	dictionaries/fr_FR.dic \
-	dictionaries/it_IT.aff \
-	dictionaries/it_IT.dic \
-	dictionaries/hu_HU.aff \
-	dictionaries/hu_HU.dic \
-	dictionaries/cs_CZ.aff \
-	dictionaries/cs_CZ.dic \
-	dictionaries/pl_PL.aff \
-	dictionaries/pl_PL.dic 
-INSTALLS += utilities
-
-others.path = texmakerwin32
-#others.path = texmakerwin32usb
-
-others.files = texmaker.ico \
-		C:\Qt\4.8.0\bin\mingwm10.dll \
-		C:\Qt\4.8.0\bin\libgcc_s_dw2-1.dll \
-		C:\Qt\4.8.0\bin\QtCore4.dll \
-		C:\Qt\4.8.0\bin\QtGui4.dll \
-		C:\Qt\4.8.0\bin\QtWebKit4.dll \
-		C:\Qt\4.8.0\bin\QtXml4.dll \
-		C:\Qt\4.8.0\bin\QtXmlPatterns4.dll \
-		C:\Qt\4.8.0\bin\phonon4.dll \
-		C:\Qt\4.8.0\bin\QtNetwork4.dll 
-INSTALLS += others
-}
-###############################
-macx {
-UI_DIR = .ui
-MOC_DIR = .moc
-OBJECTS_DIR = .obj
-
-INCLUDEPATH  += /usr/local/include/poppler/qt4
-LIBS         += -L/usr/local/lib -lpoppler-qt4
-
-#QMAKE_CFLAGS += -gdwarf-2
-#QMAKE_CXXFLAGS += -gdwarf-2
-
-##tiger 32
-CONFIG += link_prl x86
-QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.5.sdk
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
-target.path = TexmakerMacosx32
-
-##tiger snow 64
-#CONFIG += link_prl x86_64
-#QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.6.sdk
-#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-#target.path = TexmakerMacosx64
-
-#target.path = /Applications
-INSTALLS = target
-HEADERS	+= macsupport.h
-OBJECTIVE_SOURCES += macsupport.mm
-SOURCES	+= singleapp/qtlockedfile_unix.cpp
-utilities.path = Contents/Resources
-utilities.files = utilities/qt_menu.nib \
-	utilities/openTerminal.command \
-	doc/doc1.png \
-	doc/doc10.png \
-	doc/doc11.png \
-	doc/doc12.png \
-	doc/doc13.png \
-	doc/doc14.png \
-	doc/doc15.png \
-	doc/doc16.png \
-	doc/doc17.png \
-	doc/doc18.png \
-	doc/doc19.png \
-	doc/doc2.png \
-	doc/doc3.png \
-	doc/doc4.png \
-	doc/doc5.png \
-	doc/doc6.png \
-	doc/doc7.png \
-	doc/doc8.png \
-	doc/doc9.png \
-	doc/doc6bis.png \
-	doc/doc20.png \
-	doc/doc21.png \
-	doc/doc22.png \
-	doc/doc10hu.png \
-	doc/doc11hu.png \
-	doc/doc12hu.png \
-	doc/doc13hu.png \
-	doc/doc14hu.png \
-	doc/doc15hu.png \
-	doc/doc16hu.png \
-	doc/doc17hu.png \
-	doc/doc1hu.png \
-	doc/doc20hu.png \
-	doc/doc21hu.png \
-	doc/doc22hu.png \
-	doc/doc2hu.png \
-	doc/doc3hu.png \
-	doc/doc4hu.png \
-	doc/doc5hu.png \
-	doc/doc6ahu.png \
-	doc/doc6hu.png \
-	doc/doc7hu.png \
-	doc/doc8hu.png \
-	doc/doc9hu.png \
-	doc/latexhelp.html \
-	doc/usermanual_en.html \
-	doc/usermanual_fr.html \
-	doc/usermanual_ru.html \
-	doc/usermanual_hu.html \
-	atd/atd.css \
-	atd/csshttprequest.js \
-	atd/jquery.atd.textarea.js \
-	utilities/AUTHORS \
-	utilities/COPYING \
-	utilities/CHANGELOG.txt \
-	locale/qt_cs.qm \
-	locale/qt_de.qm \
-	locale/qt_es.qm \
-	locale/qt_fr.qm \
-	locale/qt_pt.qm \
-	locale/qt_ru.qm \
-	locale/qt_zh_CN.qm \
-	locale/qt_zh_TW.qm \
-	locale/qt_fa.qm \
-	locale/qt_pl.qm \
-	locale/qt_nl.qm \
-	locale/texmaker_de.qm \
-	locale/texmaker_es.qm \
-	locale/texmaker_fr.qm \
-	locale/texmaker_gl.qm \
-	locale/texmaker_it.qm \
-	locale/texmaker_pt.qm \
-	locale/texmaker_pt_BR.qm \
-	locale/texmaker_ru.qm \
-	locale/texmaker_zh_CN.qm \
-	locale/texmaker_zh_TW.qm \
-	locale/texmaker_cs.qm \
-	locale/texmaker_nl.qm \
-	locale/texmaker_fa.qm \
-	locale/texmaker_pl.qm \
-	locale/texmaker_hu.qm \
-	locale/texmaker_sr.qm \
-	locale/texmaker_el.qm \
-	locale/texmaker_se.qm \
-	locale/texmaker_ar.qm \
-	locale/texmaker_lv.qm \
-	dictionaries/nl_NL.aff \
-	dictionaries/nl_NL.dic \
-	dictionaries/de_DE.aff \
-	dictionaries/de_DE.dic \
-	dictionaries/en_GB.aff \
-	dictionaries/en_GB.dic \
-	dictionaries/en_US.aff \
-	dictionaries/en_US.dic \
-	dictionaries/es_ES.aff \
-	dictionaries/es_ES.dic \
-	dictionaries/fr_FR.aff \
-	dictionaries/fr_FR.dic \
-	dictionaries/it_IT.aff \
-	dictionaries/it_IT.dic \
-	dictionaries/it_IT_README.txt \
-	dictionaries/hu_HU.aff \
-	dictionaries/hu_HU.dic \
-	dictionaries/README_hu_HU.txt \
-	dictionaries/cs_CZ.aff \
-	dictionaries/cs_CZ.dic \
-	dictionaries/pl_PL.aff \
-	dictionaries/pl_PL.dic \
-	dictionaries/README_pl.txt \
-	dictionaries/README_cs_CZ.txt \
-	dictionaries/README_de_DE_frami.txt \
-	dictionaries/README_DIC_fr_FR.txt \
-	dictionaries/README_es_ES.txt \
-	dictionaries/README_en_US.txt
-QMAKE_BUNDLE_DATA += utilities
-INSTALLS += utilities
-ICON = texmaker.icns
-QMAKE_INFO_PLIST =Info.plist
 }

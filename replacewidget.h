@@ -30,7 +30,12 @@ public slots:
     void SetEditor(LatexEditor *ed);
     void doHide();
 private slots:
-    void expand(bool e);    
+    void expand(bool e);
+    void updateSelection(bool e);
+    void updateReg(bool e);
+private :
+  int startpos, endpos, deltacol;
+  void replaceSelection();
 protected:
     LatexEditor *editor;
 signals:

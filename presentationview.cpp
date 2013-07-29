@@ -40,8 +40,7 @@ PresentationView::PresentationView(QMutex* mutex, Poppler::Document* document) :
     m_image(),
     m_render(0)
 {
-    setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
-    setWindowState(windowState() | Qt::WindowFullScreen);
+
     setMouseTracking(true);
 
     m_render = new QFutureWatcher< void >(this);
@@ -57,6 +56,8 @@ PresentationView::PresentationView(QMutex* mutex, Poppler::Document* document) :
     m_returnToPage = -1;
 
     prepareView();
+    setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
+    setWindowState(windowState() | Qt::WindowFullScreen);
 }
 
 PresentationView::~PresentationView()

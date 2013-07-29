@@ -1,3 +1,16 @@
+version 4.0.2 -> 4.0.3 :
+------------------------
+- The windows and MacOsXlion versions are now compiled with Qt 5.1 (some issues which come from Qt 5.0.x are now fixed) and poppler 0.22
+- Find-and-replace actions can now be applied to a selection only
+- Users can now check if a new version is available via a new option in the "Help" menu
+- A tool to convert source files to Unicode has been added 
+- The user manual has been updated
+- ES, LV, El, AR and IT translations have been updated
+- UK translation has been added (thanks to Володимир Боденчук)
+- utf8 option has been added to the "letter" wizard
+- A trouble in the presentation mode for the pdf viewer on windows has been fixed
+- On MacOsX, session file is no more stored in the tmp/ directory, but in the "cache" directory. 
+
 version 4.0.1 -> 4.0.2 :
 ------------------------
 - High-dpi screen support has been added on MacOsX Lion for the pdf viewer, the symbols and the toolbars icons (because of a Qt 5 limitation, icons are still pixelized in the "push buttons" and in the menus for the moment)
@@ -6,7 +19,7 @@ version 4.0.1 -> 4.0.2 :
 - on linux, session file is no more stored in the temp/ directory (some linux distribution reset this directory at each reboot), but in the "home/.cache" directory. 
 - detection of acrobat reader 11 and ghostscript 9.07 has been added (for new users)
 - windows versions are now compiled with Qt 5.0.2 (the Qt bug about the save file dialog has been fixed in this Qt release)
-- ar and lv translations has been added (thanks to Koutheir ATTOUCHI and Sandris LACIS)
+- ar and lv translations have been added (thanks to Koutheir ATTOUCHI and Sandris LACIS)
 
 version 4.0 -> 4.0.1 :
 ---------------------

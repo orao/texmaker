@@ -94,6 +94,8 @@
 #include "texdocdialog.h"
 #include "addtagdialog.h"
 #include "exportdialog.h"
+#include "versiondialog.h"
+#include "unicodedialog.h"
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #include "x11fontdialog.h"
@@ -109,7 +111,7 @@ ReadSettings();
 
 
 QString tempDir=QDir::tempPath();
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#if defined(Q_OS_UNIX) || defined(Q_OS_MAC)
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 QString path=QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 if (QDir().mkpath(path)) tempDir=path;
@@ -1210,6 +1212,11 @@ Act = new QAction(tr("Export via TeX4ht"), this);
 Act->setData("Export via TeX4ht");
 connect(Act, SIGNAL(triggered()), this, SLOT(Export()));
 toolMenu->addAction(Act);
+toolMenu->addSeparator();
+Act = new QAction(tr("Convert to unicode"), this);
+Act->setData("Convert to unicode");
+connect(Act, SIGNAL(triggered()), this, SLOT(ConvertToUnicode()));
+toolMenu->addAction(Act);
 
 Act = new QAction(getIcon(":/images/errorprev.png"),tr("Previous LaTeX Error"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(PreviousError()));
@@ -2148,6 +2155,11 @@ else Act = new QAction(getIcon(":/images/help.png"), QString::fromUtf8("Document
 connect(Act, SIGNAL(triggered()), this, SLOT(Docufrlatex()));
 helpMenu->addAction(Act);  
 }
+
+helpMenu->addSeparator();
+Act = new QAction( tr("Check for Update"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(CheckVersion()));
+helpMenu->addAction(Act);
 
 helpMenu->addSeparator();
 Act = new QAction(getIcon(":/images/appicon.png"), tr("About Texmaker"), this);
@@ -3244,6 +3256,7 @@ if (!lastDocument.isEmpty())
 QString fn = QFileDialog::getSaveFileName(this,tr("Save As"),currentDir,"TeX files (*.tex *.bib *.sty *.cls *.mp *.Rnw *.asy);;All files (*.*)");
 if ( !fn.isEmpty() )
 	{
+	if (!fn.contains('.')) fn += ".tex";
 	QFile file(fn);
 	if ( file.open( QIODevice::WriteOnly ) )
 	    {
@@ -4204,8 +4217,8 @@ else
 // QApplication::setPalette(QApplication::style()->standardPalette());
 QFont x11Font (x11fontfamily,x11fontsize);
 QApplication::setFont(x11Font);
-
-/*QPalette pal = QApplication::palette();
+#ifdef STATIC_VERSION
+QPalette pal = QApplication::palette();
 pal.setColor( QPalette::Active, QPalette::Highlight, QColor("#4490d8") );
 pal.setColor( QPalette::Inactive, QPalette::Highlight, QColor("#4490d8") );
 pal.setColor( QPalette::Disabled, QPalette::Highlight, QColor("#4490d8") );
@@ -4251,7 +4264,8 @@ else
 	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#f6f3eb") );
 	}
 
-QApplication::setPalette(pal);*/
+QApplication::setPalette(pal);
+#endif
 quick_asy_command=config->value("Tools/QuickAsy","asy -f pdf -noView %.asy|"+viewpdf_command).toString();
 lp_options=config->value("Tools/LP","-o fitplot").toString();
 #endif
@@ -7981,6 +7995,13 @@ if (exportDlg->exec())
 	}
 }
 
+void Texmaker::ConvertToUnicode()
+{
+ UnicodeDialog *uniDlg = new UnicodeDialog(this);
+ uniDlg->init(EditorFont,showline,edcolors(),hicolors());
+ uniDlg->exec();
+}
+
 void Texmaker::EditUserTool()
 {
 QStringList usualNames, usualCommands;
@@ -8831,10 +8852,17 @@ if (!text.isEmpty())
 
 void Texmaker::HelpAbout()
 {
-//QApplication::aboutQt();
  AboutDialog *abDlg = new AboutDialog(this);
  abDlg->exec();
 }
+
+void Texmaker::CheckVersion()
+{
+ VersionDialog *verDlg = new VersionDialog(this);
+ verDlg->exec();
+}
+
+
 
 void Texmaker::Docufrlatex()
 {

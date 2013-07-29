@@ -26,7 +26,13 @@ along with qpdfview.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui>
 #include <QWidget>
 
-#include "poppler-qt4.h"
+#if defined(POPPLER20)
+#include "texmaker_popplerqt20/poppler-qt4.h"
+#elif defined(POPPLER22)
+#include "texmaker_popplerqt22/poppler-qt4.h"
+#else
+#include <poppler-qt4.h>
+#endif
 
 #include "pageitem.h"
 

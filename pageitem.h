@@ -25,7 +25,14 @@ modified by Pascal Brachet
 #include <QtCore>
 #include <QtGui>
 #include <QGraphicsObject>
-#include "poppler-qt4.h"
+
+#if defined(POPPLER20)
+#include "texmaker_popplerqt20/poppler-qt4.h"
+#elif defined(POPPLER22)
+#include "texmaker_popplerqt22/poppler-qt4.h"
+#else
+#include <poppler-qt4.h>
+#endif
 
 
 

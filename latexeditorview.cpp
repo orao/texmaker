@@ -66,11 +66,14 @@ findwidget->SetEditor(editor);
 connect(findwidget, SIGNAL( requestHide() ), Stack, SLOT( hide() ) );
 connect(findwidget, SIGNAL( requestExtension() ), this, SLOT( updateFind() ) );
 
+
 replacewidget=new ReplaceWidget(Stack);
 Stack->addWidget(replacewidget);
 replacewidget->SetEditor(editor);
 connect(replacewidget, SIGNAL( requestHide() ), Stack, SLOT( hide() ) );
 connect(replacewidget, SIGNAL( requestExtension() ), this, SLOT( updateReplace() ) );
+
+connect(editor,SIGNAL(textChanged()), this, SLOT( updateInSelection() ) );
 
 gotolinewidget=new GotoLineWidget(Stack);
 Stack->addWidget(gotolinewidget);
@@ -188,6 +191,11 @@ gotolinewidget->ui.spinLine->setFocus();
 gotolinewidget->ui.spinLine->setMinimum( 1 );
 gotolinewidget->ui.spinLine->setMaximum(editor->numoflines() );
 gotolinewidget->ui.spinLine->selectAll();
+}
+
+void LatexEditorView::updateInSelection()
+{
+findwidget->ui.checkSelection->setChecked( false );
 }
 
 

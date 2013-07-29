@@ -30,7 +30,13 @@
 
 #include "geticon.h"
 
-#include "poppler-qt4.h"
+#if defined(POPPLER20)
+#include "texmaker_popplerqt20/poppler-qt4.h"
+#elif defined(POPPLER22)
+#include "texmaker_popplerqt22/poppler-qt4.h"
+#else
+#include <poppler-qt4.h>
+#endif
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"

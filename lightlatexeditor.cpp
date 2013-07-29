@@ -138,7 +138,7 @@ setBackgroundVisible(true);
 update();
 }
 
-bool LightLatexEditor::search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor, bool isRegExp )
+bool LightLatexEditor::search( const QString &expr, bool cs, bool wo, bool forward, bool startAtCursor, bool isRegExp)
 {
 QTextDocument::FindFlags flags = 0;
 if (cs) flags |= QTextDocument::FindCaseSensitively;
@@ -165,6 +165,26 @@ else
 	{
 	setTextCursor(found);
 	return true;
+	}
+}
+
+int LightLatexEditor::searchInSelection( const QString &expr, bool cs, bool wo, bool isRegExp, int start, int end)
+{
+QTextDocument::FindFlags flags = 0;
+if (cs) flags |= QTextDocument::FindCaseSensitively;
+if (wo) flags |= QTextDocument::FindWholeWords;
+
+QTextCursor found = isRegExp?document()->find(QRegExp(expr), start, flags) : document()->find(expr, start, flags);
+
+if (found.isNull()) return -1;
+else 
+	{
+	if (found.selectionEnd()>end) return -1;
+	else
+	  {
+	  setTextCursor(found);
+	  return found.selectionEnd();
+	  }
 	}
 }
 

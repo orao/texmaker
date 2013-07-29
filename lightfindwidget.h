@@ -29,6 +29,9 @@ public slots:
     void doHide();
 private slots:
     void expand(bool e);
+    void updateSelection(bool e);
+private :
+  int startpos, endpos;
 protected:
     LightLatexEditor *editor;
 signals:

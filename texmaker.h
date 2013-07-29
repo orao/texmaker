@@ -410,6 +410,7 @@ void doView();
 void jumpToPdfline(int line);
 void OpenTerminal();
 void Export();
+void ConvertToUnicode();
 
 void LoadLog();
 void ViewLog();
@@ -427,6 +428,7 @@ void LatexHelp();
 void UserManualHelp();
 void TexDocHelp();
 void HelpAbout();
+void CheckVersion();
 void Docufrlatex();
 
 void GeneralOptions();

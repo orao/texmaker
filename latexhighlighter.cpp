@@ -34,7 +34,7 @@ KeyWordsGraphic=QString("void bool bool3 int real pair triple string").split(" "
 KeyWordsGraphicBis=QString("and controls tension atleast curl if else while for do return break continue struct typedef new access import unravel from include quote static public private restricted this explicit true false null cycle newframe operator").split(" ");
 spellingErrorFormat.setFontUnderline(true);
 spellingErrorFormat.setUnderlineColor(QColor(Qt::red));
-spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+//spellingErrorFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
 checkSpelling=spelling;
 pChecker = spellChecker;
 if (pChecker) spell_encoding=QString(pChecker->get_dic_encoding());

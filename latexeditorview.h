@@ -39,6 +39,7 @@ public:
 private slots:
 void updateFind();
 void updateReplace();
+void updateInSelection();
 private:
   MiniSplitter *splitter;
   LineNumberWidget* m_lineNumberWidget;
