@@ -30,6 +30,7 @@ public slots:
     void doHide();
 protected:
     LatexEditor *editor;
+void keyPressEvent ( QKeyEvent * e );
 signals:
 void requestHide();
 };

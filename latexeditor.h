@@ -202,6 +202,7 @@ void mousePressEvent(QMouseEvent *);
 QMimeData *createMimeDataFromSelection() const;
 bool canInsertFromMimeData(const QMimeData *source) const;
 void insertFromMimeData(const QMimeData *source);
+void dropEvent(QDropEvent *event);
 
 signals:
 void spellme();

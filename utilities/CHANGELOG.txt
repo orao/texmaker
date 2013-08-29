@@ -1,3 +1,14 @@
+version 4.0.3 -> 4.0.4 :
+------------------------
+- poppler-0.24 support has been added (this poppler version is the first to support officially Qt5 - Texmaker can now be compiled with Qt5 without patching poppler)
+- a compilation trouble on arm system has been fixed
+- the "Enter" key on numeric pad can now also be used to activate the default button in the "goto line", "find" and "replace" widgets (user request)
+- a commented line beginning by indent or spaces can now also be uncommented by the "uncomment" action of the "edit" menu
+- drag and drop for image files is now allowed in the editor (the \includegraphics command will be automatically inserted)
+- a trouble while boldifying some structure items has been fixed
+- CS, ES, PL, SE and ZH_CN translations have been updated
+
+
 version 4.0.2 -> 4.0.3 :
 ------------------------
 - The windows and MacOsXlion versions are now compiled with Qt 5.1 (some issues which come from Qt 5.0.x are now fixed) and poppler 0.22

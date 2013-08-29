@@ -1475,47 +1475,16 @@ editor->checkStructUpdate(document(),currentBlock().position(),text,i);
 const QList<StructItem>& structure = editor->getStructItems();
 for (int j = 0; j < structure.count(); j++)
 {
-if (structure.at(j).cursor.block().blockNumber()==currentBlock().blockNumber()) 
-{
-int offwidth=0;
-switch (structure.at(j).type)
+if ((structure.at(j).cursor.block().blockNumber()==currentBlock().blockNumber()) && (structure.at(j).type!=0)) 
   {
-  case 1:
-	  {
-	  offwidth=7;
-	  }break;
-  case 2:
-	  {
-	  offwidth=9;
-	  }break;
-  case 3:
-	  {
-	  offwidth=7;
-	  }break;
-  case 4:
-	  {
-	  offwidth=6;
-	  }break;
-  case 5:
-	  {
-	  offwidth=9;
-	  }break;
-  case 6:
-	  {
-	  offwidth=9;
-	  }break;
-  case 7:
-	  {
-	  offwidth=12;
-	  }break;
-  case 8:
-	  {
-	  offwidth=15;
-	  }break;
+  int offwidth=0;
+  QTextCursor curs = editor->document()->find("{",structure.at(j).cursor.position());
+  if (!curs.isNull()  && (curs.position()<currentBlock().length()+currentBlock().position()))
+    {
+    offwidth=curs.position()-structure.at(j).cursor.position()+structure.at(j).item.length()+1;
+    }
+    if (offwidth>0) setFormat(structure.at(j).cursor.position()-currentBlock().position(),offwidth,structFormat);
   }
-  
-  if (offwidth>0) setFormat(structure.at(j).cursor.position()-currentBlock().position(),structure.at(j).item.length()+offwidth,structFormat);
-}
 }
 //}
 ////////////////////

@@ -305,7 +305,7 @@
     <message>
         <location filename="../configdialog.ui" line="255"/>
         <source>lp options for the printer</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones lp para la impresora</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="349"/>
@@ -394,7 +394,7 @@
     <message>
         <location filename="../configdialog.ui" line="933"/>
         <source>For .asy files</source>
-        <translation type="unfinished"></translation>
+        <translation>Para archivos .asy</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="981"/>
@@ -727,18 +727,18 @@ con la configuración de codificación por defecto</translation>
     <message>
         <location filename="../findwidget.ui" line="154"/>
         <source>Regular Expression</source>
-        <translation type="unfinished">Expresión regular</translation>
+        <translation>Expresión regular</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="161"/>
         <location filename="../findwidget.cpp" line="136"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar el texto antes de elegir esta opción.</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="164"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Sólo en selección</translation>
     </message>
     <message>
         <source>RegularExpression</source>
@@ -1676,12 +1676,12 @@ con la configuración de codificación por defecto</translation>
         <location filename="../replacewidget.ui" line="203"/>
         <location filename="../replacewidget.cpp" line="208"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar el texto antes de elegir esta opción.</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="206"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Sólo en selección</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="216"/>
@@ -2434,12 +2434,12 @@ con la configuración de codificación por defecto</translation>
     <message>
         <location filename="../texmaker.cpp" line="1216"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir a unicode</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2160"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobar actualizaciones</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="7700"/>
@@ -3149,37 +3149,37 @@ con la configuración de codificación por defecto</translation>
         <location filename="../unicodedialog.ui" line="14"/>
         <location filename="../unicodedialog.ui" line="98"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir a unicode</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="28"/>
         <source>File</source>
-        <translation type="unfinished">Archivo</translation>
+        <translation>Archivo</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="75"/>
         <source>Original Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificación Original</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished">Cerrar</translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="51"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccione un Archivo</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>Error</source>
-        <translation type="unfinished">Error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished">No tiene permisos para leer este archivo.</translation>
+        <translation>No tiene permisos para leer este archivo.</translation>
     </message>
 </context>
 <context>
@@ -3187,22 +3187,22 @@ con la configuración de codificación por defecto</translation>
     <message>
         <location filename="../unicodeview.cpp" line="51"/>
         <source>Save</source>
-        <translation type="unfinished">Guardar</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="139"/>
         <source>Save As</source>
-        <translation type="unfinished">Guardar como</translation>
+        <translation>Guardar como</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>Error</source>
-        <translation type="unfinished">Error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished">No ha sido posible guardar el documento. Compruebe que tiene los permisos de escritura necesarios.</translation>
+        <translation>No fue posible guardar el documento. Compruebe que tiene los permisos de escritura necesarios.</translation>
     </message>
 </context>
 <context>
@@ -3361,33 +3361,33 @@ con la configuración de codificación por defecto</translation>
     <message>
         <location filename="../versiondialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished">Texmaker</translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="20"/>
         <source>Check for available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobar versión disponible</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="34"/>
         <source>Available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión disponible</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="48"/>
         <source>Go to the download page</source>
-        <translation type="unfinished"></translation>
+        <translation>Ir a la página de descarga</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="68"/>
         <source>You&apos;re using the version</source>
-        <translation type="unfinished"></translation>
+        <translation>Ud. está utilizando la versión</translation>
     </message>
     <message>
         <location filename="../versiondialog.cpp" line="48"/>
         <location filename="../versiondialog.cpp" line="55"/>
         <source>Error</source>
-        <translation type="unfinished">Error</translation>
+        <translation>Error</translation>
     </message>
 </context>
 <context>

@@ -37,7 +37,7 @@
     <message>
         <location filename="../addtagdialog.ui" line="55"/>
         <source>Keyboard Trigger</source>
-        <translation>Trigger tagentbord</translation>
+        <translation>Trigger tangentbord</translation>
     </message>
 </context>
 <context>
@@ -244,17 +244,17 @@
         <location filename="../configdialog.cpp" line="620"/>
         <location filename="../configdialog.cpp" line="680"/>
         <source>XeLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="685"/>
         <source>Add to PATH</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till i PATH</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="255"/>
         <source>lp options for the printer</source>
-        <translation type="unfinished"></translation>
+        <translation>lp alternativ för skrivaren</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="805"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../configdialog.ui" line="869"/>
         <source>XeLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX + Visa PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="883"/>
@@ -325,7 +325,7 @@
     <message>
         <location filename="../configdialog.ui" line="933"/>
         <source>For .asy files</source>
-        <translation type="unfinished"></translation>
+        <translation>För .asy filer</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="981"/>
@@ -559,57 +559,57 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../exportdialog.ui" line="14"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportera via TeX4ht</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="22"/>
         <source>Path to htlatex</source>
-        <translation type="unfinished"></translation>
+        <translation>Sökväg till htlatex</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="45"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Läge</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="51"/>
         <source>export to Html</source>
-        <translation type="unfinished"></translation>
+        <translation>exportera till Html</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="61"/>
         <source>export to Html (new page for each section)</source>
-        <translation type="unfinished"></translation>
+        <translation>exportera till Html (ny sida för varje sektion)</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="68"/>
         <source>export to OpenDocumentFormat</source>
-        <translation type="unfinished"></translation>
+        <translation>exportera till OpenDocumentFormat</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="75"/>
         <source>export to MathML</source>
-        <translation type="unfinished"></translation>
+        <translation>exportera till MathML</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="82"/>
         <source>User</source>
-        <translation type="unfinished">Personlig</translation>
+        <translation>Eget</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="91"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternativ</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="125"/>
         <source>Run</source>
-        <translation type="unfinished">Kör</translation>
+        <translation>Kör</translation>
     </message>
     <message>
         <location filename="../exportdialog.cpp" line="47"/>
         <source>Browse program</source>
-        <translation type="unfinished">Bläddra efter program</translation>
+        <translation>Bläddra efter program</translation>
     </message>
 </context>
 <context>
@@ -670,18 +670,18 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../findwidget.ui" line="154"/>
         <source>Regular Expression</source>
-        <translation type="unfinished">Reguljärt uttryck</translation>
+        <translation>Reguljärt uttryck</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="161"/>
         <location filename="../findwidget.cpp" line="136"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Text måste markeras innan du väljer alternativet.</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="164"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Endast i markerad text</translation>
     </message>
     <message>
         <source>RegularExpression</source>
@@ -1485,12 +1485,12 @@ med standardinställningarna för kodning</translation>
         <location filename="../replacewidget.ui" line="203"/>
         <location filename="../replacewidget.cpp" line="208"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Text måste markeras innan du väljer alternativet.</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="206"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Endast i markerad text</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="216"/>
@@ -2236,12 +2236,12 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../texmaker.cpp" line="1211"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportera via TeX4ht</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1216"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Konvertera till Unicode</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1221"/>
@@ -2417,7 +2417,7 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../texmaker.cpp" line="2160"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök efter uppdateringar</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="7700"/>
@@ -2476,7 +2476,7 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../texmaker.cpp" line="2107"/>
         <source>Interface Language</source>
-        <translation>Gränssnittetsspråk</translation>
+        <translation>Gränssnittsspråk</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2134"/>
@@ -2832,7 +2832,7 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../texmaker.cpp" line="8008"/>
         <source>XeLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTex</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="8302"/>
@@ -2886,37 +2886,37 @@ med standardinställningarna för kodning</translation>
         <location filename="../unicodedialog.ui" line="14"/>
         <location filename="../unicodedialog.ui" line="98"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Konvertera till Unicode</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="28"/>
         <source>File</source>
-        <translation type="unfinished">Fil</translation>
+        <translation>Fil</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="75"/>
         <source>Original Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Ursprunglig kodning</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished">Stäng</translation>
+        <translation>Stäng</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="51"/>
         <source>Select a File</source>
-        <translation type="unfinished">Välj en fil</translation>
+        <translation>Välj en fil</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>Error</source>
-        <translation type="unfinished">Fel</translation>
+        <translation>Fel</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished">Du har inte läsrättigheter till den här filen.</translation>
+        <translation>Du har inte läsrättigheter till den här filen.</translation>
     </message>
 </context>
 <context>
@@ -2924,22 +2924,22 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../unicodeview.cpp" line="51"/>
         <source>Save</source>
-        <translation type="unfinished">Spara</translation>
+        <translation>Spara</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="139"/>
         <source>Save As</source>
-        <translation type="unfinished">Spara som</translation>
+        <translation>Spara som</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>Error</source>
-        <translation type="unfinished">Fel</translation>
+        <translation>Fel</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished">Filen kunde inte sparas. Kontrollera om du har skrivrättigheter.</translation>
+        <translation>Filen kunde inte sparas. Kontrollera om du har skrivrättigheter.</translation>
     </message>
 </context>
 <context>
@@ -2972,7 +2972,7 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../usercompletiondialog.ui" line="73"/>
         <source>( #label# : label item )</source>
-        <translation>( #label# : ettikett objekt )</translation>
+        <translation>( #label# : etikett objekt )</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="82"/>
@@ -3082,33 +3082,33 @@ med standardinställningarna för kodning</translation>
     <message>
         <location filename="../versiondialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished">Texmaker</translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="20"/>
         <source>Check for available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök efter ny version</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="34"/>
         <source>Available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Tillgänglig version</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="48"/>
         <source>Go to the download page</source>
-        <translation type="unfinished"></translation>
+        <translation>Gå till nedladdningssidan</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="68"/>
         <source>You&apos;re using the version</source>
-        <translation type="unfinished"></translation>
+        <translation>Du använder version</translation>
     </message>
     <message>
         <location filename="../versiondialog.cpp" line="48"/>
         <location filename="../versiondialog.cpp" line="55"/>
         <source>Error</source>
-        <translation type="unfinished">Fel</translation>
+        <translation>Fel</translation>
     </message>
 </context>
 <context>

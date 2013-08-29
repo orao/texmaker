@@ -38,6 +38,7 @@ private :
   void replaceSelection();
 protected:
     LatexEditor *editor;
+void keyPressEvent ( QKeyEvent * e );
 signals:
 void requestHide();
 void requestExtension();

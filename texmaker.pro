@@ -2,25 +2,33 @@ TEMPLATE	= app
 LANGUAGE	= C++
 TARGET	 = texmaker
 
-## QT4
+QT_VERSION=$$[QT_VERSION]
+contains( QT_VERSION, "^5.*" ) {
+QT += xml webkitwidgets network widgets printsupport concurrent
+} else {
 QT += xml webkit network
-## QT5
-#QT += xml webkitwidgets network widgets printsupport concurrent
+}
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.0.3
+TEXMAKERVERSION=4.0.4
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 
 
 
 unix:!macx {
+contains( QT_VERSION, "^5.*" ) {
+CONFIG		+= link_pkgconfig
+PKGCONFIG 	= poppler-qt5
+DEFINES += POPPLER24
+} else {
 CONFIG		+= link_pkgconfig
 PKGCONFIG 	= poppler-qt4
 DETECTEDPOPPLER=$$system(pkg-config --modversion poppler)
 contains( DETECTEDPOPPLER, "^0.18.*" ){
 DEFINES += OLDPOPPLER
-} 
+}
+}
 }
 
 ###############################

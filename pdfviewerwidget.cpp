@@ -34,6 +34,8 @@
 #include "texmaker_popplerqt20/poppler-qt4.h"
 #elif defined(POPPLER22)
 #include "texmaker_popplerqt22/poppler-qt4.h"
+#elif defined(POPPLER24)
+#include <poppler-qt5.h>
 #else
 #include <poppler-qt4.h>
 #endif
@@ -60,6 +62,7 @@ currentPage=1;
 
 
 doc = 0;
+searchleft=0.0; searchtop=0.0; searchright=0.0; searchbottom=0.0;
 scanner=NULL;
 path= QPainterPath();
 
@@ -752,6 +755,7 @@ void PdfViewerWidget::searchForwards(const QString &text)
 {
 int page = currentPage-1;
 
+
 while (page < doc->numPages()) 
   {
 
@@ -759,8 +763,12 @@ while (page < doc->numPages())
     {
     pdfview->clearPaths(currentPage-1);  
     }
-  if (doc->page(page)->search(text, searchLocation,Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
+  if (doc->page(page)->search(text, searchleft, searchtop, searchright, searchbottom, Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
     {
+    searchLocation.setLeft(searchleft);
+    searchLocation.setTop(searchtop);
+    searchLocation.setRight(searchright);
+    searchLocation.setBottom(searchbottom);
     if (!searchLocation.isNull()) 
       {
       path= QPainterPath();
@@ -786,8 +794,12 @@ while (page < currentPage-1)
     pdfview->clearPaths(currentPage-1);    
     }
   searchLocation = QRectF();
-  if (doc->page(page)->search(text, searchLocation,Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
+  if (doc->page(page)->search(text, searchleft, searchtop, searchright, searchbottom, Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
     {
+    searchLocation.setLeft(searchleft);
+    searchLocation.setTop(searchtop);
+    searchLocation.setRight(searchright);
+    searchLocation.setBottom(searchbottom);
     if (!searchLocation.isNull()) 
       {
       path= QPainterPath();

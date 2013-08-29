@@ -462,6 +462,7 @@ LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, 
  
 fname=name;
 vfocus=viewfocus;
+setAcceptDrops(true);
 /***********************/
 inBlockSelectionMode=false;
 blockSelection.tabSize=tabwidth;
@@ -1114,6 +1115,7 @@ if (cur.hasSelection())
 void LatexEditor::uncommentSelection()
 {
 bool go=true;
+int pos=0;
 QTextCursor cur=textCursor();
 if (cur.hasSelection())
 	{
@@ -1124,6 +1126,12 @@ if (cur.hasSelection())
 	while ( cur.position() < end && go)
 		{
 		cur.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
+		while (cur.selectedText()=="\t" || cur.selectedText()==" ")
+		  {
+		  pos=cur.selectionEnd();
+		  cur.setPosition(pos,QTextCursor::MoveAnchor);
+		  cur.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor);
+		  }	
 		if (cur.selectedText()=="%") 
 			{
 			cur.removeSelectedText();
@@ -2828,6 +2836,51 @@ offset=pream.length();
 Entity.replace("\n","\n"+pream);
 insertPlainText(Entity);
 return offset;
+}
+
+void LatexEditor::dropEvent(QDropEvent *event)
+{
+event->acceptProposedAction();
+#if defined(Q_OS_WIN32)
+QRegExp rxpics("file:(/+)(.*\\.(?:eps|pdf|png|jpeg|jpg|tiff))");
+#else
+QRegExp rxpics("file:(//)(.*\\.(?:eps|pdf|png|jpeg|jpg|tiff))");
+#endif
+QList<QUrl> uris=event->mimeData()->urls();
+if (event && (uris.size()>0))
+{
+QString uri;
+QString tag;
+QString finame,fn;
+uri=uris.at(0).toString();
+QTextCursor cursor = cursorForPosition(event->pos());
+int initialCursorPosition = cursor.position();
+QPlainTextEdit::dropEvent(event);
+cursor.setPosition(initialCursorPosition,QTextCursor::MoveAnchor);
+cursor.setPosition(initialCursorPosition+uri.length(),QTextCursor::KeepAnchor);
+cursor.removeSelectedText();
+if (rxpics.exactMatch(uri))
+  {
+  fn=rxpics.cap(2);
+  if (!fname.startsWith("untitled"))
+      {
+      QFileInfo fi(fname);
+      QDir rootdir=fi.dir();
+      QFileInfo fie(rootdir.relativeFilePath(fn));
+      cursor.insertText("\\includegraphics[scale=1]{"+fie.filePath()+"} ");
+      }
+  else 
+      {
+      QFileInfo fie(fn);
+      cursor.insertText("\\includegraphics[scale=1]{"+fie.fileName()+"} ");
+      }
+  }
+setTextCursor(cursor);
+}
+else
+{
+QPlainTextEdit::dropEvent(event);
+}
 }
 
 /*const QRectF LatexEditor::blockGeometry(const QTextBlock & block) 

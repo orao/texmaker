@@ -10,7 +10,7 @@
  ***************************************************************************/
 
 #include "gotolinewidget.h"
-
+#include <QAction>
 
 GotoLineWidget::GotoLineWidget(QWidget* parent)
     : QWidget( parent)
@@ -18,7 +18,6 @@ GotoLineWidget::GotoLineWidget(QWidget* parent)
 ui.setupUi(this);
 connect( ui.closeButton, SIGNAL( clicked() ), this, SLOT( doHide() ) );
 connect( ui.gotoButton, SIGNAL( clicked() ), this, SLOT( gotoLine() ) );
-ui.gotoButton->setShortcut(Qt::Key_Return);
 ui.gotoButton->setToolTip("Return");
 ui.closeButton->setShortcut(Qt::Key_Escape);
 ui.closeButton->setToolTip("Escape");
@@ -51,4 +50,9 @@ if ( editor )
 	editor->viewport()->repaint();
 	editor->setFocus();
 	}
+}
+
+void GotoLineWidget::keyPressEvent ( QKeyEvent * e ) 
+{
+if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return)) gotoLine();
 }

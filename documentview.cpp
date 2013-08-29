@@ -380,9 +380,9 @@ if (m_pages.count()<1) return;
 
             prepareScene();
             prepareView(left, top);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-	    viewport()->update();
-#endif
+// #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+// 	    viewport()->update();
+// #endif
         }
 
         emit scaleFactorChanged(m_scaleFactor);
@@ -680,12 +680,12 @@ if (m_pages.count()<1) return;
     {
         PageItem* page = m_pages.at(m_currentPage - 1);
 
-        setScaleFactor(qMin(page->scaleFactor() + 0.1, s_maximumScaleFactor));
+        setScaleFactor(qMin(page->scaleFactor() + 0.1f, s_maximumScaleFactor));
         setScaleMode(ScaleFactor);
     }
     else
     {
-        setScaleFactor(qMin(scaleFactor() + 0.1, s_maximumScaleFactor));
+        setScaleFactor(qMin(scaleFactor() + 0.1f, s_maximumScaleFactor));
     }
 }
 
@@ -696,12 +696,12 @@ if (m_pages.count()<1) return;
     {
         PageItem* page = m_pages.at(m_currentPage - 1);
 
-        setScaleFactor(qMax(page->scaleFactor() - 0.1, s_minimumScaleFactor));
+        setScaleFactor(qMax(page->scaleFactor() - 0.1f, s_minimumScaleFactor));
         setScaleMode(ScaleFactor);
     }
     else
     {
-        setScaleFactor(qMax(scaleFactor() - 0.1, s_minimumScaleFactor));
+        setScaleFactor(qMax(scaleFactor() - 0.1f, s_minimumScaleFactor));
     }
 }
 
@@ -1352,7 +1352,7 @@ void DocumentView::prepareScene()
 
                 pageHeight = boundingRect.height();
 
-                left = qMin(left, -boundingRect.width() - 1.5 * s_pageSpacing);
+                left = qMin(left, -boundingRect.width() - 1.5f * s_pageSpacing);
             }
             else
             {
@@ -1360,7 +1360,7 @@ void DocumentView::prepareScene()
 
                 pageHeight = qMax(pageHeight, boundingRect.height());
 
-                right = qMax(right, boundingRect.width() + 1.5 * s_pageSpacing);
+                right = qMax(right, boundingRect.width() + 1.5f * s_pageSpacing);
                 height += pageHeight + s_pageSpacing;
             }
         }
@@ -1372,15 +1372,15 @@ void DocumentView::prepareScene()
 
             pageHeight = boundingRect.height();
 
-            left = qMin(left, -0.5 * boundingRect.width() - s_pageSpacing);
-            right = qMax(right, 0.5 * boundingRect.width() + s_pageSpacing);
+            left = qMin(left, -0.5f * boundingRect.width() - s_pageSpacing);
+            right = qMax(right, 0.5f * boundingRect.width() + s_pageSpacing);
             height += pageHeight + s_pageSpacing;
         }
     }
 
     if(m_twoPagesMode && m_numberOfPages % 2 != 0)
     {
-        right = qMax(right, 0.5 * s_pageSpacing);
+        right = qMax(right, 0.5f * s_pageSpacing);
         height += pageHeight + s_pageSpacing;
     }
 
@@ -1434,7 +1434,7 @@ void DocumentView::prepareView(qreal changeLeft, qreal changeTop)
                 QRectF boundingRect = page->boundingRect().translated(page->pos());
 
                 top = qMin(top, boundingRect.top() - s_pageSpacing);
-                height = qMax(height, boundingRect.height() + 2.0 * s_pageSpacing);
+                height = qMax(height, boundingRect.height() + 2.0f * s_pageSpacing);
             }
             else
             {
@@ -1450,6 +1450,7 @@ void DocumentView::prepareView(qreal changeLeft, qreal changeTop)
 
     horizontalScrollBar()->setValue(horizontalValue);
     verticalScrollBar()->setValue(verticalValue);
+    viewport()->update();
 }
 
 void DocumentView::prepareHighlight()

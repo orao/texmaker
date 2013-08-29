@@ -312,7 +312,7 @@
         <location filename="../configdialog.cpp" line="620"/>
         <location filename="../configdialog.cpp" line="680"/>
         <source>XeLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTex</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="685"/>
@@ -322,7 +322,7 @@
     <message>
         <location filename="../configdialog.ui" line="255"/>
         <source>lp options for the printer</source>
-        <translation type="unfinished"></translation>
+        <translation>Volby lp pro tiskárnu</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="805"/>
@@ -393,7 +393,7 @@
     <message>
         <location filename="../configdialog.ui" line="933"/>
         <source>For .asy files</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro soubory .asy</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="981"/>
@@ -726,18 +726,18 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="../findwidget.ui" line="154"/>
         <source>Regular Expression</source>
-        <translation type="unfinished">Regulární výraz</translation>
+        <translation>Regulární výraz</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="161"/>
         <location filename="../findwidget.cpp" line="136"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Text musí být před zaškrtnutím této volby vybrán.</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="164"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze ve výběru</translation>
     </message>
     <message>
         <source>RegularExpression</source>
@@ -1730,12 +1730,12 @@ zakódování správně rozšifrovat</translation>
         <location filename="../replacewidget.ui" line="203"/>
         <location filename="../replacewidget.cpp" line="208"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Text musí být před zaškrtnutím této volby vybrán.</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="206"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze ve výběru</translation>
     </message>
     <message>
         <source>Close</source>
@@ -2487,12 +2487,12 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="../texmaker.cpp" line="1216"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Převést na Unicode</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2160"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkontrolovat aktualizace</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="7700"/>
@@ -3173,37 +3173,37 @@ zakódování správně rozšifrovat</translation>
         <location filename="../unicodedialog.ui" line="14"/>
         <location filename="../unicodedialog.ui" line="98"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Převést na Unicode</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="28"/>
         <source>File</source>
-        <translation type="unfinished">Soubor</translation>
+        <translation>Soubor</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="75"/>
         <source>Original Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Původní kódování</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished">Zavřít</translation>
+        <translation>Zavřít</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="51"/>
         <source>Select a File</source>
-        <translation type="unfinished">Vybrat soubor</translation>
+        <translation>Vybrat soubor</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished">Nemáte dostatečná oprávnění pro čtení tohoto souboru.</translation>
+        <translation>Nemáte dostatečná oprávnění pro čtení tohoto souboru.</translation>
     </message>
 </context>
 <context>
@@ -3211,22 +3211,22 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="../unicodeview.cpp" line="51"/>
         <source>Save</source>
-        <translation type="unfinished">Uložit</translation>
+        <translation>Uložit</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="139"/>
         <source>Save As</source>
-        <translation type="unfinished">Uložit jako</translation>
+        <translation>Uložit jako</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished">Soubor se nepodařilo uložit. Ověřte, prosím, zda máte oprávnění pro zápis.</translation>
+        <translation>Soubor se nepodařilo uložit. Ověřte, prosím, zda máte oprávnění pro zápis.</translation>
     </message>
 </context>
 <context>
@@ -3385,33 +3385,33 @@ zakódování správně rozšifrovat</translation>
     <message>
         <location filename="../versiondialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished">Texmaker</translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="20"/>
         <source>Check for available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Podívat se po dostupné verzi</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="34"/>
         <source>Available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostupná verze</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="48"/>
         <source>Go to the download page</source>
-        <translation type="unfinished"></translation>
+        <translation>Jdi na stahovací stránku</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="68"/>
         <source>You&apos;re using the version</source>
-        <translation type="unfinished"></translation>
+        <translation>Používáte verzi</translation>
     </message>
     <message>
         <location filename="../versiondialog.cpp" line="48"/>
         <location filename="../versiondialog.cpp" line="55"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
 </context>
 <context>

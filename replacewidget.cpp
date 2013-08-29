@@ -19,7 +19,7 @@ ui.setupUi(this);
 connect( ui.findButton, SIGNAL( clicked() ), this, SLOT( doReplace() ) );
 connect( ui.replaceallButton, SIGNAL( clicked() ), this, SLOT( doReplaceAll() ) );
 connect( ui.closeButton, SIGNAL( clicked() ), this, SLOT( doHide() ) );
-ui.findButton->setShortcut(Qt::Key_Return);
+//ui.findButton->setShortcut(Qt::Key_Return);
 ui.findButton->setToolTip("Return");
 ui.closeButton->setShortcut(Qt::Key_Escape);
 ui.closeButton->setToolTip("Escape");
@@ -265,4 +265,9 @@ if (!newword.isEmpty())
 	endpos=endpos+deltacol;
 	}
 
+}
+
+void ReplaceWidget::keyPressEvent ( QKeyEvent * e ) 
+{
+if ((e->key()==Qt::Key_Enter)||(e->key()==Qt::Key_Return)) doReplace();
 }

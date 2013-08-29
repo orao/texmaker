@@ -34,7 +34,7 @@
     <message>
         <location filename="../addtagdialog.ui" line="14"/>
         <source>Edit User Tags</source>
-        <translation type="unfinished">编辑用户自定义标签</translation>
+        <translation>编辑用户自定义标签</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="22"/>
@@ -44,7 +44,7 @@
     <message>
         <location filename="../addtagdialog.ui" line="32"/>
         <source>LaTeX Content</source>
-        <translation type="unfinished">LaTeX 内容</translation>
+        <translation>LaTeX内容</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="55"/>
@@ -570,17 +570,17 @@
     <message>
         <location filename="../documentview.cpp" line="1488"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="1504"/>
         <source>Number of words in the document</source>
-        <translation type="unfinished"></translation>
+        <translation>文档字数</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="1514"/>
         <source>Save As</source>
-        <translation type="unfinished">另存为</translation>
+        <translation>另存为</translation>
     </message>
 </context>
 <context>
@@ -607,7 +607,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="14"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>通过TeX4ht导出</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="22"/>
@@ -622,7 +622,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="51"/>
         <source>export to Html</source>
-        <translation type="unfinished"></translation>
+        <translation>导出到Html</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="61"/>
@@ -632,12 +632,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="68"/>
         <source>export to OpenDocumentFormat</source>
-        <translation type="unfinished"></translation>
+        <translation>导出到 OpenDocumentFormat</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="75"/>
         <source>export to MathML</source>
-        <translation type="unfinished"></translation>
+        <translation>导出到MathML</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="82"/>
@@ -647,17 +647,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="91"/>
         <source>Options</source>
-        <translation type="unfinished">选项</translation>
+        <translation>选项</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="125"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>运行</translation>
     </message>
     <message>
         <location filename="../exportdialog.cpp" line="47"/>
         <source>Browse program</source>
-        <translation type="unfinished">浏览程序</translation>
+        <translation>浏览程序</translation>
     </message>
 </context>
 <context>
@@ -721,18 +721,18 @@ with the default encoding setting</source>
     <message>
         <location filename="../findwidget.ui" line="129"/>
         <source>+</source>
-        <translation type="unfinished">+</translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="154"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>正则表达式</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="161"/>
         <location filename="../findwidget.cpp" line="136"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>在检查这个选项之前必须选择文本。</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="164"/>
@@ -746,12 +746,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../findwidget.cpp" line="59"/>
         <source>Error</source>
-        <translation type="unfinished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location filename="../findwidget.cpp" line="59"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>无效的正则表达式。</translation>
     </message>
 </context>
 <context>
@@ -841,7 +841,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../graphicfilechooser.ui" line="233"/>
         <source>Center</source>
-        <translation type="unfinished">居中</translation>
+        <translation>居中</translation>
     </message>
     <message>
         <source>OK</source>
@@ -978,12 +978,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../lightfindwidget.cpp" line="56"/>
         <source>Error</source>
-        <translation type="unfinished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location filename="../lightfindwidget.cpp" line="56"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>无效的正则表达式。</translation>
     </message>
 </context>
 <context>
@@ -1038,27 +1038,27 @@ with the default encoding setting</source>
         <location filename="../pageitem.cpp" line="158"/>
         <location filename="../pageitem.cpp" line="160"/>
         <source>Click to jump to the line</source>
-        <translation type="unfinished">点击以跳转到行</translation>
+        <translation>点击以跳转到行</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="167"/>
         <source>Number of words in the document</source>
-        <translation type="unfinished"></translation>
+        <translation>文档字数</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="170"/>
         <source>Convert page to png image</source>
-        <translation type="unfinished"></translation>
+        <translation>把页面转换为png图片</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="581"/>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>复制文本</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="582"/>
         <source>Copy image</source>
-        <translation type="unfinished"></translation>
+        <translation>复制图像</translation>
     </message>
 </context>
 <context>
@@ -1155,22 +1155,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewer.cpp" line="207"/>
         <source>Continuous</source>
-        <translation type="unfinished"></translation>
+        <translation>继续</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="212"/>
         <source>Two pages</source>
-        <translation type="unfinished"></translation>
+        <translation>双页</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="217"/>
         <source>Rotate left</source>
-        <translation type="unfinished"></translation>
+        <translation>左旋90度</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="221"/>
         <source>Rotate right</source>
-        <translation type="unfinished"></translation>
+        <translation>右旋90度</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="225"/>
@@ -1190,7 +1190,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewer.cpp" line="280"/>
         <source>Check Spelling and Grammar on this page</source>
-        <translation type="unfinished"></translation>
+        <translation>拼写和语法检查</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -1274,22 +1274,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="165"/>
         <source>Continuous</source>
-        <translation type="unfinished"></translation>
+        <translation>继续</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="170"/>
         <source>Two pages</source>
-        <translation type="unfinished"></translation>
+        <translation>双页</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="175"/>
         <source>Rotate left</source>
-        <translation type="unfinished"></translation>
+        <translation>左旋90度</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="179"/>
         <source>Rotate right</source>
-        <translation type="unfinished"></translation>
+        <translation>右旋90度</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="183"/>
@@ -1325,7 +1325,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="243"/>
         <source>Check Spelling and Grammar on this page</source>
-        <translation type="unfinished"></translation>
+        <translation>拼写和语法检查</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="421"/>
@@ -1486,17 +1486,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../quickdocumentdialog.ui" line="244"/>
         <source>lmodern Package</source>
-        <translation type="unfinished"></translation>
+        <translation>lmodern包</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="251"/>
         <source>Kpfonts Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Kpfonts包</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="258"/>
         <source>Fourier Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Fourier包</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="83"/>
@@ -1637,13 +1637,13 @@ with the default encoding setting</source>
     <message>
         <location filename="../replacewidget.ui" line="168"/>
         <source>+</source>
-        <translation type="unfinished">+</translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="203"/>
         <location filename="../replacewidget.cpp" line="208"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>在检查这个选项之前必须选择文本。</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="206"/>
@@ -1683,7 +1683,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../replacewidget.ui" line="196"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>正则表达式</translation>
     </message>
     <message>
         <source>Close</source>
@@ -1693,13 +1693,13 @@ with the default encoding setting</source>
         <location filename="../replacewidget.cpp" line="55"/>
         <location filename="../replacewidget.cpp" line="123"/>
         <source>Error</source>
-        <translation type="unfinished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="55"/>
         <location filename="../replacewidget.cpp" line="123"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>无效的正则表达式。</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="70"/>
@@ -2132,7 +2132,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="737"/>
         <source>Toggle between the master document and the current document</source>
-        <translation></translation>
+        <translation>在主文档和当前文档间切换</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="893"/>
@@ -2160,7 +2160,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="924"/>
         <source>New by copying an existing file</source>
-        <translation></translation>
+        <translation>通过复制已有文件新建</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="928"/>
@@ -2178,7 +2178,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="948"/>
         <source>Restore previous session</source>
-        <translation></translation>
+        <translation>恢复上一次会话</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="960"/>
@@ -2213,27 +2213,27 @@ with the default encoding setting</source>
         <location filename="../texmaker.cpp" line="307"/>
         <location filename="../texmaker.cpp" line="4804"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>使用者</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="947"/>
         <source>Session</source>
-        <translation type="unfinished"></translation>
+        <translation>会话</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="953"/>
         <source>Save session</source>
-        <translation type="unfinished"></translation>
+        <translation>保存会话</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="956"/>
         <source>Load session</source>
-        <translation type="unfinished"></translation>
+        <translation>加载会话</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="976"/>
         <source>Save A Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>保存副本</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="986"/>
@@ -2243,7 +2243,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="990"/>
         <source>Reload document from file</source>
-        <translation></translation>
+        <translation>重新加载文件</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="994"/>
@@ -2329,7 +2329,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="1082"/>
         <source>Find In Directory</source>
-        <translation></translation>
+        <translation>在目录中查找</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1087"/>
@@ -2349,12 +2349,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="1107"/>
         <source>Refresh Structure</source>
-        <translation>刷新结构</translation>
+        <translation>更新结构</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1113"/>
         <source>Refresh Bibliography</source>
-        <translation></translation>
+        <translation>更新参考文献</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1118"/>
@@ -2599,7 +2599,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="2087"/>
         <source>Interface Appearance</source>
-        <translation></translation>
+        <translation>界面外观</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2102"/>
@@ -2616,13 +2616,13 @@ with the default encoding setting</source>
         <location filename="../texmaker.cpp" line="3069"/>
         <location filename="../texmaker.cpp" line="3126"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
-        <translation></translation>
+        <translation>文档已经改变了。你想重新加载它(丢弃你的改变)或保存它(覆盖文件)?</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="3686"/>
         <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
         <oldsource>The document contains unsaved work. you will lose changes by reloading the file</oldsource>
-        <translation></translation>
+        <translation>文档包含尚未保存的内容。重新加载文档会丢失改动的内容。</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2928"/>
@@ -2630,22 +2630,22 @@ with the default encoding setting</source>
         <location filename="../texmaker.cpp" line="3128"/>
         <location filename="../texmaker.cpp" line="3688"/>
         <source>Reload the file</source>
-        <translation></translation>
+        <translation>重新加载文件</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="7700"/>
         <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="9826"/>
         <source>The language setting will take effect after restarting the application.</source>
-        <translation></translation>
+        <translation>语言设置在重新启动应用程后序生效。</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="9834"/>
         <source>The appearance setting will take effect after restarting the application.</source>
-        <translation></translation>
+        <translation>外观设置在重新启动应用程后序生效。</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2083"/>
@@ -2713,17 +2713,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="1207"/>
         <source>Open Terminal</source>
-        <translation type="unfinished"></translation>
+        <translation>打开终端</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1211"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>通过TeX4ht导出</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1216"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>转换为unicode</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2046"/>
@@ -2739,47 +2739,47 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="2070"/>
         <source>Full Screen</source>
-        <translation></translation>
+        <translation>全屏</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2107"/>
         <source>Interface Language</source>
-        <translation></translation>
+        <translation>界面语言</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2123"/>
         <source>Settings File</source>
-        <translation></translation>
+        <translation>设置文件</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2124"/>
         <source>Reset Settings</source>
-        <translation></translation>
+        <translation>重置设置</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2127"/>
         <source>Save a copy of the settings file</source>
-        <translation></translation>
+        <translation>保存设置文件副本</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2130"/>
         <source>Replace the settings file by a new one</source>
-        <translation></translation>
+        <translation>替换配置文件</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2160"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>检查更新</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2349"/>
         <source>Run</source>
-        <translation></translation>
+        <translation>运行</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2361"/>
         <source>View</source>
-        <translation></translation>
+        <translation>查看</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="771"/>
@@ -2897,7 +2897,7 @@ with the default encoding setting</source>
         <location filename="../texmaker.cpp" line="4642"/>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
-        <translation></translation>
+        <translation>删除配置文件？（Texmaker将关闭,你将不得不重新启动它）</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="4643"/>
@@ -2982,7 +2982,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="7729"/>
         <source>Delete the output files generated by LaTeX ?</source>
-        <translation type="unfinished"></translation>
+        <translation>删除LaTeX生成的文件？</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="8008"/>
@@ -3057,7 +3057,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="8008"/>
         <source>XeLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTex</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="8302"/>
@@ -3101,37 +3101,37 @@ with the default encoding setting</source>
         <location filename="../unicodedialog.ui" line="14"/>
         <location filename="../unicodedialog.ui" line="98"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>转换为unicode</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="28"/>
         <source>File</source>
-        <translation type="unfinished">文件</translation>
+        <translation>文件</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="75"/>
         <source>Original Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>原始编码</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished">关闭</translation>
+        <translation>关闭</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="51"/>
         <source>Select a File</source>
-        <translation type="unfinished">选择一个文件</translation>
+        <translation>选择一个文件</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>Error</source>
-        <translation type="unfinished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished">你没有读这个文件的权限。</translation>
+        <translation>你没有读这个文件的权限。</translation>
     </message>
 </context>
 <context>
@@ -3139,22 +3139,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../unicodeview.cpp" line="51"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="139"/>
         <source>Save As</source>
-        <translation type="unfinished">另存为</translation>
+        <translation>另存为</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>Error</source>
-        <translation type="unfinished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished">文件不能保存，请检查你是否拥有写权限。</translation>
+        <translation>文件不能保存，请检查你是否拥有写权限。</translation>
     </message>
 </context>
 <context>
@@ -3236,7 +3236,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../userquickdialog.ui" line="70"/>
         <source>Ordered list of commands :</source>
-        <translation></translation>
+        <translation>命令列表</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="80"/>
@@ -3259,17 +3259,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../usertagslistwidget.cpp" line="26"/>
         <source>Add tag</source>
-        <translation type="unfinished"></translation>
+        <translation>添加标签</translation>
     </message>
     <message>
         <location filename="../usertagslistwidget.cpp" line="28"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../usertagslistwidget.cpp" line="30"/>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation>修改</translation>
     </message>
 </context>
 <context>
@@ -3313,33 +3313,33 @@ with the default encoding setting</source>
     <message>
         <location filename="../versiondialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="20"/>
         <source>Check for available version</source>
-        <translation type="unfinished"></translation>
+        <translation>检查更新</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="34"/>
         <source>Available version</source>
-        <translation type="unfinished"></translation>
+        <translation>k可用版本</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="48"/>
         <source>Go to the download page</source>
-        <translation type="unfinished"></translation>
+        <translation>进入下载页</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="68"/>
         <source>You&apos;re using the version</source>
-        <translation type="unfinished"></translation>
+        <translation>你正在使用的版本</translation>
     </message>
     <message>
         <location filename="../versiondialog.cpp" line="48"/>
         <location filename="../versiondialog.cpp" line="55"/>
         <source>Error</source>
-        <translation type="unfinished">错误</translation>
+        <translation>错误</translation>
     </message>
 </context>
 <context>

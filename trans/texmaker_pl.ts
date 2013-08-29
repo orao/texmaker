@@ -6,7 +6,7 @@
     <message>
         <location filename="../aboutdialog.ui" line="14"/>
         <source>About Texmaker</source>
-        <translation>O programie TexMaker</translation>
+        <translation>O programie Texmaker</translation>
     </message>
     <message>
         <source>OK</source>
@@ -150,7 +150,7 @@
     <message>
         <location filename="../configdialog.ui" line="14"/>
         <source>Configure Texmaker</source>
-        <translation>Konfiguruj TexMakera</translation>
+        <translation>Konfiguruj Texmakera</translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="356"/>
@@ -601,7 +601,7 @@
     <message>
         <location filename="../encodingdialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation>TexMaker</translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../encodingdialog.ui" line="20"/>
@@ -782,18 +782,18 @@ with the default encoding setting</source>
     <message>
         <location filename="../findwidget.ui" line="154"/>
         <source>Regular Expression</source>
-        <translation type="unfinished">Wyrażenie regularne</translation>
+        <translation>Wyrażenie regularne</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="161"/>
         <location filename="../findwidget.cpp" line="136"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz tekst przed użyciem tej opcji</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="164"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko w zaznaczeniu</translation>
     </message>
     <message>
         <source>RegularExpression</source>
@@ -1808,12 +1808,12 @@ with the default encoding setting</source>
         <location filename="../replacewidget.ui" line="203"/>
         <location filename="../replacewidget.cpp" line="208"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz tekst przed użyciem tej opcji</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="206"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko w zaznaczeniu</translation>
     </message>
     <message>
         <source>Close</source>
@@ -1861,7 +1861,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../scandialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation>TexMaker</translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="20"/>
@@ -2534,12 +2534,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="1216"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Konwertuj do UNICODE</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2160"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź aktualizacje</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="7700"/>
@@ -2690,7 +2690,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="2079"/>
         <source>Configure Texmaker</source>
-        <translation>Konfiguracja TexMakera</translation>
+        <translation>Konfiguracja Texmakera</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2083"/>
@@ -2743,12 +2743,12 @@ with the default encoding setting</source>
         <location filename="../texmaker.cpp" line="2139"/>
         <location filename="../texmaker.cpp" line="2140"/>
         <source>User Manual</source>
-        <translation>Podręcznik TexMakera</translation>
+        <translation>Podręcznik Texmakera</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2165"/>
         <source>About Texmaker</source>
-        <translation>O programie TexMaker</translation>
+        <translation>O programie Texmaker</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2382"/>
@@ -2760,7 +2760,7 @@ with the default encoding setting</source>
         <location filename="../texmaker.cpp" line="3069"/>
         <location filename="../texmaker.cpp" line="3126"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
-        <translation>Plik został zmieniony poza programem TexMaker. Czy chcesz ponownie wczytać dokument (tracąc zmiany dokonane w tej sesji), czy zapisać go (tracąc zmiany w pliku)?</translation>
+        <translation>Plik został zmieniony poza programem Texmaker. Czy chcesz ponownie wczytać dokument (tracąc zmiany dokonane w tej sesji), czy zapisać go (tracąc zmiany w pliku)?</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="3686"/>
@@ -3022,7 +3022,7 @@ with the default encoding setting</source>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation>Usunąć ustawienia?
-(wymagany restart TexMakera)</translation>
+(wymagany restart Texmakera)</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="4643"/>
@@ -3036,7 +3036,7 @@ with the default encoding setting</source>
         <source>Replace settings file by a new one?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation>Zamienić plik ustawień?
-(wymagany restart TexMakera)</translation>
+(wymagany restart Texmakera)</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="4710"/>
@@ -3130,7 +3130,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <source>Texmaker : User Manual</source>
-        <translation type="obsolete">Podręcznik TexMakera</translation>
+        <translation type="obsolete">Podręcznik Texmakera</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="9286"/>
@@ -3275,37 +3275,37 @@ with the default encoding setting</source>
         <location filename="../unicodedialog.ui" line="14"/>
         <location filename="../unicodedialog.ui" line="98"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Konwertuj do UNICODE</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="28"/>
         <source>File</source>
-        <translation type="unfinished">Plik</translation>
+        <translation>Plik</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="75"/>
         <source>Original Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwotne kodowanie</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished">Zamknij</translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="51"/>
         <source>Select a File</source>
-        <translation type="unfinished">Wybierz plik</translation>
+        <translation>Wybierz plik</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>Error</source>
-        <translation type="unfinished">Błąd</translation>
+        <translation>Błąd</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished">Nie masz uprawnień do czytania tego pliku.</translation>
+        <translation>Nie masz uprawnień do czytania tego pliku.</translation>
     </message>
 </context>
 <context>
@@ -3313,22 +3313,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../unicodeview.cpp" line="51"/>
         <source>Save</source>
-        <translation type="unfinished">Zapisz</translation>
+        <translation>Zapisz</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="139"/>
         <source>Save As</source>
-        <translation type="unfinished">Zapisz jako</translation>
+        <translation>Zapisz jako</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>Error</source>
-        <translation type="unfinished">Błąd</translation>
+        <translation>Błąd</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished">Nie da się zapisać pliku. Sprawdź, czy masz odpowiednie uprawnienia.</translation>
+        <translation>Nie da się zapisać pliku. Sprawdź, czy masz odpowiednie uprawnienia.</translation>
     </message>
 </context>
 <context>
@@ -3366,7 +3366,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../usercompletiondialog.ui" line="82"/>
         <source>Items already supplied by Texmaker</source>
-        <translation>Elementy zdefiniowane przez TexMakera</translation>
+        <translation>Elementy zdefiniowane przez Texmakera</translation>
     </message>
 </context>
 <context>
@@ -3487,33 +3487,33 @@ with the default encoding setting</source>
     <message>
         <location filename="../versiondialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished">TexMaker</translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="20"/>
         <source>Check for available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź dostępną wersję</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="34"/>
         <source>Available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostępna wersja</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="48"/>
         <source>Go to the download page</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do witryny pobierania</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="68"/>
         <source>You&apos;re using the version</source>
-        <translation type="unfinished"></translation>
+        <translation>Używasz wersji</translation>
     </message>
     <message>
         <location filename="../versiondialog.cpp" line="48"/>
         <location filename="../versiondialog.cpp" line="55"/>
         <source>Error</source>
-        <translation type="unfinished">Błąd</translation>
+        <translation>Błąd</translation>
     </message>
 </context>
 <context>

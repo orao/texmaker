@@ -30,6 +30,8 @@ along with qpdfview.  If not, see <http://www.gnu.org/licenses/>.
 #include "texmaker_popplerqt20/poppler-qt4.h"
 #elif defined(POPPLER22)
 #include "texmaker_popplerqt22/poppler-qt4.h"
+#elif defined(POPPLER24)
+#include <poppler-qt5.h>
 #else
 #include <poppler-qt4.h>
 #endif

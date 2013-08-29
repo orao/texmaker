@@ -90,6 +90,7 @@ synctex_scanner_t scanner;
 QStringList scalePercents;
 QLineEdit *zoomCustom;
 QRectF searchLocation;
+double searchleft, searchtop, searchright, searchbottom;
 QPainterPath path;
 QStack<int> stack;
 QStack<int> forwardStack;
