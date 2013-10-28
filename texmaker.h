@@ -165,7 +165,7 @@ int split1_right, split1_left, split2_top, split2_bottom, quickmode, tabwidth;
 bool singlemode, wordwrap, parenmatch, showline, showoutputview, showstructview, showpdfview, showsourceview, showfilesview, ams_packages, makeidx_package, completion, inlinespellcheck, modern_style, new_gui, builtinpdfview, singleviewerinstance, babel_package, geometry_package, graphicx_package, watchfiles, autosave, tabspaces, useoutputdir ;
 bool lmodern_package, kpfonts_package, fourier_package;
 QString document_class, typeface_size, paper_size, document_encoding, author, geometry_options, babel_default;
-QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize, xelatex_command, htlatex_command, htlatex_options;
+QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize, xelatex_command, lualatex_command, htlatex_command, htlatex_options;
 QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command, sweave_command, texdoc_command, quick_asy_command, lp_options;
 QString spell_dic, spell_ignored_words;
 QString lastDocument, input_encoding, lastChild, lastTemplate;
@@ -176,6 +176,7 @@ Userlist UserMenuName, UserMenuTag;
 UserCd UserToolName, UserToolCommand;
 QString keyToggleFocus;
 QString extra_path;
+QString beamer_theme, beamer_size, beamer_encoding, beamer_author, beamer_babel;
 qreal lastScale;
 //dialogs
 QPointer<ScanDialog> scanDialog;
@@ -342,6 +343,7 @@ void InsertBibLatex14(); //Multi-volume conference proceedings
 void InsertBibLatex15(); //Article in conference proceedings
 void InsertBibLatex16(); //Technical report
 void InsertBibLatex17(); //Thesis
+void InsertBibLatex18(); //Patent
 
 void CleanBib();
 
@@ -374,6 +376,7 @@ void QuickArray();
 void QuickTabbing();
 void QuickLetter();
 void QuickDocument();
+void QuickBeamer();
 
 void RunCommand(QString comd,bool waitendprocess);
 void readFromStderr();
@@ -398,6 +401,7 @@ void Asymptote();
 void LatexMk();
 void Sweave();
 void Xelatex();
+void Lualatex();
 void AsyFile(QString asyfile);
 void UserTool1();
 void UserTool2();
@@ -429,6 +433,7 @@ void UserManualHelp();
 void TexDocHelp();
 void HelpAbout();
 void CheckVersion();
+void Doculatex();
 void Docufrlatex();
 
 void GeneralOptions();

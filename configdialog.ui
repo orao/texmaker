@@ -293,6 +293,40 @@
           </item>
           <item row="0" column="0" colspan="3">
            <layout class="QGridLayout" name="gridLayout_13">
+            <item row="4" column="4">
+             <widget class="QLineEdit" name="lineEditLualatex"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelLatex">
+              <property name="text">
+               <string>LaTeX</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>XeLaTeX</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelPdflatex">
+              <property name="text">
+               <string>PdfLaTeX</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="lineEditXelatex"/>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="Line" name="line_11">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
             <item row="4" column="2">
              <widget class="QPushButton" name="pushButtonXelatex">
               <property name="text">
@@ -304,63 +338,25 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="lineEditXelatex"/>
+            <item row="4" column="3">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>LuaLaTeX</string>
+              </property>
+             </widget>
             </item>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="pushButtonLatex">
+            <item row="4" column="5">
+             <widget class="QPushButton" name="pushButtonLualatex">
               <property name="text">
                <string/>
               </property>
               <property name="icon">
                <iconset resource="texmaker.qrc">
-                <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>16</width>
-                <height>16</height>
-               </size>
+                <normaloff>:/images/fileopen16.png</normaloff>:/images/fileopen16.png</iconset>
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="labelPdflatex">
-              <property name="text">
-               <string>PdfLaTeX</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEditPdflatex"/>
-            </item>
-            <item row="2" column="0" colspan="3">
-             <widget class="QCheckBox" name="checkBoxTempBuild">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &amp;quot;--output-directory=build&amp;quot; option will be automatically added to the (pdf)latex command while the compilation.&lt;/p&gt;&lt;p&gt;For the others commands like dvips, ps2pdf, bibtex,... you will have to manually replaced &amp;quot;%&amp;quot; by &amp;quot;build/%&amp;quot; .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>Use a &quot;build&quot; subdirectory for output files</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="labelLatex">
-              <property name="text">
-               <string>LaTeX</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="lineEditLatex"/>
-            </item>
-            <item row="1" column="2">
+            <item row="1" column="5">
              <widget class="QPushButton" name="pushButtonPdflatex">
               <property name="text">
                <string/>
@@ -377,17 +373,42 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_5">
+            <item row="0" column="5">
+             <widget class="QPushButton" name="pushButtonLatex">
               <property name="text">
-               <string>XeLaTeX</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="texmaker.qrc">
+                <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
               </property>
              </widget>
             </item>
-            <item row="3" column="0" colspan="2">
-             <widget class="Line" name="line_11">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="1" column="1" colspan="4">
+             <widget class="QLineEdit" name="lineEditPdflatex"/>
+            </item>
+            <item row="0" column="1" colspan="4">
+             <widget class="QLineEdit" name="lineEditLatex"/>
+            </item>
+            <item row="2" column="0" colspan="5">
+             <widget class="QCheckBox" name="checkBoxTempBuild">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &amp;quot;--output-directory=build&amp;quot; option will be automatically added to the (pdf)latex command while the compilation.&lt;/p&gt;&lt;p&gt;For the others commands like dvips, ps2pdf, bibtex,... you will have to manually replaced &amp;quot;%&amp;quot; by &amp;quot;build/%&amp;quot; .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Use a &quot;build&quot; subdirectory for output files</string>
               </property>
              </widget>
             </item>
@@ -472,7 +493,7 @@
             <item row="1" column="0">
              <widget class="QLabel" name="labelBibtex">
               <property name="text">
-               <string>Bibtex</string>
+               <string>Bib(la)tex</string>
               </property>
              </widget>
             </item>
@@ -804,89 +825,124 @@
          <property name="title">
           <string>Quick Build Command</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <widget class="QRadioButton" name="radioButton1">
-              <property name="text">
-               <string>LaTeX + dvips + View PS</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioButton2">
-              <property name="text">
-               <string>LaTeX + View DVI</string>
-              </property>
-             </widget>
-            </item>
-            <item>
+         <layout class="QGridLayout" name="gridLayout_19">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_18">
+            <item row="0" column="0">
              <widget class="QRadioButton" name="radioButton3">
               <property name="text">
                <string>PdfLaTeX + View PDF</string>
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QRadioButton" name="radioButton4">
-              <property name="text">
-               <string>LaTeX + dvipdfm + View PDF</string>
+            <item row="0" column="1" rowspan="9">
+             <widget class="Line" name="line_15">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
               </property>
              </widget>
             </item>
-            <item>
+            <item row="0" column="2">
+             <widget class="QRadioButton" name="radioButton1">
+              <property name="text">
+               <string>LaTeX + dvips + View PS</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButton12">
+              <property name="text">
+               <string>PdfLaTeX + Bib(la)tex + PdfLaTeX (x2) + View Pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QRadioButton" name="radioButton2">
+              <property name="text">
+               <string>LaTeX + View DVI</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
              <widget class="QRadioButton" name="radioButton5">
               <property name="text">
                <string>LaTeX + dvips + ps2pdf + View PDF</string>
               </property>
              </widget>
             </item>
-            <item>
+            <item row="2" column="2">
+             <widget class="QRadioButton" name="radioButton4">
+              <property name="text">
+               <string>LaTeX + dvipdfm + View PDF</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QRadioButton" name="radioButton13">
+              <property name="text">
+               <string>LaTeX + Bib(la)tex + LaTeX (x2) + dvips + ps2pdf + View Pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QRadioButton" name="radioButton14">
+              <property name="text">
+               <string>Sweave + PdfLaTeX + View Pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
              <widget class="QRadioButton" name="radioButton7">
               <property name="text">
                <string>LaTeX + Asymptote + LaTeX + dvips + View PS</string>
               </property>
              </widget>
             </item>
-            <item>
+            <item row="5" column="0">
              <widget class="QRadioButton" name="radioButton8">
               <property name="text">
                <string>PdfLaTeX + Asymptote + PdfLaTeX + View Pdf</string>
               </property>
              </widget>
             </item>
-            <item>
+            <item row="6" column="0">
              <widget class="QRadioButton" name="radioButton9">
               <property name="text">
                <string>LatexMk + View PDF</string>
               </property>
              </widget>
             </item>
-            <item>
+            <item row="7" column="0">
              <widget class="QRadioButton" name="radioButton10">
               <property name="text">
                <string>XeLaTeX + View PDF</string>
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="Line" name="line_9">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioButton6">
+            <item row="8" column="0">
+             <widget class="QRadioButton" name="radioButton11">
               <property name="text">
-               <string>User : (% : filename without extension)</string>
+               <string>LuaLaTeX + View PDF</string>
               </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item>
+          <item row="1" column="0">
+           <widget class="Line" name="line_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QRadioButton" name="radioButton6">
+            <property name="text">
+             <string>User : (% : filename without extension)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <widget class="QLineEdit" name="lineEditUserquick">
@@ -911,21 +967,21 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="4" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>(the commands must be separated by '|')</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="5" column="0">
            <widget class="Line" name="line_10">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="6" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
              <widget class="QLabel" name="label_6">
@@ -950,14 +1006,14 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="7" column="0">
            <widget class="Line" name="line_13">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="8" column="0">
            <widget class="QCheckBox" name="checkBoxSingleInstanceViewer">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1427,7 +1483,6 @@
   <tabstop>lineEditPrinter</tabstop>
   <tabstop>buttonBox</tabstop>
   <tabstop>radioButton4</tabstop>
-  <tabstop>radioButton5</tabstop>
   <tabstop>radioButton7</tabstop>
   <tabstop>radioButton8</tabstop>
   <tabstop>radioButton9</tabstop>
@@ -1455,7 +1510,6 @@
   <tabstop>contentsWidget</tabstop>
   <tabstop>shorttableWidget</tabstop>
   <tabstop>radioButton1</tabstop>
-  <tabstop>radioButton3</tabstop>
   <tabstop>radioButton2</tabstop>
   <tabstop>radioButton10</tabstop>
   <tabstop>lineEditAsyQuick</tabstop>

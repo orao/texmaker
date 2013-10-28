@@ -207,6 +207,7 @@ for ( uint i = 0; i <=11; ++i )
 			{
 			icon_name=":/symbols/img"+QString::number(ulist[i]+1)+".png";
 			}
+	item->setText(code[ulist[i]]+";"+QString::number(ulist[i]));
         item->setIcon(QIcon(icon_name));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		item->setToolTip(code[ulist[i]]);

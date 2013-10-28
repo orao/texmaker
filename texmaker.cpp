@@ -83,6 +83,7 @@
 #include "tabbingdialog.h"
 #include "letterdialog.h"
 #include "quickdocumentdialog.h"
+#include "quickbeamerdialog.h"
 #include "usermenudialog.h"
 #include "usertooldialog.h"
 #include "refdialog.h"
@@ -1197,6 +1198,9 @@ toolMenu->addAction(Act);
 Act = new QAction("XeLaTeX", this);
 Act->setData("XeLaTeX");
 connect(Act, SIGNAL(triggered()), this, SLOT(Xelatex()));
+Act = new QAction("LuaLaTeX", this);
+Act->setData("LuaLaTeX");
+connect(Act, SIGNAL(triggered()), this, SLOT(Lualatex()));
 toolMenu->addAction(Act);
 toolMenu->addSeparator();
 Act = new QAction(tr("Clean"), this);
@@ -1826,6 +1830,9 @@ wizardMenu = menuBar()->addMenu(tr("&Wizard"));
 Act = new QAction(tr("Quick Start"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(QuickDocument()));
 wizardMenu->addAction(Act);
+Act = new QAction(tr("Quick Beamer Presentation"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(QuickBeamer()));
+wizardMenu->addAction(Act);
 Act = new QAction(tr("Quick Letter"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(QuickLetter()));
 wizardMenu->addAction(Act);
@@ -1935,6 +1942,9 @@ connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex16()));
 biblatexMenu->addAction(Act);
 Act = new QAction("Thesis", this);
 connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex17()));
+biblatexMenu->addAction(Act);
+Act = new QAction("Patent", this);
+connect(Act, SIGNAL(triggered()), this, SLOT(InsertBibLatex18()));
 biblatexMenu->addAction(Act);
 
 bibMenu->addSeparator();
@@ -2155,6 +2165,13 @@ else Act = new QAction(getIcon(":/images/help.png"), QString::fromUtf8("Document
 connect(Act, SIGNAL(triggered()), this, SLOT(Docufrlatex()));
 helpMenu->addAction(Act);  
 }
+else
+{
+if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), QString::fromUtf8("LaTeX wikibook"), this); 
+else Act = new QAction(getIcon(":/images/help.png"), QString::fromUtf8("LaTeX wikibook"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(Doculatex()));
+helpMenu->addAction(Act);  
+}  
 
 helpMenu->addSeparator();
 Act = new QAction( tr("Check for Update"), this);
@@ -2339,6 +2356,7 @@ list.append("Asymptote");
 list.append("LatexMk");
 list.append("R Sweave");
 list.append("XeLaTeX");
+list.append("LuaLaTeX");
 
 for ( int i = 0; i <= 4; i++ ) list.append(QString::number(i+1)+": "+UserToolName[i]);
 
@@ -2581,38 +2599,120 @@ bool hasDecodingError=false;
 QByteArray buf = file.readAll();
 int bytesRead = buf.size();
 file.close();
+
+QTextCodec* detected_codec;
 QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
 if(!codec) codec = QTextCodec::codecForLocale();
-#if 0 // should work, but does not, Qt bug with "system" codec
-QTextDecoder *decoder = codec->makeDecoder();
-QString text = decoder->toUnicode(buf);
-hasDecodingError = (decoder->hasFailure());
-delete decoder;
-#else
 QString text = codec->toUnicode(buf);
-QByteArray verifyBuf = codec->fromUnicode(text); // slow
-// the minSize trick lets us ignore unicode headers
-int minSize = qMin(verifyBuf.size(), buf.size());
-hasDecodingError = (minSize < buf.size()- 4 || memcmp(verifyBuf.constData() + verifyBuf.size() - minSize,buf.constData() + buf.size() - minSize, minSize));
-#endif
-QString new_encoding;
-
-QEncodingProber prober (QEncodingProber::Universal);
-if (hasDecodingError)
-  {
-  prober.feed (buf.constData());
-  QTextCodec* detected_codec;
-  if (prober.confidence() > 0.5) //Kencodingprober works very bad with tex documents
+QByteArray verifyBuf = codec->fromUnicode(text);
+QString new_encoding="";
+// unicode detection
+if (bytesRead >= 4 && ((uchar(buf[0]) == 0xff && uchar(buf[1]) == 0xfe && uchar(buf[2]) == 0 && uchar(buf[3]) == 0) || (uchar(buf[0]) == 0 && uchar(buf[1]) == 0 && uchar(buf[2]) == 0xfe && uchar(buf[3]) == 0xff))) 
     {
-    detected_codec = QTextCodec::codecForName(prober.encoding());
-    if (detected_codec) new_encoding=detected_codec->name();
+      detected_codec = QTextCodec::codecForName("UTF-32");
+      if (detected_codec) new_encoding=detected_codec->name();
+    } 
+else if (bytesRead >= 2 && ((uchar(buf[0]) == 0xff && uchar(buf[1]) == 0xfe) || (uchar(buf[0]) == 0xfe && uchar(buf[1]) == 0xff))) 
+    {
+      detected_codec = QTextCodec::codecForName("UTF-16");
+      if (detected_codec) new_encoding=detected_codec->name();
+
+    } 
+else if (bytesRead >= 3 && uchar(buf[0]) == 0xef && uchar(buf[1]) == 0xbb && uchar(buf[2])== 0xbf) 
+    {
+      detected_codec = QTextCodec::codecForName("UTF-8");
+      if (detected_codec) new_encoding=detected_codec->name();
+    }
+else
+{
+const char *  	data= buf.constData();
+int length=buf.size();
+bool canbeutf8=true;
+static const unsigned char highest1Bits = 0x80;
+static const unsigned char highest2Bits = 0xC0;
+static const unsigned char highest3Bits = 0xE0;
+static const unsigned char highest4Bits = 0xF0;
+static const unsigned char highest5Bits = 0xF8;
+int multiByte=0;
+for (int i=0; i<length; ++i)
+  {
+      unsigned char c = data[i];
+
+      if (multiByte>0)
+      {
+	  if ((c & highest2Bits) == 0x80)
+	  {
+	      --(multiByte);
+	      continue;
+	  }
+	  canbeutf8=false;
+	  break;
+      }
+
+      // most significant bit zero, single char
+      if ((c & highest1Bits) == 0x00)
+	  continue;
+
+      // 110xxxxx => init 1 following bytes
+      if ((c & highest3Bits) == 0xC0)
+      {
+	  multiByte = 1;
+	  continue;
+      }
+
+      // 1110xxxx => init 2 following bytes
+      if ((c & highest4Bits) == 0xE0)
+      {
+	  multiByte = 2;
+	  continue;
+      }
+
+      // 11110xxx => init 3 following bytes
+      if ((c & highest5Bits) == 0xF0)
+      {
+	  multiByte = 3;
+	  continue;
+      }
+	canbeutf8=false;
+	  break;
+  }
+if (canbeutf8) 
+      {
+      detected_codec = QTextCodec::codecForName("UTF-8");
+      if (detected_codec) new_encoding=detected_codec->name();
+      }
+ }  
+
+if (new_encoding!="")
+  {
+    if (new_encoding!=codec->name()) hasDecodingError=true;
+  }
+else
+  {  
+  // no unicode
+   int minSize = qMin(verifyBuf.size(), buf.size());
+  hasDecodingError = (minSize < buf.size()- 4 || memcmp(verifyBuf.constData() + verifyBuf.size() - minSize,buf.constData() + buf.size() - minSize, minSize));
+  QEncodingProber prober (QEncodingProber::Universal);
+  if (hasDecodingError)
+    {
+    prober.feed (buf.constData());
+    if (prober.confidence() > 0.6) //Kencodingprober works very bad with tex documents
+      {
+      detected_codec = QTextCodec::codecForName(prober.encoding());
+      if (detected_codec) new_encoding=detected_codec->name();
+      else if (input_encoding=="UTF-8") new_encoding="ISO-8859-1";
+      else if (input_encoding=="ISO-8859-1") new_encoding="UTF-8";
+      else new_encoding=QString(QTextCodec::codecForLocale()->name());
+      }
     else if (input_encoding=="UTF-8") new_encoding="ISO-8859-1";
     else if (input_encoding=="ISO-8859-1") new_encoding="UTF-8";
     else new_encoding=QString(QTextCodec::codecForLocale()->name());
     }
-  else if (input_encoding=="UTF-8") new_encoding="ISO-8859-1";
-  else if (input_encoding=="ISO-8859-1") new_encoding="UTF-8";
-  else new_encoding=QString(QTextCodec::codecForLocale()->name());
+
+  }
+
+if (hasDecodingError)
+  {
   EncodingDialog *encDlg = new EncodingDialog(this);
   encDlg->ui.comboBoxEncoding->setCurrentIndex(encDlg->ui.comboBoxEncoding->findText(new_encoding, Qt::MatchExactly));
   encDlg->ui.label->setText(encDlg->ui.label->text()+ " ("+input_encoding+").");
@@ -4009,6 +4109,7 @@ makeindex_command=config->value("Tools/Makeindex","\"/usr/texbin/makeindex\" %.i
 bibtex_command=config->value("Tools/Bibtex","\"/usr/texbin/bibtex\" %.aux").toString();
 pdflatex_command=config->value("Tools/Pdflatex","\"/usr/texbin/pdflatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
 xelatex_command=config->value("Tools/Xelatex","\"/usr/texbin/xelatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
+xelatex_command=config->value("Tools/Lualatex","\"/usr/texbin/lualatex\" -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","\"/usr/texbin/dvipdfm\" %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","\"/usr/texbin/mpost\" --interaction nonstopmode ").toString();
 viewdvi_command=config->value("Tools/Dvi","open %.dvi").toString();
@@ -4034,6 +4135,7 @@ bibtex_command=config->value("Tools/Bibtex","bibtex %").toString();
 //bibtex %.aux
 pdflatex_command=config->value("Tools/Pdflatex","pdflatex -synctex=1 -interaction=nonstopmode %.tex").toString();
 xelatex_command=config->value("Tools/Xelatex","xelatex -synctex=1 -interaction=nonstopmode %.tex").toString();
+lualatex_command=config->value("Tools/Lualatex","lualatex -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","dvipdfm %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode ").toString();
 viewdvi_command=config->value("Tools/Dvi","\"C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe\" %.dvi").toString();
@@ -4134,6 +4236,7 @@ makeindex_command=config->value("Tools/Makeindex","makeindex %.idx").toString();
 bibtex_command=config->value("Tools/Bibtex","bibtex %.aux").toString();
 pdflatex_command=config->value("Tools/Pdflatex","pdflatex -synctex=1 -interaction=nonstopmode %.tex").toString();
 xelatex_command=config->value("Tools/Xelatex","xelatex -synctex=1 -interaction=nonstopmode %.tex").toString();
+lualatex_command=config->value("Tools/Lualatex","lualatex -interaction=nonstopmode %.tex").toString();
 dvipdf_command=config->value("Tools/Dvipdf","dvipdfm %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","mpost --interaction nonstopmode ").toString();
 // xdvi %.dvi  -sourceposition @:%.tex
@@ -4323,6 +4426,8 @@ struct_level4=config->value("Structure/Structure Level 4","subsection").toString
 struct_level5=config->value("Structure/Structure Level 5","subsubsection").toString();
 
 
+
+
 document_class=config->value("Quick/Class","article").toString();
 typeface_size=config->value("Quick/Typeface","10pt").toString();
 paper_size=config->value("Quick/Papersize","a4paper").toString();
@@ -4334,7 +4439,7 @@ babel_package=config->value( "Quick/Babel",false).toBool();
 QString locale = QString(QLocale::system().name()).left(2);
 if (locale=="en") babel_default=config->value("Quick/BabelDefault","english").toString();
 else if (locale=="de") babel_default=config->value("Quick/BabelDefault","german").toString();
-else if (locale=="fr") babel_default=config->value("Quick/BabelDefault","francais").toString();
+else if (locale=="fr") babel_default=config->value("Quick/BabelDefault","french").toString();
 else if (locale=="ru") babel_default=config->value("Quick/BabelDefault","russian").toString();
 else if (locale=="it") babel_default=config->value("Quick/BabelDefault","italian").toString();
 else if (locale=="es") babel_default=config->value("Quick/BabelDefault","spanish").toString();
@@ -4356,6 +4461,27 @@ fourier_package=config->value( "Quick/Fourier",false).toBool();
 
 author=config->value("Quick/Author","").toString();
 geometry_options=config->value("Quick/GeometryOptions","left=2cm,right=2cm,top=2cm,bottom=2cm").toString();
+
+beamer_theme=config->value("Beamer/Theme","Warsaw").toString();
+beamer_size=config->value("Beamer/Size","11pt").toString();
+beamer_encoding=config->value("Beamer/Encoding","utf8").toString();
+beamer_author=config->value("Beamer/Author","").toString();
+if (locale=="en") beamer_babel=config->value("Beamer/BabelDefault","english").toString();
+else if (locale=="de") beamer_babel=config->value("Beamer/BabelDefault","german").toString();
+else if (locale=="fr") beamer_babel=config->value("Beamer/BabelDefault","french").toString();
+else if (locale=="ru") beamer_babel=config->value("Beamer/BabelDefault","russian").toString();
+else if (locale=="it") beamer_babel=config->value("Beamer/BabelDefault","italian").toString();
+else if (locale=="es") beamer_babel=config->value("Beamer/BabelDefault","spanish").toString();
+else if (locale=="pl") beamer_babel=config->value("Beamer/BabelDefault","polish").toString();
+else if (locale=="fa") beamer_babel=config->value("Beamer/BabelDefault","farsi").toString();
+else if (locale=="cz") beamer_babel=config->value("Beamer/BabelDefault","czech").toString();
+else if (locale=="pt") beamer_babel=config->value("Beamer/BabelDefault","portuguese").toString();
+else if (locale=="sl") beamer_babel=config->value("Beamer/BabelDefault","slovak").toString();
+else if (locale=="gr") beamer_babel=config->value("Beamer/BabelDefault","greek").toString();
+else if (locale=="fi") beamer_babel=config->value("Beamer/BabelDefault","finish").toString();
+else if (locale=="hu") beamer_babel=config->value("Beamer/BabelDefault","magyar").toString();
+else beamer_babel=config->value("Beamer/BabelDefault","").toString();
+
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 
@@ -4516,6 +4642,7 @@ config.setValue("Tools/Makeindex",makeindex_command);
 config.setValue("Tools/Bibtex",bibtex_command);
 config.setValue("Tools/Pdflatex",pdflatex_command);
 config.setValue("Tools/Xelatex",xelatex_command);
+config.setValue("Tools/Lualatex",lualatex_command);
 config.setValue("Tools/Pdf",viewpdf_command);
 config.setValue("Tools/Dvipdf",dvipdf_command);
 config.setValue("Tools/Metapost",metapost_command);
@@ -4604,6 +4731,12 @@ config.setValue( "Quick/Fourier",fourier_package);
 
 config.setValue( "Quick/Author",author);
 config.setValue( "Quick/GeometryOptions",geometry_options);
+
+config.setValue( "Beamer/Theme",beamer_theme);
+config.setValue( "Beamer/Size",beamer_size);
+config.setValue( "Beamer/Encoding",beamer_encoding);
+config.setValue( "Beamer/Author",beamer_author);
+config.setValue( "Beamer/BabelDefault",beamer_babel);
 
 config.setValue( "Spell/Dic",spell_dic);
 config.setValue( "Spell/Words",spell_ignored_words);
@@ -5098,7 +5231,7 @@ types << QLatin1String("article") << QLatin1String("book")
   << QLatin1String("collection") << QLatin1String("mvcollection")
   << QLatin1String("online") << QLatin1String("mvproceedings")
   << QLatin1String("inproceedings") << QLatin1String("report")
-  << QLatin1String("thesis") << QLatin1String("electronic");
+  << QLatin1String("thesis") << QLatin1String("electronic") << QLatin1String("patent");
    QRegExp macroName("@("+types.join("|")+")\\s*\\{\\s*(.*),", Qt::CaseInsensitive);
    macroName.setMinimal(true);
    QString line;
@@ -5809,11 +5942,11 @@ if ( tabDlg->exec() )
 	tag+="\\kill\n";
 	for ( int i=0;i<y-1;i++)
 		{
-		for ( int j=1;j<x;j++) {tag +=" \\> ";}
-		tag+="\\\\ \n";
+		for ( int j=1;j<x;j++) {tag +=" "+QString(0x2022)+" \\> ";}
+		tag+=QString(0x2022)+" \\\\ \n";
 		}
-	for ( int j=1;j<x;j++) {tag +=" \\> ";}
-	tag += QString("\n\\end{tabbing} ");
+	for ( int j=1;j<x;j++) {tag +=" "+QString(0x2022)+" \\> ";}
+	tag +=QString(0x2022)+QString("\n\\end{tabbing} ");
 	InsertTag(tag,0,2);
 	}
 }
@@ -5823,6 +5956,8 @@ void Texmaker::QuickLetter()
 if ( !currentEditorView() )	return;
 QString tag=QString("\\documentclass[");
 LetterDialog *ltDlg = new LetterDialog(this,"Letter");
+int f=ltDlg->ui.comboBoxEncoding->findText(document_encoding,Qt::MatchExactly | Qt::MatchCaseSensitive);
+ltDlg->ui.comboBoxEncoding->setCurrentIndex(f);
 if ( ltDlg->exec() )
 	{
 	tag+=ltDlg->ui.comboBoxPt->currentText()+QString(",");
@@ -6007,6 +6142,134 @@ if ( startDlg->exec() )
 	userEncodingList=startDlg->otherEncodingList;
 	userOptionsList=startDlg->otherOptionsList;
 	userBabelList=startDlg->otherBabelList;
+	}
+}
+
+void Texmaker::QuickBeamer()
+{
+QString opt="";
+QString optbabel="";
+int f;
+QString fontenc="";
+if ( !currentEditorView() ) fileNew();
+QString tag=QString("\\documentclass[");
+QuickBeamerDialog *beamDlg = new QuickBeamerDialog(this,"Quick Start");
+beamDlg->Init();
+f=beamDlg->ui.comboBoxTheme->findText(beamer_theme,Qt::MatchExactly | Qt::MatchCaseSensitive);
+beamDlg->ui.comboBoxTheme->setCurrentIndex(f);
+f=beamDlg->ui.comboBoxSize->findText(beamer_size,Qt::MatchExactly | Qt::MatchCaseSensitive);
+beamDlg->ui.comboBoxSize->setCurrentIndex(f);
+f=beamDlg->ui.comboBoxEncoding->findText(beamer_encoding,Qt::MatchExactly | Qt::MatchCaseSensitive);
+beamDlg->ui.comboBoxEncoding->setCurrentIndex(f);
+QList<QListWidgetItem *> babItems=beamDlg->ui.listWidgetBabel->findItems(beamer_babel,Qt::MatchExactly | Qt::MatchCaseSensitive);
+if (babItems.size()>0) beamDlg->ui.listWidgetBabel->setCurrentItem(babItems.at(0));
+beamDlg->ui.checkBoxAMS->setChecked(ams_packages);
+beamDlg->ui.checkBoxGraphicx->setChecked(graphicx_package);
+beamDlg->ui.checkBoxBabel->setChecked(babel_package);
+beamDlg->ui.listWidgetBabel->setEnabled(babel_package);
+beamDlg->ui.lineEditAuthor->setText(beamer_author);
+if ( beamDlg->exec() )
+	{
+	tag+=beamDlg->ui.comboBoxSize->currentText();
+	tag+=QString("]{beamer}\n");
+	tag+="\\usetheme{"+beamDlg->ui.comboBoxTheme->currentText()+"}\n";
+	if (beamDlg->ui.comboBoxEncoding->currentText()!="NONE") tag+=QString("\\usepackage[")+beamDlg->ui.comboBoxEncoding->currentText()+QString("]{inputenc}");
+	tag+=QString("\n");
+	if (beamDlg->ui.comboBoxEncoding->currentText().startsWith("utf8x"))
+		{
+		tag+=QString("\\usepackage{ucs}\n");
+		}
+	if (beamDlg->ui.checkBoxBabel->isChecked())
+		{
+		QList<QListWidgetItem *> babelItems=beamDlg->ui.listWidgetBabel->selectedItems();
+		for (int i = 0; i < babelItems.size(); ++i) 
+			{
+			if ( babelItems.at(i)) 
+			  {
+			  if ((babelItems.at(i)->text()=="arabic") && fontenc.isEmpty()) fontenc="LAE,LFE";
+			  else if ((babelItems.at(i)->text()=="russian") && fontenc.isEmpty()) fontenc="OT1";
+			  else if ((babelItems.at(i)->text()=="slovak") && fontenc.isEmpty()) fontenc="IL2";
+			  else if ((babelItems.at(i)->text()=="francais") && fontenc.isEmpty()) fontenc="T1";
+			  else if ((babelItems.at(i)->text()=="french") && fontenc.isEmpty()) fontenc="T1";
+			  else if ((babelItems.at(i)->text()=="frenchb") && fontenc.isEmpty()) fontenc="T1";
+			  else if ((babelItems.at(i)->text()=="portuguese") && fontenc.isEmpty()) fontenc="T1";
+			  else if ((babelItems.at(i)->text()=="icelandic") && fontenc.isEmpty()) fontenc="T1";
+			  else if ((babelItems.at(i)->text()=="czech") && fontenc.isEmpty()) fontenc="T1";
+			  else if ((babelItems.at(i)->text()=="magyar") && fontenc.isEmpty()) fontenc="T1";
+			  else if ((babelItems.at(i)->text()=="finnish") && fontenc.isEmpty()) fontenc="T1";
+			  if (i==0) 
+			      {
+			      optbabel+=babelItems.at(i)->text();
+			      beamer_babel=babelItems.at(i)->text();
+			      }
+			  else optbabel+=QString(",")+babelItems.at(i)->text();
+			  }
+			}
+		tag+=QString("\\usepackage["+optbabel+"]{babel}\n");
+		if (!fontenc.isEmpty())
+		    {
+		    tag+=QString("\\usepackage["+fontenc+"]{fontenc}\n");
+		    }
+		}
+	if (beamDlg->ui.checkBoxAMS->isChecked())
+		{
+		tag+=QString("\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n");
+		}
+	if (beamDlg->ui.checkBoxGraphicx->isChecked())
+		{
+		tag+=QString("\\usepackage{graphicx}\n");
+		}
+	if (beamDlg->ui.lineEditAuthor->text()!="")
+		{
+		tag+="\\author{"+beamDlg->ui.lineEditAuthor->text()+"}\n";
+		}
+	else
+		{
+		tag+="%\\author{}\n";
+		}
+	if (beamDlg->ui.lineEditTitle->text()!="")
+		{
+		tag+="\\title{"+beamDlg->ui.lineEditTitle->text()+"}\n";
+		}
+	else
+		{
+		tag+="%\\title{}\n";
+		}
+	tag+=QString("%\\setbeamercovered{transparent} \n");
+	tag+=QString("%\\setbeamertemplate{navigation symbols}{} \n");
+	tag+=QString("%\\logo{} \n");
+	tag+=QString("%\\institute{} \n");
+	tag+=QString("%\\date{} \n");
+	tag+=QString("%\\subject{} \n");
+	tag+=QString("\\begin{document}\n\n");
+	if ((beamDlg->ui.lineEditAuthor->text()!="") || (beamDlg->ui.lineEditTitle->text()!="")) tag+=QString("\\begin{frame}\n\\titlepage\n\\end{frame}\n\n");
+	else tag+=QString("%\\begin{frame}\n%\\titlepage\n%\\end{frame}\n\n");
+	tag+=QString("%\\begin{frame}\n%\\tableofcontents\n%\\end{frame}\n\n");
+	tag+=QString("\\begin{frame}{"+QString(0x2022)+"}\n\n\\end{frame}\n\n");
+	tag+=QString("\\end{document}");
+	if (currentEditorView())
+	  {
+	  OutputTextEdit->clear();
+	  QTextCursor cur=currentEditorView()->editor->textCursor();
+	  int pos=cur.position();;
+	  currentEditorView()->editor->insertWithMemoryIndent(tag);
+	  cur.setPosition(pos,QTextCursor::MoveAnchor);
+	  currentEditorView()->editor->setTextCursor(cur);
+	  currentEditorView()->editor->search(QString(0x2022) ,true,false,true,true,false);
+	  OutputTextEdit->insertLine("Use the Tab key to reach the next "+QString(0x2022)+" field");
+	  currentEditorView()->editor->setFocus();
+	  OutputTableWidget->hide();
+	  OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
+	  separatorline->hide();
+	  logpresent=false;
+	  }
+	beamer_theme=beamDlg->ui.comboBoxTheme->currentText();
+	beamer_size=beamDlg->ui.comboBoxSize->currentText();
+	beamer_encoding=beamDlg->ui.comboBoxEncoding->currentText();
+	ams_packages=beamDlg->ui.checkBoxAMS->isChecked();
+	babel_package=beamDlg->ui.checkBoxBabel->isChecked();
+	graphicx_package=beamDlg->ui.checkBoxGraphicx->isChecked();
+	beamer_author=beamDlg->ui.lineEditAuthor->text();
 	}
 }
 
@@ -6592,6 +6855,25 @@ OutputTextEdit->insertLine("Bib fields - Thesis");
 OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
 }
 
+void Texmaker::InsertBibLatex18()
+{
+QString tag = QString("@patent{"+QString(0x2022)+",\n");
+tag+="author = {},\n";
+tag+="title = {},\n";
+tag+="number = {},\n";
+tag+="year = {},\n";
+QStringList optfields;
+optfields << "holder" << "subtitle" <<  "titleaddon" << "type" << "version" << "location" << "note"<< "date" << " month" << "year" << "addendum" << "pubstate" <<"doi" << "eprint" << "eprintclass" << "eprinttype" << "url"<< "urldate";
+for ( int i = 0; i <optfields.count(); i++ )
+  {
+  tag+="OPT"+optfields.at(i)+" = {},\n";
+  }
+tag+="}\n";
+InsertTag(tag,8,0);
+OutputTextEdit->insertLine("Bib fields - Paten");
+OutputTextEdit->insertLine( "OPT.... : optional fields (use the 'Clean' command to remove them)");
+}
+
 void Texmaker::CleanBib()
 {
 if ( !currentEditorView() ) return;
@@ -7067,9 +7349,14 @@ QString commandline=comd;
 QByteArray result;
 if (singlemode) {finame=getName();}
 else {finame=MasterName;}
-if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || finame=="")
+if ((singlemode && !currentEditorView()) || finame=="")
 	{
 	QMessageBox::warning( this,tr("Error"),tr("Can't detect the file name"));
+	return;
+	}
+if (finame.startsWith("untitled"))
+	{
+	QMessageBox::warning( this,tr("Error"),tr("A document must be saved with an extension (and without spaces or accents in the name) before being used by a command."));
 	return;
 	}
 if (!currentfileSaved()) 
@@ -7343,7 +7630,7 @@ if (!finame.startsWith("untitled") && finame!="" && fi.suffix()=="asy")
 	if ((!ERRPROCESS)&&(!asyCommandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(asyCommandList.at(i),true);
-	  if ((asyCommandList.at(i)==latex_command) || (asyCommandList.at(i)==pdflatex_command) || (asyCommandList.at(i)==xelatex_command))
+	  if ((asyCommandList.at(i)==latex_command) || (asyCommandList.at(i)==pdflatex_command) || (asyCommandList.at(i)==xelatex_command) || (asyCommandList.at(i)==lualatex_command))
 	      {
 	      LoadLog();
 	      if (showoutputview) ViewLog();
@@ -7471,7 +7758,7 @@ else
 	  if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	    {
 	    RunCommand(commandList.at(i),true);
-	    if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
+	    if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command) || (commandList.at(i)==lualatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7602,6 +7889,156 @@ else
 	  }
       else {NextError();}
       }break;
+  case 11:
+      {
+      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+      RunCommand(lualatex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  if (!ERRPROCESS) ViewPDF();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
+    case 12:
+      {
+      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+      RunCommand(pdflatex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  //stat2->setText(QString(" %1 ").arg("Asymptote"));
+	  if (!ERRPROCESS) RunCommand(bibtex_command,true);
+	  else {checkViewerInstance=false;return;}
+	  if (!ERRPROCESS) 
+	      {
+	      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+	      RunCommand(pdflatex_command,true);
+	      if (ERRPROCESS && !LogExists()) 
+		  {
+		  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		  checkViewerInstance=false;
+		  return;
+		  }
+	      LoadLog();
+	      if (showoutputview) ViewLog();
+	      if (NoLatexErrors()) 
+		  {
+		  RunCommand(pdflatex_command,true);
+		  if (ERRPROCESS && !LogExists()) 
+		      {
+		      QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		      checkViewerInstance=false;
+		      return;
+		      }
+		  LoadLog();
+		  if (showoutputview) ViewLog();
+		  if (NoLatexErrors()) 
+		      {
+		      if (!ERRPROCESS) ViewPDF();
+		      else {checkViewerInstance=false;return;}
+		      }
+		      else {NextError();}
+		  }
+	      else {NextError();}
+	      }
+	  else return;
+	  }
+      else {NextError();}
+      }break;
+    case 13:
+      {
+      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+      RunCommand(latex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  //stat2->setText(QString(" %1 ").arg("Asymptote"));
+	  if (!ERRPROCESS) RunCommand(bibtex_command,true);
+	  else {checkViewerInstance=false;return;}
+	  if (!ERRPROCESS) 
+	      {
+	      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+	      RunCommand(latex_command,true);
+	      if (ERRPROCESS && !LogExists()) 
+		  {
+		  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		  checkViewerInstance=false;
+		  return;
+		  }
+	      LoadLog();
+	      if (showoutputview) ViewLog();
+	      if (NoLatexErrors()) 
+		  {
+		  RunCommand(latex_command,true);
+		  if (ERRPROCESS && !LogExists()) 
+		      {
+		      QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		      checkViewerInstance=false;
+		      return;
+		      }
+		  LoadLog();
+		  if (showoutputview) ViewLog();
+		  if (NoLatexErrors()) 
+		      {
+		      //stat2->setText(QString(" %1 ").arg("Dvips"));
+		      if (!ERRPROCESS) RunCommand(dvips_command,true);
+		      else {checkViewerInstance=false;return;}
+		      //stat2->setText(QString(" %1 ").arg("Ps to Pdf"));
+		      if (!ERRPROCESS) RunCommand(ps2pdf_command,true);
+		      else {checkViewerInstance=false;return;}
+		      if (!ERRPROCESS) ViewPDF();
+		      }
+		      else {NextError();}
+		  }
+	      else {NextError();}
+	      }
+	  else return;
+	  }
+      else {NextError();}
+      }break;
+  case 14:
+      {
+      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+      RunCommand(sweave_command,true);
+      if (!ERRPROCESS) RunCommand(pdflatex_command,true);
+      if (ERRPROCESS && !LogExists()) 
+	  {
+	  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+	  checkViewerInstance=false;
+	  return;
+	  }
+      LoadLog();
+      if (showoutputview) ViewLog();
+      if (NoLatexErrors()) 
+	  {
+	  if (!ERRPROCESS) ViewPDF();
+	  else {checkViewerInstance=false;return;}
+	  }
+      else {NextError();}
+      }break;
   }
   if (NoLatexErrors() && showoutputview) ViewLog();
   }
@@ -7693,7 +8130,7 @@ if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || fin
 	return;
 	}
 fileSave();
-QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls").split(",");
+QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls,.bcf,.run.xml").split(",");
 if (useoutputdir)
 {
 QFileInfo fi(outputName(finame,".pdf"));
@@ -7839,6 +8276,15 @@ if (showoutputview) ViewLog();
 if (!NoLatexErrors()) NextError();
 }
 
+void Texmaker::Lualatex()
+{
+//stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+RunCommand(lualatex_command,true);
+LoadLog();
+if (showoutputview) ViewLog();
+if (!NoLatexErrors()) NextError();
+}
+
 void Texmaker::UserTool1()
 {
 QStringList commandList=UserToolCommand[0].split("|");
@@ -7848,7 +8294,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command) || (commandList.at(i)==lualatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7868,7 +8314,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command) || (commandList.at(i)==lualatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7888,7 +8334,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command) || (commandList.at(i)==lualatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7908,7 +8354,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command) || (commandList.at(i)==lualatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -7928,7 +8374,7 @@ for (int i = 0; i < commandList.size(); ++i)
 	if ((!ERRPROCESS)&&(!commandList.at(i).isEmpty())) 
 	  {
 	  RunCommand(commandList.at(i),true);
-	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command))
+	  if ((commandList.at(i)==latex_command) || (commandList.at(i)==pdflatex_command) || (commandList.at(i)==xelatex_command) || (commandList.at(i)==lualatex_command))
 		{
 		LoadLog();
 		if (showoutputview) ViewLog();
@@ -8005,8 +8451,8 @@ void Texmaker::ConvertToUnicode()
 void Texmaker::EditUserTool()
 {
 QStringList usualNames, usualCommands;
-usualNames << tr("LaTeX") << tr("PdfLaTeX") << tr("dvips") << tr("Dvi Viewer") << tr("PS Viewer") << tr("Dvipdfm") << tr("ps2pdf") << tr("Bibtex") << tr("Makeindex") << tr("Pdf Viewer") << tr("metapost") << tr("ghostscript") << tr("Asymptote") << tr("Latexmk") << tr("R Sweave") << tr("XeLaTex");
-usualCommands << latex_command << pdflatex_command << dvips_command << viewdvi_command << viewps_command << dvipdf_command << ps2pdf_command << bibtex_command << makeindex_command<< viewpdf_command << metapost_command << ghostscript_command << asymptote_command << latexmk_command << sweave_command << xelatex_command;
+usualNames << tr("LaTeX") << tr("PdfLaTeX") << tr("dvips") << tr("Dvi Viewer") << tr("PS Viewer") << tr("Dvipdfm") << tr("ps2pdf") << tr("Bibtex") << tr("Makeindex") << tr("Pdf Viewer") << tr("metapost") << tr("ghostscript") << tr("Asymptote") << tr("Latexmk") << tr("R Sweave") << tr("XeLaTex") << tr("LuaLaTex");
+usualCommands << latex_command << pdflatex_command << dvips_command << viewdvi_command << viewps_command << dvipdf_command << ps2pdf_command << bibtex_command << makeindex_command<< viewpdf_command << metapost_command << ghostscript_command << asymptote_command << latexmk_command << sweave_command << xelatex_command << lualatex_command;
 QAction *Act;
 UserToolDialog *utDlg = new UserToolDialog(this,tr("Edit User &Commands"),usualNames, usualCommands);
 for ( int i = 0; i <= 4; i++ )
@@ -8061,6 +8507,7 @@ if ( utDlg->exec() )
 	list.append("LatexMk");
 	list.append("R Sweave");
 	list.append("XeLaTeX");
+	list.append("LuaLaTeX");
 	int runIndex=comboCompil->currentIndex();
 	for ( int i = 0; i <= 4; i++ ) comboCompil->setItemText(13+i,QString::number(i+1)+": "+UserToolName[i]);
 	comboCompil->setCurrentIndex(runIndex);
@@ -8125,21 +8572,25 @@ Xelatex();
 		}break;
 	case 13:
 		{
-UserTool1();
+Lualatex();
 		}break;
 	case 14:
 		{
-UserTool2();
+UserTool1();
 		}break;
 	case 15:
 		{
-UserTool3();
+UserTool2();
 		}break;
 	case 16:
 		{
-UserTool4();
+UserTool3();
 		}break;
 	case 17:
+		{
+UserTool4();
+		}break;
+	case 18:
 		{
 UserTool5();
 		}break;
@@ -8796,7 +9247,7 @@ else { QMessageBox::warning( this,tr("Error"),tr("File not found"));}
 void Texmaker::UserManualHelp()
 {
 QString locale = QString(QLocale::system().name()).left(2);
-if ( locale.length() < 2 || (locale!="fr" && locale!="hu" && locale!="ru") ) locale = "en";
+if ( locale.length() < 2 || (locale!="fr" /*&& locale!="hu" && locale!="ru"*/) ) locale = "en";
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 
 #ifdef USB_VERSION
@@ -8869,11 +9320,17 @@ void Texmaker::Docufrlatex()
 QDesktopServices::openUrl(QUrl("http://www.xm1math.net/doculatex/index.html"));
 }
 
+void Texmaker::Doculatex()
+{
+QDesktopServices::openUrl(QUrl("http://en.wikibooks.org/wiki/LaTeX"));
+}
+
 ////////////// OPTIONS //////////////////////////////////////
 void Texmaker::GeneralOptions()
 {
 ConfigDialog *confDlg = new ConfigDialog(this);
 
+confDlg->ui.lineEditLualatex->setText(lualatex_command);
 confDlg->ui.lineEditXelatex->setText(xelatex_command);
 confDlg->ui.lineEditPath->setText(extra_path);
 confDlg->ui.lineEditLatex->setText(latex_command);
@@ -8929,6 +9386,10 @@ if (quickmode==7)  {confDlg->ui.radioButton7->setChecked(true); confDlg->ui.line
 if (quickmode==8)  {confDlg->ui.radioButton8->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 if (quickmode==9)  {confDlg->ui.radioButton9->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 if (quickmode==10)  {confDlg->ui.radioButton10->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
+if (quickmode==11)  {confDlg->ui.radioButton11->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
+if (quickmode==12)  {confDlg->ui.radioButton12->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
+if (quickmode==13)  {confDlg->ui.radioButton13->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
+if (quickmode==14)  {confDlg->ui.radioButton14->setChecked(true); confDlg->ui.lineEditUserquick->setEnabled(false);confDlg->ui.pushButtonWizard->setEnabled(false);}
 confDlg->ui.lineEditUserquick->setText(userquick_command);
 confDlg->ui.lineEditAsyQuick->setText(quick_asy_command);
 confDlg->ui.lineEditPrinter->setText(lp_options);
@@ -9040,10 +9501,15 @@ if (confDlg->exec())
 	if (confDlg->ui.radioButton8->isChecked()) quickmode=8;
 	if (confDlg->ui.radioButton9->isChecked()) quickmode=9;
 	if (confDlg->ui.radioButton10->isChecked()) quickmode=10;
+	if (confDlg->ui.radioButton11->isChecked()) quickmode=11;
+	if (confDlg->ui.radioButton12->isChecked()) quickmode=12;
+	if (confDlg->ui.radioButton13->isChecked()) quickmode=13;
+	if (confDlg->ui.radioButton14->isChecked()) quickmode=14;
 	userquick_command=confDlg->ui.lineEditUserquick->text();
 	quick_asy_command=confDlg->ui.lineEditAsyQuick->text();
 	lp_options=confDlg->ui.lineEditPrinter->text();
 	
+	lualatex_command=confDlg->ui.lineEditLualatex->text();
 	xelatex_command=confDlg->ui.lineEditXelatex->text();
 	extra_path=confDlg->ui.lineEditPath->text();
 	latex_command=confDlg->ui.lineEditLatex->text();

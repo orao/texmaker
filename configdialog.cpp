@@ -126,6 +126,7 @@ connect( ui.pushButtonDviviewer, SIGNAL(clicked()), this, SLOT(browseDviviewer()
 connect( ui.pushButtonPsviewer, SIGNAL(clicked()), this, SLOT(browsePsviewer()));
 connect( ui.pushButtonPdflatex, SIGNAL(clicked()), this, SLOT(browsePdflatex()));
 connect( ui.pushButtonXelatex, SIGNAL(clicked()), this, SLOT(browseXelatex()));
+connect( ui.pushButtonLualatex, SIGNAL(clicked()), this, SLOT(browseLualatex()));
 connect( ui.pushButtonDvipdfm, SIGNAL(clicked()), this, SLOT(browseDvipdfm()));
 connect( ui.pushButtonPs2pdf, SIGNAL(clicked()), this, SLOT(browsePs2pdf()));
 connect( ui.pushButtonPdfviewer, SIGNAL(clicked()), this, SLOT(browsePdfviewer()));
@@ -440,6 +441,17 @@ if ( !location.isEmpty() )
 	}
 }
 
+void ConfigDialog::browseLualatex()
+{
+QString location=QFileDialog::getOpenFileName(this,tr("Browse program"),QDir::rootPath(),"Program (*)",0,QFileDialog::DontResolveSymlinks);
+if ( !location.isEmpty() ) 
+	{
+	location.replace(QString("\\"),QString("/"));
+	location="\""+location+"\" -interaction=nonstopmode %.tex";
+	ui.lineEditLualatex->setText( location );
+	}
+}
+
 void ConfigDialog::browseDvipdfm()
 {
 QString location=QFileDialog::getOpenFileName(this,tr("Browse program"),QDir::rootPath(),"Program (*)",0,QFileDialog::DontResolveSymlinks);
@@ -620,6 +632,9 @@ usualCommands.append(ui.lineEditSweave->text());
 usualNames.append(tr("XeLaTeX"));
 usualCommands.append(ui.lineEditXelatex->text());
 
+usualNames.append(tr("LuaLaTeX"));
+usualCommands.append(ui.lineEditLualatex->text());
+
 userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
 if ( userquickdlg->exec() )
    {
@@ -679,6 +694,9 @@ usualCommands.append(ui.lineEditSweave->text());
 
 usualNames.append(tr("XeLaTeX"));
 usualCommands.append(ui.lineEditXelatex->text());
+
+usualNames.append(tr("LuaLaTeX"));
+usualCommands.append(ui.lineEditLualatex->text());
 
 userquickdlg= new UserQuickDialog(this,usualNames,usualCommands);
 if ( userquickdlg->exec() )

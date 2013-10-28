@@ -367,13 +367,13 @@ if (pdfview->open(fn))
   zoominAct->setEnabled(true);
   zoomoutAct->setEnabled(true);
   continuousModeAction->setEnabled(true);//
-  twoPagesModeAction->setEnabled(true);
   rotateLeftAction->setEnabled(true);
   rotateRightAction->setEnabled(true);
   presentationAction->setEnabled(true);
   continuousModeAction->setChecked(islastContinuous);//
   pdfview->setContinousMode(islastContinuous);
-  pdfview->setTwoPagesMode(false);
+    twoPagesModeAction->setEnabled(true);
+  //pdfview->setTwoPagesMode(false);
   pdfview->show();
   
   StructureTreeView->setModel(pdfview->outlineModel());

@@ -42,6 +42,7 @@ void browseDviviewer();
 void browsePsviewer();
 void browsePdflatex();
 void browseXelatex();
+void browseLualatex();
 void browseDvipdfm();
 void browsePs2pdf();
 void browsePdfviewer();

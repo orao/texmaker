@@ -1,3 +1,21 @@
+version 4.0.4 -> 4.1 :
+----------------------
+- a "Beamer presentation" wizard has been added (with theme preview)
+- LuaLaTeX support has been added
+- macosx lion package can now be used on macosx maverick
+- new predefined "Quick build" modes have been added :
+* lualatex + view pdf
+* pdflatex + bib(la)tex + pdflatex + pdflatex + view pdf
+* latex + bib(la)tex + latex + latex + dvips + ps2pdf + view pdf
+* sweave + pdflatex + view pdf
+- detection of utf8 encoding without BOM has been added
+- the "two pages" mode for the pdf viewer is no more reseted after a new compilation (patch from Andreas Volk)
+- "patent" entry to the biblatex menu has been added
+- placeholders have been added to the "Tabbing" wizard
+- de, el, it and uk translations have been updated
+- a link to the english wikibook about LaTeX has been added to the "Help" menu (for non french users)
+- a trouble about the "most used symbols" panel has been fixed
+
 version 4.0.3 -> 4.0.4 :
 ------------------------
 - poppler-0.24 support has been added (this poppler version is the first to support officially Qt5 - Texmaker can now be compiled with Qt5 without patching poppler)

@@ -71,7 +71,7 @@ types << QLatin1String("article") << QLatin1String("book")
   << QLatin1String("collection") << QLatin1String("mvcollection")
   << QLatin1String("online") << QLatin1String("mvproceedings")
   << QLatin1String("inproceedings") << QLatin1String("report")
-  << QLatin1String("thesis") << QLatin1String("electronic");
+  << QLatin1String("thesis") << QLatin1String("electronic") << QLatin1String("patent");
 QRegExp rxBib("@("+types.join("|")+")\\s*\\{\\s*(.*),", Qt::CaseInsensitive);
 rxBib.setMinimal(true);
 

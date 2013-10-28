@@ -354,8 +354,8 @@ if (pdfview->open(fn))
   searchLocation = QRectF();
   pdfview->setContinousMode(islastContinuous);//
   continuousModeAction->setChecked(islastContinuous);//
-  pdfview->setTwoPagesMode(false);
-  twoPagesModeAction->setChecked(false);
+  //pdfview->setTwoPagesMode(false);
+  //twoPagesModeAction->setChecked(false);
   pdfview->show();
   searchLineEdit->setEnabled(true);
   searchAct->setEnabled(true);

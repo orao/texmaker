@@ -481,37 +481,120 @@ bool hasDecodingError=false;
 QByteArray buf = file.readAll();
 int bytesRead = buf.size();
 file.close();
+
+QTextCodec* detected_codec;
 QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
 if(!codec) codec = QTextCodec::codecForLocale();
-#if 0 // should work, but does not, Qt bug with "system" codec
-QTextDecoder *decoder = codec->makeDecoder();
-QString text = decoder->toUnicode(buf);
-hasDecodingError = (decoder->hasFailure());
-delete decoder;
-#else
 QString text = codec->toUnicode(buf);
-QByteArray verifyBuf = codec->fromUnicode(text); // slow
-// the minSize trick lets us ignore unicode headers
-int minSize = qMin(verifyBuf.size(), buf.size());
-hasDecodingError = (minSize < buf.size()- 4 || memcmp(verifyBuf.constData() + verifyBuf.size() - minSize,buf.constData() + buf.size() - minSize, minSize));
-#endif
-QString new_encoding;
-QEncodingProber prober (QEncodingProber::Universal);
-if (hasDecodingError)
-  {
-  prober.feed (buf.constData());
-  QTextCodec* detected_codec;
-  if (prober.confidence() > 0.5) //Kencodingprober works very bad with tex documents
+QByteArray verifyBuf = codec->fromUnicode(text);
+QString new_encoding="";
+// unicode detection
+if (bytesRead >= 4 && ((uchar(buf[0]) == 0xff && uchar(buf[1]) == 0xfe && uchar(buf[2]) == 0 && uchar(buf[3]) == 0) || (uchar(buf[0]) == 0 && uchar(buf[1]) == 0 && uchar(buf[2]) == 0xfe && uchar(buf[3]) == 0xff))) 
     {
-    detected_codec = QTextCodec::codecForName(prober.encoding());
-    if (detected_codec) new_encoding=detected_codec->name();
+      detected_codec = QTextCodec::codecForName("UTF-32");
+      if (detected_codec) new_encoding=detected_codec->name();
+    } 
+else if (bytesRead >= 2 && ((uchar(buf[0]) == 0xff && uchar(buf[1]) == 0xfe) || (uchar(buf[0]) == 0xfe && uchar(buf[1]) == 0xff))) 
+    {
+      detected_codec = QTextCodec::codecForName("UTF-16");
+      if (detected_codec) new_encoding=detected_codec->name();
+
+    } 
+else if (bytesRead >= 3 && uchar(buf[0]) == 0xef && uchar(buf[1]) == 0xbb && uchar(buf[2])== 0xbf) 
+    {
+      detected_codec = QTextCodec::codecForName("UTF-8");
+      if (detected_codec) new_encoding=detected_codec->name();
+    }
+else
+{
+const char *  	data= buf.constData();
+int length=buf.size();
+bool canbeutf8=true;
+static const unsigned char highest1Bits = 0x80;
+static const unsigned char highest2Bits = 0xC0;
+static const unsigned char highest3Bits = 0xE0;
+static const unsigned char highest4Bits = 0xF0;
+static const unsigned char highest5Bits = 0xF8;
+int multiByte=0;
+for (int i=0; i<length; ++i)
+  {
+      unsigned char c = data[i];
+
+      if (multiByte>0)
+      {
+	  if ((c & highest2Bits) == 0x80)
+	  {
+	      --(multiByte);
+	      continue;
+	  }
+	  canbeutf8=false;
+	  break;
+      }
+
+      // most significant bit zero, single char
+      if ((c & highest1Bits) == 0x00)
+	  continue;
+
+      // 110xxxxx => init 1 following bytes
+      if ((c & highest3Bits) == 0xC0)
+      {
+	  multiByte = 1;
+	  continue;
+      }
+
+      // 1110xxxx => init 2 following bytes
+      if ((c & highest4Bits) == 0xE0)
+      {
+	  multiByte = 2;
+	  continue;
+      }
+
+      // 11110xxx => init 3 following bytes
+      if ((c & highest5Bits) == 0xF0)
+      {
+	  multiByte = 3;
+	  continue;
+      }
+	canbeutf8=false;
+	  break;
+  }
+if (canbeutf8) 
+      {
+      detected_codec = QTextCodec::codecForName("UTF-8");
+      if (detected_codec) new_encoding=detected_codec->name();
+      }
+ }  
+
+if (new_encoding!="")
+  {
+    if (new_encoding!=codec->name()) hasDecodingError=true;
+  }
+else
+  {  
+  // no unicode
+   int minSize = qMin(verifyBuf.size(), buf.size());
+  hasDecodingError = (minSize < buf.size()- 4 || memcmp(verifyBuf.constData() + verifyBuf.size() - minSize,buf.constData() + buf.size() - minSize, minSize));
+  QEncodingProber prober (QEncodingProber::Universal);
+  if (hasDecodingError)
+    {
+    prober.feed (buf.constData());
+    if (prober.confidence() > 0.6) //Kencodingprober works very bad with tex documents
+      {
+      detected_codec = QTextCodec::codecForName(prober.encoding());
+      if (detected_codec) new_encoding=detected_codec->name();
+      else if (encoding=="UTF-8") new_encoding="ISO-8859-1";
+      else if (encoding=="ISO-8859-1") new_encoding="UTF-8";
+      else new_encoding=QString(QTextCodec::codecForLocale()->name());
+      }
     else if (encoding=="UTF-8") new_encoding="ISO-8859-1";
     else if (encoding=="ISO-8859-1") new_encoding="UTF-8";
     else new_encoding=QString(QTextCodec::codecForLocale()->name());
     }
-  else if (encoding=="UTF-8") new_encoding="ISO-8859-1";
-  else if (encoding=="ISO-8859-1") new_encoding="UTF-8";
-  else new_encoding=QString(QTextCodec::codecForLocale()->name());
+
+  }
+
+if (hasDecodingError)
+  {
   EncodingDialog *encDlg = new EncodingDialog(this);
   encDlg->ui.comboBoxEncoding->setCurrentIndex(encDlg->ui.comboBoxEncoding->findText(new_encoding, Qt::MatchExactly));
   encDlg->ui.label->setText(encDlg->ui.label->text()+ " ("+encoding+").");
@@ -523,6 +606,49 @@ if (hasDecodingError)
 	  }
   else return;
   }
+
+// QTextCodec* codec = QTextCodec::codecForName(encoding.toLatin1());
+// if(!codec) codec = QTextCodec::codecForLocale();
+// #if 0 // should work, but does not, Qt bug with "system" codec
+// QTextDecoder *decoder = codec->makeDecoder();
+// QString text = decoder->toUnicode(buf);
+// hasDecodingError = (decoder->hasFailure());
+// delete decoder;
+// #else
+// QString text = codec->toUnicode(buf);
+// QByteArray verifyBuf = codec->fromUnicode(text); // slow
+// // the minSize trick lets us ignore unicode headers
+// int minSize = qMin(verifyBuf.size(), buf.size());
+// hasDecodingError = (minSize < buf.size()- 4 || memcmp(verifyBuf.constData() + verifyBuf.size() - minSize,buf.constData() + buf.size() - minSize, minSize));
+// #endif
+// QString new_encoding;
+// QEncodingProber prober (QEncodingProber::Universal);
+// if (hasDecodingError)
+//   {
+//   prober.feed (buf.constData());
+//   QTextCodec* detected_codec;
+//   if (prober.confidence() > 0.5) //Kencodingprober works very bad with tex documents
+//     {
+//     detected_codec = QTextCodec::codecForName(prober.encoding());
+//     if (detected_codec) new_encoding=detected_codec->name();
+//     else if (encoding=="UTF-8") new_encoding="ISO-8859-1";
+//     else if (encoding=="ISO-8859-1") new_encoding="UTF-8";
+//     else new_encoding=QString(QTextCodec::codecForLocale()->name());
+//     }
+//   else if (encoding=="UTF-8") new_encoding="ISO-8859-1";
+//   else if (encoding=="ISO-8859-1") new_encoding="UTF-8";
+//   else new_encoding=QString(QTextCodec::codecForLocale()->name());
+//   EncodingDialog *encDlg = new EncodingDialog(this);
+//   encDlg->ui.comboBoxEncoding->setCurrentIndex(encDlg->ui.comboBoxEncoding->findText(new_encoding, Qt::MatchExactly));
+//   encDlg->ui.label->setText(encDlg->ui.label->text()+ " ("+encoding+").");
+//   if (encDlg->exec())
+// 	  {
+// 	  new_encoding=encDlg->ui.comboBoxEncoding->currentText();
+// 	  codec = QTextCodec::codecForName(new_encoding.toLatin1());
+// 	  text = codec->toUnicode(buf);
+// 	  }
+//   else return;
+//   }
 if (hasDecodingError) setEncoding(new_encoding);
 else setEncoding(encoding);
 updateName(f);

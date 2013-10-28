@@ -4,14 +4,140 @@
 <title>Texmaker : user manual</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
-a:link { color: #004faf; text-decoration: none }
-a:visited { color: #672967; text-decoration: none }
-body { background: #ffffff; color: black; }
+BODY 
+{
+font-family:  'Liberation Sans', 'Arial',sans-serif;
+background-color:#FFFFFF;
+color:#000000;
+margin-top: 5px;
+margin-left: 5px;
+margin-right: 5px;
+margin-bottom: 5px;
+}
+A:link    { color:#335d88;font-weight: bold; text-decoration: none;}
+A:visited { color:#335d88;font-weight: bold;  text-decoration: none;}
+A:hover   { color:#335d88;font-weight: bold; text-decoration: none;}
+H2
+{
+font-size: 1.2em;
+font-weight: bold;
+color: #335d88;
+}
+textarea
+{
+border-width : 1px;
+font-family :  'Liberation Mono', 'Courier New', monospace; 
+background : #f6f6f6;
+padding : .1em .3em;
+border-color : #000;
+}
+
+tt
+{
+font-family: 'Liberation Mono', 'Courier New', monospace; 
+color : #AC0B00;
+font-size:0.8em;
+}
+.header
+{
+    font-family: 'Liberation Sans', 'Arial',sans-serif;
+    font-size: normal;
+    font-weight:bold;
+    color: #fff;
+    background-color: #69c;
+    border:2px solid #69c;
+    padding: 4px 20px;
+    margin-left: 15px; 
+    border-radius: 8px; 
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px; 
+}
+
+#footer
+{
+text-align: center;
+font-size: .8em;
+font-weight:bold;
+color:#479;
+font-family :  'Liberation Sans', 'Arial',sans-serif;
+padding: 2px;
+}
+
+.post
+{
+    margin-bottom: 20px;
+}
+
+.post > FIELDSET
+{
+    background-color: #f9f9f9;
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 10px;
+    border:1px solid #69c;
+    color:#000;
+    border-radius: 20px; 
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px; 
+}
+
+.title
+{
+    background-color: #69c;
+    border:2px solid #69c;
+    font-size: 12pt;
+    padding: 4px 20px;
+    margin-left: 15px; 
+    border-radius: 8px; 
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px; 
+}
+
+#title,
+LEGEND,
+LEGEND A
+{
+    font-family: 'Liberation Sans', 'Arial',sans-serif;
+    color: #fff;
+    font-weight:bold;
+}
+
+.entry
+{
+    padding: 1px 15px;
+    color: #111111;
+    line-height: 120%;
+    font-size: 1em;
+}
+.entry A:hover
+{
+    color: #6f900d;
+    text-decoration: none;
+}
+
+.entry UL,
+.entry OL
+{
+	margin-left: 0px;
+/*	padding: 15px;*/
+	padding-left: 30px;
+	/*background-color: #d0f0ff;*/
+
+}
+.entry LI
+{
+margin-top:4px;
+margin-bottom:4px;
+padding-left:4px;
+}
 </style>
 </head>
 <body>
-<h1 align=center><A NAME="top">Texmaker : User manual</a></h1>
-<h2><a name="sommaire">Contents </a>:</h2>
+<div align="center" style="margin:10px;"><span class="header">Texmaker : User manual</span></div>
+<div class="post">
+<fieldset>
+<legend class="title"><a name="top">Contents</a></legend>
+<div class="entry">
 <ul>
 <li><a href="#SECTION0">1. Configuring Texmaker</a></li>
 	<ul>
@@ -66,8 +192,15 @@ body { background: #ffffff; color: black; }
 	<li><a href="#SECTION44">4.14 Using Texmaker as an Asymptote editor</a></li>
 	</ul>
 </ul>
-<hr>
-<h1><a name="SECTION0">1. Configuring Texmaker</a></h1>
+</div>
+<br clear="all">
+</fieldset>
+</div>
+
+<div class="post">
+<fieldset>
+<legend class="title"><a name="SECTION0">1. Configuring Texmaker</a></legend>
+<div class="entry">
 Before using Texmaker, you must configure the editor and latex related commands via the "Configure Texmaker" command in the "Options" menu ("Preferences" under macosx).
 <h2><a name="SECTION01">1.1 Configuring the editor</a></h2>
 <p>
@@ -89,7 +222,15 @@ To configure the spell checker : "Configure Texmaker" -> "Editor" -> "Spelling d
 <b>Warning : spell checking starts at the cursor position and not at the beginning of the document.</b><br>
 During typing, if there is an error, the word is underlined by a red underline. A right-click on the word opens a contextual menu in which there are some replacement suggestions. Click on the desired word to make the replacement.
 </p>
-<h1><a name="SECTION1">2. Editing a TeX document</a></h1>
+</div>
+<br clear="all">
+</fieldset>
+</div>
+
+<div class="post">
+<fieldset>
+<legend class="title"><a name="SECTION1">2. Editing a TeX document</a></legend>
+<div class="entry">
 <h2><a name="SECTION11">2.1 Usual commands</a></h2>
 <p>The standard commands (cut, copy, find...) can be launched via the "Edit" menu and the "Edit" toolbar.<br>
 Block selection is available by using the Alt key while moving the mouse cursor.</p>
@@ -151,7 +292,15 @@ Block selection is available by using the Alt key while moving the mouse cursor.
 The "•" place holders, automatically inserted by some Texmaker commands, allow you to reach directly the next field in the created structure by using the <b>"Tab"</b> key ("Shift+Tab" to go backward).<br>
 Note : inserting a tabulation with the "Tab" key is deactivated if the line contains  a "•" place holder.
 </p>
-<h1><a name="SECTION2">3. Compiling a document</a></h1>
+</div>
+<br clear="all">
+</fieldset>
+</div>
+
+<div class="post">
+<fieldset>
+<legend class="title"><a name="SECTION2">3. Compiling a document</a></legend>
+<div class="entry">
 <h2><a name="SECTION22">3.1 Compiling</a></h2>
 <p>The easiest way to compile a document is to use the "Quick Build" command . You can define the sequence of commands used by the "Quick Build" command via the "Configure Texmaker" dialog.</p>
 <p>To launch a command from the toolbar : select first the command, then click on the "Run" button.</p>
@@ -171,7 +320,15 @@ If you add the "-synctex=1" option to the pdflatex command, the built-in pdf vie
 Reciprocally, with a right-clic on a word in the built-in pdf viewer (context menu), the editor will jump to the corresponding line in the source file.<br>
 Remark : if you press the ctrl+space key (ctrl+$ on MacOsX) in the built-in pdf viewer, the focus go to the editor.
 </p>
-<h1><a name="SECTION3">4. Other features</a></h1>
+</div>
+<br clear="all">
+</fieldset>
+</div>
+
+<div class="post">
+<fieldset>
+<legend class="title"><a name="SECTION3">4. Other features</a></legend>
+<div class="entry">
 <h2><a name="SECTION301">4.1 Folding/unfolding parts of the document</a></h2>
 <p>Texmaker allows you to fold/unfold all \part, \chapter, \section,.., \begin{foo} \end{foo} blocks in your document. To do that, the cursor must be localized in the first line of a block ("contextual code folding"). Then, you have just to click on the "-" icon to fold the corresponding block.<br>
 Note : you can also use the contextual menu to jump directly to the end of the block.</p>
@@ -340,4 +497,8 @@ For example (to replace all the \textit{foo} by \textbf{foo}) :
 <li>Texmaker can also be used to edit and compile directly asymptote figure not embedded in a latex document. If the current document is an .asy file, the "Quick build" command (F1) will launch automatically the special "quick build" command for .asy files set in the configuration dialog.
 </li>
 </ul>
+</div>
+<br clear="all">
+</fieldset>
+</div>
 </body></html>
