@@ -74,6 +74,7 @@ public:
 QString getName();
 QFont EditorFont;
 QByteArray windowstate,splitter1state,splitter2state,splitter3state,fullscreenstate;
+void mainWindowActivated();
 //virtual QMenu* createPopupMenu();
 
 public slots:
@@ -471,7 +472,7 @@ void refreshAll();
 void refreshAllFromCursor(int newnumlines);
 void refreshRange();
 void jumpToStructure(int line);
-void mainWindowActivated();
+
 
 void ToggleStructurePanel();
 void ToggleLogPanel();
@@ -515,11 +516,7 @@ protected:
 void dragEnterEvent(QDragEnterEvent *event);
 void dropEvent(QDropEvent *event);
 void keyPressEvent(QKeyEvent * event);
-virtual void changeEvent(QEvent *e);
-
-signals:
-void windowActivated();
-    
+   
 };
 
 #endif

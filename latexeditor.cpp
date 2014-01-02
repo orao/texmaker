@@ -1347,7 +1347,7 @@ if (index >= text.length()) return "";
 int start=index;
 int end=index;
 QChar	ch = text.at(index);
-#define IS_WORD_BACK(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch==':')
+#define IS_WORD_BACK(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch==':' || ch=='_')
 #define IS_WORD_FORWARD(ch) (ch.isLetter() || ch.isMark() )
 bool isControlSeq = false; // becomes true if we include an @ sign or a leading backslash
 bool includesApos = false; // becomes true if we include an apostrophe
@@ -1490,7 +1490,7 @@ const QString text = block.text();
 if (text.length() < 1) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
 if (index >= text.length()) return (QStringList() << "" << QString::number(index) << QString::number(start) << QString::number(end));
 QChar	ch = text.at(index);
-#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']' || ch==':')
+#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']' || ch==':' || ch=='_')
 //#define IS_WORD_FORMING(ch) (ch.isLetter() || ch.isMark() || ch=='{' || ch=='[' || ch=='}' || ch==']')
 bool isControlSeq = false; // becomes true if we include an @ sign or a leading backslash
 bool includesApos = false; // becomes true if we include an apostrophe
@@ -1863,7 +1863,6 @@ if (!c || (ctrlOrShift && e->text().isEmpty())) {return;}
 
 bool hasModifier = (e->modifiers() & ( Qt::ControlModifier | Qt::AltModifier ));
 QString completionPrefix = commandUnderCursor();
-//qDebug() << "notfull" << completionPrefix;
 if ( completionPrefix.length() < 3)
 	{
 	c->popup()->hide();
@@ -1992,7 +1991,12 @@ else
 	tc.insertText(insert_word);
 	tc.setPosition(pos,QTextCursor::MoveAnchor);
 	setTextCursor(tc);
-	if (!search(QString(0x2022) ,true,false,true,true,false))
+	if (!insert_word.contains(QString(0x2022)))
+	  {
+	  tc.setPosition(pos+completion.length(),QTextCursor::MoveAnchor);
+	  setTextCursor(tc);
+	  }
+	else if (!search(QString(0x2022) ,true,false,true,true,false))
 	  {
 	  tc.setPosition(pos+completion.length(),QTextCursor::MoveAnchor);
 	  setTextCursor(tc);

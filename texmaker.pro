@@ -10,7 +10,7 @@ QT += xml webkit network
 }
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.1
+TEXMAKERVERSION=4.1.1
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 
@@ -451,6 +451,11 @@ utilities.files = doc/doc1.png \
 	dictionaries/cs_CZ.dic \
 	dictionaries/pl_PL.aff \
 	dictionaries/pl_PL.dic \
+	dictionaries/pt_PT.aff \
+	dictionaries/pt_PT.dic \
+	dictionaries/ca_CA.aff \
+	dictionaries/ca_CA.dic \
+	dictionaries/README_pt_PT.txt \
 	dictionaries/README_pl.txt \
 	dictionaries/README_cs_CZ.txt \
 	dictionaries/README_de_DE_frami.txt \

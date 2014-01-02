@@ -32,12 +32,11 @@ public:
     QString language;
 private:
     static TexmakerApp *theAppInstance;
-#if defined(Q_OS_MAC)
-    QString MacFile;
 protected:
     bool event(QEvent *event);
+#if defined(Q_OS_MAC)
+    QString MacFile;
 #endif
-
 };
 inline TexmakerApp *TexmakerApp::instance()
 {

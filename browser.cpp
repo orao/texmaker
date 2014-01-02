@@ -12,6 +12,7 @@
 #include "browser.h"
 
 #include <QtGui>
+#include <QDebug>
 #include <QPrinter>
 #include <QMenuBar>
 #include <QToolBar>
@@ -36,6 +37,8 @@ setWindowIcon(getIcon(":/images/appicon.png"));
 #endif
 progress = 0;
 view = new QWebView(this);
+index=home;
+ontop=false;
 if ( !home.isEmpty()) view->load(QUrl(home));
 connect(view, SIGNAL(titleChanged(QString)), SLOT(adjustTitle()));
 connect(view, SIGNAL(loadProgress(int)), SLOT(setProgress(int)));
@@ -96,11 +99,18 @@ void Browser::finishLoading(bool)
 {
 progress = 100;
 adjustTitle();
+if (ontop) view->page()->mainFrame()->evaluateJavaScript("window.location.href='#top';");
+ontop=false;
 }
 
 void Browser::Index()
 {
-view->page()->mainFrame()->evaluateJavaScript("window.location.href='#top';");
+if ((view->url().toString(QUrl::RemoveFragment)!=index) && ( !index.isEmpty()))
+  {
+  ontop=true;
+  view->load(QUrl(index));
+  }
+else view->page()->mainFrame()->evaluateJavaScript("window.location.href='#top';");
 }
 
 void Browser::Print()

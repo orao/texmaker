@@ -28,7 +28,9 @@ public:
 	Ui::UserCompletionDialog ui;
 	QStringList userlist;
 private slots:
+void slotItemClicked(QListWidgetItem* item);
 void actionDelete();
+void actionReplace();
 void actionAddCommand();
 };
 

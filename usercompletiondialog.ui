@@ -74,6 +74,13 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="replaceButton">
+       <property name="text">
+        <string>Replace</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

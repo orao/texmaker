@@ -42,6 +42,8 @@ private:
     int progress;
     QLineEdit *searchLineEdit;
     QPushButton *findButton;
+    QString index;
+    bool ontop;
 };
 
 #endif

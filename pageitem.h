@@ -30,6 +30,8 @@ modified by Pascal Brachet
 #include "texmaker_popplerqt20/poppler-qt4.h"
 #elif defined(POPPLER22)
 #include "texmaker_popplerqt22/poppler-qt4.h"
+#elif defined(POPPLER24EMB)
+#include "texmaker_popplerqt5_24/poppler-qt5.h"
 #elif defined(POPPLER24)
 #include <poppler-qt5.h>
 #else

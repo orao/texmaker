@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ca_ES">
+<TS version="2.1" language="ca_ES">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../aboutdialog.ui" line="14"/>
         <source>About Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Quant al Texmaker</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     <message>
         <location filename="../addoptiondialog.ui" line="14"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Nou</translation>
     </message>
 </context>
 <context>
@@ -22,22 +22,22 @@
     <message>
         <location filename="../addtagdialog.ui" line="14"/>
         <source>Edit User Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita les etiquetes d&apos;usuari</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="22"/>
         <source>Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="32"/>
         <source>LaTeX Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Contingut de LaTeX</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="55"/>
         <source>Keyboard Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation>Disparador de teclat</translation>
     </message>
 </context>
 <context>
@@ -45,56 +45,56 @@
     <message>
         <location filename="../arraydialog.ui" line="35"/>
         <source>Num of Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de files</translation>
     </message>
     <message>
         <location filename="../arraydialog.ui" line="45"/>
         <source>Num of Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de columnes</translation>
     </message>
     <message>
         <location filename="../arraydialog.ui" line="59"/>
         <source>Columns Alignment</source>
-        <translation type="unfinished"></translation>
+        <translation>Alineació</translation>
     </message>
     <message>
         <location filename="../arraydialog.ui" line="76"/>
         <source>Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Entorn</translation>
     </message>
     <message>
         <location filename="../arraydialog.cpp" line="42"/>
         <source>Quick Array</source>
-        <translation type="unfinished"></translation>
+        <translation>Matriu</translation>
     </message>
 </context>
 <context>
     <name>Browser</name>
     <message>
-        <location filename="../browser.cpp" line="44"/>
-        <source>&amp;File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../browser.cpp" line="45"/>
-        <location filename="../browser.cpp" line="110"/>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../browser.cpp" line="47"/>
+        <source>&amp;File</source>
+        <translation>&amp;Fitxer</translation>
+    </message>
+    <message>
+        <location filename="../browser.cpp" line="48"/>
+        <location filename="../browser.cpp" line="120"/>
+        <source>Print</source>
+        <translation>Imprimeix</translation>
+    </message>
+    <message>
+        <location filename="../browser.cpp" line="50"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Surt</translation>
     </message>
     <message>
-        <location filename="../browser.cpp" line="53"/>
+        <location filename="../browser.cpp" line="56"/>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation>Índex</translation>
     </message>
     <message>
-        <location filename="../browser.cpp" line="66"/>
+        <location filename="../browser.cpp" line="69"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca</translation>
     </message>
 </context>
 <context>
@@ -102,408 +102,408 @@
     <message>
         <location filename="../configdialog.ui" line="14"/>
         <source>Configure Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura el Texmaker</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="85"/>
         <source>Commands (% : filename without extension - @ : line number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordres ( % : nom de fitxer sense extensió : número de línia)</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="302"/>
         <location filename="../configdialog.cpp" line="587"/>
         <location filename="../configdialog.cpp" line="650"/>
         <source>LaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="516"/>
         <location filename="../configdialog.cpp" line="593"/>
         <location filename="../configdialog.cpp" line="656"/>
         <source>dvips</source>
-        <translation type="unfinished"></translation>
+        <translation>dvips</translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="608"/>
         <location filename="../configdialog.cpp" line="671"/>
         <source>Bibtex</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibtex</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="506"/>
         <location filename="../configdialog.cpp" line="611"/>
         <location filename="../configdialog.cpp" line="674"/>
         <source>Makeindex</source>
-        <translation type="unfinished"></translation>
+        <translation>Makeindex</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="752"/>
         <location filename="../configdialog.cpp" line="596"/>
         <location filename="../configdialog.cpp" line="659"/>
         <source>Dvi Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor de dvi</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="114"/>
         <location filename="../configdialog.cpp" line="599"/>
         <location filename="../configdialog.cpp" line="662"/>
         <source>PS Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor de PS</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="316"/>
         <location filename="../configdialog.cpp" line="590"/>
         <location filename="../configdialog.cpp" line="653"/>
         <source>PdfLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="526"/>
         <location filename="../configdialog.cpp" line="602"/>
         <location filename="../configdialog.cpp" line="665"/>
         <source>Dvipdfm</source>
-        <translation type="unfinished"></translation>
+        <translation>Dvipdfm</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="556"/>
         <location filename="../configdialog.cpp" line="605"/>
         <location filename="../configdialog.cpp" line="668"/>
         <source>ps2pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>ps2pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="179"/>
         <location filename="../configdialog.cpp" line="614"/>
         <location filename="../configdialog.cpp" line="677"/>
         <source>Pdf Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor de pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="195"/>
         <source>Built-in Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor integrat</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="449"/>
         <location filename="../configdialog.cpp" line="617"/>
         <location filename="../configdialog.cpp" line="680"/>
         <source>metapost</source>
-        <translation type="unfinished"></translation>
+        <translation>metapost</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="593"/>
         <location filename="../configdialog.cpp" line="620"/>
         <location filename="../configdialog.cpp" line="683"/>
         <source>ghostscript</source>
-        <translation type="unfinished"></translation>
+        <translation>ghostscript</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="583"/>
         <location filename="../configdialog.cpp" line="623"/>
         <location filename="../configdialog.cpp" line="686"/>
         <source>Asymptote</source>
-        <translation type="unfinished"></translation>
+        <translation>Asymptote</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="459"/>
         <location filename="../configdialog.cpp" line="626"/>
         <location filename="../configdialog.cpp" line="689"/>
         <source>Latexmk</source>
-        <translation type="unfinished"></translation>
+        <translation>Ñatexmk</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="215"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor extern</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="285"/>
         <source>Embed</source>
-        <translation type="unfinished"></translation>
+        <translation>Incrusta</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="408"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The &amp;quot;--output-directory=build&amp;quot; option will be automatically added to the (pdf)latex command while the compilation.&lt;/p&gt;&lt;p&gt;For the others commands like dvips, ps2pdf, bibtex,... you will have to manually replaced &amp;quot;%&amp;quot; by &amp;quot;build/%&amp;quot; .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;L&apos;opció &amp;quot;--output-directory=build&amp;quot; s&apos;afegirà automàticament a l&apos;ordre (pdf)latex en la compilació.&lt;/p&gt;&lt;p&gt;Per a altres ordres com dvips, ps2pdf, bibtex,... haureu de substituir manualment &amp;quot;%&amp;quot; per &amp;quot;build/%&amp;quot; .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="411"/>
         <source>Use a &quot;build&quot; subdirectory for output files</source>
-        <translation type="unfinished"></translation>
+        <translation>Empra el subdirectori &quot;build&quot; per als fitxers de sortida</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="309"/>
         <location filename="../configdialog.cpp" line="632"/>
         <location filename="../configdialog.cpp" line="695"/>
         <source>XeLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="617"/>
         <location filename="../configdialog.cpp" line="629"/>
         <location filename="../configdialog.cpp" line="692"/>
         <source>R Sweave</source>
-        <translation type="unfinished"></translation>
+        <translation>R Sweave</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="706"/>
         <source>Add to PATH</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix al PATH</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="255"/>
         <source>lp options for the printer</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcions lp per a la impressora</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="826"/>
         <source>Quick Build Command</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre de composició ràpida</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="848"/>
         <source>LaTeX + dvips + View PS</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + dvips + Visualitza PS</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="862"/>
         <source>LaTeX + View DVI</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + Visualitza DVI</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="834"/>
         <source>PdfLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX + Visualitza PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="876"/>
         <source>LaTeX + dvipdfm + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + dvipdfm + Visualitza PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="869"/>
         <source>LaTeX + dvips + ps2pdf + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + dvips + ps2pdf + Visualitza PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="344"/>
         <location filename="../configdialog.cpp" line="635"/>
         <location filename="../configdialog.cpp" line="698"/>
         <source>LuaLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>LuaLaTeX</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="496"/>
         <source>Bib(la)tex</source>
-        <translation type="unfinished"></translation>
+        <translation>Bib(la)tex</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="855"/>
         <source>PdfLaTeX + Bib(la)tex + PdfLaTeX (x2) + View Pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX + Bib(la)tex + PdfLaTeX (x2) + Visualitza Pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="883"/>
         <source>LaTeX + Bib(la)tex + LaTeX (x2) + dvips + ps2pdf + View Pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + Bib(la)tex + LaTeX (x2) + dvips + ps2pdf + Visualitza Pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="890"/>
         <source>Sweave + PdfLaTeX + View Pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>Sweave + PdfLaTeX + Visualitza Pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="897"/>
         <source>LaTeX + Asymptote + LaTeX + dvips + View PS</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + Asymptote + LaTeX + dvips + Visualitza PS</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="904"/>
         <source>PdfLaTeX + Asymptote + PdfLaTeX + View Pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX + Asymptote + PdfLaTeX + Visualitza Pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="911"/>
         <source>LatexMk + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>LatexMk + Visualitza PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="918"/>
         <source>XeLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTeX + Visualitza PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="925"/>
         <source>LuaLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>LuaLaTeX + Visualitza PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="941"/>
         <source>User : (% : filename without extension)</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuari : (% : nom de fitxer sense extensió)</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="960"/>
         <location filename="../configdialog.ui" line="999"/>
         <source>wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Auxiliar</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="973"/>
         <source>(the commands must be separated by &apos;|&apos;)</source>
-        <translation type="unfinished"></translation>
+        <translation>(cal separar les ordres amb &apos;|&apos;)</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="989"/>
         <source>For .asy files</source>
-        <translation type="unfinished"></translation>
+        <translation>Per fitxers .asy</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1037"/>
         <source>Don&apos;t launch a new instance of the viewer if the dvi/ps/pdf file is already opened</source>
-        <translation type="unfinished"></translation>
+        <translation>No executis una nova instància del visor si el fitxer dvi/ps/pdf ja està obert</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1070"/>
         <location filename="../configdialog.cpp" line="179"/>
         <location filename="../configdialog.cpp" line="192"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1078"/>
         <source>Editor Font Family</source>
-        <translation type="unfinished"></translation>
+        <translation>Lletra de l&apos;editor</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1140"/>
         <source>Word Wrap</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajusta les paraules</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1278"/>
         <source>Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1283"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1241"/>
         <source>Colors</source>
-        <translation type="unfinished"></translation>
+        <translation>Colors</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1248"/>
         <source>Default Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema predeterminat</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1255"/>
         <source>Dark theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema fosc</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1099"/>
         <source>Editor Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida de lletra de l&apos;editor</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1147"/>
         <source>Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Compleció</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1116"/>
         <source>Editor Font Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificació de caràcters de l&apos;editor</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1154"/>
         <source>Show Line Numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra el número de línia</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1126"/>
         <source>Check for external changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprova modificacions externes</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1133"/>
         <source>Backup documents every 10 min</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes còpia de seguretat cada 10 minuts</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1299"/>
         <source>Spelling dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Diccionari ortogràfic</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1333"/>
         <source>Inline Spell Checking</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifica l&apos;ortografia automàticament</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1336"/>
         <source>Inline</source>
-        <translation type="unfinished"></translation>
+        <translation>Automàtic</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1179"/>
         <source>Tab width (num of spaces)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ample de tabulació (número d&apos;espais)</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1214"/>
         <source>Replace tab with spaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Substitueix la tabulació per espais</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1365"/>
         <location filename="../configdialog.cpp" line="185"/>
         <location filename="../configdialog.cpp" line="193"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Dreceres</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1401"/>
         <source>Toggle focus editor/pdf viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercanvia el focus entre l&apos;editor i el visor pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1408"/>
         <source>PushButton</source>
-        <translation type="unfinished"></translation>
+        <translation>Prem el botó</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1375"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Acció</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1380"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Drecera</translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="166"/>
         <location filename="../configdialog.cpp" line="189"/>
         <location filename="../configdialog.cpp" line="190"/>
         <source>Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordres</translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="173"/>
         <location filename="../configdialog.cpp" line="191"/>
         <source>Quick Build</source>
-        <translation type="unfinished"></translation>
+        <translation>Composició ràpida</translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="237"/>
         <source>Browse dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Explora el diccionari</translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="357"/>
@@ -523,7 +523,7 @@
         <location filename="../configdialog.cpp" line="512"/>
         <location filename="../configdialog.cpp" line="523"/>
         <source>Browse program</source>
-        <translation type="unfinished"></translation>
+        <translation>Programa explorador</translation>
     </message>
 </context>
 <context>
@@ -532,38 +532,38 @@
         <location filename="../documentview.cpp" line="490"/>
         <location filename="../documentview.cpp" line="521"/>
         <source>Unlock %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Desbloqueja el %1</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="490"/>
         <location filename="../documentview.cpp" line="521"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contrasenya:</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="573"/>
         <source>Printing &apos;%1&apos;...</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;està imprimint &apos;%1&apos;...</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="1114"/>
         <source>Loading pdf...</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;està carregant el pdf...</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="1489"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel·la</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="1505"/>
         <source>Number of words in the document</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de paraules del document</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="1515"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation>Anomena i desa</translation>
     </message>
 </context>
 <context>
@@ -571,18 +571,19 @@
     <message>
         <location filename="../encodingdialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../encodingdialog.ui" line="20"/>
         <source>It seems that this file cannot be correctly decoded
 with the default encoding setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Sembla que aquest fitxers no es pot descodificar correctament
+amb la codificació de caràcters predeterminada</translation>
     </message>
     <message>
         <location filename="../encodingdialog.ui" line="31"/>
         <source>Use this encoding :</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilitza aquesta codificació:</translation>
     </message>
 </context>
 <context>
@@ -590,57 +591,57 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="14"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta via TeX4ht</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="22"/>
         <source>Path to htlatex</source>
-        <translation type="unfinished"></translation>
+        <translation>Camí del htlatex</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="45"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="51"/>
         <source>export to Html</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta a html</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="61"/>
         <source>export to Html (new page for each section)</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta a html (una nova pàgina per cada secció)</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="68"/>
         <source>export to OpenDocumentFormat</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta a Open Document Format</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="75"/>
         <source>export to MathML</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta a MathML</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="82"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuari</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="91"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcions</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="125"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Executa</translation>
     </message>
     <message>
         <location filename="../exportdialog.cpp" line="47"/>
         <source>Browse program</source>
-        <translation type="unfinished"></translation>
+        <translation>Programa explorador</translation>
     </message>
 </context>
 <context>
@@ -648,12 +649,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../filechooser.ui" line="31"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Fitxer</translation>
     </message>
     <message>
         <location filename="../filechooser.cpp" line="43"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu un fitxer</translation>
     </message>
 </context>
 <context>
@@ -661,68 +662,68 @@ with the default encoding setting</source>
     <message>
         <location filename="../findwidget.ui" line="23"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulari</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="48"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="58"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Endavant</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="68"/>
         <source>Backward</source>
-        <translation type="unfinished"></translation>
+        <translation>Enrere</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="102"/>
         <source>Whole words only</source>
-        <translation type="unfinished"></translation>
+        <translation>Només paraules senceres</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="109"/>
         <source>Case sensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Distingeix majúscules i minúscules</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="116"/>
         <source>Start at Beginning</source>
-        <translation type="unfinished"></translation>
+        <translation>Des del principi</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="129"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="154"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Expressió regular</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="161"/>
         <location filename="../findwidget.cpp" line="136"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Heu de seleccionar un text per marcar aquesta opció.</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="164"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Només a la selecció</translation>
     </message>
     <message>
         <location filename="../findwidget.cpp" line="59"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../findwidget.cpp" line="59"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Expressió regular invàlida.</translation>
     </message>
 </context>
 <context>
@@ -730,22 +731,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../gotolinewidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulari</translation>
     </message>
     <message>
         <location filename="../gotolinewidget.ui" line="32"/>
         <source>Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Línia</translation>
     </message>
     <message>
         <location filename="../gotolinewidget.ui" line="61"/>
         <source>Goto</source>
-        <translation type="unfinished"></translation>
+        <translation>Ves</translation>
     </message>
     <message>
         <location filename="../gotolinewidget.ui" line="77"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanca</translation>
     </message>
 </context>
 <context>
@@ -753,52 +754,52 @@ with the default encoding setting</source>
     <message>
         <location filename="../graphicfilechooser.ui" line="36"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Fitxer</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="95"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="152"/>
         <source>Caption</source>
-        <translation type="unfinished"></translation>
+        <translation>Títol</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="176"/>
         <source>Above</source>
-        <translation type="unfinished"></translation>
+        <translation>Amunt</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="181"/>
         <source>Below</source>
-        <translation type="unfinished"></translation>
+        <translation>Avall</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="195"/>
         <source>Placement</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubicació</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="208"/>
         <source>hbtp</source>
-        <translation type="unfinished"></translation>
+        <translation>hbtp</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="221"/>
         <source>Use &quot;figure&quot; environment</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="233"/>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centra</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.cpp" line="48"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu un fitxer</translation>
     </message>
 </context>
 <context>
@@ -806,13 +807,13 @@ with the default encoding setting</source>
     <message>
         <location filename="../keysequencedialog.ui" line="14"/>
         <source>Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Drecera</translation>
     </message>
     <message>
         <location filename="../keysequencedialog.ui" line="37"/>
         <location filename="../keysequencedialog.cpp" line="42"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Neteja</translation>
     </message>
 </context>
 <context>
@@ -820,57 +821,57 @@ with the default encoding setting</source>
     <message>
         <location filename="../latexeditor.cpp" line="884"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Desfés</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="887"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Refés</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="891"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Retalla</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="894"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="897"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Enganxa</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="902"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona-ho tot</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="908"/>
         <source>Check Spelling Word</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifica l&apos;ortografia de la paraula</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="913"/>
         <source>Check Spelling Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprova l&apos;ortografia de la selecció</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="916"/>
         <source>Check Spelling Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifica l&apos;ortografia del document</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="923"/>
         <source>Jump to the end of this block</source>
-        <translation type="unfinished"></translation>
+        <translation>Vés al final d&apos;aquest bloc</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="929"/>
         <source>Jump to pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>Vés al pdf</translation>
     </message>
 </context>
 <context>
@@ -878,27 +879,27 @@ with the default encoding setting</source>
     <message>
         <location filename="../letterdialog.ui" line="40"/>
         <source>Typeface Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida de lletra</translation>
     </message>
     <message>
         <location filename="../letterdialog.ui" line="53"/>
         <source>Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificació</translation>
     </message>
     <message>
         <location filename="../letterdialog.ui" line="60"/>
         <source>AMS Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquets AMS</translation>
     </message>
     <message>
         <location filename="../letterdialog.ui" line="79"/>
         <source>Paper Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida del paper</translation>
     </message>
     <message>
         <location filename="../letterdialog.cpp" line="73"/>
         <source>Quick Letter</source>
-        <translation type="unfinished"></translation>
+        <translation>Carta ràpida</translation>
     </message>
 </context>
 <context>
@@ -906,12 +907,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../lightfindwidget.cpp" line="56"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../lightfindwidget.cpp" line="56"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Expressió regular invàlida.</translation>
     </message>
 </context>
 <context>
@@ -919,29 +920,29 @@ with the default encoding setting</source>
     <message>
         <location filename="../lightlatexeditor.cpp" line="477"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="477"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished"></translation>
+        <translation>No teniu permisos de lectura per a aquest fitxer.</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="883"/>
         <location filename="../lightlatexeditor.cpp" line="886"/>
         <location filename="../lightlatexeditor.cpp" line="889"/>
         <source>Click to jump to the bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Feu clic per anar a l&apos;enllaç</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="893"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="896"/>
         <source>Goto Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Ves a la línia</translation>
     </message>
 </context>
 <context>
@@ -949,7 +950,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../lightlinenumberwidget.cpp" line="167"/>
         <source>Click to add or remove a bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Feu clic per afegir o eliminar un enllaç</translation>
     </message>
 </context>
 <context>
@@ -957,7 +958,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../linenumberwidget.cpp" line="248"/>
         <source>Click to add or remove a bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Feu clic per afegir o eliminar un enllaç</translation>
     </message>
 </context>
 <context>
@@ -966,270 +967,270 @@ with the default encoding setting</source>
         <location filename="../pageitem.cpp" line="158"/>
         <location filename="../pageitem.cpp" line="160"/>
         <source>Click to jump to the line</source>
-        <translation type="unfinished"></translation>
+        <translation>Feu clic per anar a la línia</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="167"/>
         <source>Number of words in the document</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de paraules del document</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="170"/>
         <source>Convert page to png image</source>
-        <translation type="unfinished"></translation>
+        <translation>Converteix la pàgina a una imatge png</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="581"/>
         <source>Copy text</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia com a text</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="582"/>
         <source>Copy image</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia com a imatge</translation>
     </message>
 </context>
 <context>
     <name>PdfViewer</name>
     <message>
-        <location filename="../pdfviewer.cpp" line="98"/>
-        <location filename="../pdfviewer.cpp" line="136"/>
-        <location filename="../pdfviewer.cpp" line="1178"/>
+        <location filename="../pdfviewer.cpp" line="100"/>
+        <location filename="../pdfviewer.cpp" line="138"/>
+        <location filename="../pdfviewer.cpp" line="1180"/>
         <source>Structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Estructura</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="117"/>
-        <location filename="../pdfviewer.cpp" line="1185"/>
+        <location filename="../pdfviewer.cpp" line="119"/>
+        <location filename="../pdfviewer.cpp" line="1187"/>
         <source>Pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Pàgines</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="167"/>
+        <location filename="../pdfviewer.cpp" line="169"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../pdfviewer.cpp" line="171"/>
-        <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fitxer</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="173"/>
+        <source>Exit</source>
+        <translation>Surt</translation>
+    </message>
+    <message>
+        <location filename="../pdfviewer.cpp" line="175"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Edita</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="174"/>
-        <location filename="../pdfviewer.cpp" line="266"/>
+        <location filename="../pdfviewer.cpp" line="176"/>
+        <location filename="../pdfviewer.cpp" line="268"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="183"/>
+        <location filename="../pdfviewer.cpp" line="185"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="187"/>
+        <location filename="../pdfviewer.cpp" line="189"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Següent</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="193"/>
+        <location filename="../pdfviewer.cpp" line="195"/>
         <source>&amp;View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Visualitza</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="194"/>
+        <location filename="../pdfviewer.cpp" line="196"/>
         <source>Fit Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajusta a l&apos;amplada</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="197"/>
+        <location filename="../pdfviewer.cpp" line="199"/>
         <source>Fit Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajusta a la pàgina</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="200"/>
+        <location filename="../pdfviewer.cpp" line="202"/>
         <source>Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>Amplia</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="205"/>
+        <location filename="../pdfviewer.cpp" line="207"/>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Redueix</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="210"/>
+        <location filename="../pdfviewer.cpp" line="212"/>
         <source>Continuous</source>
-        <translation type="unfinished"></translation>
+        <translation>Continu</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="215"/>
+        <location filename="../pdfviewer.cpp" line="217"/>
         <source>Two pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Dues pàgines</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="220"/>
+        <location filename="../pdfviewer.cpp" line="222"/>
         <source>Rotate left</source>
-        <translation type="unfinished"></translation>
+        <translation>Rota a l&apos;esquerra</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="224"/>
+        <location filename="../pdfviewer.cpp" line="226"/>
         <source>Rotate right</source>
-        <translation type="unfinished"></translation>
+        <translation>Rota a la dreta</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="228"/>
+        <location filename="../pdfviewer.cpp" line="230"/>
         <source>Presentation...</source>
-        <translation type="unfinished"></translation>
+        <translation>Presentació...</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="235"/>
+        <location filename="../pdfviewer.cpp" line="237"/>
         <source>Previous Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Posició anterior</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="240"/>
+        <location filename="../pdfviewer.cpp" line="242"/>
         <source>Next Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Següent posició</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="277"/>
-        <location filename="../pdfviewer.cpp" line="1060"/>
+        <location filename="../pdfviewer.cpp" line="279"/>
+        <location filename="../pdfviewer.cpp" line="1062"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimeix</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="280"/>
+        <location filename="../pdfviewer.cpp" line="282"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor extern</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="283"/>
+        <location filename="../pdfviewer.cpp" line="285"/>
         <source>Check Spelling and Grammar on this page</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifica l&apos;ortografia i la gramàtica en aquesta pàgina</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="428"/>
+        <location filename="../pdfviewer.cpp" line="430"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="428"/>
+        <location filename="../pdfviewer.cpp" line="430"/>
         <source>File not found</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat el fitxer</translation>
     </message>
     <message>
-        <location filename="../pdfviewer.cpp" line="409"/>
-        <location filename="../pdfviewer.cpp" line="633"/>
+        <location filename="../pdfviewer.cpp" line="411"/>
+        <location filename="../pdfviewer.cpp" line="635"/>
         <source>Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Pàgina</translation>
     </message>
 </context>
 <context>
     <name>PdfViewerWidget</name>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="130"/>
+        <location filename="../pdfviewerwidget.cpp" line="132"/>
         <source>Show/Hide Table of contents</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra/amaga la taula de continguts</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="136"/>
+        <location filename="../pdfviewerwidget.cpp" line="138"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="140"/>
+        <location filename="../pdfviewerwidget.cpp" line="142"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Següent</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="146"/>
+        <location filename="../pdfviewerwidget.cpp" line="148"/>
         <source>Fit Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajusta a l&apos;amplada</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="149"/>
+        <location filename="../pdfviewerwidget.cpp" line="151"/>
         <source>Fit Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Pàgines</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="152"/>
+        <location filename="../pdfviewerwidget.cpp" line="154"/>
         <source>Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>Amplia</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="157"/>
+        <location filename="../pdfviewerwidget.cpp" line="159"/>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Amplia</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="168"/>
+        <location filename="../pdfviewerwidget.cpp" line="170"/>
         <source>Continuous</source>
-        <translation type="unfinished"></translation>
+        <translation>Continu</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="173"/>
+        <location filename="../pdfviewerwidget.cpp" line="175"/>
         <source>Two pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Dues pàgines</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="178"/>
+        <location filename="../pdfviewerwidget.cpp" line="180"/>
         <source>Rotate left</source>
-        <translation type="unfinished"></translation>
+        <translation>Rota a l&apos;esquerra</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="182"/>
+        <location filename="../pdfviewerwidget.cpp" line="184"/>
         <source>Rotate right</source>
-        <translation type="unfinished"></translation>
+        <translation>Rota a la dreta</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="186"/>
+        <location filename="../pdfviewerwidget.cpp" line="188"/>
         <source>Presentation...</source>
-        <translation type="unfinished"></translation>
+        <translation>Presentació...</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="215"/>
+        <location filename="../pdfviewerwidget.cpp" line="217"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="226"/>
+        <location filename="../pdfviewerwidget.cpp" line="228"/>
         <source>Previous Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Posició anterior</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="231"/>
+        <location filename="../pdfviewerwidget.cpp" line="233"/>
         <source>Next Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Següent posició</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="240"/>
-        <location filename="../pdfviewerwidget.cpp" line="1053"/>
+        <location filename="../pdfviewerwidget.cpp" line="242"/>
+        <location filename="../pdfviewerwidget.cpp" line="1055"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimeix</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="243"/>
+        <location filename="../pdfviewerwidget.cpp" line="245"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor extern</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="246"/>
+        <location filename="../pdfviewerwidget.cpp" line="248"/>
         <source>Check Spelling and Grammar on this page</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifica l&apos;ortografia i la gramàtica en aquesta pàgina</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="424"/>
+        <location filename="../pdfviewerwidget.cpp" line="426"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
-        <location filename="../pdfviewerwidget.cpp" line="424"/>
+        <location filename="../pdfviewerwidget.cpp" line="426"/>
         <source>File not found</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat el fitxer</translation>
     </message>
 </context>
 <context>
@@ -1237,80 +1238,93 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="77"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="77"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="77"/>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>desconegut</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="79"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="79"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="79"/>
         <source>Type 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus 1</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="81"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="81"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="81"/>
         <source>Type 1C</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus 1C</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="83"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="83"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="83"/>
         <source>Type 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus 3</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="85"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="85"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="85"/>
         <source>TrueType</source>
-        <translation type="unfinished"></translation>
+        <translation>TrueType</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="87"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="87"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="87"/>
         <source>CID Type 0</source>
-        <translation type="unfinished"></translation>
+        <translation>CID Tipus 0</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="89"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="89"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="89"/>
         <source>CID Type 0C</source>
-        <translation type="unfinished"></translation>
+        <translation>CID tipus 0C</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="91"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="91"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="91"/>
         <source>CID TrueType</source>
-        <translation type="unfinished"></translation>
+        <translation>CID TrueType</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="93"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="93"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="93"/>
         <source>Type 1C (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus 1C (OpenType)</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="95"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="95"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="95"/>
         <source>TrueType (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>TrueType (OpenType)</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="97"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="97"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="97"/>
         <source>CID Type 0C (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>CID tipus 0C (OpenType)</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="99"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="99"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="99"/>
         <source>CID TrueType (OpenType)</source>
-        <translation type="unfinished"></translation>
+        <translation>CID TrueType (OpenType)</translation>
     </message>
     <message>
         <location filename="../texmaker_popplerqt20/poppler-fontinfo.cc" line="101"/>
         <location filename="../texmaker_popplerqt22/poppler-fontinfo.cc" line="101"/>
+        <location filename="../texmaker_popplerqt5_24/poppler-fontinfo.cc" line="101"/>
         <source>Bug: unexpected font type. Notify poppler mailing list!</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: Tipus de lletra inesperat. Notifiqueu-ho a la llista de correu de poppler!</translation>
     </message>
 </context>
 <context>
@@ -1318,52 +1332,52 @@ with the default encoding setting</source>
     <message>
         <location filename="../quickbeamerdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Diàleg</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="22"/>
         <source>AMS Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquets AMS</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="29"/>
         <source>Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificació</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="39"/>
         <source>Typeface Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida de lletra</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="46"/>
         <source>babel Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet babel</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="59"/>
         <source>graphicx Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet graphicx</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="66"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Títol</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="79"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="86"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.cpp" line="22"/>
         <source>Quick Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Inici ràpid</translation>
     </message>
 </context>
 <context>
@@ -1371,7 +1385,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../quickdocumentdialog.ui" line="25"/>
         <source>Document Class</source>
-        <translation type="unfinished"></translation>
+        <translation>Classe de document</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="41"/>
@@ -1380,87 +1394,87 @@ with the default encoding setting</source>
         <location filename="../quickdocumentdialog.ui" line="144"/>
         <location filename="../quickdocumentdialog.ui" line="199"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="54"/>
         <source>Other Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Altres opcions</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="83"/>
         <source>Typeface Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida de lletra</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="99"/>
         <source>Paper Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida del paper</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="128"/>
         <source>Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificació</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="157"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="173"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Títol</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="183"/>
         <source>babel Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet babel</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="206"/>
         <source>geometry Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet geometry</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="213"/>
         <source>left=2cm,right=2cm,top=2cm,bottom=2cm</source>
-        <translation type="unfinished"></translation>
+        <translation>esquerra=2cm,dreta=2cm,superior=2cm,inferior=2cm</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="220"/>
         <source>AMS Packages</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquets AMS</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="230"/>
         <source>makeidx Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet makeidx</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="237"/>
         <source>graphicx Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet graphicx</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="244"/>
         <source>lmodern Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet lmodern</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="251"/>
         <source>Kpfonts Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet kpfonts</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.ui" line="258"/>
         <source>Fourier Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet fourier</translation>
     </message>
     <message>
         <location filename="../quickdocumentdialog.cpp" line="31"/>
         <source>Quick Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Inici ràpid</translation>
     </message>
 </context>
 <context>
@@ -1469,7 +1483,7 @@ with the default encoding setting</source>
         <location filename="../refdialog.ui" line="14"/>
         <location filename="../refdialog.ui" line="40"/>
         <source>Labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiquetes</translation>
     </message>
 </context>
 <context>
@@ -1477,105 +1491,105 @@ with the default encoding setting</source>
     <message>
         <location filename="../replacewidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulari</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="32"/>
         <location filename="../replacewidget.ui" line="58"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="68"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Endavant</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="168"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="203"/>
         <location filename="../replacewidget.cpp" line="227"/>
         <source>Text must be selected before checking this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Heu de seleccionar un text per marcar aquesta opció.</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="206"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation>Només a la selecció</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="216"/>
         <source>Backward</source>
-        <translation type="unfinished"></translation>
+        <translation>Endarrere</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="108"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Reemplaça</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="134"/>
         <source>Replace All</source>
-        <translation type="unfinished"></translation>
+        <translation>Reemplaça-ho tot</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="141"/>
         <source>Whole words only</source>
-        <translation type="unfinished"></translation>
+        <translation>Només paraules senceres</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="148"/>
         <source>Case sensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Distingeix majúscules i minúscules</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="155"/>
         <source>Start at Beginning</source>
-        <translation type="unfinished"></translation>
+        <translation>Des del principi</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="196"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Expressió regular</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="58"/>
         <location filename="../replacewidget.cpp" line="129"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="58"/>
         <location filename="../replacewidget.cpp" line="129"/>
         <source>Invalid regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Expressió regular invàlida.</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="73"/>
         <location filename="../replacewidget.cpp" line="96"/>
         <source>Replace this occurence ? </source>
-        <translation type="unfinished"></translation>
+        <translation>Reemplaça en aquesta ocurrència?</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="73"/>
         <location filename="../replacewidget.cpp" line="96"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sí</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="73"/>
         <location filename="../replacewidget.cpp" line="96"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="73"/>
         <location filename="../replacewidget.cpp" line="96"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel·la</translation>
     </message>
 </context>
 <context>
@@ -1583,38 +1597,38 @@ with the default encoding setting</source>
     <message>
         <location filename="../scandialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="20"/>
         <source>In directory :</source>
-        <translation type="unfinished"></translation>
+        <translation>Al directori:</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="57"/>
         <source>Text :</source>
-        <translation type="unfinished"></translation>
+        <translation>Text:</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="67"/>
         <location filename="../scandialog.cpp" line="42"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="74"/>
         <source>Include subdirectories</source>
-        <translation type="unfinished"></translation>
+        <translation>Subdirectoris inclosos</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="81"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel·la</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="100"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanca</translation>
     </message>
 </context>
 <context>
@@ -1622,12 +1636,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../sourceview.cpp" line="47"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre</translation>
     </message>
     <message>
         <location filename="../sourceview.cpp" line="135"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre el fitxer</translation>
     </message>
 </context>
 <context>
@@ -1635,52 +1649,52 @@ with the default encoding setting</source>
     <message>
         <location filename="../spellerdialog.ui" line="13"/>
         <source>Check Spelling</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifica l&apos;ortografia</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="19"/>
         <source>Unknown word:</source>
-        <translation type="unfinished"></translation>
+        <translation>Paraula desconeguda:</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="33"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Reemplaça</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="43"/>
         <source>Replace with:</source>
-        <translation type="unfinished"></translation>
+        <translation>Reemplaça per:</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="53"/>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="73"/>
         <source>Always ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora-ho sempre</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="80"/>
         <source>Suggested words :</source>
-        <translation type="unfinished"></translation>
+        <translation>Paraules suggerides:</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="130"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanca</translation>
     </message>
     <message>
         <location filename="../spellerdialog.cpp" line="115"/>
         <source>Check spelling selection...</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprova l&apos;ortografia de la selecció...</translation>
     </message>
     <message>
         <location filename="../spellerdialog.cpp" line="125"/>
         <source>Check spelling from cursor...</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprova l&apos;ortografia des del cursor...</translation>
     </message>
     <message>
         <location filename="../spellerdialog.cpp" line="146"/>
@@ -1688,7 +1702,7 @@ with the default encoding setting</source>
         <location filename="../spellerdialog.cpp" line="187"/>
         <location filename="../spellerdialog.cpp" line="313"/>
         <source>No more misspelled words</source>
-        <translation type="unfinished"></translation>
+        <translation>No hi ha més paraules incorrectes</translation>
     </message>
 </context>
 <context>
@@ -1696,17 +1710,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../structdialog.ui" line="14"/>
         <source>Structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Estructura</translation>
     </message>
     <message>
         <location filename="../structdialog.ui" line="37"/>
         <source>Numeration</source>
-        <translation type="unfinished"></translation>
+        <translation>Numeració</translation>
     </message>
     <message>
         <location filename="../structdialog.ui" line="53"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Títol</translation>
     </message>
 </context>
 <context>
@@ -1714,12 +1728,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../symbollistwidget.cpp" line="50"/>
         <source>Add to favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix a les adreces d&apos;interès</translation>
     </message>
     <message>
         <location filename="../symbollistwidget.cpp" line="51"/>
         <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina de les adreces d&apos;interès</translation>
     </message>
 </context>
 <context>
@@ -1727,87 +1741,87 @@ with the default encoding setting</source>
     <message>
         <location filename="../tabdialog.ui" line="37"/>
         <source>Num of Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de columnes</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="78"/>
         <source>Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Columnes</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="86"/>
         <source>Column :</source>
-        <translation type="unfinished"></translation>
+        <translation>Columna:</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="113"/>
         <source>Alignment :</source>
-        <translation type="unfinished"></translation>
+        <translation>Alineació:</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="127"/>
         <source>Left Border :</source>
-        <translation type="unfinished"></translation>
+        <translation>Marge esquerre:</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="167"/>
         <source>Apply to all columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplica-ho a totes les columnes</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="194"/>
         <source>Right Border (last column) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Marge dret (darrera columna):</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="232"/>
         <source>Num of Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de files</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="263"/>
         <source>Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Files</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="271"/>
         <source>Row :</source>
-        <translation type="unfinished"></translation>
+        <translation>Fila:</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="296"/>
         <source>Top Border</source>
-        <translation type="unfinished"></translation>
+        <translation>Marge superior</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="305"/>
         <source>Merge columns :</source>
-        <translation type="unfinished"></translation>
+        <translation>Fusiona les columnes:</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="321"/>
         <source>-&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>-&gt;</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="364"/>
         <source>Apply to all rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplica-ho a totes les files</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="389"/>
         <source>Bottom Border (last row)</source>
-        <translation type="unfinished"></translation>
+        <translation>Marge inferior (darrera columna)</translation>
     </message>
     <message>
         <location filename="../tabdialog.ui" line="396"/>
         <source>Add vertical margin for each row</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix un marege vertical a cada fila</translation>
     </message>
     <message>
         <location filename="../tabdialog.cpp" line="107"/>
         <source>Quick Tabular</source>
-        <translation type="unfinished"></translation>
+        <translation>Taula ràpida</translation>
     </message>
 </context>
 <context>
@@ -1815,22 +1829,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../tabbingdialog.ui" line="67"/>
         <source>Spacing</source>
-        <translation type="unfinished"></translation>
+        <translation>Espaiat</translation>
     </message>
     <message>
         <location filename="../tabbingdialog.ui" line="80"/>
         <source>Num of Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de files</translation>
     </message>
     <message>
         <location filename="../tabbingdialog.ui" line="93"/>
         <source>Num of Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de columnes</translation>
     </message>
     <message>
         <location filename="../tabbingdialog.cpp" line="26"/>
         <source>Quick Tabbing</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabulació ràpida</translation>
     </message>
 </context>
 <context>
@@ -1838,22 +1852,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../texdocdialog.ui" line="20"/>
         <source>Search documentation about :</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca documentació quant a:</translation>
     </message>
     <message>
         <location filename="../texdocdialog.ui" line="59"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../texdocdialog.ui" line="116"/>
         <source>Texdoc command :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre de texdoc:</translation>
     </message>
     <message>
         <location filename="../texdocdialog.cpp" line="31"/>
         <source>Browse program</source>
-        <translation type="unfinished"></translation>
+        <translation>Programa explorador</translation>
     </message>
 </context>
 <context>
@@ -1861,1047 +1875,1058 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="213"/>
         <location filename="../texmaker.cpp" line="381"/>
-        <location filename="../texmaker.cpp" line="2045"/>
-        <location filename="../texmaker.cpp" line="4871"/>
+        <location filename="../texmaker.cpp" line="2044"/>
+        <location filename="../texmaker.cpp" line="4877"/>
         <source>Structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Estructura</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="230"/>
-        <location filename="../texmaker.cpp" line="4876"/>
+        <location filename="../texmaker.cpp" line="4882"/>
         <source>Relation symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Símbols de relació</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="240"/>
-        <location filename="../texmaker.cpp" line="4881"/>
+        <location filename="../texmaker.cpp" line="4887"/>
         <source>Arrow symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Símbols de fletxa</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="249"/>
-        <location filename="../texmaker.cpp" line="4886"/>
+        <location filename="../texmaker.cpp" line="4892"/>
         <source>Miscellaneous symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Símbols miscel·lanis</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="258"/>
-        <location filename="../texmaker.cpp" line="4891"/>
+        <location filename="../texmaker.cpp" line="4897"/>
         <source>Delimiters</source>
-        <translation type="unfinished"></translation>
+        <translation>Delimitadors</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="267"/>
-        <location filename="../texmaker.cpp" line="4896"/>
+        <location filename="../texmaker.cpp" line="4902"/>
         <source>Greek letters</source>
-        <translation type="unfinished"></translation>
+        <translation>Lletres gregues</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="276"/>
-        <location filename="../texmaker.cpp" line="4901"/>
+        <location filename="../texmaker.cpp" line="4907"/>
         <source>Most used symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Símbols més utilitzats</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="285"/>
-        <location filename="../texmaker.cpp" line="4906"/>
+        <location filename="../texmaker.cpp" line="4912"/>
         <source>Favorites symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Símbols preferits</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="324"/>
         <location filename="../texmaker.cpp" line="357"/>
-        <location filename="../texmaker.cpp" line="4911"/>
+        <location filename="../texmaker.cpp" line="4917"/>
         <source>Pstricks Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordres Pstricks</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="332"/>
         <location filename="../texmaker.cpp" line="360"/>
-        <location filename="../texmaker.cpp" line="4921"/>
+        <location filename="../texmaker.cpp" line="4927"/>
         <source>MetaPost Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordres MetaPost</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="340"/>
         <location filename="../texmaker.cpp" line="363"/>
-        <location filename="../texmaker.cpp" line="4926"/>
+        <location filename="../texmaker.cpp" line="4932"/>
         <source>Tikz Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordres Tikz</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="348"/>
         <location filename="../texmaker.cpp" line="366"/>
-        <location filename="../texmaker.cpp" line="4931"/>
+        <location filename="../texmaker.cpp" line="4937"/>
         <source>Asymptote Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordres d&apos;Asymptote</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="627"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Negreta</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="632"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursiva</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="642"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Esquerra</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="647"/>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrat</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="652"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Dreta</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="658"/>
         <location filename="../texmaker.cpp" line="698"/>
         <source>New line</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova línia</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="738"/>
         <source>Toggle between the master document and the current document</source>
-        <translation type="unfinished"></translation>
+        <translation>Commuta entre el document mestre i l&apos;actual</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="743"/>
-        <location filename="../texmaker.cpp" line="2038"/>
+        <location filename="../texmaker.cpp" line="2037"/>
         <source>Previous Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Document anterior</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="747"/>
-        <location filename="../texmaker.cpp" line="2033"/>
+        <location filename="../texmaker.cpp" line="2032"/>
         <source>Next Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Següent document</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="764"/>
-        <location filename="../texmaker.cpp" line="981"/>
+        <location filename="../texmaker.cpp" line="980"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanca</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="772"/>
         <location filename="../texmaker.cpp" line="775"/>
         <location filename="../texmaker.cpp" line="778"/>
         <source>Click to jump to the bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Feu clic per anar a l&apos;enllaç</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="894"/>
-        <location filename="../texmaker.cpp" line="9737"/>
+        <location filename="../texmaker.cpp" line="9813"/>
         <source>Normal Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode normal</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="917"/>
+        <source>&amp;File</source>
+        <translation>&amp;Fitxer</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="918"/>
-        <source>&amp;File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../texmaker.cpp" line="919"/>
-        <location filename="../texmaker.cpp" line="920"/>
-        <location filename="../texmaker.cpp" line="2293"/>
-        <location filename="../texmaker.cpp" line="2294"/>
+        <location filename="../texmaker.cpp" line="2296"/>
+        <location filename="../texmaker.cpp" line="2297"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Nou</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="925"/>
+        <location filename="../texmaker.cpp" line="924"/>
         <source>New by copying an existing file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nou a partir d&apos;un fitxer existent</translation>
     </message>
     <message>
+        <location filename="../texmaker.cpp" line="928"/>
         <location filename="../texmaker.cpp" line="929"/>
-        <location filename="../texmaker.cpp" line="930"/>
-        <location filename="../texmaker.cpp" line="2298"/>
-        <location filename="../texmaker.cpp" line="2299"/>
+        <location filename="../texmaker.cpp" line="2301"/>
+        <location filename="../texmaker.cpp" line="2302"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="935"/>
+        <location filename="../texmaker.cpp" line="934"/>
         <source>Open Recent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="949"/>
-        <source>Restore previous session</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="961"/>
-        <location filename="../texmaker.cpp" line="962"/>
-        <location filename="../texmaker.cpp" line="3028"/>
-        <location filename="../texmaker.cpp" line="3171"/>
-        <location filename="../texmaker.cpp" line="3228"/>
-        <location filename="../texmaker.cpp" line="10927"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="969"/>
-        <location filename="../texmaker.cpp" line="3285"/>
-        <location filename="../texmaker.cpp" line="3356"/>
-        <location filename="../texmaker.cpp" line="4797"/>
-        <source>Save As</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="973"/>
-        <source>Save All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="987"/>
-        <source>Close All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="991"/>
-        <source>Reload document from file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="995"/>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1001"/>
-        <location filename="../texmaker.cpp" line="1002"/>
-        <source>Exit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1008"/>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1009"/>
-        <location filename="../texmaker.cpp" line="1010"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1015"/>
-        <location filename="../texmaker.cpp" line="1016"/>
-        <source>Redo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1022"/>
-        <location filename="../texmaker.cpp" line="1023"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1028"/>
-        <location filename="../texmaker.cpp" line="1029"/>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1034"/>
-        <location filename="../texmaker.cpp" line="1035"/>
-        <source>Paste</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1040"/>
-        <source>Select All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1046"/>
-        <source>Comment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1052"/>
-        <source>Uncomment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1058"/>
-        <source>Indent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1064"/>
-        <source>Unindent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1071"/>
-        <source>Find</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1077"/>
-        <source>FindNext</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1088"/>
-        <source>Replace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1094"/>
-        <source>Goto Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1101"/>
-        <source>Check Spelling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1108"/>
-        <source>Refresh Structure</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1114"/>
-        <source>Refresh Bibliography</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1119"/>
-        <source>&amp;Tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1120"/>
-        <location filename="../texmaker.cpp" line="2346"/>
-        <location filename="../texmaker.cpp" line="8497"/>
-        <source>Quick Build</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1131"/>
-        <location filename="../texmaker.cpp" line="2371"/>
-        <source>View Dvi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1141"/>
-        <location filename="../texmaker.cpp" line="2372"/>
-        <source>View PS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1151"/>
-        <location filename="../texmaker.cpp" line="2373"/>
-        <source>View PDF</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1166"/>
-        <location filename="../texmaker.cpp" line="2384"/>
-        <source>View Log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="944"/>
-        <location filename="../texmaker.cpp" line="1206"/>
-        <location filename="../texmaker.cpp" line="1951"/>
-        <source>Clean</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="308"/>
-        <location filename="../texmaker.cpp" line="4937"/>
-        <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Fitxers recents</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="948"/>
+        <source>Restore previous session</source>
+        <translation>Restaura la sessió anterior</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="960"/>
+        <location filename="../texmaker.cpp" line="961"/>
+        <location filename="../texmaker.cpp" line="3032"/>
+        <location filename="../texmaker.cpp" line="3175"/>
+        <location filename="../texmaker.cpp" line="3232"/>
+        <location filename="../texmaker.cpp" line="10995"/>
+        <source>Save</source>
+        <translation>Desa</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="968"/>
+        <location filename="../texmaker.cpp" line="3289"/>
+        <location filename="../texmaker.cpp" line="3360"/>
+        <location filename="../texmaker.cpp" line="4803"/>
+        <source>Save As</source>
+        <translation>Anomena i desa</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="972"/>
+        <source>Save All</source>
+        <translation>Desa-ho tot</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="986"/>
+        <source>Close All</source>
+        <translation>Tanca-ho tot</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="990"/>
+        <source>Reload document from file</source>
+        <translation>Recarrega el document des del fitxer</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="994"/>
+        <source>Print</source>
+        <translation>Imprimeix</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1000"/>
+        <location filename="../texmaker.cpp" line="1001"/>
+        <source>Exit</source>
+        <translation>Surt</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1007"/>
+        <source>&amp;Edit</source>
+        <translation>&amp;Edita</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1008"/>
+        <location filename="../texmaker.cpp" line="1009"/>
+        <source>Undo</source>
+        <translation>Desfés</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1014"/>
+        <location filename="../texmaker.cpp" line="1015"/>
+        <source>Redo</source>
+        <translation>Refés</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1021"/>
+        <location filename="../texmaker.cpp" line="1022"/>
+        <source>Copy</source>
+        <translation>Copia</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1027"/>
+        <location filename="../texmaker.cpp" line="1028"/>
+        <source>Cut</source>
+        <translation>Retalla</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1033"/>
+        <location filename="../texmaker.cpp" line="1034"/>
+        <source>Paste</source>
+        <translation>Enganxa</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1039"/>
+        <source>Select All</source>
+        <translation>Selecciona-ho tot</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1045"/>
+        <source>Comment</source>
+        <translation>Comenta</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1051"/>
+        <source>Uncomment</source>
+        <translation>Descomenta</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1057"/>
+        <source>Indent</source>
+        <translation>Indenta</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1063"/>
+        <source>Unindent</source>
+        <translation>Treu la indentació</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1070"/>
+        <source>Find</source>
+        <translation>Cerca</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1076"/>
+        <source>FindNext</source>
+        <translation>Torna a cercar</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1087"/>
+        <source>Replace</source>
+        <translation>Reemplaça</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1093"/>
+        <source>Goto Line</source>
+        <translation>Ves a la línia</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1100"/>
+        <source>Check Spelling</source>
+        <translation>Verifica l&apos;ortografia</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1107"/>
+        <source>Refresh Structure</source>
+        <translation>Refresca l&apos;estructura</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1113"/>
+        <source>Refresh Bibliography</source>
+        <translation>Refresca la bibliografia</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1118"/>
+        <source>&amp;Tools</source>
+        <translation>E&amp;ines</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1119"/>
+        <location filename="../texmaker.cpp" line="2349"/>
+        <location filename="../texmaker.cpp" line="8573"/>
+        <source>Quick Build</source>
+        <translation>Composició ràpida</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1130"/>
+        <location filename="../texmaker.cpp" line="2374"/>
+        <source>View Dvi</source>
+        <translation>Visualitza el dvi</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1140"/>
+        <location filename="../texmaker.cpp" line="2375"/>
+        <source>View PS</source>
+        <translation>Visualitza el PS</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1150"/>
+        <location filename="../texmaker.cpp" line="2376"/>
+        <source>View PDF</source>
+        <translation>Visualitza el PDF</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1165"/>
+        <location filename="../texmaker.cpp" line="2387"/>
+        <source>View Log</source>
+        <translation>Visualitza el Log</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="943"/>
+        <location filename="../texmaker.cpp" line="1205"/>
+        <location filename="../texmaker.cpp" line="1950"/>
+        <source>Clean</source>
+        <translation>Neteja</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="308"/>
+        <location filename="../texmaker.cpp" line="4943"/>
+        <source>User</source>
+        <translation>Usuari</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="947"/>
         <source>Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Sessió</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="954"/>
+        <location filename="../texmaker.cpp" line="953"/>
         <source>Save session</source>
-        <translation type="unfinished"></translation>
+        <translation>Desa la sessió</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="957"/>
+        <location filename="../texmaker.cpp" line="956"/>
         <source>Load session</source>
-        <translation type="unfinished"></translation>
+        <translation>Carrega la sessió</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="977"/>
+        <location filename="../texmaker.cpp" line="976"/>
         <source>Save A Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Desa una còpia</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1083"/>
+        <location filename="../texmaker.cpp" line="1082"/>
         <source>Find In Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca al directori</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1211"/>
+        <location filename="../texmaker.cpp" line="1210"/>
         <source>Open Terminal</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre un terminal</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1215"/>
+        <location filename="../texmaker.cpp" line="1214"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporta amb TeX4ht</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1220"/>
+        <location filename="../texmaker.cpp" line="1219"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Converteix a unicode</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1225"/>
-        <location filename="../texmaker.cpp" line="2394"/>
+        <location filename="../texmaker.cpp" line="1224"/>
+        <location filename="../texmaker.cpp" line="2397"/>
         <source>Previous LaTeX Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de LaTeX anterior</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1227"/>
-        <location filename="../texmaker.cpp" line="2388"/>
+        <location filename="../texmaker.cpp" line="1226"/>
+        <location filename="../texmaker.cpp" line="2391"/>
         <source>Next LaTeX Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Següent error de LaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1230"/>
+        <location filename="../texmaker.cpp" line="1229"/>
         <source>&amp;LaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;LaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1264"/>
+        <location filename="../texmaker.cpp" line="1263"/>
         <source>&amp;Sectioning</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Seccions</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1294"/>
+        <location filename="../texmaker.cpp" line="1293"/>
         <source>&amp;Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Entorn</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1340"/>
+        <location filename="../texmaker.cpp" line="1339"/>
         <source>&amp;List Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Llista els entorns</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1364"/>
+        <location filename="../texmaker.cpp" line="1363"/>
         <source>Font St&amp;yles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tip&amp;us de lletra</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1401"/>
+        <location filename="../texmaker.cpp" line="1400"/>
         <source>&amp;Tabular Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Taules</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1427"/>
+        <location filename="../texmaker.cpp" line="1426"/>
         <source>S&amp;pacing</source>
-        <translation type="unfinished"></translation>
+        <translation>Es&amp;paiat</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1454"/>
+        <location filename="../texmaker.cpp" line="1453"/>
         <source>International &amp;Accents</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Accents internacionals</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1496"/>
+        <location filename="../texmaker.cpp" line="1495"/>
         <source>International &amp;Quotes</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cometes internacionals</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1544"/>
+        <source>&amp;Math</source>
+        <translation>&amp;Matemàtiques</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1545"/>
-        <source>&amp;Math</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1546"/>
         <source>Inline math mode $...$</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode matemàtic en línia $...$</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1551"/>
+        <location filename="../texmaker.cpp" line="1550"/>
         <source>Display math mode \[...\]</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode matemàtic \[...\]</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1556"/>
+        <location filename="../texmaker.cpp" line="1555"/>
         <source>Numbered equations \begin{equation}</source>
-        <translation type="unfinished"></translation>
+        <translation>Equacions numerades \begin{equation}</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1609"/>
+        <location filename="../texmaker.cpp" line="1608"/>
         <source>Math &amp;Functions</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Funcions matemàtiques</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1731"/>
+        <location filename="../texmaker.cpp" line="1730"/>
         <source>Math Font St&amp;yles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tip&amp;us de lletra matemàtic</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1765"/>
+        <location filename="../texmaker.cpp" line="1764"/>
         <source>Math &amp;Accents</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Accents matemàtics</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1807"/>
+        <location filename="../texmaker.cpp" line="1806"/>
         <source>Math S&amp;paces</source>
-        <translation type="unfinished"></translation>
+        <translation>Es&amp;paiat matemàtic</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1828"/>
+        <source>&amp;Wizard</source>
+        <translation>&amp;Auxiliar</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1829"/>
-        <source>&amp;Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1830"/>
         <source>Quick Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Inici ràpid</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1833"/>
+        <location filename="../texmaker.cpp" line="1832"/>
         <source>Quick Beamer Presentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Presentació ràpida</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1836"/>
+        <location filename="../texmaker.cpp" line="1835"/>
         <source>Quick Letter</source>
-        <translation type="unfinished"></translation>
+        <translation>Carta ràpida</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1840"/>
+        <location filename="../texmaker.cpp" line="1839"/>
         <source>Quick Tabular</source>
-        <translation type="unfinished"></translation>
+        <translation>Taula ràpida</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1843"/>
+        <location filename="../texmaker.cpp" line="1842"/>
         <source>Quick Tabbing</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabulació ràpida</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1846"/>
+        <location filename="../texmaker.cpp" line="1845"/>
         <source>Quick Array</source>
-        <translation type="unfinished"></translation>
+        <translation>Matriu</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1850"/>
+        <location filename="../texmaker.cpp" line="1849"/>
         <source>&amp;Bibliography</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bibliografia</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1955"/>
+        <source>&amp;User</source>
+        <translation>&amp;Usuari</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1956"/>
-        <source>&amp;User</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1957"/>
         <source>User &amp;Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>E&amp;tiquetes d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1999"/>
-        <location filename="../texmaker.cpp" line="7078"/>
-        <location filename="../texmaker.cpp" line="7134"/>
+        <location filename="../texmaker.cpp" line="1998"/>
+        <location filename="../texmaker.cpp" line="7083"/>
+        <location filename="../texmaker.cpp" line="7139"/>
         <source>Edit User &amp;Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita les e&amp;tiquetes d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2002"/>
+        <location filename="../texmaker.cpp" line="2001"/>
         <source>User &amp;Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ordres d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2024"/>
-        <location filename="../texmaker.cpp" line="8457"/>
-        <location filename="../texmaker.cpp" line="8493"/>
+        <location filename="../texmaker.cpp" line="2023"/>
+        <location filename="../texmaker.cpp" line="8533"/>
+        <location filename="../texmaker.cpp" line="8569"/>
         <source>Edit User &amp;Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita les &amp;ordres d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2028"/>
+        <location filename="../texmaker.cpp" line="2027"/>
         <source>Customize Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Personalitza la compleció</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2032"/>
+        <location filename="../texmaker.cpp" line="2031"/>
         <source>&amp;View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Visualitza</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2050"/>
+        <location filename="../texmaker.cpp" line="2049"/>
         <source>Messages / Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Missatges / Fitxer de Log</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2056"/>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="2055"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>Pdf Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor de pdf</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2073"/>
+        <location filename="../texmaker.cpp" line="2072"/>
         <source>List of opened files</source>
-        <translation type="unfinished"></translation>
+        <translation>Llista de fitxers oberts</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2080"/>
+        <location filename="../texmaker.cpp" line="2079"/>
         <source>Full Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Pantalla completa</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="2087"/>
+        <source>&amp;Options</source>
+        <translation>&amp;Opcions</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2088"/>
-        <source>&amp;Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="2089"/>
         <source>Configure Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Configura el Texmaker</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2093"/>
-        <location filename="../texmaker.cpp" line="9728"/>
+        <location filename="../texmaker.cpp" line="2092"/>
+        <location filename="../texmaker.cpp" line="9804"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Defineix el document actual com a &quot;Document mestre&quot;</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2097"/>
+        <location filename="../texmaker.cpp" line="2096"/>
         <source>Interface Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparença</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2112"/>
+        <location filename="../texmaker.cpp" line="2111"/>
         <source>Change Interface Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Canvia la lletra de la interfície</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2117"/>
+        <location filename="../texmaker.cpp" line="2116"/>
         <source>Interface Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Idioma</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2133"/>
-        <source>Settings File</source>
+        <source>Manage Settings File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2134"/>
-        <source>Reset Settings</source>
-        <translation type="unfinished"></translation>
+        <location filename="../texmaker.cpp" line="2135"/>
+        <source>Settings File</source>
+        <translation>Fitxer de configuració</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2137"/>
-        <source>Save a copy of the settings file</source>
-        <translation type="unfinished"></translation>
+        <source>Reset Settings</source>
+        <translation>Inicialitza la configuració</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2140"/>
+        <source>Save a copy of the settings file</source>
+        <translation>Desa una còpia del fitxer de configuració</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="2143"/>
         <source>Replace the settings file by a new one</source>
-        <translation type="unfinished"></translation>
+        <translation>Reemplaça el fitxer de configuració amb un de nou</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2144"/>
+        <location filename="../texmaker.cpp" line="2147"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ajuda</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2145"/>
-        <location filename="../texmaker.cpp" line="2146"/>
-        <source>LaTeX Reference</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../texmaker.cpp" line="2148"/>
         <location filename="../texmaker.cpp" line="2149"/>
-        <location filename="../texmaker.cpp" line="2150"/>
+        <source>LaTeX Reference</source>
+        <translation>Referència del LaTeX</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="2152"/>
+        <location filename="../texmaker.cpp" line="2153"/>
         <source>User Manual</source>
-        <translation type="unfinished"></translation>
+        <translation>Manual d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2177"/>
+        <location filename="../texmaker.cpp" line="2180"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprova si hi ha actualitzacions</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2182"/>
+        <location filename="../texmaker.cpp" line="2185"/>
         <source>About Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Quant al Texmaker</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2367"/>
+        <location filename="../texmaker.cpp" line="2370"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Executa</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2379"/>
+        <location filename="../texmaker.cpp" line="2382"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualitza</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2400"/>
+        <location filename="../texmaker.cpp" line="2403"/>
         <source>Stop Process</source>
-        <translation type="unfinished"></translation>
+        <translation>Atura el procés</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2595"/>
-        <location filename="../texmaker.cpp" line="2876"/>
-        <location filename="../texmaker.cpp" line="3198"/>
-        <location filename="../texmaker.cpp" line="3257"/>
-        <location filename="../texmaker.cpp" line="3985"/>
-        <location filename="../texmaker.cpp" line="7354"/>
+        <location filename="../texmaker.cpp" line="2598"/>
+        <location filename="../texmaker.cpp" line="2881"/>
+        <location filename="../texmaker.cpp" line="3202"/>
+        <location filename="../texmaker.cpp" line="3261"/>
+        <location filename="../texmaker.cpp" line="3989"/>
         <location filename="../texmaker.cpp" line="7359"/>
-        <location filename="../texmaker.cpp" line="7653"/>
-        <location filename="../texmaker.cpp" line="7675"/>
-        <location filename="../texmaker.cpp" line="7694"/>
-        <location filename="../texmaker.cpp" line="7713"/>
-        <location filename="../texmaker.cpp" line="7735"/>
-        <location filename="../texmaker.cpp" line="7777"/>
-        <location filename="../texmaker.cpp" line="7794"/>
-        <location filename="../texmaker.cpp" line="7820"/>
-        <location filename="../texmaker.cpp" line="7837"/>
-        <location filename="../texmaker.cpp" line="7860"/>
-        <location filename="../texmaker.cpp" line="7879"/>
-        <location filename="../texmaker.cpp" line="7898"/>
-        <location filename="../texmaker.cpp" line="7917"/>
-        <location filename="../texmaker.cpp" line="7934"/>
-        <location filename="../texmaker.cpp" line="7945"/>
-        <location filename="../texmaker.cpp" line="7970"/>
-        <location filename="../texmaker.cpp" line="7987"/>
-        <location filename="../texmaker.cpp" line="7998"/>
-        <location filename="../texmaker.cpp" line="8029"/>
-        <location filename="../texmaker.cpp" line="8129"/>
-        <location filename="../texmaker.cpp" line="8430"/>
-        <location filename="../texmaker.cpp" line="8627"/>
-        <location filename="../texmaker.cpp" line="8719"/>
-        <location filename="../texmaker.cpp" line="8753"/>
-        <location filename="../texmaker.cpp" line="9244"/>
-        <location filename="../texmaker.cpp" line="9278"/>
-        <location filename="../texmaker.cpp" line="9300"/>
-        <location filename="../texmaker.cpp" line="9746"/>
-        <location filename="../texmaker.cpp" line="10934"/>
-        <location filename="../texmaker.cpp" line="10989"/>
-        <location filename="../texmaker.cpp" line="11117"/>
-        <location filename="../texmaker.cpp" line="11287"/>
+        <location filename="../texmaker.cpp" line="7364"/>
+        <location filename="../texmaker.cpp" line="7660"/>
+        <location filename="../texmaker.cpp" line="7682"/>
+        <location filename="../texmaker.cpp" line="7701"/>
+        <location filename="../texmaker.cpp" line="7720"/>
+        <location filename="../texmaker.cpp" line="7742"/>
+        <location filename="../texmaker.cpp" line="7784"/>
+        <location filename="../texmaker.cpp" line="7801"/>
+        <location filename="../texmaker.cpp" line="7812"/>
+        <location filename="../texmaker.cpp" line="7863"/>
+        <location filename="../texmaker.cpp" line="7880"/>
+        <location filename="../texmaker.cpp" line="7891"/>
+        <location filename="../texmaker.cpp" line="7936"/>
+        <location filename="../texmaker.cpp" line="7955"/>
+        <location filename="../texmaker.cpp" line="7974"/>
+        <location filename="../texmaker.cpp" line="7993"/>
+        <location filename="../texmaker.cpp" line="8010"/>
+        <location filename="../texmaker.cpp" line="8021"/>
+        <location filename="../texmaker.cpp" line="8046"/>
+        <location filename="../texmaker.cpp" line="8063"/>
+        <location filename="../texmaker.cpp" line="8074"/>
+        <location filename="../texmaker.cpp" line="8105"/>
+        <location filename="../texmaker.cpp" line="8205"/>
+        <location filename="../texmaker.cpp" line="8506"/>
+        <location filename="../texmaker.cpp" line="8703"/>
+        <location filename="../texmaker.cpp" line="8795"/>
+        <location filename="../texmaker.cpp" line="8829"/>
+        <location filename="../texmaker.cpp" line="9320"/>
+        <location filename="../texmaker.cpp" line="9354"/>
+        <location filename="../texmaker.cpp" line="9376"/>
+        <location filename="../texmaker.cpp" line="9822"/>
+        <location filename="../texmaker.cpp" line="11002"/>
+        <location filename="../texmaker.cpp" line="11057"/>
+        <location filename="../texmaker.cpp" line="11185"/>
+        <location filename="../texmaker.cpp" line="11355"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2595"/>
-        <location filename="../texmaker.cpp" line="2876"/>
-        <location filename="../texmaker.cpp" line="10989"/>
-        <location filename="../texmaker.cpp" line="11117"/>
+        <location filename="../texmaker.cpp" line="2598"/>
+        <location filename="../texmaker.cpp" line="2881"/>
+        <location filename="../texmaker.cpp" line="11057"/>
+        <location filename="../texmaker.cpp" line="11185"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished"></translation>
+        <translation>No teniu permisos de lectura per a aquest fitxer.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2871"/>
-        <location filename="../texmaker.cpp" line="2930"/>
-        <location filename="../texmaker.cpp" line="10979"/>
+        <location filename="../texmaker.cpp" line="2876"/>
+        <location filename="../texmaker.cpp" line="2935"/>
+        <location filename="../texmaker.cpp" line="11047"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Obre el fitxer</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3026"/>
-        <location filename="../texmaker.cpp" line="3169"/>
-        <location filename="../texmaker.cpp" line="3226"/>
+        <location filename="../texmaker.cpp" line="3030"/>
+        <location filename="../texmaker.cpp" line="3173"/>
+        <location filename="../texmaker.cpp" line="3230"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Algun programa extern ha modificat el fitxer. El voleu recarregar (i descartar els canvis) o desar-lo (i sobreescriure el fitxer)?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3028"/>
-        <location filename="../texmaker.cpp" line="3171"/>
-        <location filename="../texmaker.cpp" line="3228"/>
-        <location filename="../texmaker.cpp" line="3788"/>
+        <location filename="../texmaker.cpp" line="3032"/>
+        <location filename="../texmaker.cpp" line="3175"/>
+        <location filename="../texmaker.cpp" line="3232"/>
+        <location filename="../texmaker.cpp" line="3792"/>
         <source>Reload the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Recarrega el fitxer</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3028"/>
-        <location filename="../texmaker.cpp" line="3171"/>
-        <location filename="../texmaker.cpp" line="3228"/>
-        <location filename="../texmaker.cpp" line="3393"/>
-        <location filename="../texmaker.cpp" line="3457"/>
-        <location filename="../texmaker.cpp" line="3521"/>
-        <location filename="../texmaker.cpp" line="3621"/>
-        <location filename="../texmaker.cpp" line="3788"/>
-        <location filename="../texmaker.cpp" line="4776"/>
-        <location filename="../texmaker.cpp" line="4819"/>
-        <location filename="../texmaker.cpp" line="8137"/>
-        <location filename="../texmaker.cpp" line="8166"/>
+        <location filename="../texmaker.cpp" line="3032"/>
+        <location filename="../texmaker.cpp" line="3175"/>
+        <location filename="../texmaker.cpp" line="3232"/>
+        <location filename="../texmaker.cpp" line="3397"/>
+        <location filename="../texmaker.cpp" line="3461"/>
+        <location filename="../texmaker.cpp" line="3525"/>
+        <location filename="../texmaker.cpp" line="3625"/>
+        <location filename="../texmaker.cpp" line="3792"/>
+        <location filename="../texmaker.cpp" line="4782"/>
+        <location filename="../texmaker.cpp" line="4825"/>
+        <location filename="../texmaker.cpp" line="8213"/>
+        <location filename="../texmaker.cpp" line="8242"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel·la</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3198"/>
-        <location filename="../texmaker.cpp" line="3257"/>
-        <location filename="../texmaker.cpp" line="10934"/>
+        <location filename="../texmaker.cpp" line="3202"/>
+        <location filename="../texmaker.cpp" line="3261"/>
+        <location filename="../texmaker.cpp" line="11002"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha pogut desar el fitxer. Comproveu que hi teniu permisos d&apos;escriptura.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3391"/>
-        <location filename="../texmaker.cpp" line="3455"/>
-        <location filename="../texmaker.cpp" line="3519"/>
-        <location filename="../texmaker.cpp" line="3619"/>
+        <location filename="../texmaker.cpp" line="3395"/>
+        <location filename="../texmaker.cpp" line="3459"/>
+        <location filename="../texmaker.cpp" line="3523"/>
+        <location filename="../texmaker.cpp" line="3623"/>
         <source>The document contains unsaved work. Do you want to save it before closing?</source>
-        <translation type="unfinished"></translation>
+        <translation>El document conté treball no desat. Voleu desar-lo abans de tancar-lo?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3393"/>
-        <location filename="../texmaker.cpp" line="3457"/>
-        <location filename="../texmaker.cpp" line="3521"/>
-        <location filename="../texmaker.cpp" line="3621"/>
+        <location filename="../texmaker.cpp" line="3397"/>
+        <location filename="../texmaker.cpp" line="3461"/>
+        <location filename="../texmaker.cpp" line="3525"/>
+        <location filename="../texmaker.cpp" line="3625"/>
         <source>Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Desa i tanca</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3393"/>
-        <location filename="../texmaker.cpp" line="3457"/>
-        <location filename="../texmaker.cpp" line="3521"/>
-        <location filename="../texmaker.cpp" line="3621"/>
+        <location filename="../texmaker.cpp" line="3397"/>
+        <location filename="../texmaker.cpp" line="3461"/>
+        <location filename="../texmaker.cpp" line="3525"/>
+        <location filename="../texmaker.cpp" line="3625"/>
         <source>Don&apos;t Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>No desis i tanca</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3786"/>
+        <location filename="../texmaker.cpp" line="3790"/>
         <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
-        <translation type="unfinished"></translation>
+        <translation>El document conté treball no desat. Perdreu els canvis si recarregueu el document.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3985"/>
+        <location filename="../texmaker.cpp" line="3989"/>
         <source>Error : Can&apos;t open the dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: No s&apos;ha pogut obrir el diccionari</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4775"/>
+        <location filename="../texmaker.cpp" line="4781"/>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
-        <translation type="unfinished"></translation>
+        <translation>Voleu esborrar el fitxer de configuració?
+(Es tancarà el Texmaker i l&apos;haureu de reiniciar)</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4776"/>
-        <location filename="../texmaker.cpp" line="4819"/>
-        <location filename="../texmaker.cpp" line="8137"/>
+        <location filename="../texmaker.cpp" line="4782"/>
+        <location filename="../texmaker.cpp" line="4825"/>
+        <location filename="../texmaker.cpp" line="8213"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>D&apos;acord</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4818"/>
+        <location filename="../texmaker.cpp" line="4824"/>
         <source>Replace settings file by a new one?
 (Texmaker will be closed and you will have to restart it)</source>
-        <translation type="unfinished"></translation>
+        <translation>Voleu substituir el fitxer de configuració?
+(Es tancarà el Texmaker i l&apos;haureu de reiniciar)</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4843"/>
+        <location filename="../texmaker.cpp" line="4849"/>
         <source>Opened Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Fitxers oberts</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="5711"/>
+        <location filename="../texmaker.cpp" line="5716"/>
         <source>Select an image File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu una imatge</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="7364"/>
+        <source>A document must be saved with an extension (and without spaces or accents in the name) before being used by a command.</source>
+        <translation>Heu de desar el fitxer amb alguna extensió (i sense espais o accents al nom) abans de poder-lo utilitzar per una ordre.</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="8213"/>
+        <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
+        <translation>Voleu fer una còpia del document %1.pdf/ps en el subdirectori &quot;build&quot; i eliminar tots els altres fitxers %1.*?</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="3570"/>
+        <location filename="../texmaker.cpp" line="5747"/>
+        <location filename="../texmaker.cpp" line="5772"/>
+        <source>Select a File</source>
+        <translation>Seleccioneu un fitxer</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="7359"/>
-        <source>A document must be saved with an extension (and without spaces or accents in the name) before being used by a command.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="8137"/>
-        <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="3566"/>
-        <location filename="../texmaker.cpp" line="5742"/>
-        <location filename="../texmaker.cpp" line="5767"/>
-        <source>Select a File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="7354"/>
-        <location filename="../texmaker.cpp" line="8129"/>
-        <location filename="../texmaker.cpp" line="8430"/>
-        <location filename="../texmaker.cpp" line="8627"/>
+        <location filename="../texmaker.cpp" line="8205"/>
+        <location filename="../texmaker.cpp" line="8506"/>
+        <location filename="../texmaker.cpp" line="8703"/>
         <source>Can&apos;t detect the file name</source>
-        <translation type="unfinished"></translation>
+        <translation>No es pot detectar el nom de fitxer</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7653"/>
-        <location filename="../texmaker.cpp" line="7675"/>
-        <location filename="../texmaker.cpp" line="7694"/>
-        <location filename="../texmaker.cpp" line="7713"/>
-        <location filename="../texmaker.cpp" line="7735"/>
-        <location filename="../texmaker.cpp" line="7777"/>
-        <location filename="../texmaker.cpp" line="7794"/>
-        <location filename="../texmaker.cpp" line="7820"/>
-        <location filename="../texmaker.cpp" line="7837"/>
-        <location filename="../texmaker.cpp" line="7860"/>
-        <location filename="../texmaker.cpp" line="7879"/>
-        <location filename="../texmaker.cpp" line="7898"/>
-        <location filename="../texmaker.cpp" line="7917"/>
-        <location filename="../texmaker.cpp" line="7934"/>
-        <location filename="../texmaker.cpp" line="7945"/>
-        <location filename="../texmaker.cpp" line="7970"/>
-        <location filename="../texmaker.cpp" line="7987"/>
-        <location filename="../texmaker.cpp" line="7998"/>
-        <location filename="../texmaker.cpp" line="8029"/>
-        <location filename="../texmaker.cpp" line="8719"/>
-        <location filename="../texmaker.cpp" line="9300"/>
-        <location filename="../texmaker.cpp" line="9746"/>
-        <location filename="../texmaker.cpp" line="11287"/>
+        <location filename="../texmaker.cpp" line="7660"/>
+        <location filename="../texmaker.cpp" line="7682"/>
+        <location filename="../texmaker.cpp" line="7701"/>
+        <location filename="../texmaker.cpp" line="7720"/>
+        <location filename="../texmaker.cpp" line="7742"/>
+        <location filename="../texmaker.cpp" line="7784"/>
+        <location filename="../texmaker.cpp" line="7801"/>
+        <location filename="../texmaker.cpp" line="7812"/>
+        <location filename="../texmaker.cpp" line="7863"/>
+        <location filename="../texmaker.cpp" line="7880"/>
+        <location filename="../texmaker.cpp" line="7891"/>
+        <location filename="../texmaker.cpp" line="7936"/>
+        <location filename="../texmaker.cpp" line="7955"/>
+        <location filename="../texmaker.cpp" line="7974"/>
+        <location filename="../texmaker.cpp" line="7993"/>
+        <location filename="../texmaker.cpp" line="8010"/>
+        <location filename="../texmaker.cpp" line="8021"/>
+        <location filename="../texmaker.cpp" line="8046"/>
+        <location filename="../texmaker.cpp" line="8063"/>
+        <location filename="../texmaker.cpp" line="8074"/>
+        <location filename="../texmaker.cpp" line="8105"/>
+        <location filename="../texmaker.cpp" line="8795"/>
+        <location filename="../texmaker.cpp" line="9376"/>
+        <location filename="../texmaker.cpp" line="9822"/>
+        <location filename="../texmaker.cpp" line="11355"/>
         <source>Could not start the command.</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha pogut iniciar l&apos;ordre.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8166"/>
+        <location filename="../texmaker.cpp" line="8242"/>
         <source>Delete Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina els fitxers</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8166"/>
+        <location filename="../texmaker.cpp" line="8242"/>
         <source>Delete the output files generated by LaTeX ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voleu eliminar els fitxers generats pel LaTeX?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>LaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>PdfLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>dvips</source>
-        <translation type="unfinished"></translation>
+        <translation>dvips</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>Dvi Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor de dvi</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>PS Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visor de PS</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>Dvipdfm</source>
-        <translation type="unfinished"></translation>
+        <translation>Dvipdfm</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>ps2pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>ps2pdf</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>Bibtex</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibtex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>Makeindex</source>
-        <translation type="unfinished"></translation>
+        <translation>Makeindex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>metapost</source>
-        <translation type="unfinished"></translation>
+        <translation>metapost</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>ghostscript</source>
-        <translation type="unfinished"></translation>
+        <translation>ghostscript</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>Asymptote</source>
-        <translation type="unfinished"></translation>
+        <translation>Asymptote</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>Latexmk</source>
-        <translation type="unfinished"></translation>
+        <translation>Latexmk</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>R Sweave</source>
-        <translation type="unfinished"></translation>
+        <translation>R Sweave</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>XeLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation>XeLaTex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8454"/>
+        <location filename="../texmaker.cpp" line="8530"/>
         <source>LuaLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation>LuaLaTex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8753"/>
+        <location filename="../texmaker.cpp" line="8829"/>
         <source>Log File not found !</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat el fitxers de Log!</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9072"/>
-        <location filename="../texmaker.cpp" line="9104"/>
+        <location filename="../texmaker.cpp" line="9148"/>
+        <location filename="../texmaker.cpp" line="9180"/>
         <source>Click to jump to the line</source>
-        <translation type="unfinished"></translation>
+        <translation>Feu clic per anar a la línia</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9174"/>
-        <location filename="../texmaker.cpp" line="9209"/>
+        <location filename="../texmaker.cpp" line="9250"/>
+        <location filename="../texmaker.cpp" line="9285"/>
         <source>No LaTeX errors detected !</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha detectat cap error de LaTeX!</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9244"/>
-        <location filename="../texmaker.cpp" line="9278"/>
+        <location filename="../texmaker.cpp" line="9320"/>
+        <location filename="../texmaker.cpp" line="9354"/>
         <source>File not found</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha trobat el fitxer</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9752"/>
-        <location filename="../texmaker.cpp" line="11296"/>
+        <location filename="../texmaker.cpp" line="9828"/>
+        <location filename="../texmaker.cpp" line="11364"/>
         <source>Normal Mode (current master document :</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode normal (document mestre actual:</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9754"/>
-        <location filename="../texmaker.cpp" line="11298"/>
+        <location filename="../texmaker.cpp" line="9830"/>
+        <location filename="../texmaker.cpp" line="11366"/>
         <source>Master Document :</source>
-        <translation type="unfinished"></translation>
+        <translation>Document mestre:</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10292"/>
+        <location filename="../texmaker.cpp" line="10360"/>
         <source>The language setting will take effect after restarting the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>El canvi en l&apos;idioma tindrà efecte quan reinicieu l&apos;aplicació.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10300"/>
+        <location filename="../texmaker.cpp" line="10368"/>
         <source>The appearance setting will take effect after restarting the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>El canvi d&apos;aparença tindrà efecte quan reinicieu l&apos;aplicació.</translation>
     </message>
 </context>
 <context>
@@ -2910,37 +2935,37 @@ with the default encoding setting</source>
         <location filename="../unicodedialog.ui" line="14"/>
         <location filename="../unicodedialog.ui" line="98"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Converteix a unicode</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="28"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Fitxer</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="75"/>
         <source>Original Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificació original</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanca</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="51"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu un fitxer</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished"></translation>
+        <translation>No teniu permisos de lectura per a aquest fitxer.</translation>
     </message>
 </context>
 <context>
@@ -2948,22 +2973,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../unicodeview.cpp" line="51"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Desa</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="139"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation>Anomena i desa</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished"></translation>
+        <translation>No s&apos;ha pogut desar el fitxer. Comproveu que hi teniu permisos d&apos;escriptura.</translation>
     </message>
 </context>
 <context>
@@ -2971,37 +2996,42 @@ with the default encoding setting</source>
     <message>
         <location filename="../usercompletiondialog.ui" line="14"/>
         <source>Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Compleció</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="25"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="52"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="59"/>
         <source>( @ : placeholder )</source>
-        <translation type="unfinished"></translation>
+        <translation>(@ : marcador de posició)</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="66"/>
         <source>( #bib# : bibliography item )</source>
-        <translation type="unfinished"></translation>
+        <translation>(#bib# : element bibliogràfic)</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="73"/>
         <source>( #label# : label item )</source>
-        <translation type="unfinished"></translation>
+        <translation>(#label# : etiqueta)</translation>
     </message>
     <message>
-        <location filename="../usercompletiondialog.ui" line="82"/>
+        <location filename="../usercompletiondialog.ui" line="80"/>
+        <source>Replace</source>
+        <translation type="unfinished">Reemplaça</translation>
+    </message>
+    <message>
+        <location filename="../usercompletiondialog.ui" line="89"/>
         <source>Items already supplied by Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Elements proveïts pel Texmaker</translation>
     </message>
 </context>
 <context>
@@ -3009,17 +3039,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../usermenudialog.ui" line="14"/>
         <source>Edit User Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita les etiquetes d&apos;usuari</translation>
     </message>
     <message>
         <location filename="../usermenudialog.ui" line="45"/>
         <source>Menu Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element del menú</translation>
     </message>
     <message>
         <location filename="../usermenudialog.ui" line="55"/>
         <source>LaTeX Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Contingut de LaTeX</translation>
     </message>
 </context>
 <context>
@@ -3027,32 +3057,32 @@ with the default encoding setting</source>
     <message>
         <location filename="../userquickdialog.ui" line="14"/>
         <source>Quick Build Command</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre de composició ràpida</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="42"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="70"/>
         <source>Ordered list of commands :</source>
-        <translation type="unfinished"></translation>
+        <translation>Llista ordenada d&apos;ordres:</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="80"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Amunt</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="87"/>
         <source>Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Avall</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="94"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina</translation>
     </message>
 </context>
 <context>
@@ -3060,17 +3090,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../usertagslistwidget.cpp" line="26"/>
         <source>Add tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix l&apos;etiqueta</translation>
     </message>
     <message>
         <location filename="../usertagslistwidget.cpp" line="28"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina</translation>
     </message>
     <message>
         <location filename="../usertagslistwidget.cpp" line="30"/>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica</translation>
     </message>
 </context>
 <context>
@@ -3078,27 +3108,27 @@ with the default encoding setting</source>
     <message>
         <location filename="../usertooldialog.ui" line="14"/>
         <source>Edit User Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita les ordres d&apos;usuari</translation>
     </message>
     <message>
         <location filename="../usertooldialog.ui" line="51"/>
         <source>(the commands must be separated by &apos;|&apos;)</source>
-        <translation type="unfinished"></translation>
+        <translation>(cal separar les ordres amb &apos;|&apos;)</translation>
     </message>
     <message>
         <location filename="../usertooldialog.ui" line="70"/>
         <source>Menu Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element del menú</translation>
     </message>
     <message>
         <location filename="../usertooldialog.ui" line="77"/>
         <source>Command (% : filename without extension)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre (% : nom de fitxer sense extensió)</translation>
     </message>
     <message>
         <location filename="../usertooldialog.ui" line="103"/>
         <source>wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Auxiliar</translation>
     </message>
 </context>
 <context>
@@ -3106,33 +3136,33 @@ with the default encoding setting</source>
     <message>
         <location filename="../versiondialog.ui" line="14"/>
         <source>Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Texmaker</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="20"/>
         <source>Check for available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprova si hi ha una nova versió</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="34"/>
         <source>Available version</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova versió disponible</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="48"/>
         <source>Go to the download page</source>
-        <translation type="unfinished"></translation>
+        <translation>Vés a la pàgina de descàrregues</translation>
     </message>
     <message>
         <location filename="../versiondialog.ui" line="68"/>
         <source>You&apos;re using the version</source>
-        <translation type="unfinished"></translation>
+        <translation>Esteu emprant la darrera versió</translation>
     </message>
     <message>
         <location filename="../versiondialog.cpp" line="48"/>
         <location filename="../versiondialog.cpp" line="55"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
 </context>
 <context>
@@ -3140,17 +3170,17 @@ with the default encoding setting</source>
     <message>
         <location filename="../x11fontdialog.ui" line="14"/>
         <source>Select a Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccioneu un tipus de lletra</translation>
     </message>
     <message>
         <location filename="../x11fontdialog.ui" line="34"/>
         <source>Font Family</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipus de lletra</translation>
     </message>
     <message>
         <location filename="../x11fontdialog.ui" line="44"/>
         <source>Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mida</translation>
     </message>
 </context>
 </TS>

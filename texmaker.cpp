@@ -896,7 +896,6 @@ stat1->setText(QString(" %1 ").arg(tr("Normal Mode")));
 stat3->setText(QString(" %1 ").arg(input_encoding));
 
 setAcceptDrops(true);
-connect(this, SIGNAL(windowActivated()),this, SLOT(mainWindowActivated()));
 autosaveTimer = new QTimer(this);
 if (autosave)
     {
@@ -2130,7 +2129,11 @@ for (int i=0; i < translationList.count(); i++)
 	translationMenu->addAction(Act);
 	}
 optionsMenu->addSeparator();
+#if defined(Q_OS_MAC)
+settingsMenu=optionsMenu->addMenu(tr("Manage Settings File"));
+#else
 settingsMenu=optionsMenu->addMenu(tr("Settings File"));
+#endif
 Act = new QAction( tr("Reset Settings"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(DeleteSettings()));
 settingsMenu->addAction(Act);
@@ -2727,7 +2730,9 @@ if (hasDecodingError)
 LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),f,userTagsList);
 EditorView->addWidget( edit);
 ComboFilesInsert(f);
+disconnect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateStructure()) );
 EditorView->setCurrentIndex(EditorView->indexOf(edit));
+connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateStructure()) );
 edit->editor->setReadOnly(false);
 if (hasDecodingError) edit->editor->setEncoding(new_encoding);
 else edit->editor->setEncoding(input_encoding);
@@ -2985,8 +2990,6 @@ else return false;
 void Texmaker::checkModifiedOutsideAll()
 {
 if (QApplication::activeWindow() != this) return;
-disconnect(this, SIGNAL(windowActivated()),this, SLOT(mainWindowActivated()));
-
 
 QList<QTreeWidgetItem *> fItems;
 bool islabels_expanded=false;
@@ -3013,6 +3016,7 @@ temp=currentEditorView();
 FilesMap::Iterator it;
 QString fn;
 int choice;
+disconnect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateStructure()) ); //*******
 for( it = filenames.begin(); it != filenames.end(); ++it )
 	{
 	EditorView->setCurrentIndex(EditorView->indexOf(it.key()));
@@ -3093,6 +3097,7 @@ for( it = filenames.begin(); it != filenames.end(); ++it )
 	}
 
 EditorView->setCurrentIndex(EditorView->indexOf(temp));
+connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateStructure()) ); //********
 QString title;
 if   ( !currentEditorView() )	{title="Texmaker";}
 else
@@ -3151,7 +3156,6 @@ else
    CutAct->setEnabled(false);    
   }
 if (currentEditorView()) currentEditorView()->editor->setFocus();
-connect(this, SIGNAL(windowActivated()),this, SLOT(mainWindowActivated()));
 }
 
 void Texmaker::fileSave()
@@ -4109,7 +4113,9 @@ makeindex_command=config->value("Tools/Makeindex","\"/usr/texbin/makeindex\" %.i
 bibtex_command=config->value("Tools/Bibtex","\"/usr/texbin/bibtex\" %.aux").toString();
 pdflatex_command=config->value("Tools/Pdflatex","\"/usr/texbin/pdflatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
 xelatex_command=config->value("Tools/Xelatex","\"/usr/texbin/xelatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
-xelatex_command=config->value("Tools/Lualatex","\"/usr/texbin/lualatex\" -interaction=nonstopmode %.tex").toString();
+lualatex_command=config->value("Tools/Lualatex","\"/usr/texbin/lualatex\" -interaction=nonstopmode %.tex").toString();
+if (lualatex_command.isEmpty()) lualatex_command=QString("\"/usr/texbin/lualatex\" -interaction=nonstopmode %.tex");
+if (xelatex_command.isEmpty()) xelatex_command=QString("\"/usr/texbin/xelatex\" -synctex=1 -interaction=nonstopmode %.tex");
 dvipdf_command=config->value("Tools/Dvipdf","\"/usr/texbin/dvipdfm\" %.dvi").toString();
 metapost_command=config->value("Tools/Metapost","\"/usr/texbin/mpost\" --interaction nonstopmode ").toString();
 viewdvi_command=config->value("Tools/Dvi","open %.dvi").toString();
@@ -4953,7 +4959,6 @@ if ( !currentEditorView() )
 
 QString shortName = getName();
 if ((shortName.right(4)!=".tex") && (shortName.right(4)!=".Rnw") && (!shortName.startsWith("untitled")))  return;
-
 /*************************************/
 QList<QTreeWidgetItem *> fItems;
 bool islabels_expanded=false;
@@ -7538,6 +7543,8 @@ OutputTextEdit->clear();
 OutputTableWidget->hide();
 OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 separatorline->hide();
+
+
 //OutputTextEdit->insertLine(commandline+"\n");
 proc->start(commandline);
 if (!proc->waitForStarted(1000)) 
@@ -7787,7 +7794,7 @@ else
 	  else {checkViewerInstance=false;return;}
 	  if (!ERRPROCESS) 
 	      {
-	      //stat2->setText(QString(" %1 ").arg("Latex"));
+	      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
 	      RunCommand(latex_command,true);
 	      if (ERRPROCESS && !LogExists()) 
 		  {
@@ -7799,15 +7806,51 @@ else
 	      if (showoutputview) ViewLog();
 	      if (NoLatexErrors()) 
 		  {
-		  //stat2->setText(QString(" %1 ").arg("Dvips"));
-		  if (!ERRPROCESS) RunCommand(dvips_command,true);
-		  else {checkViewerInstance=false;return;}
-		  if (!ERRPROCESS) ViewPS();
-		  else {checkViewerInstance=false;return;}
+		  RunCommand(latex_command,true);
+		  if (ERRPROCESS && !LogExists()) 
+		      {
+		      QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		      checkViewerInstance=false;
+		      return;
+		      }
+		  LoadLog();
+		  if (showoutputview) ViewLog();
+		  if (NoLatexErrors()) 
+		      {
+		      //stat2->setText(QString(" %1 ").arg("Dvips"));
+		      if (!ERRPROCESS) RunCommand(dvips_command,true);
+		      else {checkViewerInstance=false;return;}
+		      if (!ERRPROCESS) ViewPS();
+		      else {checkViewerInstance=false;return;}
+		      }
+		      else {NextError();}
 		  }
 	      else {NextError();}
 	      }
 	  else return;
+// 	  if (!ERRPROCESS) 
+// 	      {
+// 	      //stat2->setText(QString(" %1 ").arg("Latex"));
+// 	      RunCommand(latex_command,true);
+// 	      if (ERRPROCESS && !LogExists()) 
+// 		  {
+// 		  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+// 		  checkViewerInstance=false;
+// 		  return;
+// 		  }
+// 	      LoadLog();
+// 	      if (showoutputview) ViewLog();
+// 	      if (NoLatexErrors()) 
+// 		  {
+// 		  //stat2->setText(QString(" %1 ").arg("Dvips"));
+// 		  if (!ERRPROCESS) RunCommand(dvips_command,true);
+// 		  else {checkViewerInstance=false;return;}
+// 		  if (!ERRPROCESS) ViewPS();
+// 		  else {checkViewerInstance=false;return;}
+// 		  }
+// 	      else {NextError();}
+// 	      }
+// 	  else return;
 	  }
       else {NextError();}
       }break;
@@ -7842,12 +7885,45 @@ else
 	      if (showoutputview) ViewLog();
 	      if (NoLatexErrors()) 
 		  {
-		  if (!ERRPROCESS) ViewPDF();
-		  else {checkViewerInstance=false;return;}
+		  RunCommand(pdflatex_command,true);
+		  if (ERRPROCESS && !LogExists()) 
+		      {
+		      QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+		      checkViewerInstance=false;
+		      return;
+		      }
+		  LoadLog();
+		  if (showoutputview) ViewLog();
+		  if (NoLatexErrors()) 
+		      {
+		      if (!ERRPROCESS) ViewPDF();
+		      else {checkViewerInstance=false;return;}
+		      }
+		      else {NextError();}
 		  }
 	      else {NextError();}
 	      }
 	  else return;
+// 	  if (!ERRPROCESS) 
+// 	      {
+// 	      //stat2->setText(QString(" %1 ").arg("Pdf Latex"));
+// 	      RunCommand(pdflatex_command,true);
+// 	      if (ERRPROCESS && !LogExists()) 
+// 		  {
+// 		  QMessageBox::warning( this,tr("Error"),tr("Could not start the command."));
+// 		  checkViewerInstance=false;
+// 		  return;
+// 		  }
+// 	      LoadLog();
+// 	      if (showoutputview) ViewLog();
+// 	      if (NoLatexErrors()) 
+// 		  {
+// 		  if (!ERRPROCESS) ViewPDF();
+// 		  else {checkViewerInstance=false;return;}
+// 		  }
+// 	      else {NextError();}
+// 	      }
+// 	  else return;
 	  }
       else {NextError();}
       }break;
@@ -8130,7 +8206,7 @@ if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || fin
 	return;
 	}
 fileSave();
-QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls,.bcf,.run.xml").split(",");
+QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls,.bcf,.snm,.nav,.run.xml").split(",");
 if (useoutputdir)
 {
 QFileInfo fi(outputName(finame,".pdf"));
@@ -9164,7 +9240,7 @@ if (logpresent && !onlyErrorList.isEmpty())
 		Item = new QTableWidgetItem(">");
 		OutputTableWidget->setItem(errorIndex,0, Item);
 		OutputTableWidget->scrollToItem(Item,QAbstractItemView::PositionAtCenter);
-		ClickedOnOutput(line-1);
+		if (line>1) ClickedOnOutput(line-1);
 		int logline=errorLogList.at(onlyErrorList.at(errorIndex)).toInt()-1;
 		OutputTextEdit->setCursorPosition(logline , 0);
 		}
@@ -9199,7 +9275,7 @@ if (logpresent && !onlyErrorList.isEmpty())
 		Item = new QTableWidgetItem(">");
 		OutputTableWidget->setItem(errorIndex,0, Item);
 		OutputTableWidget->scrollToItem(Item,QAbstractItemView::PositionAtCenter);
-		ClickedOnOutput(line-1);
+		if (line>1) ClickedOnOutput(line-1);
 		int logline=errorLogList.at(onlyErrorList.at(errorIndex)).toInt()-1;
 		OutputTextEdit->setCursorPosition(logline , 0);
 		}
@@ -9855,14 +9931,6 @@ for (int i = 0; i < uris.size(); ++i)
 event->acceptProposedAction();
 }
 
-void Texmaker::changeEvent(QEvent *e)
-{
-QMainWindow::changeEvent(e);
-if (e->type() == QEvent::ActivationChange) 
-  {
-  if (isActiveWindow()) emit windowActivated();
-  } 
-}
 //***********************************
 void Texmaker::SetMostUsedSymbols()
 {

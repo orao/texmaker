@@ -1,9 +1,10 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 4.1
+Version: 4.1.1
 Release: xm1
-License: GPL
+License: GPLv2+
 Group: Applications/Publishing
+#Group: Publishing
 Source: texmaker-%{version}.tar.bz2
 Packager: Pascal Brachet
 Url: http://www.xm1math.net/texmaker/
@@ -150,4 +151,8 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/README_DIC_fr_FR.txt
 /usr/share/texmaker/README_es_ES.txt
 /usr/share/texmaker/README_en_US.txt
-
+/usr/share/texmaker/pt_PT.aff
+/usr/share/texmaker/pt_PT.dic
+/usr/share/texmaker/ca_CA.aff
+/usr/share/texmaker/ca_CA.dic
+/usr/share/texmaker/README_pt_PT.txt

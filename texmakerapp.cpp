@@ -110,18 +110,28 @@ for (QStringList::Iterator it = ++(args.begin()); it != args.end(); it++)
 }
 
 
-#if defined(Q_OS_MAC)
+
 bool TexmakerApp::event ( QEvent * event )
 {
+if ( event->type() == QEvent::ApplicationActivate )
+{
+if (mw) mw->mainWindowActivated();
+}
+// else if ( event->type() == QEvent::ApplicationDeactivate )
+// {
+//   qDebug() << "ApplicationDeactivate";
+// }
+#if defined(Q_OS_MAC)
 if (event->type() == QEvent::FileOpen) 
     {
     QFileOpenEvent *oe = static_cast<QFileOpenEvent *>(event);
     if (mw) mw->load(oe->file());
     else MacFile=oe->file();
     }
+#endif
 return QApplication::event(event);
 }
-#endif
+
 
 void TexmakerApp::ReadSettings()
 {

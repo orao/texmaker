@@ -46,7 +46,7 @@ connect( ui.pushButtonAspell, SIGNAL(clicked()), this, SLOT(browseAspell()));
 //ui.labelGetDic->setOpenExternalLinks(true);
 
 
-QTableWidgetItem *colorItem = new QTableWidgetItem();
+QTableWidgetItem *colorItem;
 ui.colortableWidget->setRowCount(12);
 
 colorItem= new QTableWidgetItem("Background");

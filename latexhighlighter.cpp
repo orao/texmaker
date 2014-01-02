@@ -123,7 +123,7 @@ const int StateGraphicAsyComment =16;
 
 int i = 0;
 int state = previousBlockState();
-int oldstate=state;
+//int oldstate=state;
 QChar last, next ,ch,tmp, verbflag;
 verbflag=' ';
 QString buffer;
@@ -208,7 +208,7 @@ while (i < text.length())
 	case StateStandard: {
 		tmp=text.at( i );
 		if (tmp=='\\') {
-			if (next=='[')
+			if (next=='[' || next=='(')
 				{
 				setFormat( i, 1,ColorMath );
 				blockData->code[i]=1;
@@ -375,7 +375,7 @@ while (i < text.length())
 				}
 		buffer = QString::null;
 		} else if (tmp== '\\') {
-			if (next==']')
+			if (next==']' || next==')')
 				{
 				setFormat( i, 1,ColorMath);
 				blockData->code[i]=1;
@@ -525,21 +525,11 @@ while (i < text.length())
 				state=StateGraphicMath;
 				}
 		} else
-		if (tmp== '{' ){
+			{
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicMath;
-		} else
-		if (tmp== '}' ){
-			setFormat( i, 1,ColorMath);
-			blockData->code[i]=1;
-			state=StateGraphicMath;
-		} else
-		 {
-			setFormat( i, 1,ColorMath);
-			blockData->code[i]=1;
-			state=StateGraphicMath;
-		}
+			}
 	buffer = QString::null;
 	} break;
 	case StateGraphicAsyMath: {
@@ -581,21 +571,11 @@ while (i < text.length())
 				state=StateGraphicAsyMath;
 				}
 		} else
-		if (tmp== '{' ){
+			{
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicAsyMath;
-		} else
-		if (tmp== '}' ){
-			setFormat( i, 1,ColorMath);
-			blockData->code[i]=1;
-			state=StateGraphicAsyMath;
-		} else
-		 {
-			setFormat( i, 1,ColorMath);
-			blockData->code[i]=1;
-			state=StateGraphicAsyMath;
-		}
+			}
 	buffer = QString::null;
 	} break;
 	case StateCommand:{
@@ -806,18 +786,9 @@ while (i < text.length())
 		verbflag=' ';
 		} else
 		if (tmp=='$') {
-			if (last=='\\')
-				{
 				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateVerbatim;
-				}
-			else
-				{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateVerbatim;
-				}
 		} else
 		if (tmp=='%') {
 			if (last=='\\')
@@ -843,18 +814,8 @@ while (i < text.length())
 		} else
 		if (tmp=='\\' || tmp==',' || tmp==';' || /*tmp=='\'' ||*/ tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
-			if (last=='\\')
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateVerbatim;
-			}
-			else
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateVerbatim;
-			}
+			setFormat( i, 1,ColorVerbatim);
+			state=StateVerbatim;
 		} else
 	     		{
          		setFormat( i, 1,ColorVerbatim);
@@ -1097,18 +1058,9 @@ while (i < text.length())
 	case StateGraphicCommand:{
 		tmp=text.at( i );
 		if (tmp=='$') {
-			if (last=='\\')
-				{
 				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateGraphic;
-				}
-			else
-				{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateGraphic;
-				}
 		} else
 		if (tmp=='%') {
 			if (last=='\\')
@@ -1134,18 +1086,8 @@ while (i < text.length())
 		} else
 		if (tmp=='\\' || tmp==',' || tmp==';' || /*tmp=='\'' ||*/ tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
-			if (last=='\\')
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateGraphic;
-			}
-			else
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateGraphic;
-			}
+			setFormat( i, 1,ColorVerbatim);
+			state=StateGraphic;
 		} else
 	     		{
          		setFormat( i, 1,ColorVerbatim);
@@ -1156,18 +1098,9 @@ while (i < text.length())
 	case StateGraphicAsyCommand:{
 		tmp=text.at( i );
 		if (tmp=='$') {
-			if (last=='\\')
-				{
 				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateGraphicAsy;
-				}
-			else
-				{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateGraphicAsy;
-				}
 		} else
 		if (tmp=='%') {
 			if (last=='\\')
@@ -1193,18 +1126,8 @@ while (i < text.length())
 		} else
 		if (tmp=='\\' || tmp==',' || tmp==';' || /*tmp=='\'' ||*/ tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
-			if (last=='\\')
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateGraphicAsy;
-			}
-			else
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateGraphicAsy;
-			}
+			setFormat( i, 1,ColorVerbatim);
+			state=StateGraphicAsy;
 		} else
 	     		{
          		setFormat( i, 1,ColorVerbatim);
@@ -1341,18 +1264,9 @@ while (i < text.length())
 	case StateSweaveCommand:{
 		tmp=text.at( i );
 		if (tmp=='$') {
-			if (last=='\\')
-				{
 				setFormat( i, 1,ColorVerbatim);
 				blockData->code[i]=1;
 				state=StateSweave;
-				}
-			else
-				{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateSweave;
-				}
 		} else
 		if (tmp=='%') {
 			if (last=='\\')
@@ -1378,18 +1292,8 @@ while (i < text.length())
 		} else
 		if (tmp=='\\' || tmp==',' || tmp==';' /*|| tmp=='\''*/ || tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
-			if (last=='\\')
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateSweave;
-			}
-			else
-			{
-				setFormat( i, 1,ColorVerbatim);
-				blockData->code[i]=1;
-				state=StateSweave;
-			}
+			setFormat( i, 1,ColorVerbatim);
+			state=StateSweave;
 		} else
 	     		{
          		setFormat( i, 1,ColorVerbatim);
@@ -1696,21 +1600,11 @@ while (i < text.length())
 				state=StateGraphicMath;
 				}
 		} else
-		if (tmp== '{' ){
+			{
 			setFormat( i, 1,ColorMath);
 			blockData->code[i]=1;
 			state=StateGraphicMath;
-		} else
-		if (tmp== '}' ){
-			setFormat( i, 1,ColorMath);
-			blockData->code[i]=1;
-			state=StateGraphicMath;
-		} else
-		 {
-			setFormat( i, 1,ColorMath);
-			blockData->code[i]=1;
-			state=StateGraphicMath;
-		}
+			}
 	buffer = QString::null;
 	} break;
 
@@ -1808,18 +1702,9 @@ while (i < text.length())
 	case StateGraphicCommand:{
 		tmp=text.at( i );
 		if (tmp=='$') {
-			if (last=='\\')
-				{
 				setFormat( i, 1,ColorStandard);
 				blockData->code[i]=1;
 				state=StateGraphic;
-				}
-			else
-				{
-				setFormat( i, 1,ColorStandard);
-				blockData->code[i]=1;
-				state=StateGraphic;
-				}
 		} else
 		if (tmp=='%') {
 			if (last=='\\')
@@ -1845,18 +1730,8 @@ while (i < text.length())
 		} else
 		if (tmp=='\\' || tmp==',' || tmp==';' || /*tmp=='\'' ||*/ tmp=='\"' || tmp=='`' || tmp=='^' || tmp=='~') {
 			blockData->code[i]=1;
-			if (last=='\\')
-			{
-				setFormat( i, 1,ColorStandard);
-				blockData->code[i]=1;
-				state=StateGraphic;
-			}
-			else
-			{
-				setFormat( i, 1,ColorStandard);
-				blockData->code[i]=1;
-				state=StateGraphic;
-			}
+			setFormat( i, 1,ColorStandard);
+			state=StateGraphic;
 		} else
 	     		{
          		setFormat( i, 1,ColorStandard);
