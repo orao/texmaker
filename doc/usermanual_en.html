@@ -190,6 +190,7 @@ padding-left:4px;
 	<li><a href="#SECTION42">4.12 "Use a 'build' subdirectory..." option for (pdf)latex command</a></li>
 	<li><a href="#SECTION43">4.13 Replacing text with a regular expression</a></li>
 	<li><a href="#SECTION44">4.14 Using Texmaker as an Asymptote editor</a></li>
+	<li><a href="#SECTION45">4.15 Extending the editor's functionality with scripts</a></li>
 	</ul>
 </ul>
 </div>
@@ -383,10 +384,11 @@ For the opposite operation ("Inverse search") :
 </p>
 <h2><a name="SECTION38">4.9 Synopsis of the texmaker command</a></h2>
 <p>
-texmaker file [-master] [-line xx] [-insert foo]<br>
+texmaker file [-master] [-line xx] [-insert foo] [-n]<br>
 With the "-master" option, the document will be automatically defined as a "master" document.<br>
 With the "-line xx" option, Texmaker will ask you if you want to jump to the xx line after loading the document.<br>
-With the "-insert foo" option, a latex command (foo) can be inserted by an external program to the current document while texmaker is running.
+With the "-insert foo" option, a latex command (foo) can be inserted by an external program to the current document while texmaker is running.<br>
+With the "-n" option a new instance of Texmaker is launched (will break synchronization with the pdf viewers).
 </p>
 <h2><a name="SECTION39">4.10 Keyboard shortcuts</a></h2>
 <p>
@@ -497,6 +499,30 @@ For example (to replace all the \textit{foo} by \textbf{foo}) :
 <li>Texmaker can also be used to edit and compile directly asymptote figure not embedded in a latex document. If the current document is an .asy file, the "Quick build" command (F1) will launch automatically the special "quick build" command for .asy files set in the configuration dialog.
 </li>
 </ul>
+
+<h2><a name="SECTION45">4.15 Extending the editor's functionality with scripts</a></h2>
+Advanced users can extend the functionalities of the editor by running scripts via the "User" menu.
+<ul>
+<li>Scripts must be written in javascript (qtscript).</li>
+<li>Script files must have the <tt>.tms</tt> extension.</li>
+<li>Available functions :</li>
+<ul>
+<li><tt>TM.text</tt> : returns all the text</li>
+<li><tt>TM.cursorPosition</tt> : returns the current position of the cursor</li>
+<li><tt>TM.selection</tt> : returns the selected text</li>
+<li><tt>TM.selectionStart</tt> : returns the position of the selection start</li>
+<li><tt>TM.selectionLength</tt> : returns the length of the selected text</li>
+<li><tt>TM.selectRange(start,length)</tt> : puts the cursor at the start position from the beginning of the document, and then selects as much text as indicated by the length parameter.</li>
+<li><tt>TM.insertText(string)</tt> : inserts string at the current position (and replace selected text by the string if some text is selected)</li>
+<li>Public methods of the QPlainTextEdit object are also available.</li>
+</ul>
+</ul>
+Remarks :
+<ul>
+<li>to use TexWorks scripts, the <tt>TW.target</tt> prefix must be replaced by <tt>TM.</tt> .</li>
+<li>script files can be located everywhere (the last used directory will be stored in the texmaker configuration file).</li>
+</ul>
+
 </div>
 <br clear="all">
 </fieldset>

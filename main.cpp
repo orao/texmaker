@@ -27,7 +27,7 @@ app.setOrganizationName("xm1");
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
 app.setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
-if ( app.isRunning() ) 
+if ( app.isRunning() && !args.contains("-n")) 
     {
     QString msg;
     msg = args.join("#!#");

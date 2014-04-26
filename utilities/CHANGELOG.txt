@@ -1,3 +1,16 @@
+version 4.1.1 -> 4.2 :
+----------------------
+Features :
+- script support has been added (only for the text editor part - "User" menu)
+- with the new option "-n" for the command line, a new instance of Texmaker can be launched (will break the synchronization with the pdf viewers and others feautures)
+- hu and nl translations have been updated
+- the windows versions are now compiled with Qt 5.2.1
+Bugs fixed :
+- while loading the last session, the bug about the focus has been fixed
+- a bug about the "commands" combo box in the main toolbar has been fixed
+- a typo in the russion translation has been fixed
+- a bad trigger detection for the snippets has been fixed
+
 version 4.1 -> 4.1.1 :
 ----------------------
 - the latex reference manual has been updated

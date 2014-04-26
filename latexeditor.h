@@ -30,6 +30,8 @@
 #include <QMutex>
 #include <QQueue>
 #include <QDebug>
+#include <QScriptEngine>
+//#include <QScriptEngineDebugger>
 
 #include "latexhighlighter.h"
 #include "textblockselection.h"
@@ -128,6 +130,22 @@ void setTextCursor(const QTextCursor &cursor);
 
 TextBlockSelection blockSelection;
 int insertWithMemoryIndent(QString t);
+
+/*** SCRIPT ***/
+QString selectedText() { return textCursor().selectedText().replace(QChar(QChar::ParagraphSeparator), "\n"); }
+QString text() { return toPlainText(); }
+int cursorPosition() const { return textCursor().position(); }
+int selectionStart() const { return textCursor().selectionStart(); }
+int selectionLength() const { return textCursor().selectionEnd() - textCursor().selectionStart(); }
+Q_PROPERTY(int cursorPosition READ cursorPosition STORED false)
+Q_PROPERTY(QString selection READ selectedText STORED false)
+Q_PROPERTY(int selectionStart READ selectionStart STORED false)
+Q_PROPERTY(int selectionLength READ selectionLength STORED false)
+Q_PROPERTY(QString text READ text STORED false)
+
+void ExecuteScript(QString location);
+
+
 public slots:
 void matchAll();
 void setHightLightLine();
@@ -139,6 +157,9 @@ void setColors(QList<QColor> colors);
 void setUserTagsList(QStringList utlist);
 void undoText();
 void redoText();
+
+void selectRange(int start, int length = 0);
+void insertText(QString text);
 
 private:
 bool overmode;
@@ -175,6 +196,7 @@ bool highlightLine;
 QString copyBlockSelection() const;
 QColor colorBackground, colorLine, colorHighlight, colorCursor;
 
+QScriptEngine fScriptEngine;
 
 private slots:
 void correctWord();

@@ -169,7 +169,7 @@ QString document_class, typeface_size, paper_size, document_encoding, author, ge
 QString latex_command, viewdvi_command, dvips_command, dvipdf_command, metapost_command, psize, xelatex_command, lualatex_command, htlatex_command, htlatex_options;
 QString viewps_command, ps2pdf_command, makeindex_command, bibtex_command, pdflatex_command, viewpdf_command, userquick_command, ghostscript_command, asymptote_command, latexmk_command, sweave_command, texdoc_command, quick_asy_command, lp_options;
 QString spell_dic, spell_ignored_words;
-QString lastDocument, input_encoding, lastChild, lastTemplate;
+QString lastDocument, input_encoding, lastChild, lastTemplate, lastScript;
 QString struct_level1, struct_level2, struct_level3, struct_level4, struct_level5;
 QStringList userClassList, userPaperList, userEncodingList, userOptionsList, userCompletionList, userBabelList;
 QStringList labelitem, bibitem, listbibfiles, listchildfiles;
@@ -262,6 +262,7 @@ void editIndent();
 void editUnindent();
 void editSpell();
 void editTipTab();
+void editRunScript();
 
 void ReadSettings();
 void SaveSettings();

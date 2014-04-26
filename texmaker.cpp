@@ -2028,6 +2028,12 @@ Act = new QAction(tr("Customize Completion"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(EditUserCompletion()));
 user1Menu->addAction(Act);
 
+user1Menu->addSeparator();
+Act = new QAction(tr("Run script"), this);
+Act->setData("Run script");
+connect(Act, SIGNAL(triggered()), this, SLOT(editRunScript()));
+user1Menu->addAction(Act);
+
 viewMenu = menuBar()->addMenu(tr("&View"));
 NextDocAct = new QAction(tr("Next Document"), this);
 NextDocAct->setData("Next");
@@ -3998,6 +4004,20 @@ OutputTextEdit->clear();
 OutputTextEdit->insertLine("Use the Tab key to reach the next "+QString(0x2022)+" field");
 }
 
+void Texmaker::editRunScript()
+{
+if ( !currentEditorView() )	return;
+QString currentDir=QDir::homePath();
+if (!lastScript.isEmpty())
+	{
+	QFileInfo fi(lastScript);
+	if (fi.exists() && fi.isReadable()) currentDir=fi.absolutePath();
+	}
+QString fn = QFileDialog::getOpenFileName(this,tr("Browse script"),currentDir,"Script (*.tms)");
+if (fn.isEmpty()) return;
+lastScript=fn;
+currentEditorView()->editor->ExecuteScript(fn);
+}
 /////////////// CONFIG ////////////////////
 void Texmaker::ReadSettings()
 {
@@ -4389,6 +4409,22 @@ viewIndex=config->value( "Tools/View","2").toInt();
 
 lastDocument=config->value("Files/Last Document","").toString();
 lastTemplate=config->value("Files/Last Template","").toString();
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+
+#ifdef USB_VERSION
+QString scriptDir=QCoreApplication::applicationDirPath() + "/";
+#else
+QString scriptDir=PREFIX"/share/texmaker/";
+#endif
+#endif
+
+#if defined(Q_OS_MAC)
+QString scriptDir=QCoreApplication::applicationDirPath() + "/../Resources/";
+#endif
+#if defined(Q_OS_WIN32)
+QString scriptDir=QCoreApplication::applicationDirPath() + "/";
+#endif
+lastScript=config->value("Files/Last Script",scriptDir).toString();
 recentFilesList=config->value("Files/Recent Files New").toStringList();
 
 input_encoding=config->value("Files/Input Encoding","UTF-8").toString();
@@ -4677,6 +4713,7 @@ config.setValue("Tools/SingleViewerInstance",singleviewerinstance);
 
 config.setValue("Files/Last Document",lastDocument);
 config.setValue("Files/Last Template",lastTemplate);
+config.setValue("Files/Last Script",lastScript);
 /*if (recentFilesList.count()>0)*/ config.setValue("Files/Recent Files New",recentFilesList); 
 
 config.setValue("Files/Input Encoding", input_encoding);
@@ -7544,7 +7581,6 @@ OutputTableWidget->hide();
 OutputTextEdit->setMaximumHeight(splitter2->sizes().at(1));
 separatorline->hide();
 
-
 //OutputTextEdit->insertLine(commandline+"\n");
 proc->start(commandline);
 if (!proc->waitForStarted(1000)) 
@@ -8585,7 +8621,7 @@ if ( utDlg->exec() )
 	list.append("XeLaTeX");
 	list.append("LuaLaTeX");
 	int runIndex=comboCompil->currentIndex();
-	for ( int i = 0; i <= 4; i++ ) comboCompil->setItemText(13+i,QString::number(i+1)+": "+UserToolName[i]);
+	for ( int i = 0; i <= 4; i++ ) comboCompil->setItemText(14+i,QString::number(i+1)+": "+UserToolName[i]);
 	comboCompil->setCurrentIndex(runIndex);
 	}
 }
@@ -11092,7 +11128,7 @@ while (!element.isNull())
       if (element.hasAttribute("bookmark2")) b2=element.attribute("bookmark2").toInt();
       if (element.hasAttribute("bookmark3")) b3=element.attribute("bookmark3").toInt();
       if (element.hasAttribute("master")) ma=(element.attribute("master")=="true");
-      if (element.hasAttribute("hasfocus")) fo=(element.attribute("focus")=="true");
+      if (element.hasAttribute("hasfocus")) fo=(element.attribute("hasfocus")=="true");
       if (fo)
 	{
 	ofile=file;

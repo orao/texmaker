@@ -4,13 +4,13 @@ TARGET	 = texmaker
 
 QT_VERSION=$$[QT_VERSION]
 contains( QT_VERSION, "^5.*" ) {
-QT += xml webkitwidgets network widgets printsupport concurrent
+QT += xml webkitwidgets network widgets printsupport concurrent script
 } else {
-QT += xml webkit network
+QT += xml webkit network script
 }
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.1.1
+TEXMAKERVERSION=4.2
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 
@@ -397,6 +397,7 @@ utilities.files = doc/doc1.png \
 	utilities/texmaker64x64.png \
 	utilities/texmaker128x128.png \
 	utilities/texmaker.svg \
+	scripts/titlecase.tms \
 	locale/qt_cs.qm \
 	locale/qt_de.qm \
 	locale/qt_es.qm \

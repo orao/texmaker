@@ -848,57 +848,57 @@ with the default encoding setting</source>
 <context>
     <name>LatexEditor</name>
     <message>
-        <location filename="../latexeditor.cpp" line="884"/>
+        <location filename="../latexeditor.cpp" line="888"/>
         <source>Undo</source>
         <translation>Αναίρεση</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="887"/>
+        <location filename="../latexeditor.cpp" line="891"/>
         <source>Redo</source>
         <translation>Επανάληψη</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="891"/>
+        <location filename="../latexeditor.cpp" line="895"/>
         <source>Cut</source>
         <translation>Αποκοπή</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="894"/>
+        <location filename="../latexeditor.cpp" line="898"/>
         <source>Copy</source>
         <translation>Αντιγραφή</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="897"/>
+        <location filename="../latexeditor.cpp" line="901"/>
         <source>Paste</source>
         <translation>Επικόλληση</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="902"/>
+        <location filename="../latexeditor.cpp" line="906"/>
         <source>Select All</source>
         <translation>Επιλογή Όλων</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="908"/>
+        <location filename="../latexeditor.cpp" line="912"/>
         <source>Check Spelling Word</source>
         <translation>Έλεγχος Ορθογραφίας Λέξης</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="913"/>
+        <location filename="../latexeditor.cpp" line="917"/>
         <source>Check Spelling Selection</source>
         <translation>Έλεγχος Ορθογραφίας Επιλογής</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="916"/>
+        <location filename="../latexeditor.cpp" line="920"/>
         <source>Check Spelling Document</source>
         <translation>Έλεγχος Ορθογραφίας Εγγράφου</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="923"/>
+        <location filename="../latexeditor.cpp" line="927"/>
         <source>Jump to the end of this block</source>
         <translation>Μεταπήδηση στο τέλος αυτού του μπλοκ</translation>
     </message>
     <message>
-        <location filename="../latexeditor.cpp" line="929"/>
+        <location filename="../latexeditor.cpp" line="933"/>
         <source>Jump to pdf</source>
         <translation>Μεταπήδηση στο pdf</translation>
     </message>
@@ -1970,78 +1970,78 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="213"/>
         <location filename="../texmaker.cpp" line="381"/>
-        <location filename="../texmaker.cpp" line="2044"/>
-        <location filename="../texmaker.cpp" line="4877"/>
+        <location filename="../texmaker.cpp" line="2050"/>
+        <location filename="../texmaker.cpp" line="4914"/>
         <source>Structure</source>
         <translation>Δομή</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="230"/>
-        <location filename="../texmaker.cpp" line="4882"/>
+        <location filename="../texmaker.cpp" line="4919"/>
         <source>Relation symbols</source>
         <translation>Σύμβολα και τελεστές</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="240"/>
-        <location filename="../texmaker.cpp" line="4887"/>
+        <location filename="../texmaker.cpp" line="4924"/>
         <source>Arrow symbols</source>
         <translation>Βέλη</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="249"/>
-        <location filename="../texmaker.cpp" line="4892"/>
+        <location filename="../texmaker.cpp" line="4929"/>
         <source>Miscellaneous symbols</source>
         <translation>Διάφορα σύμβολα</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="258"/>
-        <location filename="../texmaker.cpp" line="4897"/>
+        <location filename="../texmaker.cpp" line="4934"/>
         <source>Delimiters</source>
         <translation>Οριοθέτες</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="267"/>
-        <location filename="../texmaker.cpp" line="4902"/>
+        <location filename="../texmaker.cpp" line="4939"/>
         <source>Greek letters</source>
         <translation>Ελληνικά γράμματα</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="276"/>
-        <location filename="../texmaker.cpp" line="4907"/>
+        <location filename="../texmaker.cpp" line="4944"/>
         <source>Most used symbols</source>
         <translation>Συχνά σύμβολα</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="285"/>
-        <location filename="../texmaker.cpp" line="4912"/>
+        <location filename="../texmaker.cpp" line="4949"/>
         <source>Favorites symbols</source>
         <translation>Αγαπημένα σύμβολα</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="324"/>
         <location filename="../texmaker.cpp" line="357"/>
-        <location filename="../texmaker.cpp" line="4917"/>
+        <location filename="../texmaker.cpp" line="4954"/>
         <source>Pstricks Commands</source>
         <translation>Εντολές Pstricks</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="332"/>
         <location filename="../texmaker.cpp" line="360"/>
-        <location filename="../texmaker.cpp" line="4927"/>
+        <location filename="../texmaker.cpp" line="4964"/>
         <source>MetaPost Commands</source>
         <translation>Εντολές MetaPost</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="340"/>
         <location filename="../texmaker.cpp" line="363"/>
-        <location filename="../texmaker.cpp" line="4932"/>
+        <location filename="../texmaker.cpp" line="4969"/>
         <source>Tikz Commands</source>
         <translation>Εντολές Tikz</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="348"/>
         <location filename="../texmaker.cpp" line="366"/>
-        <location filename="../texmaker.cpp" line="4937"/>
+        <location filename="../texmaker.cpp" line="4974"/>
         <source>Asymptote Commands</source>
         <translation>Εντολές Asymptote</translation>
     </message>
@@ -2087,13 +2087,13 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="743"/>
-        <location filename="../texmaker.cpp" line="2037"/>
+        <location filename="../texmaker.cpp" line="2043"/>
         <source>Previous Document</source>
         <translation>Προηγούμενο Έγγραφο</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="747"/>
-        <location filename="../texmaker.cpp" line="2032"/>
+        <location filename="../texmaker.cpp" line="2038"/>
         <source>Next Document</source>
         <translation>Επόμενο Έγγραφο</translation>
     </message>
@@ -2112,7 +2112,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="894"/>
-        <location filename="../texmaker.cpp" line="9813"/>
+        <location filename="../texmaker.cpp" line="9850"/>
         <source>Normal Mode</source>
         <translation>Κανονική Λειτουργία</translation>
     </message>
@@ -2124,8 +2124,8 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="918"/>
         <location filename="../texmaker.cpp" line="919"/>
-        <location filename="../texmaker.cpp" line="2296"/>
-        <location filename="../texmaker.cpp" line="2297"/>
+        <location filename="../texmaker.cpp" line="2302"/>
+        <location filename="../texmaker.cpp" line="2303"/>
         <source>New</source>
         <translation>Νέο</translation>
     </message>
@@ -2137,8 +2137,8 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="928"/>
         <location filename="../texmaker.cpp" line="929"/>
-        <location filename="../texmaker.cpp" line="2301"/>
-        <location filename="../texmaker.cpp" line="2302"/>
+        <location filename="../texmaker.cpp" line="2307"/>
+        <location filename="../texmaker.cpp" line="2308"/>
         <source>Open</source>
         <translation>Άνοιγμα</translation>
     </message>
@@ -2155,18 +2155,18 @@ with the default encoding setting</source>
     <message>
         <location filename="../texmaker.cpp" line="960"/>
         <location filename="../texmaker.cpp" line="961"/>
-        <location filename="../texmaker.cpp" line="3032"/>
-        <location filename="../texmaker.cpp" line="3175"/>
-        <location filename="../texmaker.cpp" line="3232"/>
-        <location filename="../texmaker.cpp" line="10995"/>
+        <location filename="../texmaker.cpp" line="3038"/>
+        <location filename="../texmaker.cpp" line="3181"/>
+        <location filename="../texmaker.cpp" line="3238"/>
+        <location filename="../texmaker.cpp" line="11032"/>
         <source>Save</source>
         <translation>Αποθήκευση</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="968"/>
-        <location filename="../texmaker.cpp" line="3289"/>
-        <location filename="../texmaker.cpp" line="3360"/>
-        <location filename="../texmaker.cpp" line="4803"/>
+        <location filename="../texmaker.cpp" line="3295"/>
+        <location filename="../texmaker.cpp" line="3366"/>
+        <location filename="../texmaker.cpp" line="4840"/>
         <source>Save As</source>
         <translation>Αποθήκευση ως</translation>
     </message>
@@ -2298,32 +2298,32 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1119"/>
-        <location filename="../texmaker.cpp" line="2349"/>
-        <location filename="../texmaker.cpp" line="8573"/>
+        <location filename="../texmaker.cpp" line="2355"/>
+        <location filename="../texmaker.cpp" line="8610"/>
         <source>Quick Build</source>
         <translation>Γρήγορη Μεταγλώττιση</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1130"/>
-        <location filename="../texmaker.cpp" line="2374"/>
+        <location filename="../texmaker.cpp" line="2380"/>
         <source>View Dvi</source>
         <translation>Προβολή Dvi</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1140"/>
-        <location filename="../texmaker.cpp" line="2375"/>
+        <location filename="../texmaker.cpp" line="2381"/>
         <source>View PS</source>
         <translation>Προβολή PS</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1150"/>
-        <location filename="../texmaker.cpp" line="2376"/>
+        <location filename="../texmaker.cpp" line="2382"/>
         <source>View PDF</source>
         <translation>Προβολή PDF</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1165"/>
-        <location filename="../texmaker.cpp" line="2387"/>
+        <location filename="../texmaker.cpp" line="2393"/>
         <source>View Log</source>
         <translation>Προβολή Log</translation>
     </message>
@@ -2336,7 +2336,7 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="308"/>
-        <location filename="../texmaker.cpp" line="4943"/>
+        <location filename="../texmaker.cpp" line="4980"/>
         <source>User</source>
         <translation>Χρήστης</translation>
     </message>
@@ -2382,13 +2382,13 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1224"/>
-        <location filename="../texmaker.cpp" line="2397"/>
+        <location filename="../texmaker.cpp" line="2403"/>
         <source>Previous LaTeX Error</source>
         <translation>Προηγούμενο Σφάλμα LaTeX</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1226"/>
-        <location filename="../texmaker.cpp" line="2391"/>
+        <location filename="../texmaker.cpp" line="2397"/>
         <source>Next LaTeX Error</source>
         <translation>Επόμενο Σφάλμα LaTeX</translation>
     </message>
@@ -2529,8 +2529,8 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1998"/>
-        <location filename="../texmaker.cpp" line="7083"/>
-        <location filename="../texmaker.cpp" line="7139"/>
+        <location filename="../texmaker.cpp" line="7120"/>
+        <location filename="../texmaker.cpp" line="7176"/>
         <source>Edit User &amp;Tags</source>
         <translation>Επεξεργασία &amp;Ετικετών Χρήστη</translation>
     </message>
@@ -2541,8 +2541,8 @@ with the default encoding setting</source>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="2023"/>
-        <location filename="../texmaker.cpp" line="8533"/>
-        <location filename="../texmaker.cpp" line="8569"/>
+        <location filename="../texmaker.cpp" line="8570"/>
+        <location filename="../texmaker.cpp" line="8606"/>
         <source>Edit User &amp;Commands</source>
         <translation>Επεξεργασία &amp;Εντολών Χρήστη</translation>
     </message>
@@ -2552,258 +2552,268 @@ with the default encoding setting</source>
         <translation>Προσαρμογή Αυτόματης Συμπλήρωσης</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2031"/>
+        <location filename="../texmaker.cpp" line="2032"/>
+        <source>Run script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="2037"/>
         <source>&amp;View</source>
         <translation>&amp;Προβολή</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2049"/>
+        <location filename="../texmaker.cpp" line="2055"/>
         <source>Messages / Log File</source>
         <translation>Μηνύματα / Αρχείο Καταγραφής</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2055"/>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="2061"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>Pdf Viewer</source>
         <translation>Προβολέας Pdf</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2072"/>
+        <location filename="../texmaker.cpp" line="2078"/>
         <source>List of opened files</source>
         <translation>Λίστα ανοιγμένων αρχειων</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2079"/>
+        <location filename="../texmaker.cpp" line="2085"/>
         <source>Full Screen</source>
         <translation>Πλήρης Οθόνη</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2087"/>
+        <location filename="../texmaker.cpp" line="2093"/>
         <source>&amp;Options</source>
         <translation>&amp;Επιλογές</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2088"/>
+        <location filename="../texmaker.cpp" line="2094"/>
         <source>Configure Texmaker</source>
         <translation>Προσαρμογή Texmaker</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2092"/>
-        <location filename="../texmaker.cpp" line="9804"/>
+        <location filename="../texmaker.cpp" line="2098"/>
+        <location filename="../texmaker.cpp" line="9841"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
         <translation>Ορισμός του Τρέχοντος Εγγράφου ως &apos;Κύριο Έγγραφο&apos;</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2096"/>
+        <location filename="../texmaker.cpp" line="2102"/>
         <source>Interface Appearance</source>
         <translation>Εμφάνιση Διεπαφής</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2111"/>
+        <location filename="../texmaker.cpp" line="2117"/>
         <source>Change Interface Font</source>
         <translation>Αλλαγή Γραμματοσειράς Διεπαφής</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2116"/>
+        <location filename="../texmaker.cpp" line="2122"/>
         <source>Interface Language</source>
         <translation>Γλώσσα Διεπαφής</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2133"/>
+        <location filename="../texmaker.cpp" line="2139"/>
         <source>Manage Settings File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2135"/>
+        <location filename="../texmaker.cpp" line="2141"/>
         <source>Settings File</source>
         <translation>Αρχείο Ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2137"/>
+        <location filename="../texmaker.cpp" line="2143"/>
         <source>Reset Settings</source>
         <translation>Επαναφορά Ρυθμίθσεων</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2140"/>
+        <location filename="../texmaker.cpp" line="2146"/>
         <source>Save a copy of the settings file</source>
         <translation>Σώσε ένα αντίγραφο από το αρχειο ρυθμίσεων</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2143"/>
+        <location filename="../texmaker.cpp" line="2149"/>
         <source>Replace the settings file by a new one</source>
         <translation>Αντικατάσταση του αρχείου ρυθμίσεων με ένα νέο</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2147"/>
+        <location filename="../texmaker.cpp" line="2153"/>
         <source>&amp;Help</source>
         <translation>&amp;Βοήθεια</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2148"/>
-        <location filename="../texmaker.cpp" line="2149"/>
+        <location filename="../texmaker.cpp" line="2154"/>
+        <location filename="../texmaker.cpp" line="2155"/>
         <source>LaTeX Reference</source>
         <translation>Παραπομπή LaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2152"/>
-        <location filename="../texmaker.cpp" line="2153"/>
+        <location filename="../texmaker.cpp" line="2158"/>
+        <location filename="../texmaker.cpp" line="2159"/>
         <source>User Manual</source>
         <translation>Εγχειρίδο Χρήσης</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2180"/>
+        <location filename="../texmaker.cpp" line="2186"/>
         <source>Check for Update</source>
         <translation>Έλεγχος για Ενημερώση</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2185"/>
+        <location filename="../texmaker.cpp" line="2191"/>
         <source>About Texmaker</source>
         <translation>Περί Texmaker</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2370"/>
+        <location filename="../texmaker.cpp" line="2376"/>
         <source>Run</source>
         <translation>Εκτέλεση</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2382"/>
+        <location filename="../texmaker.cpp" line="2388"/>
         <source>View</source>
         <translation>Προβολή</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2403"/>
+        <location filename="../texmaker.cpp" line="2409"/>
         <source>Stop Process</source>
         <translation>Παύση Διεργασίας</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2598"/>
-        <location filename="../texmaker.cpp" line="2881"/>
-        <location filename="../texmaker.cpp" line="3202"/>
-        <location filename="../texmaker.cpp" line="3261"/>
-        <location filename="../texmaker.cpp" line="3989"/>
-        <location filename="../texmaker.cpp" line="7359"/>
-        <location filename="../texmaker.cpp" line="7364"/>
-        <location filename="../texmaker.cpp" line="7660"/>
-        <location filename="../texmaker.cpp" line="7682"/>
-        <location filename="../texmaker.cpp" line="7701"/>
-        <location filename="../texmaker.cpp" line="7720"/>
-        <location filename="../texmaker.cpp" line="7742"/>
-        <location filename="../texmaker.cpp" line="7784"/>
-        <location filename="../texmaker.cpp" line="7801"/>
-        <location filename="../texmaker.cpp" line="7812"/>
-        <location filename="../texmaker.cpp" line="7863"/>
-        <location filename="../texmaker.cpp" line="7880"/>
-        <location filename="../texmaker.cpp" line="7891"/>
-        <location filename="../texmaker.cpp" line="7936"/>
-        <location filename="../texmaker.cpp" line="7955"/>
-        <location filename="../texmaker.cpp" line="7974"/>
-        <location filename="../texmaker.cpp" line="7993"/>
-        <location filename="../texmaker.cpp" line="8010"/>
-        <location filename="../texmaker.cpp" line="8021"/>
-        <location filename="../texmaker.cpp" line="8046"/>
-        <location filename="../texmaker.cpp" line="8063"/>
-        <location filename="../texmaker.cpp" line="8074"/>
-        <location filename="../texmaker.cpp" line="8105"/>
-        <location filename="../texmaker.cpp" line="8205"/>
-        <location filename="../texmaker.cpp" line="8506"/>
-        <location filename="../texmaker.cpp" line="8703"/>
-        <location filename="../texmaker.cpp" line="8795"/>
-        <location filename="../texmaker.cpp" line="8829"/>
-        <location filename="../texmaker.cpp" line="9320"/>
-        <location filename="../texmaker.cpp" line="9354"/>
-        <location filename="../texmaker.cpp" line="9376"/>
-        <location filename="../texmaker.cpp" line="9822"/>
-        <location filename="../texmaker.cpp" line="11002"/>
-        <location filename="../texmaker.cpp" line="11057"/>
-        <location filename="../texmaker.cpp" line="11185"/>
-        <location filename="../texmaker.cpp" line="11355"/>
+        <location filename="../texmaker.cpp" line="2604"/>
+        <location filename="../texmaker.cpp" line="2887"/>
+        <location filename="../texmaker.cpp" line="3208"/>
+        <location filename="../texmaker.cpp" line="3267"/>
+        <location filename="../texmaker.cpp" line="3995"/>
+        <location filename="../texmaker.cpp" line="7396"/>
+        <location filename="../texmaker.cpp" line="7401"/>
+        <location filename="../texmaker.cpp" line="7697"/>
+        <location filename="../texmaker.cpp" line="7719"/>
+        <location filename="../texmaker.cpp" line="7738"/>
+        <location filename="../texmaker.cpp" line="7757"/>
+        <location filename="../texmaker.cpp" line="7779"/>
+        <location filename="../texmaker.cpp" line="7821"/>
+        <location filename="../texmaker.cpp" line="7838"/>
+        <location filename="../texmaker.cpp" line="7849"/>
+        <location filename="../texmaker.cpp" line="7900"/>
+        <location filename="../texmaker.cpp" line="7917"/>
+        <location filename="../texmaker.cpp" line="7928"/>
+        <location filename="../texmaker.cpp" line="7973"/>
+        <location filename="../texmaker.cpp" line="7992"/>
+        <location filename="../texmaker.cpp" line="8011"/>
+        <location filename="../texmaker.cpp" line="8030"/>
+        <location filename="../texmaker.cpp" line="8047"/>
+        <location filename="../texmaker.cpp" line="8058"/>
+        <location filename="../texmaker.cpp" line="8083"/>
+        <location filename="../texmaker.cpp" line="8100"/>
+        <location filename="../texmaker.cpp" line="8111"/>
+        <location filename="../texmaker.cpp" line="8142"/>
+        <location filename="../texmaker.cpp" line="8242"/>
+        <location filename="../texmaker.cpp" line="8543"/>
+        <location filename="../texmaker.cpp" line="8740"/>
+        <location filename="../texmaker.cpp" line="8832"/>
+        <location filename="../texmaker.cpp" line="8866"/>
+        <location filename="../texmaker.cpp" line="9357"/>
+        <location filename="../texmaker.cpp" line="9391"/>
+        <location filename="../texmaker.cpp" line="9413"/>
+        <location filename="../texmaker.cpp" line="9859"/>
+        <location filename="../texmaker.cpp" line="11039"/>
+        <location filename="../texmaker.cpp" line="11094"/>
+        <location filename="../texmaker.cpp" line="11222"/>
+        <location filename="../texmaker.cpp" line="11392"/>
         <source>Error</source>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2598"/>
-        <location filename="../texmaker.cpp" line="2881"/>
-        <location filename="../texmaker.cpp" line="11057"/>
-        <location filename="../texmaker.cpp" line="11185"/>
+        <location filename="../texmaker.cpp" line="2604"/>
+        <location filename="../texmaker.cpp" line="2887"/>
+        <location filename="../texmaker.cpp" line="11094"/>
+        <location filename="../texmaker.cpp" line="11222"/>
         <source>You do not have read permission to this file.</source>
         <translation>Δεν έχετε δικαιώματα ανάγνωσης για αυτό το αρχείο.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2876"/>
-        <location filename="../texmaker.cpp" line="2935"/>
-        <location filename="../texmaker.cpp" line="11047"/>
+        <location filename="../texmaker.cpp" line="2882"/>
+        <location filename="../texmaker.cpp" line="2941"/>
+        <location filename="../texmaker.cpp" line="11084"/>
         <source>Open File</source>
         <translation>Άνοιγμα Αρχείου</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3030"/>
-        <location filename="../texmaker.cpp" line="3173"/>
-        <location filename="../texmaker.cpp" line="3230"/>
+        <location filename="../texmaker.cpp" line="3036"/>
+        <location filename="../texmaker.cpp" line="3179"/>
+        <location filename="../texmaker.cpp" line="3236"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
         <translation>Το έγγραφο άλλαξε εξωτερικά από το Texmaker. Θέλετε να το επαναφορτώσετε (και να απορρίψετε της αλλαγές σας) ή να το αποθηκεύσετε (και να αντικαταστήσετε το αρχείο);</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3032"/>
-        <location filename="../texmaker.cpp" line="3175"/>
-        <location filename="../texmaker.cpp" line="3232"/>
-        <location filename="../texmaker.cpp" line="3792"/>
+        <location filename="../texmaker.cpp" line="3038"/>
+        <location filename="../texmaker.cpp" line="3181"/>
+        <location filename="../texmaker.cpp" line="3238"/>
+        <location filename="../texmaker.cpp" line="3798"/>
         <source>Reload the file</source>
         <translation>Επαναφόρτωση αρχείου</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3032"/>
-        <location filename="../texmaker.cpp" line="3175"/>
-        <location filename="../texmaker.cpp" line="3232"/>
-        <location filename="../texmaker.cpp" line="3397"/>
-        <location filename="../texmaker.cpp" line="3461"/>
-        <location filename="../texmaker.cpp" line="3525"/>
-        <location filename="../texmaker.cpp" line="3625"/>
-        <location filename="../texmaker.cpp" line="3792"/>
-        <location filename="../texmaker.cpp" line="4782"/>
-        <location filename="../texmaker.cpp" line="4825"/>
-        <location filename="../texmaker.cpp" line="8213"/>
-        <location filename="../texmaker.cpp" line="8242"/>
+        <location filename="../texmaker.cpp" line="3038"/>
+        <location filename="../texmaker.cpp" line="3181"/>
+        <location filename="../texmaker.cpp" line="3238"/>
+        <location filename="../texmaker.cpp" line="3403"/>
+        <location filename="../texmaker.cpp" line="3467"/>
+        <location filename="../texmaker.cpp" line="3531"/>
+        <location filename="../texmaker.cpp" line="3631"/>
+        <location filename="../texmaker.cpp" line="3798"/>
+        <location filename="../texmaker.cpp" line="4819"/>
+        <location filename="../texmaker.cpp" line="4862"/>
+        <location filename="../texmaker.cpp" line="8250"/>
+        <location filename="../texmaker.cpp" line="8279"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3202"/>
-        <location filename="../texmaker.cpp" line="3261"/>
-        <location filename="../texmaker.cpp" line="11002"/>
+        <location filename="../texmaker.cpp" line="3208"/>
+        <location filename="../texmaker.cpp" line="3267"/>
+        <location filename="../texmaker.cpp" line="11039"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>Αποτυχία αποθήκευσης του αρχείου. Παρακλώ ελέγξτε εάν έχετε δικαιώματα εγγραφής.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3395"/>
-        <location filename="../texmaker.cpp" line="3459"/>
-        <location filename="../texmaker.cpp" line="3523"/>
-        <location filename="../texmaker.cpp" line="3623"/>
+        <location filename="../texmaker.cpp" line="3401"/>
+        <location filename="../texmaker.cpp" line="3465"/>
+        <location filename="../texmaker.cpp" line="3529"/>
+        <location filename="../texmaker.cpp" line="3629"/>
         <source>The document contains unsaved work. Do you want to save it before closing?</source>
         <translation>Το έγγραφο περιέχει μη αποθηκευμένες αλλαγές. Θέλετε να το αποθηκεύσετε πριν το κλέισιμο;</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3397"/>
-        <location filename="../texmaker.cpp" line="3461"/>
-        <location filename="../texmaker.cpp" line="3525"/>
-        <location filename="../texmaker.cpp" line="3625"/>
+        <location filename="../texmaker.cpp" line="3403"/>
+        <location filename="../texmaker.cpp" line="3467"/>
+        <location filename="../texmaker.cpp" line="3531"/>
+        <location filename="../texmaker.cpp" line="3631"/>
         <source>Save and Close</source>
         <translation>Αποθήκευση και Κλείσιμο</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3397"/>
-        <location filename="../texmaker.cpp" line="3461"/>
-        <location filename="../texmaker.cpp" line="3525"/>
-        <location filename="../texmaker.cpp" line="3625"/>
+        <location filename="../texmaker.cpp" line="3403"/>
+        <location filename="../texmaker.cpp" line="3467"/>
+        <location filename="../texmaker.cpp" line="3531"/>
+        <location filename="../texmaker.cpp" line="3631"/>
         <source>Don&apos;t Save and Close</source>
         <translation>Κλείσιμο Χωρίς Αποθήκευση</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7364"/>
+        <location filename="../texmaker.cpp" line="4016"/>
+        <source>Browse script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="7401"/>
         <source>A document must be saved with an extension (and without spaces or accents in the name) before being used by a command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8213"/>
+        <location filename="../texmaker.cpp" line="8250"/>
         <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
         <translation>Θα κάνετε ένα αντίγραφο από το %1.pdf/ps έγγραφο στον &quot;ριζικό&quot; υποφάκελο και θα διαγράψετε όλα τα υπόλοιπα %1.* αρχεία;</translation>
     </message>
@@ -2818,87 +2828,87 @@ with the default encoding setting</source>
         <translation type="obsolete">Το έγγραφο περιέχει μη αποθηκευμένες αλλαγές. Θέλετε να το αποθηκεύσετε πριν την έξοδο;</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3790"/>
+        <location filename="../texmaker.cpp" line="3796"/>
         <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
         <translation>Το έγγραφο περιέχει μη αποθηκευμένες αλλαγές. Θα χάσετε όλες τις αλλαγές με την επαναφόρτωση του εγγράφου.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3989"/>
+        <location filename="../texmaker.cpp" line="3995"/>
         <source>Error : Can&apos;t open the dictionary</source>
         <translation>Σφάλμα : Αδύνατο το άνοιγμα του λεξικού</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4781"/>
+        <location filename="../texmaker.cpp" line="4818"/>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation>Διαγραφή αρχείου ρυμθίσεων;
 (Το TeXmaker θα τερματιστεί και θα πρέπει να το επανεκκινήσετε)</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4782"/>
-        <location filename="../texmaker.cpp" line="4825"/>
-        <location filename="../texmaker.cpp" line="8213"/>
+        <location filename="../texmaker.cpp" line="4819"/>
+        <location filename="../texmaker.cpp" line="4862"/>
+        <location filename="../texmaker.cpp" line="8250"/>
         <source>Ok</source>
         <translation>Εντάξει</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4824"/>
+        <location filename="../texmaker.cpp" line="4861"/>
         <source>Replace settings file by a new one?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation>Αντικατάσταση του αρχείου ρυμθίσεων με ένα νέο;
 (Το TeXmaker θα τερματιστεί και θα πρέπει να το επανεκκινήσετε)</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4849"/>
+        <location filename="../texmaker.cpp" line="4886"/>
         <source>Opened Files</source>
         <translation>Ανοιγμένα Αρχεία</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="5716"/>
+        <location filename="../texmaker.cpp" line="5753"/>
         <source>Select an image File</source>
         <translation>Επιλέξτε ένα αρχείο εικόνας</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3570"/>
-        <location filename="../texmaker.cpp" line="5747"/>
-        <location filename="../texmaker.cpp" line="5772"/>
+        <location filename="../texmaker.cpp" line="3576"/>
+        <location filename="../texmaker.cpp" line="5784"/>
+        <location filename="../texmaker.cpp" line="5809"/>
         <source>Select a File</source>
         <translation>Επιλογή Αρχείου</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7359"/>
-        <location filename="../texmaker.cpp" line="8205"/>
-        <location filename="../texmaker.cpp" line="8506"/>
-        <location filename="../texmaker.cpp" line="8703"/>
+        <location filename="../texmaker.cpp" line="7396"/>
+        <location filename="../texmaker.cpp" line="8242"/>
+        <location filename="../texmaker.cpp" line="8543"/>
+        <location filename="../texmaker.cpp" line="8740"/>
         <source>Can&apos;t detect the file name</source>
         <translation>Αδύνατη η ανίχνευση του ονόματος του αρχείου</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7660"/>
-        <location filename="../texmaker.cpp" line="7682"/>
-        <location filename="../texmaker.cpp" line="7701"/>
-        <location filename="../texmaker.cpp" line="7720"/>
-        <location filename="../texmaker.cpp" line="7742"/>
-        <location filename="../texmaker.cpp" line="7784"/>
-        <location filename="../texmaker.cpp" line="7801"/>
-        <location filename="../texmaker.cpp" line="7812"/>
-        <location filename="../texmaker.cpp" line="7863"/>
-        <location filename="../texmaker.cpp" line="7880"/>
-        <location filename="../texmaker.cpp" line="7891"/>
-        <location filename="../texmaker.cpp" line="7936"/>
-        <location filename="../texmaker.cpp" line="7955"/>
-        <location filename="../texmaker.cpp" line="7974"/>
-        <location filename="../texmaker.cpp" line="7993"/>
-        <location filename="../texmaker.cpp" line="8010"/>
-        <location filename="../texmaker.cpp" line="8021"/>
-        <location filename="../texmaker.cpp" line="8046"/>
-        <location filename="../texmaker.cpp" line="8063"/>
-        <location filename="../texmaker.cpp" line="8074"/>
-        <location filename="../texmaker.cpp" line="8105"/>
-        <location filename="../texmaker.cpp" line="8795"/>
-        <location filename="../texmaker.cpp" line="9376"/>
-        <location filename="../texmaker.cpp" line="9822"/>
-        <location filename="../texmaker.cpp" line="11355"/>
+        <location filename="../texmaker.cpp" line="7697"/>
+        <location filename="../texmaker.cpp" line="7719"/>
+        <location filename="../texmaker.cpp" line="7738"/>
+        <location filename="../texmaker.cpp" line="7757"/>
+        <location filename="../texmaker.cpp" line="7779"/>
+        <location filename="../texmaker.cpp" line="7821"/>
+        <location filename="../texmaker.cpp" line="7838"/>
+        <location filename="../texmaker.cpp" line="7849"/>
+        <location filename="../texmaker.cpp" line="7900"/>
+        <location filename="../texmaker.cpp" line="7917"/>
+        <location filename="../texmaker.cpp" line="7928"/>
+        <location filename="../texmaker.cpp" line="7973"/>
+        <location filename="../texmaker.cpp" line="7992"/>
+        <location filename="../texmaker.cpp" line="8011"/>
+        <location filename="../texmaker.cpp" line="8030"/>
+        <location filename="../texmaker.cpp" line="8047"/>
+        <location filename="../texmaker.cpp" line="8058"/>
+        <location filename="../texmaker.cpp" line="8083"/>
+        <location filename="../texmaker.cpp" line="8100"/>
+        <location filename="../texmaker.cpp" line="8111"/>
+        <location filename="../texmaker.cpp" line="8142"/>
+        <location filename="../texmaker.cpp" line="8832"/>
+        <location filename="../texmaker.cpp" line="9413"/>
+        <location filename="../texmaker.cpp" line="9859"/>
+        <location filename="../texmaker.cpp" line="11392"/>
         <source>Could not start the command.</source>
         <translation>Αποτυχία έναρξης της εντολής.</translation>
     </message>
@@ -2909,137 +2919,137 @@ with the default encoding setting</source>
 (.log, .aux, .dvi, .lof, .lot, .bit, .idx, .glo, .bbl, .ilg, .toc, .ind, .out, .synctex.gz, .bl</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8242"/>
+        <location filename="../texmaker.cpp" line="8279"/>
         <source>Delete Files</source>
         <translation>Διαγραφή Αρχείων</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8242"/>
+        <location filename="../texmaker.cpp" line="8279"/>
         <source>Delete the output files generated by LaTeX ?</source>
         <translation>Διαγραφή των εξαγώμενων αρχείων που παράγονται από το LaTeX;</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>LaTeX</source>
         <translation>LaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>PdfLaTeX</source>
         <translation>PdfLaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>dvips</source>
         <translation>dvips</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>Dvi Viewer</source>
         <translation>Προβολέας Dvi</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>PS Viewer</source>
         <translation>Προβολέας PS</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>Dvipdfm</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>ps2pdf</source>
         <translation>ps2pdf</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>Bibtex</source>
         <translation>Bibtex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>Makeindex</source>
         <translation>Makeindex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>metapost</source>
         <translation>metapost</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>ghostscript</source>
         <translation>ghostscript</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>Asymptote</source>
         <translation>Asymptote</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>Latexmk</source>
         <translation>Latexmk</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>R Sweave</source>
         <translation>R Sweave</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>XeLaTex</source>
         <translation>XeLaTex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8530"/>
+        <location filename="../texmaker.cpp" line="8567"/>
         <source>LuaLaTex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8829"/>
+        <location filename="../texmaker.cpp" line="8866"/>
         <source>Log File not found !</source>
         <translation>Το Αρχείο Καταγραφής δε βρέθηκε !</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9148"/>
-        <location filename="../texmaker.cpp" line="9180"/>
+        <location filename="../texmaker.cpp" line="9185"/>
+        <location filename="../texmaker.cpp" line="9217"/>
         <source>Click to jump to the line</source>
         <translation>Κάντε κλικ για να μεταπηδήσετε στη γραμμή</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9250"/>
-        <location filename="../texmaker.cpp" line="9285"/>
+        <location filename="../texmaker.cpp" line="9287"/>
+        <location filename="../texmaker.cpp" line="9322"/>
         <source>No LaTeX errors detected !</source>
         <translation>Δεν ανιχνεύθηκε κανένα σφάλμα LaTeX !</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9320"/>
-        <location filename="../texmaker.cpp" line="9354"/>
+        <location filename="../texmaker.cpp" line="9357"/>
+        <location filename="../texmaker.cpp" line="9391"/>
         <source>File not found</source>
         <translation>Δε βρέθηκε το αρχείο</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9828"/>
-        <location filename="../texmaker.cpp" line="11364"/>
+        <location filename="../texmaker.cpp" line="9865"/>
+        <location filename="../texmaker.cpp" line="11401"/>
         <source>Normal Mode (current master document :</source>
         <translation>Κανονική Λειτουργία (τρέχων κύριο έγγραφο :</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9830"/>
-        <location filename="../texmaker.cpp" line="11366"/>
+        <location filename="../texmaker.cpp" line="9867"/>
+        <location filename="../texmaker.cpp" line="11403"/>
         <source>Master Document :</source>
         <translation>Κύριο Έγγραφο :</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10360"/>
+        <location filename="../texmaker.cpp" line="10397"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>Η ρύθμιση της γλώσσας θα λάβει μέρος μετά την επανεκκίνηση της εφαρμογής.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10368"/>
+        <location filename="../texmaker.cpp" line="10405"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>Η ρύθμιση εμφάνισης θα λάβει μέρος μετά την επανεκκίνση της εφαρμογής.</translation>
     </message>

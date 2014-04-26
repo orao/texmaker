@@ -38,6 +38,7 @@
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #include <QtConcurrent>
 #endif
+#include <QScriptValue>
 //#include <QPlatformInputContext>
 
 
@@ -459,7 +460,10 @@ return newstruct;
 
 LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces,int tabwidth,const QKeySequence viewfocus, QString name,QStringList ulist) : QPlainTextEdit(parent),c(0)
 {
- 
+  
+QScriptValue appContext = fScriptEngine.newQObject(this); 
+fScriptEngine.globalObject().setProperty("TM", appContext);
+
 fname=name;
 vfocus=viewfocus;
 setAcceptDrops(true);
@@ -1799,7 +1803,13 @@ else
 		  if (tagList.count()==3)
 		    {
 		    trigger=":"+tagList.at(2);
-		    if (trigger!=":" && txt.contains(trigger))
+		  int endw=cursor.position();
+		  int startw=cursor.position()-1-tagList.at(2).length();
+		  if (startw<0) startw=0;
+		  cursor.setPosition(startw,QTextCursor::MoveAnchor);
+		  cursor.setPosition(endw, QTextCursor::KeepAnchor);
+		  //qDebug() << trigger << startw << endw << cursor.selectedText();
+		    if ((trigger!=":") && (trigger==cursor.selectedText()))
 		      {
 			QRegExp rx("(@+)");
 			int index=0;
@@ -2898,3 +2908,34 @@ return blockBoundingGeometry(block).translated(contentOffset());
 //if (rec.isValid()) return rec.translated(contentOffset());
 //else return QRectF();
 }*/
+
+/*** SCRIPT ***/
+void LatexEditor::ExecuteScript(QString location)
+{
+if ( !location.isEmpty() ) 
+	{
+	QString text ="";
+	QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+	QFile scriptfile(location);
+	if (scriptfile.open(QFile::ReadOnly))
+	    {
+	    QTextStream ts_script(&scriptfile);
+	    ts_script.setCodec(codec);
+	    text= ts_script.readAll();
+	    }
+	QScriptValue result = fScriptEngine.evaluate(text);
+	}
+}
+
+void LatexEditor::selectRange(int start, int length)
+{
+	QTextCursor c = textCursor();
+	c.setPosition(start);
+	c.setPosition(start + length, QTextCursor::KeepAnchor);
+	setTextCursor(c);
+}
+
+void LatexEditor::insertText(QString text)
+{
+textCursor().insertText(text);
+}
