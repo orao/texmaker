@@ -54,6 +54,8 @@
 	<file>images/configure.png</file>
 	<file>images/ddot@2x.png</file>
 	<file>images/ddot.png</file>
+	<file>images/diff@2x.png</file>
+	<file>images/diff.png</file>
 	<file>images/dfrac@2x.png</file>
 	<file>images/dfrac.png</file>
 	<file>images/doc@2x.png</file>
@@ -689,5 +691,7 @@
 	<file>tags/leftright_tags.xml</file>
 	<file>tags/tikz_tags.xml</file>
 	<file>tags/asymptote_tags.xml</file>
+	<file>diff/checkdiff.txt</file>
+	<file>utilities/license_html.txt</file>
     </qresource>
 </RCC>

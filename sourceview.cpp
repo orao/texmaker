@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -50,6 +50,10 @@ centralToolBar->addAction(Act);
 centralToolBar->addSeparator();
 titleLabel=new QLabel("(read only)",centralToolBar);
 centralToolBar->addWidget(titleLabel);
+centralToolBar->addSeparator();
+Act = new QAction(getIcon(":/images/diff.png"), tr("Check differences"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(checkDiff()));
+centralToolBar->addAction(Act);
 
 
 QFrame *frame=new QFrame(framebis);
@@ -180,3 +184,7 @@ gotolinewidget->ui.spinLine->setMaximum(editor->numoflines() );
 gotolinewidget->ui.spinLine->selectAll();
 }
 
+void SourceView::checkDiff()
+{
+if (!editor->toPlainText().isEmpty()) emit showDiff();
+}

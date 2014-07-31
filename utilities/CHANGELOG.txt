@@ -1,3 +1,13 @@
+version 4.2 -> 4.3 :
+--------------------
+- a visual diff view has been added to the "source viewer" (differences between the current files loaded in the editor and in the "source viewer") based on jsdifflib from Chas Emerick (BSD license)
+- when a command fails, the command is now displayed with the error message "Could not start the command"
+- an "reload all documents from file" option has been added to the "File" menu (users request)
+- if a "completion.txt" file is found in the same directory than texmaker.exe on windows, in the "/usr/share/texmaker/" folder on linux and in the "Resources" subdirectory of the .app package on macosx, all items from this file will be added automatically for the autocompletion (the syntax must be the same than for the ."Customize completion" option of the "User" menu.
+- an option to launch the "Clean" tool when exiting the program has been added (users request)
+- a texmaker man page and a texmaker.menu file have been added in the "utilities" directory of the source (thanks to Bernd Warken for the man-page)
+- the cs, el, es, hu and se translations have been updated (thanks to all the translators)
+
 version 4.1.1 -> 4.2 :
 ----------------------
 Features :
@@ -8,7 +18,7 @@ Features :
 Bugs fixed :
 - while loading the last session, the bug about the focus has been fixed
 - a bug about the "commands" combo box in the main toolbar has been fixed
-- a typo in the russion translation has been fixed
+- a typo in the russian translation has been fixed
 - a bad trigger detection for the snippets has been fixed
 
 version 4.1 -> 4.1.1 :

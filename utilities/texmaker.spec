@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 4.2
+Version: 4.3
 Release: xm1
 License: GPLv2+
 Group: Applications/Publishing

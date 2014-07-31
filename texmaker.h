@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2013 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   addons by Luis Silvestre                           *
  *                                                                         *
@@ -179,9 +179,10 @@ QString keyToggleFocus;
 QString extra_path;
 QString beamer_theme, beamer_size, beamer_encoding, beamer_author, beamer_babel;
 qreal lastScale;
+bool clean_exit;
 //dialogs
 QPointer<ScanDialog> scanDialog;
-QPointer<Browser> browserWindow;
+QPointer<Browser> browserWindow, diffWindow;
 QPointer<PdfViewerWidget> pdfviewerWidget;
 QPointer<PdfViewer> pdfviewerWindow;
 SourceView* sourceviewerWidget;
@@ -241,6 +242,7 @@ void filePrint();
 void fileOpenAndGoto(const QString &f, int line, bool focus);
 void getFocusToEditor();
 void fileReload();
+void allReload();
 void listSelectionActivated(int index);
 void ComboFilesInsert(const QString & file);
 void ToggleMasterCurrent();
@@ -394,6 +396,7 @@ void ViewPS();
 void PDFLatex();
 void ViewPDF();
 void CleanAll();
+void AutoCleanAll();
 void MakeBib();
 void MakeIndex();
 void PStoPDF();
@@ -512,6 +515,8 @@ void LoadSessionFile(const QString &fn);
 void LoadSession();
 void SaveLastSession();
 void LoadLastSession();
+
+void compareDocuments();
 
 protected:
 void dragEnterEvent(QDragEnterEvent *event);

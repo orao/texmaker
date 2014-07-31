@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,6 +46,9 @@ private slots:
   void fileOpen();
   void showFind();
   void showGoto();
+  void checkDiff();
+signals:
+void showDiff();
 };
 
 #endif

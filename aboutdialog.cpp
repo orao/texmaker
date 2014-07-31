@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2013 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,6 +12,9 @@
 #include <QApplication>
 
 #include "aboutdialog.h"
+#include <QFile>
+#include <QTextStream>
+#include <QTextCodec>
 #if !defined(OLDPOPPLER)
 #include <poppler-config.h>
 #endif
@@ -32,12 +35,29 @@ else pixmap.load(":/images/splash.png");
 pixmap.load(":/images/splash.png");
 #endif
 ui.label->setPixmap(pixmap);
-ui.textBrowser->setOpenExternalLinks(true);
+ui.textBrowser1->setOpenExternalLinks(true);
+ui.textBrowser2->setOpenExternalLinks(true);
+ui.textBrowser3->setOpenExternalLinks(true);
+ui.textBrowser4->setOpenExternalLinks(true);
 QString head=QString::fromUtf8("<b>Texmaker ")+QLatin1String(TEXMAKERVERSION)+QString::fromUtf8("</b><br>(compiled with Qt ")+QLatin1String(QT_VERSION_STR);
 #if !defined(OLDPOPPLER)
 head+=QString::fromUtf8(" and Poppler ")+QLatin1String(POPPLER_VERSION);
 #endif
-ui.textBrowser->setHtml(head+QString::fromUtf8(")<br><b>Copyright (c) 2003-2014 by Pascal Brachet</b><br><br>Project home site : <a href=\"http://www.xm1math.net/texmaker/\">http://www.xm1math.net/texmaker/</a><br><br>This program is licensed to you under the terms of the GNU General Public License Version 2 as published by the Free Software Foundation.<br><br>Thanks to Joël Amblard, Wouter Franssen, Patrick Wieschollek, Oriol González Llobet, Andriy Bandura, Merlin Raschtuttis, Sebastián Vanrell, Kleanthis Manolopoulos, Володимир Боденчук, Sandris LACIS, Koutheir ATTOUCHI, Andreas Pettersson, George Boumis , Pedro F. Silva, Nikolić Miroslav, Michele Mastropietro, Peter Axt, Torbjörn Klatt , Tomas Olarte Hernandez , Jan Jełowicki, Tamas Orosz, Adrián Yanes Martínez, Koen Wybo, Pavel Fric, Christian Cenker, Seyyed Razi Alavizadeh, Frederic Devernay, Luis Silvestre, Davide Alberelli, Ilya Barygin, Javier Jardón Cabezas, Felipe Bugno, Carles Gumí, Martin Dreher, Andreas Volk, Felix Löhr. <br>Texmaker contains code from the Hunspell (GPL), qpdfview ((C) Adam Reichold GPL), QtCreator (Copyright (C) Nokia - Licence: GPL), SyncTeX ( (C) Jerome Laurens - Licence: GPL), Texworks ((C) Jonathan Kew - Licence: GPL), AtD ((C) www.afterthedeadline.com - Licence : LGPL), Tiled (Copyright  Vsevolod Klementjev - Licence: GPL) programs.<br>Some piece of code has been inspirated by the Ktikz ((C) Florian Hackenberger and Glad Deschrijver - Licence: GPL) and CLedit ((C) 2010 Heinz van Saanen -  Licence: GPL) programs .<br>Texmaker contains icons from the K Desktop Environment ((C) KDE ev - Licence: GPL)."));
+ui.textBrowser1->setHtml(head+QString::fromUtf8(")<br><b>Copyright (c) 2003-2014 by Pascal Brachet</b><br><br>Project home site : <a href=\"http://www.xm1math.net/texmaker/\">http://www.xm1math.net/texmaker/</a>"));
+ui.textBrowser2->setHtml(QString::fromUtf8("<b>Copyright (c) 2003-2014 by Pascal Brachet</b><br><br>Texmaker contains code from these programs:<br>Hunspell (GPL)<br>qpdfview ((C) Adam Reichold GPL)<br>QtCreator (Copyright (C) Digia - License: GPL)<br>SyncTeX ( (C) Jerome Laurens - License: GPL)<br>Texworks ((C) Jonathan Kew - License: GPL)<br>AtD ((C) www.afterthedeadline.com - License : LGPL)<br>Tiled (Copyright  Vsevolod Klementjev - License: GPL)<br>jsdifflib ((C) Chas Emerick - license : BSD)"));
+ui.textBrowser3->setHtml(QString::fromUtf8("<b>Thanks to these contributors :</b><br>Joël Amblard<br>Wouter Franssen<br> atrick Wieschollek<br>Oriol González Llobet<br>Andriy Bandura<br> Merlin Raschtuttis<br>Sebastián Vanrell<br>Kleanthis Manolopoulos<br>Володимир Боденчук<br>Sandris LACIS<br>Koutheir ATTOUCHI<br>Andreas Pettersson<br>George Boumis<br>Pedro F. Silva<br>Nikolić Miroslav<br>Michele Mastropietro<br>Peter Axt<br>Torbjörn Klatt<br>Tomas Olarte Hernandez<br>Jan Jełowicki<br>Tamas Orosz<br>Adrián Yanes Martínez<br>Koen Wybo<br>Pavel Fric<br>Christian Cenker<br>Seyyed Razi Alavizadeh<br>Frederic Devernay<br>Luis Silvestre<br>Davide Alberelli<br>Ilya Barygin<br>Javier Jardón Cabezas<br>Felipe Bugno<br>Carles Gumí<br>Martin Dreher<br>Andreas Volk<br>Felix Löhr<br>Bernd Warken<br>Wolfgang Dautermann<br>Carlos Eduardo Valencia Urbina<br>Kleanthis Manolopoulos"));
+QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+QString content;
+QFile apropos(":/utilities/license_html.txt");
+apropos.open(QIODevice::ReadOnly);
+QTextStream in(&apropos);
+in.setCodec(codec);
+while (!in.atEnd()) 
+	{
+	content+= in.readLine()+"\n";
+	}
+apropos.close();
+ui.textBrowser4->setHtml(content);
 }
 
 AboutDialog::~AboutDialog(){
