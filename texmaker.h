@@ -135,7 +135,7 @@ QMenu *wizardMenu;
 QMenu *bibMenu, *bibtexMenu, *biblatexMenu;
 QMenu *user1Menu, *user11Menu, *user12Menu;
 QMenu *viewMenu;
-QMenu *optionsMenu, *translationMenu, *appearanceMenu, *settingsMenu;
+QMenu *optionsMenu, *translationMenu, *appearanceMenu, *settingsMenu, *scriptMenu;
 QMenu *helpMenu;
 QMenu *sectionMenu, *sizeMenu, *refMenu;
 
@@ -180,6 +180,7 @@ QString extra_path;
 QString beamer_theme, beamer_size, beamer_encoding, beamer_author, beamer_babel;
 qreal lastScale;
 bool clean_exit;
+
 //dialogs
 QPointer<ScanDialog> scanDialog;
 QPointer<Browser> browserWindow, diffWindow;
@@ -215,7 +216,7 @@ QList<QColor> hicolors() {QList<QColor> h; h << colorStandard << colorComment <<
 QCompleter *completer;
 Hunspell * spellChecker;
 bool spelldicExist();
-QStringList translationList;
+QStringList translationList, scriptList;
 QActionGroup *translationGroup, *appearanceGroup;
 QTimer *autosaveTimer;
 
@@ -265,6 +266,7 @@ void editUnindent();
 void editSpell();
 void editTipTab();
 void editRunScript();
+void editRunFurnishedScript();
 
 void ReadSettings();
 void SaveSettings();
@@ -380,6 +382,7 @@ void QuickArray();
 void QuickTabbing();
 void QuickLetter();
 void QuickDocument();
+void QuickXelatex();
 void QuickBeamer();
 
 void RunCommand(QString comd,bool waitendprocess);

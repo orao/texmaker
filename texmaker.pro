@@ -10,7 +10,7 @@ QT += xml webkit network script
 }
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.3
+TEXMAKERVERSION=4.4
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 
@@ -66,6 +66,7 @@ HEADERS	+= texmaker.h \
 	letterdialog.h \
 	addoptiondialog.h \
 	quickdocumentdialog.h \
+	quickxelatexdialog.h \
 	usermenudialog.h \
 	usertooldialog.h \
 	refdialog.h \
@@ -177,6 +178,7 @@ SOURCES	+= main.cpp \
 	letterdialog.cpp \
 	addoptiondialog.cpp \
 	quickdocumentdialog.cpp \
+	quickxelatexdialog.cpp \
 	usermenudialog.cpp \
 	usertooldialog.cpp \
 	refdialog.cpp \
@@ -263,6 +265,7 @@ FORMS   += findwidget.ui\
 	letterdialog.ui \
 	addoptiondialog.ui \
 	quickdocumentdialog.ui \
+	quickxelatexdialog.ui \
 	usermenudialog.ui \
 	usertooldialog.ui \
 	refdialog.ui \
@@ -397,7 +400,8 @@ utilities.files = doc/doc1.png \
 	utilities/texmaker64x64.png \
 	utilities/texmaker128x128.png \
 	utilities/texmaker.svg \
-	scripts/titlecase.tms \
+	scripts/titlecase_selection.tms \
+	scripts/hardwordwrap_selection_80col.tms \
 	locale/qt_cs.qm \
 	locale/qt_de.qm \
 	locale/qt_es.qm \
@@ -430,6 +434,7 @@ utilities.files = doc/doc1.png \
 	locale/texmaker_ar.qm \
 	locale/texmaker_lv.qm \
 	locale/texmaker_uk.qm \
+	locale/texmaker_vi_VN.qm \
 	dictionaries/nl_NL.aff \
 	dictionaries/nl_NL.dic \
 	dictionaries/de_DE.aff \

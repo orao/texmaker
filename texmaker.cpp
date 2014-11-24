@@ -83,6 +83,7 @@
 #include "tabbingdialog.h"
 #include "letterdialog.h"
 #include "quickdocumentdialog.h"
+#include "quickxelatexdialog.h"
 #include "quickbeamerdialog.h"
 #include "usermenudialog.h"
 #include "usertooldialog.h"
@@ -514,6 +515,12 @@ foreach (QFileInfo qmFileInfo, transdir.entryInfoList(QStringList("texmaker_*.qm
     transName.remove("texmaker_");
     translationList.append(transName);
     }
+    
+scriptList.clear();    
+foreach (QFileInfo qmScriptInfo, transdir.entryInfoList(QStringList("*.tms"),QDir::Files | QDir::Readable, QDir::Name | QDir::IgnoreCase)) 
+    {
+    scriptList.append(qmScriptInfo.completeBaseName());
+    }    
     
     
 StackedViewers=new QStackedWidget(this);
@@ -1201,6 +1208,7 @@ connect(Act, SIGNAL(triggered()), this, SLOT(Sweave()));
 toolMenu->addAction(Act);
 Act = new QAction("XeLaTeX", this);
 Act->setData("XeLaTeX");
+toolMenu->addAction(Act);
 connect(Act, SIGNAL(triggered()), this, SLOT(Xelatex()));
 Act = new QAction("LuaLaTeX", this);
 Act->setData("LuaLaTeX");
@@ -1837,6 +1845,9 @@ wizardMenu->addAction(Act);
 Act = new QAction(tr("Quick Beamer Presentation"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(QuickBeamer()));
 wizardMenu->addAction(Act);
+Act = new QAction(tr("Quick Xelatex Document"), this);
+connect(Act, SIGNAL(triggered()), this, SLOT(QuickXelatex()));
+wizardMenu->addAction(Act);
 Act = new QAction(tr("Quick Letter"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(QuickLetter()));
 wizardMenu->addAction(Act);
@@ -2034,10 +2045,21 @@ connect(Act, SIGNAL(triggered()), this, SLOT(EditUserCompletion()));
 user1Menu->addAction(Act);
 
 user1Menu->addSeparator();
-Act = new QAction(tr("Run script"), this);
-Act->setData("Run script");
+scriptMenu=user1Menu->addMenu(tr("Run script"));
+for (int i=0; i < scriptList.count(); i++)
+	{
+	Act = new QAction(scriptList.at(i), this);
+	Act->setData(scriptList.at(i)+".tms");
+	connect(Act, SIGNAL(triggered()), this, SLOT(editRunFurnishedScript()));
+	scriptMenu->addAction(Act);
+	}
+
+
+
+Act = new QAction(tr("Other script"), this);
+Act->setData("Other script");
 connect(Act, SIGNAL(triggered()), this, SLOT(editRunScript()));
-user1Menu->addAction(Act);
+scriptMenu->addAction(Act);
 
 viewMenu = menuBar()->addMenu(tr("&View"));
 NextDocAct = new QAction(tr("Next Document"), this);
@@ -2610,16 +2632,32 @@ if ( !file.open( QIODevice::ReadOnly ) )
 	return;
 	}
 bool hasDecodingError=false;
+QByteArray peekBytes(file.peek(1024));
 QByteArray buf = file.readAll();
+
 int bytesRead = buf.size();
 file.close();
 
 QTextCodec* detected_codec;
 QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
 if(!codec) codec = QTextCodec::codecForLocale();
+
+QRegExp reEnc("% *!TEX +encoding *= *([^\\r\\n\\x2029]+)[\\r\\n\\x2029]", Qt::CaseInsensitive);
+int pos = reEnc.indexIn(codec->toUnicode(peekBytes));
+if (pos > -1) 
+  {
+  QString reqName = reEnc.cap(1).trimmed();
+  qDebug() << reqName;
+  codec = QTextCodec::codecForName(reqName.toLatin1());
+  input_encoding=codec->name();
+  if(!codec) codec = QTextCodec::codecForLocale();
+  }
+
+
 QString text = codec->toUnicode(buf);
 QByteArray verifyBuf = codec->fromUnicode(text);
 QString new_encoding="";
+
 // unicode detection
 if (bytesRead >= 4 && ((uchar(buf[0]) == 0xff && uchar(buf[1]) == 0xfe && uchar(buf[2]) == 0 && uchar(buf[3]) == 0) || (uchar(buf[0]) == 0 && uchar(buf[1]) == 0 && uchar(buf[2]) == 0xfe && uchar(buf[3]) == 0xff))) 
     {
@@ -2725,6 +2763,8 @@ else
 
   }
 
+
+  
 if (hasDecodingError)
   {
   EncodingDialog *encDlg = new EncodingDialog(this);
@@ -2738,6 +2778,43 @@ if (hasDecodingError)
 	  }
   else return;
   }
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+
+#ifdef USB_VERSION
+QString dicDir=QCoreApplication::applicationDirPath() + "/";
+#else
+#ifdef DEBIAN_SPELLDIR
+QString dicDir=PREFIX"/share/myspell/dicts/";
+#else
+QString dicDir=PREFIX"/share/texmaker/";
+#endif
+#endif
+
+#endif
+#if defined(Q_OS_MAC)
+QString dicDir=QCoreApplication::applicationDirPath() + "/../Resources/";
+#endif
+#if defined(Q_OS_WIN32)
+QString dicDir=QCoreApplication::applicationDirPath() + "/";
+#endif
+QRegExp reSpell("% *!TEX +spellcheck *= *([^\\r\\n\\x2029]+)[\\r\\n\\x2029]", Qt::CaseInsensitive);
+pos = reSpell.indexIn(codec->toUnicode(peekBytes));
+if (pos > -1) 
+  {
+  QString lang = dicDir+reSpell.cap(1).trimmed();
+  if (spellChecker) delete spellChecker;
+  QString affdic=lang+".aff";
+  QString spelldic=lang+".dic";
+  QFileInfo fidic(spelldic);
+  QFileInfo fiaff(affdic);
+  if (fidic.exists() && fidic.isReadable() && fiaff.exists() && fiaff.isReadable())
+      {
+      spellChecker = new Hunspell(lang.toLatin1()+".aff",lang.toLatin1()+".dic");
+      }
+  else spellChecker=0;
+  }  
+  
 LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),f,userTagsList);
 EditorView->addWidget( edit);
 ComboFilesInsert(f);
@@ -2785,7 +2862,7 @@ QTextCursor curs(edit->editor->document());
 curs.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor,1024);
 QString peekStr = curs.selectedText();
 QRegExp re("% *!TEX +root *= *([^\\x2029]+)\\x2029", Qt::CaseInsensitive);
-int pos = re.indexIn(peekStr);
+pos = re.indexIn(peekStr);
 if (pos > -1) 
   {
   rootName = re.cap(1).trimmed();
@@ -2794,6 +2871,9 @@ if (pos > -1)
   else rootFilePath = rootFileInfo.filePath();
   setMasterDocument(rootFilePath);
   }
+
+
+
 
 #if !defined(Q_OS_MAC)
 show();
@@ -4042,6 +4122,43 @@ if (fn.isEmpty()) return;
 lastScript=fn;
 currentEditorView()->editor->ExecuteScript(fn);
 }
+
+void Texmaker::editRunFurnishedScript()
+{
+QString actData;
+QAction *action = qobject_cast<QAction *>(sender());
+if ( !currentEditorView() )	return;
+if (action)
+	{
+	actData=action->data().toString();
+	#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+
+	#ifdef USB_VERSION
+	QString scriptfile=QCoreApplication::applicationDirPath() + "/"+actData;
+	#else
+	QString scriptfile=PREFIX"/share/texmaker/"+actData;
+	#endif
+
+	#endif
+	#if defined(Q_OS_MAC)
+	QString scriptfile=QCoreApplication::applicationDirPath() + "/../Resources/"+actData;
+	#endif
+	#if defined(Q_OS_WIN32)
+	QString scriptfile=QCoreApplication::applicationDirPath() + "/"+actData;
+	#endif
+	qDebug() << scriptfile;
+	QFileInfo fic(scriptfile);
+	if (fic.exists() && fic.isReadable() )
+		{
+		currentEditorView()->editor->ExecuteScript(scriptfile);
+		}
+	else { QMessageBox::warning( this,tr("Error"),tr("File not found"));}
+	
+
+	}
+
+}
+
 /////////////// CONFIG ////////////////////
 void Texmaker::ReadSettings()
 {
@@ -4797,6 +4914,7 @@ config.setValue( "Quick/Graphicx",graphicx_package);
 config.setValue( "Quick/Lmodern",lmodern_package);
 config.setValue( "Quick/Kpfonts",kpfonts_package);
 config.setValue( "Quick/Fourier",fourier_package);
+
 
 
 config.setValue( "Quick/Author",author);
@@ -5618,17 +5736,7 @@ else
 void Texmaker::InsertFromAction()
 {
 bool ok;
-QString actData;
-QStringList tagList;
-QAction *action = qobject_cast<QAction *>(sender());
-if ( !currentEditorView() )	return;
-if (action)
-	{
-	actData=action->data().toString();
-	tagList= actData.split("/");
-	InsertTag(tagList.at(0),tagList.at(1).toInt(&ok, 10),tagList.at(2).toInt(&ok, 10));
-	OutputTextEdit->insertLine(tagList.at(3));
-	}
+
 }
 
 void Texmaker::InsertWithSelectionFromAction()
@@ -6214,6 +6322,117 @@ if ( startDlg->exec() )
 	userBabelList=startDlg->otherBabelList;
 	}
 }
+
+void Texmaker::QuickXelatex()
+{
+QString opt="";
+QString optbabel="";
+int li=3;
+int f;
+if ( !currentEditorView() ) fileNew();
+QString tag=QString("\\documentclass[");
+QuickXelatexDialog *startDlg = new QuickXelatexDialog(this,"Quick Start");
+startDlg->otherClassList=userClassList;
+startDlg->otherPaperList=userPaperList;
+startDlg->otherOptionsList=userOptionsList;
+startDlg->otherBabelList=userBabelList;
+startDlg->Init();
+f=startDlg->ui.comboBoxClass->findText(document_class,Qt::MatchExactly | Qt::MatchCaseSensitive);
+startDlg->ui.comboBoxClass->setCurrentIndex(f);
+f=startDlg->ui.comboBoxSize->findText(typeface_size,Qt::MatchExactly | Qt::MatchCaseSensitive);
+startDlg->ui.comboBoxSize->setCurrentIndex(f);
+f=startDlg->ui.comboBoxPaper->findText(paper_size,Qt::MatchExactly | Qt::MatchCaseSensitive);
+startDlg->ui.comboBoxPaper->setCurrentIndex(f);
+QList<QListWidgetItem *> babItems=startDlg->ui.listWidgetBabel->findItems(babel_default,Qt::MatchExactly | Qt::MatchCaseSensitive);
+if (babItems.size()>0) startDlg->ui.listWidgetBabel->setCurrentItem(babItems.at(0));
+startDlg->ui.checkBoxAMS->setChecked(ams_packages);
+startDlg->ui.checkBoxBabel->setChecked(babel_package);
+startDlg->ui.listWidgetBabel->setEnabled(babel_package);
+startDlg->ui.pushButtonBabel->setEnabled(babel_package);
+startDlg->ui.checkBoxGeometry->setChecked(geometry_package);
+startDlg->ui.lineEditGeometry->setEnabled(geometry_package);
+startDlg->ui.checkBoxGraphicx->setChecked(graphicx_package);
+startDlg->ui.lineEditAuthor->setText(author);
+startDlg->ui.lineEditGeometry->setText(geometry_options);
+if ( startDlg->exec() )
+	{
+	tag+=startDlg->ui.comboBoxSize->currentText()+QString(",");
+	tag+=startDlg->ui.comboBoxPaper->currentText();
+	QList<QListWidgetItem *> selectedItems=startDlg->ui.listWidgetOptions->selectedItems();
+	for (int i = 0; i < selectedItems.size(); ++i) 
+		{
+		if ( selectedItems.at(i)) opt+=QString(",")+selectedItems.at(i)->text();
+		}
+	tag+=opt+QString("]{");
+	tag+=startDlg->ui.comboBoxClass->currentText()+QString("}");
+	tag+=QString("\n");
+	
+	tag+=QString("\\usepackage{fontspec}\n");
+	tag+=QString("\\defaultfontfeatures{Mapping=tex-text}\n");
+	tag+=QString("\\usepackage{xunicode}\n");
+	tag+=QString("\\usepackage{xltxtra}\n");
+	tag+=QString("%\\setmainfont{???}\n");
+	if (startDlg->ui.checkBoxBabel->isChecked())
+		{
+		QList<QListWidgetItem *> babelItems=startDlg->ui.listWidgetBabel->selectedItems();
+		for (int i = 0; i < babelItems.size(); ++i) 
+			{
+			if ( babelItems.at(i)) 
+			  {
+			  if (i==0) 
+			      {
+			      optbabel+=babelItems.at(i)->text();
+			      babel_default=babelItems.at(i)->text();
+			      }
+			  }
+			}
+		tag+=QString("\\usepackage{polyglossia}\n\\setdefaultlanguage{"+optbabel+"}\n");
+		li=li+1;
+		}
+	if (startDlg->ui.checkBoxAMS->isChecked())
+		{
+		tag+=QString("\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n");
+		li=li+3;
+		}
+	if (startDlg->ui.checkBoxGraphicx->isChecked())
+		{
+		tag+=QString("\\usepackage{graphicx}\n");
+		li=li+1;
+		}
+	if (startDlg->ui.checkBoxGeometry->isChecked())
+		{
+		tag+=QString("\\usepackage["+startDlg->ui.lineEditGeometry->text()+"]{geometry}\n");
+		li=li+1;
+		}
+	if (startDlg->ui.lineEditAuthor->text()!="")
+		{
+		tag+="\\author{"+startDlg->ui.lineEditAuthor->text()+"}\n";
+		li=li+1;
+		}
+	if (startDlg->ui.lineEditTitle->text()!="")
+		{
+		tag+="\\title{"+startDlg->ui.lineEditTitle->text()+"}\n";
+		li=li+1;
+		}
+	tag+=QString("\\begin{document}\n\n\\end{document}");
+	InsertTag(tag,0,li);
+	document_class=startDlg->ui.comboBoxClass->currentText();
+	typeface_size=startDlg->ui.comboBoxSize->currentText();
+	paper_size=startDlg->ui.comboBoxPaper->currentText();
+	document_encoding="utf8";
+	ams_packages=startDlg->ui.checkBoxAMS->isChecked();
+	babel_package=startDlg->ui.checkBoxBabel->isChecked();
+	geometry_package=startDlg->ui.checkBoxGeometry->isChecked();
+	graphicx_package=startDlg->ui.checkBoxGraphicx->isChecked();
+	author=startDlg->ui.lineEditAuthor->text();
+	geometry_options=startDlg->ui.lineEditGeometry->text();
+	userClassList=startDlg->otherClassList;
+	userPaperList=startDlg->otherPaperList;
+	userOptionsList=startDlg->otherOptionsList;
+	userBabelList=startDlg->otherBabelList;
+	}
+}
+
 
 void Texmaker::QuickBeamer()
 {
@@ -8271,7 +8490,7 @@ if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || fin
 	return;
 	}
 fileSave();
-QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls,.bcf,.snm,.nav,.run.xml").split(",");
+QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls,.bcf,.snm,.nav,.vrb,.listing,.spx,.run.xml").split(",");
 if (useoutputdir)
 {
 QFileInfo fi(outputName(finame,".pdf"));
@@ -8338,7 +8557,7 @@ if ((singlemode && !currentEditorView()) || finame.startsWith("untitled") || fin
 	//QMessageBox::warning( this,tr("Error"),tr("Can't detect the file name"));
 	return;
 	}
-QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls,.bcf,.snm,.nav,.run.xml").split(",");
+QStringList extension=QString(".log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind,.out,.synctex.gz,.blg,.thm,.pre,.nlg,.nlo,.nls,.bcf,.snm,.nav,.vrb,.listing,.spx,.run.xml").split(",");
 if (useoutputdir)
 {
 QFileInfo fi(outputName(finame,".pdf"));
@@ -8934,17 +9153,19 @@ QString line;
 QFileInfo fic(logname);
 QTextCodec* codec = QTextCodec::codecForName(input_encoding.toLatin1());
 if(!codec) codec = QTextCodec::codecForLocale();
+int li=0;
 if (fic.exists() && fic.isReadable() )
 	{
 	OutputTextEdit->insertLine("LOG FILE :");
 	QFile f(logname);
-	if ( f.open(QIODevice::ReadOnly) )
+	if ( f.open(QIODevice::ReadOnly))
 		{
 		QTextStream t( &f );
 		t.setCodec(codec);
 //		OutputTextEdit->setPlainText( t.readAll() );
-		while ( !t.atEnd() )
+		while ( (!t.atEnd()) && (li<100000) )
 			{
+			li++;
 			line=t.readLine();
 			line=line.simplified();
 			if (!line.isEmpty()) OutputTextEdit->insertLine(line);

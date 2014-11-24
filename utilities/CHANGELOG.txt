@@ -1,3 +1,17 @@
+version 4.3 -> 4.4 :
+--------------------
+Features :
+- a new wizard for a standard XeLaTeX document has been added
+- a script ("User" menu to execute it) to apply a hard word wrap at 80 columns to the selected text has been added (will work like the php wordwrap() function - just change the textwidth value in the script if you need another value)
+- the list of furnished scripts is displayed in the "Run Script" sub-menu of the "User" menu (if a script is located at the same place than the furnished scripts, it will appear automtically in this menu)
+- support for the meta tags "% !TEX encoding=" and "% !TEX spellcheck" has been added (the meta tag "% !TEX root" is already supported)
+- .vrb,.listing and .spx extensions have been added to the "Clean" command (users requests)
+- cs, de, el, hu, pl, ru, se and vi translations have been updated (thanks to all the translators)
+
+Bugs fixed :
+- the xelatex command is now included in the "Tools" menu
+- a bad behavior when spelling the document while a text is selected has been fixed (issue 1393)
+
 version 4.2 -> 4.3 :
 --------------------
 - a visual diff view has been added to the "source viewer" (differences between the current files loaded in the editor and in the "source viewer") based on jsdifflib from Chas Emerick (BSD license)

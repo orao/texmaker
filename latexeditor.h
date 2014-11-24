@@ -201,6 +201,7 @@ QScriptEngine fScriptEngine;
 private slots:
 void correctWord();
 void checkSpellingWord();
+void checkSpellingSelection();
 void checkSpellingDocument();
 void insertCompletion(const QString &completion);
 void jumpToPdf();

@@ -6,7 +6,7 @@
     <message>
         <location filename="../aboutdialog.ui" line="14"/>
         <source>About Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Việt hóa bởi Nguyễn Duy Diện - Đại học Vinh</translation>
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="76"/>
@@ -34,7 +34,7 @@
     <message>
         <location filename="../addoptiondialog.ui" line="14"/>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Mới</translation>
     </message>
 </context>
 <context>
@@ -42,17 +42,17 @@
     <message>
         <location filename="../addtagdialog.ui" line="14"/>
         <source>Edit User Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Sửa Tags người dùng</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="22"/>
         <source>Item</source>
-        <translation type="unfinished"></translation>
+        <translation>thành phần</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="32"/>
         <source>LaTeX Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Nội dung LateX</translation>
     </message>
     <message>
         <location filename="../addtagdialog.ui" line="55"/>
@@ -85,7 +85,7 @@
     <message>
         <location filename="../arraydialog.cpp" line="42"/>
         <source>Quick Array</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tạo ma trận</translation>
     </message>
 </context>
 <context>
@@ -93,18 +93,18 @@
     <message>
         <location filename="../browser.cpp" line="47"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Tệp tin</translation>
     </message>
     <message>
         <location filename="../browser.cpp" line="48"/>
         <location filename="../browser.cpp" line="120"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">In</translation>
     </message>
     <message>
         <location filename="../browser.cpp" line="50"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thoát</translation>
     </message>
     <message>
         <location filename="../browser.cpp" line="56"/>
@@ -114,7 +114,7 @@
     <message>
         <location filename="../browser.cpp" line="69"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tìm kiếm</translation>
     </message>
 </context>
 <context>
@@ -122,7 +122,7 @@
     <message>
         <location filename="../configdialog.ui" line="14"/>
         <source>Configure Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Cài đặt Texmaker</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="85"/>
@@ -134,119 +134,119 @@
         <location filename="../configdialog.cpp" line="587"/>
         <location filename="../configdialog.cpp" line="650"/>
         <source>LaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="537"/>
         <location filename="../configdialog.cpp" line="593"/>
         <location filename="../configdialog.cpp" line="656"/>
         <source>dvips</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="608"/>
         <location filename="../configdialog.cpp" line="671"/>
         <source>Bibtex</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="527"/>
         <location filename="../configdialog.cpp" line="611"/>
         <location filename="../configdialog.cpp" line="674"/>
         <source>Makeindex</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="759"/>
         <location filename="../configdialog.cpp" line="596"/>
         <location filename="../configdialog.cpp" line="659"/>
         <source>Dvi Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình xem Dvi</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="114"/>
         <location filename="../configdialog.cpp" line="599"/>
         <location filename="../configdialog.cpp" line="662"/>
         <source>PS Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình xem PS</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="316"/>
         <location filename="../configdialog.cpp" line="590"/>
         <location filename="../configdialog.cpp" line="653"/>
         <source>PdfLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="544"/>
         <location filename="../configdialog.cpp" line="602"/>
         <location filename="../configdialog.cpp" line="665"/>
         <source>Dvipdfm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="560"/>
         <location filename="../configdialog.cpp" line="605"/>
         <location filename="../configdialog.cpp" line="668"/>
         <source>ps2pdf</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="179"/>
         <location filename="../configdialog.cpp" line="614"/>
         <location filename="../configdialog.cpp" line="677"/>
         <source>Pdf Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình xem Pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="195"/>
         <source>Built-in Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình xem mặc định</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="215"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>trình xem mở rộng</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="470"/>
         <location filename="../configdialog.cpp" line="617"/>
         <location filename="../configdialog.cpp" line="680"/>
         <source>metapost</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="439"/>
         <location filename="../configdialog.cpp" line="620"/>
         <location filename="../configdialog.cpp" line="683"/>
         <source>ghostscript</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="432"/>
         <location filename="../configdialog.cpp" line="623"/>
         <location filename="../configdialog.cpp" line="686"/>
         <source>Asymptote</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="480"/>
         <location filename="../configdialog.cpp" line="626"/>
         <location filename="../configdialog.cpp" line="689"/>
         <source>Latexmk</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="285"/>
         <source>Embed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nhúng</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="607"/>
         <location filename="../configdialog.cpp" line="629"/>
         <location filename="../configdialog.cpp" line="692"/>
         <source>R Sweave</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="408"/>
@@ -263,7 +263,7 @@
         <location filename="../configdialog.cpp" line="632"/>
         <location filename="../configdialog.cpp" line="695"/>
         <source>XeLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="446"/>
@@ -278,44 +278,44 @@
     <message>
         <location filename="../configdialog.ui" line="833"/>
         <source>Quick Build Command</source>
-        <translation type="unfinished"></translation>
+        <translation>Lệnh Xuất file</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="855"/>
         <source>LaTeX + dvips + View PS</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + dvips + Xem  PS</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="869"/>
         <source>LaTeX + View DVI</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="841"/>
         <source>PdfLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX + Xem PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="883"/>
         <source>LaTeX + dvipdfm + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + dvipdfm + Xem PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="876"/>
         <source>LaTeX + dvips + ps2pdf + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX + dvips + ps2pdf + xem  PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="344"/>
         <location filename="../configdialog.cpp" line="635"/>
         <location filename="../configdialog.cpp" line="698"/>
         <source>LuaLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="517"/>
         <source>Bib(la)tex</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="720"/>
@@ -371,7 +371,7 @@
         <location filename="../configdialog.ui" line="967"/>
         <location filename="../configdialog.ui" line="1006"/>
         <source>wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình tự động</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="980"/>
@@ -393,7 +393,7 @@
         <location filename="../configdialog.cpp" line="179"/>
         <location filename="../configdialog.cpp" line="192"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình soạn thảo</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1085"/>
@@ -428,7 +428,7 @@
     <message>
         <location filename="../configdialog.ui" line="1285"/>
         <source>Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">thành phần</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1290"/>
@@ -523,7 +523,7 @@
         <location filename="../configdialog.cpp" line="173"/>
         <location filename="../configdialog.cpp" line="191"/>
         <source>Quick Build</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Xuất file</translation>
     </message>
     <message>
         <location filename="../configdialog.cpp" line="237"/>
@@ -578,7 +578,7 @@
     <message>
         <location filename="../documentview.cpp" line="1489"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hủy bỏ</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="1505"/>
@@ -588,7 +588,7 @@
     <message>
         <location filename="../documentview.cpp" line="1515"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lưu mới</translation>
     </message>
 </context>
 <context>
@@ -615,7 +615,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="14"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Xuất ra TeX4ht</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="22"/>
@@ -650,7 +650,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="82"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Người dùng</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="91"/>
@@ -660,7 +660,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="125"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chạy</translation>
     </message>
     <message>
         <location filename="../exportdialog.cpp" line="47"/>
@@ -673,12 +673,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../filechooser.ui" line="31"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tệp tin</translation>
     </message>
     <message>
         <location filename="../filechooser.cpp" line="43"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chọn một tệp tin</translation>
     </message>
 </context>
 <context>
@@ -691,7 +691,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../findwidget.ui" line="48"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tìm kiếm</translation>
     </message>
     <message>
         <location filename="../findwidget.ui" line="58"/>
@@ -742,7 +742,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../findwidget.cpp" line="59"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lỗi</translation>
     </message>
     <message>
         <location filename="../findwidget.cpp" line="59"/>
@@ -770,7 +770,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../gotolinewidget.ui" line="77"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Đóng</translation>
     </message>
 </context>
 <context>
@@ -778,7 +778,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../graphicfilechooser.ui" line="36"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tệp tin</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.ui" line="95"/>
@@ -818,12 +818,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../graphicfilechooser.ui" line="233"/>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Giữa</translation>
     </message>
     <message>
         <location filename="../graphicfilechooser.cpp" line="48"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chọn một tệp tin</translation>
     </message>
 </context>
 <context>
@@ -845,32 +845,32 @@ with the default encoding setting</source>
     <message>
         <location filename="../latexeditor.cpp" line="888"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Quay lại</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="891"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tiếp tục</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="895"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cắt</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="898"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sao chép</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="901"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dán</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="906"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chọn tất cả</translation>
     </message>
     <message>
         <location filename="../latexeditor.cpp" line="912"/>
@@ -923,7 +923,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../letterdialog.cpp" line="73"/>
         <source>Quick Letter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tạo thư nhanh</translation>
     </message>
 </context>
 <context>
@@ -931,7 +931,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../lightfindwidget.cpp" line="56"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lỗi</translation>
     </message>
     <message>
         <location filename="../lightfindwidget.cpp" line="56"/>
@@ -944,29 +944,29 @@ with the default encoding setting</source>
     <message>
         <location filename="../lightlatexeditor.cpp" line="477"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lỗi</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="477"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bạn không đủ quyền đề đọc tài liệu này.</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="883"/>
         <location filename="../lightlatexeditor.cpp" line="886"/>
         <location filename="../lightlatexeditor.cpp" line="889"/>
         <source>Click to jump to the bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cick đề đi đến đánh dấu</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="893"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tìm kiếm</translation>
     </message>
     <message>
         <location filename="../lightlatexeditor.cpp" line="896"/>
         <source>Goto Line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Đến dòng thứ</translation>
     </message>
 </context>
 <context>
@@ -991,7 +991,7 @@ with the default encoding setting</source>
         <location filename="../pageitem.cpp" line="158"/>
         <location filename="../pageitem.cpp" line="160"/>
         <source>Click to jump to the line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cick đề đi đến dòng</translation>
     </message>
     <message>
         <location filename="../pageitem.cpp" line="167"/>
@@ -1021,7 +1021,7 @@ with the default encoding setting</source>
         <location filename="../pdfviewer.cpp" line="138"/>
         <location filename="../pdfviewer.cpp" line="1180"/>
         <source>Structure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cấu trúc</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="119"/>
@@ -1032,23 +1032,23 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewer.cpp" line="169"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Tệp tin</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="173"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thoát</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="175"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Sửa</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="176"/>
         <location filename="../pdfviewer.cpp" line="268"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tìm kiếm</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="185"/>
@@ -1063,7 +1063,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewer.cpp" line="195"/>
         <source>&amp;View</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Xem</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="196"/>
@@ -1124,12 +1124,12 @@ with the default encoding setting</source>
         <location filename="../pdfviewer.cpp" line="279"/>
         <location filename="../pdfviewer.cpp" line="1062"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">In</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="282"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">trình xem mở rộng</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="285"/>
@@ -1139,12 +1139,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewer.cpp" line="430"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lỗi</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="430"/>
         <source>File not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Không tìm thấy file</translation>
     </message>
     <message>
         <location filename="../pdfviewer.cpp" line="411"/>
@@ -1218,7 +1218,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="217"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tìm kiếm</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="228"/>
@@ -1234,12 +1234,12 @@ with the default encoding setting</source>
         <location filename="../pdfviewerwidget.cpp" line="242"/>
         <location filename="../pdfviewerwidget.cpp" line="1055"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">In</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="245"/>
         <source>External Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">trình xem mở rộng</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="248"/>
@@ -1249,12 +1249,12 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="426"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lỗi</translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="426"/>
         <source>File not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Không tìm thấy file</translation>
     </message>
 </context>
 <context>
@@ -1401,7 +1401,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../quickbeamerdialog.cpp" line="22"/>
         <source>Quick Start</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bắt đầu nhanh</translation>
     </message>
 </context>
 <context>
@@ -1498,7 +1498,78 @@ with the default encoding setting</source>
     <message>
         <location filename="../quickdocumentdialog.cpp" line="31"/>
         <source>Quick Start</source>
+        <translation type="unfinished">Bắt đầu nhanh</translation>
+    </message>
+</context>
+<context>
+    <name>QuickXelatexDialog</name>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="25"/>
+        <location filename="../quickxelatexdialog.ui" line="83"/>
+        <location filename="../quickxelatexdialog.ui" line="115"/>
+        <location filename="../quickxelatexdialog.ui" line="170"/>
+        <source>+</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="38"/>
+        <source>Other Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="51"/>
+        <source>Document Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="70"/>
+        <source>Paper Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="96"/>
+        <source>Typeface Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="128"/>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="147"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="154"/>
+        <source>polyglossia Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="177"/>
+        <source>geometry Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="184"/>
+        <source>left=2cm,right=2cm,top=2cm,bottom=2cm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="191"/>
+        <source>AMS Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.ui" line="201"/>
+        <source>graphicx Package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../quickxelatexdialog.cpp" line="30"/>
+        <source>Quick Start</source>
+        <translation type="unfinished">Bắt đầu nhanh</translation>
     </message>
 </context>
 <context>
@@ -1521,7 +1592,7 @@ with the default encoding setting</source>
         <location filename="../replacewidget.ui" line="32"/>
         <location filename="../replacewidget.ui" line="58"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tìm kiếm</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="68"/>
@@ -1552,7 +1623,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../replacewidget.ui" line="108"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thay thế</translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="134"/>
@@ -1583,7 +1654,7 @@ with the default encoding setting</source>
         <location filename="../replacewidget.cpp" line="58"/>
         <location filename="../replacewidget.cpp" line="129"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lỗi</translation>
     </message>
     <message>
         <location filename="../replacewidget.cpp" line="58"/>
@@ -1613,7 +1684,7 @@ with the default encoding setting</source>
         <location filename="../replacewidget.cpp" line="73"/>
         <location filename="../replacewidget.cpp" line="96"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hủy bỏ</translation>
     </message>
 </context>
 <context>
@@ -1637,7 +1708,7 @@ with the default encoding setting</source>
         <location filename="../scandialog.ui" line="67"/>
         <location filename="../scandialog.cpp" line="42"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tìm kiếm</translation>
     </message>
     <message>
         <location filename="../scandialog.ui" line="74"/>
@@ -1652,7 +1723,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../scandialog.ui" line="100"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Đóng</translation>
     </message>
 </context>
 <context>
@@ -1660,7 +1731,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../sourceview.cpp" line="47"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mở</translation>
     </message>
     <message>
         <location filename="../sourceview.cpp" line="54"/>
@@ -1670,7 +1741,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../sourceview.cpp" line="139"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mở tài liệu</translation>
     </message>
 </context>
 <context>
@@ -1678,7 +1749,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../spellerdialog.ui" line="13"/>
         <source>Check Spelling</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kiểm tra chính tả</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="19"/>
@@ -1688,7 +1759,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../spellerdialog.ui" line="33"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thay thế</translation>
     </message>
     <message>
         <location filename="../spellerdialog.ui" line="43"/>
@@ -1713,7 +1784,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../spellerdialog.ui" line="130"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Đóng</translation>
     </message>
     <message>
         <location filename="../spellerdialog.cpp" line="115"/>
@@ -1739,7 +1810,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../structdialog.ui" line="14"/>
         <source>Structure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cấu trúc</translation>
     </message>
     <message>
         <location filename="../structdialog.ui" line="37"/>
@@ -1850,7 +1921,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../tabdialog.cpp" line="107"/>
         <source>Quick Tabular</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tạo bảng</translation>
     </message>
 </context>
 <context>
@@ -1873,7 +1944,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../tabbingdialog.cpp" line="26"/>
         <source>Quick Tabbing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tạo tab</translation>
     </message>
 </context>
 <context>
@@ -1902,1073 +1973,1087 @@ with the default encoding setting</source>
 <context>
     <name>Texmaker</name>
     <message>
-        <location filename="../texmaker.cpp" line="213"/>
-        <location filename="../texmaker.cpp" line="381"/>
-        <location filename="../texmaker.cpp" line="2055"/>
-        <location filename="../texmaker.cpp" line="4941"/>
+        <location filename="../texmaker.cpp" line="214"/>
+        <location filename="../texmaker.cpp" line="382"/>
+        <location filename="../texmaker.cpp" line="2077"/>
+        <location filename="../texmaker.cpp" line="5059"/>
         <source>Structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Cấu trúc</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="230"/>
-        <location filename="../texmaker.cpp" line="4946"/>
+        <location filename="../texmaker.cpp" line="231"/>
+        <location filename="../texmaker.cpp" line="5064"/>
         <source>Relation symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Ký hiệu mới dùng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="240"/>
-        <location filename="../texmaker.cpp" line="4951"/>
+        <location filename="../texmaker.cpp" line="241"/>
+        <location filename="../texmaker.cpp" line="5069"/>
         <source>Arrow symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Ký hiệu mũi tên</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="249"/>
-        <location filename="../texmaker.cpp" line="4956"/>
+        <location filename="../texmaker.cpp" line="250"/>
+        <location filename="../texmaker.cpp" line="5074"/>
         <source>Miscellaneous symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Ký hiệu...</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="258"/>
-        <location filename="../texmaker.cpp" line="4961"/>
+        <location filename="../texmaker.cpp" line="259"/>
+        <location filename="../texmaker.cpp" line="5079"/>
         <source>Delimiters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="267"/>
-        <location filename="../texmaker.cpp" line="4966"/>
+        <location filename="../texmaker.cpp" line="268"/>
+        <location filename="../texmaker.cpp" line="5084"/>
         <source>Greek letters</source>
-        <translation type="unfinished"></translation>
+        <translation>Chữ cái Hy Lạp</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="276"/>
-        <location filename="../texmaker.cpp" line="4971"/>
+        <location filename="../texmaker.cpp" line="277"/>
+        <location filename="../texmaker.cpp" line="5089"/>
         <source>Most used symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Ký hiệu hay dùng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="285"/>
-        <location filename="../texmaker.cpp" line="4976"/>
+        <location filename="../texmaker.cpp" line="286"/>
+        <location filename="../texmaker.cpp" line="5094"/>
         <source>Favorites symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Ký hiệu ưa thích</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="324"/>
-        <location filename="../texmaker.cpp" line="357"/>
-        <location filename="../texmaker.cpp" line="4981"/>
+        <location filename="../texmaker.cpp" line="325"/>
+        <location filename="../texmaker.cpp" line="358"/>
+        <location filename="../texmaker.cpp" line="5099"/>
         <source>Pstricks Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="332"/>
-        <location filename="../texmaker.cpp" line="360"/>
-        <location filename="../texmaker.cpp" line="4991"/>
+        <location filename="../texmaker.cpp" line="333"/>
+        <location filename="../texmaker.cpp" line="361"/>
+        <location filename="../texmaker.cpp" line="5109"/>
         <source>MetaPost Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="340"/>
-        <location filename="../texmaker.cpp" line="363"/>
-        <location filename="../texmaker.cpp" line="4996"/>
+        <location filename="../texmaker.cpp" line="341"/>
+        <location filename="../texmaker.cpp" line="364"/>
+        <location filename="../texmaker.cpp" line="5114"/>
         <source>Tikz Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="348"/>
-        <location filename="../texmaker.cpp" line="366"/>
-        <location filename="../texmaker.cpp" line="5001"/>
+        <location filename="../texmaker.cpp" line="349"/>
+        <location filename="../texmaker.cpp" line="367"/>
+        <location filename="../texmaker.cpp" line="5119"/>
         <source>Asymptote Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2060"/>
+        <location filename="../texmaker.cpp" line="2082"/>
         <source>Messages / Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Thông báo</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="738"/>
+        <location filename="../texmaker.cpp" line="745"/>
         <source>Toggle between the master document and the current document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="627"/>
+        <location filename="../texmaker.cpp" line="634"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Đậm</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="632"/>
+        <location filename="../texmaker.cpp" line="639"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Nghiêng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="642"/>
+        <location filename="../texmaker.cpp" line="649"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Trái</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="647"/>
+        <location filename="../texmaker.cpp" line="654"/>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Giữa</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="652"/>
+        <location filename="../texmaker.cpp" line="659"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Phải</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="658"/>
-        <location filename="../texmaker.cpp" line="698"/>
+        <location filename="../texmaker.cpp" line="665"/>
+        <location filename="../texmaker.cpp" line="705"/>
         <source>New line</source>
-        <translation type="unfinished"></translation>
+        <translation>Dòng mới</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="895"/>
-        <location filename="../texmaker.cpp" line="9943"/>
+        <location filename="../texmaker.cpp" line="902"/>
+        <location filename="../texmaker.cpp" line="10164"/>
         <source>Normal Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="918"/>
-        <source>&amp;File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="919"/>
-        <location filename="../texmaker.cpp" line="920"/>
-        <location filename="../texmaker.cpp" line="2307"/>
-        <location filename="../texmaker.cpp" line="2308"/>
-        <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Chế độ chuẩn</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="925"/>
+        <source>&amp;File</source>
+        <translatorcomment>Tệp tin</translatorcomment>
+        <translation>&amp;Tệp tin</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="926"/>
+        <location filename="../texmaker.cpp" line="927"/>
+        <location filename="../texmaker.cpp" line="2329"/>
+        <location filename="../texmaker.cpp" line="2330"/>
+        <source>New</source>
+        <translation>Mới</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="932"/>
         <source>New by copying an existing file</source>
-        <translation type="unfinished"></translation>
+        <translation>Mới từ tài liệu có sẵn</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="929"/>
-        <location filename="../texmaker.cpp" line="930"/>
-        <location filename="../texmaker.cpp" line="2312"/>
-        <location filename="../texmaker.cpp" line="2313"/>
+        <location filename="../texmaker.cpp" line="936"/>
+        <location filename="../texmaker.cpp" line="937"/>
+        <location filename="../texmaker.cpp" line="2334"/>
+        <location filename="../texmaker.cpp" line="2335"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="935"/>
+        <location filename="../texmaker.cpp" line="942"/>
         <source>Open Recent</source>
-        <translation type="unfinished"></translation>
+        <translation>Mới mở gần đây</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="949"/>
+        <location filename="../texmaker.cpp" line="956"/>
         <source>Restore previous session</source>
-        <translation type="unfinished"></translation>
+        <translation>Khôi phục mục trước</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="961"/>
-        <location filename="../texmaker.cpp" line="962"/>
-        <location filename="../texmaker.cpp" line="3043"/>
-        <location filename="../texmaker.cpp" line="3186"/>
-        <location filename="../texmaker.cpp" line="3243"/>
-        <location filename="../texmaker.cpp" line="11125"/>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="../texmaker.cpp" line="968"/>
         <location filename="../texmaker.cpp" line="969"/>
-        <location filename="../texmaker.cpp" line="3300"/>
-        <location filename="../texmaker.cpp" line="3371"/>
-        <location filename="../texmaker.cpp" line="4867"/>
+        <location filename="../texmaker.cpp" line="3123"/>
+        <location filename="../texmaker.cpp" line="3266"/>
+        <location filename="../texmaker.cpp" line="3323"/>
+        <location filename="../texmaker.cpp" line="11346"/>
+        <source>Save</source>
+        <translation>Lưu</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="976"/>
+        <location filename="../texmaker.cpp" line="3380"/>
+        <location filename="../texmaker.cpp" line="3451"/>
+        <location filename="../texmaker.cpp" line="4985"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu mới</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="973"/>
+        <location filename="../texmaker.cpp" line="980"/>
         <source>Save All</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu tất cả</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="764"/>
-        <location filename="../texmaker.cpp" line="981"/>
+        <location filename="../texmaker.cpp" line="771"/>
+        <location filename="../texmaker.cpp" line="988"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Đóng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="987"/>
+        <location filename="../texmaker.cpp" line="994"/>
         <source>Close All</source>
-        <translation type="unfinished"></translation>
+        <translation>Đóng tất cả</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="991"/>
+        <location filename="../texmaker.cpp" line="998"/>
         <source>Reload document from file</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải lại tài liệu</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="999"/>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1005"/>
         <location filename="../texmaker.cpp" line="1006"/>
-        <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <source>Print</source>
+        <translation>In</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1012"/>
-        <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../texmaker.cpp" line="1013"/>
-        <location filename="../texmaker.cpp" line="1014"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <source>Exit</source>
+        <translation>Thoát</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1019"/>
+        <source>&amp;Edit</source>
+        <translatorcomment>Sửa</translatorcomment>
+        <translation>&amp;Sửa</translation>
+    </message>
+    <message>
         <location filename="../texmaker.cpp" line="1020"/>
-        <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <location filename="../texmaker.cpp" line="1021"/>
+        <source>Undo</source>
+        <translation>Quay lại</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1026"/>
         <location filename="../texmaker.cpp" line="1027"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <source>Redo</source>
+        <translation>Tiếp tục</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1032"/>
         <location filename="../texmaker.cpp" line="1033"/>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <location filename="../texmaker.cpp" line="1034"/>
+        <source>Copy</source>
+        <translation>Sao chép</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1038"/>
         <location filename="../texmaker.cpp" line="1039"/>
+        <location filename="../texmaker.cpp" line="1040"/>
+        <source>Cut</source>
+        <translation>Cắt</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1045"/>
+        <location filename="../texmaker.cpp" line="1046"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Dán</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1044"/>
+        <location filename="../texmaker.cpp" line="1051"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn tất cả</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1050"/>
+        <location filename="../texmaker.cpp" line="1057"/>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Chú thích</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1056"/>
+        <location filename="../texmaker.cpp" line="1063"/>
         <source>Uncomment</source>
-        <translation type="unfinished"></translation>
+        <translation>Bỏ chú thích</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1062"/>
+        <location filename="../texmaker.cpp" line="1069"/>
         <source>Indent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1068"/>
+        <location filename="../texmaker.cpp" line="1075"/>
         <source>Unindent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1075"/>
+        <location filename="../texmaker.cpp" line="1082"/>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Tìm kiếm</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1081"/>
+        <location filename="../texmaker.cpp" line="1088"/>
         <source>FindNext</source>
-        <translation type="unfinished"></translation>
+        <translation>Tìm kiếm tiếp</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1092"/>
+        <location filename="../texmaker.cpp" line="1099"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../texmaker.cpp" line="1098"/>
-        <source>Goto Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Thay thế</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1105"/>
-        <source>Check Spelling</source>
-        <translation type="unfinished"></translation>
+        <source>Goto Line</source>
+        <translation>Đến dòng thứ</translation>
     </message>
     <message>
         <location filename="../texmaker.cpp" line="1112"/>
+        <source>Check Spelling</source>
+        <translation>Kiểm tra chính tả</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1119"/>
         <source>Refresh Structure</source>
-        <translation type="unfinished"></translation>
+        <translation>Làm mới cấu trúc</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1118"/>
+        <location filename="../texmaker.cpp" line="1125"/>
         <source>Refresh Bibliography</source>
-        <translation type="unfinished"></translation>
+        <translation>Làm mới tham khảo</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1123"/>
+        <location filename="../texmaker.cpp" line="1130"/>
         <source>&amp;Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Công cụ</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1124"/>
-        <location filename="../texmaker.cpp" line="2360"/>
-        <location filename="../texmaker.cpp" line="8701"/>
+        <location filename="../texmaker.cpp" line="1131"/>
+        <location filename="../texmaker.cpp" line="2382"/>
+        <location filename="../texmaker.cpp" line="8920"/>
         <source>Quick Build</source>
-        <translation type="unfinished"></translation>
+        <translation>Xuất file</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1135"/>
-        <location filename="../texmaker.cpp" line="2385"/>
+        <location filename="../texmaker.cpp" line="1142"/>
+        <location filename="../texmaker.cpp" line="2407"/>
         <source>View Dvi</source>
-        <translation type="unfinished"></translation>
+        <translation>Xem Dvi</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1145"/>
-        <location filename="../texmaker.cpp" line="2386"/>
+        <location filename="../texmaker.cpp" line="1152"/>
+        <location filename="../texmaker.cpp" line="2408"/>
         <source>View PS</source>
-        <translation type="unfinished"></translation>
+        <translation>Xem PS</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1155"/>
-        <location filename="../texmaker.cpp" line="2387"/>
+        <location filename="../texmaker.cpp" line="1162"/>
+        <location filename="../texmaker.cpp" line="2409"/>
         <source>View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>Xem PDF</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1170"/>
-        <location filename="../texmaker.cpp" line="2398"/>
+        <location filename="../texmaker.cpp" line="1177"/>
+        <location filename="../texmaker.cpp" line="2420"/>
         <source>View Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Xem Log</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="944"/>
-        <location filename="../texmaker.cpp" line="1210"/>
-        <location filename="../texmaker.cpp" line="1955"/>
+        <location filename="../texmaker.cpp" line="951"/>
+        <location filename="../texmaker.cpp" line="1218"/>
+        <location filename="../texmaker.cpp" line="1966"/>
         <source>Clean</source>
-        <translation type="unfinished"></translation>
+        <translation>xóa</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="308"/>
-        <location filename="../texmaker.cpp" line="5007"/>
+        <location filename="../texmaker.cpp" line="309"/>
+        <location filename="../texmaker.cpp" line="5125"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Người dùng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="948"/>
+        <location filename="../texmaker.cpp" line="955"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="954"/>
+        <location filename="../texmaker.cpp" line="961"/>
         <source>Save session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="957"/>
+        <location filename="../texmaker.cpp" line="964"/>
         <source>Load session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="977"/>
+        <location filename="../texmaker.cpp" line="984"/>
         <source>Save A Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu bản sao</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="995"/>
+        <location filename="../texmaker.cpp" line="1002"/>
         <source>Reload all documents from file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1087"/>
+        <location filename="../texmaker.cpp" line="1094"/>
         <source>Find In Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Tìm kiếm trong thư mục</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1215"/>
+        <location filename="../texmaker.cpp" line="1223"/>
         <source>Open Terminal</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở câu lệnh</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1219"/>
+        <location filename="../texmaker.cpp" line="1227"/>
         <source>Export via TeX4ht</source>
-        <translation type="unfinished"></translation>
+        <translation>Xuất ra TeX4ht</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1224"/>
+        <location filename="../texmaker.cpp" line="1232"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation>Chuyển đổi sang Unicode</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1229"/>
-        <location filename="../texmaker.cpp" line="2408"/>
+        <location filename="../texmaker.cpp" line="1237"/>
+        <location filename="../texmaker.cpp" line="2430"/>
         <source>Previous LaTeX Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Lỗi latex trước</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1231"/>
-        <location filename="../texmaker.cpp" line="2402"/>
+        <location filename="../texmaker.cpp" line="1239"/>
+        <location filename="../texmaker.cpp" line="2424"/>
         <source>Next LaTeX Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Lỗi latex tiếp theo</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1234"/>
+        <location filename="../texmaker.cpp" line="1242"/>
         <source>&amp;LaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1268"/>
+        <location filename="../texmaker.cpp" line="1276"/>
         <source>&amp;Sectioning</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mục</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1298"/>
+        <location filename="../texmaker.cpp" line="1306"/>
         <source>&amp;Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Mô&amp;i trường</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1344"/>
+        <location filename="../texmaker.cpp" line="1352"/>
         <source>&amp;List Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Môi trường &amp;Liệt kê</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1368"/>
+        <location filename="../texmaker.cpp" line="1376"/>
         <source>Font St&amp;yles</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiểu &amp;chữ</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1405"/>
+        <location filename="../texmaker.cpp" line="1413"/>
         <source>&amp;Tabular Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Môi trường &amp;bảng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1431"/>
+        <location filename="../texmaker.cpp" line="1439"/>
         <source>S&amp;pacing</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Khoảng cách</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1458"/>
+        <location filename="../texmaker.cpp" line="1466"/>
         <source>International &amp;Accents</source>
-        <translation type="unfinished"></translation>
+        <translation>Trọng â&amp;m quốc tế</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1500"/>
+        <location filename="../texmaker.cpp" line="1508"/>
         <source>International &amp;Quotes</source>
-        <translation type="unfinished"></translation>
+        <translation>Dấu trích &amp;dẫn quốc tế</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1549"/>
+        <location filename="../texmaker.cpp" line="1557"/>
         <source>&amp;Math</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Toán</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1550"/>
+        <location filename="../texmaker.cpp" line="1558"/>
         <source>Inline math mode $...$</source>
-        <translation type="unfinished"></translation>
+        <translation>Chế độ toán cùng dòng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1555"/>
+        <location filename="../texmaker.cpp" line="1563"/>
         <source>Display math mode \[...\]</source>
-        <translation type="unfinished"></translation>
+        <translation>Chế độ toán khác dòng\[...\]</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1560"/>
+        <location filename="../texmaker.cpp" line="1568"/>
         <source>Numbered equations \begin{equation}</source>
-        <translation type="unfinished"></translation>
+        <translation>Công thức đánh số \begin{equation}</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1613"/>
+        <location filename="../texmaker.cpp" line="1621"/>
         <source>Math &amp;Functions</source>
-        <translation type="unfinished"></translation>
+        <translation>Các &amp;hàm toán học</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1735"/>
+        <location filename="../texmaker.cpp" line="1743"/>
         <source>Math Font St&amp;yles</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiểu chữ Toán &amp;học</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1769"/>
+        <location filename="../texmaker.cpp" line="1777"/>
         <source>Math &amp;Accents</source>
-        <translation type="unfinished"></translation>
+        <translation>Trọng &amp;âm</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1811"/>
+        <location filename="../texmaker.cpp" line="1819"/>
         <source>Math S&amp;paces</source>
-        <translation type="unfinished"></translation>
+        <translation>Khoảng cách T&amp;oán học</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1833"/>
+        <location filename="../texmaker.cpp" line="1841"/>
         <source>&amp;Wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình tự độn&amp;g</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1834"/>
+        <location filename="../texmaker.cpp" line="1842"/>
         <source>Quick Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Bắt đầu nhanh</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1837"/>
+        <location filename="../texmaker.cpp" line="1845"/>
         <source>Quick Beamer Presentation</source>
+        <translation>Tạo trình chiếu nhanh</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="1848"/>
+        <source>Quick Xelatex Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1840"/>
+        <location filename="../texmaker.cpp" line="1851"/>
         <source>Quick Letter</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo thư nhanh</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1844"/>
+        <location filename="../texmaker.cpp" line="1855"/>
         <source>Quick Tabular</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo bảng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1847"/>
+        <location filename="../texmaker.cpp" line="1858"/>
         <source>Quick Tabbing</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo tab</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1850"/>
+        <location filename="../texmaker.cpp" line="1861"/>
         <source>Quick Array</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo ma trận</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1854"/>
+        <location filename="../texmaker.cpp" line="1865"/>
         <source>&amp;Bibliography</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tài liệu tham khảo</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1960"/>
+        <location filename="../texmaker.cpp" line="1971"/>
         <source>&amp;User</source>
-        <translation type="unfinished"></translation>
+        <translation>Người d&amp;ùng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1961"/>
+        <location filename="../texmaker.cpp" line="1972"/>
         <source>User &amp;Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Người dùng và t&amp;ag</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2003"/>
-        <location filename="../texmaker.cpp" line="7149"/>
-        <location filename="../texmaker.cpp" line="7205"/>
+        <location filename="../texmaker.cpp" line="2014"/>
+        <location filename="../texmaker.cpp" line="7368"/>
+        <location filename="../texmaker.cpp" line="7424"/>
         <source>Edit User &amp;Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Sửa người dùng và T&amp;ags</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2006"/>
+        <location filename="../texmaker.cpp" line="2017"/>
         <source>User &amp;Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Người dùng và câu &amp;lệnh</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2028"/>
-        <location filename="../texmaker.cpp" line="8661"/>
-        <location filename="../texmaker.cpp" line="8697"/>
+        <location filename="../texmaker.cpp" line="2039"/>
+        <location filename="../texmaker.cpp" line="8880"/>
+        <location filename="../texmaker.cpp" line="8916"/>
         <source>Edit User &amp;Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Chỉnh sửa Người dùng và câu &amp;lệnh</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2032"/>
+        <location filename="../texmaker.cpp" line="2043"/>
         <source>Customize Completion</source>
-        <translation type="unfinished"></translation>
+        <translation>Chỉnh sửa tự động điền</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2037"/>
+        <location filename="../texmaker.cpp" line="2048"/>
         <source>Run script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2042"/>
-        <source>&amp;View</source>
+        <location filename="../texmaker.cpp" line="2059"/>
+        <source>Other script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2144"/>
+        <location filename="../texmaker.cpp" line="2064"/>
+        <source>&amp;View</source>
+        <translation>&amp;Xem</translation>
+    </message>
+    <message>
+        <location filename="../texmaker.cpp" line="2166"/>
         <source>Manage Settings File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2191"/>
+        <location filename="../texmaker.cpp" line="2213"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Cập nhật</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4040"/>
+        <location filename="../texmaker.cpp" line="4120"/>
         <source>Browse script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7430"/>
+        <location filename="../texmaker.cpp" line="7649"/>
         <source>A document must be saved with an extension (and without spaces or accents in the name) before being used by a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tài liệu phải được lưu với phần mở rộng (không có dấu cách) trước khi xuất file.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8278"/>
+        <location filename="../texmaker.cpp" line="8497"/>
         <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="747"/>
-        <location filename="../texmaker.cpp" line="2043"/>
+        <location filename="../texmaker.cpp" line="754"/>
+        <location filename="../texmaker.cpp" line="2065"/>
         <source>Next Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Tài liệu tiếp theo</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="743"/>
-        <location filename="../texmaker.cpp" line="2048"/>
+        <location filename="../texmaker.cpp" line="750"/>
+        <location filename="../texmaker.cpp" line="2070"/>
         <source>Previous Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Tài liệu trước</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2098"/>
+        <location filename="../texmaker.cpp" line="2120"/>
         <source>&amp;Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Tu&amp;ỳ chọn</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2099"/>
+        <location filename="../texmaker.cpp" line="2121"/>
         <source>Configure Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Cài đặt Texmaker</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2103"/>
-        <location filename="../texmaker.cpp" line="9934"/>
+        <location filename="../texmaker.cpp" line="2125"/>
+        <location filename="../texmaker.cpp" line="10155"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Định nghĩa tài liệu hiện tại là &apos;Master Document&apos;</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2107"/>
+        <location filename="../texmaker.cpp" line="2129"/>
         <source>Interface Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Giao diện</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2122"/>
+        <location filename="../texmaker.cpp" line="2144"/>
         <source>Change Interface Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Thay đổi kiểu chữ hiển thị</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2127"/>
+        <location filename="../texmaker.cpp" line="2149"/>
         <source>Interface Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Ngôn ngữ hiển thị</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2158"/>
+        <location filename="../texmaker.cpp" line="2180"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Giúp đỡ</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2159"/>
-        <location filename="../texmaker.cpp" line="2160"/>
+        <location filename="../texmaker.cpp" line="2181"/>
+        <location filename="../texmaker.cpp" line="2182"/>
         <source>LaTeX Reference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2163"/>
-        <location filename="../texmaker.cpp" line="2164"/>
+        <location filename="../texmaker.cpp" line="2185"/>
+        <location filename="../texmaker.cpp" line="2186"/>
         <source>User Manual</source>
-        <translation type="unfinished"></translation>
+        <translation>Hướng dẫn sử dụng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2196"/>
+        <location filename="../texmaker.cpp" line="2218"/>
         <source>About Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Texmaker việt hóa bởi Nguyễn Duy Diện</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2381"/>
+        <location filename="../texmaker.cpp" line="2403"/>
         <source>Run</source>
-        <translation type="unfinished"></translation>
+        <translation>Chạy</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2393"/>
+        <location filename="../texmaker.cpp" line="2415"/>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Xem</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2414"/>
+        <location filename="../texmaker.cpp" line="2436"/>
         <source>Stop Process</source>
-        <translation type="unfinished"></translation>
+        <translation>Dừng tiến trình</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="772"/>
-        <location filename="../texmaker.cpp" line="775"/>
-        <location filename="../texmaker.cpp" line="778"/>
+        <location filename="../texmaker.cpp" line="779"/>
+        <location filename="../texmaker.cpp" line="782"/>
+        <location filename="../texmaker.cpp" line="785"/>
         <source>Click to jump to the bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Cick đề đi đến đánh dấu</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2066"/>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="2088"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>Pdf Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình xem Pdf</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2083"/>
+        <location filename="../texmaker.cpp" line="2105"/>
         <source>List of opened files</source>
-        <translation type="unfinished"></translation>
+        <translation>Các tài liệu đang mở</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2090"/>
+        <location filename="../texmaker.cpp" line="2112"/>
         <source>Full Screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Toàn màn hình</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2146"/>
+        <location filename="../texmaker.cpp" line="2168"/>
         <source>Settings File</source>
-        <translation type="unfinished"></translation>
+        <translation>Tệp cài đặt</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2148"/>
+        <location filename="../texmaker.cpp" line="2170"/>
         <source>Reset Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Khôi phục cài đặt</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2151"/>
+        <location filename="../texmaker.cpp" line="2173"/>
         <source>Save a copy of the settings file</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu bản sao của tệp Cài đặt</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2154"/>
+        <location filename="../texmaker.cpp" line="2176"/>
         <source>Replace the settings file by a new one</source>
-        <translation type="unfinished"></translation>
+        <translation>Thay thế tệp cài đặt bơi tệp mới</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2609"/>
-        <location filename="../texmaker.cpp" line="2892"/>
-        <location filename="../texmaker.cpp" line="3213"/>
-        <location filename="../texmaker.cpp" line="3272"/>
-        <location filename="../texmaker.cpp" line="4019"/>
-        <location filename="../texmaker.cpp" line="7425"/>
-        <location filename="../texmaker.cpp" line="7430"/>
-        <location filename="../texmaker.cpp" line="7725"/>
-        <location filename="../texmaker.cpp" line="7747"/>
-        <location filename="../texmaker.cpp" line="7766"/>
-        <location filename="../texmaker.cpp" line="7785"/>
-        <location filename="../texmaker.cpp" line="7807"/>
-        <location filename="../texmaker.cpp" line="7849"/>
-        <location filename="../texmaker.cpp" line="7866"/>
-        <location filename="../texmaker.cpp" line="7877"/>
-        <location filename="../texmaker.cpp" line="7928"/>
-        <location filename="../texmaker.cpp" line="7945"/>
-        <location filename="../texmaker.cpp" line="7956"/>
-        <location filename="../texmaker.cpp" line="8001"/>
-        <location filename="../texmaker.cpp" line="8020"/>
-        <location filename="../texmaker.cpp" line="8039"/>
-        <location filename="../texmaker.cpp" line="8058"/>
-        <location filename="../texmaker.cpp" line="8075"/>
-        <location filename="../texmaker.cpp" line="8086"/>
-        <location filename="../texmaker.cpp" line="8111"/>
-        <location filename="../texmaker.cpp" line="8128"/>
-        <location filename="../texmaker.cpp" line="8139"/>
-        <location filename="../texmaker.cpp" line="8170"/>
-        <location filename="../texmaker.cpp" line="8270"/>
-        <location filename="../texmaker.cpp" line="8634"/>
-        <location filename="../texmaker.cpp" line="8831"/>
-        <location filename="../texmaker.cpp" line="8923"/>
-        <location filename="../texmaker.cpp" line="8957"/>
-        <location filename="../texmaker.cpp" line="9448"/>
-        <location filename="../texmaker.cpp" line="9482"/>
-        <location filename="../texmaker.cpp" line="9504"/>
-        <location filename="../texmaker.cpp" line="9952"/>
-        <location filename="../texmaker.cpp" line="11132"/>
-        <location filename="../texmaker.cpp" line="11187"/>
-        <location filename="../texmaker.cpp" line="11315"/>
-        <location filename="../texmaker.cpp" line="11485"/>
+        <location filename="../texmaker.cpp" line="2631"/>
+        <location filename="../texmaker.cpp" line="2972"/>
+        <location filename="../texmaker.cpp" line="3293"/>
+        <location filename="../texmaker.cpp" line="3352"/>
+        <location filename="../texmaker.cpp" line="4099"/>
+        <location filename="../texmaker.cpp" line="4155"/>
+        <location filename="../texmaker.cpp" line="7644"/>
+        <location filename="../texmaker.cpp" line="7649"/>
+        <location filename="../texmaker.cpp" line="7944"/>
+        <location filename="../texmaker.cpp" line="7966"/>
+        <location filename="../texmaker.cpp" line="7985"/>
+        <location filename="../texmaker.cpp" line="8004"/>
+        <location filename="../texmaker.cpp" line="8026"/>
+        <location filename="../texmaker.cpp" line="8068"/>
+        <location filename="../texmaker.cpp" line="8085"/>
+        <location filename="../texmaker.cpp" line="8096"/>
+        <location filename="../texmaker.cpp" line="8147"/>
+        <location filename="../texmaker.cpp" line="8164"/>
+        <location filename="../texmaker.cpp" line="8175"/>
+        <location filename="../texmaker.cpp" line="8220"/>
+        <location filename="../texmaker.cpp" line="8239"/>
+        <location filename="../texmaker.cpp" line="8258"/>
+        <location filename="../texmaker.cpp" line="8277"/>
+        <location filename="../texmaker.cpp" line="8294"/>
+        <location filename="../texmaker.cpp" line="8305"/>
+        <location filename="../texmaker.cpp" line="8330"/>
+        <location filename="../texmaker.cpp" line="8347"/>
+        <location filename="../texmaker.cpp" line="8358"/>
+        <location filename="../texmaker.cpp" line="8389"/>
+        <location filename="../texmaker.cpp" line="8489"/>
+        <location filename="../texmaker.cpp" line="8853"/>
+        <location filename="../texmaker.cpp" line="9050"/>
+        <location filename="../texmaker.cpp" line="9142"/>
+        <location filename="../texmaker.cpp" line="9178"/>
+        <location filename="../texmaker.cpp" line="9669"/>
+        <location filename="../texmaker.cpp" line="9703"/>
+        <location filename="../texmaker.cpp" line="9725"/>
+        <location filename="../texmaker.cpp" line="10173"/>
+        <location filename="../texmaker.cpp" line="11353"/>
+        <location filename="../texmaker.cpp" line="11408"/>
+        <location filename="../texmaker.cpp" line="11536"/>
+        <location filename="../texmaker.cpp" line="11706"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Lỗi</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2609"/>
-        <location filename="../texmaker.cpp" line="2892"/>
-        <location filename="../texmaker.cpp" line="11187"/>
-        <location filename="../texmaker.cpp" line="11315"/>
+        <location filename="../texmaker.cpp" line="2631"/>
+        <location filename="../texmaker.cpp" line="2972"/>
+        <location filename="../texmaker.cpp" line="11408"/>
+        <location filename="../texmaker.cpp" line="11536"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bạn không đủ quyền đề đọc tài liệu này.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2887"/>
-        <location filename="../texmaker.cpp" line="2946"/>
-        <location filename="../texmaker.cpp" line="11177"/>
+        <location filename="../texmaker.cpp" line="2967"/>
+        <location filename="../texmaker.cpp" line="3026"/>
+        <location filename="../texmaker.cpp" line="11398"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở tài liệu</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3041"/>
-        <location filename="../texmaker.cpp" line="3184"/>
-        <location filename="../texmaker.cpp" line="3241"/>
+        <location filename="../texmaker.cpp" line="3121"/>
+        <location filename="../texmaker.cpp" line="3264"/>
+        <location filename="../texmaker.cpp" line="3321"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tài liệu đã được chỉnh sửa. Bạn có muốn tải lại nó (và hủy thay đổi của bạn) hoặc lưu nó (thay thế)?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3043"/>
-        <location filename="../texmaker.cpp" line="3186"/>
-        <location filename="../texmaker.cpp" line="3243"/>
-        <location filename="../texmaker.cpp" line="3807"/>
+        <location filename="../texmaker.cpp" line="3123"/>
+        <location filename="../texmaker.cpp" line="3266"/>
+        <location filename="../texmaker.cpp" line="3323"/>
+        <location filename="../texmaker.cpp" line="3887"/>
         <source>Reload the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải lại</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3043"/>
-        <location filename="../texmaker.cpp" line="3186"/>
-        <location filename="../texmaker.cpp" line="3243"/>
-        <location filename="../texmaker.cpp" line="3408"/>
-        <location filename="../texmaker.cpp" line="3472"/>
-        <location filename="../texmaker.cpp" line="3538"/>
-        <location filename="../texmaker.cpp" line="3640"/>
-        <location filename="../texmaker.cpp" line="3807"/>
-        <location filename="../texmaker.cpp" line="4846"/>
-        <location filename="../texmaker.cpp" line="4889"/>
-        <location filename="../texmaker.cpp" line="8278"/>
-        <location filename="../texmaker.cpp" line="8307"/>
+        <location filename="../texmaker.cpp" line="3123"/>
+        <location filename="../texmaker.cpp" line="3266"/>
+        <location filename="../texmaker.cpp" line="3323"/>
+        <location filename="../texmaker.cpp" line="3488"/>
+        <location filename="../texmaker.cpp" line="3552"/>
+        <location filename="../texmaker.cpp" line="3618"/>
+        <location filename="../texmaker.cpp" line="3720"/>
+        <location filename="../texmaker.cpp" line="3887"/>
+        <location filename="../texmaker.cpp" line="4964"/>
+        <location filename="../texmaker.cpp" line="5007"/>
+        <location filename="../texmaker.cpp" line="8497"/>
+        <location filename="../texmaker.cpp" line="8526"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Hủy bỏ</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3213"/>
-        <location filename="../texmaker.cpp" line="3272"/>
-        <location filename="../texmaker.cpp" line="11132"/>
+        <location filename="../texmaker.cpp" line="3293"/>
+        <location filename="../texmaker.cpp" line="3352"/>
+        <location filename="../texmaker.cpp" line="11353"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bạn không đủ quyền đề lưu tài liệu này.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3406"/>
-        <location filename="../texmaker.cpp" line="3470"/>
-        <location filename="../texmaker.cpp" line="3536"/>
-        <location filename="../texmaker.cpp" line="3638"/>
+        <location filename="../texmaker.cpp" line="3486"/>
+        <location filename="../texmaker.cpp" line="3550"/>
+        <location filename="../texmaker.cpp" line="3616"/>
+        <location filename="../texmaker.cpp" line="3718"/>
         <source>The document contains unsaved work. Do you want to save it before closing?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tà liệu đã được chỉnh sửa. Bạn có muôn lưu nó trước khi đóng?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3408"/>
-        <location filename="../texmaker.cpp" line="3472"/>
-        <location filename="../texmaker.cpp" line="3538"/>
-        <location filename="../texmaker.cpp" line="3640"/>
+        <location filename="../texmaker.cpp" line="3488"/>
+        <location filename="../texmaker.cpp" line="3552"/>
+        <location filename="../texmaker.cpp" line="3618"/>
+        <location filename="../texmaker.cpp" line="3720"/>
         <source>Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu và đóng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3408"/>
-        <location filename="../texmaker.cpp" line="3472"/>
-        <location filename="../texmaker.cpp" line="3538"/>
-        <location filename="../texmaker.cpp" line="3640"/>
+        <location filename="../texmaker.cpp" line="3488"/>
+        <location filename="../texmaker.cpp" line="3552"/>
+        <location filename="../texmaker.cpp" line="3618"/>
+        <location filename="../texmaker.cpp" line="3720"/>
         <source>Don&apos;t Save and Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Không lưu và đóng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3805"/>
+        <location filename="../texmaker.cpp" line="3885"/>
         <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tà liệu đã được chỉnh sửa. Bạn sẽ mất thay đổi khi tải lại.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4019"/>
+        <location filename="../texmaker.cpp" line="4099"/>
         <source>Error : Can&apos;t open the dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>Lỗi: Không thể mở từ điển</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4845"/>
+        <location filename="../texmaker.cpp" line="4963"/>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
-        <translation type="unfinished"></translation>
+        <translation>Xóa tệp tin cài đặt? (_)</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4846"/>
-        <location filename="../texmaker.cpp" line="4889"/>
-        <location filename="../texmaker.cpp" line="8278"/>
+        <location filename="../texmaker.cpp" line="4964"/>
+        <location filename="../texmaker.cpp" line="5007"/>
+        <location filename="../texmaker.cpp" line="8497"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4888"/>
+        <location filename="../texmaker.cpp" line="5006"/>
         <source>Replace settings file by a new one?
 (Texmaker will be closed and you will have to restart it)</source>
-        <translation type="unfinished"></translation>
+        <translation>Thay thế tệp tin cài đặt bởi tệp mới? (_</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4913"/>
+        <location filename="../texmaker.cpp" line="5031"/>
         <source>Opened Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Các  tài liệu đã mở</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="5780"/>
+        <location filename="../texmaker.cpp" line="5888"/>
         <source>Select an image File</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn tệp tin ảnh</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3583"/>
-        <location filename="../texmaker.cpp" line="5811"/>
-        <location filename="../texmaker.cpp" line="5836"/>
+        <location filename="../texmaker.cpp" line="3663"/>
+        <location filename="../texmaker.cpp" line="5919"/>
+        <location filename="../texmaker.cpp" line="5944"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn một tệp tin</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7425"/>
-        <location filename="../texmaker.cpp" line="8270"/>
-        <location filename="../texmaker.cpp" line="8634"/>
-        <location filename="../texmaker.cpp" line="8831"/>
+        <location filename="../texmaker.cpp" line="7644"/>
+        <location filename="../texmaker.cpp" line="8489"/>
+        <location filename="../texmaker.cpp" line="8853"/>
+        <location filename="../texmaker.cpp" line="9050"/>
         <source>Can&apos;t detect the file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Không thể xác định tên tài liệu</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7725"/>
-        <location filename="../texmaker.cpp" line="7747"/>
-        <location filename="../texmaker.cpp" line="7766"/>
-        <location filename="../texmaker.cpp" line="7785"/>
-        <location filename="../texmaker.cpp" line="7807"/>
-        <location filename="../texmaker.cpp" line="7849"/>
-        <location filename="../texmaker.cpp" line="7866"/>
-        <location filename="../texmaker.cpp" line="7877"/>
-        <location filename="../texmaker.cpp" line="7928"/>
-        <location filename="../texmaker.cpp" line="7945"/>
-        <location filename="../texmaker.cpp" line="7956"/>
-        <location filename="../texmaker.cpp" line="8001"/>
-        <location filename="../texmaker.cpp" line="8020"/>
-        <location filename="../texmaker.cpp" line="8039"/>
-        <location filename="../texmaker.cpp" line="8058"/>
-        <location filename="../texmaker.cpp" line="8075"/>
-        <location filename="../texmaker.cpp" line="8086"/>
-        <location filename="../texmaker.cpp" line="8111"/>
-        <location filename="../texmaker.cpp" line="8128"/>
-        <location filename="../texmaker.cpp" line="8139"/>
-        <location filename="../texmaker.cpp" line="8170"/>
-        <location filename="../texmaker.cpp" line="8923"/>
-        <location filename="../texmaker.cpp" line="9504"/>
-        <location filename="../texmaker.cpp" line="9952"/>
-        <location filename="../texmaker.cpp" line="11485"/>
+        <location filename="../texmaker.cpp" line="7944"/>
+        <location filename="../texmaker.cpp" line="7966"/>
+        <location filename="../texmaker.cpp" line="7985"/>
+        <location filename="../texmaker.cpp" line="8004"/>
+        <location filename="../texmaker.cpp" line="8026"/>
+        <location filename="../texmaker.cpp" line="8068"/>
+        <location filename="../texmaker.cpp" line="8085"/>
+        <location filename="../texmaker.cpp" line="8096"/>
+        <location filename="../texmaker.cpp" line="8147"/>
+        <location filename="../texmaker.cpp" line="8164"/>
+        <location filename="../texmaker.cpp" line="8175"/>
+        <location filename="../texmaker.cpp" line="8220"/>
+        <location filename="../texmaker.cpp" line="8239"/>
+        <location filename="../texmaker.cpp" line="8258"/>
+        <location filename="../texmaker.cpp" line="8277"/>
+        <location filename="../texmaker.cpp" line="8294"/>
+        <location filename="../texmaker.cpp" line="8305"/>
+        <location filename="../texmaker.cpp" line="8330"/>
+        <location filename="../texmaker.cpp" line="8347"/>
+        <location filename="../texmaker.cpp" line="8358"/>
+        <location filename="../texmaker.cpp" line="8389"/>
+        <location filename="../texmaker.cpp" line="9142"/>
+        <location filename="../texmaker.cpp" line="9725"/>
+        <location filename="../texmaker.cpp" line="10173"/>
+        <location filename="../texmaker.cpp" line="11706"/>
         <source>Could not start the command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Không thể bắt đầu biên dịch.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8307"/>
+        <location filename="../texmaker.cpp" line="8526"/>
         <source>Delete Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Xóa tải liệu</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8307"/>
+        <location filename="../texmaker.cpp" line="8526"/>
         <source>Delete the output files generated by LaTeX ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Xóa các tệp tin tạo bởi Latex?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>LaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>PdfLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>dvips</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>Dvi Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình xem Dvi</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>PS Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Trình xem PS</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>Dvipdfm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>ps2pdf</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>Bibtex</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>Makeindex</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>metapost</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>ghostscript</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>Asymptote</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>Latexmk</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>R Sweave</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>XeLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8658"/>
+        <location filename="../texmaker.cpp" line="8877"/>
         <source>LuaLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8957"/>
+        <location filename="../texmaker.cpp" line="9178"/>
         <source>Log File not found !</source>
-        <translation type="unfinished"></translation>
+        <translation>Không tìm thấy file Log!</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9276"/>
-        <location filename="../texmaker.cpp" line="9308"/>
+        <location filename="../texmaker.cpp" line="9497"/>
+        <location filename="../texmaker.cpp" line="9529"/>
         <source>Click to jump to the line</source>
-        <translation type="unfinished"></translation>
+        <translation>Cick đề đi đến dòng</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9378"/>
-        <location filename="../texmaker.cpp" line="9413"/>
+        <location filename="../texmaker.cpp" line="9599"/>
+        <location filename="../texmaker.cpp" line="9634"/>
         <source>No LaTeX errors detected !</source>
-        <translation type="unfinished"></translation>
+        <translation>Không có lỗi nào cả!</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9448"/>
-        <location filename="../texmaker.cpp" line="9482"/>
+        <location filename="../texmaker.cpp" line="4155"/>
+        <location filename="../texmaker.cpp" line="9669"/>
+        <location filename="../texmaker.cpp" line="9703"/>
         <source>File not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Không tìm thấy file</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9958"/>
-        <location filename="../texmaker.cpp" line="11494"/>
+        <location filename="../texmaker.cpp" line="10179"/>
+        <location filename="../texmaker.cpp" line="11715"/>
         <source>Normal Mode (current master document :</source>
-        <translation type="unfinished"></translation>
+        <translation>Chế độ chuẩn ():</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9960"/>
-        <location filename="../texmaker.cpp" line="11496"/>
+        <location filename="../texmaker.cpp" line="10181"/>
+        <location filename="../texmaker.cpp" line="11717"/>
         <source>Master Document :</source>
-        <translation type="unfinished"></translation>
+        <translation>Tài liệu Master:</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10490"/>
+        <location filename="../texmaker.cpp" line="10711"/>
         <source>The language setting will take effect after restarting the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cài đặt ngôn ngữ sẽ có hiệu lực khi khởi động lại chương trình.</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10498"/>
+        <location filename="../texmaker.cpp" line="10719"/>
         <source>The appearance setting will take effect after restarting the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cài đặt hiển thị sẽ có hiệu lực khi khởi động lại chương trình.</translation>
     </message>
 </context>
 <context>
@@ -2977,12 +3062,12 @@ with the default encoding setting</source>
         <location filename="../unicodedialog.ui" line="14"/>
         <location filename="../unicodedialog.ui" line="98"/>
         <source>Convert to unicode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chuyển đổi sang Unicode</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="28"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Tệp tin</translation>
     </message>
     <message>
         <location filename="../unicodedialog.ui" line="75"/>
@@ -2992,22 +3077,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../unicodedialog.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Đóng</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="51"/>
         <source>Select a File</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn một tệp tin</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Lỗi</translation>
     </message>
     <message>
         <location filename="../unicodedialog.cpp" line="65"/>
         <source>You do not have read permission to this file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bạn không đủ quyền đề đọc tài liệu này.</translation>
     </message>
 </context>
 <context>
@@ -3015,22 +3100,22 @@ with the default encoding setting</source>
     <message>
         <location filename="../unicodeview.cpp" line="51"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="139"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation>Lưu mới</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Lỗi</translation>
     </message>
     <message>
         <location filename="../unicodeview.cpp" line="146"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bạn không đủ quyền đề lưu tài liệu này.</translation>
     </message>
 </context>
 <context>
@@ -3068,7 +3153,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../usercompletiondialog.ui" line="80"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Thay thế</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="89"/>
@@ -3081,7 +3166,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../usermenudialog.ui" line="14"/>
         <source>Edit User Tags</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sửa Tags người dùng</translation>
     </message>
     <message>
         <location filename="../usermenudialog.ui" line="45"/>
@@ -3091,7 +3176,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../usermenudialog.ui" line="55"/>
         <source>LaTeX Content</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nội dung LateX</translation>
     </message>
 </context>
 <context>
@@ -3099,7 +3184,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../userquickdialog.ui" line="14"/>
         <source>Quick Build Command</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lệnh Xuất file</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="42"/>
@@ -3170,7 +3255,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../usertooldialog.ui" line="103"/>
         <source>wizard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Trình tự động</translation>
     </message>
 </context>
 <context>
@@ -3204,7 +3289,7 @@ with the default encoding setting</source>
         <location filename="../versiondialog.cpp" line="48"/>
         <location filename="../versiondialog.cpp" line="55"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lỗi</translation>
     </message>
 </context>
 <context>

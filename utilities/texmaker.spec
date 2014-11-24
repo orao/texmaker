@@ -1,6 +1,6 @@
 Name: texmaker
 Summary: LaTeX editor
-Version: 4.3
+Version: 4.4
 Release: xm1
 License: GPLv2+
 Group: Applications/Publishing
@@ -32,7 +32,8 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/atd.css
 /usr/share/texmaker/csshttprequest.js
 /usr/share/texmaker/jquery.atd.textarea.js
-/usr/share/texmaker/titlecase.tms
+/usr/share/texmaker/titlecase_selection.tms
+/usr/share/texmaker/hardwordwrap_selection_80col.tms
 /usr/share/texmaker/doc1.png
 /usr/share/texmaker/doc10.png
 /usr/share/texmaker/doc11.png
@@ -124,6 +125,7 @@ make INSTALL_ROOT=$RPM_BUILD_ROOT install
 /usr/share/texmaker/texmaker_ar.qm
 /usr/share/texmaker/texmaker_lv.qm
 /usr/share/texmaker/texmaker_uk.qm
+/usr/share/texmaker/texmaker_vi_VN.qm
 /usr/share/texmaker/nl_NL.aff
 /usr/share/texmaker/nl_NL.dic
 /usr/share/texmaker/de_DE.aff

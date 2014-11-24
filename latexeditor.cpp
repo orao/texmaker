@@ -807,7 +807,7 @@ QMenu *menu=new QMenu(this);
 //menu = createStandardContextMenu();
 QAction *a;
 /*******************************************/
-if (inlinecheckSpelling && pChecker)
+if (inlinecheckSpelling && pChecker && !textCursor().hasSelection())
       {
       QFont spellmenufont (qApp->font());
       spellmenufont.setBold(true);
@@ -914,7 +914,7 @@ a = menu->addAction(tr("Check Spelling Word"), this, SLOT(checkSpellingWord()));
 }
 if (textCursor().hasSelection())
 {
-a = menu->addAction(tr("Check Spelling Selection"), this, SLOT(checkSpellingDocument()));
+a = menu->addAction(tr("Check Spelling Selection"), this, SLOT(checkSpellingSelection()));
 //a->setEnabled(textCursor().hasSelection());
 }
 a = menu->addAction(tr("Check Spelling Document"), this, SLOT(checkSpellingDocument()));
@@ -1290,6 +1290,16 @@ if (data->misspelled[colstart]==true)
 }
 
 void LatexEditor::checkSpellingDocument()
+{
+QTextCursor cur=textCursor();
+
+cur.movePosition(QTextCursor::Start,QTextCursor::MoveAnchor);
+setTextCursor(cur);
+
+emit spellme();
+}
+
+void LatexEditor::checkSpellingSelection()
 {
 QTextCursor cur=textCursor();
 if (!cur.hasSelection())
