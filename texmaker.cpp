@@ -2647,10 +2647,9 @@ int pos = reEnc.indexIn(codec->toUnicode(peekBytes));
 if (pos > -1) 
   {
   QString reqName = reEnc.cap(1).trimmed();
-  qDebug() << reqName;
   codec = QTextCodec::codecForName(reqName.toLatin1());
-  input_encoding=codec->name();
   if(!codec) codec = QTextCodec::codecForLocale();
+  input_encoding=codec->name();
   }
 
 
@@ -5736,7 +5735,17 @@ else
 void Texmaker::InsertFromAction()
 {
 bool ok;
-
+QString actData;
+QStringList tagList;
+QAction *action = qobject_cast<QAction *>(sender());
+if ( !currentEditorView() )	return;
+if (action)
+	{
+	actData=action->data().toString();
+	tagList= actData.split("/");
+	InsertTag(tagList.at(0),tagList.at(1).toInt(&ok, 10),tagList.at(2).toInt(&ok, 10));
+	OutputTextEdit->insertLine(tagList.at(3));
+	}
 }
 
 void Texmaker::InsertWithSelectionFromAction()

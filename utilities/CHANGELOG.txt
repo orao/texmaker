@@ -1,3 +1,10 @@
+version 4.4 -> 4.4.1 :
+--------------------
+Bugs fixed :
+- a crash if the "% !TEX encoding=" meta tag is not valid has been fixed
+- a bug related to some shorctuts (ctrl+shift+?) has been fixed
+
+
 version 4.3 -> 4.4 :
 --------------------
 Features :
