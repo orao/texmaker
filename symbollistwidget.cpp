@@ -35,7 +35,7 @@ setShowGrid(true);
 verticalHeader()->hide();
 horizontalHeader()->hide();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-		  if (qApp->devicePixelRatio()==2)
+		  if (qApp->devicePixelRatio()>=2)
 		  {
 		  setIconSize ( QSize(64,64 ));
 		  }

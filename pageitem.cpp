@@ -167,9 +167,18 @@ connect(act, SIGNAL(triggered()), this, SLOT(jumpToSourceFromPdf()));
 act = menu.addAction(tr("Number of words in the document"));
 act->setData(QVariant(event->pos()));
 connect(act, SIGNAL(triggered()), this, SLOT(requestNumWords()));
+
+act = menu.addAction(tr("Number of words in the page"));
+act->setData(QVariant(event->pos()));
+connect(act, SIGNAL(triggered()), this, SLOT(requestPageWords()));
+
 act = menu.addAction(tr("Convert page to png image"));
 act->setData(QVariant(event->pos()));
 connect(act, SIGNAL(triggered()), this, SLOT(requestPngExport()));
+
+act = menu.addAction(tr("Open the file browser"));
+act->setData(QVariant(event->pos()));
+connect(act, SIGNAL(triggered()), this, SLOT(requestOpenLocation()));
 
 menu.exec(event->screenPos());
 }
@@ -741,9 +750,19 @@ void PageItem::requestNumWords()
 emit wantNumWords();
 }
 
+void PageItem::requestPageWords()
+{
+emit wantNumPageWords(m_index);
+}
+
 void PageItem::requestPngExport()
 {
 emit wantPngExport(m_index);
+}
+
+void PageItem::requestOpenLocation()
+{
+emit wantOpenLocation();
 }
 
 void PageItem::jumpToSourceFromPdf()

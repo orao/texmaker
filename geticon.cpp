@@ -17,7 +17,7 @@ QIcon dIcon=QIcon();
 QString base=name.remove(".png");
 dIcon.addFile(base+".png");
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
-if (qApp->devicePixelRatio()==2)
+if (qApp->devicePixelRatio()>=2)
 {
 dIcon.addFile(base+"@2x.png");
 }

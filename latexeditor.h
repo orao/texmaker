@@ -144,7 +144,9 @@ Q_PROPERTY(int selectionLength READ selectionLength STORED false)
 Q_PROPERTY(QString text READ text STORED false)
 
 void ExecuteScript(QString location);
-
+int getlastSaveRevision() { return lastSaveRevision; }
+void resetRevisions();
+void updateRevisions();
 
 public slots:
 void matchAll();
@@ -161,7 +163,9 @@ void redoText();
 void selectRange(int start, int length = 0);
 void insertText(QString text);
 
+void setUncommittedLines(QList<int> lines);
 private:
+int lastSaveRevision;
 bool overmode;
 QStringList userTagsList;
 bool inBlockSelectionMode;
@@ -197,6 +201,7 @@ QString copyBlockSelection() const;
 QColor colorBackground, colorLine, colorHighlight, colorCursor;
 
 QScriptEngine fScriptEngine;
+
 
 private slots:
 void correctWord();

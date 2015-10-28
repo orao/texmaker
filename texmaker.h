@@ -181,6 +181,8 @@ QString beamer_theme, beamer_size, beamer_encoding, beamer_author, beamer_babel;
 qreal lastScale;
 bool clean_exit;
 
+bool svnEnable;
+QString svnPath;
 //dialogs
 QPointer<ScanDialog> scanDialog;
 QPointer<Browser> browserWindow, diffWindow;

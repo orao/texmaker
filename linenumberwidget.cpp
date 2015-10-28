@@ -19,9 +19,10 @@
 #include <QDebug>
 #include "blockdata.h"
 
-LineNumberWidget::LineNumberWidget(LatexEditor* editor, QWidget* parent)
+LineNumberWidget::LineNumberWidget(LatexEditor* editor, QWidget* parent,bool svn)
 	: QWidget( parent) ,
-	  m_editor( editor )
+	  m_editor( editor ),
+	  m_svn (svn)
 {
 setAutoFillBackground( true );
 QPalette p( palette() );
@@ -33,6 +34,7 @@ end=-1;
 connect( m_editor->verticalScrollBar(), SIGNAL( valueChanged( int ) ), this, SLOT( update() ) );
 connect( m_editor->verticalScrollBar(), SIGNAL( actionTriggered( int ) ), this, SLOT( update() ) );
 connect( m_editor, SIGNAL( textChanged() ), this, SLOT( update() ) );
+//connect(m_editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(update()));
 connect(m_editor, SIGNAL(updatelineWidget()), this, SLOT(update()));
 connect( m_editor, SIGNAL( setBlockRange(int,int) ), this, SLOT( setRange(int,int) ) );
 }
@@ -50,6 +52,7 @@ painter.setFont(numfont);
 const QFontMetrics fm(numfont);
 const QBrush oldbrush=painter.brush();
 QPen oldpen(QColor("#136872"));
+QPen oldpenSvn(QColor("#FF00FF"));
 oldpen.setStyle(Qt::SolidLine);
 const QBrush bookmarkbrush(QColor("#1B8EA6"));
 const QBrush markerbrush(QColor("#FF8000"));
@@ -102,7 +105,11 @@ while ( p.isValid())
 			  painter.drawText(4,top,width()-4,fm.lineSpacing(),Qt::AlignLeft | Qt::AlignTop,QString::number(j+1));
 			  }
 		  }
-	painter.setPen(oldpen);
+        if (m_svn && (m_editor->document()->findBlockByNumber(i-1).revision() != m_editor->getlastSaveRevision()))
+        {
+	painter.setPen(oldpenSvn);
+	}
+	else painter.setPen(oldpen);
 	numtext=QString::number(i);
 	if (p.isVisible()) painter.drawText(10+fm.width("0"), top,fm.width(numtext),fm.lineSpacing(),Qt::AlignRight | Qt::AlignTop,numtext);
 	l= fm.width(numtext)+18+fm.width("0");
@@ -224,6 +231,11 @@ else
 void LineNumberWidget::setFont(QFont efont)
 {
 numfont=efont;
+}
+
+void LineNumberWidget::setSvn(bool svn)
+{
+m_svn=svn;
 }
 
 void LineNumberWidget::setRange(int s, int e)

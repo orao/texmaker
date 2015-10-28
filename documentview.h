@@ -169,6 +169,8 @@ public slots:
     void on_syncpage(int index, const QPointF& pagePos);
     void countWords();
     void pngExport(int page);
+    void countPageWords(int page);
+    void openFileBrowser();
 
 protected slots:
     void on_verticalScrollBar_valueChanged(int value);

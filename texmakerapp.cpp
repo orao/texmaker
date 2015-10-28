@@ -75,7 +75,7 @@ void TexmakerApp::init( QStringList args )
 {
 QPixmap pixmap(400,166);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2)
+if (qApp->devicePixelRatio()>=2)
 {
 pixmap.load(":/images/splash@2x.png");
 pixmap.setDevicePixelRatio(qApp->devicePixelRatio());

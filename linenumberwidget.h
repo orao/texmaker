@@ -23,12 +23,13 @@ class LineNumberWidget: public QWidget
 {
     Q_OBJECT
 public:
-    LineNumberWidget(LatexEditor*, QWidget* parent);
+    LineNumberWidget(LatexEditor*, QWidget* parent,bool svn);
     virtual ~LineNumberWidget();
 
 public slots:
     void doRepaint() { repaint(); }
     void setFont(QFont efont);
+    void setSvn(bool svn);
     void setRange(int s, int e);
 
 protected:
@@ -40,6 +41,7 @@ private:
     LatexEditor* m_editor;
     QFont numfont;
     int start, end;
+    bool m_svn;
 };
 
 #endif // __linenumberwidget_h

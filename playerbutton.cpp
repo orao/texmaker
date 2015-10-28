@@ -22,7 +22,7 @@ state = true;
 void PlayerButton::setImages( QString name )
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2)
+if (qApp->devicePixelRatio()>=2)
   {
   this->pixEnabled.load(":/images/"+name+"_enabled@2x.png");
   this->pixEnabled.setDevicePixelRatio(qApp->devicePixelRatio());

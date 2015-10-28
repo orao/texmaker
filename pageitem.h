@@ -94,6 +94,8 @@ signals:
     void wantNumWords();
     void wantPngExport(int);
     void syncpage(int, const QPointF&);
+    void wantNumPageWords(int);
+    void wantOpenLocation();
  
 
 public slots:
@@ -164,6 +166,8 @@ private:
     void jumpToSourceFromPdf();
     void requestNumWords();
     void requestPngExport();
+    void requestPageWords();
+    void requestOpenLocation();
     
 };
 

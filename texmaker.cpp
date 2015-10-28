@@ -58,6 +58,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QProcessEnvironment>
+#include <QSysInfo> 
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
 #if defined(Q_OS_MAC)
@@ -98,6 +99,7 @@
 #include "exportdialog.h"
 #include "versiondialog.h"
 #include "unicodedialog.h"
+#include "svnhelper.h"
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #include "x11fontdialog.h"
@@ -2558,6 +2560,7 @@ else
 	{
 	//EditorView->setTabIcon(EditorView->indexOf(currentEditorView()),getIcon(":/images/empty.png"));
 	//EditorView->setTabText(EditorView->indexOf(currentEditorView()),QFileInfo( getName() ).fileName());
+	currentEditorView()->editor->updateRevisions();
 	comboFiles->setItemIcon(comboFiles->findData(finame,Qt::UserRole,Qt::MatchExactly | Qt::MatchCaseSensitive),QIcon(":/images/empty.png"));
 	if ((check>-1) && (check<OpenedFilesListWidget->count())) OpenedFilesListWidget->item(check)->setIcon(QIcon(":/images/empty.png"));
 	SaveAct->setEnabled(false);
@@ -2814,7 +2817,7 @@ if (pos > -1)
   else spellChecker=0;
   }  
   
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),f,userTagsList);
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),f,userTagsList);
 EditorView->addWidget( edit);
 ComboFilesInsert(f);
 disconnect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateStructure()) );
@@ -2829,6 +2832,14 @@ else edit->editor->setCompleter(0);
 edit->editor->setPlainText(text);
 filenames.remove( edit);
 filenames.insert( edit, f );
+
+edit->editor->resetRevisions();
+if(svnEnable) 
+{
+connect(new SvnHelper(f,svnPath), SIGNAL(uncommittedLines(QList<int>)),edit->editor , SLOT(setUncommittedLines(QList<int>)));
+edit->editor->viewport()->update();
+}
+
 edit->editor->document()->setModified(false);
 connect(edit->editor->document(), SIGNAL(modificationChanged(bool)), this, SLOT(NewDocumentStatus(bool)));
 connect(edit->editor, SIGNAL(spellme()), this, SLOT(editSpell()));
@@ -2922,7 +2933,7 @@ if (currentEditorView())
 
 void Texmaker::fileNew()
 {
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),"untitled"+QString::number(untitled_id),userTagsList);
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),"untitled"+QString::number(untitled_id),userTagsList);
 edit->editor->setReadOnly(false);
 edit->editor->setEncoding(input_encoding);
 initCompleter();
@@ -2972,7 +2983,7 @@ if ( !file.open( QIODevice::ReadOnly ) )
 	return;
 	}
 lastTemplate=fn;
-LatexEditorView *edit = new LatexEditorView(0,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),fn,userTagsList);
+LatexEditorView *edit = new LatexEditorView(0,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),fn,userTagsList);
 edit->editor->setReadOnly(false);
 edit->editor->setEncoding(input_encoding);
 initCompleter();
@@ -3101,7 +3112,7 @@ if (fItems.size()>0 )
       isblocks_expanded=fItems.at(0)->isExpanded();
       }
   }  
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 temp=currentEditorView();
 FilesMap::Iterator it;
 QString fn;
@@ -3395,7 +3406,7 @@ UpdateCaption();
 
 void Texmaker::fileSaveAll()
 {
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 temp=currentEditorView();
 FilesMap::Iterator it;
 for( it = filenames.begin(); it != filenames.end(); ++it )
@@ -3411,7 +3422,7 @@ void Texmaker::fileBackupAll()
 {
 if (!currentEditorView() ) return;
 QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 temp=currentEditorView();
 QString fn;
 FilesMap::Iterator it;
@@ -3912,7 +3923,7 @@ delete OpenedFilesListWidget->currentItem();
 
 void Texmaker::allReload()
 {
-LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
+LatexEditorView *temp = new LatexEditorView(EditorView,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 temp=currentEditorView();
 FilesMap::Iterator it;
 FilesMap tempfilenames=filenames;
@@ -4161,6 +4172,7 @@ if (action)
 /////////////// CONFIG ////////////////////
 void Texmaker::ReadSettings()
 {
+ 
 #ifdef USB_VERSION
 QSettings *config=new QSettings(QCoreApplication::applicationDirPath()+"/texmaker.ini",QSettings::IniFormat); //for USB-stick version :
 #else
@@ -4225,6 +4237,8 @@ parenmatch=config->value( "Editor/Parentheses Matching",true).toBool();
 showline=config->value( "Editor/Line Numbers",true).toBool();
 completion=config->value( "Editor/Completion",true).toBool();
 userCompletionList=config->value( "Editor/UserCompletion",true).toStringList();
+svnEnable=config->value( "Editor/SvnEnable",false).toBool();
+svnPath=config->value("Editor/SvnPath","").toString();
 shortcuts.clear();
 QStringList data,shortcut;
 data=config->value("Shortcuts/data").toStringList();
@@ -4265,32 +4279,36 @@ builtinpdfview=config->value("Tools/IntegratedPdfViewer",true).toBool();
 embedinternalpdf=config->value("Tools/PdfInternalViewEmbed", screen.width() > 1400).toBool();
 singleviewerinstance=config->value("Tools/SingleViewerInstance",false).toBool();
 htlatex_options=config->value("Tools/HtOptions","\"\" \"\" \"\" -interaction=nonstopmode").toString();
+
 #if defined(Q_OS_MAC)
+
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+$").toString();
-latex_command=config->value("Tools/Latex","\"/usr/texbin/latex\" -interaction=nonstopmode %.tex").toString();
-dvips_command=config->value("Tools/Dvips","\"/usr/texbin/dvips\" -o %.ps %.dvi").toString();
-ps2pdf_command=config->value("Tools/Ps2pdf","\"/usr/local/bin/ps2pdf\" %.ps").toString();
-makeindex_command=config->value("Tools/Makeindex","\"/usr/texbin/makeindex\" %.idx").toString();
-bibtex_command=config->value("Tools/Bibtex","\"/usr/texbin/bibtex\" %.aux").toString();
-pdflatex_command=config->value("Tools/Pdflatex","\"/usr/texbin/pdflatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
-xelatex_command=config->value("Tools/Xelatex","\"/usr/texbin/xelatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
-lualatex_command=config->value("Tools/Lualatex","\"/usr/texbin/lualatex\" -interaction=nonstopmode %.tex").toString();
-if (lualatex_command.isEmpty()) lualatex_command=QString("\"/usr/texbin/lualatex\" -interaction=nonstopmode %.tex");
-if (xelatex_command.isEmpty()) xelatex_command=QString("\"/usr/texbin/xelatex\" -synctex=1 -interaction=nonstopmode %.tex");
-dvipdf_command=config->value("Tools/Dvipdf","\"/usr/texbin/dvipdfm\" %.dvi").toString();
-metapost_command=config->value("Tools/Metapost","\"/usr/texbin/mpost\" --interaction nonstopmode ").toString();
+latex_command=config->value("Tools/Latex","\"latex\" -interaction=nonstopmode %.tex").toString();
+dvips_command=config->value("Tools/Dvips","\"dvips\" -o %.ps %.dvi").toString();
+ps2pdf_command=config->value("Tools/Ps2pdf","\"ps2pdf\" %.ps").toString();
+makeindex_command=config->value("Tools/Makeindex","\"makeindex\" %.idx").toString();
+bibtex_command=config->value("Tools/Bibtex","\"bibtex\" %.aux").toString();
+pdflatex_command=config->value("Tools/Pdflatex","\"pdflatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
+xelatex_command=config->value("Tools/Xelatex","\"xelatex\" -synctex=1 -interaction=nonstopmode %.tex").toString();
+lualatex_command=config->value("Tools/Lualatex","\"lualatex\" -interaction=nonstopmode %.tex").toString();
+if (lualatex_command.isEmpty()) lualatex_command=QString("\"lualatex\" -interaction=nonstopmode %.tex");
+if (xelatex_command.isEmpty()) xelatex_command=QString("\"xelatex\" -synctex=1 -interaction=nonstopmode %.tex");
+dvipdf_command=config->value("Tools/Dvipdf","\"dvipdfm\" %.dvi").toString();
+metapost_command=config->value("Tools/Metapost","\"mpost\" --interaction nonstopmode ").toString();
 viewdvi_command=config->value("Tools/Dvi","open %.dvi").toString();
 viewps_command=config->value("Tools/Ps","open %.ps").toString();
 viewpdf_command=config->value("Tools/Pdf","open %.pdf").toString();
-ghostscript_command=config->value("Tools/Ghostscript","/usr/local/bin/gs").toString();
-asymptote_command=config->value("Tools/Asymptote","/usr/texbin/asy %.asy").toString();
-latexmk_command=config->value("Tools/Latexmk","\"/usr/texbin/latexmk\" -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
+ghostscript_command=config->value("Tools/Ghostscript","gs").toString();
+asymptote_command=config->value("Tools/Asymptote","asy %.asy").toString();
+latexmk_command=config->value("Tools/Latexmk","\"latexmk\" -e \"$pdflatex=q/pdflatex -synctex=1 -interaction=nonstopmode/\" -pdf %.tex").toString();
 sweave_command=config->value("Tools/Sweave","R CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
-htlatex_command=config->value("Tools/Htlatex","/usr/texbin/htlatex").toString();
+htlatex_command=config->value("Tools/Htlatex","htlatex").toString();
 if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
-quick_asy_command=config->value("Tools/QuickAsy","/usr/texbin/asy -f pdf -noView %.asy|open %.pdf").toString();
+quick_asy_command=config->value("Tools/QuickAsy","asy -f pdf -noView %.asy|open %.pdf").toString();
 lp_options=config->value("Tools/LP","-o fitplot").toString();
+
+
 #endif
 #if defined(Q_OS_WIN32)
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+Space").toString();
@@ -4778,7 +4796,8 @@ config.setValue( "Editor/Parentheses Matching",parenmatch);
 config.setValue( "Editor/Line Numbers",showline);
 config.setValue( "Editor/Completion",completion);
 config.setValue( "Editor/UserCompletion",userCompletionList);
-
+config.setValue( "Editor/SvnEnable",svnEnable);
+config.setValue( "Editor/SvnPath",svnPath);
 QStringList data,shortcut;
 // data.clear();
 // shortcut.clear();
@@ -7791,9 +7810,9 @@ proc->setProperty("command",commandline);
 //****
 #if defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/Library/TeX/texbin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:");
 else
- env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
+ env.insert("PATH", env.value("PATH") + ":/Library/TeX/texbin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
 #endif
 #if defined(Q_OS_WIN32)
@@ -7812,6 +7831,7 @@ if (!extra_path.isEmpty())
   proc->setProcessEnvironment(env);
   }
 #endif
+qputenv("PATH", env.value("PATH").toLatin1());
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
 if ((comd==asymptote_command) || (comd==bibtex_command) ) connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
@@ -8636,9 +8656,9 @@ proc->setProperty("command",commandline);
 //****
 #if defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/Library/TeX/texbin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:");
 else
- env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
+ env.insert("PATH", env.value("PATH") + ":/Library/TeX/texbin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
 #endif
 #if defined(Q_OS_WIN32)
@@ -8657,6 +8677,7 @@ if (!extra_path.isEmpty())
   proc->setProcessEnvironment(env);
   }
 #endif
+qputenv("PATH", env.value("PATH").toLatin1());
 //****
 connect(proc, SIGNAL(readyReadStandardError()),this, SLOT(readFromStderr()));
 //connect(proc, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdoutput()));
@@ -9764,6 +9785,9 @@ void Texmaker::GeneralOptions()
 {
 ConfigDialog *confDlg = new ConfigDialog(this);
 
+confDlg->ui.lineEditSvn->setText(svnPath);
+confDlg->ui.checkBoxSvn->setChecked(svnEnable);
+
 confDlg->ui.lineEditLualatex->setText(lualatex_command);
 confDlg->ui.lineEditXelatex->setText(xelatex_command);
 confDlg->ui.lineEditPath->setText(extra_path);
@@ -9944,6 +9968,9 @@ if (confDlg->exec())
 	quick_asy_command=confDlg->ui.lineEditAsyQuick->text();
 	lp_options=confDlg->ui.lineEditPrinter->text();
 	
+	svnEnable=confDlg->ui.checkBoxSvn->isChecked();
+	svnPath=confDlg->ui.lineEditSvn->text();
+	
 	lualatex_command=confDlg->ui.lineEditLualatex->text();
 	xelatex_command=confDlg->ui.lineEditXelatex->text();
 	extra_path=confDlg->ui.lineEditPath->text();
@@ -10077,7 +10104,7 @@ if (confDlg->exec())
 
 	if (currentEditorView())
 		{
-		LatexEditorView *temp = new LatexEditorView( EditorView,EditorFont,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
+		LatexEditorView *temp = new LatexEditorView( EditorView,EditorFont,svnEnable,showline,edcolors(),hicolors(),inlinespellcheck,spell_ignored_words,spellChecker,tabspaces,tabwidth,QKeySequence(keyToggleFocus),getName(),userTagsList);
 		temp=currentEditorView();
 		FilesMap::Iterator it;
 		initCompleter();
@@ -10110,7 +10137,7 @@ if (confDlg->exec())
 			else currentEditorView()->editor->setCompleter(0);
 			currentEditorView()->editor->setTabSettings(tabspaces,tabwidth);
 			currentEditorView()->editor->setKeyViewerFocus(QKeySequence(keyToggleFocus));
-			currentEditorView()->changeSettings(EditorFont,showline);
+			currentEditorView()->changeSettings(EditorFont,svnEnable,showline);
 			currentEditorView()->editor->highlighter->setColors(hicolors());
 			currentEditorView()->editor->setColors(edcolors());
 

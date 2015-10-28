@@ -1,3 +1,13 @@
+version 4.4.1 -> 4.5 :
+--------------------
+-  /Library/TeX/texbin/ has been added to the default path for MacOsX El Capitan
+- the content of the \cite{} command is no more scanned while the spell checking
+- a compilation trouble has been fixed with Qt 5.5.x
+- a new option allow the svn users to display the uncommitted lines with a different color in the line number widget (Configure Texmaker -> Editor)
+- two more options for the pdf internel viewer contextual menu (user request): number of words in the current pdf page and open the file browser at the pdf file location
+- de, hu, it, nl, pl, se and zh_CN translations have been updated
+
+
 version 4.4 -> 4.4.1 :
 --------------------
 Bugs fixed :

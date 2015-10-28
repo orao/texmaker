@@ -27,7 +27,7 @@ labelImage->setMaximumSize(461,696);
 ui.scrollArea->setMinimumWidth(500);
 ui.scrollArea->setMaximumWidth(500);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2)
+if (qApp->devicePixelRatio()>=2)
 {
 labelImage->setMinimumSize(240,348);
 labelImage->setMaximumSize(240,348);
@@ -130,7 +130,7 @@ void QuickBeamerDialog::updatePreview(const QString &theme)
 QPixmap pixmap;
 pixmap.load(":/images/beamer/"+theme+".png");
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2) pixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+if (qApp->devicePixelRatio()>=2) pixmap.setDevicePixelRatio(qApp->devicePixelRatio());
 #endif
 labelImage->setPixmap(pixmap);
 }

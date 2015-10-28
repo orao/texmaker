@@ -11,22 +11,22 @@
     <message>
         <location filename="../aboutdialog.ui" line="76"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>版本</translation>
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="86"/>
         <source>Authors</source>
-        <translation type="unfinished"></translation>
+        <translation>作者</translation>
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="96"/>
         <source>Thanks</source>
-        <translation type="unfinished"></translation>
+        <translation>致谢</translation>
     </message>
     <message>
         <location filename="../aboutdialog.ui" line="106"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>许可</translation>
     </message>
     <message>
         <source>OK</source>
@@ -69,7 +69,7 @@
     <message>
         <location filename="../addtagdialog.ui" line="55"/>
         <source>Keyboard Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation>键盘触发器</translation>
     </message>
 </context>
 <context>
@@ -144,47 +144,52 @@
         <translation type="obsolete">获取字典：%1</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="166"/>
-        <location filename="../configdialog.cpp" line="189"/>
+        <location filename="../configdialog.cpp" line="167"/>
         <location filename="../configdialog.cpp" line="190"/>
+        <location filename="../configdialog.cpp" line="191"/>
         <source>Commands</source>
         <translation>命令</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="173"/>
-        <location filename="../configdialog.cpp" line="191"/>
+        <location filename="../configdialog.cpp" line="174"/>
+        <location filename="../configdialog.cpp" line="192"/>
         <source>Quick Build</source>
         <translation>快速构建</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="1077"/>
-        <location filename="../configdialog.cpp" line="179"/>
-        <location filename="../configdialog.cpp" line="192"/>
+        <location filename="../configdialog.cpp" line="180"/>
+        <location filename="../configdialog.cpp" line="193"/>
         <source>Editor</source>
         <translation>编辑器</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="237"/>
+        <location filename="../configdialog.cpp" line="238"/>
         <source>Browse dictionary</source>
         <translation>浏览字典</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="357"/>
-        <location filename="../configdialog.cpp" line="368"/>
-        <location filename="../configdialog.cpp" line="379"/>
-        <location filename="../configdialog.cpp" line="391"/>
-        <location filename="../configdialog.cpp" line="402"/>
-        <location filename="../configdialog.cpp" line="413"/>
-        <location filename="../configdialog.cpp" line="424"/>
-        <location filename="../configdialog.cpp" line="435"/>
-        <location filename="../configdialog.cpp" line="446"/>
-        <location filename="../configdialog.cpp" line="457"/>
-        <location filename="../configdialog.cpp" line="468"/>
-        <location filename="../configdialog.cpp" line="479"/>
-        <location filename="../configdialog.cpp" line="490"/>
-        <location filename="../configdialog.cpp" line="501"/>
-        <location filename="../configdialog.cpp" line="512"/>
-        <location filename="../configdialog.cpp" line="523"/>
+        <location filename="../configdialog.cpp" line="254"/>
+        <source>svn command directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.cpp" line="373"/>
+        <location filename="../configdialog.cpp" line="384"/>
+        <location filename="../configdialog.cpp" line="395"/>
+        <location filename="../configdialog.cpp" line="407"/>
+        <location filename="../configdialog.cpp" line="418"/>
+        <location filename="../configdialog.cpp" line="429"/>
+        <location filename="../configdialog.cpp" line="440"/>
+        <location filename="../configdialog.cpp" line="451"/>
+        <location filename="../configdialog.cpp" line="462"/>
+        <location filename="../configdialog.cpp" line="473"/>
+        <location filename="../configdialog.cpp" line="484"/>
+        <location filename="../configdialog.cpp" line="495"/>
+        <location filename="../configdialog.cpp" line="506"/>
+        <location filename="../configdialog.cpp" line="517"/>
+        <location filename="../configdialog.cpp" line="528"/>
+        <location filename="../configdialog.cpp" line="539"/>
         <source>Browse program</source>
         <translation>浏览程序</translation>
     </message>
@@ -200,84 +205,84 @@
     </message>
     <message>
         <location filename="../configdialog.ui" line="759"/>
-        <location filename="../configdialog.cpp" line="596"/>
-        <location filename="../configdialog.cpp" line="659"/>
+        <location filename="../configdialog.cpp" line="612"/>
+        <location filename="../configdialog.cpp" line="675"/>
         <source>Dvi Viewer</source>
         <translation>Dvi查看器</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="114"/>
-        <location filename="../configdialog.cpp" line="599"/>
-        <location filename="../configdialog.cpp" line="662"/>
+        <location filename="../configdialog.cpp" line="615"/>
+        <location filename="../configdialog.cpp" line="678"/>
         <source>PS Viewer</source>
         <translation>PS查看器</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="439"/>
-        <location filename="../configdialog.cpp" line="620"/>
-        <location filename="../configdialog.cpp" line="683"/>
+        <location filename="../configdialog.cpp" line="636"/>
+        <location filename="../configdialog.cpp" line="699"/>
         <source>ghostscript</source>
         <translation>ghostscript</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="608"/>
-        <location filename="../configdialog.cpp" line="671"/>
+        <location filename="../configdialog.cpp" line="624"/>
+        <location filename="../configdialog.cpp" line="687"/>
         <source>Bibtex</source>
         <translation>Bibtex</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="544"/>
-        <location filename="../configdialog.cpp" line="602"/>
-        <location filename="../configdialog.cpp" line="665"/>
+        <location filename="../configdialog.cpp" line="618"/>
+        <location filename="../configdialog.cpp" line="681"/>
         <source>Dvipdfm</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="316"/>
-        <location filename="../configdialog.cpp" line="590"/>
-        <location filename="../configdialog.cpp" line="653"/>
+        <location filename="../configdialog.cpp" line="606"/>
+        <location filename="../configdialog.cpp" line="669"/>
         <source>PdfLaTeX</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="527"/>
-        <location filename="../configdialog.cpp" line="611"/>
-        <location filename="../configdialog.cpp" line="674"/>
+        <location filename="../configdialog.cpp" line="627"/>
+        <location filename="../configdialog.cpp" line="690"/>
         <source>Makeindex</source>
         <translation>Makeindex</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="560"/>
-        <location filename="../configdialog.cpp" line="605"/>
-        <location filename="../configdialog.cpp" line="668"/>
+        <location filename="../configdialog.cpp" line="621"/>
+        <location filename="../configdialog.cpp" line="684"/>
         <source>ps2pdf</source>
         <translation>ps2pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="179"/>
-        <location filename="../configdialog.cpp" line="614"/>
-        <location filename="../configdialog.cpp" line="677"/>
+        <location filename="../configdialog.cpp" line="630"/>
+        <location filename="../configdialog.cpp" line="693"/>
         <source>Pdf Viewer</source>
         <translation>Pdf 查看器</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="470"/>
-        <location filename="../configdialog.cpp" line="617"/>
-        <location filename="../configdialog.cpp" line="680"/>
+        <location filename="../configdialog.cpp" line="633"/>
+        <location filename="../configdialog.cpp" line="696"/>
         <source>metapost</source>
         <translation>metapost</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="302"/>
-        <location filename="../configdialog.cpp" line="587"/>
-        <location filename="../configdialog.cpp" line="650"/>
+        <location filename="../configdialog.cpp" line="603"/>
+        <location filename="../configdialog.cpp" line="666"/>
         <source>LaTeX</source>
         <translation>LaTeX</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="537"/>
-        <location filename="../configdialog.cpp" line="593"/>
-        <location filename="../configdialog.cpp" line="656"/>
+        <location filename="../configdialog.cpp" line="609"/>
+        <location filename="../configdialog.cpp" line="672"/>
         <source>dvips</source>
         <translation>dvips</translation>
     </message>
@@ -293,27 +298,27 @@
     </message>
     <message>
         <location filename="../configdialog.ui" line="432"/>
-        <location filename="../configdialog.cpp" line="623"/>
-        <location filename="../configdialog.cpp" line="686"/>
+        <location filename="../configdialog.cpp" line="639"/>
+        <location filename="../configdialog.cpp" line="702"/>
         <source>Asymptote</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="480"/>
-        <location filename="../configdialog.cpp" line="626"/>
-        <location filename="../configdialog.cpp" line="689"/>
+        <location filename="../configdialog.cpp" line="642"/>
+        <location filename="../configdialog.cpp" line="705"/>
         <source>Latexmk</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="285"/>
         <source>Embed</source>
-        <translation></translation>
+        <translation>嵌入</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="607"/>
-        <location filename="../configdialog.cpp" line="629"/>
-        <location filename="../configdialog.cpp" line="692"/>
+        <location filename="../configdialog.cpp" line="645"/>
+        <location filename="../configdialog.cpp" line="708"/>
         <source>R Sweave</source>
         <translation></translation>
     </message>
@@ -329,20 +334,20 @@
     </message>
     <message>
         <location filename="../configdialog.ui" line="309"/>
-        <location filename="../configdialog.cpp" line="632"/>
-        <location filename="../configdialog.cpp" line="695"/>
+        <location filename="../configdialog.cpp" line="648"/>
+        <location filename="../configdialog.cpp" line="711"/>
         <source>XeLaTeX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="446"/>
         <source>Add to PATH</source>
-        <translation type="unfinished"></translation>
+        <translation>添加到路径</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="255"/>
         <source>lp options for the printer</source>
-        <translation type="unfinished"></translation>
+        <translation>打印机IP设置</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="833"/>
@@ -376,25 +381,25 @@
     </message>
     <message>
         <location filename="../configdialog.ui" line="344"/>
-        <location filename="../configdialog.cpp" line="635"/>
-        <location filename="../configdialog.cpp" line="698"/>
+        <location filename="../configdialog.cpp" line="651"/>
+        <location filename="../configdialog.cpp" line="714"/>
         <source>LuaLaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>LuaLaTeX</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="517"/>
         <source>Bib(la)tex</source>
-        <translation type="unfinished"></translation>
+        <translation>Bib(la)tex</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="720"/>
         <source>Launch the &quot;Clean&quot; tool when exiting Texmaker</source>
-        <translation type="unfinished"></translation>
+        <translation>在退出Texmaker时加载“清理”工具</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="862"/>
         <source>PdfLaTeX + Bib(la)tex + PdfLaTeX (x2) + View Pdf</source>
-        <translation type="unfinished"></translation>
+        <translation>PdfLaTeX + Bib(la)tex + PdfLaTeX (x2) + 查看 Pdf</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="890"/>
@@ -430,7 +435,7 @@
     <message>
         <location filename="../configdialog.ui" line="932"/>
         <source>LuaLaTeX + View PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>LuaLaTeX + View PDF</translation>
     </message>
     <message>
         <location filename="../configdialog.ui" line="948"/>
@@ -464,12 +469,12 @@
         <translation>编辑器字体</translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1106"/>
+        <location filename="../configdialog.ui" line="1099"/>
         <source>Editor Font Size</source>
         <translation>编辑器字体大小</translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1123"/>
+        <location filename="../configdialog.ui" line="1116"/>
         <source>Editor Font Encoding</source>
         <translation>编辑器字体编码</translation>
     </message>
@@ -499,12 +504,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1147"/>
+        <location filename="../configdialog.ui" line="1140"/>
         <source>Word Wrap</source>
         <translation>换行</translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1161"/>
+        <location filename="../configdialog.ui" line="1154"/>
         <source>Show Line Numbers</source>
         <translation>显示行号</translation>
     </message>
@@ -525,12 +530,12 @@
         <translation type="obsolete">&quot;Keyword&quot; 颜色</translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1133"/>
+        <location filename="../configdialog.ui" line="1126"/>
         <source>Check for external changes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1140"/>
+        <location filename="../configdialog.ui" line="1133"/>
         <source>Backup documents every 10 min</source>
         <translation></translation>
     </message>
@@ -560,34 +565,49 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1372"/>
-        <location filename="../configdialog.cpp" line="185"/>
-        <location filename="../configdialog.cpp" line="193"/>
+        <location filename="../configdialog.ui" line="1368"/>
+        <source>Svn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="1374"/>
+        <source>Detect uncommitted lines at the opening</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="1381"/>
+        <source>Path to the svn command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="1409"/>
+        <location filename="../configdialog.cpp" line="186"/>
+        <location filename="../configdialog.cpp" line="194"/>
         <source>Shortcuts</source>
         <translation>快捷方式</translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1408"/>
+        <location filename="../configdialog.ui" line="1445"/>
         <source>Toggle focus editor/pdf viewer</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1415"/>
+        <location filename="../configdialog.ui" line="1452"/>
         <source>PushButton</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1382"/>
+        <location filename="../configdialog.ui" line="1419"/>
         <source>Action</source>
         <translation>操作</translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1387"/>
+        <location filename="../configdialog.ui" line="1424"/>
         <source>Shortcut</source>
         <translation>快捷方式</translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="1154"/>
+        <location filename="../configdialog.ui" line="1147"/>
         <source>Completion</source>
         <translation>自动完成</translation>
     </message>
@@ -612,7 +632,7 @@
         <location filename="../documentview.cpp" line="490"/>
         <location filename="../documentview.cpp" line="521"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <location filename="../documentview.cpp" line="573"/>
@@ -622,22 +642,27 @@
     <message>
         <location filename="../documentview.cpp" line="1114"/>
         <source>Loading pdf...</source>
-        <translation type="unfinished"></translation>
+        <translation>加载 pdf...</translation>
     </message>
     <message>
-        <location filename="../documentview.cpp" line="1489"/>
+        <location filename="../documentview.cpp" line="1491"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../documentview.cpp" line="1505"/>
+        <location filename="../documentview.cpp" line="1507"/>
         <source>Number of words in the document</source>
         <translation>文档字数</translation>
     </message>
     <message>
-        <location filename="../documentview.cpp" line="1515"/>
+        <location filename="../documentview.cpp" line="1517"/>
         <source>Save As</source>
         <translation>另存为</translation>
+    </message>
+    <message>
+        <location filename="../documentview.cpp" line="1534"/>
+        <source>Number of words in the page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -674,7 +699,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="45"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>模式</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="51"/>
@@ -684,7 +709,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="61"/>
         <source>export to Html (new page for each section)</source>
-        <translation type="unfinished"></translation>
+        <translation>导出到Html（每节均从新页开始）</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="68"/>
@@ -699,7 +724,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../exportdialog.ui" line="82"/>
         <source>User</source>
-        <translation type="unfinished">使用者</translation>
+        <translation>使用者</translation>
     </message>
     <message>
         <location filename="../exportdialog.ui" line="91"/>
@@ -1084,7 +1109,7 @@ with the default encoding setting</source>
 <context>
     <name>LineNumberWidget</name>
     <message>
-        <location filename="../linenumberwidget.cpp" line="248"/>
+        <location filename="../linenumberwidget.cpp" line="254"/>
         <source>Click to add or remove a bookmark</source>
         <translation>点击这里添加或移除书签</translation>
     </message>
@@ -1103,17 +1128,27 @@ with the default encoding setting</source>
         <translation>文档字数</translation>
     </message>
     <message>
-        <location filename="../pageitem.cpp" line="170"/>
+        <location filename="../pageitem.cpp" line="171"/>
+        <source>Number of words in the page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../pageitem.cpp" line="175"/>
         <source>Convert page to png image</source>
         <translation>把页面转换为png图片</translation>
     </message>
     <message>
-        <location filename="../pageitem.cpp" line="581"/>
+        <location filename="../pageitem.cpp" line="179"/>
+        <source>Open the file browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../pageitem.cpp" line="590"/>
         <source>Copy text</source>
         <translation>复制文本</translation>
     </message>
     <message>
-        <location filename="../pageitem.cpp" line="582"/>
+        <location filename="../pageitem.cpp" line="591"/>
         <source>Copy image</source>
         <translation>复制图像</translation>
     </message>
@@ -1351,7 +1386,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="188"/>
         <source>Presentation...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../pdfviewerwidget.cpp" line="217"/>
@@ -1502,52 +1537,52 @@ with the default encoding setting</source>
     <message>
         <location filename="../quickbeamerdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>会话</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="22"/>
         <source>AMS Packages</source>
-        <translation type="unfinished">AMS 包</translation>
+        <translation>AMS 包</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="29"/>
         <source>Encoding</source>
-        <translation type="unfinished">编码</translation>
+        <translation>编码</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="39"/>
         <source>Typeface Size</source>
-        <translation type="unfinished">字体大小</translation>
+        <translation>字体大小</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="46"/>
         <source>babel Package</source>
-        <translation type="unfinished"></translation>
+        <translation>babel 包</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="59"/>
         <source>graphicx Package</source>
-        <translation type="unfinished"></translation>
+        <translation>graphicx 包</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="66"/>
         <source>Title</source>
-        <translation type="unfinished">标题</translation>
+        <translation>标题</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="79"/>
         <source>Author</source>
-        <translation type="unfinished">作者</translation>
+        <translation>作者</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.ui" line="86"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>主题</translation>
     </message>
     <message>
         <location filename="../quickbeamerdialog.cpp" line="22"/>
         <source>Quick Start</source>
-        <translation type="unfinished"></translation>
+        <translation>文档向导</translation>
     </message>
 </context>
 <context>
@@ -1663,67 +1698,67 @@ with the default encoding setting</source>
         <location filename="../quickxelatexdialog.ui" line="115"/>
         <location filename="../quickxelatexdialog.ui" line="170"/>
         <source>+</source>
-        <translation type="unfinished">+</translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="38"/>
         <source>Other Options</source>
-        <translation type="unfinished">其他选项</translation>
+        <translation>其他选项</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="51"/>
         <source>Document Class</source>
-        <translation type="unfinished">文档类别</translation>
+        <translation>文档类别</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="70"/>
         <source>Paper Size</source>
-        <translation type="unfinished">纸张大小</translation>
+        <translation>纸张大小</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="96"/>
         <source>Typeface Size</source>
-        <translation type="unfinished">字体大小</translation>
+        <translation>字体大小</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="128"/>
         <source>Author</source>
-        <translation type="unfinished">作者</translation>
+        <translation>作者</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="147"/>
         <source>Title</source>
-        <translation type="unfinished">标题</translation>
+        <translation>标题</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="154"/>
         <source>polyglossia Package</source>
-        <translation type="unfinished"></translation>
+        <translation>polyglossia 包</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="177"/>
         <source>geometry Package</source>
-        <translation type="unfinished"></translation>
+        <translation>geometry 包</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="184"/>
         <source>left=2cm,right=2cm,top=2cm,bottom=2cm</source>
-        <translation type="unfinished"></translation>
+        <translation>左边距=2cm,右边距=2cm,上边距=2cm,下边距=2cm</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="191"/>
         <source>AMS Packages</source>
-        <translation type="unfinished">AMS 包</translation>
+        <translation>AMS 包</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.ui" line="201"/>
         <source>graphicx Package</source>
-        <translation type="unfinished"></translation>
+        <translation>graphicx 包</translation>
     </message>
     <message>
         <location filename="../quickxelatexdialog.cpp" line="30"/>
         <source>Quick Start</source>
-        <translation type="unfinished"></translation>
+        <translation>文档向导</translation>
     </message>
 </context>
 <context>
@@ -1842,7 +1877,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../replacewidget.ui" line="206"/>
         <source>In selection only</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../replacewidget.ui" line="216"/>
@@ -1969,7 +2004,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../sourceview.cpp" line="54"/>
         <source>Check differences</source>
-        <translation type="unfinished"></translation>
+        <translation>检查差异</translation>
     </message>
     <message>
         <location filename="../sourceview.cpp" line="139"/>
@@ -2246,96 +2281,96 @@ with the default encoding setting</source>
 <context>
     <name>Texmaker</name>
     <message>
-        <location filename="../texmaker.cpp" line="214"/>
-        <location filename="../texmaker.cpp" line="382"/>
-        <location filename="../texmaker.cpp" line="2077"/>
-        <location filename="../texmaker.cpp" line="5059"/>
+        <location filename="../texmaker.cpp" line="216"/>
+        <location filename="../texmaker.cpp" line="384"/>
+        <location filename="../texmaker.cpp" line="2079"/>
+        <location filename="../texmaker.cpp" line="5106"/>
         <source>Structure</source>
         <translation>结构</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="231"/>
-        <location filename="../texmaker.cpp" line="5064"/>
+        <location filename="../texmaker.cpp" line="233"/>
+        <location filename="../texmaker.cpp" line="5111"/>
         <source>Relation symbols</source>
         <translation>关系符号</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="241"/>
-        <location filename="../texmaker.cpp" line="5069"/>
+        <location filename="../texmaker.cpp" line="243"/>
+        <location filename="../texmaker.cpp" line="5116"/>
         <source>Arrow symbols</source>
         <translation>箭头符号</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="250"/>
-        <location filename="../texmaker.cpp" line="5074"/>
+        <location filename="../texmaker.cpp" line="252"/>
+        <location filename="../texmaker.cpp" line="5121"/>
         <source>Miscellaneous symbols</source>
         <translation>其他符号</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="259"/>
-        <location filename="../texmaker.cpp" line="5079"/>
+        <location filename="../texmaker.cpp" line="261"/>
+        <location filename="../texmaker.cpp" line="5126"/>
         <source>Delimiters</source>
         <translation>定界符</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="268"/>
-        <location filename="../texmaker.cpp" line="5084"/>
+        <location filename="../texmaker.cpp" line="270"/>
+        <location filename="../texmaker.cpp" line="5131"/>
         <source>Greek letters</source>
         <translation>希腊字母</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="277"/>
-        <location filename="../texmaker.cpp" line="5089"/>
+        <location filename="../texmaker.cpp" line="279"/>
+        <location filename="../texmaker.cpp" line="5136"/>
         <source>Most used symbols</source>
         <translation>最常用的符号</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="286"/>
-        <location filename="../texmaker.cpp" line="5094"/>
+        <location filename="../texmaker.cpp" line="288"/>
+        <location filename="../texmaker.cpp" line="5141"/>
         <source>Favorites symbols</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="325"/>
-        <location filename="../texmaker.cpp" line="358"/>
-        <location filename="../texmaker.cpp" line="5099"/>
+        <location filename="../texmaker.cpp" line="327"/>
+        <location filename="../texmaker.cpp" line="360"/>
+        <location filename="../texmaker.cpp" line="5146"/>
         <source>Pstricks Commands</source>
         <translation>Pstricks 命令</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="333"/>
-        <location filename="../texmaker.cpp" line="361"/>
-        <location filename="../texmaker.cpp" line="5109"/>
+        <location filename="../texmaker.cpp" line="335"/>
+        <location filename="../texmaker.cpp" line="363"/>
+        <location filename="../texmaker.cpp" line="5156"/>
         <source>MetaPost Commands</source>
         <translation>MetaPost 命令</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="341"/>
-        <location filename="../texmaker.cpp" line="364"/>
-        <location filename="../texmaker.cpp" line="5114"/>
+        <location filename="../texmaker.cpp" line="343"/>
+        <location filename="../texmaker.cpp" line="366"/>
+        <location filename="../texmaker.cpp" line="5161"/>
         <source>Tikz Commands</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="349"/>
-        <location filename="../texmaker.cpp" line="367"/>
-        <location filename="../texmaker.cpp" line="5119"/>
+        <location filename="../texmaker.cpp" line="351"/>
+        <location filename="../texmaker.cpp" line="369"/>
+        <location filename="../texmaker.cpp" line="5166"/>
         <source>Asymptote Commands</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2082"/>
+        <location filename="../texmaker.cpp" line="2084"/>
         <source>Messages / Log File</source>
         <translation>消息 / 日志文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="745"/>
+        <location filename="../texmaker.cpp" line="747"/>
         <source>Toggle between the master document and the current document</source>
         <translation>在主文档和当前文档间切换</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="902"/>
-        <location filename="../texmaker.cpp" line="10164"/>
+        <location filename="../texmaker.cpp" line="904"/>
+        <location filename="../texmaker.cpp" line="10227"/>
         <source>Normal Mode</source>
         <translation>正常模式</translation>
     </message>
@@ -2344,262 +2379,262 @@ with the default encoding setting</source>
         <translation type="obsolete">准备</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="925"/>
+        <location filename="../texmaker.cpp" line="927"/>
         <source>&amp;File</source>
         <translation>&amp;文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="926"/>
-        <location filename="../texmaker.cpp" line="927"/>
-        <location filename="../texmaker.cpp" line="2329"/>
-        <location filename="../texmaker.cpp" line="2330"/>
+        <location filename="../texmaker.cpp" line="928"/>
+        <location filename="../texmaker.cpp" line="929"/>
+        <location filename="../texmaker.cpp" line="2331"/>
+        <location filename="../texmaker.cpp" line="2332"/>
         <source>New</source>
         <translation>新建</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="932"/>
+        <location filename="../texmaker.cpp" line="934"/>
         <source>New by copying an existing file</source>
         <translation>通过复制已有文件新建</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="936"/>
-        <location filename="../texmaker.cpp" line="937"/>
-        <location filename="../texmaker.cpp" line="2334"/>
-        <location filename="../texmaker.cpp" line="2335"/>
+        <location filename="../texmaker.cpp" line="938"/>
+        <location filename="../texmaker.cpp" line="939"/>
+        <location filename="../texmaker.cpp" line="2336"/>
+        <location filename="../texmaker.cpp" line="2337"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="942"/>
+        <location filename="../texmaker.cpp" line="944"/>
         <source>Open Recent</source>
         <translation>最近打开的文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="956"/>
+        <location filename="../texmaker.cpp" line="958"/>
         <source>Restore previous session</source>
         <translation>恢复上一次会话</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="968"/>
-        <location filename="../texmaker.cpp" line="969"/>
-        <location filename="../texmaker.cpp" line="3123"/>
-        <location filename="../texmaker.cpp" line="3266"/>
-        <location filename="../texmaker.cpp" line="3323"/>
-        <location filename="../texmaker.cpp" line="11346"/>
+        <location filename="../texmaker.cpp" line="970"/>
+        <location filename="../texmaker.cpp" line="971"/>
+        <location filename="../texmaker.cpp" line="3133"/>
+        <location filename="../texmaker.cpp" line="3276"/>
+        <location filename="../texmaker.cpp" line="3333"/>
+        <location filename="../texmaker.cpp" line="11409"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="976"/>
-        <location filename="../texmaker.cpp" line="3380"/>
-        <location filename="../texmaker.cpp" line="3451"/>
-        <location filename="../texmaker.cpp" line="4985"/>
+        <location filename="../texmaker.cpp" line="978"/>
+        <location filename="../texmaker.cpp" line="3390"/>
+        <location filename="../texmaker.cpp" line="3461"/>
+        <location filename="../texmaker.cpp" line="5032"/>
         <source>Save As</source>
         <translation>另存为</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="980"/>
+        <location filename="../texmaker.cpp" line="982"/>
         <source>Save All</source>
         <translation>全部保存</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="771"/>
-        <location filename="../texmaker.cpp" line="988"/>
+        <location filename="../texmaker.cpp" line="773"/>
+        <location filename="../texmaker.cpp" line="990"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="309"/>
-        <location filename="../texmaker.cpp" line="5125"/>
+        <location filename="../texmaker.cpp" line="311"/>
+        <location filename="../texmaker.cpp" line="5172"/>
         <source>User</source>
         <translation>使用者</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="955"/>
+        <location filename="../texmaker.cpp" line="957"/>
         <source>Session</source>
         <translation>会话</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="961"/>
+        <location filename="../texmaker.cpp" line="963"/>
         <source>Save session</source>
         <translation>保存会话</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="964"/>
+        <location filename="../texmaker.cpp" line="966"/>
         <source>Load session</source>
         <translation>加载会话</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="984"/>
+        <location filename="../texmaker.cpp" line="986"/>
         <source>Save A Copy</source>
         <translation>保存副本</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="994"/>
+        <location filename="../texmaker.cpp" line="996"/>
         <source>Close All</source>
         <translation>全部关闭</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="998"/>
+        <location filename="../texmaker.cpp" line="1000"/>
         <source>Reload document from file</source>
         <translation>重新加载文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1002"/>
+        <location filename="../texmaker.cpp" line="1004"/>
         <source>Reload all documents from file</source>
-        <translation type="unfinished"></translation>
+        <translation>重新加载文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1006"/>
+        <location filename="../texmaker.cpp" line="1008"/>
         <source>Print</source>
         <translation>打印</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1012"/>
-        <location filename="../texmaker.cpp" line="1013"/>
+        <location filename="../texmaker.cpp" line="1014"/>
+        <location filename="../texmaker.cpp" line="1015"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1019"/>
+        <location filename="../texmaker.cpp" line="1021"/>
         <source>&amp;Edit</source>
         <translation>&amp;编辑</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1020"/>
-        <location filename="../texmaker.cpp" line="1021"/>
+        <location filename="../texmaker.cpp" line="1022"/>
+        <location filename="../texmaker.cpp" line="1023"/>
         <source>Undo</source>
         <translation>撤消</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1026"/>
-        <location filename="../texmaker.cpp" line="1027"/>
+        <location filename="../texmaker.cpp" line="1028"/>
+        <location filename="../texmaker.cpp" line="1029"/>
         <source>Redo</source>
         <translation>恢复</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1033"/>
-        <location filename="../texmaker.cpp" line="1034"/>
+        <location filename="../texmaker.cpp" line="1035"/>
+        <location filename="../texmaker.cpp" line="1036"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1039"/>
-        <location filename="../texmaker.cpp" line="1040"/>
+        <location filename="../texmaker.cpp" line="1041"/>
+        <location filename="../texmaker.cpp" line="1042"/>
         <source>Cut</source>
         <translation>剪切</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1045"/>
-        <location filename="../texmaker.cpp" line="1046"/>
+        <location filename="../texmaker.cpp" line="1047"/>
+        <location filename="../texmaker.cpp" line="1048"/>
         <source>Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1051"/>
+        <location filename="../texmaker.cpp" line="1053"/>
         <source>Select All</source>
         <translation>全选</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1057"/>
+        <location filename="../texmaker.cpp" line="1059"/>
         <source>Comment</source>
         <translation>注释</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1063"/>
+        <location filename="../texmaker.cpp" line="1065"/>
         <source>Uncomment</source>
         <translation>取消注释</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1069"/>
+        <location filename="../texmaker.cpp" line="1071"/>
         <source>Indent</source>
         <translation>缩进</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1075"/>
+        <location filename="../texmaker.cpp" line="1077"/>
         <source>Unindent</source>
         <translation>取消缩进</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1082"/>
+        <location filename="../texmaker.cpp" line="1084"/>
         <source>Find</source>
         <translation>查找</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1088"/>
+        <location filename="../texmaker.cpp" line="1090"/>
         <source>FindNext</source>
         <translation>查找下一个</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1094"/>
+        <location filename="../texmaker.cpp" line="1096"/>
         <source>Find In Directory</source>
         <translation>在目录中查找</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1099"/>
+        <location filename="../texmaker.cpp" line="1101"/>
         <source>Replace</source>
         <translation>替换</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1105"/>
+        <location filename="../texmaker.cpp" line="1107"/>
         <source>Goto Line</source>
         <translation>跳转到行</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1112"/>
+        <location filename="../texmaker.cpp" line="1114"/>
         <source>Check Spelling</source>
         <translation>检查拼写</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1119"/>
+        <location filename="../texmaker.cpp" line="1121"/>
         <source>Refresh Structure</source>
         <translation>更新结构</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1125"/>
+        <location filename="../texmaker.cpp" line="1127"/>
         <source>Refresh Bibliography</source>
         <translation>更新参考文献</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1130"/>
+        <location filename="../texmaker.cpp" line="1132"/>
         <source>&amp;Tools</source>
         <translation>&amp;工具</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1131"/>
-        <location filename="../texmaker.cpp" line="2382"/>
-        <location filename="../texmaker.cpp" line="8920"/>
+        <location filename="../texmaker.cpp" line="1133"/>
+        <location filename="../texmaker.cpp" line="2384"/>
+        <location filename="../texmaker.cpp" line="8977"/>
         <source>Quick Build</source>
         <translation>快速构建</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1142"/>
-        <location filename="../texmaker.cpp" line="2407"/>
+        <location filename="../texmaker.cpp" line="1144"/>
+        <location filename="../texmaker.cpp" line="2409"/>
         <source>View Dvi</source>
         <translation>查看 Dvi</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1152"/>
-        <location filename="../texmaker.cpp" line="2408"/>
+        <location filename="../texmaker.cpp" line="1154"/>
+        <location filename="../texmaker.cpp" line="2410"/>
         <source>View PS</source>
         <translation>查看 PS</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1162"/>
-        <location filename="../texmaker.cpp" line="2409"/>
+        <location filename="../texmaker.cpp" line="1164"/>
+        <location filename="../texmaker.cpp" line="2411"/>
         <source>View PDF</source>
         <translation>查看 PDF</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1177"/>
-        <location filename="../texmaker.cpp" line="2420"/>
+        <location filename="../texmaker.cpp" line="1179"/>
+        <location filename="../texmaker.cpp" line="2422"/>
         <source>View Log</source>
         <translation>查看日志</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="951"/>
-        <location filename="../texmaker.cpp" line="1218"/>
-        <location filename="../texmaker.cpp" line="1966"/>
+        <location filename="../texmaker.cpp" line="953"/>
+        <location filename="../texmaker.cpp" line="1220"/>
+        <location filename="../texmaker.cpp" line="1968"/>
         <source>Clean</source>
         <translation>清除输出文件</translation>
     </message>
@@ -2608,309 +2643,309 @@ with the default encoding setting</source>
         <translation type="obsolete">转换为 HTML</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1237"/>
-        <location filename="../texmaker.cpp" line="2430"/>
+        <location filename="../texmaker.cpp" line="1239"/>
+        <location filename="../texmaker.cpp" line="2432"/>
         <source>Previous LaTeX Error</source>
         <translation>前一个 LaTeX 错误</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1239"/>
-        <location filename="../texmaker.cpp" line="2424"/>
+        <location filename="../texmaker.cpp" line="1241"/>
+        <location filename="../texmaker.cpp" line="2426"/>
         <source>Next LaTeX Error</source>
         <translation>下一个 LaTeX 错误</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1242"/>
+        <location filename="../texmaker.cpp" line="1244"/>
         <source>&amp;LaTeX</source>
         <translation>&amp;LaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1276"/>
+        <location filename="../texmaker.cpp" line="1278"/>
         <source>&amp;Sectioning</source>
         <translation>&amp;分节</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1306"/>
+        <location filename="../texmaker.cpp" line="1308"/>
         <source>&amp;Environment</source>
         <translation>&amp;环境</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1352"/>
+        <location filename="../texmaker.cpp" line="1354"/>
         <source>&amp;List Environment</source>
         <translation>&amp;罗列环境</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1376"/>
+        <location filename="../texmaker.cpp" line="1378"/>
         <source>Font St&amp;yles</source>
         <translation>字体&amp;风格</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1413"/>
+        <location filename="../texmaker.cpp" line="1415"/>
         <source>&amp;Tabular Environment</source>
         <translation>&amp;表格环境</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1439"/>
+        <location filename="../texmaker.cpp" line="1441"/>
         <source>S&amp;pacing</source>
         <translation>&amp;间隔</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1466"/>
+        <location filename="../texmaker.cpp" line="1468"/>
         <source>International &amp;Accents</source>
         <translation>&amp;重音符号</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1508"/>
+        <location filename="../texmaker.cpp" line="1510"/>
         <source>International &amp;Quotes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1557"/>
+        <location filename="../texmaker.cpp" line="1559"/>
         <source>&amp;Math</source>
         <translation>&amp;数学</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1558"/>
+        <location filename="../texmaker.cpp" line="1560"/>
         <source>Inline math mode $...$</source>
         <translation>内联数学模式 $...$</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1563"/>
+        <location filename="../texmaker.cpp" line="1565"/>
         <source>Display math mode \[...\]</source>
         <translation>显示数学模式 \[...\]</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1568"/>
+        <location filename="../texmaker.cpp" line="1570"/>
         <source>Numbered equations \begin{equation}</source>
         <translation>公式编号 \begin{equation}</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1621"/>
+        <location filename="../texmaker.cpp" line="1623"/>
         <source>Math &amp;Functions</source>
         <translation>数学&amp;函数</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1743"/>
+        <location filename="../texmaker.cpp" line="1745"/>
         <source>Math Font St&amp;yles</source>
         <translation>数学字体&amp;风格</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1777"/>
+        <location filename="../texmaker.cpp" line="1779"/>
         <source>Math &amp;Accents</source>
         <translation>&amp;数学重音符号</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1819"/>
+        <location filename="../texmaker.cpp" line="1821"/>
         <source>Math S&amp;paces</source>
         <translation>数学&amp;间隔符号</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1841"/>
+        <location filename="../texmaker.cpp" line="1843"/>
         <source>&amp;Wizard</source>
         <translation>&amp;向导</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1842"/>
+        <location filename="../texmaker.cpp" line="1844"/>
         <source>Quick Start</source>
-        <translation>文档</translation>
+        <translation>文档向导</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1845"/>
+        <location filename="../texmaker.cpp" line="1847"/>
         <source>Quick Beamer Presentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1848"/>
+        <location filename="../texmaker.cpp" line="1850"/>
         <source>Quick Xelatex Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1851"/>
+        <location filename="../texmaker.cpp" line="1853"/>
         <source>Quick Letter</source>
         <translation>信件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1855"/>
+        <location filename="../texmaker.cpp" line="1857"/>
         <source>Quick Tabular</source>
         <translation>表格</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1858"/>
+        <location filename="../texmaker.cpp" line="1860"/>
         <source>Quick Tabbing</source>
         <translation>制表</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1861"/>
+        <location filename="../texmaker.cpp" line="1863"/>
         <source>Quick Array</source>
         <translation>数组</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1865"/>
+        <location filename="../texmaker.cpp" line="1867"/>
         <source>&amp;Bibliography</source>
         <translation>&amp;参考文献</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1971"/>
+        <location filename="../texmaker.cpp" line="1973"/>
         <source>&amp;User</source>
         <translation>&amp;用户自定义</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1972"/>
+        <location filename="../texmaker.cpp" line="1974"/>
         <source>User &amp;Tags</source>
         <translation>自定义&amp;标签</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2014"/>
-        <location filename="../texmaker.cpp" line="7368"/>
-        <location filename="../texmaker.cpp" line="7424"/>
+        <location filename="../texmaker.cpp" line="2016"/>
+        <location filename="../texmaker.cpp" line="7425"/>
+        <location filename="../texmaker.cpp" line="7481"/>
         <source>Edit User &amp;Tags</source>
         <translation>编辑自定义&amp;标签</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2017"/>
+        <location filename="../texmaker.cpp" line="2019"/>
         <source>User &amp;Commands</source>
         <translation>自定义&amp;命令</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2039"/>
-        <location filename="../texmaker.cpp" line="8880"/>
-        <location filename="../texmaker.cpp" line="8916"/>
+        <location filename="../texmaker.cpp" line="2041"/>
+        <location filename="../texmaker.cpp" line="8937"/>
+        <location filename="../texmaker.cpp" line="8973"/>
         <source>Edit User &amp;Commands</source>
         <translation>编辑自定义&amp;命令</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2043"/>
+        <location filename="../texmaker.cpp" line="2045"/>
         <source>Customize Completion</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2048"/>
+        <location filename="../texmaker.cpp" line="2050"/>
         <source>Run script</source>
-        <translation type="unfinished"></translation>
+        <translation>运行脚本</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2059"/>
+        <location filename="../texmaker.cpp" line="2061"/>
         <source>Other script</source>
-        <translation type="unfinished"></translation>
+        <translation>其他脚本</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2064"/>
+        <location filename="../texmaker.cpp" line="2066"/>
         <source>&amp;View</source>
         <translation>&amp;查看</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="754"/>
-        <location filename="../texmaker.cpp" line="2065"/>
+        <location filename="../texmaker.cpp" line="756"/>
+        <location filename="../texmaker.cpp" line="2067"/>
         <source>Next Document</source>
         <translation>下一个文档</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="750"/>
-        <location filename="../texmaker.cpp" line="2070"/>
+        <location filename="../texmaker.cpp" line="752"/>
+        <location filename="../texmaker.cpp" line="2072"/>
         <source>Previous Document</source>
         <translation>上一个文档</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2120"/>
+        <location filename="../texmaker.cpp" line="2122"/>
         <source>&amp;Options</source>
         <translation>&amp;选项</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2121"/>
+        <location filename="../texmaker.cpp" line="2123"/>
         <source>Configure Texmaker</source>
         <translation>配置 Texmaker</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2129"/>
+        <location filename="../texmaker.cpp" line="2131"/>
         <source>Interface Appearance</source>
         <translation>界面外观</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2144"/>
+        <location filename="../texmaker.cpp" line="2146"/>
         <source>Change Interface Font</source>
         <translation>改变接口字体</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2436"/>
+        <location filename="../texmaker.cpp" line="2438"/>
         <source>Stop Process</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3121"/>
-        <location filename="../texmaker.cpp" line="3264"/>
-        <location filename="../texmaker.cpp" line="3321"/>
+        <location filename="../texmaker.cpp" line="3131"/>
+        <location filename="../texmaker.cpp" line="3274"/>
+        <location filename="../texmaker.cpp" line="3331"/>
         <source>The document has been changed outside Texmaker.Do you want to reload it (and discard your changes) or save it (and overwrite the file)?</source>
         <translation>文档已经改变了。你想重新加载它(丢弃你的改变)或保存它(覆盖文件)?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3885"/>
+        <location filename="../texmaker.cpp" line="3895"/>
         <source>The document contains unsaved work.You will lose changes by reloading the document.</source>
         <oldsource>The document contains unsaved work. you will lose changes by reloading the file</oldsource>
         <translation>文档包含尚未保存的内容。重新加载文档会丢失改动的内容。</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3123"/>
-        <location filename="../texmaker.cpp" line="3266"/>
-        <location filename="../texmaker.cpp" line="3323"/>
-        <location filename="../texmaker.cpp" line="3887"/>
+        <location filename="../texmaker.cpp" line="3133"/>
+        <location filename="../texmaker.cpp" line="3276"/>
+        <location filename="../texmaker.cpp" line="3333"/>
+        <location filename="../texmaker.cpp" line="3897"/>
         <source>Reload the file</source>
         <translation>重新加载文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7649"/>
+        <location filename="../texmaker.cpp" line="7706"/>
         <source>A document must be saved with an extension (and without spaces or accents in the name) before being used by a command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8497"/>
+        <location filename="../texmaker.cpp" line="8554"/>
         <source>Make a copy of the %1.pdf/ps document in the &quot;build&quot; subdirectory and delete all the others %1.* files?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10711"/>
+        <location filename="../texmaker.cpp" line="10774"/>
         <source>The language setting will take effect after restarting the application.</source>
         <translation>语言设置在重新启动应用程后序生效。</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10719"/>
+        <location filename="../texmaker.cpp" line="10782"/>
         <source>The appearance setting will take effect after restarting the application.</source>
         <translation>外观设置在重新启动应用程后序生效。</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2125"/>
-        <location filename="../texmaker.cpp" line="10155"/>
+        <location filename="../texmaker.cpp" line="2127"/>
+        <location filename="../texmaker.cpp" line="10218"/>
         <source>Define Current Document as &apos;Master Document&apos;</source>
         <translation>定义当前文档为 &apos;主文档&apos;</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2180"/>
+        <location filename="../texmaker.cpp" line="2182"/>
         <source>&amp;Help</source>
         <translation>&amp;帮助</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2181"/>
-        <location filename="../texmaker.cpp" line="2182"/>
+        <location filename="../texmaker.cpp" line="2183"/>
+        <location filename="../texmaker.cpp" line="2184"/>
         <source>LaTeX Reference</source>
         <translation>LaTeX 参考</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2185"/>
-        <location filename="../texmaker.cpp" line="2186"/>
+        <location filename="../texmaker.cpp" line="2187"/>
+        <location filename="../texmaker.cpp" line="2188"/>
         <source>User Manual</source>
         <translation>用户手册</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2218"/>
+        <location filename="../texmaker.cpp" line="2220"/>
         <source>About Texmaker</source>
         <translation>关于 Texmaker</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="634"/>
+        <location filename="../texmaker.cpp" line="636"/>
         <source>Bold</source>
         <translation>加粗</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="639"/>
+        <location filename="../texmaker.cpp" line="641"/>
         <source>Italic</source>
         <translation>斜体</translation>
     </message>
@@ -2919,214 +2954,214 @@ with the default encoding setting</source>
         <translation type="obsolete">下划线</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="649"/>
+        <location filename="../texmaker.cpp" line="651"/>
         <source>Left</source>
         <translation>左对齐</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="654"/>
+        <location filename="../texmaker.cpp" line="656"/>
         <source>Center</source>
         <translation>居中</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="659"/>
+        <location filename="../texmaker.cpp" line="661"/>
         <source>Right</source>
         <translation>右对齐</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="665"/>
-        <location filename="../texmaker.cpp" line="705"/>
+        <location filename="../texmaker.cpp" line="667"/>
+        <location filename="../texmaker.cpp" line="707"/>
         <source>New line</source>
         <translation>新建行</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1223"/>
+        <location filename="../texmaker.cpp" line="1225"/>
         <source>Open Terminal</source>
         <translation>打开终端</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1227"/>
+        <location filename="../texmaker.cpp" line="1229"/>
         <source>Export via TeX4ht</source>
         <translation>通过TeX4ht导出</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="1232"/>
+        <location filename="../texmaker.cpp" line="1234"/>
         <source>Convert to unicode</source>
         <translation>转换为unicode</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2088"/>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="2090"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>Pdf Viewer</source>
         <translation>Pdf 查看器</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2105"/>
+        <location filename="../texmaker.cpp" line="2107"/>
         <source>List of opened files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2112"/>
+        <location filename="../texmaker.cpp" line="2114"/>
         <source>Full Screen</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2149"/>
+        <location filename="../texmaker.cpp" line="2151"/>
         <source>Interface Language</source>
         <translation>界面语言</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2166"/>
+        <location filename="../texmaker.cpp" line="2168"/>
         <source>Manage Settings File</source>
-        <translation type="unfinished"></translation>
+        <translation>管理设置文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2168"/>
+        <location filename="../texmaker.cpp" line="2170"/>
         <source>Settings File</source>
         <translation>设置文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2170"/>
+        <location filename="../texmaker.cpp" line="2172"/>
         <source>Reset Settings</source>
         <translation>重置设置</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2173"/>
+        <location filename="../texmaker.cpp" line="2175"/>
         <source>Save a copy of the settings file</source>
         <translation>保存设置文件副本</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2176"/>
+        <location filename="../texmaker.cpp" line="2178"/>
         <source>Replace the settings file by a new one</source>
         <translation>替换配置文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2213"/>
+        <location filename="../texmaker.cpp" line="2215"/>
         <source>Check for Update</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2403"/>
+        <location filename="../texmaker.cpp" line="2405"/>
         <source>Run</source>
         <translation>运行</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2415"/>
+        <location filename="../texmaker.cpp" line="2417"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="779"/>
-        <location filename="../texmaker.cpp" line="782"/>
-        <location filename="../texmaker.cpp" line="785"/>
+        <location filename="../texmaker.cpp" line="781"/>
+        <location filename="../texmaker.cpp" line="784"/>
+        <location filename="../texmaker.cpp" line="787"/>
         <source>Click to jump to the bookmark</source>
         <translation>点击以跳转到书签</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2631"/>
-        <location filename="../texmaker.cpp" line="2972"/>
-        <location filename="../texmaker.cpp" line="3293"/>
-        <location filename="../texmaker.cpp" line="3352"/>
-        <location filename="../texmaker.cpp" line="4099"/>
-        <location filename="../texmaker.cpp" line="4155"/>
-        <location filename="../texmaker.cpp" line="7644"/>
-        <location filename="../texmaker.cpp" line="7649"/>
-        <location filename="../texmaker.cpp" line="7944"/>
-        <location filename="../texmaker.cpp" line="7966"/>
-        <location filename="../texmaker.cpp" line="7985"/>
-        <location filename="../texmaker.cpp" line="8004"/>
-        <location filename="../texmaker.cpp" line="8026"/>
-        <location filename="../texmaker.cpp" line="8068"/>
-        <location filename="../texmaker.cpp" line="8085"/>
-        <location filename="../texmaker.cpp" line="8096"/>
-        <location filename="../texmaker.cpp" line="8147"/>
-        <location filename="../texmaker.cpp" line="8164"/>
-        <location filename="../texmaker.cpp" line="8175"/>
-        <location filename="../texmaker.cpp" line="8220"/>
-        <location filename="../texmaker.cpp" line="8239"/>
-        <location filename="../texmaker.cpp" line="8258"/>
+        <location filename="../texmaker.cpp" line="2634"/>
+        <location filename="../texmaker.cpp" line="2982"/>
+        <location filename="../texmaker.cpp" line="3303"/>
+        <location filename="../texmaker.cpp" line="3362"/>
+        <location filename="../texmaker.cpp" line="4109"/>
+        <location filename="../texmaker.cpp" line="4165"/>
+        <location filename="../texmaker.cpp" line="7701"/>
+        <location filename="../texmaker.cpp" line="7706"/>
+        <location filename="../texmaker.cpp" line="8001"/>
+        <location filename="../texmaker.cpp" line="8023"/>
+        <location filename="../texmaker.cpp" line="8042"/>
+        <location filename="../texmaker.cpp" line="8061"/>
+        <location filename="../texmaker.cpp" line="8083"/>
+        <location filename="../texmaker.cpp" line="8125"/>
+        <location filename="../texmaker.cpp" line="8142"/>
+        <location filename="../texmaker.cpp" line="8153"/>
+        <location filename="../texmaker.cpp" line="8204"/>
+        <location filename="../texmaker.cpp" line="8221"/>
+        <location filename="../texmaker.cpp" line="8232"/>
         <location filename="../texmaker.cpp" line="8277"/>
-        <location filename="../texmaker.cpp" line="8294"/>
-        <location filename="../texmaker.cpp" line="8305"/>
-        <location filename="../texmaker.cpp" line="8330"/>
-        <location filename="../texmaker.cpp" line="8347"/>
-        <location filename="../texmaker.cpp" line="8358"/>
-        <location filename="../texmaker.cpp" line="8389"/>
-        <location filename="../texmaker.cpp" line="8489"/>
-        <location filename="../texmaker.cpp" line="8853"/>
-        <location filename="../texmaker.cpp" line="9050"/>
-        <location filename="../texmaker.cpp" line="9142"/>
-        <location filename="../texmaker.cpp" line="9178"/>
-        <location filename="../texmaker.cpp" line="9669"/>
-        <location filename="../texmaker.cpp" line="9703"/>
-        <location filename="../texmaker.cpp" line="9725"/>
-        <location filename="../texmaker.cpp" line="10173"/>
-        <location filename="../texmaker.cpp" line="11353"/>
-        <location filename="../texmaker.cpp" line="11408"/>
-        <location filename="../texmaker.cpp" line="11536"/>
-        <location filename="../texmaker.cpp" line="11706"/>
+        <location filename="../texmaker.cpp" line="8296"/>
+        <location filename="../texmaker.cpp" line="8315"/>
+        <location filename="../texmaker.cpp" line="8334"/>
+        <location filename="../texmaker.cpp" line="8351"/>
+        <location filename="../texmaker.cpp" line="8362"/>
+        <location filename="../texmaker.cpp" line="8387"/>
+        <location filename="../texmaker.cpp" line="8404"/>
+        <location filename="../texmaker.cpp" line="8415"/>
+        <location filename="../texmaker.cpp" line="8446"/>
+        <location filename="../texmaker.cpp" line="8546"/>
+        <location filename="../texmaker.cpp" line="8910"/>
+        <location filename="../texmaker.cpp" line="9107"/>
+        <location filename="../texmaker.cpp" line="9199"/>
+        <location filename="../texmaker.cpp" line="9235"/>
+        <location filename="../texmaker.cpp" line="9726"/>
+        <location filename="../texmaker.cpp" line="9760"/>
+        <location filename="../texmaker.cpp" line="9782"/>
+        <location filename="../texmaker.cpp" line="10236"/>
+        <location filename="../texmaker.cpp" line="11416"/>
+        <location filename="../texmaker.cpp" line="11471"/>
+        <location filename="../texmaker.cpp" line="11599"/>
+        <location filename="../texmaker.cpp" line="11769"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2631"/>
-        <location filename="../texmaker.cpp" line="2972"/>
-        <location filename="../texmaker.cpp" line="11408"/>
-        <location filename="../texmaker.cpp" line="11536"/>
+        <location filename="../texmaker.cpp" line="2634"/>
+        <location filename="../texmaker.cpp" line="2982"/>
+        <location filename="../texmaker.cpp" line="11471"/>
+        <location filename="../texmaker.cpp" line="11599"/>
         <source>You do not have read permission to this file.</source>
         <translation>你没有读这个文件的权限。</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="2967"/>
-        <location filename="../texmaker.cpp" line="3026"/>
-        <location filename="../texmaker.cpp" line="11398"/>
+        <location filename="../texmaker.cpp" line="2977"/>
+        <location filename="../texmaker.cpp" line="3036"/>
+        <location filename="../texmaker.cpp" line="11461"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3293"/>
-        <location filename="../texmaker.cpp" line="3352"/>
-        <location filename="../texmaker.cpp" line="11353"/>
+        <location filename="../texmaker.cpp" line="3303"/>
+        <location filename="../texmaker.cpp" line="3362"/>
+        <location filename="../texmaker.cpp" line="11416"/>
         <source>The file could not be saved. Please check if you have write permission.</source>
         <translation>文件不能保存，请检查你是否拥有写权限。</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3486"/>
-        <location filename="../texmaker.cpp" line="3550"/>
-        <location filename="../texmaker.cpp" line="3616"/>
-        <location filename="../texmaker.cpp" line="3718"/>
+        <location filename="../texmaker.cpp" line="3496"/>
+        <location filename="../texmaker.cpp" line="3560"/>
+        <location filename="../texmaker.cpp" line="3626"/>
+        <location filename="../texmaker.cpp" line="3728"/>
         <source>The document contains unsaved work. Do you want to save it before closing?</source>
         <translation>文档包含尚未保存的内容，你想在退出前保存它吗?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3488"/>
-        <location filename="../texmaker.cpp" line="3552"/>
-        <location filename="../texmaker.cpp" line="3618"/>
-        <location filename="../texmaker.cpp" line="3720"/>
+        <location filename="../texmaker.cpp" line="3498"/>
+        <location filename="../texmaker.cpp" line="3562"/>
+        <location filename="../texmaker.cpp" line="3628"/>
+        <location filename="../texmaker.cpp" line="3730"/>
         <source>Save and Close</source>
         <translation>保存并关闭</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3488"/>
-        <location filename="../texmaker.cpp" line="3552"/>
-        <location filename="../texmaker.cpp" line="3618"/>
-        <location filename="../texmaker.cpp" line="3720"/>
+        <location filename="../texmaker.cpp" line="3498"/>
+        <location filename="../texmaker.cpp" line="3562"/>
+        <location filename="../texmaker.cpp" line="3628"/>
+        <location filename="../texmaker.cpp" line="3730"/>
         <source>Don&apos;t Save and Close</source>
         <translation>不要保存并关闭</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3123"/>
-        <location filename="../texmaker.cpp" line="3266"/>
-        <location filename="../texmaker.cpp" line="3323"/>
-        <location filename="../texmaker.cpp" line="3488"/>
-        <location filename="../texmaker.cpp" line="3552"/>
-        <location filename="../texmaker.cpp" line="3618"/>
-        <location filename="../texmaker.cpp" line="3720"/>
-        <location filename="../texmaker.cpp" line="3887"/>
-        <location filename="../texmaker.cpp" line="4964"/>
-        <location filename="../texmaker.cpp" line="5007"/>
-        <location filename="../texmaker.cpp" line="8497"/>
-        <location filename="../texmaker.cpp" line="8526"/>
+        <location filename="../texmaker.cpp" line="3133"/>
+        <location filename="../texmaker.cpp" line="3276"/>
+        <location filename="../texmaker.cpp" line="3333"/>
+        <location filename="../texmaker.cpp" line="3498"/>
+        <location filename="../texmaker.cpp" line="3562"/>
+        <location filename="../texmaker.cpp" line="3628"/>
+        <location filename="../texmaker.cpp" line="3730"/>
+        <location filename="../texmaker.cpp" line="3897"/>
+        <location filename="../texmaker.cpp" line="5011"/>
+        <location filename="../texmaker.cpp" line="5054"/>
+        <location filename="../texmaker.cpp" line="8554"/>
+        <location filename="../texmaker.cpp" line="8583"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -3135,85 +3170,85 @@ with the default encoding setting</source>
         <translation type="obsolete">文档包含尚未保存的内容，你想在退出前保存它吗?</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4099"/>
+        <location filename="../texmaker.cpp" line="4109"/>
         <source>Error : Can&apos;t open the dictionary</source>
         <translation>错误 : 不能打开字典</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4120"/>
+        <location filename="../texmaker.cpp" line="4130"/>
         <source>Browse script</source>
-        <translation type="unfinished"></translation>
+        <translation>浏览脚本</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4963"/>
+        <location filename="../texmaker.cpp" line="5010"/>
         <source>Delete settings file?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation>删除配置文件？（Texmaker将关闭,你将不得不重新启动它）</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4964"/>
-        <location filename="../texmaker.cpp" line="5007"/>
-        <location filename="../texmaker.cpp" line="8497"/>
+        <location filename="../texmaker.cpp" line="5011"/>
+        <location filename="../texmaker.cpp" line="5054"/>
+        <location filename="../texmaker.cpp" line="8554"/>
         <source>Ok</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="5006"/>
+        <location filename="../texmaker.cpp" line="5053"/>
         <source>Replace settings file by a new one?
 (Texmaker will be closed and you will have to restart it)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="5031"/>
+        <location filename="../texmaker.cpp" line="5078"/>
         <source>Opened Files</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="5888"/>
+        <location filename="../texmaker.cpp" line="5945"/>
         <source>Select an image File</source>
         <translation>选择一个图片文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="3663"/>
-        <location filename="../texmaker.cpp" line="5919"/>
-        <location filename="../texmaker.cpp" line="5944"/>
+        <location filename="../texmaker.cpp" line="3673"/>
+        <location filename="../texmaker.cpp" line="5976"/>
+        <location filename="../texmaker.cpp" line="6001"/>
         <source>Select a File</source>
         <translation>选择一个文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7644"/>
-        <location filename="../texmaker.cpp" line="8489"/>
-        <location filename="../texmaker.cpp" line="8853"/>
-        <location filename="../texmaker.cpp" line="9050"/>
+        <location filename="../texmaker.cpp" line="7701"/>
+        <location filename="../texmaker.cpp" line="8546"/>
+        <location filename="../texmaker.cpp" line="8910"/>
+        <location filename="../texmaker.cpp" line="9107"/>
         <source>Can&apos;t detect the file name</source>
         <translation>无法检测该文件名</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="7944"/>
-        <location filename="../texmaker.cpp" line="7966"/>
-        <location filename="../texmaker.cpp" line="7985"/>
-        <location filename="../texmaker.cpp" line="8004"/>
-        <location filename="../texmaker.cpp" line="8026"/>
-        <location filename="../texmaker.cpp" line="8068"/>
-        <location filename="../texmaker.cpp" line="8085"/>
-        <location filename="../texmaker.cpp" line="8096"/>
-        <location filename="../texmaker.cpp" line="8147"/>
-        <location filename="../texmaker.cpp" line="8164"/>
-        <location filename="../texmaker.cpp" line="8175"/>
-        <location filename="../texmaker.cpp" line="8220"/>
-        <location filename="../texmaker.cpp" line="8239"/>
-        <location filename="../texmaker.cpp" line="8258"/>
+        <location filename="../texmaker.cpp" line="8001"/>
+        <location filename="../texmaker.cpp" line="8023"/>
+        <location filename="../texmaker.cpp" line="8042"/>
+        <location filename="../texmaker.cpp" line="8061"/>
+        <location filename="../texmaker.cpp" line="8083"/>
+        <location filename="../texmaker.cpp" line="8125"/>
+        <location filename="../texmaker.cpp" line="8142"/>
+        <location filename="../texmaker.cpp" line="8153"/>
+        <location filename="../texmaker.cpp" line="8204"/>
+        <location filename="../texmaker.cpp" line="8221"/>
+        <location filename="../texmaker.cpp" line="8232"/>
         <location filename="../texmaker.cpp" line="8277"/>
-        <location filename="../texmaker.cpp" line="8294"/>
-        <location filename="../texmaker.cpp" line="8305"/>
-        <location filename="../texmaker.cpp" line="8330"/>
-        <location filename="../texmaker.cpp" line="8347"/>
-        <location filename="../texmaker.cpp" line="8358"/>
-        <location filename="../texmaker.cpp" line="8389"/>
-        <location filename="../texmaker.cpp" line="9142"/>
-        <location filename="../texmaker.cpp" line="9725"/>
-        <location filename="../texmaker.cpp" line="10173"/>
-        <location filename="../texmaker.cpp" line="11706"/>
+        <location filename="../texmaker.cpp" line="8296"/>
+        <location filename="../texmaker.cpp" line="8315"/>
+        <location filename="../texmaker.cpp" line="8334"/>
+        <location filename="../texmaker.cpp" line="8351"/>
+        <location filename="../texmaker.cpp" line="8362"/>
+        <location filename="../texmaker.cpp" line="8387"/>
+        <location filename="../texmaker.cpp" line="8404"/>
+        <location filename="../texmaker.cpp" line="8415"/>
+        <location filename="../texmaker.cpp" line="8446"/>
+        <location filename="../texmaker.cpp" line="9199"/>
+        <location filename="../texmaker.cpp" line="9782"/>
+        <location filename="../texmaker.cpp" line="10236"/>
+        <location filename="../texmaker.cpp" line="11769"/>
         <source>Could not start the command.</source>
         <translation>无法启动该命令.</translation>
     </message>
@@ -3236,128 +3271,128 @@ with the default encoding setting</source>
 (.log,.aux,.dvi,.lof,.lot,.bit,.idx,.glo,.bbl,.ilg,.toc,.ind)</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8526"/>
+        <location filename="../texmaker.cpp" line="8583"/>
         <source>Delete Files</source>
         <translation>删除文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8526"/>
+        <location filename="../texmaker.cpp" line="8583"/>
         <source>Delete the output files generated by LaTeX ?</source>
         <translation>删除LaTeX生成的文件？</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>LaTeX</source>
         <translation>LaTeX</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>PdfLaTeX</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>dvips</source>
         <translation>dvips</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>Dvi Viewer</source>
         <translation>Dvi查看器</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>PS Viewer</source>
         <translation>PS查看器</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>Dvipdfm</source>
         <translation>Dvipdfm</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>ps2pdf</source>
         <translation>ps2pdf</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>Bibtex</source>
         <translation>Bibtex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>Makeindex</source>
         <translation>Makeindex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>metapost</source>
         <translation>metapost</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>ghostscript</source>
         <translation>ghostscript</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>Asymptote</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>Latexmk</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>R Sweave</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>XeLaTex</source>
         <translation>XeLaTex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="8877"/>
+        <location filename="../texmaker.cpp" line="8934"/>
         <source>LuaLaTex</source>
-        <translation type="unfinished"></translation>
+        <translation>LuaLaTex</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9178"/>
+        <location filename="../texmaker.cpp" line="9235"/>
         <source>Log File not found !</source>
         <translation>没有找到日志文件 !</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9497"/>
-        <location filename="../texmaker.cpp" line="9529"/>
+        <location filename="../texmaker.cpp" line="9554"/>
+        <location filename="../texmaker.cpp" line="9586"/>
         <source>Click to jump to the line</source>
         <translation>点击以跳转到行</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="9599"/>
-        <location filename="../texmaker.cpp" line="9634"/>
+        <location filename="../texmaker.cpp" line="9656"/>
+        <location filename="../texmaker.cpp" line="9691"/>
         <source>No LaTeX errors detected !</source>
         <translation>没有检测到 LaTeX 错误 !</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="4155"/>
-        <location filename="../texmaker.cpp" line="9669"/>
-        <location filename="../texmaker.cpp" line="9703"/>
+        <location filename="../texmaker.cpp" line="4165"/>
+        <location filename="../texmaker.cpp" line="9726"/>
+        <location filename="../texmaker.cpp" line="9760"/>
         <source>File not found</source>
         <translation>没有找到文件</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10179"/>
-        <location filename="../texmaker.cpp" line="11715"/>
+        <location filename="../texmaker.cpp" line="10242"/>
+        <location filename="../texmaker.cpp" line="11778"/>
         <source>Normal Mode (current master document :</source>
         <translation>正常模式 (当前主文档 :</translation>
     </message>
     <message>
-        <location filename="../texmaker.cpp" line="10181"/>
-        <location filename="../texmaker.cpp" line="11717"/>
+        <location filename="../texmaker.cpp" line="10244"/>
+        <location filename="../texmaker.cpp" line="11780"/>
         <source>Master Document :</source>
         <translation>主文档 :</translation>
     </message>
@@ -3459,7 +3494,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../usercompletiondialog.ui" line="80"/>
         <source>Replace</source>
-        <translation type="unfinished">替换</translation>
+        <translation>替换</translation>
     </message>
     <message>
         <location filename="../usercompletiondialog.ui" line="89"/>
@@ -3508,7 +3543,7 @@ with the default encoding setting</source>
     <message>
         <location filename="../userquickdialog.ui" line="70"/>
         <source>Ordered list of commands :</source>
-        <translation>命令列表</translation>
+        <translation>命令列表 ：</translation>
     </message>
     <message>
         <location filename="../userquickdialog.ui" line="80"/>

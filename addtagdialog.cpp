@@ -21,7 +21,7 @@ setModal(true);
 ui.setupUi(this);
 QPixmap pixmap1, pixmap2;
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2)
+if (qApp->devicePixelRatio()>=2)
   {
   pixmap1.load(":/images/trigger@2x.png");
   pixmap1.setDevicePixelRatio(qApp->devicePixelRatio());

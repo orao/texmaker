@@ -28,10 +28,10 @@
 class LatexEditorView : public QWidget  {
    Q_OBJECT
 public: 
-	LatexEditorView(QWidget *parent, QFont & efont,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4,const QKeySequence viewfocus=QKeySequence("Ctrl+Space"), QString name="", QStringList ulist=QStringList());
+	LatexEditorView(QWidget *parent, QFont & efont,bool svn,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling=false, QString ignoredWords="",Hunspell *spellChecker=0,bool tabspaces=false,int tabwidth=4,const QKeySequence viewfocus=QKeySequence("Ctrl+Space"), QString name="", QStringList ulist=QStringList());
 	~LatexEditorView();
   LatexEditor *editor;
-  void changeSettings(QFont & new_font,bool line);
+  void changeSettings(QFont & new_font,bool svn,bool line);
   void showFind();
   void showFindNext();
   void showGoto();

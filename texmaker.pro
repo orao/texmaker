@@ -10,7 +10,7 @@ QT += xml webkit network script
 }
 
 CONFIG	+= qt warn_off release
-TEXMAKERVERSION=4.4.1
+TEXMAKERVERSION=4.5
 DEFINES += TEXMAKERVERSION=\\\"$${TEXMAKERVERSION}\\\"
 DEFINES += HAVE_SPLASH
 
@@ -97,6 +97,7 @@ HEADERS	+= texmaker.h \
 	unicodedialog.h \
 	unicodeview.h \
 	quickbeamerdialog.h \
+	svnhelper.h \
 	hunspell/affentry.hxx \
 	hunspell/affixmgr.hxx \
 	hunspell/atypes.hxx \
@@ -208,6 +209,7 @@ SOURCES	+= main.cpp \
 	unicodedialog.cpp \
 	unicodeview.cpp \
 	quickbeamerdialog.cpp \
+	svnhelper.cpp \
 	hunspell/affentry.cxx \
 	hunspell/affixmgr.cxx \
 	hunspell/csutil.cxx \

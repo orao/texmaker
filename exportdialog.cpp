@@ -87,9 +87,9 @@ ui.plainTextEditResult->clear();
 
 #if defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin");
+if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ":/Library/TeX/texbin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:");
 else
- env.insert("PATH", env.value("PATH") + ":/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
+ env.insert("PATH", env.value("PATH") + ":/Library/TeX/texbin:/Library/TeX/Distributions/.DefaultTeX/Contents/Programs/texbin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/sw/bin:"+extra_path);
 proc->setProcessEnvironment(env);
 #endif
 #if defined(Q_OS_WIN32)
@@ -108,7 +108,7 @@ if (!extra_path.isEmpty())
   proc->setProcessEnvironment(env);
   }
 #endif
-
+qputenv("PATH", env.value("PATH").toLatin1());
 ui.plainTextEditResult->insertPlainText(commandline+"\n");
 proc->start(commandline);
 }

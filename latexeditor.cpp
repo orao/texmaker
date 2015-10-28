@@ -458,7 +458,7 @@ return newstruct;
 }
 
 
-LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces,int tabwidth,const QKeySequence viewfocus, QString name,QStringList ulist) : QPlainTextEdit(parent),c(0)
+LatexEditor::LatexEditor(QWidget *parent,QFont & efont, QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces,int tabwidth,const QKeySequence viewfocus, QString name,QStringList ulist) : QPlainTextEdit(parent),c(0),lastSaveRevision(0)
 {
   
 QScriptValue appContext = fScriptEngine.newQObject(this); 
@@ -2949,3 +2949,39 @@ void LatexEditor::insertText(QString text)
 {
 textCursor().insertText(text);
 }
+
+void LatexEditor::setUncommittedLines(QList<int> lines)
+{
+    foreach(int l, lines)
+    {
+        if(document()->findBlockByNumber(l - 1).revision() == getlastSaveRevision())
+        {
+            document()->findBlockByNumber(l - 1).setRevision(-lastSaveRevision - 1);
+        }
+    }
+emit updatelineWidget();
+}
+
+void LatexEditor::resetRevisions()
+{
+    lastSaveRevision = document()->revision();
+
+    for (QTextBlock block = document()->begin(); block.isValid(); block = block.next())
+        block.setRevision(lastSaveRevision);
+}
+
+void LatexEditor::updateRevisions()
+{
+    int oldLastSaveRevision = lastSaveRevision;
+    lastSaveRevision = document()->revision();
+
+    if (oldLastSaveRevision != lastSaveRevision) {
+        for (QTextBlock block = document()->begin(); block.isValid(); block = block.next()) {
+            if (block.revision() < 0 || block.revision() != oldLastSaveRevision)
+                block.setRevision(-lastSaveRevision - 1);
+            else
+                block.setRevision(lastSaveRevision);
+        }
+    }
+}
+

@@ -122,7 +122,7 @@ void IconDelegate::drawDecoration(QPainter *painter, const QStyleOptionViewItem 
             bool enabled = option.state & QStyle::State_Enabled;
             QPixmap *pm = selected(pixmap, option.palette, enabled);
 	    #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-            if (qApp->devicePixelRatio()==2)
+            if (qApp->devicePixelRatio()>=2)
             {
 	    pm->setDevicePixelRatio(qApp->devicePixelRatio());
         p-=QPoint(16,0);
@@ -132,7 +132,7 @@ void IconDelegate::drawDecoration(QPainter *painter, const QStyleOptionViewItem 
         } else {
 QPixmap *pm=selected(pixmap, option.palette, true);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-            if (qApp->devicePixelRatio()==2)
+            if (qApp->devicePixelRatio()>=2)
             {
                 pm->setDevicePixelRatio(qApp->devicePixelRatio());
                 p-=QPoint(16,0);

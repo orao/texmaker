@@ -263,6 +263,11 @@ while (i < text.length())
 			  {
 			  for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
 			  }
+			poslab=buffer.indexOf("cite{");
+			if (poslab!=-1)
+			  {
+			  for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}
+			  }
 			poslab=buffer.indexOf("begin{verbatim}");
 			if(poslab != -1) {state=StateVerbatim;for (k=poslab; k <i ; k++) {if (k>0 && k<text.length()) blockData->code[k]=1;}}
 			poslab=buffer.indexOf("begin{verbatim*}");

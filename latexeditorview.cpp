@@ -17,7 +17,7 @@
 #include <QLineEdit>
 #include <QTextBlock>
 
-LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces, int tabwidth,const QKeySequence viewfocus,QString name,QStringList ulist) : QWidget(parent)
+LatexEditorView::LatexEditorView(QWidget *parent,QFont & efont,bool svn,bool line,QList<QColor> edcolors, QList<QColor> hicolors,bool inlinespelling,QString ignoredWords,Hunspell *spellChecker,bool tabspaces, int tabwidth,const QKeySequence viewfocus,QString name,QStringList ulist) : QWidget(parent)
 {
   
 splitter=new MiniSplitter(this);
@@ -43,7 +43,7 @@ frame->setFrameStyle(QFrame::NoFrame);
 mainlay->addWidget(frame);
 
 editor=new LatexEditor(frame,efont,edcolors,hicolors,inlinespelling,ignoredWords,spellChecker,tabspaces,tabwidth,viewfocus,name,ulist);
-m_lineNumberWidget = new LineNumberWidget( editor, frame);
+m_lineNumberWidget = new LineNumberWidget( editor, frame,svn);
 m_lineNumberWidget->setFont(efont);
 QFontMetrics fm( efont );
 m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 32 );
@@ -103,12 +103,13 @@ void LatexEditorView::setLineNumberWidgetVisible( bool b )
     }
 }
 
-void LatexEditorView::changeSettings(QFont & new_font,bool line)
+void LatexEditorView::changeSettings(QFont & new_font,bool svn,bool line)
 {
   editor->changeFont(new_font);
   m_lineNumberWidget->setFont(new_font);
   QFontMetrics fm( new_font );
   m_lineNumberWidget->setFixedWidth( fm.width( "00000" ) + 32 );
+  m_lineNumberWidget->setSvn(svn);
   setLineNumberWidgetVisible(line);
 }
 

@@ -1137,6 +1137,8 @@ else page->setPhysicalDpi(physicalDpiX(), physicalDpiY());
 	connect(page, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(on_syncpage(int, const QPointF&)));
 	connect(page, SIGNAL(wantPngExport(int)), this, SLOT(pngExport(int)));
 	connect(page, SIGNAL(wantNumWords()), this, SLOT(countWords()));
+	connect(page, SIGNAL(wantNumPageWords(int)), this, SLOT(countPageWords(int)));
+	connect(page, SIGNAL(wantOpenLocation()), this, SLOT(openFileBrowser()));
     }
 
 progressDialog->cancel();
@@ -1517,4 +1519,25 @@ if ( !fn.isEmpty() )
   {
   image.save(fn,"PNG");  
   }  
+}
+
+void DocumentView::countPageWords(int page)
+{
+QString pdf_text="";
+int numwords=0;
+int pagewords=0;
+pdf_text=m_document->page(page)->text(QRectF(),Poppler::Page::PhysicalLayout);
+pdf_text=pdf_text.simplified();
+pagewords=pdf_text.count(" ");
+if (!pdf_text.isEmpty()) pagewords++;
+numwords+=pagewords;
+QMessageBox::information( this,"Texmaker",tr("Number of words in the page")+QString(" : ")+QString::number(numwords));
+}
+
+void DocumentView::openFileBrowser()
+{
+QString currentDir="file://";
+QFileInfo fi(m_filePath);
+if (fi.exists() && fi.isReadable()) currentDir+=fi.absolutePath();
+QDesktopServices::openUrl(QUrl(currentDir));
 }

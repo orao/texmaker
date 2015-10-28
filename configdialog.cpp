@@ -41,6 +41,7 @@ foreach (int mib, QTextCodec::availableMibs())
 	if (codec->name()!="UTF-8") ui.comboBoxEncoding->addItem(codec->name());
 	}
 connect( ui.pushButtonAspell, SIGNAL(clicked()), this, SLOT(browseAspell()));
+connect( ui.pushButtonSvn, SIGNAL(clicked()), this, SLOT(browseSvn()));
 
 //ui.labelGetDic->setText( tr("Get dictionary at: %1").arg("<br><a href=\"http://wiki.services.openoffice.org/wiki/Dictionaries\">http://wiki.services.openoffice.org/wiki/Dictionaries</a>") );
 //ui.labelGetDic->setOpenExternalLinks(true);
@@ -241,6 +242,21 @@ if ( !location.isEmpty() )
 //	location="\""+location+"\"";
 	ui.lineEditAspellCommand->setText( location );
 	}
+}
+
+void ConfigDialog::browseSvn()
+{
+#if defined(Q_OS_WIN32)
+QString svndir=qgetenv("PROGRAMFILES");
+#else
+QString svndir="/usr/bin";
+#endif
+QString folder = QFileDialog::getExistingDirectory(this, tr("svn command directory"), svndir, 0);
+if(!folder.isEmpty())
+{
+ui.lineEditSvn->setText( folder );    
+}
+
 }
 
 void ConfigDialog::restoreColors()
