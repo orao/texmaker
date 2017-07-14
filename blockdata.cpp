@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   contains some code from CLedit (C) 2010 Heinz van Saanen -GPL         *
  *                                                                         *

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,32 +17,33 @@
 #include <QApplication>
 #include <QDebug>
 
+#include "theme.h"
+
 SymbolListWidget :: SymbolListWidget(QWidget *parent, int page) : QTableWidget(parent)
 {
 hide();
 setAutoFillBackground( true );
 QPalette pal( palette() );
-pal.setColor( QPalette::Active, QPalette::HighlightedText, QColor("#FAFAFA") );
-pal.setColor( QPalette::Inactive, QPalette::HighlightedText, QColor("#FAFAFA") );
-pal.setColor( QPalette::Disabled, QPalette::HighlightedText, QColor("#FAFAFA") );
-pal.setColor( QPalette::Active, QPalette::Base, QColor("#FAFAFA") );
-pal.setColor( QPalette::Inactive, QPalette::Base, QColor("#FAFAFA") );
-pal.setColor( QPalette::Disabled, QPalette::Base, QColor("#FAFAFA") );
+pal.setColor( QPalette::Active, QPalette::HighlightedText, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Inactive, QPalette::HighlightedText, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Disabled, QPalette::HighlightedText, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Active, QPalette::Base, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Inactive, QPalette::Base, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Disabled, QPalette::Base, Theme::darkbackgroundColor );
+pal.setColor(QPalette::Background, Qt::black);
 setPalette( pal );
 setItemDelegate(new IconDelegate(this));
 QString icon_name;
 setShowGrid(true);
 verticalHeader()->hide();
 horizontalHeader()->hide();
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+
 		  if (qApp->devicePixelRatio()>=2)
 		  {
 		  setIconSize ( QSize(64,64 ));
 		  }
 else setIconSize ( QSize(32,32 ));
-#else
-setIconSize ( QSize(32,32 ));
-#endif
+
 //setIconSize ( QSize(32,32 ));
 setSelectionMode (QAbstractItemView::SingleSelection);
 setContextMenuPolicy(Qt::CustomContextMenu);
@@ -66,9 +67,9 @@ setUpdatesEnabled(false);
 		setColumnWidth(3,36);
 		for ( uint i = 0; i <= 225; ++i )
 		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
-		QTableWidgetItem* item= new QTableWidgetItem();
-		item->setIcon(QIcon(icon_name));
+		icon_name=":/symbols/inverted_img"+QString::number(i+1)+".png";
+        QTableWidgetItem* item= new QTableWidgetItem();
+        item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 		item->setToolTip(code[i]);
@@ -89,7 +90,7 @@ setUpdatesEnabled(true);
 		setColumnWidth(3,36);
 		for ( uint i = 247; i <= 313; ++i )
 		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
+		icon_name=":/symbols/inverted_img"+QString::number(i+1)+".png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
@@ -111,7 +112,7 @@ setUpdatesEnabled(true);
 		setColumnWidth(3,36);
 		for ( uint i = 314; i <= 371; ++i )
 		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
+		icon_name=":/symbols/inverted_img"+QString::number(i+1)+".png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
@@ -133,7 +134,7 @@ setUpdatesEnabled(true);
 		setColumnWidth(3,36);
 		for ( uint i = 226; i <= 246; ++i )
 		{
-		icon_name=":/symbols/img"+QString::number(i+1)+".png";
+		icon_name=":/symbols/inverted_img"+QString::number(i+1)+".png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i]+";"+QString::number(i));
@@ -155,7 +156,7 @@ setUpdatesEnabled(true);
 		setColumnWidth(3,36);
 		for ( uint i = 0; i <= 39; ++i )
 		{
-		icon_name=":/symbols/img"+QString::number(i+1)+"greek.png";
+		icon_name=":/symbols/inverted_img"+QString::number(i+1)+"greek.png";
 		QTableWidgetItem* item= new QTableWidgetItem();
 		item->setIcon(QIcon(icon_name));
 		item->setText(code[i+372]+";"+QString::number(i+372));
@@ -201,11 +202,11 @@ for ( uint i = 0; i <=11; ++i )
 		QTableWidgetItem* item= new QTableWidgetItem();
 		if (ulist[i]>=372)
 			{
-			icon_name=":/symbols/img"+QString::number(ulist[i]-371)+"greek.png";
+			icon_name=":/symbols/inverted_img"+QString::number(ulist[i]-371)+"greek.png";
 			}
 		else
 			{
-			icon_name=":/symbols/img"+QString::number(ulist[i]+1)+".png";
+			icon_name=":/symbols/inverted_img"+QString::number(ulist[i]+1)+".png";
 			}
 	item->setText(code[ulist[i]]+";"+QString::number(ulist[i]));
         item->setIcon(QIcon(icon_name));
@@ -230,11 +231,11 @@ for( int i = 0; i < flist.count(); i++ )
 		QTableWidgetItem* item= new QTableWidgetItem();
 		if (flist.at(i)>=372)
 			{
-			icon_name=":/symbols/img"+QString::number(flist.at(i)-371)+"greek.png";
+			icon_name=":/symbols/inverted_img"+QString::number(flist.at(i)-371)+"greek.png";
 			}
 		else
 			{
-			icon_name=":/symbols/img"+QString::number(flist.at(i)+1)+".png";
+			icon_name=":/symbols/inverted_img"+QString::number(flist.at(i)+1)+".png";
 			}
 		item->setText(code[flist.at(i)]+";"+QString::number(flist.at(i)));
 		item->setIcon(QIcon(icon_name));

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -50,24 +50,6 @@ ui.comboBoxEncoding->addItem( "cp1252" );
 ui.comboBoxEncoding->addItem( "cp1250" );
 ui.comboBoxEncoding->addItem( "NONE" );
 
-// ui.comboBoxEncoding->insertItem(1, "latin1" );
-// ui.comboBoxEncoding->insertItem(2, "latin2" );
-// ui.comboBoxEncoding->insertItem(3, "latin3" );
-// ui.comboBoxEncoding->insertItem(4, "latin5" );
-// ui.comboBoxEncoding->insertItem(5, "utf8x" );
-// ui.comboBoxEncoding->insertItem(6, "ascii" );
-// ui.comboBoxEncoding->insertItem(7, "decmulti" );
-// ui.comboBoxEncoding->insertItem(8, "cp850" );
-// ui.comboBoxEncoding->insertItem(9, "cp852" );
-// ui.comboBoxEncoding->insertItem(10, "cp437" );
-// ui.comboBoxEncoding->insertItem(11, "cp437de" );
-// ui.comboBoxEncoding->insertItem(12, "cp865" );
-// ui.comboBoxEncoding->insertItem(13, "applemac" );
-// ui.comboBoxEncoding->insertItem(14, "next" );
-// ui.comboBoxEncoding->insertItem(15, "ansinew" );
-// ui.comboBoxEncoding->insertItem(16, "cp1252" );
-// ui.comboBoxEncoding->insertItem(17, "cp1250" );
-// ui.comboBoxEncoding->insertItem(18, "NONE" );
 
 ui.checkBox->setChecked( true );
 setWindowTitle(tr("Quick Letter"));

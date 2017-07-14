@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2012 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,11 +17,14 @@
 #include <QColor>
 #include <QFontDatabase>
 #include <QDebug>
+#include "theme.h"
 
 UserTagsListWidget::UserTagsListWidget(QWidget *parent):QListWidget(parent)
 {
 setDragDropMode(QAbstractItemView::InternalMove);
 setContextMenuPolicy(Qt::CustomContextMenu);
+viewport()->setStyleSheet(Theme::viewportDarkStyleSheet);
+setStyleSheet(Theme::listwidgetStyleSheet);
 menu = new QMenu( this );
 addAct=new QAction(tr("Add tag"), this);
 menu->addAction(addAct);

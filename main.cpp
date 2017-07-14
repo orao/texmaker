@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   addons by Frederic Devernay <frederic.devernay@m4x.org>               *
  *   addons by Luis Silvestre                                              *
  *   http://www.xm1math.net/texmaker/                                      *
@@ -14,19 +14,28 @@
 
 #include "texmakerapp.h"
 #include <QStringList>
+#define STRINGIFY_INTERNAL(x) #x
+#define STRINGIFY(x) STRINGIFY_INTERNAL(x)
 
+#define VERSION_STR STRINGIFY(TEXMAKERVERSION)
 
 int main( int argc, char ** argv )
 {
+#if !defined(Q_OS_MAC)
+QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 TexmakerApp app("TexMaker", argc, argv );
-
 QStringList args = QCoreApplication::arguments();
 app.setApplicationName("TexMaker");
-app.setApplicationVersion(TEXMAKERVERSION);
+app.setApplicationVersion(VERSION_STR);
 app.setOrganizationName("xm1");
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+app.setAttribute(Qt::AA_DontShowIconsInMenus, true);
 app.setAttribute(Qt::AA_UseHighDpiPixmaps);
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+QApplication::setAttribute(Qt::AA_DontUseNativeMenuBar);
 #endif
+
 if ( app.isRunning() && !args.contains("-n")) 
     {
     QString msg;

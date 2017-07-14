@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2012 by Pascal Brachet                          *
+ *   copyright       : (C) 2012-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   based on qpdfview  Copyright 2012 Adam Reichold GPL                   *
  *                                                                         *
@@ -28,22 +28,10 @@ modified by Pascal Brachet
 #include <QGraphicsView>
 #include <QPrinter>
 
-#if defined(POPPLER20)
-#include "texmaker_popplerqt20/poppler-qt4.h"
-#elif defined(POPPLER22)
-#include "texmaker_popplerqt22/poppler-qt4.h"
-#elif defined(POPPLER24EMB)
-#include "texmaker_popplerqt5_24/poppler-qt5.h"
-#elif defined(POPPLER24)
-#include <poppler-qt5.h>
-#else
-#include <poppler-qt4.h>
-#endif
-
-
-
+#include "qpdfdocument.h"
 #include "pageitem.h"
 #include "presentationview.h"
+#include "qpdfbookmarkmodel.h"
 
 class DocumentView : public QGraphicsView
 {
@@ -102,8 +90,8 @@ public:
 
         qreal realScale() const;
     
-    Poppler::Page::Rotation rotation() const;
-    void setRotation(Poppler::Page::Rotation rotation);
+    QPdf::Rotation rotation() const;
+    void setRotation(QPdf::Rotation rotation);
 
    
     void clearPaths(int index);
@@ -113,12 +101,11 @@ public:
 
     void clearAll();
 
-    QStandardItemModel* outlineModel() const;
+    QPdfBookmarkModel* outlineModel() const;
     QStandardItemModel* propertiesModel() const;
 
-    QStandardItemModel* fontsModel();
     
-    Poppler::Document* doc() const;
+    QPdfDocument* doc() const;
 
 signals:
     void filePathChanged(const QString& filePath);
@@ -129,7 +116,7 @@ signals:
     void twoPagesModeChanged(bool twoPagesMode);
     void scaleModeChanged(DocumentView::ScaleMode scaleMode);
     void scaleFactorChanged(qreal scaleFactor);
-    void rotationChanged(Poppler::Page::Rotation rotation);
+    void rotationChanged(QPdf::Rotation rotation);
 
     void searchProgressed(int progress);
     void searchFinished();
@@ -147,7 +134,6 @@ public slots:
 
     bool open(const QString& filePath);
     bool refresh();
-    bool saveCopy(const QString& filePath);
     bool print(QPrinter* printer);
 
     void previousPage();
@@ -215,7 +201,7 @@ private:
     QTimer* m_prefetchTimer;
 
     QMutex m_mutex;
-    Poppler::Document* m_document;
+    QPdfDocument* m_document;
 
     QString m_filePath;
     int m_numberOfPages;
@@ -232,7 +218,7 @@ private:
     bool m_twoPagesMode;
     ScaleMode m_scaleMode;
     qreal m_scaleFactor;
-    Poppler::Page::Rotation m_rotation;
+    QPdf::Rotation m_rotation;
 
     QGraphicsScene* m_pagesScene;
     QList< PageItem* > m_pages;
@@ -242,15 +228,14 @@ private:
 
     QGraphicsRectItem* m_highlight;
 
-    QStandardItemModel* m_outlineModel;
+    QPdfBookmarkModel* m_outlineModel;
     QStandardItemModel* m_propertiesModel;
 
-    void prepareDocument(Poppler::Document* document);
+    void prepareDocument(QPdfDocument* document);
 
     void preparePages();
 
     void prepareOutline();
-    void prepareOutline(const QDomNode& node, QStandardItem* parent);
 
     void prepareProperties();
 

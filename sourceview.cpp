@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,7 @@
 #include <QLineEdit>
 
 #include "geticon.h"
+#include "theme.h"
 
 SourceView::SourceView(QWidget *parent,QFont & efont,bool line, QList<QColor> edcolors, QList<QColor> hicolors ) : QWidget(parent)
 {
@@ -43,12 +44,17 @@ centralToolBar->setOrientation(Qt::Horizontal);
 centralToolBar->setMovable(false);
 centralToolBar->setIconSize(QSize(16,16 ));
 centralToolBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+centralToolBar->setStyleSheet(Theme::viewportLightStyleSheet);
 mainlay->addWidget(centralToolBar);
-QAction *Act = new QAction(getIcon(":/images/fileopen16.png"), tr("Open"), this);
+QAction *Act = new QAction(getIcon(":/images/fileopen.png"), tr("Open"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileOpen()));
 centralToolBar->addAction(Act);
 centralToolBar->addSeparator();
-titleLabel=new QLabel("(read only)",centralToolBar);
+
+titleLabel=new DropShadowLabel("(read only)",centralToolBar);
+titleLabel->setColor(QColor("#BDBFBF"));
+titleLabel->setDropShadowColor(QColor("#000000"));
+titleLabel->setStyleSheet("QLabel {padding:0 0 0 0; margin:0px; font-weight:bold;}");
 centralToolBar->addWidget(titleLabel);
 centralToolBar->addSeparator();
 Act = new QAction(getIcon(":/images/diff.png"), tr("Check differences"), this);

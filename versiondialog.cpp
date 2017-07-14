@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2013 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -13,6 +13,10 @@
 
 #include <QtCore/QUrl>
 #include <QDesktopServices>
+#define STRINGIFY_INTERNAL(x) #x
+#define STRINGIFY(x) STRINGIFY_INTERNAL(x)
+
+#define VERSION_STR STRINGIFY(TEXMAKERVERSION)
 
 VersionDialog::VersionDialog(QWidget *parent)
     :QDialog( parent)
@@ -20,7 +24,7 @@ VersionDialog::VersionDialog(QWidget *parent)
 ui.setupUi(this);
 timer.setSingleShot(true);
 connect(&timer, SIGNAL(timeout()), this, SLOT(stopChecker()));
-ui.lineEditCurrent->setText(QLatin1String(TEXMAKERVERSION));
+ui.lineEditCurrent->setText(QLatin1String(VERSION_STR));
 ui.lineEditAvailable->setText(QString::fromUtf8("?.?.?"));
 connect(ui.pushButtonDownload, SIGNAL( clicked() ), this, SLOT( gotoDownloadPage() ) );
 connect(ui.pushButtonCheck, SIGNAL( clicked() ), this, SLOT( launchChecker() ) );

@@ -1,5 +1,6 @@
 /***************************************************************************
- *   copyright       : (C) 2006 by Pascal Brachet                          *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
+ *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -7,6 +8,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 
 #include <QApplication>
 #include "playerbutton.h"
@@ -21,7 +23,7 @@ state = true;
 
 void PlayerButton::setImages( QString name )
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+
 if (qApp->devicePixelRatio()>=2)
   {
   this->pixEnabled.load(":/images/"+name+"_enabled@2x.png");
@@ -37,11 +39,7 @@ else
   this->pixHover.load(":/images/"+name+"_enabled.png");
   this->pixDisabled.load(":/images/"+name+"_disabled.png");
   }
-#else
-this->pixEnabled.load(":/images/"+name+"_enabled.png");
-this->pixHover.load(":/images/"+name+"_enabled.png");
-this->pixDisabled.load(":/images/"+name+"_disabled.png");
-#endif
+
 this->setPixmap(this->pixEnabled);
 }
 

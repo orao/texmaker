@@ -78,7 +78,7 @@
      </property>
      <property name="icon">
       <iconset resource="texmaker.qrc">
-       <normaloff>:/images/fileclose.png</normaloff>:/images/fileclose.png</iconset>
+       <normaloff>:/images/fileclose16.png</normaloff>:/images/fileclose16.png</iconset>
      </property>
     </widget>
    </item>

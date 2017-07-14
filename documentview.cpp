@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2012 by Pascal Brachet                          *
+ *   copyright       : (C) 2012-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   based on qpdfview  Copyright 2012 Adam Reichold GPL                   *
  *                                                                         *
@@ -144,8 +144,8 @@ DocumentView::DocumentView(QWidget* parent) : QGraphicsView(parent),
     m_continuousMode(false),
     m_twoPagesMode(false),
     m_scaleMode(ScaleFactor),
-    m_scaleFactor(1.0),
-    m_rotation(Poppler::Page::Rotate0),
+    m_scaleFactor(0.1),
+    m_rotation(QPdf::Rotate0),
     m_pagesScene(0),
     m_pages(),
     m_heightToIndex(),
@@ -154,7 +154,7 @@ DocumentView::DocumentView(QWidget* parent) : QGraphicsView(parent),
     m_propertiesModel(0)
 {
     m_pagesScene = new QGraphicsScene(this);
-    m_outlineModel = new QStandardItemModel(this);
+    m_outlineModel = new QPdfBookmarkModel(this);
     m_propertiesModel = new QStandardItemModel(this);
 
     m_filePath="";
@@ -211,7 +211,7 @@ DocumentView::DocumentView(QWidget* parent) : QGraphicsView(parent),
     connect(this, SIGNAL(currentPageChanged(int)), m_prefetchTimer, SLOT(start()));
     connect(this, SIGNAL(scaleModeChanged(DocumentView::ScaleMode)), m_prefetchTimer, SLOT(start()));
     connect(this, SIGNAL(scaleFactorChanged(qreal)), m_prefetchTimer, SLOT(start()));
-    connect(this, SIGNAL(rotationChanged(Poppler::Page::Rotation)), m_prefetchTimer, SLOT(start()));
+    connect(this, SIGNAL(rotationChanged(QPdf::Rotation)), m_prefetchTimer, SLOT(start()));
 
     connect(m_prefetchTimer, SIGNAL(timeout()), this,SLOT(on_prefetch_timeout()));
 }
@@ -221,10 +221,6 @@ DocumentView::~DocumentView()
     qDeleteAll(m_pages);
 
 
-    if(m_document != 0)
-    {
-        delete m_document;
-    }
 }
 
 void DocumentView::clearAll()
@@ -236,7 +232,7 @@ disconnect(m_autoRefreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 disconnect(this, SIGNAL(currentPageChanged(int)), m_prefetchTimer, SLOT(start()));
 disconnect(this, SIGNAL(scaleModeChanged(DocumentView::ScaleMode)), m_prefetchTimer, SLOT(start()));
 disconnect(this, SIGNAL(scaleFactorChanged(qreal)), m_prefetchTimer, SLOT(start()));
-disconnect(this, SIGNAL(rotationChanged(Poppler::Page::Rotation)), m_prefetchTimer, SLOT(start()));
+disconnect(this, SIGNAL(rotationChanged(QPdf::Rotation)), m_prefetchTimer, SLOT(start()));
 disconnect(m_prefetchTimer, SIGNAL(timeout()), this,SLOT(on_prefetch_timeout()));
 m_pages.clear();
 m_numberOfPages=-1;
@@ -264,7 +260,7 @@ connect(m_autoRefreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 connect(this, SIGNAL(currentPageChanged(int)), m_prefetchTimer, SLOT(start()));
 connect(this, SIGNAL(scaleModeChanged(DocumentView::ScaleMode)), m_prefetchTimer, SLOT(start()));
 connect(this, SIGNAL(scaleFactorChanged(qreal)), m_prefetchTimer, SLOT(start()));
-connect(this, SIGNAL(rotationChanged(Poppler::Page::Rotation)), m_prefetchTimer, SLOT(start()));
+connect(this, SIGNAL(rotationChanged(QPdf::Rotation)), m_prefetchTimer, SLOT(start()));
 connect(m_prefetchTimer, SIGNAL(timeout()), SLOT(on_prefetch_timeout()));
 }
 
@@ -389,17 +385,17 @@ if (m_pages.count()<1) return;
     }
 }
 
-Poppler::Document* DocumentView::doc() const
+QPdfDocument* DocumentView::doc() const
 {
    return m_document;
 }
 
-Poppler::Page::Rotation DocumentView::rotation() const
+QPdf::Rotation DocumentView::rotation() const
 {
     return m_rotation;
 }
 
-void DocumentView::setRotation(Poppler::Page::Rotation rotation)
+void DocumentView::setRotation(QPdf::Rotation rotation)
 {
 if (m_pages.count()<1) return;
     if(m_rotation != rotation)
@@ -432,7 +428,7 @@ if ((m_pages.count()<1) || (index>=m_pages.count())) return;
 m_pages.at(index)->setSearchPath(path);
 }
 
-QStandardItemModel* DocumentView::outlineModel() const
+QPdfBookmarkModel* DocumentView::outlineModel() const
 {
     return m_outlineModel;
 }
@@ -442,34 +438,6 @@ QStandardItemModel* DocumentView::propertiesModel() const
     return m_propertiesModel;
 }
 
-QStandardItemModel* DocumentView::fontsModel()
-{
-    m_mutex.lock();
-
-    QList< Poppler::FontInfo > fonts = m_document->fonts();
-
-    m_mutex.unlock();
-
-    QStandardItemModel* fontsModel = new QStandardItemModel();
-
-    fontsModel->setRowCount(fonts.count());
-    fontsModel->setColumnCount(5);
-
-    fontsModel->setHorizontalHeaderLabels(QStringList() << "Name" << "Type" << "Embedded" << "Subset" << "File");
-
-    for(int index = 0; index < fonts.count(); index++)
-    {
-        Poppler::FontInfo font = fonts.at(index);
-
-        fontsModel->setItem(index, 0, new QStandardItem(font.name()));
-        fontsModel->setItem(index, 1, new QStandardItem(font.typeName()));
-        fontsModel->setItem(index, 2, new QStandardItem(font.isEmbedded() ? "Yes" : "No"));
-        fontsModel->setItem(index, 3, new QStandardItem(font.isSubset() ? "Yes" : "No"));
-        fontsModel->setItem(index, 4, new QStandardItem(font.file()));
-    }
-
-    return fontsModel;
-}
 
 
 void DocumentView::show()
@@ -481,22 +449,13 @@ void DocumentView::show()
 
 bool DocumentView::open(const QString& filePath)
 {
-    Poppler::Document* document = Poppler::Document::load(filePath);
+    QPdfDocument* document=new QPdfDocument(this);
+    QPdfDocument::DocumentError result=document->load(filePath);
 
-    if(document != 0)
+    if (result== QPdfDocument::NoError) 
     {
-        if(document->isLocked())
-        {
-            QString password = QInputDialog::getText(this, tr("Unlock %1").arg(QFileInfo(filePath).completeBaseName()), tr("Password:"), QLineEdit::Password);
-
-            if(document->unlock(password.toLatin1(), password.toLatin1()))
-            {
-                delete document;
-                return false;
-            }
-        }
         m_filePath = filePath;
-        m_numberOfPages = document->numPages();
+        m_numberOfPages = document->pageCount();
         m_currentPage = 1;
         m_returnToPage = -1;
         prepareDocument(document);
@@ -507,30 +466,21 @@ bool DocumentView::open(const QString& filePath)
         emit currentPageChanged(m_currentPage);
     }
 
-    return document != 0;
+    return result== QPdfDocument::NoError ;
 }
 
 bool DocumentView::refresh()
 {
-    Poppler::Document* document = Poppler::Document::load(m_filePath);
+    QPdfDocument* document=new QPdfDocument(this);
+    QPdfDocument::DocumentError result=document->load(m_filePath);
 
-    if(document != 0)
+    if (result== QPdfDocument::NoError) 
     {
-        if(document->isLocked())
-        {
-            QString password = QInputDialog::getText(this, tr("Unlock %1").arg(QFileInfo(m_filePath).completeBaseName()), tr("Password:"), QLineEdit::Password);
-
-            if(document->unlock(password.toLatin1(), password.toLatin1()))
-            {
-                delete document;
-                return false;
-            }
-        }
 
         qreal left = 0.0, top = 0.0;
         saveLeftAndTop(left, top);
 
-        m_numberOfPages = document->numPages();
+        m_numberOfPages = document->pageCount();
         m_currentPage = m_currentPage <= m_numberOfPages ? m_currentPage : 1;
 
         m_returnToPage = m_returnToPage <= m_numberOfPages ? m_returnToPage : -1;
@@ -544,24 +494,7 @@ bool DocumentView::refresh()
         emit currentPageChanged(m_currentPage);
     }
 
-    return document != 0;
-}
-
-bool DocumentView::saveCopy(const QString& filePath)
-{
-    m_mutex.lock();
-
-    Poppler::PDFConverter* pdfConverter = m_document->pdfConverter();
-
-    pdfConverter->setOutputFileName(filePath);
-    pdfConverter->setPDFOptions(pdfConverter->pdfOptions() | Poppler::PDFConverter::WithChanges);
-    bool ok = pdfConverter->convert();
-
-    delete pdfConverter;
-
-    m_mutex.unlock();
-
-    return ok;
+    return result== QPdfDocument::NoError ;
 }
 
 bool DocumentView::print(QPrinter* printer)
@@ -585,14 +518,17 @@ bool DocumentView::print(QPrinter* printer)
         {
             m_mutex.lock();
 
-            Poppler::Page* page = m_document->page(index);
+            const QSizeF size = m_document->pageSize(index);
 
-            qreal pageWidth =  printer->physicalDpiX() / 72.0 * page->pageSizeF().width();
-            qreal pageHeight = printer->physicalDpiY() / 72.0 * page->pageSizeF().height();
+            qreal pageWidth =  printer->physicalDpiX() / 72.0 * size.width();
+            qreal pageHeight = printer->physicalDpiY() / 72.0 * size.height();
+            
+            ////????????????????????????
+            QImage image = m_document->render(index,QSize(size.width()*printer-> physicalDpiX()/72,size.height()*printer-> physicalDpiY()/72));
 
-            QImage image = page->renderToImage(printer->physicalDpiX(), printer->physicalDpiY());
+            //QImage image = page->renderToImage(printer->physicalDpiX(), printer->physicalDpiY());
 
-            delete page;
+            
 
             m_mutex.unlock();
 
@@ -715,17 +651,17 @@ void DocumentView::rotateLeft()
 {
     switch(rotation())
     {
-    case Poppler::Page::Rotate0:
-        setRotation(Poppler::Page::Rotate270);
+    case QPdf::Rotate0:
+        setRotation(QPdf::Rotate270);
         break;
-    case Poppler::Page::Rotate90:
-        setRotation(Poppler::Page::Rotate0);
+    case QPdf::Rotate90:
+        setRotation(QPdf::Rotate0);
         break;
-    case Poppler::Page::Rotate180:
-        setRotation(Poppler::Page::Rotate90);
+    case QPdf::Rotate180:
+        setRotation(QPdf::Rotate90);
         break;
-    case Poppler::Page::Rotate270:
-        setRotation(Poppler::Page::Rotate180);
+    case QPdf::Rotate270:
+        setRotation(QPdf::Rotate180);
         break;
     }
 }
@@ -734,17 +670,17 @@ void DocumentView::rotateRight()
 {
     switch(rotation())
     {
-    case Poppler::Page::Rotate0:
-        setRotation(Poppler::Page::Rotate90);
+    case QPdf::Rotate0:
+        setRotation(QPdf::Rotate90);
         break;
-    case Poppler::Page::Rotate90:
-        setRotation(Poppler::Page::Rotate180);
+    case QPdf::Rotate90:
+        setRotation(QPdf::Rotate180);
         break;
-    case Poppler::Page::Rotate180:
-        setRotation(Poppler::Page::Rotate270);
+    case QPdf::Rotate180:
+        setRotation(QPdf::Rotate270);
         break;
-    case Poppler::Page::Rotate270:
-        setRotation(Poppler::Page::Rotate0);
+    case QPdf::Rotate270:
+        setRotation(QPdf::Rotate0);
         break;
     }
 }
@@ -834,14 +770,6 @@ void DocumentView::on_pages_linkClicked(const QString& url)
 {
 	QUrl theurl = QUrl::fromEncoded(url.toLatin1());
 	QDesktopServices::openUrl(theurl);
-//     if(s_openUrl)
-//     {
-//         QDesktopServices::openUrl(QUrl(url));
-//     }
-//     else
-//     {
-//         QMessageBox::information(this, tr("Information"), tr("Opening URL is disabled in the settings."));
-//     }
 }
 
 void DocumentView::resizeEvent(QResizeEvent* event)
@@ -1059,7 +987,7 @@ if ((m_pages.count()>0) && (m_currentPage>=1))
     }
 }
 
-void DocumentView::prepareDocument(Poppler::Document* document)
+void DocumentView::prepareDocument(QPdfDocument* document)
 {
     m_prefetchTimer->blockSignals(true);
     m_prefetchTimer->stop();
@@ -1085,9 +1013,9 @@ void DocumentView::prepareDocument(Poppler::Document* document)
         m_autoRefreshWatcher->addPath(m_filePath);
     }
 
-    m_document->setRenderHint(Poppler::Document::Antialiasing, s_antialiasing);
-    m_document->setRenderHint(Poppler::Document::TextAntialiasing, s_textAntialiasing);
-    m_document->setRenderHint(Poppler::Document::TextHinting, s_textHinting);
+//     m_document->setRenderHint(Poppler::Document::Antialiasing, s_antialiasing);
+//     m_document->setRenderHint(Poppler::Document::TextAntialiasing, s_textAntialiasing);
+//     m_document->setRenderHint(Poppler::Document::TextHinting, s_textHinting);
 
     preparePages();
     prepareOutline();
@@ -1122,13 +1050,11 @@ void DocumentView::preparePages()
     {
       progressDialog->setValue(index);
        //QApplication::processEvents();
-        PageItem* page = new PageItem(&m_mutex, m_document->page(index), index);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2) page->setPhysicalDpi(physicalDpiX()*2, physicalDpiY()*2);
+        PageItem* page = new PageItem(&m_mutex, m_document, index);
+const int dpr = int(qApp->devicePixelRatio());
+if (qApp->devicePixelRatio()>=2) page->setPhysicalDpi(physicalDpiX()*dpr, physicalDpiY()*dpr);
 else page->setPhysicalDpi(physicalDpiX(), physicalDpiY());
-#else
-        page->setPhysicalDpi(physicalDpiX(), physicalDpiY());
-#endif
+
         m_pagesScene->addItem(page);
         m_pages.append(page);
 
@@ -1156,112 +1082,34 @@ delete progressDialog;
 
 void DocumentView::prepareOutline()
 {
-    m_outlineModel->clear();
-
-    QDomDocument* toc = m_document->toc();
-
-    if(toc != 0)
-    {
-        prepareOutline(toc->firstChild(), m_outlineModel->invisibleRootItem());
-
-        delete toc;
-    }
+     //m_outlineModel->clear();
+     m_outlineModel->setDocument(m_document);
 }
 
-void DocumentView::prepareOutline(const QDomNode& node, QStandardItem* parent)
-{
-    QDomElement element = node.toElement();
 
-    QStandardItem* item = new QStandardItem();
-
-    item->setFlags(Qt::ItemIsEnabled);
-
-    item->setText(element.tagName());
-    item->setToolTip(element.tagName());
-
-    Poppler::LinkDestination* linkDestination = 0;
-
-    if(element.hasAttribute("Destination"))
-    {
-        linkDestination = new Poppler::LinkDestination(element.attribute("Destination"));
-    }
-    else if(element.hasAttribute("DestinationName"))
-    {
-        linkDestination = m_document->linkDestination(element.attribute("DestinationName"));
-    }
-
-    if(linkDestination != 0)
-    {
-        int page = linkDestination->pageNumber();
-        qreal left = 0.0;
-        qreal top = 0.0;
-	qreal destLeft=0;
-	qreal destTop=0;
-        page = page >= 1 ? page : 1;
-        page = page <= m_numberOfPages ? page : m_numberOfPages;
-
-        if(linkDestination->isChangeLeft())
-        {
-            left = linkDestination->left();
-	    destLeft = left * m_document->page(page-1)->pageSizeF().width();
-            left = left >= 0.0 ? left : 0.0;
-            left = left <= 1.0 ? left : 1.0;
-        }
-
-        if(linkDestination->isChangeTop())
-        {
-            top = linkDestination->top();
-	    destTop = top  * m_document->page(page-1)->pageSizeF().height();
-            top = top >= 0.0 ? top : 0.0;
-            top = top <= 1.0 ? top : 1.0;
-        }
-
-        item->setData(page, Qt::UserRole + 1);
-        item->setData(left, Qt::UserRole + 2);
-        item->setData(top, Qt::UserRole + 3);
-        item->setData(destLeft, Qt::UserRole + 4);
-        item->setData(destTop, Qt::UserRole + 5);
-
-        delete linkDestination;
-    }
-
-    parent->appendRow(item);
-
-    QDomNode siblingNode = node.nextSibling();
-    if(!siblingNode.isNull())
-    {
-        prepareOutline(siblingNode, parent);
-    }
-
-    QDomNode childNode = node.firstChild();
-    if(!childNode.isNull())
-    {
-        prepareOutline(childNode, item);
-    }
-}
 
 void DocumentView::prepareProperties()
 {
-    m_propertiesModel->clear();
-
-    QStringList keys = m_document->infoKeys();
-
-    m_propertiesModel->setRowCount(keys.count());
-    m_propertiesModel->setColumnCount(2);
-
-    for(int index = 0; index < keys.count(); index++)
-    {
-        QString key = keys.at(index);
-        QString value = m_document->info(key);
-
-        if(value.startsWith("D:"))
-        {
-            value = m_document->date(key).toString();
-        }
-
-        m_propertiesModel->setItem(index, 0, new QStandardItem(key));
-        m_propertiesModel->setItem(index, 1, new QStandardItem(value));
-    }
+//     m_propertiesModel->clear();
+// 
+//     QStringList keys = m_document->infoKeys();
+// 
+//     m_propertiesModel->setRowCount(keys.count());
+//     m_propertiesModel->setColumnCount(2);
+// 
+//     for(int index = 0; index < keys.count(); index++)
+//     {
+//         QString key = keys.at(index);
+//         QString value = m_document->info(key);
+// 
+//         if(value.startsWith("D:"))
+//         {
+//             value = m_document->date(key).toString();
+//         }
+// 
+//         m_propertiesModel->setItem(index, 0, new QStandardItem(key));
+//         m_propertiesModel->setItem(index, 1, new QStandardItem(value));
+//     }
 }
 
 void DocumentView::prepareScene()
@@ -1295,13 +1143,13 @@ void DocumentView::prepareScene()
 
             switch(m_rotation)
             {
-            case Poppler::Page::Rotate0:
-            case Poppler::Page::Rotate180:
+            case QPdf::Rotate0:
+            case QPdf::Rotate180:
                 pageWidth = physicalDpiX() / 72.0 * size.width();
                 pageHeight = physicalDpiY() / 72.0 * size.height();
                 break;
-            case Poppler::Page::Rotate90:
-            case Poppler::Page::Rotate270:
+            case QPdf::Rotate90:
+            case QPdf::Rotate270:
                 pageWidth = physicalDpiX() / 72.0 * size.height();
                 pageHeight = physicalDpiY() / 72.0 * size.width();
                 break;
@@ -1488,28 +1336,28 @@ void DocumentView::countWords()
 QString pdf_text="";
 int numwords=0;
 int pagewords=0;
-QProgressDialog progress("",tr("Cancel"), 0, m_document->numPages(), this);
+QProgressDialog progress("",tr("Cancel"), 0, m_document->pageCount(), this);
 progress.setWindowTitle("Texmaker");
 progress.setWindowModality(Qt::WindowModal);
-for (int i = 0; i < m_document->numPages(); ++i)
+for (int i = 0; i < m_document->pageCount(); ++i)
   {
   progress.setValue(i);
   qApp->processEvents();
   if (progress.wasCanceled()) return;
   pagewords=0;
-  pdf_text=m_document->page(i)->text(QRectF(),Poppler::Page::PhysicalLayout);
+  pdf_text=m_document->checkTextAt(i, m_pages.at(i)->boundingRect(), m_pages.at(i)->boundingRect());
   pdf_text=pdf_text.simplified();
   pagewords=pdf_text.count(" ");
   if (!pdf_text.isEmpty()) pagewords++;
   numwords+=pagewords;
   }
-progress.setValue(m_document->numPages());
+progress.setValue(m_document->pageCount());
 QMessageBox::information( this,"Texmaker",tr("Number of words in the document")+QString(" : ")+QString::number(numwords));
 }
 
 void DocumentView::pngExport(int page)
 {
-QImage image = m_document->page(page)->renderToImage(scaleFactor() * physicalDpiX(), scaleFactor() * physicalDpiY());
+QImage image = m_pages.at(page)->exportImagePage();
 if (image.isNull()) return;
 QString currentDir=QDir::homePath();
 QFileInfo fi(m_filePath);
@@ -1526,7 +1374,7 @@ void DocumentView::countPageWords(int page)
 QString pdf_text="";
 int numwords=0;
 int pagewords=0;
-pdf_text=m_document->page(page)->text(QRectF(),Poppler::Page::PhysicalLayout);
+pdf_text=m_document->checkTextAt(page, m_pages.at(page)->boundingRect(), m_pages.at(page)->boundingRect());
 pdf_text=pdf_text.simplified();
 pagewords=pdf_text.count(" ");
 if (!pdf_text.isEmpty()) pagewords++;
@@ -1541,3 +1389,5 @@ QFileInfo fi(m_filePath);
 if (fi.exists() && fi.isReadable()) currentDir+=fi.absolutePath();
 QDesktopServices::openUrl(QUrl(currentDir));
 }
+
+

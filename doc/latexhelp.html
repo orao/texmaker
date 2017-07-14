@@ -40,10 +40,6 @@ into another language, under the above conditions for modified versions. --><!--
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2any">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="#Top" rel="start" title="Top">
-<link href="#Concept-Index" rel="index" title="Concept Index">
-<link href="#SEC_Contents" rel="contents" title="Table of Contents">
-<link href="ftp://tug.ctan.org/tex-archive/info/latex2e-help-texinfo/dir.html#Top" rel="up" title="(dir)">
 <style type="text/css">
 <!--
 /*a.summary-letter {text-decoration: none}
@@ -70,7 +66,7 @@ span.nolinebreak {white-space:nowrap}
 span.roman {font-family:serif; font-weight:normal}
 span.sansserif {font-family:sans-serif; font-weight:normal}*/
 body {
-font-family:  'Liberation Sans', 'Arial',sans-serif;
+font-family:  'DejaVuSansCondensed', 'Arial',sans-serif;
 background-color:#FFFFFF;
 color:#000000;
 margin-top: 5px;
@@ -84,14 +80,13 @@ color : #AC0B00;
 }
 
 h1, h2 {
-    background-color: #69c;
+    background-color: #6F6F6F;
     color : white;
-    border:2px solid #69c;
+    border:2px solid #6F6F6F;
     padding: 4px 20px;
     border-radius: 8px; 
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px; 
-    font-family: "Trebuchet MS", "Tahoma","Helvetica","Arial",sans-serif;
     letter-spacing: 0px;
     word-spacing: 0px;
     font-weight: bold;
@@ -106,24 +101,22 @@ padding-left:4px;
 h3 {
     background-color: #fff;
     color : #3f5881;
-    border:2px solid #69c;
+    border:2px solid #6F6F6F;
     padding: 4px 20px;
     border-radius: 8px; 
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px; 
-    font-family: "Trebuchet MS", "Tahoma","Helvetica","Arial",sans-serif;
     font-weight: bold;
     width: 66%;
 }
 
 h4 {
     color : #3f5881;
-    border:2px solid #69c;
+    border:2px solid #6F6F6F;
     padding: 4px 20px;
     border-radius: 8px; 
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px; 
-    font-family: "Trebuchet MS", "Tahoma","Helvetica","Arial",sans-serif;
     letter-spacing: 0px;
     word-spacing: 0px;
     font-weight: bold;
@@ -135,7 +128,7 @@ A:visited { color:#335d88; text-decoration: none;}
 A:hover   { color:#335d88; text-decoration: none;}
 
 p, dd {
-    text-align: justify;
+    /*text-align: justify;*/
 }
 
 dt {
@@ -175,43 +168,6 @@ ul.no-bullet {list-style: none}
 
 
 
-<!--<a name="SEC_Overview"></a>
-<h2 class="shortcontents-heading">Short Table of Contents</h2>-->
-
-<!--<div class="shortcontents">
-<ul class="no-bullet">
-<li><a name="stoc-About-this-document-1" href="#toc-About-this-document-1">1 About this document</a></li>
-<li><a name="stoc-Overview-of-LaTeX" href="#toc-Overview-of-LaTeX">2 Overview of LaTeX</a></li>
-<li><a name="stoc-Starting-_0026-ending-1" href="#toc-Starting-_0026-ending-1">3 Starting &amp; ending</a></li>
-<li><a name="stoc-Document-classes-1" href="#toc-Document-classes-1">4 Document classes</a></li>
-<li><a name="stoc-Typefaces-1" href="#toc-Typefaces-1">5 Typefaces</a></li>
-<li><a name="stoc-Layout-1" href="#toc-Layout-1">6 Layout</a></li>
-<li><a name="stoc-Sectioning-1" href="#toc-Sectioning-1">7 Sectioning</a></li>
-<li><a name="stoc-Cross-references-1" href="#toc-Cross-references-1">8 Cross references</a></li>
-<li><a name="stoc-Environments-1" href="#toc-Environments-1">9 Environments</a></li>
-<li><a name="stoc-Line-breaking-1" href="#toc-Line-breaking-1">10 Line breaking</a></li>
-<li><a name="stoc-Page-breaking-1" href="#toc-Page-breaking-1">11 Page breaking</a></li>
-<li><a name="stoc-Footnotes-1" href="#toc-Footnotes-1">12 Footnotes</a></li>
-<li><a name="stoc-Definitions-1" href="#toc-Definitions-1">13 Definitions</a></li>
-<li><a name="stoc-Counters-1" href="#toc-Counters-1">14 Counters</a></li>
-<li><a name="stoc-Lengths-1" href="#toc-Lengths-1">15 Lengths</a></li>
-<li><a name="stoc-Making-paragraphs-1" href="#toc-Making-paragraphs-1">16 Making paragraphs</a></li>
-<li><a name="stoc-Math-formulas-1" href="#toc-Math-formulas-1">17 Math formulas</a></li>
-<li><a name="stoc-Modes-1" href="#toc-Modes-1">18 Modes</a></li>
-<li><a name="stoc-Page-styles-1" href="#toc-Page-styles-1">19 Page styles</a></li>
-<li><a name="stoc-Spaces-1" href="#toc-Spaces-1">20 Spaces</a></li>
-<li><a name="stoc-Boxes-1" href="#toc-Boxes-1">21 Boxes</a></li>
-<li><a name="stoc-Special-insertions-1" href="#toc-Special-insertions-1">22 Special insertions</a></li>
-<li><a name="stoc-Splitting-the-input-1" href="#toc-Splitting-the-input-1">23 Splitting the input</a></li>
-<li><a name="stoc-Front_002fback-matter-1" href="#toc-Front_002fback-matter-1">24 Front/back matter</a></li>
-<li><a name="stoc-Letters-1" href="#toc-Letters-1">25 Letters</a></li>
-<li><a name="stoc-Terminal-input_002foutput-1" href="#toc-Terminal-input_002foutput-1">26 Terminal input/output</a></li>
-<li><a name="stoc-Command-line-1" href="#toc-Command-line-1">27 Command line</a></li>
-<li><a name="stoc-Document-templates-1" href="#toc-Document-templates-1">Appendix A Document templates</a></li>
-<li><a name="stoc-Concept-Index-1" href="#toc-Concept-Index-1">Concept Index</a></li>
-<li><a name="stoc-Command-Index-1" href="#toc-Command-Index-1">Command Index</a></li>
-</ul>
-</div>-->
 
 <a name="SEC_Contents"></a>
 <h2 class="contents-heading">Table of Contents</h2>

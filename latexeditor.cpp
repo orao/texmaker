@@ -1,7 +1,7 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
- *   addons by Luis Silvestre                                              *
+ *   addons by Luis Silvestre, Julián Moreno Patiño                        *
  *   contains some code from CLedit (C) 2010 Heinz van Saanen -GPL         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,14 +35,14 @@
 #include <QTextDocumentFragment>
 #include <QFuture>
 #include <QtCore>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #include <QtConcurrent>
-#endif
 #include <QScriptValue>
 //#include <QPlatformInputContext>
 
 
 #include "blockdata.h"
+
+QMap<QAction*,QString> spellingLookup;
 
 static void convertToPlainText(QString &txt)
 {
@@ -858,6 +858,7 @@ if (inlinecheckSpelling && pChecker && !textCursor().hasSelection())
 				if (ns > 0)
 					{
 					suggWords.clear();
+                    spellingLookup.clear();
 					for (int i=0; i < ns; i++) 
 						{
 						suggWords.append(codec->toUnicode(wlst[i]));
@@ -872,8 +873,10 @@ if (inlinecheckSpelling && pChecker && !textCursor().hasSelection())
 							{
 							foreach (const QString &suggestion, suggWords)
 							    {
-							    a = menu->addAction(suggestion, this, SLOT(correctWord()));
+							    a = menu->addAction(suggestion, this, SLOT(correctWord()),0);
 							    a->setFont(spellmenufont);
+                                a->setText(suggestion);
+                                spellingLookup.insert(a,suggestion);
 							    }
 							}
 						}
@@ -958,7 +961,8 @@ void LatexEditor::correctWord()
 QAction *action = qobject_cast<QAction *>(sender());
 if (action)
 	{
-	QString newword = action->text();
+	//QString newword = action->text();
+    QString newword = spellingLookup.find(action).value();
 	replace(newword,false,"");
 	}
 }

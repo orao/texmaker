@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   addons by Luis Silvestre                           *
  *                                                                         *
@@ -49,14 +49,16 @@
 #include "xmltagslistwidget.h"
 #include "logeditor.h"
 #include "hunspell/hunspell.hxx"
-#include "browser.h"
 #include "pdfviewerwidget.h"
 #include "pdfviewer.h"
 #include "sourceview.h"
 #include "encodingprober/qencodingprober.h"
 #include "scandialog.h"
+#include "dropshadowlabel.h"
 
-
+#ifdef INTERNAL_BROWSER
+#include "browser.h"
+#endif
 
 typedef  QMap<LatexEditorView*, QString> FilesMap;
 typedef  QMap<QString,QString> KeysMap;
@@ -135,7 +137,7 @@ QMenu *wizardMenu;
 QMenu *bibMenu, *bibtexMenu, *biblatexMenu;
 QMenu *user1Menu, *user11Menu, *user12Menu;
 QMenu *viewMenu;
-QMenu *optionsMenu, *translationMenu, *appearanceMenu, *settingsMenu, *scriptMenu;
+QMenu *optionsMenu, *translationMenu, /**appearanceMenu,*/ *settingsMenu, *scriptMenu;
 QMenu *helpMenu;
 QMenu *sectionMenu, *sizeMenu, *refMenu;
 
@@ -152,7 +154,8 @@ bool showEmphasis, showNewline, showMathmode, showIndice, showPuissance, showSma
 
 
 QComboBox *comboCompil, *comboView, *comboFiles;
-QLabel *stat1, *stat2, *stat3, *titleLeftPanel, *posLabel;
+DropShadowLabel *titleLeftPanel, *posLabel, *stat1, *stat2, *stat3;
+
 QPushButton *pb1, *pb2, *pb3;
 QString MasterName;
 bool logpresent;
@@ -185,7 +188,9 @@ bool svnEnable;
 QString svnPath;
 //dialogs
 QPointer<ScanDialog> scanDialog;
+#ifdef INTERNAL_BROWSER
 QPointer<Browser> browserWindow, diffWindow;
+#endif
 QPointer<PdfViewerWidget> pdfviewerWidget;
 QPointer<PdfViewer> pdfviewerWindow;
 SourceView* sourceviewerWidget;
@@ -219,7 +224,7 @@ QCompleter *completer;
 Hunspell * spellChecker;
 bool spelldicExist();
 QStringList translationList, scriptList;
-QActionGroup *translationGroup, *appearanceGroup;
+QActionGroup *translationGroup/*, *appearanceGroup*/;
 QTimer *autosaveTimer;
 
 private slots:
@@ -444,7 +449,7 @@ void TexDocHelp();
 void HelpAbout();
 void CheckVersion();
 void Doculatex();
-void Docufrlatex();
+//void Docufrlatex();
 
 void GeneralOptions();
 
@@ -471,7 +476,7 @@ void ModifyShortcuts();
 void initCompleter();
 void updateCompleter();
 void updateTranslation();
-void updateAppearance();
+// void updateAppearance();
 
 void disableToolsActions();
 void enableToolsActions();

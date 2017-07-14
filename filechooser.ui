@@ -58,7 +58,7 @@
        </property>
        <property name="icon">
         <iconset resource="texmaker.qrc">
-         <normaloff>:/images/fileopen.png</normaloff>:/images/fileopen.png</iconset>
+         <normaloff>:/images/fileopen16.png</normaloff>:/images/fileopen16.png</iconset>
        </property>
        <property name="iconSize">
         <size>

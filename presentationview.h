@@ -19,6 +19,17 @@ along with qpdfview.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+/***************************************************************************
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
+ *   http://www.xm1math.net/texmaker/                                      *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #ifndef PRESENTATIONVIEW_H
 #define PRESENTATIONVIEW_H
 
@@ -26,17 +37,9 @@ along with qpdfview.  If not, see <http://www.gnu.org/licenses/>.
 #include <QtGui>
 #include <QWidget>
 
-#if defined(POPPLER20)
-#include "texmaker_popplerqt20/poppler-qt4.h"
-#elif defined(POPPLER22)
-#include "texmaker_popplerqt22/poppler-qt4.h"
-#elif defined(POPPLER24EMB)
-#include "texmaker_popplerqt5_24/poppler-qt5.h"
-#elif defined(POPPLER24)
-#include <poppler-qt5.h>
-#else
-#include <poppler-qt4.h>
-#endif
+
+#include "qpdfdocument.h"
+
 
 #include "pageitem.h"
 
@@ -45,7 +48,7 @@ class PresentationView : public QWidget
     Q_OBJECT
 
 public:
-    PresentationView(QMutex* mutex, Poppler::Document* document);
+    PresentationView(QMutex* mutex, QPdfDocument* document);
     ~PresentationView();
 
     int numberOfPages() const;
@@ -79,13 +82,13 @@ protected:
 
 private:
     QMutex* m_mutex;
-    Poppler::Document* m_document;
+    QPdfDocument* m_document;
 
     int m_numberOfPages;
     int m_currentPage;
     int m_returnToPage;
 
-    QList< Poppler::LinkGoto* > m_links;
+    //QList< Poppler::LinkGoto* > m_links;
 
     qreal m_scaleFactor;
 

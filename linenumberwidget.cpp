@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,7 @@
 #include <QScrollBar>
 #include <QDebug>
 #include "blockdata.h"
+#include "theme.h"
 
 LineNumberWidget::LineNumberWidget(LatexEditor* editor, QWidget* parent,bool svn)
 	: QWidget( parent) ,
@@ -26,7 +27,7 @@ LineNumberWidget::LineNumberWidget(LatexEditor* editor, QWidget* parent,bool svn
 {
 setAutoFillBackground( true );
 QPalette p( palette() );
-p.setColor( backgroundRole(), QColor( "#DEE4EB" ) );
+p.setColor( backgroundRole(), Theme::darkbackgroundColor);
 setPalette( p );
 //setToolTip(tr("Click to add or remove a bookmark"));
 start=-1;
@@ -51,13 +52,13 @@ QPainter painter( this );
 painter.setFont(numfont);
 const QFontMetrics fm(numfont);
 const QBrush oldbrush=painter.brush();
-QPen oldpen(QColor("#136872"));
+QPen oldpen(Theme::grayColor);
 QPen oldpenSvn(QColor("#FF00FF"));
 oldpen.setStyle(Qt::SolidLine);
-const QBrush bookmarkbrush(QColor("#1B8EA6"));
-const QBrush markerbrush(QColor("#FF8000"));
+const QBrush bookmarkbrush(QColor("#6F6F6F"));
+const QBrush markerbrush(QColor("#FF6F00"));
 const QPen bookmarkpen(QColor("#FFFFFF"));
-QPen rangepen(QColor("#FF8000"));
+QPen rangepen(QColor("#FF6F00"));
 
 QTextDocument *doc = m_editor->document();
 int i = 1;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2011 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,6 +17,7 @@
 #include <QScrollBar>
 #include <QToolTip>
 #include "blockdata.h"
+#include "theme.h"
 
 LightLineNumberWidget::LightLineNumberWidget(LightLatexEditor* editor, QWidget* parent)
 	: QWidget( parent) ,
@@ -24,7 +25,7 @@ LightLineNumberWidget::LightLineNumberWidget(LightLatexEditor* editor, QWidget* 
 {
 setAutoFillBackground( true );
 QPalette p( palette() );
-p.setColor( backgroundRole(), QColor( "#DEE4EB" ) );
+p.setColor( backgroundRole(), Theme::darkbackgroundColor );
 setPalette( p );
 //setToolTip(tr("Click to add or remove a bookmark"));
 start=-1;
@@ -47,9 +48,9 @@ QPainter painter( this );
 painter.setFont(numfont);
 const QFontMetrics fm(numfont);
 const QBrush oldbrush=painter.brush();
-QPen oldpen(QColor("#136872"));
+QPen oldpen(Theme::grayColor);
 oldpen.setStyle(Qt::SolidLine);
-const QBrush bookmarkbrush(QColor("#1B8EA6"));
+const QBrush bookmarkbrush(QColor("#6F6F6F"));
 const QPen bookmarkpen(QColor("#FFFFFF"));
 
 QTextDocument *doc = m_editor->document();

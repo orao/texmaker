@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2012 by Pascal Brachet                          *
+ *   copyright       : (C) 2012-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   based on qpdfview  Copyright 2012 Adam Reichold GPL                   *
  *                                                                         *
@@ -26,19 +26,8 @@ modified by Pascal Brachet
 #include <QtGui>
 #include <QGraphicsObject>
 
-#if defined(POPPLER20)
-#include "texmaker_popplerqt20/poppler-qt4.h"
-#elif defined(POPPLER22)
-#include "texmaker_popplerqt22/poppler-qt4.h"
-#elif defined(POPPLER24EMB)
-#include "texmaker_popplerqt5_24/poppler-qt5.h"
-#elif defined(POPPLER24)
-#include <poppler-qt5.h>
-#else
-#include <poppler-qt4.h>
-#endif
 
-
+#include "qpdfdocument.h"
 
 class PageItem : public QGraphicsObject
 {
@@ -57,7 +46,7 @@ public:
     static bool invertColors();
     static void setInvertColors(bool invertColors);
 
-    PageItem(QMutex* mutex, Poppler::Page* page, int index, QGraphicsItem* parent = 0);
+    PageItem(QMutex* mutex, QPdfDocument* doc, int index, QGraphicsItem* parent = 0);
     ~PageItem();
 
     QRectF boundingRect() const;
@@ -76,8 +65,8 @@ public:
     qreal scaleFactor() const;
     void setScaleFactor(qreal scaleFactor);
 
-    Poppler::Page::Rotation rotation() const;
-    void setRotation(Poppler::Page::Rotation rotation);
+    QPdf::Rotation rotation() const;
+    void setRotation(QPdf::Rotation rotation);
 
     const QTransform& transform() const;
     const QTransform& normalizedTransform() const;
@@ -85,6 +74,7 @@ public:
     void setHighlightPath(const QPainterPath& path);
     void setSearchPath(const QPainterPath& path);
     void clearPaths();
+    QImage exportImagePage();
 
 signals:
     void imageReady(QImage image, bool prefetch);
@@ -126,11 +116,10 @@ private:
     static bool s_invertColors;
 
     QMutex* m_mutex;
-    Poppler::Page* m_page;
+    QPdfDocument* m_doc;
 
     int m_index;
     QSizeF m_size;
-    QList< Poppler::Link* > m_links;
 
 
     QList< QRectF > m_highlights;
@@ -144,7 +133,7 @@ private:
     int m_physicalDpiY;
 
     qreal m_scaleFactor;
-    Poppler::Page::Rotation m_rotation;
+    QPdf::Rotation m_rotation;
 
     QTransform m_transform;
     QTransform m_normalizedTransform;
@@ -157,7 +146,7 @@ private:
     // render
 
     QFutureWatcher< void >* m_render;
-    void render(int physicalDpiX, int physicalDpiY, qreal scaleFactor, Poppler::Page::Rotation rotation, bool prefetch);
+    void render(int physicalDpiX, int physicalDpiY, qreal scaleFactor, QPdf::Rotation rotation, bool prefetch);
 
     QPainterPath highlightPath, searchPath;
     QTimer highlightRemover;

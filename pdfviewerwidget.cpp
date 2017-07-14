@@ -1,13 +1,14 @@
-/****************************************************************************
-**
-**   copyright       : (C) 2003-2012 by Pascal Brachet                     
-**   http://www.xm1math.net/texmaker/                                      
-**
-** Parts of this file come from Texworks (GPL) Copyright (C) 2007-2010  Jonathan Kew
-**
-**
-****************************************************************************/
- 
+/***************************************************************************
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
+ *   http://www.xm1math.net/texmaker/                                      *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include "pdfviewerwidget.h"
 
 #include <QtGui>
@@ -29,18 +30,10 @@
 #include <QApplication>
 
 #include "geticon.h"
+#include "theme.h"
 
-#if defined(POPPLER20)
-#include "texmaker_popplerqt20/poppler-qt4.h"
-#elif defined(POPPLER22)
-#include "texmaker_popplerqt22/poppler-qt4.h"
-#elif defined(POPPLER24EMB)
-#include "texmaker_popplerqt5_24/poppler-qt5.h"
-#elif defined(POPPLER24)
-#include <poppler-qt5.h>
-#else
-#include <poppler-qt4.h>
-#endif
+
+
 
 #define SYNCTEX_GZ_EXT ".synctex.gz"
 #define SYNCTEX_EXT ".synctex"
@@ -62,9 +55,12 @@ lastScale=startScale;
 fileLoaded=false;
 currentPage=1;
 
+doc=new QPdfDocument(this);
+//doc = 0;
 
-doc = 0;
-searchleft=0.0; searchtop=0.0; searchright=0.0; searchbottom=0.0;
+lastSearchPos=-1;
+
+
 scanner=NULL;
 path= QPainterPath();
 
@@ -89,35 +85,10 @@ centralFrame->setAutoFillBackground( true );
 
 
 listpagesWidget=new QListWidget(centralFrame);
-QPalette palette;
-QBrush brush(QColor(19, 104, 114, 255));
-brush.setStyle(Qt::SolidPattern);
-palette.setBrush(QPalette::Active, QPalette::Text, brush);
-QBrush brush1(QColor(222, 228, 235, 255));
-brush1.setStyle(Qt::SolidPattern);
-palette.setBrush(QPalette::Active, QPalette::Base, brush1);
-palette.setBrush(QPalette::Inactive, QPalette::Text, brush);
-palette.setBrush(QPalette::Inactive, QPalette::Base, brush1);
-QBrush brush2(QColor(166, 165, 165, 255));
-brush2.setStyle(Qt::SolidPattern);
-palette.setBrush(QPalette::Disabled, QPalette::Text, brush2);
-QBrush brush3(QColor(244, 244, 244, 255));
-brush3.setStyle(Qt::SolidPattern);
-palette.setBrush(QPalette::Disabled, QPalette::Base, brush3);
-palette.setColor( listpagesWidget->backgroundRole(), QColor( "#DEE4EB" ) );
-listpagesWidget->setPalette(palette);
-listpagesWidget->setAutoFillBackground( true );
-/*QPalette p( listpagesWidget->palette() );
-p.setColor( listpagesWidget->backgroundRole(), QColor( "#DEE4EB" ) );
-listpagesWidget->setPalette( p );*/
 listpagesWidget->setFrameShape(QFrame::NoFrame);
 listpagesWidget->setFrameShadow(QFrame::Plain);
-listpagesWidget->viewport()->setStyleSheet(QString::fromUtf8("border: 1px solid;\n"
-"border-right-color: rgb(19, 104, 114);\n"
-"border-top-color: rgb(222, 228, 235);\n"
-"border-bottom-color: rgb(222, 228, 235);\n"
-"border-left-color: rgb(222, 228, 235);\n"
-""));
+listpagesWidget->viewport()->setStyleSheet(Theme::viewportDarkStyleSheet);
+listpagesWidget->setStyleSheet(Theme::listwidgetStyleSheet);
 listpagesWidget->setLineWidth(0);
 
 
@@ -128,6 +99,7 @@ centralToolBarBis->setOrientation(Qt::Horizontal);
 centralToolBarBis->setMovable(false);
 centralToolBarBis->setIconSize(QSize(16,16 ));
 centralToolBarBis->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+centralToolBarBis->setStyleSheet(Theme::toolbarlightStyleSheet);
 
 toggleStructAct=new QAction(getIcon(":/images/structure.png"),tr("Show/Hide Table of contents"),this);
 connect(toggleStructAct, SIGNAL(triggered()), this, SLOT(ToggleStructure()));
@@ -167,6 +139,8 @@ optionsButton->setText("");
 optionsButton->setPopupMode(QToolButton::InstantPopup);
 QMenu *viewMenu = new QMenu(optionsButton);
 
+viewMenu->setStyleSheet(Theme::menuDarkStyleSheet);
+
 continuousModeAction = new QAction(tr("Continuous"), this);
 continuousModeAction->setCheckable(true);
 continuousModeAction->setChecked(true);
@@ -193,6 +167,7 @@ optionsButton->setMenu(viewMenu);
 centralToolBarBis->addWidget(optionsButton);
 
 scaleComboBox = new QComboBox(centralToolBarBis);
+
 zoomCustom = new QLineEdit();
 
 //QValidator *validatorZoom = new QIntValidator(25, 400, this);
@@ -204,12 +179,15 @@ scaleComboBox->addItems(scalePercents);
 scaleComboBox->setCurrentIndex(3);
 scaleComboBox->setEditable(true);
 scaleComboBox->setLineEdit(zoomCustom);
+
+scaleComboBox->setStyleSheet(Theme::comboboxStyleSheet);
 centralToolBarBis->addWidget(scaleComboBox);
 
 centralToolBarBis->addSeparator();
 
 
 searchLineEdit = new QLineEdit(centralToolBarBis);
+searchLineEdit->setStyleSheet(Theme::lineeditStyleSheet);
 
 
 centralToolBarBis->addWidget(searchLineEdit);
@@ -245,8 +223,6 @@ centralToolBarBis->addAction(printAct);
 externAct = new QAction(getIcon(":/images/viewpdf.png"), tr("External Viewer"), this);
 centralToolBarBis->addAction(externAct);
 
-checkerAct = new QAction(getIcon(":/images/pdfchecker.png"), tr("Check Spelling and Grammar on this page"), this);
-centralToolBarBis->addAction(checkerAct);
 
 
 pdfview=new DocumentView(centralFrame);
@@ -269,15 +245,16 @@ StructureTreeView=new QTreeView(splitter);
 StructureTreeView->header()->hide();
 StructureTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 StructureTreeView->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+
 StructureTreeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-#else
-StructureTreeView->header()->setResizeMode(0, QHeaderView::ResizeToContents);
-#endif
+
 StructureTreeView->header()->setStretchLastSection(false);
 StructureTreeView->setIndentation(15);
 StructureTreeView->setFrameStyle(QFrame::NoFrame);
 StructureTreeView->setModel(0);
+
+StructureTreeView->viewport()->setStyleSheet(Theme::viewportDarkStyleSheet);
+StructureTreeView->setStyleSheet(Theme::treeviewStyleSheet);
 
 //CentralLayoutBis->addWidget(StructureTreeWidget);
 splitter->addWidget(centralFrameBis);
@@ -303,12 +280,11 @@ fitPageAct->setEnabled(false);
 zoominAct->setEnabled(false);
 zoomoutAct->setEnabled(false);
 disconnectActions();
-//openFile(pdf_file,viewpdf_command,gswin32c_command);
+openFile(pdf_file,viewpdf_command,gswin32c_command);
 }
 
 PdfViewerWidget::~PdfViewerWidget()
 {
-if (browserWindow) browserWindow->close();
 if (scanner != NULL) synctex_scanner_free(scanner);
 if (proc && proc->state()==QProcess::Running) 
 	{
@@ -345,15 +321,17 @@ if (scanner != NULL)
   scanner = NULL;
   }
 
-doc = Poppler::Document::load(fn);
+
+//doc = Poppler::Document::load(fn);
+//doc=new QPdfDocument(this);
 if (pdfview->open(fn)) 
   {
 
   listpagesWidget->clear();
   doc=pdfview->doc();
-  doc->setRenderHint(Poppler::Document::Antialiasing);
-  doc->setRenderHint(Poppler::Document::TextAntialiasing);
-  searchLocation = QRectF();
+  lastSearchPos=-1;
+  //doc->setRenderHint(Poppler::Document::Antialiasing);
+  //doc->setRenderHint(Poppler::Document::TextAntialiasing);
   pdfview->setContinousMode(islastContinuous);//
   continuousModeAction->setChecked(islastContinuous);//
   //pdfview->setTwoPagesMode(false);
@@ -371,20 +349,18 @@ if (pdfview->open(fn))
   zoomoutAct->setEnabled(true);
   optionsButton->setEnabled(true);
   StructureTreeView->setModel(pdfview->outlineModel());
-  QString syncFile = QFileInfo(fn).canonicalFilePath();
-  scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
+   QString syncFile = QFileInfo(fn).canonicalFilePath();
+   scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
 
-  if ((fn==lastFile) && (lpage <= doc->numPages()) && (lpage>0))
+  if ((fn==lastFile) && (lpage <= doc->pageCount()) && (lpage>0))
     {
     currentPage=lpage;
     currentScale=lscale;
-    
     if ((currentScale < 0.25) || (currentScale > 4)) 
       {
       pdfview->setScaleMode(DocumentView::FitToPageWidth);
       currentScale=pdfview->realScale();
       zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
-
       }
     else 
       {
@@ -400,13 +376,12 @@ if (pdfview->open(fn))
     currentScale=pdfview->realScale();
     zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
     }
-  
-  listpagesWidget->setFixedWidth(30+fm.width(QString::number(doc->numPages())));
-  for (int i = 0; i < doc->numPages(); ++i)
+  listpagesWidget->setFixedWidth(30+fm.width(QString::number(doc->pageCount())));
+  for (int i = 0; i < doc->pageCount(); ++i)
     {
     QListWidgetItem *item=new QListWidgetItem(QString::number(i+1));
     item->setFont(deft);
-    item->setToolTip(QString::number(i+1)+"/"+QString::number(doc->numPages()));
+    item->setToolTip(QString::number(i+1)+"/"+QString::number(doc->pageCount()));
     listpagesWidget->addItem(item);
     }
   fileLoaded=true;
@@ -463,7 +438,6 @@ connect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 connect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 connect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 connect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
-connect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
 connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
 connect(pdfview, SIGNAL(gotoDest(int,qreal,qreal)), this, SLOT(jumpToDest(int,qreal,qreal)));
 connect(pdfview, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(jumpToEditor(int, const QPointF&)));
@@ -502,7 +476,6 @@ disconnect(historyBackAct, SIGNAL(triggered()), this, SLOT(historyBack()));
 disconnect(historyForwardAct, SIGNAL(triggered()), this, SLOT(historyForward()));
 disconnect(printAct, SIGNAL(triggered()), this, SLOT(printPdf()));
 disconnect(externAct, SIGNAL(triggered()), this, SLOT(runExternalViewer()));
-disconnect(checkerAct, SIGNAL(triggered()), this, SLOT(checkSpellGrammarPage()));
 disconnect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
 disconnect(pdfview, SIGNAL(gotoDest(int,qreal,qreal)), this, SLOT(jumpToDest(int,qreal,qreal)));
 disconnect(pdfview, SIGNAL(syncpage(int, const QPointF&)), this, SLOT(jumpToEditor(int, const QPointF&)));
@@ -520,7 +493,7 @@ disconnect(presentationAction, SIGNAL(triggered()),this, SLOT(on_presentation_tr
 //disconnect( this, SIGNAL( forwardAvailable( bool ) ), historyForwardAct, SLOT( setEnabled( bool ) ) );
 }
 
-void PdfViewerWidget::jumpToPdfFromSource(QString sourceFile, int source_line)
+void PdfViewerWidget::jumpToPdfFromSource(QString sourceFile, int source_line, int source_col)
 {
 
 show();
@@ -596,7 +569,7 @@ pdfview->setHighlightPath(currentPage-1,path);
 void PdfViewerWidget::gotoPage(int page)
 {
 if (!fileLoaded) return;
-if ((page <= doc->numPages()) && (page>=1))
+if ((page <= doc->pageCount()) && (page>=1))
   {
   currentPage=page;
   lastPage=currentPage;
@@ -621,7 +594,7 @@ void PdfViewerWidget::updateCurrentPage()
 if (!fileLoaded) return;
 if (currentPage==1) upAct->setEnabled(false);
 else upAct->setEnabled(true);
-if (currentPage==doc->numPages()) downAct->setEnabled(false);
+if (currentPage==doc->pageCount()) downAct->setEnabled(false);
 else downAct->setEnabled(true);
 QList<QListWidgetItem *> fItems=listpagesWidget->findItems (QString::number(currentPage),Qt::MatchRecursive);
 if ((fItems.size()>0 ) && (fItems.at(0))) listpagesWidget->setCurrentItem(fItems.at(0));
@@ -630,7 +603,7 @@ if ((fItems.size()>0 ) && (fItems.at(0))) listpagesWidget->setCurrentItem(fItems
 void PdfViewerWidget::jumpToDest(int page,qreal left, qreal top)
 {
 if (!fileLoaded) return;
-if ((page <= doc->numPages()) && (page>=1))
+if ((page <= doc->pageCount()) && (page>=1))
   {
   currentPage=page;
   lastPage=currentPage;
@@ -758,23 +731,19 @@ void PdfViewerWidget::searchForwards(const QString &text)
 int page = currentPage-1;
 
 
-while (page < doc->numPages()) 
+while (page < doc->pageCount()) 
   {
 
   if (currentPage>=1) 
     {
     pdfview->clearPaths(currentPage-1);  
     }
-  if (doc->page(page)->search(text, searchleft, searchtop, searchright, searchbottom, Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
-    {
-    searchLocation.setLeft(searchleft);
-    searchLocation.setTop(searchtop);
-    searchLocation.setRight(searchright);
-    searchLocation.setBottom(searchbottom);
-    if (!searchLocation.isNull()) 
+    findItem searchItem =doc->find(page, text, lastSearchPos);
+  if (!searchItem.rect.isNull()) 
       {
+      lastSearchPos=searchItem.pos;
       path= QPainterPath();
-      path.addRect(searchLocation);
+      path.addRect(searchItem.rect);
       QRectF r = path.boundingRect();
       currentPage=page+1;
       lastPage=currentPage;
@@ -784,9 +753,8 @@ while (page < doc->numPages())
       updateCurrentPage();
       return;
       }
-    }
     page += 1;
-    searchLocation = QRectF();
+    lastSearchPos=-1;
   }
 page = 0;
 while (page < currentPage-1) 
@@ -795,17 +763,13 @@ while (page < currentPage-1)
     {
     pdfview->clearPaths(currentPage-1);    
     }
-  searchLocation = QRectF();
-  if (doc->page(page)->search(text, searchleft, searchtop, searchright, searchbottom, Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) 
-    {
-    searchLocation.setLeft(searchleft);
-    searchLocation.setTop(searchtop);
-    searchLocation.setRight(searchright);
-    searchLocation.setBottom(searchbottom);
-    if (!searchLocation.isNull()) 
+lastSearchPos=-1;
+findItem searchItem =doc->find(page, text,lastSearchPos);
+  if (!searchItem.rect.isNull()) 
       {
+      lastSearchPos=searchItem.pos;
       path= QPainterPath();
-      path.addRect(searchLocation);
+      path.addRect(searchItem.rect);
       QRectF r = path.boundingRect();
       currentPage=page+1;
       lastPage=currentPage;
@@ -815,7 +779,6 @@ while (page < currentPage-1)
       updateCurrentPage();
       return;
       }
-    }
   page += 1;
   }
 }
@@ -839,7 +802,7 @@ if (currentPage>1)
 void PdfViewerWidget::pageDown()
 {
 if (!fileLoaded) return;
-if (currentPage<doc->numPages())
+if (currentPage<doc->pageCount())
   {
   currentPage++;
   lastPage=currentPage;
@@ -931,106 +894,6 @@ if (fi.exists())
 	}
 }
 
-void PdfViewerWidget::checkSpellGrammarPage()
-{
-if (!fileLoaded) return;
-if ((currentPage<1) || (currentPage>doc->numPages())) return;
-QString tempDir=QDir::tempPath();
-QString prefixFile=QDir::homePath();
-prefixFile="texmaker_temp_"+prefixFile.section('/',-1);
-prefixFile=QString(QUrl::toPercentEncoding(prefixFile));
-prefixFile.remove("%");
-QString tempFile=tempDir+"/"+prefixFile+".html";
-QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
-#ifdef USB_VERSION
-QString atdloc=QCoreApplication::applicationDirPath()+"/";
-#else
-QString atdloc=PREFIX"/share/texmaker/";
-#endif
-#endif
-#if defined(Q_OS_MAC)
-QString atdloc=QCoreApplication::applicationDirPath() + "/../Resources/";
-#endif
-#if defined(Q_OS_WIN32)
-QString atdloc=QCoreApplication::applicationDirPath() + "/";
-#endif
-QString pdf_text=doc->page(currentPage-1)->text(QRectF(),Poppler::Page::PhysicalLayout);
-QFile fi_html(tempFile);
-if (!fi_html.open(QIODevice::WriteOnly)) return;
-QTextStream out (&fi_html);
-out.setCodec(codec);
-out << "<html>\n";
-out << "<head>\n";
-out << "<title>Texmaker</title>\n";
-out << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
-out << "<style>\n";
-out << ".input\n";
-out << "{\n";
-out << "width:90%;\n";
-out << "height:90%;\n";
-out << "border: 1px solid black;\n";
-out << "padding: 2px;\n";
-out << "margin: 2px;\n";
-out << "font-family: times;\n";
-out << "font-size: 80%;\n";
-out << "}\n";
-out << "</style>\n";
-out << "<script src=\"http://code.jquery.com/jquery-1.4.2.js\"></script>\n";
-out << "<script src=\"";
-out << atdloc;
-out << "/jquery.atd.textarea.js\"></script>\n";
-out << "<script src=\"";
-out << atdloc;
-out << "/csshttprequest.js\"></script>\n";
-out << "<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"";
-out << atdloc;
-out << "/atd.css\" />\n";
-out << "<script>\n";
-out << "function check() {\n";
-out << "AtD.rpc_css_lang = document.langform.langchoice.options[document.langform.langchoice.selectedIndex].text;\n";
-//out << atd_lang;
-//out << "';\n";
-out << "AtD.checkTextAreaCrossAJAX('textInput', 'checkLink', 'Click to reset');\n";
-out << " };\n";
-out << "</script>\n";
-out << "</head>\n";
-out << "<body BGCOLOR=\"#ffffff\">\n";
-out << "<textarea name=\"textInput\" id=\"textInput\" class=\"input\">\n";
-out << pdf_text;
-out << "</textarea>\n";
-out << "<form name=\"langform\">\n";
-out << "<p><a href=\"javascript:check()\" id=\"checkLink\">Click to check</a>&nbsp;&nbsp;\n";
-out << "<SELECT NAME=\"langchoice\">\n";
-bool done=false;
-if (spell_lang=="fr") {out << "<OPTION selected>fr</OPTION>\n"; done=true;}
-else out << "<OPTION>fr</OPTION>\n";
-if (spell_lang=="de") {out << "<OPTION selected>de</OPTION>\n"; done=true;}
-else out << "<OPTION>de</OPTION>\n";
-if (spell_lang=="nl") {out << "<OPTION selected>nl</OPTION>\n"; done=true;}
-else out << "<OPTION>nl</OPTION>\n";
-if (spell_lang=="pl") {out << "<OPTION selected>pl</OPTION>\n"; done=true;}
-else out << "<OPTION>pl</OPTION>\n";
-if (spell_lang=="pt") {out << "<OPTION selected>pt</OPTION>\n"; done=true;}
-else out << "<OPTION>pt</OPTION>\n";
-if (spell_lang=="ru") {out << "<OPTION selected>ru</OPTION>\n"; done=true;}
-else out << "<OPTION>ru</OPTION>\n";
-if (spell_lang=="it") {out << "<OPTION selected>it</OPTION>\n"; done=true;}
-else out << "<OPTION>it</OPTION>\n";
-if (spell_lang=="es") {out << "<OPTION selected>es</OPTION>\n"; done=true;}
-else out << "<OPTION>es</OPTION>\n";
-if ((spell_lang=="en") || (!done)) out << "<OPTION selected>en</OPTION>\n";
-else out << "<OPTION>en</OPTION>\n";
-out << "</SELECT></p></form>\n";
-out << "</body>\n";
-out << "</html>\n";
-fi_html.close();
-if (browserWindow) browserWindow->close();
-browserWindow=new Browser("file:///"+tempFile,false, 0);
-browserWindow->raise();
-browserWindow->show();
-
-}
 
 
 
@@ -1045,8 +908,8 @@ unsigned int firstPage, lastPage;
 QPrinter printer(QPrinter::HighResolution);
 QPrintDialog printDlg(&printer, this);
 printer.setDocName(fi.baseName());
-printDlg.setMinMax(1, doc->numPages());
-printDlg.setFromTo(1, doc->numPages());
+printDlg.setMinMax(1, doc->pageCount());
+printDlg.setFromTo(1, doc->pageCount());
 printDlg.setOption(QAbstractPrintDialog::PrintToFile, false);
 printDlg.setOption(QAbstractPrintDialog::PrintSelection, false);
 printDlg.setOption(QAbstractPrintDialog::PrintPageRange, true);
@@ -1062,7 +925,7 @@ switch(printDlg.printRange())
 	  break;
   default:
 	  firstPage = 1;
-	  lastPage = doc->numPages();
+	  lastPage = doc->pageCount();
   }
 
 //if(!printer.printerName().isEmpty()) 
@@ -1124,7 +987,6 @@ gotoPage(currentPage);
 
 void PdfViewerWidget::jumpToEditor(int page, const QPointF& pos)
 {
-//  qDebug() << page << pos.x() << pos.y();
 if (scanner == NULL) return;
 if (synctex_edit_query(scanner, page+1, pos.x(), pos.y()) > 0) 
   {
@@ -1152,18 +1014,42 @@ gswin32c_command=c;
 void PdfViewerWidget::ClickedOnStructure(const QModelIndex& index)
 {
 if (!fileLoaded) return;
-bool ok = false;
-int page = StructureTreeView->model()->data(index, Qt::UserRole + 1).toInt(&ok);
-qreal left = StructureTreeView->model()->data(index, Qt::UserRole + 2).toReal();
-qreal top = StructureTreeView->model()->data(index, Qt::UserRole + 3).toReal();
-qreal destLeft=StructureTreeView->model()->data(index, Qt::UserRole + 4).toReal();
-qreal destTop=StructureTreeView->model()->data(index, Qt::UserRole + 5).toReal();
-if(ok) 
-  {
-  jumpToDest(page, left, top);
+if (!index.isValid()) return;
 
-  jumpToEditor(page-1,QPointF(destLeft,destTop));
-  }
+int page = index.data(QPdfBookmarkModel::PageNumberRole).toInt()+1;
+        qreal left = 0.0;
+        qreal top = 0.0;
+	qreal destLeft=0;
+	qreal destTop=0;
+        page = page >= 1 ? page : 1;
+        page = page <= doc->pageCount() ? page : doc->pageCount();
+
+//         if(linkDestination->isChangeLeft())
+//         {
+//             left = linkDestination->left();
+// 	    destLeft = left * m_document->page(page-1)->pageSizeF().width();
+//             left = left >= 0.0 ? left : 0.0;
+//             left = left <= 1.0 ? left : 1.0;
+//         }
+// 
+//         if(linkDestination->isChangeTop())
+//         {
+//             top = linkDestination->top();
+// 	    destTop = top  * m_document->page(page-1)->pageSizeF().height();
+//             top = top >= 0.0 ? top : 0.0;
+//             top = top <= 1.0 ? top : 1.0;
+//         }
+// int page = StructureTreeView->model()->data(index, Qt::UserRole + 1).toInt(&ok);
+// qreal left = StructureTreeView->model()->data(index, Qt::UserRole + 2).toReal();
+// qreal top = StructureTreeView->model()->data(index, Qt::UserRole + 3).toReal();
+// qreal destLeft=StructureTreeView->model()->data(index, Qt::UserRole + 4).toReal();
+// qreal destTop=StructureTreeView->model()->data(index, Qt::UserRole + 5).toReal();
+// if(ok) 
+//   {
+   jumpToDest(page, left, top);
+// 
+   jumpToEditor(page-1,QPointF(destLeft,destTop));
+//   }
 }
 
 void PdfViewerWidget::historyBack()

@@ -1,17 +1,14 @@
-/****************************************************************************
-**
-**   copyright       : (C) 2003-2011 by Pascal Brachet                     
-**   http://www.xm1math.net/texmaker/                                      
-**
-** Parts of this file come from Texworks (GPL) Copyright (C) 2007-2010  Jonathan Kew
+/***************************************************************************
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
+ *   http://www.xm1math.net/texmaker/                                      *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
-** Parts of this file come from the documentation of Qt. It was originally
-** published as part of Qt Quarterly.
-** Copyright (C) 2008 Nokia Corporation and/or its subsidiary(-ies).
-** Contact: Qt Software Information (qt-info@nokia.com)
-**
-**
-****************************************************************************/
 #ifndef PDFVIEWERWIDGET_H
 #define PDFVIEWERWIDGET_H
 
@@ -39,10 +36,10 @@
 #include <QKeySequence>
 #include <QSplitter>
 
+#include "qpdfdocument.h"
 #include "documentview.h"
 #include "synctex_parser.h"
 #include "minisplitter.h"
-#include "browser.h"
 
 
 
@@ -56,7 +53,7 @@ public:
     QToolBar *centralToolBarBis;
 public slots:
 void openFile(QString fn, QString ec,QString pc);
-void jumpToPdfFromSource(QString sourceFile,int source_line);
+void jumpToPdfFromSource(QString sourceFile,int source_line, int source_col);
 void getFocus();
 void setKeyEditorFocus(QKeySequence s);
 void setGSCommand(QString c);
@@ -68,8 +65,8 @@ MiniSplitter *splitter;
 QTreeView *StructureTreeView;
 
 DocumentView* pdfview;
-Poppler::Document *doc;
-QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *printAct, *externAct, *historyForwardAct, *toggleStructAct, *checkerAct, *searchAct;
+QPdfDocument *doc;
+QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *printAct, *externAct, *historyForwardAct, *toggleStructAct,  *searchAct;
 QAction *continuousModeAction, *twoPagesModeAction, *rotateLeftAction, *rotateRightAction, *presentationAction;
 QHBoxLayout *CentralLayout;
 QVBoxLayout *CentralLayoutBis;
@@ -89,15 +86,14 @@ int lastPage, altern;
 synctex_scanner_t scanner;
 QStringList scalePercents;
 QLineEdit *zoomCustom;
-QRectF searchLocation;
-double searchleft, searchtop, searchright, searchbottom;
+int lastSearchPos;
 QPainterPath path;
 QStack<int> stack;
 QStack<int> forwardStack;
 bool showingStructure;
 int lastHpos;
 bool islastContinuous;
-QPointer<Browser> browserWindow;
+
 
 private slots:
 void connectActions();
@@ -131,7 +127,6 @@ void historyForward();
 void clearHistory();
 void updateHistory(int pos);
 void setHpos(int pos);
-void checkSpellGrammarPage();
 void jumptoHpos();
 
 void on_continuousMode_triggered(bool checked);

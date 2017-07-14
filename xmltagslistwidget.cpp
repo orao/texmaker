@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   inspired by the ktikz (GPL) program from Glad Deschrijver             *
  *                                                                         *
@@ -21,6 +21,8 @@
 #include <QFontDatabase>
 #include <QDebug>
 
+#include "theme.h"
+
 XmlTagsListWidget::XmlTagsListWidget(QWidget *parent, QString file):QListWidget(parent)
 {
 QFile tagsFile(file);
@@ -40,6 +42,18 @@ if (tagsFile.open(QFile::ReadOnly))
 	    }
 	}
     }
+setAutoFillBackground( true );
+QPalette pal( palette() );
+pal.setColor( QPalette::Active, QPalette::HighlightedText, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Inactive, QPalette::HighlightedText, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Disabled, QPalette::HighlightedText, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Active, QPalette::Base, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Inactive, QPalette::Base, Theme::darkbackgroundColor );
+pal.setColor( QPalette::Disabled, QPalette::Base, Theme::darkbackgroundColor );
+pal.setColor(QPalette::Background, Qt::black);
+setPalette( pal );
+//viewport()->setStyleSheet(Theme::viewportDarkStyleSheet);
+setStyleSheet(Theme::listwidgetStyleSheet);
 }
 
 xmlTagList XmlTagsListWidget::getTags(const QDomElement &element)
@@ -90,16 +104,11 @@ titleFont.setBold(true);
 QFont optionFont=deft;//qApp->font();
 optionFont.setItalic(true);
 QFont commandFont=deft;//qApp->font();
-//QColor titleBg(QApplication::style()->standardPalette().color(QPalette::Normal, QPalette::Highlight));
-//QColor titleFg(QApplication::style()->standardPalette().color(QPalette::Normal, QPalette::HighlightedText));
-QColor titleBg("#447BCD");
-QColor titleFg("#ffffff");
 QListWidgetItem *item = new QListWidgetItem(this);
 QString itemText = tagList.title;
-item->setText(itemText);
-item->setBackgroundColor(titleBg);
-item->setTextColor(titleFg);
+item->setText(itemText.toUpper());
 item->setFont(titleFont);
+item->setBackgroundColor(Theme::lightbackgroundColor);
 for (int i = 0; i < tagList.tags.size(); ++i)
     {
     QListWidgetItem *item = new QListWidgetItem(this);
@@ -107,7 +116,7 @@ for (int i = 0; i < tagList.tags.size(); ++i)
     item->setText(itemText);
     QString role=tagList.tags.at(i).tag+"#"+tagList.tags.at(i).dx+"#"+tagList.tags.at(i).dy;
     item->setData(Qt::UserRole,role);
-    if (tagList.tags.at(i).type==0) item->setFont(commandFont); 
+    if (tagList.tags.at(i).type==0) {item->setFont(commandFont); }
     else item->setFont(optionFont);
     }
 }

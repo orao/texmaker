@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2013 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -10,18 +10,45 @@
  ***************************************************************************/
 
 #include <QApplication>
+#include <QPixmap>
+#include <QPainter>
 #include "geticon.h"
 QIcon getIcon(QString name)
 {
 QIcon dIcon=QIcon();
 QString base=name.remove(".png");
-dIcon.addFile(base+".png");
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+
 if (qApp->devicePixelRatio()>=2)
 {
-dIcon.addFile(base+"@2x.png");
+QPixmap normalPixmap(base+"@2x.png");
+QPixmap disabledPixmap(normalPixmap.size());
+disabledPixmap.fill(Qt::transparent);
+QPainter p(&disabledPixmap);
+p.setBackgroundMode(Qt::TransparentMode);
+p.setBackground(QBrush(Qt::transparent));
+p.eraseRect(normalPixmap.rect());
+p.setOpacity(0.5);
+p.drawPixmap(0, 0, normalPixmap);
+p.end();
+dIcon.addPixmap( normalPixmap, QIcon::Active);
+dIcon.addPixmap( disabledPixmap, QIcon::Disabled  );
 }
-#endif
+else
+{
+QPixmap normalPixmap(base+".png");
+QPixmap disabledPixmap(normalPixmap.size());
+disabledPixmap.fill(Qt::transparent);
+QPainter p(&disabledPixmap);
+p.setBackgroundMode(Qt::TransparentMode);
+p.setBackground(QBrush(Qt::transparent));
+p.eraseRect(normalPixmap.rect());
+p.setOpacity(0.5);
+p.drawPixmap(0, 0, normalPixmap);
+p.end();
+dIcon.addPixmap( normalPixmap, QIcon::Active);
+dIcon.addPixmap( disabledPixmap, QIcon::Disabled  );
+}
+
 return dIcon;
 }
 

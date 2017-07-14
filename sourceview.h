@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,7 @@
 #include "lightfindwidget.h"
 #include "lightgotolinewidget.h"
 #include "minisplitter.h"
+#include "dropshadowlabel.h"
 
 class SourceView : public QWidget  {
    Q_OBJECT
@@ -38,7 +39,7 @@ private:
   LightLineNumberWidget* m_lineNumberWidget;
   void setLineNumberWidgetVisible( bool );
   QStackedWidget *Stack;
-  QLabel* titleLabel;
+  DropShadowLabel* titleLabel;
   LightFindWidget *findwidget;
   LightGotoLineWidget *gotolinewidget;
   QString lastdocument;

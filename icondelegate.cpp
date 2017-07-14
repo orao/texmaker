@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -67,7 +67,7 @@ void IconDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                   ? QPalette::Normal : QPalette::Disabled;
         painter->fillRect(option.rect, option.palette.brush(cg, QPalette::Highlight));
 //painter->fillRect(option.rect,QColor("#78A9dc"));
-painter->fillRect(option.rect,QColor("#cdd2d8"));
+painter->fillRect(option.rect,QColor("#2E2E2E"));
     } else {
         value = model->data(index, Qt::BackgroundColorRole);
         if (value.isValid() && qvariant_cast<QColor>(value).isValid())

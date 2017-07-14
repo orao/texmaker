@@ -1,3 +1,14 @@
+version 4.5 -> 5.0 :
+--------------------
+- new and more modern interface look
+- highdpi is now supported on windows and linux
+- a spellcheck annoying trouble on kde5 has been fixed
+- new pdf engine
+- synctex updated to 1.18
+- Qt4 support has been removed : Qt5 (>=5.7) is now required
+- de, es, hu, pl, and zh_CN translations have been updated
+note : Texmaker depends now only from the Qt toolkit to be compiled
+
 version 4.4.1 -> 4.5 :
 --------------------
 -  /Library/TeX/texbin/ has been added to the default path for MacOsX El Capitan

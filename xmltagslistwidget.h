@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2007 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   inspired by the ktikz (GPL) program from Glad Deschrijver             *
  *                                                                         *

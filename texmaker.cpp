@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2014 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   addons by Luis Silvestre ; S. Razi Alavizadeh                         *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
@@ -60,11 +60,7 @@
 #include <QProcessEnvironment>
 #include <QSysInfo> 
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
-#if defined(Q_OS_MAC)
-#include "macsupport.h"
-#endif
-#endif
+
 
 
 //#ifdef Q_WS_WIN
@@ -75,7 +71,7 @@
 #include "texmaker.h"
 #include "texmakerapp.h"
 #include "latexeditorview.h"
-#include "manhattanstyle.h"
+//#include "manhattanstyle.h"
 #include "structdialog.h"
 #include "filechooser.h"
 #include "graphicfilechooser.h"
@@ -100,6 +96,7 @@
 #include "versiondialog.h"
 #include "unicodedialog.h"
 #include "svnhelper.h"
+#include "theme.h"
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #include "x11fontdialog.h"
@@ -114,15 +111,11 @@ replaceSettings=false;
 ReadSettings();
 
 
+
 QString tempDir=QDir::tempPath();
 #if defined(Q_OS_UNIX) || defined(Q_OS_MAC)
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 QString path=QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 if (QDir().mkpath(path)) tempDir=path;
-#else
-QString path=QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
-if (QDir().mkpath(path)) tempDir=path;
-#endif
 #endif
 QString prefixFile=QDir::homePath();
 prefixFile="tks_temp_"+prefixFile.section('/',-1);
@@ -176,11 +169,13 @@ LeftPanelToolBarBis->setOrientation(Qt::Horizontal);
 LeftPanelToolBarBis->setMovable(false);
 LeftPanelToolBarBis->setIconSize(QSize(16,16 ));
 LeftPanelToolBarBis->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+LeftPanelToolBarBis->setStyleSheet(Theme::viewportLightStyleSheet);
 
 QFrame *LeftPanelFrame=new QFrame(this);
 LeftPanelFrame->setLineWidth(0);
 LeftPanelFrame->setFrameShape(QFrame::NoFrame);
 LeftPanelFrame->setFrameShadow(QFrame::Plain);
+
 
 splitter3=new MiniSplitter(splitter1);
 splitter3->setOrientation(Qt::Vertical);
@@ -191,9 +186,11 @@ LeftPanelToolBar->setFloatable(false);
 LeftPanelToolBar->setOrientation(Qt::Vertical);
 LeftPanelToolBar->setMovable(false);
 LeftPanelToolBar->setIconSize(QSize(16,16 ));
+LeftPanelToolBar->setStyleSheet(Theme::viewportLightStyleSheet);
 
 
 LeftPanelStackedWidget=new QStackedWidget(LeftPanelFrame);
+
 
 
 
@@ -203,12 +200,13 @@ StructureTreeWidget->setColumnCount(1);
 StructureTreeWidget->header()->hide();
 StructureTreeWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 StructureTreeWidget->header()->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+
 StructureTreeWidget->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-#else
-StructureTreeWidget->header()->setResizeMode(0, QHeaderView::ResizeToContents);
-#endif
+
 StructureTreeWidget->header()->setStretchLastSection(false);
+
+StructureTreeWidget->viewport()->setStyleSheet(Theme::viewportDarkStyleSheet);
+StructureTreeWidget->setStyleSheet(Theme::treeviewStyleSheet);
 //StructureTreeWidget->setIndentation(10);
 
 connect( StructureTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *,int )), SLOT(ClickedOnStructure(QTreeWidgetItem *,int)));
@@ -220,6 +218,8 @@ OpenedFilesListWidget=new QListWidget(LeftPanelFrame);
 //OpenedFilesListWidget=new QListWidget(LeftPanelStackedWidget);
 OpenedFilesListWidget->setFrameStyle(QFrame::NoFrame);
 connect(OpenedFilesListWidget, SIGNAL(itemClicked ( QListWidgetItem*)), this, SLOT(OpenedFileActivated(QListWidgetItem*)));
+OpenedFilesListWidget->viewport()->setStyleSheet(Theme::viewportDarkStyleSheet);
+OpenedFilesListWidget->setStyleSheet(Theme::listwidgetStyleSheet);
 //connect(LeftPanelToolBar->addAction(QIcon(":/images/opened.png"),tr("Opened Files")), SIGNAL(triggered()), this, SLOT(ShowOpenedFiles()));
 //LeftPanelStackedWidget->addWidget(OpenedFilesListWidget);
 
@@ -378,10 +378,13 @@ LeftPanelLayout->addWidget(LeftPanelToolBar);
 LeftPanelLayout->addWidget(LeftPanelStackedWidget);
 
 LeftPanelStackedWidget->setCurrentWidget(StructureTreeWidget);
-Act = new QAction(QIcon(":/images/empty.png"),"", this);
-LeftPanelToolBarBis->addAction(Act);
-Act->setEnabled(false);
-titleLeftPanel=new QLabel(tr("Structure"),LeftPanelToolBarBis);
+//Act = new QAction(QIcon(":/images/empty.png"),"", this);
+//LeftPanelToolBarBis->addAction(Act);
+//Act->setEnabled(false);
+titleLeftPanel=new DropShadowLabel(tr("Structure").toUpper(),LeftPanelToolBarBis);
+titleLeftPanel->setColor(Theme::grayColor);
+titleLeftPanel->setDropShadowColor(QColor("#000000"));
+titleLeftPanel->setStyleSheet(Theme::labelStyleSheet);
 LeftPanelToolBarBis->addWidget(titleLeftPanel);
 
 LeftPanelLayoutBis= new QVBoxLayout(LeftPanelFrameBis);
@@ -410,6 +413,7 @@ logToolBar->setFloatable(false);
 logToolBar->setOrientation(Qt::Vertical);
 logToolBar->setMovable(false);
 logToolBar->setIconSize(QSize(16,16 ));
+logToolBar->setStyleSheet(Theme::viewportLightStyleSheet);
 
 QFrame *Outputframebis=new QFrame(this);
 Outputframebis->setLineWidth(0);
@@ -544,6 +548,7 @@ centralToolBar->setFloatable(false);
 centralToolBar->setOrientation(Qt::Vertical);
 centralToolBar->setMovable(false);
 centralToolBar->setIconSize(QSize(16,16 ));
+centralToolBar->setStyleSheet(Theme::viewportLightStyleSheet);
 
 
 sectionMenu=new QMenu(this);
@@ -739,9 +744,10 @@ centralToolBarBis->setOrientation(Qt::Horizontal);
 centralToolBarBis->setMovable(false);
 centralToolBarBis->setIconSize(QSize(16,16 ));
 centralToolBarBis->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+centralToolBarBis->setStyleSheet(Theme::viewportLightStyleSheet);
 
-LeftPanelToolBarBis->setMinimumHeight(centralToolBarBis->height());
-LeftPanelToolBarBis->setMaximumHeight(centralToolBarBis->height());
+//LeftPanelToolBarBis->setMinimumHeight(centralToolBarBis->height());
+//LeftPanelToolBarBis->setMaximumHeight(centralToolBarBis->height());
 //centralToolBarBis->setStyle(QStyleFactory::create("Plastique"));
 
 ToggleDocAct=new QAction(getIcon(":/images/toggle.png"),tr("Toggle between the master document and the current document")+" (CTRL+SHIFT+F2)", this);
@@ -765,6 +771,7 @@ comboFiles->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 comboFiles->setMinimumContentsLength(20);
 comboFiles->setMaxVisibleItems(40);
 comboFiles->setContextMenuPolicy(Qt::CustomContextMenu);
+comboFiles->setStyleSheet(Theme::comboboxLightStyleSheet);
 connect(comboFiles, SIGNAL(activated(int)), this, SLOT(listSelectionActivated(int)));
 centralToolBarBis->addWidget(comboFiles);
 QWidget* spacer = new QWidget();
@@ -774,8 +781,15 @@ Act = new QAction(getIcon(":/images/fileclose.png"), tr("Close"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(fileClose()));
 centralToolBarBis->addAction(Act);
 centralToolBarBis->addSeparator();
-posLabel=new QLabel("L: C: ",centralToolBarBis);
+
+posLabel=new DropShadowLabel("L: C: ",centralToolBarBis);
 posLabel->setFixedWidth(fm.width("L:99999 C:99999"));
+posLabel->setColor(Theme::grayColor);
+posLabel->setDropShadowColor(QColor("#000000"));
+posLabel->setStyleSheet(Theme::labelStyleSheet);
+
+//posLabel=new QLabel("L: C: ",centralToolBarBis);
+//posLabel->setFixedWidth(fm.width("L:99999 C:99999"));
 centralToolBarBis->addWidget(posLabel);
 centralToolBarBis->addSeparator();
 Act = new QAction(getIcon(":/images/bookmark1.png"),tr("Click to jump to the bookmark"), this);
@@ -789,6 +803,9 @@ connect(Act, SIGNAL(triggered()), this, SLOT(gotoBookmark3()));
 centralToolBarBis->addAction(Act);
 
 EditorView=new QStackedWidget(centralFrame);
+EditorView->setLineWidth(0);
+EditorView->setFrameShape(QFrame::NoFrame);
+EditorView->setFrameShadow(QFrame::Plain);
 
 connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateCaption()) );
 connect(EditorView, SIGNAL( currentChanged( int ) ), this, SLOT(UpdateStructure()) );
@@ -889,11 +906,7 @@ ToggleDocAct->setEnabled(false);
 MasterName=getName();
 
 show();
-#if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
-#if defined(Q_OS_MAC)
-MacSupport::addFullscreen(this);
-#endif
-#endif
+
 splitter2Changed();
 
 
@@ -922,7 +935,8 @@ if (spellChecker) delete spellChecker;
 void Texmaker::setupMenus()
 {
 QAction *Act;
-bool gtkEnv=gtkSession();
+//bool gtkEnv=gtkSession();
+bool gtkEnv=false;
 //file
 fileMenu = menuBar()->addMenu(tr("&File"));
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/filenew.png")), tr("New"), this);
@@ -2128,20 +2142,20 @@ ToggleAct = new QAction(tr("Define Current Document as 'Master Document'"), this
 connect(ToggleAct, SIGNAL(triggered()), this, SLOT(ToggleMode()));
 optionsMenu->addAction(ToggleAct);
 optionsMenu->addSeparator();
-appearanceMenu=optionsMenu->addMenu(tr("Interface Appearance"));
-appearanceGroup = new QActionGroup(this);
-Act = new QAction("Modern", this);
-Act->setCheckable(true);
-connect(Act, SIGNAL(triggered()), this, SLOT(updateAppearance()));
-appearanceGroup->addAction(Act);
-if (modern_style) Act->setChecked(true);
-appearanceMenu->addAction(Act);
-Act = new QAction("Classic", this);
-Act->setCheckable(true);
-connect(Act, SIGNAL(triggered()), this, SLOT(updateAppearance()));
-appearanceGroup->addAction(Act);
-if (!modern_style) Act->setChecked(true);
-appearanceMenu->addAction(Act);
+// appearanceMenu=optionsMenu->addMenu(tr("Interface Appearance"));
+// appearanceGroup = new QActionGroup(this);
+// Act = new QAction("Modern", this);
+// Act->setCheckable(true);
+// connect(Act, SIGNAL(triggered()), this, SLOT(updateAppearance()));
+// appearanceGroup->addAction(Act);
+// if (modern_style) Act->setChecked(true);
+// appearanceMenu->addAction(Act);
+// Act = new QAction("Classic", this);
+// Act->setCheckable(true);
+// connect(Act, SIGNAL(triggered()), this, SLOT(updateAppearance()));
+// appearanceGroup->addAction(Act);
+// if (!modern_style) Act->setChecked(true);
+// appearanceMenu->addAction(Act);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 Act = new QAction(tr("Change Interface Font"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(SetInterfaceFont()));
@@ -2195,21 +2209,21 @@ connect(Act, SIGNAL(triggered()), this, SLOT(TexDocHelp()));
 helpMenu->addAction(Act);
 
 
-QString locale = QString(QLocale::system().name()).left(2);
-if (locale=="fr")
-{
-if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this); 
-else Act = new QAction(getIcon(":/images/help.png"), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this);
-connect(Act, SIGNAL(triggered()), this, SLOT(Docufrlatex()));
-helpMenu->addAction(Act);  
-}
-else
-{
+// QString locale = QString(QLocale::system().name()).left(2);
+// if (locale=="fr")
+// {
+// if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this); 
+// else Act = new QAction(getIcon(":/images/help.png"), QString::fromUtf8("Documentation LaTeX/Texmaker en ligne"), this);
+// connect(Act, SIGNAL(triggered()), this, SLOT(Docufrlatex()));
+// helpMenu->addAction(Act);  
+// }
+// else
+// {
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("help-contents", QIcon(":/images/help.png")), QString::fromUtf8("LaTeX wikibook"), this); 
 else Act = new QAction(getIcon(":/images/help.png"), QString::fromUtf8("LaTeX wikibook"), this);
 connect(Act, SIGNAL(triggered()), this, SLOT(Doculatex()));
 helpMenu->addAction(Act);  
-}  
+//}  
 
 helpMenu->addSeparator();
 Act = new QAction( tr("Check for Update"), this);
@@ -2323,10 +2337,12 @@ void Texmaker::setupToolBars()
 {
 QAction *Act;
 QStringList list;
-bool gtkEnv=gtkSession();
+bool gtkEnv=false;
+//bool gtkEnv=gtkSession();
 //file
 fileToolBar = addToolBar("File ToolBar");
 fileToolBar->setObjectName("File");
+fileToolBar->setStyleSheet(Theme::viewportDarkStyleSheet);
 
 if (gtkEnv) Act = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/filenew.png")), tr("New"), this);
 else Act = new QAction(getIcon(":/images/filenew.png"), tr("New"), this);
@@ -2349,6 +2365,7 @@ fileToolBar->addAction(SaveAct);
 //edit
 editToolBar = addToolBar("Edit ToolBar");
 editToolBar->setObjectName("Edit");
+editToolBar->setStyleSheet(Theme::viewportDarkStyleSheet);
 
 //Act = new QAction(QIcon(":/images/undo.png"), tr("Undo"), this);
 //connect(Act, SIGNAL(triggered()), this, SLOT(editUndo()));
@@ -2379,6 +2396,7 @@ editToolBar->addAction(PasteAct);
 //tools
 runToolBar = addToolBar("Tools Toolbar");
 runToolBar->setObjectName("Tools");
+runToolBar->setStyleSheet(Theme::viewportDarkStyleSheet);
 
 list.clear();
 list.append(tr("Quick Build"));
@@ -2400,6 +2418,7 @@ for ( int i = 0; i <= 4; i++ ) list.append(QString::number(i+1)+": "+UserToolNam
 
 comboCompil = new QComboBox(runToolBar);
 comboCompil->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+comboCompil->setStyleSheet(Theme::comboboxDarkStyleSheet);
 comboCompil->addItems(list);
 comboCompil->setCurrentIndex(runIndex);
 connect(runToolBar->addAction(getIcon(":/images/run.png"),tr("Run")), SIGNAL(triggered()), this, SLOT(doCompile()));
@@ -2412,6 +2431,7 @@ list.append(tr("View PDF"));
 
 comboView = new QComboBox(runToolBar);
 comboView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+comboView->setStyleSheet(Theme::comboboxDarkStyleSheet);
 comboView->addItems(list);
 comboView->setCurrentIndex(viewIndex);
 connect(runToolBar->addAction(getIcon(":/images/run.png"),tr("View")), SIGNAL(triggered()), this, SLOT(doView()));
@@ -2470,17 +2490,41 @@ statusBar()->addPermanentWidget(toggleSourceButton,0);
 if (embedinternalpdf && builtinpdfview) togglePdfButton->show();
 else togglePdfButton->hide();
 
-stat2=new QLabel( statusBar() );
-stat2->setText("Ready");
+stat2=new DropShadowLabel("Ready",statusBar());
+stat2->setColor(Theme::grayColor);
+stat2->setDropShadowColor(QColor("#000000"));
+stat2->setStyleSheet(Theme::labelStyleSheet);
 statusBar()->addPermanentWidget(stat2,0);
 
 statusBar()->addPermanentWidget(new QLabel(),1);
-stat1=new QLabel(statusBar());
 
-stat3=new QLabel(statusBar() );
+stat1=new DropShadowLabel("",statusBar());
+stat1->setColor(Theme::grayColor);
+stat1->setDropShadowColor(QColor("#000000"));
+stat1->setStyleSheet(Theme::labelStyleSheet);
+
+stat3=new DropShadowLabel("",statusBar());
+stat3->setColor(Theme::grayColor);
+stat3->setDropShadowColor(QColor("#000000"));
+stat3->setStyleSheet(Theme::labelStyleSheet);
+
 
 statusBar()->addPermanentWidget(stat3,0);
 statusBar()->addPermanentWidget(stat1,0);
+statusBar()->setAutoFillBackground( true );
+QPalette pal( palette() );
+pal.setColor( QPalette::Active, QPalette::WindowText,Theme::grayColor );
+pal.setColor( QPalette::Inactive, QPalette::WindowText, Theme::grayColor );
+pal.setColor( QPalette::Disabled, QPalette::WindowText, Theme::grayColor );
+pal.setColor( QPalette::Active, QPalette::HighlightedText, Theme::grayColor );
+pal.setColor( QPalette::Inactive, QPalette::HighlightedText, Theme::grayColor );
+pal.setColor( QPalette::Disabled, QPalette::HighlightedText,Theme::grayColor );
+pal.setColor( QPalette::Active, QPalette::Base, Theme::grayColor );
+pal.setColor( QPalette::Inactive, QPalette::Base, Theme::grayColor );
+pal.setColor( QPalette::Disabled, QPalette::Base, Theme::grayColor);
+pal.setColor(QPalette::Background, Theme::lightbackgroundColor);
+statusBar()->setPalette( pal );
+//statusBar()->setStyleSheet("QWidget {background-color:#6F6F6F;}");
 
 toggleStructureButton->setEnabled(showstructview);
 toggleLogButton->setEnabled(showoutputview);
@@ -3600,8 +3644,11 @@ void Texmaker::fileExit()
 {
 if (clean_exit) AutoCleanAll();
 SaveSettings();
+#ifdef INTERNAL_BROWSER
 if (browserWindow) browserWindow->close();
 if (diffWindow) diffWindow->close();
+#endif
+
 if (pdfviewerWidget) {StackedViewers->removeWidget(pdfviewerWidget);delete(pdfviewerWidget);} 
 if (pdfviewerWindow) pdfviewerWindow->close(); 
 bool accept=true;
@@ -3701,8 +3748,11 @@ void Texmaker::closeEvent(QCloseEvent *e)
 {
 if (clean_exit) AutoCleanAll();
 SaveSettings();
+#ifdef INTERNAL_BROWSER
 if (browserWindow) browserWindow->close();
 if (diffWindow) diffWindow->close();
+#endif
+
 if (pdfviewerWidget) {StackedViewers->removeWidget(pdfviewerWidget);delete(pdfviewerWidget);} 
 if (pdfviewerWindow) pdfviewerWindow->close(); 
 bool accept=true;
@@ -4172,7 +4222,7 @@ if (action)
 /////////////// CONFIG ////////////////////
 void Texmaker::ReadSettings()
 {
- 
+
 #ifdef USB_VERSION
 QSettings *config=new QSettings(QCoreApplication::applicationDirPath()+"/texmaker.ini",QSettings::IniFormat); //for USB-stick version :
 #else
@@ -4304,11 +4354,10 @@ latexmk_command=config->value("Tools/Latexmk","\"latexmk\" -e \"$pdflatex=q/pdfl
 sweave_command=config->value("Tools/Sweave","R CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
 htlatex_command=config->value("Tools/Htlatex","htlatex").toString();
-if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
 quick_asy_command=config->value("Tools/QuickAsy","asy -f pdf -noView %.asy|open %.pdf").toString();
 lp_options=config->value("Tools/LP","-o fitplot").toString();
 
-
+qApp->setStyle(QLatin1String("Fusion"));
 #endif
 #if defined(Q_OS_WIN32)
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+Space").toString();
@@ -4334,30 +4383,20 @@ texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
 htlatex_command=config->value("Tools/Htlatex","htlatex").toString();
 QString yap="C:/Program Files/MiKTeX 2.9/miktex/bin/yap.exe";
 QString gsview="C:/Program Files/Ghostgum/gsview/gsview32.exe";
-QString gswin="C:/Program Files/gs/gs9.07/bin/gswin32c.exe";
+QString gswin="C:/Program Files/gs/gs9.21/bin/gswin32c.exe";
 QString acro="C:/Program Files/Adobe/Reader 11.0/Reader/AcroRd32.exe";
 
 if (new_user)
   {
   if (!QFileInfo(gswin).exists())
     {
-    if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.07/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.05/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.05/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs9.04/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.04/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.04/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs9.02/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.02/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.02/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs9.00/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.00/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.00/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs8.71/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.71/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.71/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.71/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs8.64/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.64/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.64/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.65/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs8.63/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.63/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.63/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.63/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files/gs/gs8.62/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs8.62/bin/gswin32c.exe";
-    else if (QFileInfo("C:/Program Files (x86)/gs/gs8.62/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs8.62/bin/gswin32c.exe";
+    if (QFileInfo("C:/Program Files (x86)/gs/gs9.21/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.21/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs9.20/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.20/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.20/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.20/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs9.19/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.19/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.19/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.19/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files/gs/gs9.18/bin/gswin32c.exe").exists()) gswin="C:/Program Files/gs/gs9.18/bin/gswin32c.exe";
+    else if (QFileInfo("C:/Program Files (x86)/gs/gs9.18/bin/gswin32c.exe").exists()) gswin="C:/Program Files (x86)/gs/gs9.18/bin/gswin32c.exe";
     }
   ghostscript_command="\""+gswin+"\"";
   if (!QFileInfo(yap).exists())
@@ -4376,6 +4415,10 @@ if (new_user)
     else if (QFileInfo("C:/texlive/2011/bin/win32/dviout.exe").exists()) yap="C:/texlive/2011/bin/win32/dviout.exe";
     else if (QFileInfo("C:/texlive/2012/bin/win32/dviout.exe").exists()) yap="C:/texlive/2012/bin/win32/dviout.exe";
     else if (QFileInfo("C:/texlive/2013/bin/win32/dviout.exe").exists()) yap="C:/texlive/2013/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2014/bin/win32/dviout.exe").exists()) yap="C:/texlive/2014/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2015/bin/win32/dviout.exe").exists()) yap="C:/texlive/2015/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2016/bin/win32/dviout.exe").exists()) yap="C:/texlive/2016/bin/win32/dviout.exe";
+    else if (QFileInfo("C:/texlive/2017/bin/win32/dviout.exe").exists()) yap="C:/texlive/2017/bin/win32/dviout.exe";
     }
   viewdvi_command="\""+yap+"\" %.dvi";  
   if (!QFileInfo(gsview).exists())
@@ -4386,6 +4429,10 @@ if (new_user)
     else if (QFileInfo("C:/texlive/2011/bin/win32/psv.exe").exists()) gsview="C:/texlive/2011/bin/win32/psv.exe";
     else if (QFileInfo("C:/texlive/2012/bin/win32/psv.exe").exists()) gsview="C:/texlive/2012/bin/win32/psv.exe";
     else if (QFileInfo("C:/texlive/2013/bin/win32/psv.exe").exists()) gsview="C:/texlive/2012/bin/win32/psv.exe";
+    else if (QFileInfo("C:/texlive/2014/bin/win32/psv.exe").exists()) gsview="C:/texlive/2014/bin/win32/psv.exe";
+    else if (QFileInfo("C:/texlive/2015/bin/win32/psv.exe").exists()) gsview="C:/texlive/2015/bin/win32/psv.exe";
+    else if (QFileInfo("C:/texlive/2016/bin/win32/psv.exe").exists()) gsview="C:/texlive/2016/bin/win32/psv.exe";
+    else if (QFileInfo("C:/texlive/2017/bin/win32/psv.exe").exists()) gsview="C:/texlive/2017/bin/win32/psv.exe";
     }
   viewps_command="\""+gsview+"\" %.ps";
   if (!QFileInfo(acro).exists())
@@ -4403,7 +4450,9 @@ if (new_user)
 //\"C:/Program Files/MiKTeX 2.7/miktex/bin/yap.exe\" -1 -s @%.tex %.dvi
 quick_asy_command=config->value("Tools/QuickAsy","\"C:/Program Files/Asymptote/asy.exe\" -f pdf -noView %.asy|"+viewpdf_command).toString();
 lp_options=config->value("Tools/LP","").toString();
-if (modern_style) qApp->setStyle(new ManhattanStyle(baseName));
+
+qApp->setStyle(QLatin1String("Fusion"));
+
 #endif
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 keyToggleFocus=config->value("Shortcuts/togglefocus","Ctrl+Space").toString();
@@ -4413,6 +4462,7 @@ QString kdesession= ::getenv("KDE_FULL_SESSION");
 QString kdeversion= ::getenv("KDE_SESSION_VERSION");
 if (!kdesession.isEmpty()) desktop_env=2;
 if (!kdeversion.isEmpty()) desktop_env=3;
+
 //desktop_env=1;
 latex_command=config->value("Tools/Latex","latex -interaction=nonstopmode %.tex").toString();
 dvips_command=config->value("Tools/Dvips","dvips -o %.ps %.dvi").toString();
@@ -4457,7 +4507,7 @@ sweave_command=config->value("Tools/Sweave","R CMD Sweave %.Rnw").toString();
 texdoc_command=config->value("Tools/Texdoc","texdoc").toString();
 htlatex_command=config->value("Tools/Htlatex","htlatex").toString();
 
-x11style=config->value( "X11/Style","Plastique").toString();
+x11style=config->value( "X11/Style","Fusion").toString();
 if (xf.contains("DejaVu Sans",Qt::CaseInsensitive)) deft="DejaVu Sans";
 else if (xf.contains("DejaVu Sans LGC",Qt::CaseInsensitive)) deft="DejaVu Sans LGC";
 else if (xf.contains("Bitstream Vera Sans",Qt::CaseInsensitive)) deft="Bitstream Vera Sans";
@@ -4466,94 +4516,22 @@ else deft=qApp->font().family();
 x11fontfamily=config->value("X11/Font Family",deft).toString();
 x11fontsize=config->value( "X11/Font Size","10").toInt();
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (modern_style)
-    {
-qApp->setStyle(new ManhattanStyle(QLatin1String("fusion")));
-    }
-// else
-// {
-// QApplication::setStyle(QStyleFactory::create("fusion"));
-// }
+#ifdef AUTHORIZE_LINUX_QSTYLES
+if(desktop_env == 1)
+{
+if (styles.contains("GTK+")) qApp->setStyle(QLatin1String("gtkstyle"));
+else if (styles.contains("Breeze")) qApp->setStyle(QLatin1String("breeze"));
+else qApp->setStyle(QLatin1String("fusion"));    
+}
+else if (styles.contains("Breeze")) qApp->setStyle(QLatin1String("breeze"));
+else qApp->setStyle(QLatin1String("fusion"));
 #else
-if (modern_style)
-    {
-    if (desktop_env ==1) //no-kde
-	{
-	if (styles.contains("GTK+")) qApp->setStyle(new ManhattanStyle(QString("GTK+")));//gtkstyle
-	else qApp->setStyle(new ManhattanStyle(QString("Cleanlooks")));
-	}
-    else if ((desktop_env ==3) && (styles.contains("Oxygen"))) qApp->setStyle(new ManhattanStyle(QString("Oxygen"))); //kde4+oxygen 
-    else qApp->setStyle(new ManhattanStyle(QString("Plastique"))); //others
-    QString baseStyleName = qApp->style()->objectName(); //fallback
-    if (baseStyleName == QLatin1String("Windows")) qApp->setStyle(new ManhattanStyle(QString("Plastique"))); //fallback
-    }
-else
-    {
-    if (desktop_env ==1) //no-kde
-	{
-	if (styles.contains("GTK+")) QApplication::setStyle(QStyleFactory::create("GTK+"));//gtkstyle
-	else QApplication::setStyle(QStyleFactory::create("Cleanlooks"));
-	}
-    else if ((desktop_env ==3) && (styles.contains("Oxygen"))) QApplication::setStyle(QStyleFactory::create("Oxygen")); //kde4+oxygen
-    else QApplication::setStyle(QStyleFactory::create("Plastique")); //others
-    QString baseStyleName = qApp->style()->objectName(); //fallback
-    if (baseStyleName == QLatin1String("Windows")) QApplication::setStyle(QStyleFactory::create("Plastique")); //fallback
-    }
+qApp->setStyle(QLatin1String("fusion"));
 #endif
-
 // QApplication::setPalette(QApplication::style()->standardPalette());
 QFont x11Font (x11fontfamily,x11fontsize);
 QApplication::setFont(x11Font);
-#ifdef STATIC_VERSION
-QPalette pal = QApplication::palette();
-pal.setColor( QPalette::Active, QPalette::Highlight, QColor("#4490d8") );
-pal.setColor( QPalette::Inactive, QPalette::Highlight, QColor("#4490d8") );
-pal.setColor( QPalette::Disabled, QPalette::Highlight, QColor("#4490d8") );
 
-pal.setColor( QPalette::Active, QPalette::HighlightedText, QColor("#ffffff") );
-pal.setColor( QPalette::Inactive, QPalette::HighlightedText, QColor("#ffffff") );
-pal.setColor( QPalette::Disabled, QPalette::HighlightedText, QColor("#ffffff") );
-
-pal.setColor( QPalette::Active, QPalette::Base, QColor("#ffffff") );
-pal.setColor( QPalette::Inactive, QPalette::Base, QColor("#ffffff") );
-pal.setColor( QPalette::Disabled, QPalette::Base, QColor("#ffffff") );
-
-pal.setColor( QPalette::Active, QPalette::WindowText, QColor("#000000") );
-pal.setColor( QPalette::Inactive, QPalette::WindowText, QColor("#000000") );
-pal.setColor( QPalette::Disabled, QPalette::WindowText, QColor("#000000") );
-
-pal.setColor( QPalette::Active, QPalette::Text, QColor("#000000") );
-pal.setColor( QPalette::Inactive, QPalette::Text, QColor("#000000") );
-pal.setColor( QPalette::Disabled, QPalette::Text, QColor("#000000") );
-
-pal.setColor( QPalette::Active, QPalette::ButtonText, QColor("#000000") );
-pal.setColor( QPalette::Inactive, QPalette::ButtonText, QColor("#000000") );
-pal.setColor( QPalette::Disabled, QPalette::ButtonText, QColor("#000000") );
-
-if (desktop_env ==3)
-	{
-	pal.setColor( QPalette::Active, QPalette::Window, QColor("#eae9e9") );
-	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#eae9e9") );
-	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#eae9e9") );
-
-	pal.setColor( QPalette::Active, QPalette::Button, QColor("#eae9e9") );
-	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#eae9e9") );
-	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#eae9e9") );
-	}
-else
-	{
-	pal.setColor( QPalette::Active, QPalette::Window, QColor("#f6f3eb") );
-	pal.setColor( QPalette::Inactive, QPalette::Window, QColor("#f6f3eb") );
-	pal.setColor( QPalette::Disabled, QPalette::Window, QColor("#f6f3eb") );
-
-	pal.setColor( QPalette::Active, QPalette::Button, QColor("#f6f3eb") );
-	pal.setColor( QPalette::Inactive, QPalette::Button, QColor("#f6f3eb") );
-	pal.setColor( QPalette::Disabled, QPalette::Button, QColor("#f6f3eb") );
-	}
-
-QApplication::setPalette(pal);
-#endif
 quick_asy_command=config->value("Tools/QuickAsy","asy -f pdf -noView %.asy|"+viewpdf_command).toString();
 lp_options=config->value("Tools/LP","-o fitplot").toString();
 #endif
@@ -5046,7 +5024,7 @@ psize=p;
 void Texmaker::ShowOpenedFiles()
 {
 LeftPanelStackedWidget->setCurrentWidget(OpenedFilesListWidget);
-titleLeftPanel->setText(tr("Opened Files"));
+titleLeftPanel->setText(tr("Opened Files").toUpper());
 }
 
 void Texmaker::OpenedFileActivated(QListWidgetItem *item)
@@ -5074,73 +5052,73 @@ for( it = filenames.begin(); it != filenames.end(); ++it )
 void Texmaker::ShowStructure()
 {
 LeftPanelStackedWidget->setCurrentWidget(StructureTreeWidget);
-titleLeftPanel->setText(tr("Structure"));
+titleLeftPanel->setText(tr("Structure").toUpper());
 }
 void Texmaker::ShowRelation() //RelationListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(RelationListWidget);
-titleLeftPanel->setText(tr("Relation symbols"));
+titleLeftPanel->setText(tr("Relation symbols").toUpper());
 }
 void Texmaker::ShowArrow() //ArrowListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(ArrowListWidget);
-titleLeftPanel->setText(tr("Arrow symbols"));
+titleLeftPanel->setText(tr("Arrow symbols").toUpper());
 }
 void Texmaker::ShowMisc() //MiscellaneousListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(MiscellaneousListWidget);
-titleLeftPanel->setText(tr("Miscellaneous symbols"));
+titleLeftPanel->setText(tr("Miscellaneous symbols").toUpper());
 }
 void Texmaker::ShowDelim() //DelimitersListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(DelimitersListWidget);
-titleLeftPanel->setText(tr("Delimiters"));
+titleLeftPanel->setText(tr("Delimiters").toUpper());
 }
 void Texmaker::ShowGreek() //GreekListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(GreekListWidget);
-titleLeftPanel->setText(tr("Greek letters"));
+titleLeftPanel->setText(tr("Greek letters").toUpper());
 }
 void Texmaker::ShowMostUsed() //MostUsedListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(MostUsedListWidget);
-titleLeftPanel->setText(tr("Most used symbols"));
+titleLeftPanel->setText(tr("Most used symbols").toUpper());
 }
 void Texmaker::ShowFavorite() //FavoriteListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(FavoriteListWidget);
-titleLeftPanel->setText(tr("Favorites symbols"));
+titleLeftPanel->setText(tr("Favorites symbols").toUpper());
 }
 void Texmaker::ShowPstricks() //PsListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(PsListWidget);
-titleLeftPanel->setText(tr("Pstricks Commands"));
+titleLeftPanel->setText(tr("Pstricks Commands").toUpper());
 }
 void Texmaker::ShowLeftRight() //leftrightWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(leftrightWidget);
-titleLeftPanel->setText("left/right");
+titleLeftPanel->setText(QString("left/right").toUpper());
 }
 void Texmaker::ShowMplist() //MpListWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(MpListWidget);
-titleLeftPanel->setText(tr("MetaPost Commands"));
+titleLeftPanel->setText(tr("MetaPost Commands").toUpper());
 }
 void Texmaker::ShowTikz() //TikzWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(tikzWidget);
-titleLeftPanel->setText(tr("Tikz Commands"));
+titleLeftPanel->setText(tr("Tikz Commands").toUpper());
 }
 void Texmaker::ShowAsy() //AsyWidget
 {
 LeftPanelStackedWidget->setCurrentWidget(asyWidget);
-titleLeftPanel->setText(tr("Asymptote Commands"));
+titleLeftPanel->setText(tr("Asymptote Commands").toUpper());
 }
 
 void Texmaker::ShowUserPanel()
 {
 LeftPanelStackedWidget->setCurrentWidget(usertagsListWidget);
-titleLeftPanel->setText(tr("User"));
+titleLeftPanel->setText(tr("User").toUpper());
 }
 
 void Texmaker::UpdateStructure()
@@ -5638,7 +5616,7 @@ if (item)
 		if (pdfviewerWidget->pdf_file!=fic.absolutePath()+"/"+basename+".pdf") pdfviewerWidget->openFile(fic.absolutePath()+"/"+basename+".pdf",viewpdf_command,ghostscript_command);
 		StackedViewers->setCurrentWidget(pdfviewerWidget);
 		pdfviewerWidget->show();
-		if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),structure.at(index).cursor.block().blockNumber()+1);
+		if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),structure.at(index).cursor.block().blockNumber()+1,1);
 		}
 	      }
 	  }
@@ -7707,9 +7685,11 @@ QString basename=fi.completeBaseName();
 QFileInfo ficur(getName());
 //if (!commandline.contains("okular")) commandline.replace("#","\""+ficur.completeBaseName()+"\"");
 int currentline=1;
+int currentcol=1;
 if (currentEditorView() )
   {
   currentline=currentEditorView()->editor->linefromblock(currentEditorView()->editor->textCursor().block());
+  currentcol=currentEditorView()->editor->textCursor().position() - currentEditorView()->editor->textCursor().block().position()+1;
   }
 //commandline.replace("@",QString::number(currentline));
 
@@ -7750,7 +7730,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       	showpdfview=true;
 	ShowPdfView(false);
 	pdfviewerWidget->show();
-	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline);
+	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline,currentcol);
 	}
       else
 	{
@@ -7766,7 +7746,7 @@ if (builtinpdfview && (comd==viewpdf_command))
 	//pdfviewerWidget->raise();
 	pdfviewerWidget->show();
 	pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
-	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline);
+	if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWidget->jumpToPdfFromSource(getName(),currentline,currentcol);
 	}
       return;
       }
@@ -7777,7 +7757,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       pdfviewerWindow->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline,currentcol);
       }
     else
       {
@@ -7788,7 +7768,7 @@ if (builtinpdfview && (comd==viewpdf_command))
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),currentline,currentcol);
       }
     return;     
     }
@@ -7817,11 +7797,14 @@ proc->setProcessEnvironment(env);
 #endif
 #if defined(Q_OS_WIN32)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-if (!extra_path.isEmpty()) 
-  {
-  env.insert("PATH", env.value("PATH") + ";"+extra_path);
-  proc->setProcessEnvironment(env);
-  }
+if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ";c:/texlive/2018/bin;c:/texlive/2017/bin;c:/texlive/2016/bin;c:/texlive/2015/bin;c:/texlive/2014/bin;c:/texlive/2013/bin;c:/texlive/2012/bin;c:/texlive/2011/bin;c:/texlive/2010/bin;c:/w32tex/bin;c:/Program Files/MiKTeX 3.0/miktex/bin;c:/Program Files (x86)/MiKTeX 3.0/miktex/bin;c:/Program Files/MiKTeX 2.9/miktex/bin;c:/Program Files (x86)/MiKTeX 2.9/miktex/bin;c:/Program Files/MiKTeX 2.8/miktex/bin;c:/Program Files (x86)/MiKTeX 2.8/miktex/bin");
+else
+ env.insert("PATH", env.value("PATH") + ";c:/texlive/2018/bin;c:/texlive/2017/bin;c:/texlive/2016/bin;c:/texlive/2015/bin;c:/texlive/2014/bin;c:/texlive/2013/bin;c:/texlive/2012/bin;c:/texlive/2011/bin;c:/texlive/2010/bin;c:/w32tex/bin;c:/Program Files/MiKTeX 3.0/miktex/bin;c:/Program Files (x86)/MiKTeX 3.0/miktex/bin;c:/Program Files/MiKTeX 2.9/miktex/bin;c:/Program Files (x86)/MiKTeX 2.9/miktex/bin;c:/Program Files/MiKTeX 2.8/miktex/bin;c:/Program Files (x86)/MiKTeX 2.8/miktex/bin;"+extra_path);
+// if (!extra_path.isEmpty()) 
+//   {
+//   env.insert("PATH", env.value("PATH") + ";"+extra_path);
+//   proc->setProcessEnvironment(env);
+//   }
 #endif
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -9092,7 +9075,7 @@ if (embedinternalpdf)
       StackedViewers->setCurrentWidget(pdfviewerWidget);
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),line,1);
       pdfviewerWidget->getFocus();
       }
     else
@@ -9109,7 +9092,7 @@ if (embedinternalpdf)
       //pdfviewerWidget->raise();
       pdfviewerWidget->show();
       pdfviewerWidget->openFile(outputName(finame,".pdf"),viewpdf_command,ghostscript_command);
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWidget->jumpToPdfFromSource(getName(),line,1);
       pdfviewerWidget->getFocus();
       }
     }
@@ -9122,7 +9105,7 @@ else
       pdfviewerWindow->show();
       qApp->setActiveWindow(pdfviewerWindow);
       pdfviewerWindow->setFocus();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1")) ) pdfviewerWindow->jumpToPdfFromSource(getName(),line,1);
       }
     else
       {
@@ -9133,7 +9116,7 @@ else
       connect(pdfviewerWindow, SIGNAL(sendPaperSize(const QString&)), this, SLOT(setPrintPaperSize(const QString&)));
       pdfviewerWindow->raise();
       pdfviewerWindow->show();
-      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),line);
+      if ( (pdflatex_command.contains("synctex=1")) || (latex_command.contains("synctex=1")) || (xelatex_command.contains("synctex=1"))) pdfviewerWindow->jumpToPdfFromSource(getName(),line,1);
       }  
     }
 }
@@ -9687,6 +9670,7 @@ QString docfile=QCoreApplication::applicationDirPath() + "/latexhelp.html";
 QFileInfo fic(docfile);
 if (fic.exists() && fic.isReadable() )
 	{
+#ifdef INTERNAL_BROWSER
         if (browserWindow)
           {
           browserWindow->close();
@@ -9694,7 +9678,9 @@ if (fic.exists() && fic.isReadable() )
 	browserWindow=new Browser("file:///"+docfile,true, 0);
 	browserWindow->raise();
 	browserWindow->show();
-//	QDesktopServices::openUrl("file:///"+docfile);
+#else
+QDesktopServices::openUrl("file:///"+docfile);
+#endif
 	}
 else { QMessageBox::warning( this,tr("Error"),tr("File not found"));}
 }
@@ -9721,6 +9707,7 @@ QString docfile=QCoreApplication::applicationDirPath() + "/usermanual_"+locale+"
 QFileInfo fic(docfile);
 if (fic.exists() && fic.isReadable() )
 	{
+#ifdef INTERNAL_BROWSER
         if (browserWindow)
           {
           browserWindow->close();
@@ -9728,7 +9715,9 @@ if (fic.exists() && fic.isReadable() )
 	browserWindow=new Browser("file:///"+docfile,true, 0);
 	browserWindow->raise();
 	browserWindow->show();
-//	QDesktopServices::openUrl("file:///"+docfile);
+#else
+QDesktopServices::openUrl("file:///"+docfile);
+#endif
 	}
 else { QMessageBox::warning( this,tr("Error"),tr("File not found"));}
 }
@@ -9770,10 +9759,10 @@ void Texmaker::CheckVersion()
 
 
 
-void Texmaker::Docufrlatex()
-{
-QDesktopServices::openUrl(QUrl("http://www.xm1math.net/doculatex/index.html"));
-}
+// void Texmaker::Docufrlatex()
+// {
+// QDesktopServices::openUrl(QUrl("http://www.xm1math.net/doculatex/index.html"));
+// }
 
 void Texmaker::Doculatex()
 {
@@ -10747,13 +10736,13 @@ TexmakerApp::instance()->language=lang;
 QMessageBox::information( this,"Texmaker",tr("The language setting will take effect after restarting the application."));
 }
 
-void Texmaker::updateAppearance()
-{
-QAction *action = qobject_cast<QAction *>(sender());
-QString style=action->text();
-modern_style=(action->text()=="Modern");
-QMessageBox::information( this,"Texmaker",tr("The appearance setting will take effect after restarting the application."));
-}
+// void Texmaker::updateAppearance()
+// {
+// QAction *action = qobject_cast<QAction *>(sender());
+// QString style=action->text();
+// modern_style=(action->text()=="Modern");
+// QMessageBox::information( this,"Texmaker",tr("The appearance setting will take effect after restarting the application."));
+// }
 
 void Texmaker::disableToolsActions()
 {
@@ -11789,6 +11778,7 @@ QTextStream out (&fi_html);
 out.setCodec(codec);
 out << code;
 fi_html.close();
+#ifdef INTERNAL_BROWSER
 if (diffWindow)
   {
   diffWindow->close();
@@ -11796,4 +11786,7 @@ if (diffWindow)
 diffWindow=new Browser("file:///"+tempFile,false, 0);
 diffWindow->raise();
 diffWindow->show();
+#else
+QDesktopServices::openUrl("file:///"+tempFile);
+#endif
 }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -317,11 +317,11 @@ void ConfigDialog::darkColors()
 {
 QTableWidgetItem *colorItem;
 
-colorItem= new QTableWidgetItem("#0c1021");
+colorItem= new QTableWidgetItem("#2E2E2E");
 colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
 ui.colortableWidget->setItem(0,1,colorItem);
 
-colorItem= new QTableWidgetItem("#131727");
+colorItem= new QTableWidgetItem("#6F6F6F");
 colorItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
 ui.colortableWidget->setItem(1,1,colorItem);
 

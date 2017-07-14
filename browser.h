@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2010 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,12 +15,8 @@
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QPushButton>
-//#include <QtWebKit>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-#include "QtWebKitWidgets/qwebview.h"
-#else
-#include <QWebView>
-#endif
+#include <QWebEngineView>
+#include <QAction>
 
 class Browser : public QMainWindow
 {
@@ -38,12 +34,14 @@ private slots:
   void Print();
   void Find();
 private:
-    QWebView *view;
+    QWebEngineView *view;
     int progress;
     QLineEdit *searchLineEdit;
     QPushButton *findButton;
     QString index;
     bool ontop;
+    QString pdffichier;
+    QAction *searchAct;
 };
 
 #endif

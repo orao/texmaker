@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2003-2009 by Pascal Brachet                     *
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
  *   addons by Luis Silvestre                                              *
  *   http://www.xm1math.net/texmaker/                                      *
  *                                                                         *
@@ -13,7 +13,7 @@
 
 #include <QDebug>
 #include <QLocale>
-#include <QSplashScreen>
+//#include <QSplashScreen>
 #include <QDir>
 #include <QFileOpenEvent>
 #include <QSettings>
@@ -74,19 +74,17 @@ if (basicTranslator->load(QString("qt_")+locale,transdir))
 void TexmakerApp::init( QStringList args )
 {
 QPixmap pixmap(400,166);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()>=2)
-{
-pixmap.load(":/images/splash@2x.png");
-pixmap.setDevicePixelRatio(qApp->devicePixelRatio());
-}
-else pixmap.load(":/images/splash.png");
-#else
-pixmap.load(":/images/splash.png");
-#endif
-QSplashScreen *splash = new QSplashScreen(pixmap);
-splash->resize(400,166);
-splash->show();
+
+// if (qApp->devicePixelRatio()>=2)
+// {
+// pixmap.load(":/images/splash@2x.png");
+// pixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+// }
+// else pixmap.load(":/images/splash.png");
+// 
+// QSplashScreen *splash = new QSplashScreen(pixmap);
+// splash->resize(400,166);
+// splash->show();
 ReadSettings();
 makeTranslation(language);
 QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/fonts/DejaVuSansCondensed.ttf"));
@@ -96,8 +94,8 @@ QFontDatabase::applicationFontFamilies(QFontDatabase::addApplicationFont(":/font
 mw = new Texmaker();
 
 connect( this, SIGNAL( lastWindowClosed() ), this, SLOT( quit() ) );
-splash->finish(mw);
-delete splash;
+//splash->finish(mw);
+//delete splash;
 #if defined(Q_OS_MAC)
 if (!MacFile.isEmpty()) mw->load(MacFile);
 #endif

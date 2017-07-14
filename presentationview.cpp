@@ -19,21 +19,30 @@ along with qpdfview.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+/***************************************************************************
+ *   copyright       : (C) 2003-2017 by Pascal Brachet                     *
+ *   http://www.xm1math.net/texmaker/                                      *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include "presentationview.h"
 #include <QApplication>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #include <QtConcurrent>
-#endif
 #include <QToolTip>
 
 
-PresentationView::PresentationView(QMutex* mutex, Poppler::Document* document) : QWidget(),
+PresentationView::PresentationView(QMutex* mutex, QPdfDocument* document) : QWidget(),
     m_mutex(0),
     m_document(0),
     m_numberOfPages(-1),
     m_currentPage(-1),
     m_returnToPage(-1),
-    m_links(),
+//    m_links(),
     m_scaleFactor(1.0),
     m_normalizedTransform(),
     m_boundingRect(),
@@ -51,7 +60,7 @@ PresentationView::PresentationView(QMutex* mutex, Poppler::Document* document) :
     m_mutex = mutex;
     m_document = document;
 
-    m_numberOfPages = m_document->numPages();
+    m_numberOfPages = m_document->pageCount();
     m_currentPage = 1;
     m_returnToPage = -1;
 
@@ -65,7 +74,7 @@ PresentationView::~PresentationView()
     m_render->cancel();
     m_render->waitForFinished();
 
-    qDeleteAll(m_links);
+    //qDeleteAll(m_links);
 }
 
 int PresentationView::numberOfPages() const
@@ -163,6 +172,7 @@ void PresentationView::paintEvent(QPaintEvent* event)
 
     if(!m_image.isNull())
     {
+        painter.fillRect(m_boundingRect, QBrush(Qt::white));
         painter.drawImage(m_boundingRect.topLeft(), m_image);
     }
     else
@@ -224,67 +234,67 @@ void PresentationView::mouseMoveEvent(QMouseEvent* event)
 {
     QApplication::restoreOverrideCursor();
 
-    foreach(Poppler::LinkGoto* link, m_links)
-    {
-        if(m_normalizedTransform.mapRect(link->linkArea().normalized()).contains(event->pos()))
-        {
-            QApplication::setOverrideCursor(Qt::PointingHandCursor);
-            //QToolTip::showText(event->globalPos(), tr("Go to page %1.").arg(link->destination().pageNumber()));
-
-            return;
-        }
-    }
+//     foreach(Poppler::LinkGoto* link, m_links)
+//     {
+//         if(m_normalizedTransform.mapRect(link->linkArea().normalized()).contains(event->pos()))
+//         {
+//             QApplication::setOverrideCursor(Qt::PointingHandCursor);
+//             //QToolTip::showText(event->globalPos(), tr("Go to page %1.").arg(link->destination().pageNumber()));
+// 
+//             return;
+//         }
+//     }
 
     QToolTip::hideText();
 }
 
 void PresentationView::mousePressEvent(QMouseEvent* event)
 {
-    foreach(Poppler::LinkGoto* link, m_links)
-    {
-        if(m_normalizedTransform.mapRect(link->linkArea().normalized()).contains(event->pos()))
-        {
-            int page = link->destination().pageNumber();
-
-            page = page >= 1 ? page : 1;
-            page = page <= m_numberOfPages ? page : m_numberOfPages;
-
-            jumpToPage(page);
-
-            return;
-        }
-    }
+//     foreach(Poppler::LinkGoto* link, m_links)
+//     {
+//         if(m_normalizedTransform.mapRect(link->linkArea().normalized()).contains(event->pos()))
+//         {
+//             int page = link->destination().pageNumber();
+// 
+//             page = page >= 1 ? page : 1;
+//             page = page <= m_numberOfPages ? page : m_numberOfPages;
+// 
+//             jumpToPage(page);
+// 
+//             return;
+//         }
+//     }
 }
 
 void PresentationView::prepareView()
 {
     m_mutex->lock();
 
-    Poppler::Page* page = m_document->page(m_currentPage - 1);
+//     Poppler::Page* page = m_document->page(m_currentPage - 1);
+// 
+//     qDeleteAll(m_links);
+// 
+//     m_links.clear();
+// 
+//     foreach(Poppler::Link* link, page->links())
+//     {
+//         if(link->linkType() == Poppler::Link::Goto)
+//         {
+//             Poppler::LinkGoto* linkGoto = static_cast< Poppler::LinkGoto* >(link);
+// 
+//             if(!linkGoto->isExternal())
+//             {
+//                 m_links.append(linkGoto);
+//                 continue;
+//             }
+//         }
+// 
+//         delete link;
+//     }
 
-    qDeleteAll(m_links);
+    QSizeF size = m_document->pageSize(m_currentPage - 1);
 
-    m_links.clear();
-
-    foreach(Poppler::Link* link, page->links())
-    {
-        if(link->linkType() == Poppler::Link::Goto)
-        {
-            Poppler::LinkGoto* linkGoto = static_cast< Poppler::LinkGoto* >(link);
-
-            if(!linkGoto->isExternal())
-            {
-                m_links.append(linkGoto);
-                continue;
-            }
-        }
-
-        delete link;
-    }
-
-    QSizeF size = page->pageSizeF();
-
-    delete page;
+    //delete page;
 
     m_mutex->unlock();
 
@@ -315,18 +325,19 @@ void PresentationView::render(int index, qreal scaleFactor)
         return;
     }
 
-    Poppler::Page* page = m_document->page(index);
     
 qreal extra=1.0;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2) extra=2.0;
-#endif
-    QImage image = page->renderToImage(scaleFactor * 72.0 * extra, scaleFactor * 72.0 * extra);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2) image.setDevicePixelRatio(2);
-#endif
 
-    delete page;
+if (qApp->devicePixelRatio()>=2) extra=qApp->devicePixelRatio();
+
+const QSizeF size = m_document->pageSize(index) * scaleFactor * extra ;
+    //QImage image = m_document->render(index,QSize(size.width()* physicalDpiX()/72,size.height()* physicalDpiY()/72));
+QImage image = m_document->render(index,QSize(size.width(),size.height()));
+
+if (qApp->devicePixelRatio()>=2) image.setDevicePixelRatio(qApp->devicePixelRatio());
+
+
+    //delete page;
 
     if(m_render->isCanceled())
     {

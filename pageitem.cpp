@@ -1,5 +1,5 @@
 /***************************************************************************
- *   copyright       : (C) 2012 by Pascal Brachet                          *
+ *   copyright       : (C) 2012-2017 by Pascal Brachet                     *
  *   http://www.xm1math.net/texmaker/                                      *
  *   based on qpdfview  Copyright 2012 Adam Reichold GPL                   *
  *                                                                         *
@@ -26,10 +26,11 @@ modified by Pascal Brachet
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
 #include <QToolTip>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #include <QtConcurrent>
-#endif
+#include <QDebug>
 #include "pageitem.h"
+#include "pdfium/public/fpdf_doc.h"
+
 
 QCache< PageItem*, QImage > PageItem::s_cache(32 * 1024 * 1024);
 
@@ -78,18 +79,17 @@ void PageItem::setInvertColors(bool invertColors)
     s_invertColors = invertColors;
 }
 
-PageItem::PageItem(QMutex* mutex, Poppler::Page* page, int index, QGraphicsItem* parent) : QGraphicsObject(parent),
+PageItem::PageItem(QMutex* mutex, QPdfDocument* doc, int index, QGraphicsItem* parent) : QGraphicsObject(parent),
     m_mutex(0),
-    m_page(0),
+    m_doc(0),
     m_index(-1),
     m_size(),
-    m_links(),
     m_highlights(),
     m_rubberBand(),
     m_physicalDpiX(72),
     m_physicalDpiY(72),
     m_scaleFactor(1.0),
-    m_rotation(Poppler::Page::Rotate0),
+    m_rotation(QPdf::Rotation::Rotate0),
     m_transform(),
     m_normalizedTransform(),
     m_boundingRect(),
@@ -107,29 +107,11 @@ PageItem::PageItem(QMutex* mutex, Poppler::Page* page, int index, QGraphicsItem*
     connect(this, SIGNAL(imageReady(QImage,bool)), SLOT(on_imageReady(QImage,bool)));
 
     m_mutex = mutex;
-    m_page = page;
+    m_doc = doc;
 
     m_index = index;
-    m_size = m_page->pageSizeF();
+    m_size = m_doc->pageSize(m_index);
 
-    foreach(Poppler::Link* link, m_page->links())
-    {
-        if(link->linkType() == Poppler::Link::Goto)
-        {
-            if(!static_cast< Poppler::LinkGoto* >(link)->isExternal())
-            {
-                m_links.append(link);
-                continue;
-            }
-        }
-        else if(link->linkType() == Poppler::Link::Browse)
-        {
-            m_links.append(link);
-            continue;
-        }
-
-        delete link;
-    }
 
     prepareGeometry();
 }
@@ -141,18 +123,13 @@ PageItem::~PageItem()
 
     s_cache.remove(this);
 
-    if(m_page != 0)
-    {
-        delete m_page;
-    }
 
-    qDeleteAll(m_links);
 }
 
 
 void PageItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-if (m_page == 0) return;
+if (m_doc == 0) return;
 QMenu menu;
 #if defined(Q_OS_MAC)
 QAction *act = menu.addAction(tr("Click to jump to the line")+" (cmd+click)");
@@ -212,9 +189,9 @@ void PageItem::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget
     }
 
     // page
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2) image.setDevicePixelRatio(2);
-#endif
+
+if (qApp->devicePixelRatio()>=2) image.setDevicePixelRatio(qApp->devicePixelRatio());
+
     if(s_decoratePages)
     {
         painter->fillRect(m_boundingRect, QBrush(s_invertColors ? Qt::black : Qt::white));
@@ -238,10 +215,10 @@ if (qApp->devicePixelRatio()==2) image.setDevicePixelRatio(2);
         painter->setTransform(m_normalizedTransform, true);
         painter->setPen(QPen(Qt::red));
 
-        foreach(Poppler::Link* link, m_links)
-        {
-            painter->drawRect(link->linkArea().normalized());
-        }
+//         foreach(Poppler::Link* link, m_links)
+//         {
+//             painter->drawRect(link->linkArea().normalized());
+//         }
 
         painter->restore();
     }
@@ -367,12 +344,12 @@ void PageItem::setScaleFactor(qreal scaleFactor)
     }
 }
 
-Poppler::Page::Rotation PageItem::rotation() const
+QPdf::Rotation PageItem::rotation() const
 {
     return m_rotation;
 }
 
-void PageItem::setRotation(Poppler::Page::Rotation rotation)
+void PageItem::setRotation(QPdf::Rotation rotation)
 {
     if(m_rotation != rotation)
     {
@@ -455,26 +432,8 @@ void PageItem::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 
     if(event->modifiers() == Qt::NoModifier)
     {
-        foreach(Poppler::Link* link, m_links)
-        {
-            if(m_normalizedTransform.mapRect(link->linkArea().normalized()).contains(event->pos()))
-            {
-                if(link->linkType() == Poppler::Link::Goto)
-                {
-                    QApplication::setOverrideCursor(Qt::PointingHandCursor);
-                    //QToolTip::showText(event->screenPos(), tr("Go to page %1.").arg(static_cast< Poppler::LinkGoto* >(link)->destination().pageNumber()));
-
-                    return;
-                }
-                else if(link->linkType() == Poppler::Link::Browse)
-                {
-                    QApplication::setOverrideCursor(Qt::PointingHandCursor);
-                    //QToolTip::showText(event->screenPos(), tr("Open %1.").arg(static_cast< Poppler::LinkBrowse* >(link)->url()));
-
-                    return;
-                }
-            }
-        }
+    
+    if (m_doc->checkLinkAt(m_index, boundingRect(),event->pos().x(),event->pos().y()).foundLink) QApplication::setOverrideCursor(Qt::PointingHandCursor);
 
     }
 
@@ -493,31 +452,11 @@ void PageItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 clearPaths();
     if(event->modifiers() == Qt::NoModifier && event->button() == Qt::LeftButton)
     {
-        foreach(Poppler::Link* link, m_links)
+    struct linkItem link=m_doc->checkLinkAt(m_index, boundingRect(),event->pos().x(),event->pos().y());
+    if (link.foundLink)
         {
-            if(m_normalizedTransform.mapRect(link->linkArea().normalized()).contains(event->pos()))
-            {
-                if(link->linkType() == Poppler::Link::Goto)
-                {
-                    Poppler::LinkGoto* linkGoto = static_cast< Poppler::LinkGoto* >(link);
-
-                    int page = linkGoto->destination().pageNumber();
-                    qreal left = linkGoto->destination().isChangeLeft() ? linkGoto->destination().left() : 0.0;
-                    qreal top = linkGoto->destination().isChangeTop() ? linkGoto->destination().top() : 0.0;
-
-                    emit linkClicked(page, left, top);
-
-                    event->accept();
-                    return;
-                }
-                else if(link->linkType() == Poppler::Link::Browse)
-                {
-                    emit linkClicked(static_cast< Poppler::LinkBrowse* >(link)->url());
-
-                    event->accept();
-                    return;
-                }
-            }
+        if (link.actionLink==1) emit linkClicked(link.destPageLink+1,0.0, 0.0);
+        if (link.actionLink==2) emit linkClicked(link.uriLink);
         }
 
     }
@@ -563,8 +502,9 @@ void PageItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     if(!m_rubberBand.isNull())
     {
         m_rubberBand = m_rubberBand.normalized();
+        
 
-        if(event->modifiers() == Qt::ShiftModifier)
+        if(event->modifiers() == Qt::ShiftModifier && m_rotation==QPdf::Rotation::Rotate0)
         {
             copyToClipboard(event->screenPos());
         }
@@ -592,16 +532,18 @@ void PageItem::copyToClipboard(const QPoint& screenPos)
 
     QAction* action = menu->exec(screenPos);
 
+
     if(action == copyTextAction)
     {
         QString text;
-
-        m_mutex->lock();
-
-        text = m_page->text(m_transform.inverted().mapRect(m_rubberBand));
-
-        m_mutex->unlock();
-
+        text=m_doc->checkTextAt(m_index, boundingRect(), m_rubberBand);
+// 
+//         m_mutex->lock();
+// 
+//         text = m_page->text(m_transform.inverted().mapRect(m_rubberBand));
+// 
+//         m_mutex->unlock();
+// 
         if(!text.isEmpty())
         {
             QApplication::clipboard()->setText(text);
@@ -613,29 +555,53 @@ void PageItem::copyToClipboard(const QPoint& screenPos)
 
         m_mutex->lock();
 
-        switch(m_rotation)
-        {
-        case Poppler::Page::Rotate0:
-        case Poppler::Page::Rotate90:
-            image = m_page->renderToImage(m_scaleFactor * m_physicalDpiX, m_scaleFactor * m_physicalDpiY, m_rubberBand.x(), m_rubberBand.y(), m_rubberBand.width(), m_rubberBand.height(), m_rotation);
-            break;
-        case Poppler::Page::Rotate180:
-        case Poppler::Page::Rotate270:
-            image = m_page->renderToImage(m_scaleFactor * m_physicalDpiY, m_scaleFactor * m_physicalDpiX, m_rubberBand.x(), m_rubberBand.y(), m_rubberBand.width(), m_rubberBand.height(), m_rotation);
-            break;
-        }
+        const QSizeF size = m_doc->pageSize(m_index)*m_scaleFactor;
+        QPdfDocumentRenderOptions options;
+        options.setRotation(m_rotation);
+//     switch(m_rotation)
+//     {
+//         case QPdf::Rotation::Rotate0:
+            image = m_doc->render(m_index,QSize(size.width()* m_physicalDpiX/72,size.height()* m_physicalDpiY/72),options);
+//             break;
+//         case QPdf::Rotation::Rotate90:
+//             image = m_doc->render(m_index,QSize(size.height()* m_physicalDpiY/72,size.width()* m_physicalDpiX/72),options);
+//             //image = m_page->renderToImage(scaleFactor * physicalDpiX, scaleFactor * physicalDpiY, -1, -1, -1, -1, rotation);
+//             break;
+//         case QPdf::Rotation::Rotate180:
+//         image = m_doc->render(m_index,QSize(size.width()* m_physicalDpiX/72,size.height()* m_physicalDpiY/72),options);
+//         break;
+//         case QPdf::Rotation::Rotate270:
+//             image = m_doc->render(m_index,QSize(size.height()* m_physicalDpiY/72,size.width()* m_physicalDpiX/72),options);
+//             //image = m_page->renderToImage(scaleFactor * physicalDpiY, scaleFactor * physicalDpiX, -1, -1, -1, -1, rotation);
+//         break;
+//     }
 
         m_mutex->unlock();
 
         if(!image.isNull())
         {
-            QApplication::clipboard()->setImage(image);
+            QApplication::clipboard()->setImage(image.copy(m_rubberBand.toRect()));
+
         }
     }
 
     delete menu;
 }
 
+QImage PageItem::exportImagePage()
+{
+        QImage image;
+
+        m_mutex->lock();
+
+        const QSizeF size = m_doc->pageSize(m_index)*m_scaleFactor;
+        QPdfDocumentRenderOptions options;
+        options.setRotation(m_rotation);
+        image = m_doc->render(m_index,QSize(size.width()* m_physicalDpiX/72,size.height()* m_physicalDpiY/72),options);
+
+        m_mutex->unlock();
+        return image;
+}
 
 
 void PageItem::prepareGeometry()
@@ -645,34 +611,34 @@ void PageItem::prepareGeometry()
 
     switch(m_rotation)
     {
-    case Poppler::Page::Rotate0:
+    case QPdf::Rotation::Rotate0:
         break;
-    case Poppler::Page::Rotate90:
+    case QPdf::Rotation::Rotate90:
         m_transform.rotate(90.0);
         m_normalizedTransform.rotate(90.0);
         break;
-    case Poppler::Page::Rotate180:
+    case QPdf::Rotation::Rotate180:
         m_transform.rotate(180.0);
         m_normalizedTransform.rotate(180.0);
         break;
-    case Poppler::Page::Rotate270:
+    case QPdf::Rotation::Rotate270:
         m_transform.rotate(270.0);
         m_normalizedTransform.rotate(270.0);
         break;
     }
 qreal extra=1.0;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-if (qApp->devicePixelRatio()==2) extra=2.0;
-#endif
+
+if (qApp->devicePixelRatio()>=2) extra=qApp->devicePixelRatio();
+
     switch(m_rotation)
     {
-    case Poppler::Page::Rotate0:
-    case Poppler::Page::Rotate90:
+    case QPdf::Rotation::Rotate0:
+    case QPdf::Rotation::Rotate90:
         m_transform.scale(m_scaleFactor * m_physicalDpiX / 72.0/extra, m_scaleFactor * m_physicalDpiY / 72.0/extra);
         m_normalizedTransform.scale(m_scaleFactor * m_physicalDpiX / 72.0/extra * m_size.width(), m_scaleFactor * m_physicalDpiY / 72.0/extra * m_size.height());
         break;
-    case Poppler::Page::Rotate180:
-    case Poppler::Page::Rotate270:
+    case QPdf::Rotation::Rotate180:
+    case QPdf::Rotation::Rotate270:
         m_transform.scale(m_scaleFactor * m_physicalDpiY / 72.0/extra, m_scaleFactor * m_physicalDpiX / 72.0/extra);
         m_normalizedTransform.scale(m_scaleFactor * m_physicalDpiY / 72.0/extra * m_size.width(), m_scaleFactor * m_physicalDpiX / 72.0/extra * m_size.height());
         break;
@@ -681,7 +647,7 @@ if (qApp->devicePixelRatio()==2) extra=2.0;
     m_boundingRect = m_transform.mapRect(QRectF(QPointF(), m_size));
 }
 
-void PageItem::render(int physicalDpiX, int physicalDpiY, qreal scaleFactor, Poppler::Page::Rotation rotation, bool prefetch)
+void PageItem::render(int physicalDpiX, int physicalDpiY, qreal scaleFactor, QPdf::Rotation rotation, bool prefetch)
 {
     QMutexLocker mutexLocker(m_mutex);
 
@@ -691,18 +657,27 @@ void PageItem::render(int physicalDpiX, int physicalDpiY, qreal scaleFactor, Pop
     }
 
     QImage image;
-
-    switch(rotation)
-    {
-    case Poppler::Page::Rotate0:
-    case Poppler::Page::Rotate90:
-        image = m_page->renderToImage(scaleFactor * physicalDpiX, scaleFactor * physicalDpiY, -1, -1, -1, -1, rotation);
+    const QSizeF size = m_doc->pageSize(m_index) * scaleFactor;
+    QPdfDocumentRenderOptions options;
+    options.setRotation(rotation);
+//    image = m_doc->render(m_index,QSize(size.width()* physicalDpiX/72,size.height()* physicalDpiY/72),options);
+   switch(rotation)
+   {
+    case QPdf::Rotation::Rotate0:
+        image = m_doc->render(m_index,QSize(size.width()* physicalDpiX/72,size.height()* physicalDpiY/72),options);
         break;
-    case Poppler::Page::Rotate180:
-    case Poppler::Page::Rotate270:
-        image = m_page->renderToImage(scaleFactor * physicalDpiY, scaleFactor * physicalDpiX, -1, -1, -1, -1, rotation);
+    case QPdf::Rotation::Rotate90:
+        image = m_doc->render(m_index,QSize(size.height()* physicalDpiY/72,size.width()* physicalDpiX/72),options);
+        //image = m_page->renderToImage(scaleFactor * physicalDpiX, scaleFactor * physicalDpiY, -1, -1, -1, -1, rotation);
         break;
-    }
+    case QPdf::Rotation::Rotate180:
+       image = m_doc->render(m_index,QSize(size.width()* physicalDpiX/72,size.height()* physicalDpiY/72),options);
+       break;
+    case QPdf::Rotation::Rotate270:
+        image = m_doc->render(m_index,QSize(size.height()* physicalDpiY/72,size.width()* physicalDpiX/72),options);
+        //image = m_page->renderToImage(scaleFactor * physicalDpiY, scaleFactor * physicalDpiX, -1, -1, -1, -1, rotation);
+       break;
+   }
 
     if(m_render->isCanceled() && !prefetch)
     {
