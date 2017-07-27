@@ -1,3 +1,9 @@
+version 5.0 -> 5.0.1 :
+--------------------
+- a trouble with the MikTex's ps2pdf command has been fixed
+- the "-dpiscale x" option has been added to the Texmaker command line : with this option the environment variable QT_SCALE_FACTOR will be set to x before building the GUI (same behavior than adding "export QT_SCALE_FACTOR=x" to the environment variables). Can be used to adjust the interface if the monitor dpi is not well detected.
+- the cs translation has been updated
+
 version 4.5 -> 5.0 :
 --------------------
 - new and more modern interface look

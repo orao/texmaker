@@ -94,14 +94,14 @@ proc->setProcessEnvironment(env);
 #endif
 #if defined(Q_OS_WIN32)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ";c:/texlive/2018/bin;c:/texlive/2017/bin;c:/texlive/2016/bin;c:/texlive/2015/bin;c:/texlive/2014/bin;c:/texlive/2013/bin;c:/texlive/2012/bin;c:/texlive/2011/bin;c:/texlive/2010/bin;c:/w32tex/bin;c:/Program Files/MiKTeX 3.0/miktex/bin;c:/Program Files (x86)/MiKTeX 3.0/miktex/bin;c:/Program Files/MiKTeX 2.9/miktex/bin;c:/Program Files (x86)/MiKTeX 2.9/miktex/bin;c:/Program Files/MiKTeX 2.8/miktex/bin;c:/Program Files (x86)/MiKTeX 2.8/miktex/bin");
-else
- env.insert("PATH", env.value("PATH") + ";c:/texlive/2018/bin;c:/texlive/2017/bin;c:/texlive/2016/bin;c:/texlive/2015/bin;c:/texlive/2014/bin;c:/texlive/2013/bin;c:/texlive/2012/bin;c:/texlive/2011/bin;c:/texlive/2010/bin;c:/w32tex/bin;c:/Program Files/MiKTeX 3.0/miktex/bin;c:/Program Files (x86)/MiKTeX 3.0/miktex/bin;c:/Program Files/MiKTeX 2.9/miktex/bin;c:/Program Files (x86)/MiKTeX 2.9/miktex/bin;c:/Program Files/MiKTeX 2.8/miktex/bin;c:/Program Files (x86)/MiKTeX 2.8/miktex/bin;"+extra_path);
-// if (!extra_path.isEmpty()) 
-//   {
-//   env.insert("PATH", env.value("PATH") + ";"+extra_path);
-//   proc->setProcessEnvironment(env);
-//   }
+// if (extra_path.isEmpty()) env.insert("PATH", env.value("PATH") + ";c:/texlive/2018/bin;c:/texlive/2017/bin;c:/texlive/2016/bin;c:/texlive/2015/bin;c:/texlive/2014/bin;c:/texlive/2013/bin;c:/texlive/2012/bin;c:/texlive/2011/bin;c:/texlive/2010/bin;c:/w32tex/bin;c:/Program Files/MiKTeX 3.0/miktex/bin;c:/Program Files (x86)/MiKTeX 3.0/miktex/bin;c:/Program Files/MiKTeX 2.9/miktex/bin;c:/Program Files (x86)/MiKTeX 2.9/miktex/bin;c:/Program Files/MiKTeX 2.8/miktex/bin;c:/Program Files (x86)/MiKTeX 2.8/miktex/bin");
+// else
+//  env.insert("PATH", env.value("PATH") + ";c:/texlive/2018/bin;c:/texlive/2017/bin;c:/texlive/2016/bin;c:/texlive/2015/bin;c:/texlive/2014/bin;c:/texlive/2013/bin;c:/texlive/2012/bin;c:/texlive/2011/bin;c:/texlive/2010/bin;c:/w32tex/bin;c:/Program Files/MiKTeX 3.0/miktex/bin;c:/Program Files (x86)/MiKTeX 3.0/miktex/bin;c:/Program Files/MiKTeX 2.9/miktex/bin;c:/Program Files (x86)/MiKTeX 2.9/miktex/bin;c:/Program Files/MiKTeX 2.8/miktex/bin;c:/Program Files (x86)/MiKTeX 2.8/miktex/bin;"+extra_path);
+if (!extra_path.isEmpty()) 
+  {
+  env.insert("PATH", env.value("PATH") + ";"+extra_path);
+  proc->setProcessEnvironment(env);
+  }
 #endif
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 QProcessEnvironment env = QProcessEnvironment::systemEnvironment();

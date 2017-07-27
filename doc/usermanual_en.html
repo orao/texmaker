@@ -180,13 +180,12 @@ padding-left:4px;
 	<li><a href="#SECTION32">4.3 Bibliography</a></li>
 	<li><a href="#SECTION33">4.4 Personals tags ans tools</a></li>
 	<li><a href="#SECTION34">4.5 Pstricks/Metapost/Tikz/Asymptote support</a></li>
-	<li><a href="#SECTION35">4.6 Change the interface language and appearance</a></li>
+	<li><a href="#SECTION35">4.6 Change the interface language</a></li>
 	<li><a href="#SECTION36">4.7 The "Restore previous session" command</a></li>
 	<li><a href="#SECTION37">4.8 "Forward/Inverse search" with Texmaker</a></li>
 	<li><a href="#SECTION38">4.9 Synopsis of the Texmaker command</a></li>
 	<li><a href="#SECTION39">4.10 Keyboard shortcuts</a></li>
 	<li><a href="#SECTION40">4.11 The "Source Viewer" panel</a></li>
-	<!--<li><a href="#SECTION41">4.12 Printing a pdf document with the built-in pdf viewer on windows</a></li>-->
 	<li><a href="#SECTION42">4.12 "Use a 'build' subdirectory..." option for (pdf)latex command</a></li>
 	<li><a href="#SECTION43">4.13 Replacing text with a regular expression</a></li>
 	<li><a href="#SECTION44">4.14 Using Texmaker as an Asymptote editor</a></li>
@@ -363,8 +362,8 @@ Note : @@ will be replaced by the @ character in the editor (and not by a double
 <h2><a name="SECTION34">4.5 Pstricks/Metapost/Tikz/Asymptote support</a></h2>
 <p>Some of the main Pstricks/Metapost/Tikz/Asymptote commands can be inserted via the "PS", "MP", "TI" and "AS" buttons in the "Structure View".<br>
 The "mpost" and "asy" commands can be launched via the "Tools" menu or via the "Run" button.</p>
-<h2><a name="SECTION35">4.6 Change the interface language and appearance</a></h2>
-The interface language and appearance can be changed via the "Options" menu (restarting the application is required).
+<h2><a name="SECTION35">4.6 Change the interface language</a></h2>
+The interface language can be changed via the "Options" menu (restarting the application is required).
 <h2><a name="SECTION36">4.7 The "Restore previous session" command</a></h2>
 <p>If you quit the program without closing the opened documents, texmaker records automatically the names of these documents. With the "Restore session" command in the "File" menu, all these files can be re-opened in one click.</p>
 <h2><a name="SECTION37">4.8 "Forward/Inverse search" with Texmaker</a></h2>
@@ -384,11 +383,12 @@ For the opposite operation ("Inverse search") :
 </p>
 <h2><a name="SECTION38">4.9 Synopsis of the texmaker command</a></h2>
 <p>
-texmaker file [-master] [-line xx] [-insert foo] [-n]<br>
+texmaker file [-master] [-line xx] [-insert foo] [-n] [-dpiscale x]<br>
 With the "-master" option, the document will be automatically defined as a "master" document.<br>
 With the "-line xx" option, Texmaker will ask you if you want to jump to the xx line after loading the document.<br>
 With the "-insert foo" option, a latex command (foo) can be inserted by an external program to the current document while texmaker is running.<br>
-With the "-n" option a new instance of Texmaker is launched (will break synchronization with the pdf viewers).
+With the "-n" option a new instance of Texmaker is launched (will break synchronization with the pdf viewers).<br>
+With the "-dpiscale x" option the environment variable QT_SCALE_FACTOR will be set to x before building the GUI (same behavior than adding "export QT_SCALE_FACTOR=x" to the environment variables)
 </p>
 <h2><a name="SECTION39">4.10 Keyboard shortcuts</a></h2>
 <p>

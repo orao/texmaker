@@ -180,7 +180,7 @@ padding-left:4px;
 	<li><a href="#SECTION32">4.3 Bibliographie</a></li>
 	<li><a href="#SECTION33">4.4 Balises et commandes personnelles</a></li>
 	<li><a href="#SECTION34">4.5 Support Pstricks/Metapost/Tikz/Asymptote</a></li>
-	<li><a href="#SECTION35">4.6 Changer la langue et l'apparence de l'interface</a></li>
+	<li><a href="#SECTION35">4.6 Changer la langue</a></li>
 	<li><a href="#SECTION36">4.7 La commande "Restaurer la session précédente"</a></li>
 	<li><a href="#SECTION37">4.8 "Forward/Inverse search" avec Texmaker</a></li>
 	<li><a href="#SECTION38">4.9 Synopsis de la commande texmaker</a></li>
@@ -369,8 +369,8 @@ Note : @@ dans une balise sera remplacé par la caractère @ dans l'éditeur. </
 <p>Il est aussi possible de définir des commandes personnelles via le menu "Utilisateur - Commandes utilisateurs". Un % représente le nom du fichier à traiter sans extension. Les commandes, une fois définies, peuvent-être lancées par les raccourcis-claviers Alt+Shift+F1...Alt+Shift+F5 . Elles peuvent être aussi lancées à partir de la barre d'outils (il suffit de sélectionner cette commande avant de cliquer sur le bouton "Exécuter").</p>
 <h2><a name="SECTION34">4.5 Support Pstricks/Metapost/Tikz/Asymptote</a></h2>
 <p>Quelques une des principales commandes Pstricks/Metapost/Tikz/Asymptote peuvent être insérées directement dans le code en cliquant sur les boutons "PS", "MP", "TI" et "AS" dans le panneau "Structure".</p>
-<h2><a name="SECTION35">4.6 Changer la langue et l'apparence de l'interface</a></h2>
-<p>La langue et l'apparence de l'interface peuvent être modifiées à partir du menu "Options" (redémarrer l'application est nécessaire pour que les changements soient pris en compte)</p>
+<h2><a name="SECTION35">4.6 Changer la langue</a></h2>
+<p>La langue de l'interface peut être modifiée à partir du menu "Options" (redémarrer l'application est nécessaire pour que les changements soient pris en compte)</p>
 <h2><a name="SECTION36">4.7 La commande "Restaurer la session précédente"</a></h2>
 <p>Quand on quitte le programme sans fermer les documents ouverts, texmaker sauvegarde automatiquement le nom de ces documents. Avec la commande "Restaurer la session précédente" du menu "Fichier", il est alors possible de réouvrir l'ensemble de ces documents d'un seul coup.</p>
 <h2><a name="SECTION37">4.8 "Forward/inverse search" avec Texmaker</a></h2>
@@ -389,11 +389,12 @@ Pour l'opération inverse ("Inverse search") :
 </p>
 <h2><a name="SECTION38">4.9 Synopsis de la commande texmaker</a></h2>
 <p>
-texmaker fichier [-master] [-line xx] [-insert foo]<br>
+texmaker fichier [-master] [-line xx] [-insert foo] [-n] [-dpiscale x]<br>
 Avec l'option "-master" , le document chargé sera automatiquement défini comme document "maître".<br>
 Avec l'option "-line xx" , Texmaker demandera s'il doit aller à la ligne xx après avoir chargé le document.<br>
 Avec l'option "-insert foo", une commande latex (foo) peut être insérée par un programme externe dans le document courant pendant que Texmaker est en cours d'exécution.<br>
-Avec l'option "-n" une autre instance de Texmaker est lancée (cassera la synchronisation avec les afficheurs pdf).
+Avec l'option "-n" une autre instance de Texmaker est lancée (cassera la synchronisation avec les afficheurs pdf).<br>
+Avec l'option "-dpiscale x" la valeur x sera affecté à la variable d'environnement QT_SCALE_FACTOR avant que l'interface soit construite (même comportement qu'ajouter "export QT_SCALE_FACTOR=x" aux variables d'environnement). A utiliser pour ajuster l'affichage en fonction de son écran.
 </p>
 <h2><a name="SECTION39">4.10 Raccourcis clavier</a></h2>
 <p>

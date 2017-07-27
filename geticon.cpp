@@ -21,7 +21,9 @@ QString base=name.remove(".png");
 if (qApp->devicePixelRatio()>=2)
 {
 QPixmap normalPixmap(base+"@2x.png");
+normalPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
 QPixmap disabledPixmap(normalPixmap.size());
+disabledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
 disabledPixmap.fill(Qt::transparent);
 QPainter p(&disabledPixmap);
 p.setBackgroundMode(Qt::TransparentMode);

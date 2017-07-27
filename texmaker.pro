@@ -8,17 +8,17 @@ LANGUAGE	= C++
 TARGET	 = texmaker
 
 
-TEXMAKERVERSION=5.0
+TEXMAKERVERSION=5.0.1
 DEFINES += TEXMAKERVERSION=$${TEXMAKERVERSION}
 
 
-equals(QT_MAJOR_VERSION, 5):greaterThan(QT_MINOR_VERSION, 6) {
+equals(QT_MAJOR_VERSION, 5):greaterThan(QT_MINOR_VERSION, 5) {
 QT += core gui widgets xml network printsupport concurrent core-private script
 equals(INTERNALBROWSER,yes){
 QT += webenginewidgets
 }  
 } else {
-message("Qt>=5.7 is required.")
+message("Qt>=5.6 is required.")
 }
 
 
@@ -1055,36 +1055,21 @@ isEmpty( METAINFODIR ) {
 
 DEFINES += PREFIX=\\\"$${PREFIX}\\\"
 
-contains( QT_VERSION, "^5.*" ) {
 INCLUDEPATH +=$${QTDIR}/include/
-} 
+ 
 
 equals(AUTHORIZELINUXQSTYLES,yes){
 DEFINES += AUTHORIZE_LINUX_QSTYLES
 }
 
-equals(COMPILEUSB,no){
+
 target.path = $${PREFIX}/bin
 utilities.path = $${PREFIX}/share/texmaker
 desktop.path = $${DESKTOPDIR}
 icon.path = $${ICONDIR}
+#not for openSUSE :
 metainfo.path = $${METAINFODIR}
-} else {
-DEFINES += USB_VERSION
-equals(ARCH,32) {
-target.path = texmaker_linux32
-utilities.path = texmaker_linux32
-desktop.path = texmaker_linux32
-icon.path = texmaker_linux32
-metainfo.path= texmaker_linux32
-} else {
-target.path = texmaker_linux64
-utilities.path = texmaker_linux64
-desktop.path = texmaker_linux64
-icon.path = texmaker_linux64
-metainfo.path = texmaker_linux64
-}
-}
+
 
 INSTALLS = target
 HEADERS	+= x11fontdialog.h 
@@ -1223,7 +1208,9 @@ INSTALLS += metainfo
 }
 ################################
 win32 {
-SOURCES	+= singleapp/qtlockedfile_win.cpp
+UI_DIR = .ui
+MOC_DIR = .moc
+OBJECTS_DIR = .obj
 RC_FILE = win.rc
 }
 ###############################
@@ -1237,6 +1224,7 @@ LIBS_PRIVATE += -framework AppKit -framework CoreFoundation
 QMAKE_MAC_SDK=macosx
 
 target.path = Texmaker
+
 
 INSTALLS = target
 SOURCES	+= singleapp/qtlockedfile_unix.cpp

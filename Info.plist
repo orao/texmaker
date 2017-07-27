@@ -40,15 +40,15 @@
 	<key>CFBundleExecutable</key>
 	<string>texmaker</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Copyright (c) 2003-2014, Pascal Brachet</string>
+	<string>Copyright (c) 2003-2017, Pascal Brachet</string>
 	<key>CFBundleIdentifier</key>
 	<string>texmaker</string>
 	<key>CFBundleName</key>
 	<string>texmaker</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0</string>
+	<string>5.0.1</string>
 	<key>CFBundleVersion</key>
-	<string>5.0</string>
+	<string>5.0.1</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
         <key>NSHighResolutionCapable</key>
