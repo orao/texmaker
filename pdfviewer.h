@@ -66,7 +66,7 @@ QHBoxLayout *LeftPanelLayout,*CentralLayout;
 QByteArray windowstate;
 
 DocumentView* pdfview;
-QPdfDocument *doc;
+
 QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *historyForwardAct,*printAct, *externAct, *searchAct;
 
 QAction *continuousModeAction, *twoPagesModeAction, *rotateLeftAction, *rotateRightAction, *presentationAction;

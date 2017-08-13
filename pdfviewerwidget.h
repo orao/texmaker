@@ -65,7 +65,7 @@ MiniSplitter *splitter;
 QTreeView *StructureTreeView;
 
 DocumentView* pdfview;
-QPdfDocument *doc;
+
 QAction *upAct, *downAct, *fitWithAct, *fitPageAct, *zoominAct, *zoomoutAct, *findAct, *historyBackAct, *printAct, *externAct, *historyForwardAct, *toggleStructAct,  *searchAct;
 QAction *continuousModeAction, *twoPagesModeAction, *rotateLeftAction, *rotateRightAction, *presentationAction;
 QHBoxLayout *CentralLayout;

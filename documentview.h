@@ -130,6 +130,7 @@ signals:
 
 
 public slots:
+    
     void show();
 
     bool open(const QString& filePath);

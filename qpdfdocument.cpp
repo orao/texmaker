@@ -667,6 +667,7 @@ int txtSize=FPDFText_GetBoundedText(textPage,page_left,page_top,page_right,page_
 unsigned short* txtBuf = new unsigned short[txtSize];
 FPDFText_GetBoundedText(textPage,page_left,page_top,page_right,page_bottom,txtBuf,txtSize);
 result=QString::fromUtf16(txtBuf);
+FPDF_ClosePage(page);
 return result;
 }
 
@@ -729,7 +730,7 @@ if (link)
             }
         }
     }
-
+FPDF_ClosePage(page);
 return result;
 }
 
@@ -766,7 +767,7 @@ while (FPDFText_FindNext(find))
         }
     }
 FPDFText_FindClose(find);
-
+FPDF_ClosePage(page);
 return result;
 }
 

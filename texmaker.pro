@@ -1,6 +1,6 @@
 COMPILEUSB=no
 INTERNALBROWSER=no
-AUTHORIZELINUXQSTYLES=no
+AUTHORIZELINUXQSTYLES=yes
 
 
 TEMPLATE	= app
@@ -8,17 +8,17 @@ LANGUAGE	= C++
 TARGET	 = texmaker
 
 
-TEXMAKERVERSION=5.0.1
+TEXMAKERVERSION=5.0.2
 DEFINES += TEXMAKERVERSION=$${TEXMAKERVERSION}
 
 
-equals(QT_MAJOR_VERSION, 5):greaterThan(QT_MINOR_VERSION, 5) {
+equals(QT_MAJOR_VERSION, 5):greaterThan(QT_MINOR_VERSION, 6) {
 QT += core gui widgets xml network printsupport concurrent core-private script
 equals(INTERNALBROWSER,yes){
 QT += webenginewidgets
 }  
 } else {
-message("Qt>=5.6 is required.")
+message("Qt>=5.7 is required.")
 }
 
 
@@ -1211,7 +1211,11 @@ win32 {
 UI_DIR = .ui
 MOC_DIR = .moc
 OBJECTS_DIR = .obj
+
+SOURCES	+= singleapp/qtlockedfile_win.cpp
+
 RC_FILE = win.rc
+
 }
 ###############################
 macx {
@@ -1223,6 +1227,7 @@ LIBS_PRIVATE += -framework AppKit -framework CoreFoundation
 
 QMAKE_MAC_SDK=macosx
 
+#QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
 target.path = Texmaker
 
 

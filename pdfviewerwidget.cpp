@@ -55,9 +55,6 @@ lastScale=startScale;
 fileLoaded=false;
 currentPage=1;
 
-doc=new QPdfDocument(this);
-//doc = 0;
-
 lastSearchPos=-1;
 
 
@@ -322,16 +319,13 @@ if (scanner != NULL)
   }
 
 
-//doc = Poppler::Document::load(fn);
-//doc=new QPdfDocument(this);
+
 if (pdfview->open(fn)) 
   {
 
   listpagesWidget->clear();
-  doc=pdfview->doc();
+
   lastSearchPos=-1;
-  //doc->setRenderHint(Poppler::Document::Antialiasing);
-  //doc->setRenderHint(Poppler::Document::TextAntialiasing);
   pdfview->setContinousMode(islastContinuous);//
   continuousModeAction->setChecked(islastContinuous);//
   //pdfview->setTwoPagesMode(false);
@@ -352,7 +346,7 @@ if (pdfview->open(fn))
    QString syncFile = QFileInfo(fn).canonicalFilePath();
    scanner = synctex_scanner_new_with_output_file(syncFile.toUtf8().data(), NULL, 1);
 
-  if ((fn==lastFile) && (lpage <= doc->pageCount()) && (lpage>0))
+  if ((fn==lastFile) && (lpage <= pdfview->doc()->pageCount()) && (lpage>0))
     {
     currentPage=lpage;
     currentScale=lscale;
@@ -376,12 +370,12 @@ if (pdfview->open(fn))
     currentScale=pdfview->realScale();
     zoomCustom->setText(QString::number(int(currentScale*100)) + "%");
     }
-  listpagesWidget->setFixedWidth(30+fm.width(QString::number(doc->pageCount())));
-  for (int i = 0; i < doc->pageCount(); ++i)
+  listpagesWidget->setFixedWidth(30+fm.width(QString::number(pdfview->doc()->pageCount())));
+  for (int i = 0; i < pdfview->doc()->pageCount(); ++i)
     {
     QListWidgetItem *item=new QListWidgetItem(QString::number(i+1));
     item->setFont(deft);
-    item->setToolTip(QString::number(i+1)+"/"+QString::number(doc->pageCount()));
+    item->setToolTip(QString::number(i+1)+"/"+QString::number(pdfview->doc()->pageCount()));
     listpagesWidget->addItem(item);
     }
   fileLoaded=true;
@@ -569,7 +563,7 @@ pdfview->setHighlightPath(currentPage-1,path);
 void PdfViewerWidget::gotoPage(int page)
 {
 if (!fileLoaded) return;
-if ((page <= doc->pageCount()) && (page>=1))
+if ((page <= pdfview->doc()->pageCount()) && (page>=1))
   {
   currentPage=page;
   lastPage=currentPage;
@@ -594,7 +588,7 @@ void PdfViewerWidget::updateCurrentPage()
 if (!fileLoaded) return;
 if (currentPage==1) upAct->setEnabled(false);
 else upAct->setEnabled(true);
-if (currentPage==doc->pageCount()) downAct->setEnabled(false);
+if (currentPage==pdfview->doc()->pageCount()) downAct->setEnabled(false);
 else downAct->setEnabled(true);
 QList<QListWidgetItem *> fItems=listpagesWidget->findItems (QString::number(currentPage),Qt::MatchRecursive);
 if ((fItems.size()>0 ) && (fItems.at(0))) listpagesWidget->setCurrentItem(fItems.at(0));
@@ -603,7 +597,7 @@ if ((fItems.size()>0 ) && (fItems.at(0))) listpagesWidget->setCurrentItem(fItems
 void PdfViewerWidget::jumpToDest(int page,qreal left, qreal top)
 {
 if (!fileLoaded) return;
-if ((page <= doc->pageCount()) && (page>=1))
+if ((page <= pdfview->doc()->pageCount()) && (page>=1))
   {
   currentPage=page;
   lastPage=currentPage;
@@ -674,7 +668,7 @@ connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
         QList<QRectF> locations;
         searchLocation = QRectF();
 
-        while (doc->page(page)->search(text, searchLocation,
+        while (pdfview->doc()->page(page)->search(text, searchLocation,
             Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) {
 
             if (searchLocation != oldLocation)
@@ -698,18 +692,18 @@ connect(pdfview, SIGNAL(currentPageChanged(int)), this, SLOT(checkPage(int)));
         page -= 1;
     }
 
-    if (currentPage == doc->numPages() - 1)
+    if (currentPage == pdfview->doc()->numPages() - 1)
         return QRectF();
 
     oldLocation = QRectF();
-    page = doc->numPages() - 1;
+    page = pdfview->doc()->numPages() - 1;
 
     while (page > currentPage) {
 
         QList<QRectF> locations;
         searchLocation = QRectF();
 
-        while (doc->page(page)->search(text, searchLocation,
+        while (pdfview->doc()->page(page)->search(text, searchLocation,
             Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) {
 
             locations.append(searchLocation);
@@ -731,14 +725,14 @@ void PdfViewerWidget::searchForwards(const QString &text)
 int page = currentPage-1;
 
 
-while (page < doc->pageCount()) 
+while (page < pdfview->doc()->pageCount()) 
   {
 
   if (currentPage>=1) 
     {
     pdfview->clearPaths(currentPage-1);  
     }
-    findItem searchItem =doc->find(page, text, lastSearchPos);
+    findItem searchItem =pdfview->doc()->find(page, text, lastSearchPos);
   if (!searchItem.rect.isNull()) 
       {
       lastSearchPos=searchItem.pos;
@@ -764,7 +758,7 @@ while (page < currentPage-1)
     pdfview->clearPaths(currentPage-1);    
     }
 lastSearchPos=-1;
-findItem searchItem =doc->find(page, text,lastSearchPos);
+findItem searchItem =pdfview->doc()->find(page, text,lastSearchPos);
   if (!searchItem.rect.isNull()) 
       {
       lastSearchPos=searchItem.pos;
@@ -802,7 +796,7 @@ if (currentPage>1)
 void PdfViewerWidget::pageDown()
 {
 if (!fileLoaded) return;
-if (currentPage<doc->pageCount())
+if (currentPage<pdfview->doc()->pageCount())
   {
   currentPage++;
   lastPage=currentPage;
@@ -908,8 +902,8 @@ unsigned int firstPage, lastPage;
 QPrinter printer(QPrinter::HighResolution);
 QPrintDialog printDlg(&printer, this);
 printer.setDocName(fi.baseName());
-printDlg.setMinMax(1, doc->pageCount());
-printDlg.setFromTo(1, doc->pageCount());
+printDlg.setMinMax(1, pdfview->doc()->pageCount());
+printDlg.setFromTo(1, pdfview->doc()->pageCount());
 printDlg.setOption(QAbstractPrintDialog::PrintToFile, false);
 printDlg.setOption(QAbstractPrintDialog::PrintSelection, false);
 printDlg.setOption(QAbstractPrintDialog::PrintPageRange, true);
@@ -925,7 +919,7 @@ switch(printDlg.printRange())
 	  break;
   default:
 	  firstPage = 1;
-	  lastPage = doc->pageCount();
+	  lastPage = pdfview->doc()->pageCount();
   }
 
 //if(!printer.printerName().isEmpty()) 
@@ -1022,7 +1016,7 @@ int page = index.data(QPdfBookmarkModel::PageNumberRole).toInt()+1;
 	qreal destLeft=0;
 	qreal destTop=0;
         page = page >= 1 ? page : 1;
-        page = page <= doc->pageCount() ? page : doc->pageCount();
+        page = page <= pdfview->doc()->pageCount() ? page : pdfview->doc()->pageCount();
 
 //         if(linkDestination->isChangeLeft())
 //         {

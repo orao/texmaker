@@ -8841,7 +8841,23 @@ const QString pwd = QDir::toNativeSeparators(fi.isDir() ?
 process.setWorkingDirectory(pwd);
 #if defined(Q_OS_WIN32)
 const QString terminalEmulator = QString::fromLocal8Bit(qgetenv("COMSPEC"));
-process.startDetached(terminalEmulator,QStringList()<< "/k" << "cd" << pwd);
+#include <Windows.h>
+STARTUPINFO si;
+ZeroMemory(&si, sizeof(si));
+si.cb = sizeof(si);
+
+PROCESS_INFORMATION pinfo;
+ZeroMemory(&pinfo, sizeof(pinfo));
+
+bool success = CreateProcessW(0, (WCHAR *)terminalEmulator.utf16(),
+                              0, 0, FALSE, CREATE_NEW_CONSOLE,
+                              0, pwd.isEmpty() ? 0 : (WCHAR *)pwd.utf16(),
+                              &si, &pinfo);
+
+if (success) {
+    CloseHandle(pinfo.hThread);
+    CloseHandle(pinfo.hProcess);
+}
 #elif defined(Q_OS_MAC)
 const QString terminalEmulator = QCoreApplication::applicationDirPath() + "/../Resources/openTerminal.command";
 process.startDetached(terminalEmulator,QStringList()<< pwd);
